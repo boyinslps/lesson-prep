@@ -1,0 +1,5 @@
+把整個「_LM包」資料夾裡的檔案，一次拖進 NotebookLM 當作 sources：
+1. 教學內容.md（環節＋素材清單）
+2. 給NotebookLM的指引.md（生成規則）
+3. 圖片/（已下載的圖，NotebookLM 用得到）
+然後叫 NotebookLM 依指引做成簡報。

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台南小導遊養成記｜四上 L02</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Noto Sans TC',sans-serif;background:#FFFBF3;color:#243b53;font-size:18px;line-height:1.7}
+  .cute{font-family:'Baloo 2','Noto Sans TC',cursive}
+  .shot{border-radius:14px;border:3px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.14);width:100%;display:block}
+  .pop{animation:pp .35s}@keyframes pp{0%{transform:scale(.94)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
+  .field{font-size:19px}
+  .idnum{width:52px;text-align:center}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  input,textarea{font-family:inherit}
+</style>
+</head>
+<body>
+
+<!-- 識別列：年級/班級/學號（數字），頁面最上方，見《學習單資料與提交規範》§1 -->
+<div class="sticky top-0 z-20 bg-white/95 backdrop-blur border-b-2 border-orange-200">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap text-sm">
+    <span class="cute font-bold text-orange-700">我是誰</span>
+    <label class="flex items-center gap-1 text-slate-500">年級<input id="idGrade" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-orange-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">班級<input id="idClass" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-orange-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">座號<input id="idStudent" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-orange-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <span id="idOk" class="hidden text-emerald-600 font-bold text-xs">✓ 已記住</span>
+  </div>
+</div>
+
+<!-- 老師工具列（僅 #admin 時顯示，控制各段「小試身手」的公布時機） -->
+<div id="teacherbar" class="hidden sticky top-0 z-30 bg-slate-900 text-white text-sm">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap">
+    <span class="cute font-bold text-amber-300">👩‍🏫 教師模式</span>
+    <span id="tStatus" class="text-slate-300 text-xs"></span>
+    <span id="tTally" class="text-emerald-300 text-xs font-bold"></span>
+    <div class="ml-auto flex gap-2">
+      <button id="viewAnswersBtn" class="bg-emerald-600 hover:bg-emerald-700 font-bold rounded-lg px-3 py-1" title="查看目前資料庫裡儲存的正確答案">👁 檢視答案</button>
+      <button id="uploadBtn" class="bg-sky-600 hover:bg-sky-700 font-bold rounded-lg px-3 py-1" title="備課用：只需做一次">⬆ 上傳答案</button>
+      <button id="revealBtn" class="bg-rose-500 hover:bg-rose-600 font-bold rounded-lg px-3 py-1">🎉 公布</button>
+      <button id="lockBtn" class="bg-slate-700 hover:bg-slate-600 rounded-lg px-3 py-1" title="回到未公布狀態">↩ 還原</button>
+      <button id="previewModeBtn" class="bg-indigo-600 hover:bg-indigo-700 font-bold rounded-lg px-3 py-1" title="暫時隱藏教師工具列，看學生看到的畫面">👀 預覽學生模式</button>
+    </div>
+  </div>
+</div>
+<button id="backToTeacher" class="hidden fixed bottom-4 right-4 z-30 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full px-4 py-2 shadow-lg">↩ 返回教師模式</button>
+
+<div class="max-w-5xl mx-auto px-4 py-6">
+
+  <!-- 標題 -->
+  <header class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center mb-6">
+    <div class="text-5xl">🔍</div>
+    <div>
+      <h1 class="cute text-4xl md:text-5xl font-extrabold text-orange-600 leading-tight">台南小導遊養成記</h1>
+      <p class="text-slate-500">四年級上學期 · 第 2 課：景點選定與資料蒐集</p>
+    </div>
+  </header>
+  <p id="syncBadge" class="hidden text-center text-xs text-emerald-600 font-bold -mt-4 mb-4">🔗 已連線：老師公布小試身手答案時，這台會自動同步</p>
+
+  <!-- ===== 第二節 ===== -->
+  <div class="flex items-center gap-3 my-5">
+    <div class="h-1 flex-1 bg-orange-200 rounded"></div>
+    <span class="cute text-xl font-extrabold text-orange-500">第二節 · 查資料</span>
+    <div class="h-1 flex-1 bg-orange-200 rounded"></div>
+  </div>
+
+  <!-- ① 台南旅遊網 -->
+  <section class="bg-white border-4 border-rose-300 rounded-3xl p-6 mb-6 shadow-sm">
+    <h2 class="cute text-2xl font-extrabold text-rose-700 mb-4">① 找景點的好幫手：台南旅遊網</h2>
+
+    <div class="grid md:grid-cols-2 gap-6 items-center mb-6">
+      <img src="assets/台南旅遊網.png" alt="台南旅遊網首頁" class="shot">
+      <p class="text-xl">想不到要介紹哪裡？這是台南市政府的<b class="text-rose-700">官方旅遊網</b>，全台南的景點都在這裡，是我們找主題的好幫手！</p>
+    </div>
+
+    <a href="https://www.twtainan.net/" target="_blank" rel="noopener"
+       class="block text-center bg-rose-500 hover:bg-rose-600 text-white cute text-xl font-extrabold rounded-2xl py-3">🌐 開啟台南旅遊網，自己逛逛看 →</a>
+  </section>
+
+  <!-- 功能一：景點搜尋 -->
+  <section id="funcSearch" class="bg-white border-4 border-pink-300 rounded-3xl p-6 mb-6 shadow-sm scroll-mt-20">
+    <h2 class="cute text-2xl font-extrabold text-pink-700 mb-4">🔎 功能一：景點搜尋</h2>
+    <div class="grid md:grid-cols-2 gap-6 items-center mb-6">
+      <div>
+        <ul class="text-lg space-y-1">
+          <li>① 搜尋<b>一個區</b>有什麼景點</li>
+          <li>② 篩選你想要的<b>主題</b>（歷史古蹟、自然景觀…）</li>
+          <li>③ 查景點的<b>詳細資料</b></li>
+        </ul>
+      </div>
+      <img src="assets/景點搜尋.png" alt="景點搜尋頁" class="shot">
+    </div>
+
+    <div class="bg-pink-50 border-2 border-pink-200 rounded-2xl p-4 mb-6">
+      <h3 class="cute text-lg font-extrabold text-pink-700 mb-2">🔘 篩選小撇步：點亮按鈕找景點</h3>
+      <p class="text-lg mb-2">我們可以透過<b>點亮不同的按鈕</b>，來找出我們要的景點！</p>
+      <p class="text-lg mb-1">點一下按鈕，它就會<b class="text-pink-600">變成紅色</b>，代表你選了這個條件（例如「歷史古蹟」）。</p>
+      <p class="text-lg mb-4">想取消嗎？<b>再點一次同一個按鈕</b>，它就會變回白色，這個條件就取消了。</p>
+
+      <div class="bg-white border-2 border-pink-200 rounded-2xl p-4 mb-5">
+        <p class="font-bold text-pink-700 mb-2">✋ 練習看看：點一下下面的按鈕試試看！</p>
+        <button id="demoToggle" class="opt border-2 border-slate-200 rounded-xl px-5 py-2 font-bold hover:border-pink-400">歷史古蹟</button>
+        <p id="demoToggleMsg" class="text-sm text-slate-500 mt-2 min-h-[20px]"></p>
+      </div>
+
+      <div class="bg-white border-2 border-pink-200 rounded-2xl p-4 mb-5" data-qid="q_relig"></div>
+      <div class="bg-white border-2 border-pink-200 rounded-2xl p-4 mb-5" data-qid="q_zhongxi"></div>
+
+      <div class="bg-white border-2 border-pink-200 rounded-2xl p-4 mb-5">
+        <img src="assets/共有 102 筆結果.png" alt="共有102筆結果" class="shot mb-2">
+        <p class="text-lg">選完之後，記得點擊上方的<b class="text-pink-700">「共有 XX 筆結果」</b>，就可以看到符合條件的景點了！</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 items-center mb-5">
+        <img src="assets/歷史古蹟和宗教廟宇.png" alt="同時點亮歷史古蹟和宗教廟宇" class="shot">
+        <div>
+          <p class="font-bold text-pink-700 mb-1">多個主題查詢</p>
+          <p class="text-lg">同時點亮<b>歷史古蹟</b>和<b>宗教廟宇</b>，兩種主題的景點<b>都會出現</b>——結果從 102 筆變成 <b>222 筆</b>，因為兩個主題「加起來」了！</p>
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <p class="font-bold text-pink-700 mb-2">主題 ＋ 區域：先選主題，再選區域</p>
+        <div class="grid md:grid-cols-2 gap-4 mb-3">
+          <div>
+            <img src="assets/歷史古蹟篩選.png" alt="先選歷史古蹟" class="shot">
+            <p class="text-center text-sm font-bold text-pink-600 mt-1">先選主題：歷史古蹟（102筆）</p>
+          </div>
+          <div>
+            <img src="assets/中西區.png" alt="再選中西區" class="shot">
+            <p class="text-center text-sm font-bold text-pink-600 mt-1">再選區域：中西區</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-3 flex justify-center">
+          <svg viewBox="0 0 300 220" width="260" height="190">
+            <circle cx="150" cy="105" r="95" fill="#fde68a" stroke="#d97706" stroke-width="3"/>
+            <circle cx="150" cy="140" r="48" fill="#bae6fd" stroke="#0284c7" stroke-width="3"/>
+            <text x="150" y="35" text-anchor="middle" font-size="20" font-weight="800" fill="#92400e">歷史古蹟</text>
+            <text x="150" y="143" text-anchor="middle" font-size="18" font-weight="800" fill="#075985">中西區</text>
+          </svg>
+        </div>
+        <p class="text-center text-sm text-slate-500 mt-1">中西區的歷史古蹟，是「歷史古蹟」這個大圈圈裡的一小部分</p>
+      </div>
+
+      <div class="bg-white border-2 border-pink-200 rounded-2xl p-4">
+        <p class="text-lg font-bold text-pink-800 mb-2">🤔 考考你：怎麼選出「中西區的歷史古蹟 + 宗教廟宇」呢？</p>
+        <button id="filterQuizBtn" class="mt-1 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-xl px-5 py-2">看看正確做法</button>
+        <div id="filterQuizAns" class="hidden mt-3">
+          <ol class="text-lg list-decimal list-inside space-y-1 mb-3">
+            <li>點亮主題：<b>歷史古蹟</b> + <b>宗教廟宇</b>（多主題查詢）</li>
+            <li>再點亮區域：<b>中西區</b>（主題＋區域）</li>
+          </ol>
+          <img src="assets/中西區的歷史古蹟和宗教廟宇.png" alt="中西區的歷史古蹟和宗教廟宇" class="shot">
+        </div>
+      </div>
+
+      <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-3 mt-4 flex items-start gap-2">
+        <span class="text-2xl">⚠️</span>
+        <p class="text-lg text-amber-800"><b>提醒：</b>查新的景點時，一定要把<b>之前點亮的按鈕取消掉</b>喔！不然條件會一直疊加，越查越少。</p>
+      </div>
+    </div>
+
+    <div class="bg-pink-50 border-2 border-pink-200 rounded-2xl p-4 mb-6">
+      <h3 class="cute text-lg font-extrabold text-pink-700 mb-2">🔍 關鍵字查詢</h3>
+      <p class="text-lg mb-3">除了點主題按鈕，你也可以直接在搜尋框打<b>關鍵字</b>，找特定的景點！</p>
+      <p class="text-lg mb-3">讓我們來查<b class="text-pink-700">北門水晶教堂</b>！</p>
+      <div class="grid md:grid-cols-2 gap-6 items-center">
+        <img src="assets/北門水晶教堂.png" alt="搜尋北門水晶教堂" class="shot">
+        <p class="text-lg">打完關鍵字，<b>一樣要點擊</b>黃圈圈裡的<b class="text-pink-700">「共有 XX 筆結果」</b>，才看得到這個景點喔！</p>
+      </div>
+    </div>
+
+    <div class="bg-white border-2 border-pink-300 rounded-2xl p-4">
+      <p class="cute text-lg font-extrabold text-pink-700 mb-2">📝 簡易統整</p>
+      <ul class="text-lg space-y-1">
+        <li>點亮按鈕篩選 → 點擊「共有 XX 筆結果」→ 找到景點</li>
+        <li>關鍵字輸入 → 點擊「共有 XX 筆結果」→ 找到景點</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 功能二：旅遊地圖 -->
+  <section id="funcMap" class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-6 shadow-sm scroll-mt-20">
+    <h2 class="cute text-2xl font-extrabold text-sky-700 mb-4">🗺️ 功能二：旅遊地圖</h2>
+    <div class="grid md:grid-cols-2 gap-6 items-center mb-6">
+      <img src="assets/旅遊地圖.png" alt="旅遊地圖" class="shot">
+      <p class="text-lg">用地圖就能看到<b>附近有哪些景點</b>，每一個小圖釘都是一個景點！想找學校附近的景點特別好用。</p>
+    </div>
+    <div class="bg-white border-2 border-sky-200 rounded-2xl p-4" data-qid="q_map"></div>
+  </section>
+
+  <!-- 功能三：景點詳細資訊 -->
+  <section id="funcInfo" class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-6 shadow-sm scroll-mt-20">
+    <h2 class="cute text-2xl font-extrabold text-violet-700 mb-4">📄 功能三：點進景點，會看到…</h2>
+    <div class="grid md:grid-cols-2 gap-6 items-center mb-6">
+      <div>
+        <p class="text-lg mb-3">分類、地址、<b>營業時間</b>、<b>門票</b>寫得清清楚楚（例：安平古堡）：</p>
+        <div class="grid grid-cols-2 gap-2 text-center text-sm font-bold">
+          <div class="bg-violet-50 rounded-xl py-2">🏷️ 分類<br><span class="text-violet-700">歷史古蹟</span></div>
+          <div class="bg-violet-50 rounded-xl py-2">🕐 時間<br><span class="text-violet-700">10:00–17:10</span></div>
+          <div class="bg-violet-50 rounded-xl py-2">🎫 門票<br><span class="text-violet-700">全票70/半票35</span></div>
+          <div class="bg-violet-50 rounded-xl py-2">📍 地址<br><span class="text-violet-700">安平區國勝路82號</span></div>
+        </div>
+      </div>
+      <img src="assets/景點資訊.png" alt="景點資訊 安平古堡" class="shot">
+    </div>
+
+    <div class="bg-violet-50 border-2 border-violet-200 rounded-2xl p-4 mb-6">
+      <p class="font-bold text-violet-700 mb-2">⚠️ 不是每個景點資料都寫得這麼齊全</p>
+      <p class="text-lg mb-3">查<b class="text-violet-700">國立臺灣歷史博物館</b>試試看：</p>
+      <div class="grid md:grid-cols-2 gap-6 items-center mb-3">
+        <img src="assets/國立臺灣歷史博物館.png" alt="國立臺灣歷史博物館 景點資訊" class="shot">
+        <div class="space-y-2">
+          <p class="text-lg">你發現<b>門票的位置</b>寫著：「票價以國立臺灣歷史博物館<b>官方網站公告</b>為主。」——沒有寫實際金額！</p>
+          <p class="text-lg">這時候，看下面的<b class="text-violet-700">「相關連結」</b>就能找到<b>官方網站</b>，點一下就能看到<b>最新的資料</b>囉！</p>
+        </div>
+      </div>
+      <div class="bg-white border-2 border-amber-300 rounded-2xl p-3 flex items-start gap-2">
+        <span class="text-2xl">💡</span>
+        <p class="text-lg text-amber-800">台南旅遊網的資訊可能不是最新的，遇到寫「詳見官網」的時候，記得點官方連結查最新消息！</p>
+      </div>
+    </div>
+
+    <div class="bg-white border-2 border-violet-200 rounded-2xl p-4 mb-6" data-qid="q_price"></div>
+
+    <div class="bg-violet-50 border-2 border-violet-200 rounded-2xl p-4 mb-6">
+      <h3 class="cute text-lg font-extrabold text-violet-700 mb-3">🚗 交通規劃和分享網站</h3>
+      <div class="grid md:grid-cols-2 gap-6 items-center">
+        <img src="assets/交通規劃和分享網站.png" alt="交通規劃和分享網站" class="shot">
+        <div class="space-y-3">
+          <p class="text-lg">🚗 <b>如何到達</b>：點進去，選擇你的<b>出發地</b>，網站就會幫你規劃<b>交通方式</b>，知道要怎麼去！</p>
+          <p class="text-lg">📤 <b>分享網站</b>：想跟家人分享這個景點嗎？點一下 Facebook／LINE／複製連結，就能把景點頁面傳給他們看！</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white border-2 border-violet-200 rounded-2xl p-4" data-qid="q_share"></div>
+  </section>
+
+  <!-- ② 景點調查員 -->
+  <section class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-6 shadow-sm">
+    <h2 class="cute text-2xl font-extrabold text-amber-700 mb-1">② 任務：景點調查員 🔍</h2>
+    <p class="text-lg text-slate-600 mb-4">打開台南旅遊網，當一位小小調查員，把答案填進來！</p>
+
+    <p id="surveyAdminHint" class="hidden text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-3">👩‍🏫 教師模式：直接把正確答案（可用正則表達式涵蓋多種寫法，例：大天后宮|祀典武廟）打進下面各題的作答欄位，再按上方「⬆ 上傳答案」即可；留空＝只看學生有沒有填寫，不判對錯。</p>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1 flex-wrap">
+          <p class="field font-bold">1. 找出 2 個位於「<b class="text-amber-700">中西區</b>」的景點</p>
+          <span class="qtypeSlot" data-qid="q1"></span>
+        </div>
+        <input id="q1" class="field w-full border-2 border-amber-300 rounded-xl px-3 py-2 focus:border-amber-500 outline-none">
+        <p class="surveyFeedback text-sm font-bold mt-1 min-h-[18px]" data-qid="q1"></p>
+      </div>
+      <div>
+        <div class="flex items-center gap-2 mb-1 flex-wrap">
+          <p class="field font-bold">2. 找出 1 個「<b class="text-amber-700">在地藝文</b>」景點</p>
+          <span class="qtypeSlot" data-qid="q2"></span>
+        </div>
+        <input id="q2" class="field w-full border-2 border-amber-300 rounded-xl px-3 py-2 focus:border-amber-500 outline-none">
+        <p class="surveyFeedback text-sm font-bold mt-1 min-h-[18px]" data-qid="q2"></p>
+      </div>
+      <div>
+        <div class="flex items-center gap-2 mb-1 flex-wrap">
+          <p class="field font-bold">3. 用「<b class="text-amber-700">主題＋區域</b>」，找出 1 個「<b class="text-amber-700">南區</b>」的「<b class="text-amber-700">生態教育</b>」景點</p>
+          <span class="qtypeSlot" data-qid="q3"></span>
+        </div>
+        <input id="q3" class="field w-full border-2 border-amber-300 rounded-xl px-3 py-2 focus:border-amber-500 outline-none">
+        <p class="surveyFeedback text-sm font-bold mt-1 min-h-[18px]" data-qid="q3"></p>
+      </div>
+      <div>
+        <div class="flex items-center gap-2 mb-1 flex-wrap">
+          <p class="field font-bold">4.「<b class="text-amber-700">藍晒圖文創園區</b>」<b>週六</b>開放時間是？</p>
+          <span class="qtypeSlot" data-qid="q4"></span>
+        </div>
+        <div class="flex items-center flex-wrap gap-2">
+          <input id="q4a" inputmode="numeric" maxlength="2" class="field w-16 shrink-0 text-center border-2 border-amber-300 rounded-xl px-2 py-2 focus:border-amber-500 outline-none">
+          <span class="field font-bold shrink-0">點　到</span>
+          <input id="q4b" inputmode="numeric" maxlength="2" class="field w-16 shrink-0 text-center border-2 border-amber-300 rounded-xl px-2 py-2 focus:border-amber-500 outline-none">
+          <span class="field font-bold shrink-0">點</span>
+        </div>
+        <p class="surveyFeedback text-sm font-bold mt-1 min-h-[18px]" data-qid="q4"></p>
+      </div>
+      <div>
+        <div class="flex items-center justify-between gap-2 mb-1 flex-wrap">
+          <div class="flex items-center gap-2 flex-wrap">
+            <p class="field font-bold">⭐ 加分 5. 找出一個既是「<b class="text-amber-700">歷史古蹟</b>」也是「<b class="text-amber-700">生態教育</b>」的景點</p>
+            <span class="qtypeSlot" data-qid="q5"></span>
+          </div>
+          <span id="q5Status" class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-400 shrink-0">🎁 尚未完成</span>
+        </div>
+        <input id="q5" class="field w-full border-2 border-amber-300 rounded-xl px-3 py-2 focus:border-amber-500 outline-none">
+        <p class="surveyFeedback text-sm font-bold mt-1 min-h-[18px]" data-qid="q5"></p>
+      </div>
+      <div>
+        <div class="flex items-center justify-between gap-2 mb-1 flex-wrap">
+          <div class="flex items-center gap-2 flex-wrap">
+            <p class="field font-bold">⭐ 加分 6. 找出兩個「<b class="text-amber-700">勝利國小</b>」週邊的景點（不包含勝利國小禮堂）</p>
+            <span class="qtypeSlot" data-qid="q6"></span>
+          </div>
+          <span id="q6Status" class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-400 shrink-0">🎁 尚未完成</span>
+        </div>
+        <input id="q6" class="field w-full border-2 border-amber-300 rounded-xl px-3 py-2 focus:border-amber-500 outline-none">
+        <p class="surveyFeedback text-sm font-bold mt-1 min-h-[18px]" data-qid="q6"></p>
+      </div>
+    </div>
+    <p class="text-sm text-slate-400 mt-3">填好之後，到最下面按「繳交學習單」就會一起交給老師。</p>
+  </section>
+
+  <!-- ===== 繳交學習單 ===== -->
+  <section class="mt-8">
+    <div class="bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm text-center">
+      <h2 class="cute text-xl font-extrabold text-orange-700 mb-1">📮 繳交學習單</h2>
+      <p class="text-sm text-slate-500 mb-3">確定都填好了嗎？按下面按鈕交給老師（可以重交，會覆蓋前一次）。</p>
+      <button id="submitBtn" class="w-full bg-orange-600 hover:bg-orange-700 text-white cute text-xl font-extrabold rounded-2xl py-3">繳交學習單</button>
+      <p id="submitStat" class="text-sm font-bold mt-3 min-h-[20px]"></p>
+    </div>
+  </section>
+
+  <!-- 繳交成功才出現：完成獎勵 -->
+  <section id="rewardBox" class="hidden text-center bg-gradient-to-b from-amber-100 to-orange-100 border-4 border-amber-300 rounded-3xl p-7 mt-6">
+    <div class="text-6xl mb-2 pop">🎉</div>
+    <h2 class="cute text-3xl font-extrabold text-orange-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
+    <div class="flex flex-wrap gap-3 justify-center mt-4">
+      <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener"
+         class="cute inline-block bg-orange-600 hover:bg-orange-700 text-white text-xl font-extrabold rounded-2xl px-8 py-3">🎮 打字英雄</a>
+      <a href="https://gemini.google.com/share/0adbaeae6c16?skid=751ce4ac-860d-4160-8a1a-12a1ebcf6f1d" target="_blank" rel="noopener"
+         class="cute inline-block bg-white border-4 border-orange-300 hover:bg-orange-50 text-orange-700 text-xl font-extrabold rounded-2xl px-8 py-3">🕹️ 更多遊戲</a>
+    </div>
+  </section>
+
+</div>
+
+<!-- 浮動複習導覽：方便學生跳轉回顧各功能 -->
+<div id="reviewNav" class="fixed bottom-4 right-4 z-40">
+  <div id="reviewMenu" class="hidden mb-2 bg-white border-4 border-orange-300 rounded-2xl shadow-xl p-2 w-64">
+    <p class="text-xs font-bold text-slate-400 px-3 pt-1 pb-2">我想複習…</p>
+    <a href="#funcSearch" class="reviewLink block px-3 py-2 rounded-xl hover:bg-orange-50 font-bold text-slate-700">🔘 篩選、關鍵字查詢</a>
+    <a href="#funcMap" class="reviewLink block px-3 py-2 rounded-xl hover:bg-orange-50 font-bold text-slate-700">🗺️ 旅遊地圖</a>
+    <a href="#funcInfo" class="reviewLink block px-3 py-2 rounded-xl hover:bg-orange-50 font-bold text-slate-700">📄 景點資訊、網址、路線規劃</a>
+  </div>
+  <button id="reviewBtn" class="bg-orange-600 hover:bg-orange-700 text-white rounded-full shadow-lg px-5 py-3 font-bold cute text-lg">📖 我想複習…</button>
+</div>
+
+<script>
+/* ============================================================
+   Firebase 同步設定（沿用 pcclass-94300 專案，跟四上 L01／五上 L01 同一個資料庫）
+   單機模式：把 firebaseConfig 設為 null 即可（識別列與作答仍可用，只是不會繳交出去）。
+   ============================================================ */
+var firebaseConfig = {
+  apiKey:"AIzaSyAaodBvsP-BSovON14izt22DOXeH40TTGM",
+  authDomain:"pcclass-94300.firebaseapp.com",
+  projectId:"pcclass-94300",
+  storageBucket:"pcclass-94300.firebasestorage.app",
+  messagingSenderId:"1034787516465",
+  appId:"1:1034787516465:web:73c334b2ddad152c472510",
+  measurementId:"G-37P75R7TZ7"
+};
+var TEACHER_EMAIL = "boyin0304@slps.tn.edu.tw";
+var QUIZ_ID = "g4-L02";
+
+(function(){
+  var IS_ADMIN = location.hash === '#admin';
+  var REVIEW_ID=(function(){try{return new URLSearchParams(location.search).get('review');}catch(e){return null;}})();
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  var PREVIEW_KEY='wk_previewMode';
+  if(!IS_ADMIN){
+    try{ if(sessionStorage.getItem(PREVIEW_KEY)==='1')document.getElementById('backToTeacher').classList.remove('hidden'); }catch(e){}
+  }
+  // ===== 識別列：年級/班級/學號（數字），見《學習單資料與提交規範》§1 =====
+  var ID_KEY='wk_identity';
+  function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
+  function loadIdentity(){try{return JSON.parse(localStorage.getItem(ID_KEY)||'{}')}catch(e){return {}}}
+  function saveIdentity(o){try{localStorage.setItem(ID_KEY,JSON.stringify(o))}catch(e){}}
+  function getIdentity(){
+    var g=digits(document.getElementById('idGrade').value),c=digits(document.getElementById('idClass').value),s=digits(document.getElementById('idStudent').value);
+    return {grade:g?Number(g):null,className:c?Number(c):null,studentId:s?Number(s):null};
+  }
+  function identityValid(id){return id.grade!=null&&id.className!=null&&id.studentId!=null;}
+  (function initIdentity(){
+    var saved=loadIdentity();
+    if(saved.grade)document.getElementById('idGrade').value=saved.grade;
+    if(saved.className)document.getElementById('idClass').value=saved.className;
+    if(saved.studentId)document.getElementById('idStudent').value=saved.studentId;
+    if(identityValid(saved))document.getElementById('idOk').classList.remove('hidden');
+    ['idGrade','idClass','idStudent'].forEach(function(id){
+      var el=document.getElementById(id);
+      el.addEventListener('input',function(){
+        var d=digits(el.value);if(d!==el.value)el.value=d;
+        var idn=getIdentity();
+        if(identityValid(idn)){saveIdentity(idn);document.getElementById('idOk').classList.remove('hidden');}
+        else document.getElementById('idOk').classList.add('hidden');
+      });
+    });
+  })();
+
+  // ===== Firebase：識別繳交＋教師公布「小試身手」兩用 =====
+  var db=null,auth=null,quizRef=null;
+  function ensureAuth(){return (auth&&auth.currentUser)?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user});}
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+
+  document.getElementById('filterQuizBtn').onclick=function(){
+    document.getElementById('filterQuizAns').classList.remove('hidden');
+    this.textContent='✓ 答案在下面';
+  };
+
+  // ===== 浮動複習導覽 =====
+  (function(){
+    var btn=document.getElementById('reviewBtn'),menu=document.getElementById('reviewMenu');
+    btn.onclick=function(e){e.stopPropagation();menu.classList.toggle('hidden');};
+    menu.querySelectorAll('.reviewLink').forEach(function(a){a.onclick=function(){menu.classList.add('hidden');};});
+    document.addEventListener('click',function(e){
+      if(!menu.classList.contains('hidden')&&!menu.contains(e.target)&&e.target!==btn)menu.classList.add('hidden');
+    });
+  })();
+
+  // ===== 練習用：點亮/取消按鈕示範（不計分，純示範操作）=====
+  (function(){
+    var b=document.getElementById('demoToggle'),msg=document.getElementById('demoToggleMsg');
+    var on=false;
+    b.onclick=function(){
+      on=!on;
+      if(on){b.className='opt border-2 border-rose-600 bg-rose-600 text-white rounded-xl px-5 py-2 font-bold';msg.textContent='✓ 已點亮！這代表你選了「歷史古蹟」這個條件。';}
+      else{b.className='opt border-2 border-slate-200 rounded-xl px-5 py-2 font-bold hover:border-rose-400';msg.textContent='已取消選擇。再點一下可以重新點亮。';}
+    };
+  })();
+
+  // ===== 各段「小試身手」：老師公布答案（Firebase 同步）=====
+  var quizItems=[
+    {id:'q_relig',kind:'number',unit:'個',label:'請問台南有幾個「宗教廟宇」景點呢？',answer:148},
+    {id:'q_zhongxi',kind:'number',unit:'個',label:'「中西區」有幾個景點呢？',answer:79},
+    {id:'q_map',kind:'choice',label:'如果你想知道「住家附近」有哪些景點，最適合用哪個功能？',options:['景點搜尋','旅遊地圖'],answer:'旅遊地圖'},
+    {id:'q_price',kind:'number',unit:'元',label:'熱蘭遮博物館的全票門票是多少錢？',answer:70,img:'assets/熱蘭遮城.jpg'},
+    {id:'q_share',kind:'choice',label:'如果你想帶全家人一起去，要先用哪個功能安排怎麼去？',options:['如何到達','分享網站'],answer:'如何到達'}
+  ];
+  var state={quiz:{},revealed:false,_pushed:false};
+  var ANSWERS=null;
+
+  // ===== 題型切換（體驗／檢測／開放三態循環，教師 admin 專用，見《學習單資料與提交規範》§2/§5-6）=====
+  var QTYPE_CYCLE=['experience','score','open'];
+  var QTYPE_LABEL={experience:'體驗',score:'檢測',open:'開放'};
+  var QTYPE_STYLE={experience:'bg-sky-100 text-sky-700 border-sky-300',score:'bg-rose-100 text-rose-700 border-rose-300',open:'bg-emerald-100 text-emerald-700 border-emerald-300'};
+  var QTYPE_OVERRIDES={};
+  var teacherAuthed=false;
+  function effectiveQtype(qid){if(qid==='q4')qid='q4a';return QTYPE_OVERRIDES[qid]||'experience';}
+  function persistQtypeOverrides(){if(db&&quizRef)quizRef.set({qtypeOverrides:QTYPE_OVERRIDES},{merge:true});}
+  function renderQtypeSlots(){
+    document.querySelectorAll('.qtypeSlot').forEach(function(slot){
+      var qid=slot.dataset.qid,t=effectiveQtype(qid);
+      if(!IS_ADMIN||!teacherAuthed){slot.innerHTML='';return;}
+      slot.innerHTML='<button type="button" class="qtypeBtn border rounded-full px-2 py-0.5 text-xs font-bold '+QTYPE_STYLE[t]+'">'+QTYPE_LABEL[t]+'</button>';
+      slot.querySelector('.qtypeBtn').onclick=function(){
+        var cur=effectiveQtype(qid),next=QTYPE_CYCLE[(QTYPE_CYCLE.indexOf(cur)+1)%QTYPE_CYCLE.length];
+        if(qid==='q4'){QTYPE_OVERRIDES.q4a=next;QTYPE_OVERRIDES.q4b=next;}
+        else QTYPE_OVERRIDES[qid]=next;
+        persistQtypeOverrides();renderQtypeSlots();
+      };
+    });
+  }
+
+  // ===== 景點調查員：教師上傳正確答案（可用正則表達式涵蓋多種寫法）=====
+  // 教師在 #admin 直接把正則打進原本的作答欄位（q1~q6）當答案key，不另外開設定區——學生看到的欄位跟教師輸入答案的欄位是同一個。
+  var surveyQids=['q1','q2','q3','q4a','q4b','q5','q6'];
+  var surveyBonusQids=['q5','q6'];
+  var SURVEY_PATTERNS=null;
+  var surveyGraded={};
+  var surveyFieldsPopulated=false;
+  function populateSurveyPatternFields(){
+    if(!IS_ADMIN||surveyFieldsPopulated||!SURVEY_PATTERNS)return;
+    surveyQids.forEach(function(qid){
+      var el=document.getElementById(qid);
+      if(el&&!el.value&&SURVEY_PATTERNS[qid])el.value=SURVEY_PATTERNS[qid];
+    });
+    surveyFieldsPopulated=true;
+  }
+  function testPattern(pattern,value){
+    if(!pattern)return null;
+    try{return new RegExp(pattern,'i').test(value);}
+    catch(e){console.warn('無效的正則表達式：',pattern,e);return null;}
+  }
+  function gradeSurveyNow(){
+    var patterns=SURVEY_PATTERNS||{};
+    if(IS_ADMIN&&!REVIEW_ID){
+      var localPatterns={};
+      surveyQids.forEach(function(qid){var el=document.getElementById(qid);if(el&&el.value.trim())localPatterns[qid]=el.value.trim();});
+      if(Object.keys(localPatterns).length)patterns=Object.assign({},patterns,localPatterns);
+    }
+    surveyQids.forEach(function(qid){
+      var el=document.getElementById(qid);
+      if(!el)return;
+      var val=el.value.trim(),pat=patterns[qid]||'',r=pat?testPattern(pat,val):null;
+      surveyGraded[qid]={given:val||null,pattern:pat||null,isCorrect:(r===null)?!!val:!!r};
+    });
+  }
+  function renderSurveyFeedback(){
+    function show(id,ok,hasPattern){
+      var el=document.querySelector('.surveyFeedback[data-qid="'+id+'"]');
+      if(!el)return;
+      if(!hasPattern){el.textContent='';return;}
+      el.className='surveyFeedback text-sm font-bold mt-1 min-h-[18px] '+(ok?'text-emerald-600':'text-amber-600');
+      el.textContent=ok?'✓ 正確':'再想想看';
+    }
+    ['q1','q2','q3'].forEach(function(qid){var g=surveyGraded[qid];show(qid,!!(g&&g.isCorrect),!!(g&&g.pattern));});
+    var g4a=surveyGraded.q4a,g4b=surveyGraded.q4b;
+    var q4hasPattern=!!((g4a&&g4a.pattern)||(g4b&&g4b.pattern));
+    var q4ok=(g4a&&g4a.pattern?g4a.isCorrect:true)&&(g4b&&g4b.pattern?g4b.isCorrect:true);
+    show('q4',q4ok,q4hasPattern);
+    ['q5','q6'].forEach(function(qid){var g=surveyGraded[qid];show(qid,!!(g&&g.isCorrect),!!(g&&g.pattern));});
+  }
+
+  function answerOf(i){return (ANSWERS&&ANSWERS.length===quizItems.length)?ANSWERS[i]:quizItems[i].answer;}
+  quizItems.forEach(function(item,i){
+    var slot=document.querySelector('[data-qid="'+item.id+'"]');
+    if(!slot)return;
+    var html='<div class="flex items-center gap-2 flex-wrap mb-2"><p class="font-bold text-rose-800">🎯 小試身手：'+item.label+'</p><span class="qtypeSlot" data-qid="'+item.id+'"></span></div>';
+    if(item.img)html+='<img src="'+item.img+'" alt="" class="shot mb-3" style="max-width:260px">';
+    if(item.kind==='number'){
+      html+='<div class="flex items-center gap-2"><input type="number" inputmode="numeric" class="quizInput border-2 border-slate-200 rounded-xl px-3 py-2 w-28 text-lg font-bold focus:border-rose-400 outline-none"><span class="text-lg font-bold">'+item.unit+'</span></div>';
+    }else{
+      html+='<div class="flex gap-2 flex-wrap">'+item.options.map(function(o){return '<button class="quizOpt opt border-2 border-slate-200 rounded-xl px-4 py-2 font-bold hover:border-rose-400" data-v="'+o+'">'+o+'</button>';}).join('')+'</div>';
+    }
+    html+='<div class="quizReveal hidden mt-2 text-sm rounded-xl p-2"></div>';
+    slot.innerHTML=html;
+    if(item.kind==='number'){
+      var inp=slot.querySelector('.quizInput');
+      inp.oninput=function(){state.quiz[i]=inp.value===''?null:Number(inp.value);};
+    }else{
+      var btns=slot.querySelectorAll('.quizOpt');
+      btns.forEach(function(b){b.onclick=function(){
+        if(state.revealed)return;
+        state.quiz[i]=b.dataset.v;
+        btns.forEach(function(x){x.classList.remove('bg-rose-50','border-rose-500','text-rose-700')});
+        b.classList.add('bg-rose-50','border-rose-500','text-rose-700');
+      };});
+    }
+  });
+
+  function doReveal(){
+    if(state.revealed)return;
+    state.revealed=true;
+    var correctCount=0;
+    quizItems.forEach(function(item,i){
+      var slot=document.querySelector('[data-qid="'+item.id+'"]');
+      if(!slot)return;
+      var given=state.quiz[i];given=(given===undefined)?null:given;
+      var ans=answerOf(i),ok=given!=null&&given===ans;
+      if(ok)correctCount++;
+      if(item.kind==='number'){var inp=slot.querySelector('.quizInput');if(inp)inp.disabled=true;}
+      else{slot.querySelectorAll('.quizOpt').forEach(function(b){b.disabled=true;b.classList.add('opacity-60')});}
+      var rev=slot.querySelector('.quizReveal');
+      rev.className='quizReveal mt-2 text-sm rounded-xl p-2 '+(ok?'bg-emerald-50 text-emerald-700':'bg-amber-50 text-amber-700');
+      rev.innerHTML='<b>正確答案：'+ans+(item.unit||'')+'</b>'+(given==null?' <span class="text-slate-400">（你沒作答）</span>':(ok?' · 你答對了！':' · 再想想'));
+      rev.classList.remove('hidden');
+    });
+    var tally=document.getElementById('quizTally');
+    if(tally)tally.textContent='答對 '+correctCount+' / '+quizItems.length+' 題';
+    gradeSurveyNow();
+    renderSurveyFeedback();
+    surveyQids.forEach(function(qid){var el=document.getElementById(qid);if(el)el.disabled=true;});
+    if(!IS_ADMIN)pushResult(correctCount);
+  }
+  function pushResult(correct){
+    if(!db||!auth||!auth.currentUser)return;if(state._pushed)return;state._pushed=true;
+    quizRef.collection('results').doc(auth.currentUser.uid)
+      .set({score:correct,total:quizItems.length,at:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}).catch(function(){});
+  }
+
+  // ===== 教師：檢視目前已上傳的正確答案——直接抓資料庫內容填進學習單本身的欄位，
+  // 不是另開彈窗列表；看完後用工具列「👀 預覽學生模式」清空回歸空白（見《學習單資料與提交規範》§5-7）=====
+  function fillAnswersIn(){
+    var patterns=SURVEY_PATTERNS||{};
+    surveyQids.forEach(function(qid){
+      var el=document.getElementById(qid);
+      if(el&&patterns[qid])el.value=patterns[qid];
+    });
+    quizItems.forEach(function(item,i){
+      var slot=document.querySelector('[data-qid="'+item.id+'"]');
+      if(!slot)return;
+      var ans=answerOf(i);
+      state.quiz[i]=ans;
+      if(item.kind==='number'){
+        var inp=slot.querySelector('.quizInput');
+        if(inp)inp.value=ans;
+      }else{
+        slot.querySelectorAll('.quizOpt').forEach(function(b){
+          var on=b.dataset.v===ans;
+          b.classList.toggle('bg-rose-50',on);b.classList.toggle('border-rose-500',on);b.classList.toggle('text-rose-700',on);
+        });
+      }
+    });
+  }
+  // 清掉「檢視答案」填進去的內容（不影響 Firestore 上的正確答案本身，只清這台裝置畫面上的顯示），
+  // 由「↩ 還原」按鈕一併呼叫，見下方 lockBtn。
+  function clearFilledAnswers(){
+    surveyQids.forEach(function(qid){var el=document.getElementById(qid);if(el)el.value='';});
+    quizItems.forEach(function(item,i){
+      delete state.quiz[i];
+      var slot=document.querySelector('[data-qid="'+item.id+'"]');
+      if(!slot)return;
+      if(item.kind==='number'){var inp=slot.querySelector('.quizInput');if(inp)inp.value='';}
+      else slot.querySelectorAll('.quizOpt').forEach(function(b){b.classList.remove('bg-rose-50','border-rose-500','text-rose-700');});
+    });
+  }
+  document.getElementById('viewAnswersBtn').onclick=function(){
+    fillAnswersIn();
+    alert('✓ 已將資料庫裡的正確答案填入下方欄位。按工具列的「↩ 還原」可以清空回歸空白。');
+  };
+
+  // ===== 教師：檢視某位學生的繳交作答（唯讀重現），見《學習單資料與提交規範》§5-7 =====
+  function applyReview(data){
+    var banner=document.createElement('div');
+    banner.style.cssText='position:sticky;top:0;z-index:40;background:#0f766e;color:#fff;text-align:center;font-weight:700;padding:8px;font-size:14px';
+    banner.innerHTML='🔍 檢視模式（唯讀）：'+esc(String(data.grade)+'年'+String(data.className)+'班'+String(data.studentId)+'號')+' 的作答　<a href="'+location.pathname+'#admin" style="text-decoration:underline;color:#fff">✕ 離開檢視</a>';
+    document.body.insertBefore(banner,document.body.firstChild);
+    var ans=data.answers||{};
+    surveyQids.forEach(function(qid){
+      var el=document.getElementById(qid);
+      if(el){el.value=ans[qid]!=null?ans[qid]:'';el.disabled=true;}
+    });
+    ['q5Status','q6Status'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent='';});
+    quizItems.forEach(function(item,i){
+      var slot=document.querySelector('[data-qid="'+item.id+'"]');
+      if(!slot)return;
+      var v=ans[item.id];
+      if(item.kind==='number'){
+        var inp=slot.querySelector('.quizInput');
+        if(inp){inp.value=(v!=null?v:'');inp.disabled=true;}
+      }else{
+        slot.querySelectorAll('.quizOpt').forEach(function(b){
+          b.disabled=true;
+          if(b.dataset.v===v)b.classList.add('bg-rose-50','border-rose-500','text-rose-700');
+        });
+      }
+    });
+    var submitSec=document.getElementById('submitBtn');if(submitSec&&submitSec.closest('section'))submitSec.closest('section').style.display='none';
+    var rb=document.getElementById('rewardBox');if(rb)rb.remove();
+  }
+  function maybeApplyReview(){
+    if(!REVIEW_ID||!db)return;
+    db.collection('submissions').doc(REVIEW_ID).get().then(function(doc){
+      if(!doc.exists){alert('找不到這筆繳交紀錄：'+REVIEW_ID);return;}
+      applyReview(doc.data());
+    }).catch(function(e){console.warn('讀取繳交紀錄失敗',e);});
+  }
+
+  function boot(){
+    renderQtypeSlots();
+    if(!firebaseConfig){ if(IS_ADMIN)teacherOffline(); return; }
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    loadScript(base+'firebase-app-compat.js')
+      .then(function(){return loadScript(base+'firebase-auth-compat.js')})
+      .then(function(){return loadScript(base+'firebase-firestore-compat.js')})
+      .then(function(){
+        firebase.initializeApp(firebaseConfig);db=firebase.firestore();auth=firebase.auth();
+        quizRef=db.collection('quizzes').doc(QUIZ_ID);
+        document.getElementById('syncBadge').classList.remove('hidden');
+        quizRef.onSnapshot(function(doc){var d=(doc&&doc.data())||{};
+          if(Array.isArray(d.answers)&&d.answers.length===quizItems.length)ANSWERS=d.answers;
+          if(d.surveyPatterns)SURVEY_PATTERNS=d.surveyPatterns;
+          if(d.qtypeOverrides)QTYPE_OVERRIDES=d.qtypeOverrides;
+          populateSurveyPatternFields();
+          renderQtypeSlots();
+          if(d.revealed&&!state.revealed)doReveal();
+        },function(e){console.warn('讀取失敗',e);});
+        renderQtypeSlots();
+        if(IS_ADMIN)teacherOnline();
+        else auth.onAuthStateChanged(function(u){if(!u)auth.signInAnonymously().catch(function(){});});
+      })
+      .catch(function(e){console.warn('Firebase 啟用失敗，改用單機模式',e);if(IS_ADMIN)teacherOffline();});
+  }
+  function showBar(){document.getElementById('teacherbar').classList.remove('hidden');}
+  document.getElementById('previewModeBtn').onclick=function(){
+    if(!confirm('會清空這台裝置上已填寫的身分與作答，改成全新未填寫的畫面，確定要預覽嗎？'))return;
+    try{localStorage.removeItem(ID_KEY);localStorage.removeItem('g4L02v1');}catch(e){}
+    try{sessionStorage.setItem(PREVIEW_KEY,'1');}catch(e){}
+    location.href=location.pathname+location.search;
+  };
+  document.getElementById('backToTeacher').onclick=function(){
+    try{sessionStorage.removeItem(PREVIEW_KEY);}catch(e){}
+    location.href=location.pathname+location.search+'#admin';
+    location.reload();
+  };
+  function teacherOffline(){
+    showBar();document.getElementById('tStatus').textContent='單機模式（答案已內建，免上傳）';
+    var pw=prompt('教師密碼：');if(pw!=='1234'){if(pw!==null)alert('密碼錯誤');document.getElementById('teacherbar').classList.add('hidden');return;}
+    document.getElementById('surveyAdminHint').classList.remove('hidden');
+    teacherAuthed=true;renderQtypeSlots();
+    var up=document.getElementById('uploadBtn');if(up)up.onclick=function(){alert('單機模式：答案已內建，不需上傳。');};
+    document.getElementById('revealBtn').onclick=doReveal;
+    document.getElementById('lockBtn').onclick=function(){location.reload();};
+  }
+  function wireTeacherUI(email){
+    document.getElementById('tStatus').textContent='已登入 '+email;
+    document.getElementById('surveyAdminHint').classList.remove('hidden');
+    teacherAuthed=true;renderQtypeSlots();
+    maybeApplyReview();
+    var up=document.getElementById('uploadBtn');
+    if(up)up.onclick=function(){up.disabled=true;up.textContent='上傳中…';
+      var patterns={};
+      surveyQids.forEach(function(qid){var el=document.getElementById(qid);patterns[qid]=el?el.value.trim():'';});
+      quizRef.set({answers:quizItems.map(function(it){return it.answer}),surveyPatterns:patterns,answersAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})
+        .then(function(){up.disabled=false;up.textContent='✓ 已上傳';setTimeout(function(){up.textContent='⬆ 上傳答案';},2500);
+          alert('✓ 正確答案已存進資料庫（只需這一次）。之後上課只要按「🎉 公布」即可。');})
+        .catch(function(e){up.disabled=false;up.textContent='⬆ 上傳答案';alert('上傳失敗：'+e.message);});};
+    document.getElementById('revealBtn').onclick=function(){quizRef.set({revealed:true,revealedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});};
+    document.getElementById('lockBtn').onclick=function(){
+      if(!confirm('確定要還原成未公布狀態嗎？（會一併清空「檢視答案」填進畫面的內容）'))return;
+      clearFilledAnswers();
+      quizRef.set({revealed:false},{merge:true});
+    };
+    quizRef.collection('results').onSnapshot(function(qs){var n=qs.size,sum=0;qs.forEach(function(d){sum+=(d.data().score||0)});
+      document.getElementById('tTally').textContent='已交卷 '+n+' 人 · 平均 '+(n?(sum/n).toFixed(1):'0')+' / '+quizItems.length;});
+  }
+  function teacherOnline(){
+    showBar();
+    var handled=false;
+    var unsub=auth.onAuthStateChanged(function(u){
+      if(handled)return;handled=true;if(unsub)unsub();
+      if(u&&!u.isAnonymous&&u.email){ wireTeacherUI(u.email); return; }
+      var email=prompt('教師 Email：',TEACHER_EMAIL);if(email===null){document.getElementById('teacherbar').classList.add('hidden');return;}
+      var pw=prompt('密碼：');if(pw===null){document.getElementById('teacherbar').classList.add('hidden');return;}
+      auth.signInWithEmailAndPassword(email,pw).then(function(cred){wireTeacherUI(cred.user.email);})
+        .catch(function(e){alert('登入失敗：'+e.message);document.getElementById('teacherbar').classList.add('hidden');});
+    });
+  }
+  boot();
+
+  ['q5','q6'].forEach(function(qid){
+    var el=document.getElementById(qid),st=document.getElementById(qid+'Status');
+    function upd(){var done=!!el.value.trim();st.textContent=done?'🎁 已完成':'🎁 尚未完成';
+      st.className='text-xs font-bold px-2 py-0.5 rounded-full shrink-0 '+(done?'bg-emerald-100 text-emerald-700':'bg-slate-100 text-slate-400');}
+    el.oninput=upd;upd();
+  });
+
+  // ===== 繳交學習單（見《學習單資料與提交規範》§3）=====
+  // 每題的題型（體驗／檢測／開放）由教師 admin 端即時切換決定（見 §2/§5-6 的 qtypeOverrides），不是寫死。
+  document.getElementById('submitBtn').onclick=function(){
+    var idn=getIdentity();
+    if(!identityValid(idn)){alert('請先在最上方填好年級、班級、學號（都是數字）。');window.scrollTo({top:0,behavior:'smooth'});return;}
+    if(!db){alert('系統尚未連線，請稍後再試或重新整理頁面。');return;}
+
+    gradeSurveyNow();
+    var answers={},qtypes={},scoreAnswers={},experienceAnswers={},openAnswers={},bonusAnswers={};
+
+    // ② 景點調查員：q1,q2,q3,q4a,q4b 是主要題，q5,q6 是加分題（見《學習單資料與提交規範》§2-b）。
+    // 每題的答案用教師上傳的正則表達式核對（見上方 surveyPatterns）；沒設答案的題目退回「有沒有填」判斷。
+    var surveyCoreQids=surveyQids.filter(function(q){return surveyBonusQids.indexOf(q)<0;});
+    function fileSurveyItem(qid,isBonus){
+      var g=surveyGraded[qid]||{given:null,pattern:null,isCorrect:false};
+      var type=effectiveQtype(qid);
+      answers[qid]=g.given;qtypes[qid]=type;
+      if(type==='open')openAnswers[qid]=g.given;
+      else if(type==='score')scoreAnswers[qid]={given:g.given,correct:g.pattern,isCorrect:g.isCorrect};
+      else experienceAnswers[qid]={given:g.given,correct:g.pattern,isCorrect:g.isCorrect};
+      if(isBonus)bonusAnswers[qid]={given:g.given,completed:!!g.given};
+    }
+    surveyCoreQids.forEach(function(qid){fileSurveyItem(qid,false);});
+    surveyBonusQids.forEach(function(qid){fileSurveyItem(qid,true);});
+    var surveyFilled=surveyCoreQids.filter(function(qid){return answers[qid];}).length;
+
+    // 各段「小試身手」：老師公布答案後才知道對錯，這裡先記錄學生當下的作答與（若已公布）正確與否。
+    quizItems.forEach(function(item,i){
+      var given=state.quiz[i];given=(given===undefined)?null:given;
+      var ans=answerOf(i),isCorrect=state.revealed?(given!=null&&given===ans):false,correct=state.revealed?ans:null;
+      var type=effectiveQtype(item.id);
+      answers[item.id]=given;qtypes[item.id]=type;
+      if(type==='open')openAnswers[item.id]=given;
+      else if(type==='score')scoreAnswers[item.id]={given:given,correct:correct,isCorrect:isCorrect};
+      else experienceAnswers[item.id]={given:given,correct:correct,isCorrect:isCorrect};
+    });
+
+    var quizAnswered=quizItems.filter(function(it,i){return state.quiz[i]!=null&&state.quiz[i]!=='';}).length;
+
+    var scoreCoreIds=surveyCoreQids.concat(quizItems.map(function(it){return it.id;})).filter(function(qid){return qtypes[qid]==='score';});
+    var scoreCorrect=scoreCoreIds.filter(function(qid){return scoreAnswers[qid]&&scoreAnswers[qid].isCorrect;}).length;
+    var accuracyRate=scoreCoreIds.length?Math.round(scoreCorrect/scoreCoreIds.length*100):null;
+
+    var experienceCoreIds=surveyCoreQids.concat(quizItems.map(function(it){return it.id;})).filter(function(qid){return qtypes[qid]==='experience';});
+    var experienceAnsweredCount=experienceCoreIds.filter(function(qid){return answers[qid]!=null&&answers[qid]!=='';}).length;
+    var experienceCompletion=experienceCoreIds.length?Math.round(experienceAnsweredCount/experienceCoreIds.length*100):null;
+
+    var msg='確定要繳交嗎？\n景點調查表：'+(surveyFilled===surveyCoreQids.length?'都填了':(surveyFilled>0?'填了 '+surveyFilled+' / '+surveyCoreQids.length+' 題':'還沒填'))
+      +'\n小試身手：答了 '+quizAnswered+' / '+quizItems.length+' 題'
+      +'\n\n送出後這份會被老師看到，確定要交嗎？';
+    if(!confirm(msg))return;
+
+    var docId='g4-L02__'+idn.grade+'-'+idn.className+'-'+idn.studentId;
+    var payload={worksheetId:'g4-L02',worksheetTitle:'台南小導遊養成記',lessonPath:'g4/L02',
+      grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      answers:answers,qtypes:qtypes,bonusQids:surveyBonusQids,scoreAnswers:scoreAnswers,experienceAnswers:experienceAnswers,openAnswers:openAnswers,bonusAnswers:bonusAnswers,
+      accuracyRate:accuracyRate,experienceCompletion:experienceCompletion,
+      status:'submitted',submittedAt:firebase.firestore.FieldValue.serverTimestamp()};
+    var btn=this,stat=document.getElementById('submitStat');
+    btn.disabled=true;stat.className='text-sm font-bold mt-3 min-h-[20px] text-orange-600';stat.textContent='繳交中…';
+    ensureAuth().then(function(){return db.collection('submissions').doc(docId).set(payload,{merge:true});})
+      .then(function(){
+        btn.disabled=false;btn.textContent='重新繳交（覆蓋）';
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-emerald-600';
+        stat.textContent='✓ 已繳交！';
+        var rb=document.getElementById('rewardBox');rb.classList.remove('hidden');rb.scrollIntoView({behavior:'smooth'});
+      }).catch(function(e){
+        btn.disabled=false;
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-amber-600';
+        stat.textContent='繳交失敗：'+e.message+'（可能是老師尚未部署 Firestore 規則）';
+      });
+  };
+})();
+</script>
+</body>
+</html>

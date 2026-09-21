@@ -1,0 +1,47 @@
+# ============================================================
+# 備課平台（lesson-prep）——見《引導規範/自動更新規範.md》§3
+# 鐵則：凡是「這台電腦自己的」東西都不進 git，否則安裝端會無法快轉更新。
+# ============================================================
+
+# --- 金鑰／憑證：絕對不可上傳 ---
+工作台/config.json
+client_secret*.json
+*credentials*.json
+*.key
+*.pem
+.env
+.env.*
+
+# --- 學生資料：正本只存在 Firestore，本機產物一律不留 ---
+*.csv
+*.xlsx
+*.bak
+students*.json
+roster*.json
+grades*.json
+submissions*.json
+名單*
+成績*
+繳交*
+timetable.json
+
+# --- 本機環境：每台不同、體積大 ---
+工作台/runtime/            # 可攜式 Python，換電腦用檔案複製帶走
+工作台/.pub_repo/          # 發布用的 pcclass 本機快取（本身是另一個 git 儲存庫）
+工作台/__pycache__/
+__pycache__/
+*.pyc
+
+# --- 原始分析素材：216MB 的簡報／docx 原始檔，留在本機不進 git ---
+分析資料/
+
+# --- 評分平台是獨立的儲存庫（boyinslps/grading-platform），不併進這裡 ---
+評分平台/
+
+# --- 編輯器／系統 ---
+.claude/settings.local.json
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

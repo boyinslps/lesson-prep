@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>備課駕駛艙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+  :root{--bg:#F1F3F0;--surface:#FFF;--surface-2:#F7F8F6;--ink:#1B2320;--muted:#69726D;--border:#E1E5DF;--border-strong:#CFD5CC;
+    --accent:#0E7C73;--accent-ink:#0A5A53;--accent-soft:#DCEFEC;--todo:#B9C0BA;--doing:#B4791F;--doing-soft:#F6E8CF;
+    --done:#2E7D53;--done-soft:#D8ECDF;--pending:#2A6FB0;--pending-soft:#DCE9F6;
+    --shadow:0 1px 2px rgba(20,30,25,.06),0 8px 24px -12px rgba(20,30,25,.14);--r:12px;--rs:8px;
+    --fu:"Manrope","Noto Sans TC",system-ui,sans-serif;--fm:"JetBrains Mono","Noto Sans TC",monospace;}
+  @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121618;--surface:#1A1F21;--surface-2:#161B1D;--ink:#E7ECEA;--muted:#8E9995;
+    --border:#2A3134;--border-strong:#3A4347;--accent:#3FB6A8;--accent-ink:#7FD4C9;--accent-soft:#123833;--todo:#4A544F;
+    --doing:#D9A441;--doing-soft:#33280F;--done:#5FC088;--done-soft:#12301F;--pending:#5B9BD6;--pending-soft:#132738;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.6);}}
+  :root[data-theme="dark"]{--bg:#121618;--surface:#1A1F21;--surface-2:#161B1D;--ink:#E7ECEA;--muted:#8E9995;--border:#2A3134;--border-strong:#3A4347;
+    --accent:#3FB6A8;--accent-ink:#7FD4C9;--accent-soft:#123833;--todo:#4A544F;--doing:#D9A441;--doing-soft:#33280F;--done:#5FC088;--done-soft:#12301F;--pending:#5B9BD6;--pending-soft:#132738;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.6);}
+  *{box-sizing:border-box}html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--fu);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer}::selection{background:var(--accent-soft)}
+  .app{display:grid;grid-template-rows:auto 1fr auto;height:100vh;min-height:0}
+  .topbar{display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px}.mark{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--accent);color:#fff;font-size:17px;box-shadow:var(--shadow)}
+  .brand h1{font-size:15px;font-weight:800;margin:0}.brand .sub{font-size:11px;color:var(--muted);font-weight:600}
+  .spacer{flex:1}
+  select,input,textarea{font-family:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--border-strong);border-radius:var(--rs);outline:none}
+  select,input{font-size:12.5px;padding:6px 9px}select:focus,input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .pill{font-size:12px;font-weight:700;background:var(--surface-2);border:1px solid var(--border);border-radius:99px;padding:5px 12px}.pill b{color:var(--accent-ink)}
+  .btn{font-size:12.5px;font-weight:700;border:1px solid transparent;border-radius:var(--rs);padding:7px 13px;display:inline-flex;align-items:center;gap:6px}
+  .btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent-ink)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--border-strong)}.btn-ghost:hover{background:var(--surface-2)}
+  .ib{background:transparent;border:1px solid var(--border-strong);border-radius:var(--rs);width:34px;height:34px;display:grid;place-items:center;color:var(--muted);font-size:15px}.ib:hover{background:var(--surface-2);color:var(--ink)}
+  .work{display:grid;grid-template-columns:300px 1fr;min-height:0}
+  .panel{min-height:0;display:flex;flex-direction:column;background:var(--surface);overflow:hidden}.panel+.panel{border-left:1px solid var(--border)}
+  .ph{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--border);gap:8px}
+  .ph h2{margin:0;font-size:11px;font-weight:800;letter-spacing:.07em;color:var(--muted)}
+  .pb{overflow:auto;padding:12px;min-height:0}
+  .glab{font-size:11px;font-weight:800;color:var(--accent-ink);margin:2px 4px 8px;display:flex;gap:6px}
+  .lrow{display:flex;align-items:center;gap:9px;border:1px solid var(--border);border-radius:var(--r);padding:9px 10px;margin-bottom:7px;cursor:pointer}
+  .lrow:hover{border-color:var(--border-strong)}.lrow[aria-selected=true]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+  .lrow input{width:15px;height:15px;accent-color:var(--accent);flex:0 0 auto}.lmain{flex:1;min-width:0}
+  .lt{font-size:12.5px;font-weight:700}.dots{display:flex;gap:3px;margin-top:5px}.dot{width:12px;height:6px;border-radius:3px;background:var(--todo)}.dot.done{background:var(--done)}
+  .ghead{display:flex;align-items:center;gap:7px;padding:6px 8px;margin:8px 2px 5px;border-radius:8px;cursor:pointer;font-size:11.5px;font-weight:800;color:var(--accent-ink);background:var(--accent-soft);user-select:none}
+  .ghead:first-child{margin-top:2px}.ghead .gcount{margin-left:auto;color:var(--muted);font-weight:700}
+  .ghead.dragover{outline:2px dashed var(--accent)}
+  .lnum{font-size:10.5px;font-weight:800;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 6px;flex:0 0 auto;font-variant-numeric:tabular-nums}
+  .lrow.sel{background:var(--accent-soft);border-color:var(--accent)}
+  .lrow.cur{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+  .lrow.dragover{border-top:2px solid var(--accent)}
+  .lrow.dragging{opacity:.4}
+  .lesson-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .lesson-hd h3{margin:0;font-size:18px;font-weight:800}.lesson-hd .meta{font-size:12px;color:var(--muted)}
+  .rail{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+  .stage{display:flex;align-items:center;gap:7px;border:1px solid var(--border);border-radius:99px;padding:6px 12px;font-size:12px;font-weight:700;background:var(--surface);color:var(--muted)}
+  .stage:hover{border-color:var(--border-strong)}.stage[aria-selected=true]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)}
+  .si{width:16px;height:16px;border-radius:99px;display:grid;place-items:center;font-size:10px;color:#fff;flex:0 0 auto}.si.done{background:var(--done)}.si.todo{background:var(--todo)}
+  .ai{font-size:9.5px;font-weight:800;color:var(--pending);background:var(--pending-soft);border-radius:99px;padding:0 5px}
+  .ai.man{color:var(--doing);background:var(--doing-soft)}
+  .editbar{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+  .editbar .st{font-size:11px;font-weight:800;padding:2px 9px;border-radius:99px}.st.done{color:var(--done);background:var(--done-soft)}.st.todo{color:var(--muted);background:var(--surface-2)}
+  textarea.doc{width:100%;min-height:52vh;font-family:var(--fm);font-size:12.5px;line-height:1.7;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:14px;resize:vertical}
+  .htmllink{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:var(--rs);padding:7px 11px;text-decoration:none}
+  .pptx{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.pptx img{width:150px;border:1px solid var(--border);border-radius:6px}
+  .kanban{background:var(--surface);border-top:1px solid var(--border);padding:10px 14px;overflow-x:auto;max-height:30vh}
+  .kbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.kbar h2{margin:0;font-size:11px;font-weight:800;color:var(--muted)}
+  .store{display:flex;gap:12px}.prod{border:1px solid var(--border);border-radius:var(--r);padding:10px;background:var(--surface-2);width:230px;flex:0 0 auto}
+  .prod .pt{font-size:12.5px;font-weight:700;margin-bottom:6px}
+  .overlay{position:fixed;inset:0;background:rgba(15,22,20,.5);display:none;place-items:center;padding:24px;z-index:50}.overlay.on{display:grid}
+  .modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);width:min(720px,100%);max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+  .mh{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border)}.mh h3{margin:0;font-size:15px;font-weight:800}.mh .tl{font-size:11.5px;color:var(--muted)}
+  .mb{padding:16px 18px;overflow:auto}.mf{padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+  .field{margin-bottom:12px}.field label{display:block;font-size:11px;font-weight:800;color:var(--muted);margin-bottom:5px}.field input,.field select{width:100%}
+  textarea.code{width:100%;min-height:200px;font-family:var(--fm);font-size:12px;line-height:1.65;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:12px;resize:vertical}
+  .hint{font-size:11.5px;color:var(--muted);margin:0 0 10px}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:var(--bg);font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:99px;transition:.25s;z-index:60;pointer-events:none;max-width:80vw;text-align:center}.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media(max-width:900px){.work{grid-template-columns:1fr}.panel+.panel{border-left:none;border-top:1px solid var(--border)}.panel.lessons .pb{max-height:220px}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<!-- 自動更新提示（見《引導規範/自動更新規範.md》）：只有真的落後新版時才會出現 -->
+<div id="updBar" style="display:none;background:#1e3a8a;color:#fff;padding:10px 16px;font-size:14px">
+  <div style="max-width:1200px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    <b id="updMsg" style="flex:1;min-width:220px">🔔</b>
+    <button id="updLog" type="button">更新內容</button>
+    <button id="updGo" type="button">立即更新</button>
+    <button id="updLater" type="button">稍後</button>
+  </div>
+  <div id="updDetail" style="display:none;max-width:1200px;margin:8px auto 0;background:rgba(255,255,255,.12);border-radius:8px;padding:8px 12px;font-size:13px;line-height:1.8;max-height:200px;overflow:auto"></div>
+</div>
+<script>
+(function(){
+  var bar=document.getElementById('updBar');
+  var SKIP='wk_updateDismissed';
+  ['updLog','updGo','updLater'].forEach(function(id){
+    document.getElementById(id).style.cssText='border:0;border-radius:6px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;'
+      +(id==='updGo'?'background:#f59e0b;color:#1f2937':'background:rgba(255,255,255,.2);color:#fff');
+  });
+  function show(d){
+    document.getElementById('updMsg').textContent='🔔 有新版本可以更新：'+(d.currentVersion||'?')+' → '+(d.latestVersion||'?')+'（'+d.behind+' 個更新）';
+    document.getElementById('updDetail').innerHTML=(d.changes||[]).map(function(c){
+      return '<div>· '+c.date+'　'+String(c.msg).replace(/[&<>]/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[m]})+'</div>';
+    }).join('')||'<div>（沒有取到更新說明）</div>';
+    bar.style.display='block';
+  }
+  document.getElementById('updLog').onclick=function(){
+    var el=document.getElementById('updDetail');
+    el.style.display=el.style.display==='none'?'block':'none';
+  };
+  document.getElementById('updLater').onclick=function(){
+    try{sessionStorage.setItem(SKIP,'1');}catch(e){}
+    bar.style.display='none';
+  };
+  document.getElementById('updGo').onclick=function(){
+    var go=this;go.disabled=true;go.textContent='更新中…';
+    fetch('/api/update/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'})
+      .then(function(r){return r.json();}).then(function(r){
+        if(!r.ok){go.disabled=false;go.textContent='立即更新';alert('更新失敗：\n'+(r.error||'未知錯誤'));return;}
+        document.getElementById('updMsg').textContent='✓ 已更新到 '+(r.version||'最新版')+'，請關掉這個視窗，重新執行「啟動工作台」。';
+        ['updLog','updGo','updLater'].forEach(function(id){document.getElementById(id).style.display='none';});
+      }).catch(function(e){go.disabled=false;go.textContent='立即更新';alert('更新失敗：'+e.message);});
+  };
+  try{if(sessionStorage.getItem(SKIP)==='1')return;}catch(e){}
+  fetch('/api/update/check').then(function(r){return r.json();}).then(function(d){
+    if(d&&d.ok&&d.isGit&&d.behind>0)show(d);
+  }).catch(function(){});   // 檢查更新失敗不該影響正常使用，靜默略過
+})();
+</script>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="mark">🧭</div><div><h1>備課駕駛艙</h1><div class="sub">看 · 勾 · 存　｜　real · reads materials/</div></div></div>
+    <div class="spacer"></div>
+    <span class="pill">進度 <b id="prog">–</b></span>
+    <select id="proj"></select>
+    <button class="ib" id="splitBtn" title="計畫切分（貼計畫→產生節次）">✂</button>
+    <button class="ib" id="reload" title="重新讀取">🔄</button>
+    <button class="ib" id="setBtn" title="設定">⚙</button>
+    <button class="ib" id="themeBtn" title="深/淺色">◐</button>
+  </header>
+  <main class="work">
+    <section class="panel lessons">
+      <div class="ph"><h2>節次</h2><div style="display:flex;gap:6px;align-items:center">
+        <button class="ib" id="addLesson" title="手動新增節次" style="width:28px;height:28px;font-size:15px">＋</button>
+        <span class="pill" id="selc" style="font-size:11px">選取 0</span></div></div>
+      <div class="pb" id="lessons"></div>
+    </section>
+    <section class="panel">
+      <div class="ph"><h2>準備管線</h2>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span id="tplName" style="font-size:11.5px;color:var(--accent-ink);font-weight:700"></span>
+          <button class="btn btn-ghost" id="handoff">📦 交接包</button>
+        </div>
+      </div>
+      <div class="pb">
+        <div class="lesson-hd"><div><h3 id="lTitle">選一個節次</h3><div class="meta" id="lMeta"></div></div></div>
+        <div class="rail" id="rail"></div>
+        <div id="stage"></div>
+      </div>
+    </section>
+  </main>
+  <footer class="kanban"><div class="kbar"><h2>成品庫（Storage）</h2></div><div class="store" id="store"></div></footer>
+</div>
+
+<div class="overlay" id="setO"><div class="modal">
+  <div class="mh"><div><h3>⚙ 設定</h3><div class="tl">AI 端點存伺服器端 config.json；提示詞檔直接寫回 引導規範/*.md</div></div><button class="ib" id="setX">✕</button></div>
+  <div class="mb">
+    <h4 style="margin:0 0 6px;font-size:13px">① AI 代理端點（Gemini）</h4>
+    <p class="hint">前半段的生成呼叫這裡。留空端點＝用官方 googleapis。</p>
+    <div class="field"><label>供應商</label><select id="cProvider">
+      <option value="openai">OpenAI 相容（聊天補全／反向代理）</option>
+      <option value="gemini">Gemini 原生</option></select></div>
+    <div class="field"><label>端點 URL（反向代理，通常結尾 /v1）</label><input id="cEndpoint" placeholder="https://你的反向代理/v1"></div>
+    <div class="field"><label>API Key</label><input id="cKey" type="password" placeholder="••••••••"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px"><button class="btn btn-ghost" id="cTest">🔌 測試並列出模型</button><span id="cStat" class="hint" style="margin:0"></span></div>
+    <div class="field"><label>模型（測試後從清單選）</label><select id="cModel"><option value="">（先測試以列出模型）</option></select></div>
+    <div class="field"><label>自訂前置提示詞（每次 AI 生成加在最前面）</label><textarea class="code" id="gpfx" style="min-height:64px" spellcheck="false" placeholder="例：語氣親切、對國小五年級、台南在地脈絡、多用比喻…"></textarea></div>
+
+    <div style="height:1px;background:var(--border);margin:16px 0"></div>
+    <h4 style="margin:0 0 6px;font-size:13px">①-b 素材搜尋（Tavily）</h4>
+    <p class="hint">AI 本身沒有上網能力，直接問它網址一定是編的（實測回的深層網址是 404）。素材搜尋改成「AI 想關鍵字 → Tavily 真的搜 → 爬回內容 → AI 判斷」，網址一律來自真實搜尋結果。免費版每月 1000 次額度，搜過的結果會存進節次資料夾快取，重跑不重複扣。<a href="https://app.tavily.com" target="_blank">申請金鑰</a>（格式 <code>tvly-…</code>）。</p>
+    <div class="field"><label>Tavily API Key</label><input id="tvKey" type="password" autocomplete="new-password" placeholder="tvly-…"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px"><button class="btn btn-ghost" id="tvTest">🔎 測試搜尋</button><span id="tvStat" class="hint" style="margin:0"></span></div>
+
+    <div style="height:1px;background:var(--border);margin:16px 0"></div>
+    <h4 style="margin:0 0 6px;font-size:13px">② 指引提示詞檔（md）</h4>
+    <div class="field"><label>選擇檔案</label><select id="mdPick"></select></div>
+    <textarea class="code" id="mdEdit" spellcheck="false"></textarea>
+    <div style="margin-top:8px"><button class="btn btn-ghost" id="mdSave">💾 儲存此提示詞檔</button></div>
+
+    <div style="height:1px;background:var(--border);margin:16px 0"></div>
+    <h4 style="margin:0 0 6px;font-size:13px">③ Google Classroom / GitHub 發布</h4>
+    <p class="hint">簡報→上傳 Drive 再附；網站(HTML)→發布 GitHub Pages 取得網址再附。授權導向 <code>http://127.0.0.1:8770/oauth/callback</code>（建 OAuth 用戶端時要加這個重新導向 URI）。</p>
+    <div class="field"><label>Google OAuth client_id</label><input id="gClient" placeholder="…apps.googleusercontent.com"></div>
+    <div class="field"><label>Google OAuth client_secret</label><input id="gSecret" type="password" placeholder="••••••••"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+      <button class="btn btn-ghost" id="gAuth">🔑 授權 Google</button>
+      <button class="btn btn-ghost" id="gLogout">清除授權</button>
+      <span id="gStat" class="hint" style="margin:0"></span></div>
+    <div class="field"><label>GitHub token（發布網站用）</label><input id="ghToken" type="password" placeholder="ghp_…"></div>
+    <div class="field"><label>GitHub repo（owner/repo，需開啟 Pages）</label><input id="ghRepo" placeholder="yourname/teaching-sites"></div>
+    <div style="display:flex;gap:8px;align-items:center"><button class="btn btn-primary" id="diagBtn">🔌 連線診斷</button><span id="diagStat" class="hint" style="margin:0"></span></div>
+    <div id="diagBox" class="hint" style="white-space:pre-line;margin-top:8px"></div>
+  </div>
+  <div class="mf"><button class="btn btn-ghost" id="setX2">關閉</button><button class="btn btn-primary" id="cSave">💾 儲存全部設定</button></div>
+</div></div>
+
+<div class="overlay" id="hoO"><div class="modal" style="width:min(760px,100%)">
+  <div class="mh"><div><h3>📦 交接包</h3><div class="tl" id="hoTag"></div></div><button class="ib" id="hoX">✕</button></div>
+  <div class="mb">
+    <p class="hint"><b>方式一 · 送 Claude Code</b>：複製下方文字貼進 Claude Code 做環節調整／HTML。可反白複製。</p>
+    <textarea class="code" id="hoCode" readonly spellcheck="false" style="min-height:200px"></textarea>
+    <div style="height:1px;background:var(--border);margin:14px 0"></div>
+    <p class="hint"><b>方式二 · 打包給 NotebookLM</b>：建立 <code>_LM包</code> 資料夾（教學內容＋指引＋<b>下載好的圖片</b>），整包拖進 NotebookLM。因為 LM 讀不到本機指引與外連圖。</p>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button class="btn btn-primary" id="lmPack">📦 建立 NotebookLM 資料夾</button>
+      <button class="btn btn-ghost" id="lmOpen" style="display:none">📂 開啟資料夾</button>
+      <span id="lmStat" class="hint" style="margin:0"></span>
+    </div>
+  </div>
+  <div class="mf"><button class="btn btn-ghost" id="hoX2">關閉</button><button class="btn btn-primary" id="hoCopy">📋 複製方式一</button></div>
+</div></div>
+
+<div class="overlay" id="spO"><div class="modal">
+  <div class="mh"><div><h3>✂ 計畫切分（專案層級）</h3><div class="tl">貼上課程計畫 → Gemini 依《工作流程規範》切成節次；完成後左側就會長出單元</div></div><button class="ib" id="spX">✕</button></div>
+  <div class="mb">
+    <div class="field"><label>目標群組（學期）</label><select id="spName">
+      <option>四年級上學期</option><option>四年級下學期</option><option>五年級上學期</option><option>五年級下學期</option>
+    </select></div>
+    <div class="field"><label>匯入課程計畫檔（docx / pdf / md / txt / doc）</label>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <input type="file" id="spFile" accept=".docx,.pdf,.md,.txt,.doc,.csv">
+        <span id="spFileStat" class="hint" style="margin:0"></span>
+      </div></div>
+    <div class="field"><label>課程計畫內容（匯入後可再編輯，或直接貼上）</label><textarea class="code" id="spPlan" placeholder="匯入檔案後文字會出現在這，或直接貼上…" style="min-height:180px"></textarea></div>
+    <p class="hint" id="spStat">需先在設定填好 Gemini API Key。</p>
+  </div>
+  <div class="mf"><button class="btn btn-ghost" id="spX2">關閉</button><button class="btn btn-primary" id="spRun">✂ 切分（呼叫 Gemini）</button></div>
+</div></div>
+
+<div class="overlay" id="pubO"><div class="modal">
+  <div class="mh"><div><h3>📤 發布到 Classroom</h3><div class="tl" id="pubFile"></div></div><button class="ib" id="pubX">✕</button></div>
+  <div class="mb">
+    <div class="field"><label>教室（課程）</label><select id="pubCourse"><option>—</option></select></div>
+    <div class="field"><label>發布類型</label><select id="pubType">
+      <option value="material">教材（有標題）</option>
+      <option value="announcement">公告（純文字＋附件，無標題）</option>
+      <option value="coursework">作業（可評分）</option>
+      <option value="question">問題（單選，例如每週簽到）</option></select></div>
+    <div class="field"><label>標題</label><input id="pubTitle"></div>
+    <div class="field"><label id="pubTextLabel">內容文字</label><textarea class="code" id="pubText" style="min-height:100px" spellcheck="false"></textarea></div>
+    <p class="hint" id="pubTplHint" style="display:none">已套用「簽到」預設模板：標題＝第 X 週＋單元名稱、選項＝簽到。之後學習單回寫成績會依「第 X 週」比對到這份問題，不必每份學習單各建一份作業。</p>
+    <p class="hint" id="pubAttach"></p>
+    <p class="hint" id="pubStat"></p>
+  </div>
+  <div class="mf"><button class="btn btn-ghost" id="pubX2">關閉</button><button class="btn btn-primary" id="pubRun">發布</button></div>
+</div></div>
+
+<div class="overlay" id="alO"><div class="modal" style="width:min(460px,100%)">
+  <div class="mh"><div><h3>＋ 新增節次</h3><div class="tl">手動加一個單元；編號留空會自動接續</div></div><button class="ib" id="alX">✕</button></div>
+  <div class="mb">
+    <div class="field"><label>節次編號（可留空自動）</label><input id="alId" placeholder="L03"></div>
+    <div class="field"><label>單元主題</label><input id="alTitle" placeholder="例：Canva 版面配置"></div>
+    <p class="hint" id="alStat"></p>
+  </div>
+  <div class="mf"><button class="btn btn-ghost" id="alX2">關閉</button><button class="btn btn-primary" id="alRun">新增</button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STAGES=["原始計畫","鷹架分析","關鍵字","素材搜尋","篩選勾選","教學環節","成品"];
+const FILES=[null,"01_目標與鷹架.md","02_搜尋關鍵字.md","03_素材候選.md","04_素材清單與缺口.md","05_教學活動流程.md","06_成品"];
+const AIS=[false,true,true,true,false,true,true];
+const GUIDE_FOR=[null,"工作流程規範.md","工作流程規範.md","工作流程規範.md",null,"教學活動設計規範.md",null];
+const IDX={plan0:0, search:3, mat:4, plan:5, product:6};
+const $=s=>document.querySelector(s);
+try{const th=localStorage.getItem('cockpit_theme');if(th)document.documentElement.setAttribute('data-theme',th);}catch(e){}
+let TREE={projects:[]}, pi=0, li=0, si=0;
+let selected=new Set(), lastClick=null, dragFolders=[], curFolder=null;
+
+const api={
+  async tree(){return (await fetch('/api/tree')).json();},
+  async get(path){return (await fetch('/api/file?path='+encodeURIComponent(path))).json();},
+  async put(path,content){return (await fetch('/api/file',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({path,content})})).json();},
+  async settings(){return (await fetch('/api/settings')).json();},
+  async saveSettings(o){return (await fetch('/api/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)})).json();},
+  async guides(){return (await fetch('/api/guides')).json();},
+  async saveLayout(project,layout){return (await fetch('/api/layout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({project,layout})})).json();},
+  async gemini(prompt){return (await fetch('/api/gemini',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})})).json();},
+  async pptx(path){return (await fetch('/api/pptx?path='+encodeURIComponent(path))).json();},
+};
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(window._t);window._t=setTimeout(()=>t.classList.remove("on"),2400);}
+function proj(){return TREE.projects[pi];}
+function lesson(){return proj()&&proj().lessons[li];}
+function basePath(){return 'materials/'+lesson().group+'/'+lesson().folder+'/';}
+function stagePath(i){ const l=lesson();
+  if(i===0) return basePath()+'00_原始計畫.md';
+  if(FILES[i]==='06_成品'){const p=(l.products[0]&&l.products[0].file)||'06_成品.md';return basePath()+p;}
+  return basePath()+FILES[i];}
+
+async function loadTree(){
+  TREE=await api.tree();
+  const ps=$("#proj");ps.innerHTML=TREE.projects.map((p,i)=>`<option value="${i}">${p.name}</option>`).join("");
+  if(!TREE.projects.length){$("#lessons").innerHTML='<p class="hint">還沒有任何節次。<br>點右上 ✂ <b>計畫切分</b>，貼上課程計畫即可產生節次。</p>';
+    $("#lTitle").textContent='尚無節次';$("#lMeta").textContent='';$("#rail").innerHTML='';$("#stage").innerHTML='';$("#store").innerHTML='';$("#prog").textContent='0 / 0';return;}
+  if(pi>=TREE.projects.length)pi=0;
+  // 保留目前開啟的節次（依 folder 重新定位 li）
+  if(curFolder){const idx=proj().lessons.findIndex(x=>x.folder===curFolder);li=idx>=0?idx:0;}
+  if(li>=proj().lessons.length)li=Math.max(0,proj().lessons.length-1);
+  ps.value=pi; render();
+}
+function render(){ renderLessons(); renderRail(); renderStage(); renderStore(); renderProg();
+  const l=lesson(); $("#lTitle").textContent=l?l.title:'—';
+  $("#lMeta").textContent=(l?l.group:''); $("#tplName").textContent='';
+}
+function renderProg(){ let done=0,tot=0; proj().lessons.forEach(l=>{ if(l.stages.slice(1).every(s=>s==='done')) done++; tot++;}); $("#prog").textContent=done+' / '+tot+' 節完成'; }
+function groupsOf(){return proj().groups||[];}
+function byGroup(){const m={};groupsOf().forEach(g=>m[g.id]=[]);proj().lessons.forEach(l=>{(m[l.group]||(m[l.group]=[])).push(l);});return m;}
+function flatVisible(){const m=byGroup();const out=[];groupsOf().forEach(g=>{if(!g.collapsed)(m[g.id]||[]).forEach(l=>out.push(l.folder));});return out;}
+function renderLessons(){
+  const box=$("#lessons");box.innerHTML='';
+  const m=byGroup();
+  groupsOf().forEach(g=>{
+    const gh=document.createElement('div');gh.className='ghead';
+    gh.innerHTML=`<span>${g.collapsed?'▸':'▾'}</span><span>${g.name}</span><span class="gcount">${(m[g.id]||[]).length}</span>`;
+    gh.onclick=()=>toggleGroup(g.id);
+    gh.ondragover=e=>{e.preventDefault();gh.classList.add('dragover');};
+    gh.ondragleave=()=>gh.classList.remove('dragover');
+    gh.ondrop=e=>{e.preventDefault();gh.classList.remove('dragover');dropMove(g.id,null);};
+    box.appendChild(gh);
+    if(g.collapsed)return;
+    (m[g.id]||[]).forEach((l,idx)=>{
+      const dots=l.stages.map(s=>`<span class="dot ${s==='done'?'done':''}"></span>`).join('');
+      const disp=l.folder.replace(/^L\d+[_ ]?/,'')||l.folder;
+      const flatIdx=proj().lessons.findIndex(x=>x.folder===l.folder);
+      const r=document.createElement('div');
+      r.className='lrow'+(flatIdx===li?' cur':'')+(selected.has(l.folder)?' sel':'');
+      r.draggable=true;r.dataset.folder=l.folder;
+      r.innerHTML=`<span class="lnum">L${String(idx+1).padStart(2,'0')}</span><div class="lmain"><div class="lt">${disp}</div><div class="dots">${dots}</div></div>`+
+        `<button class="ib delrow" title="刪除此節次" data-folder="${l.folder}" data-group="${l.group}" style="width:26px;height:26px;font-size:12px;flex:0 0 auto">🗑</button>`;
+      r.onclick=e=>rowClick(e,l,flatIdx);
+      r.ondragstart=()=>{if(!selected.has(l.folder))selected=new Set([l.folder]);dragFolders=[...selected];r.classList.add('dragging');};
+      r.ondragend=()=>{dragFolders=[];box.querySelectorAll('.lrow').forEach(x=>x.classList.remove('dragging','dragover'));};
+      r.ondragover=e=>{e.preventDefault();r.classList.add('dragover');};
+      r.ondragleave=()=>r.classList.remove('dragover');
+      r.ondrop=e=>{e.preventDefault();e.stopPropagation();r.classList.remove('dragover');dropMove(l.group,l.folder);};
+      box.appendChild(r);
+    });
+  });
+  $("#selc").textContent='選取 '+selected.size;
+  box.querySelectorAll('.delrow').forEach(b=>b.onclick=async e=>{
+    e.stopPropagation();const folder=b.dataset.folder;
+    if(!confirm('確定刪除節次「'+folder+'」？此動作會刪掉該資料夾與內容。'))return;
+    const r=await (await fetch('/api/lesson-delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({group:b.dataset.group,folder})})).json();
+    if(r.ok){toast('已刪除 '+folder);selected.delete(folder);if(curFolder===folder)curFolder=null;await loadTree();}else toast('刪除失敗：'+(r.error||''));
+  });
+}
+function rowClick(e,l,flatIdx){
+  if(e.ctrlKey||e.metaKey){ selected.has(l.folder)?selected.delete(l.folder):selected.add(l.folder);lastClick=l.folder;renderLessons();return; }
+  if(e.shiftKey){ const vis=flatVisible();const a=vis.indexOf(lastClick),b=vis.indexOf(l.folder);
+    if(a>=0&&b>=0){const lo=Math.min(a,b),hi=Math.max(a,b);for(let i=lo;i<=hi;i++)selected.add(vis[i]);}else selected.add(l.folder);
+    renderLessons();return; }
+  selected=new Set([l.folder]);lastClick=l.folder;curFolder=l.folder;li=flatIdx;si=firstStage(l);render();
+}
+async function toggleGroup(gid){
+  const collapsed={}; groupsOf().forEach(g=>collapsed[g.id]=(g.id===gid)?!g.collapsed:g.collapsed);
+  await fetch('/api/layout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({collapsed})});
+  await loadTree();
+}
+// 拖動：實際搬移資料夾 + 依位置重新編號（呼叫 /api/arrange）
+async function dropMove(targetGroup,beforeFolder){
+  const moving=dragFolders.slice();dragFolders=[];
+  if(!moving.length||moving.includes(beforeFolder))return;
+  // 以目前每組的順序為基礎，插入 moving
+  const arr={}; groupsOf().forEach(g=>arr[g.id]=byGroup()[g.id].map(l=>l.folder).filter(f=>!moving.includes(f)));
+  if(!arr[targetGroup])arr[targetGroup]=[];
+  if(beforeFolder){const idx=arr[targetGroup].indexOf(beforeFolder);arr[targetGroup].splice(idx<0?arr[targetGroup].length:idx,0,...moving);}
+  else arr[targetGroup].push(...moving);
+  await fetch('/api/arrange',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({arr})});
+  toast('已搬移並重新編號');await loadTree();
+}
+function firstStage(l){const a=l.stages.findIndex(s=>s!=='done');return a<0?IDX.product:a;}
+function renderRail(){
+  const l=lesson(),rail=$("#rail");rail.innerHTML='';
+  l.stages.forEach((s,i)=>{
+    const b=document.createElement('button');b.className='stage';b.setAttribute('aria-selected',i===si);
+    b.innerHTML=`<span class="si ${s==='done'?'done':'todo'}">${s==='done'?'✓':i+1}</span>${STAGES[i]}<span class="ai ${AIS[i]?'':'man'}">${AIS[i]?'AI':'人工'}</span>`;
+    b.onclick=()=>{si=i;renderStage();renderRail();};
+    rail.appendChild(b);
+  });
+}
+async function renderStage(){
+  const box=$("#stage");const i=si,l=lesson();const stat=l.stages[i];
+  // 成品
+  if(i===IDX.product){
+    box.innerHTML=`<div class="editbar"><span class="st ${stat==='done'?'done':'todo'}">${stat==='done'?'已生成':'未生成'}</span></div>`;
+    if(l.products.length){
+      for(const p of l.products){
+        const url='/'+basePath()+encodeURIComponent(p.file);
+        const wrap=document.createElement('div');wrap.style.marginBottom='12px';
+        wrap.innerHTML=`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
+          <b style="font-size:13px">${p.file}</b>
+          ${p.type==='html'?`<a class="htmllink" href="${url}" target="_blank">🖥 本機預覽</a>`:''}
+          ${p.type==='html'?`<button class="btn btn-primary ghBtn" data-file="${p.file}">🚀 發布到 GitHub</button>`:''}
+          <button class="btn btn-ghost pubBtn" data-file="${p.file}" data-ptype="${p.type}">📤 發布到 Classroom</button></div>
+          <div class="hint ghStat" style="margin:0 0 4px"></div>`;
+        box.appendChild(wrap);
+        if(p.file.toLowerCase().endsWith('.pptx')){
+          const td=document.createElement('div');td.className='pptx';td.textContent='轉縮圖中…';wrap.appendChild(td);
+          const r=await api.pptx(basePath()+p.file);
+          td.innerHTML=r.ok?r.thumbs.map(t=>`<img src="/${t.split('/').map(encodeURIComponent).join('/')}">`).join(''):('轉檔失敗：'+(r.error||''));
+        }
+      }
+      box.querySelectorAll('.pubBtn').forEach(b=>b.onclick=()=>openPublish(b.dataset.file,b.dataset.ptype));
+      box.querySelectorAll('.ghBtn').forEach(b=>b.onclick=async()=>{
+        const stat=b.closest('div').parentElement.querySelector('.ghStat');
+        b.disabled=true;stat.textContent='🚀 發布中（SSH push，整包 index.html＋assets）…';
+        const r=await (await fetch('/api/git-publish',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({group:lesson().group,folder:lesson().folder})})).json();
+        b.disabled=false;
+        if(r.ok){stat.innerHTML='✓ 已上線 '+(r.nothing?'（內容無變更）':'')+'：<a href="'+r.url+'" target="_blank">'+r.url+'</a>';toast('已發布到 GitHub Pages');}
+        else stat.textContent='✗ '+r.error;
+      });
+    } else { box.innerHTML+='<p class="hint">尚未生成。到 Claude Code 或用下方 AI 生成。</p>'; await genButton(i);}
+    return;
+  }
+  if(i===IDX.search){ await searchStage(); return; }
+  if(i===IDX.mat){ await crawlStage(); return; }
+  await editable(i);
+}
+// 素材搜尋（03）：AI 想查詢字串 → Tavily 真的搜 → AI 判斷真實內容。
+// 網址一律來自搜尋結果，不讓 AI 憑記憶生網址（實測它生的深層網址是 404）。
+async function searchStage(){
+  const box=$("#stage"), path=stagePath(IDX.search), st=lesson().stages[IDX.search];
+  const existing=await api.get(path);
+  box.innerHTML=`<div class="editbar"><span class="st ${st==='done'?'done':'todo'}">${st==='done'?'已完成':'未開始'}</span>
+    <span class="hint" style="margin:0">AI 想關鍵字 → 真的搜尋 → AI 判斷</span><div class="spacer" style="flex:1"></div>
+    <label class="hint" style="margin:0;display:flex;align-items:center;gap:5px" title="先搜因材網/均一/PhET/國教院等教學來源，再全網補足"><input type="checkbox" id="eduFirst" checked style="margin:0">教學站優先</label>
+    <button class="btn btn-ghost" id="reSearch" title="不用快取、重新打一次搜尋 API">↻ 重新搜尋</button>
+    <button class="btn btn-primary" id="searchBtn">🔎 搜尋素材</button></div>
+    <p class="hint" id="searchStat">搜到的每一筆都是真實網址（可點開），AI 會說明內容與怎麼用在這節課。結果會存成快取，重看不重複扣額度。</p>
+    <div id="searchList"></div><div id="searchActions"></div>
+    <div style="margin-top:14px"><div class="hint">素材候選（03，可手動編輯）：</div>
+    <textarea class="doc" id="ed" style="min-height:160px" spellcheck="false">${escapeHtml(existing.content||'')}</textarea>
+    <div style="margin-top:6px"><button class="btn btn-ghost" id="save">💾 儲存候選</button></div></div>`;
+  $("#save").onclick=async()=>{const w=await api.put(path,$("#ed").value);if(w.ok){toast('已儲存 03');TREE=await api.tree();renderLessons();renderRail();renderProg();}};
+  const run=async(force)=>{
+    $("#searchStat").textContent=force?'⏳ 重新搜尋中（AI 想查詢字串 → 搜尋 → AI 判斷，約需十幾秒）…':'⏳ 搜尋中（AI 想查詢字串 → 搜尋 → AI 判斷，約需十幾秒）…';
+    $("#searchBtn").disabled=$("#reSearch").disabled=true;
+    const r=await (await fetch('/api/material-search',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({group:lesson().group,folder:lesson().folder,force:!!force,eduFirst:$("#eduFirst").checked})})).json();
+    $("#searchBtn").disabled=$("#reSearch").disabled=false;
+    if(!r.ok){$("#searchStat").textContent='✗ '+r.error;return;}
+    let msg=(r.cached?'（快取）':'')+'✓ '+r.count+' 筆';
+    if(r.queries&&r.queries.length)msg+='｜查詢：'+r.queries.join('、');
+    if(r.errors&&r.errors.length)msg+='｜'+r.errors.length+' 組查詢失敗';
+    $("#searchStat").textContent=msg;
+    renderSearch(r.items||[]);
+  };
+  $("#searchBtn").onclick=()=>run(false);
+  $("#reSearch").onclick=()=>run(true);
+  const cached=await (await fetch('/api/material-search',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({group:lesson().group,folder:lesson().folder,peek:true})})).json().catch(()=>({ok:false}));
+  if(cached&&cached.ok&&cached.cached){$("#searchStat").textContent='（快取）✓ '+cached.count+' 筆，可直接勾選，或按「重新搜尋」更新';renderSearch(cached.items||[]);}
+}
+function fitBadge(f){
+  const c={'高':'var(--done)','中':'var(--doing)','低':'var(--muted)'}[f]||'var(--muted)';
+  const bg={'高':'var(--done-soft)','中':'var(--doing-soft)','低':'var(--surface-2)'}[f]||'var(--surface-2)';
+  return f?`<span style="font-size:10.5px;font-weight:800;color:${c};background:${bg};border-radius:99px;padding:1px 8px">適合度 ${f}</span>`:'';
+}
+function renderSearch(items){
+  const box=$("#searchList");
+  box.innerHTML=items.map((it,idx)=>{
+    const dom=`<span class="hint" style="font-size:10.5px">${it.domain||''}</span>`;
+    let inner;
+    if(it.type==='image'){
+      inner=`<img src="${it.url}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'hint',textContent:'圖片載入失敗'}))" style="width:150px;height:100px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">
+        <div class="hint" style="font-size:10.5px;margin-top:4px">📷 圖片 ${dom}</div>
+        <a href="${it.url}" target="_blank" rel="noopener" style="font-size:11px;color:var(--accent-ink)">開啟原圖 ↗</a>`;
+    }else{
+      inner=`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:3px">
+          <a href="${it.url}" target="_blank" rel="noopener" style="font-size:12.5px;font-weight:700;color:var(--accent-ink);text-decoration:none">${escapeHtml(it.title||it.url)} ↗</a>
+          ${fitBadge(it.fit)} ${dom}</div>
+        ${it.summary?`<div style="font-size:12px;margin-bottom:2px">${escapeHtml(it.summary)}</div>`:''}
+        ${it.use?`<div class="hint" style="font-size:11.5px;margin:0"><b style="color:var(--accent-ink)">教學用途：</b>${escapeHtml(it.use)}</div>`:''}
+        ${it.caution?`<div class="hint" style="font-size:11px;margin:2px 0 0;color:var(--doing)">注意：${escapeHtml(it.caution)}</div>`:''}
+        <a href="${it.url}" target="_blank" rel="noopener" class="hint" style="font-size:10.5px">${escapeHtml(it.url.slice(0,72))}</a>`;
+    }
+    return `<label style="display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:8px;cursor:pointer">
+      <input type="checkbox" data-i="${idx}" ${it.fit==='高'?'checked':''} style="width:18px;height:18px;margin-top:2px;accent-color:var(--accent)">
+      <div style="min-width:0;flex:1">${inner}</div></label>`;
+  }).join('')||'<p class="hint">沒有搜到素材。</p>';
+  $("#searchActions").innerHTML=items.length?`<button class="btn btn-primary" id="searchSave" style="margin:4px 0">✓ 採用勾選 → 寫入素材候選（03）</button>`:'';
+  const ss=$("#searchSave"); if(ss) ss.onclick=async()=>{
+    const chk=[...box.querySelectorAll('input:checked')].map(c=>items[+c.dataset.i]);
+    if(!chk.length){toast('至少勾一個');return;}
+    let md='# 素材候選（S5 · 真實搜尋＋AI 判斷）\n\n';
+    chk.forEach((it,i)=>{
+      if(it.type==='image') md+=`${i+1}. 📷 **圖片**（${it.domain||''}）
+   - 網址：${it.url}
+`;
+      else{
+        md+=`${i+1}. 🌐 **${it.title||it.url}**${it.fit?`（適合度 ${it.fit}）`:''}
+   - 網址：${it.url}
+`;
+        if(it.summary) md+=`   - 內容：${it.summary}
+`;
+        if(it.use) md+=`   - 教學用途：${it.use}
+`;
+        if(it.caution) md+=`   - 注意：${it.caution}
+`;
+      }
+    });
+    md+='\n> 網址皆來自實際搜尋結果，非 AI 生成。下一階段「篩選勾選」會再爬取這些連結（下載圖片／抓縮圖）。\n';
+    const w=await api.put(stagePath(IDX.search), md);
+    if(w.ok){toast('已寫入素材候選（03）');$("#ed").value=md;TREE=await api.tree();renderLessons();renderRail();renderProg();}
+  };
+}
+async function crawlStage(){
+  const box=$("#stage"), path=stagePath(IDX.mat);
+  const existing=await api.get(path), st=lesson().stages[IDX.mat];
+  box.innerHTML=`<div class="editbar"><span class="st ${st==='done'?'done':'todo'}">${st==='done'?'已完成':'未開始'}</span>
+    <span class="hint" style="margin:0">篩選勾選（人工）</span><div class="spacer" style="flex:1"></div>
+    <button class="btn btn-primary" id="crawlBtn">🕷 開始爬取素材</button></div>
+    <p class="hint" id="crawlStat">從『素材搜尋(03)』提到的連結爬取：照片下載本機＋說明、影片縮圖＋連結、網站網址＋說明。</p>
+    <div id="crawlList"></div><div id="crawlActions"></div>
+    <div style="margin-top:14px"><div class="hint">素材清單（04，可手動編輯／記缺口）：</div>
+    <textarea class="doc" id="ed" style="min-height:180px" spellcheck="false">${escapeHtml(existing.content||'')}</textarea>
+    <div style="margin-top:6px"><button class="btn btn-ghost" id="save">💾 儲存清單</button></div></div>`;
+  $("#save").onclick=async()=>{const w=await api.put(path,$("#ed").value);if(w.ok){toast('已儲存 04');TREE=await api.tree();renderLessons();renderRail();renderProg();}};
+  $("#crawlBtn").onclick=async()=>{
+    $("#crawlStat").textContent='⏳ 爬取中（下載圖片、抓縮圖與網站說明）…';$("#crawlBtn").disabled=true;
+    const r=await (await fetch('/api/crawl',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({group:lesson().group,folder:lesson().folder})})).json();
+    $("#crawlBtn").disabled=false;
+    if(!r.ok){$("#crawlStat").textContent='✗ '+r.error;return;}
+    $("#crawlStat").textContent='✓ 爬到 '+r.count+' 筆，勾選要採用的素材';
+    renderCrawl(r.items);
+  };
+}
+function renderCrawl(items){
+  const box=$("#crawlList");
+  box.innerHTML=items.map((it,idx)=>{
+    let inner='';
+    if(it.type==='image'){
+      const img=it.file?`<img src="/${it.file.split('/').map(encodeURIComponent).join('/')}" style="width:150px;height:100px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">`:`<div class="hint">下載失敗：${it.error||''}</div>`;
+      inner=`${img}<div style="font-size:12px;font-weight:600;margin-top:4px">${it.caption||''}</div><div class="hint" style="font-size:10.5px">📷 照片（已下載本機）</div>`;
+    }else if(it.type==='video'){
+      inner=`<img src="${it.thumb}" onerror="this.style.display='none'" style="width:150px;height:100px;object-fit:cover;border-radius:6px"><div style="font-size:12px;margin-top:4px">🎬 ${it.caption||'影片'}</div><a href="${it.url}" target="_blank" style="font-size:11px;color:var(--accent-ink)">▶ 開啟影片</a>`;
+    }else{
+      inner=`<div style="font-size:12.5px;font-weight:700">🌐 ${it.title||it.url}</div><div class="hint" style="font-size:11px;margin:2px 0">${it.desc||''}</div><a href="${it.url}" target="_blank" style="font-size:11px;color:var(--accent-ink)">${it.url.slice(0,64)}</a>`;
+    }
+    return `<label style="display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:8px;cursor:pointer">
+      <input type="checkbox" data-i="${idx}" checked style="width:18px;height:18px;margin-top:2px;accent-color:var(--accent)"><div>${inner}</div></label>`;
+  }).join('')||'<p class="hint">沒有可爬取的連結（03 沒有 URL）。</p>';
+  $("#crawlActions").innerHTML=items.length?`<button class="btn btn-primary" id="crawlSave" style="margin:4px 0 4px">✓ 採用勾選 → 寫入素材清單</button>`:'';
+  const cs=$("#crawlSave"); if(cs) cs.onclick=async()=>{
+    const chk=[...box.querySelectorAll('input:checked')].map(c=>items[+c.dataset.i]);
+    let md='# 素材清單與缺口（S7 · 爬取勾選）\n\n## 採用素材\n';
+    chk.forEach((it,i)=>{
+      if(it.type==='image') md+=`${i+1}. 📷 **照片**：${it.caption||''}\n   - 本機：\`${it.file||'(下載失敗)'}\`\n   - 來源：${it.url}\n`;
+      else if(it.type==='video') md+=`${i+1}. 🎬 **影片**：${it.caption||''}\n   - 連結：${it.url}（縮圖 ${it.thumb}）\n`;
+      else md+=`${i+1}. 🌐 **網站**：${it.title||''}\n   - 網址：${it.url}\n   - 說明：${it.desc||''}\n`;
+    });
+    md+='\n## 缺少的必要素材（需老師自製）\n- （在此記錄，如：老師示範錄影、校園實拍）\n';
+    const w=await api.put(stagePath(IDX.mat), md);
+    if(w.ok){toast('已寫入素材清單（04）');$("#ed").value=md;TREE=await api.tree();renderLessons();renderRail();renderProg();}
+  };
+}
+async function editable(i){
+  const box=$("#stage"),stat=lesson().stages[i],path=stagePath(i);
+  const r=await api.get(path);
+  const genBtn = AIS[i]? `<input id="genpfx" placeholder="本次前置提示詞（臨時，可留空）" title="這次生成臨時加在最前面；長期預設在 ⚙ 設定" style="width:min(46%,250px);font-size:12px;padding:6px 9px"><button class="btn btn-ghost" id="gen">🤖 用 Gemini ${r.exists?'重新生成':'生成'}</button>`:'';
+  box.innerHTML=`<div class="editbar"><span class="st ${stat==='done'?'done':'todo'}">${stat==='done'?'已完成':'未開始'}</span>
+    <span class="hint" style="margin:0">${path}</span><div class="spacer" style="flex:1"></div>
+    ${genBtn}<button class="btn btn-primary" id="save">💾 儲存</button></div>
+    <span id="genStat" class="hint" style="display:block;margin:0 0 6px;min-height:16px"></span>
+    <textarea class="doc" id="ed" spellcheck="false">${escapeHtml(r.content||'')}</textarea>`;
+  $("#save").onclick=async()=>{const c=$("#ed").value;const w=await api.put(path,c);
+    if(w.ok){toast('已儲存 → '+path);TREE=await api.tree();renderLessons();renderRail();renderProg();}else toast('存檔失敗');};
+  if($("#gen"))$("#gen").onclick=()=>generate(i);
+}
+async function genButton(i){
+  const box=$("#stage");
+  if(AIS[i])box.innerHTML+=`<div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input id="genpfx" placeholder="本次前置提示詞（臨時，可留空）" style="flex:1;min-width:160px;font-size:12px;padding:6px 9px"><button class="btn btn-ghost" id="gen">🤖 用 Gemini 生成</button></div>`;
+  if($("#gen"))$("#gen").onclick=()=>generate(i);
+}
+async function generate(i){
+  const gs=$("#genStat"); if(gs)gs.textContent='⏳ 生成中…（呼叫 AI）'; const gb=$("#gen"); if(gb)gb.disabled=true;
+  const outline=(await api.get(basePath()+'00_原始計畫.md')).content||'';
+  const prev=i>0?(await api.get(stagePath(i-1))).content||'':outline;
+  let guide='';
+  if(GUIDE_FOR[i]) guide=((await api.get('引導規範/'+GUIDE_FOR[i])).content||'').slice(0,14000);
+  const cfg=await api.settings(); const gpre=(cfg.gen_prefix||'').trim();
+  const inlineEl=document.getElementById('genpfx'); const ipre=inlineEl?inlineEl.value.trim():'';
+  const prefix=[gpre,ipre].filter(Boolean).join('\n\n');
+  const prompt=(prefix?prefix+'\n\n':'')+`你是這位教師的備課協作者。請依《${GUIDE_FOR[i]||'工作流程規範.md'}》的「${STAGES[i]}」階段，為節次「${lesson().title}」產出該階段文件（Markdown，繁體中文，台南在地脈絡）。只輸出該階段 Markdown 內容，不要多餘說明。\n\n===規範節錄===\n${guide}\n\n===本節原始計畫段落===\n${outline.slice(0,4000)}\n\n===前一階段產出===\n${prev.slice(0,6000)}`;
+  const r=await api.gemini(prompt);
+  if(!r.ok){if(gs)gs.textContent='✗ 生成失敗：'+r.error;if(gb)gb.disabled=false;return;}
+  await editable(i);
+  $("#ed").value=r.text;
+  if($("#genStat"))$("#genStat").textContent='✓ 已生成草稿 — 檢查後按「儲存」寫入檔案';
+}
+function renderStore(){
+  const box=$("#store");box.innerHTML='';
+  const items=[];proj().lessons.forEach(l=>l.products.forEach(p=>items.push({l,p})));
+  if(!items.length){box.innerHTML='<p class="hint">尚無成品。完成的簡報/HTML 會回存這裡。</p>';return;}
+  items.forEach(({l,p})=>{
+    const d=document.createElement('div');d.className='prod';
+    const url='/materials/'+l.group+'/'+l.folder+'/'+encodeURIComponent(p.file);
+    d.innerHTML=`<div class="pt">${l.folder.split('_')[0]} · ${p.type==='html'?'HTML':'簡報'}</div>`+
+      (p.type==='html'?`<a class="htmllink" href="${url}" target="_blank">🌐 開啟</a>`:`<span class="hint">${p.file}</span>`);
+    box.appendChild(d);
+  });
+}
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// settings
+function ensureModel(m){const s=$("#cModel");if(m&&![...s.options].some(o=>o.value===m)){const o=document.createElement('option');o.value=o.textContent=m;s.appendChild(o);}if(m)s.value=m;}
+async function openSettings(){
+  const c=await api.settings();
+  $("#cProvider").value=c.provider||'openai';$("#cEndpoint").value=c.endpoint||'';$("#cKey").value=c.key||'';ensureModel(c.model||'');$("#gpfx").value=c.gen_prefix||'';
+  $("#tvKey").value=c.tavily_key||'';$("#tvStat").textContent=c.tavily_key?'已設定':'';
+  $("#gClient").value=c.google_client_id||'';$("#gSecret").value=c.google_client_secret||'';
+  $("#ghToken").value=c.github_token||'';$("#ghRepo").value=c.github_repo||'';
+  $("#gStat").textContent=(c.google_token&&c.google_token.access_token)?'✓ 已授權 Google':'尚未授權';
+  $("#diagBox").textContent='';
+  const g=await api.guides();$("#mdPick").innerHTML=g.files.map(f=>`<option>${f}</option>`).join('');
+  await loadMd();
+  $("#setO").classList.add('on');
+}
+async function loadMd(){const f=$("#mdPick").value;const r=await api.get('引導規範/'+f);$("#mdEdit").value=r.content||'';}
+$("#setBtn").onclick=openSettings;
+$("#setX").onclick=$("#setX2").onclick=()=>$("#setO").classList.remove('on');
+$("#mdPick").onchange=loadMd;
+$("#mdSave").onclick=async()=>{const f=$("#mdPick").value;const w=await api.put('引導規範/'+f,$("#mdEdit").value);toast(w.ok?'已寫回 '+f:'失敗');};
+function curCfg(){return {provider:$("#cProvider").value,endpoint:$("#cEndpoint").value.trim(),model:$("#cModel").value||'',key:$("#cKey").value,gen_prefix:$("#gpfx").value,tavily_key:$("#tvKey").value.trim()};}
+// 測試 Tavily：真的送一次搜尋，回報找到幾筆與第一筆網址（確認金鑰可用、也確認回來的是真網址）
+$("#tvTest").onclick=async()=>{
+  $("#tvStat").textContent='⏳ 測試搜尋中…';
+  await api.saveSettings({tavily_key:$("#tvKey").value.trim()});
+  const r=await (await fetch('/api/search-test')).json();
+  $("#tvStat").innerHTML=r.ok
+    ? `✓ 可用，找到 ${r.count} 筆，例：<a href="${r.sample}" target="_blank">${r.sample}</a>`
+    : '✗ '+r.error;
+};
+function integCfg(){return {google_client_id:$("#gClient").value.trim(),google_client_secret:$("#gSecret").value.trim(),github_token:$("#ghToken").value.trim(),github_repo:$("#ghRepo").value.trim()};}
+$("#cSave").onclick=async()=>{await api.saveSettings({...curCfg(),...integCfg()});toast('全部設定已存到 config.json');};
+$("#gAuth").onclick=async()=>{
+  await api.saveSettings(integCfg());
+  const r=await (await fetch('/api/google/auth-url')).json();
+  if(r.ok){window.open(r.url,'_blank');$("#gStat").textContent='已開啟授權分頁，同意後回來按診斷';}
+  else $("#gStat").textContent='✗ '+r.error;
+};
+$("#gLogout").onclick=async()=>{await fetch('/api/google/logout',{method:'POST'});$("#gStat").textContent='已清除授權';toast('已清除 Google 授權');};
+$("#diagBtn").onclick=async()=>{
+  await api.saveSettings({...curCfg(),...integCfg()});
+  $("#diagStat").textContent='診斷中…';
+  const r=await (await fetch('/api/diagnostics')).json();const d=r.diag||{};
+  const line=(o,name)=>{const s=o.ok===true?'✓':(o.ok===false?'✗':(o.authorized||o.configured||o.client?'…':'—'));return `${s} ${name}：${o.detail||(o.authorized?'已授權':o.configured?'已設定':o.client?'已填用戶端(未授權)':'未設定')}`;};
+  $("#diagBox").textContent=[line(d.ai||{},'AI'),line(d.google||{},'Google Classroom'),line(d.github||{},'GitHub')].join('\n');
+  $("#diagStat").textContent='';
+};
+$("#cTest").onclick=async()=>{
+  $("#cStat").textContent='測試中，取得模型清單…';
+  await api.saveSettings(curCfg());
+  const r=await (await fetch('/api/gemini-models')).json();
+  if(r.ok){
+    const cur=$("#cModel").value;
+    $("#cModel").innerHTML=(r.models.length?r.models:['（無模型）']).map(m=>`<option value="${m}">${m}</option>`).join('');
+    if(r.models.includes(cur))$("#cModel").value=cur;
+    $("#cStat").textContent='✓ 連線成功，'+r.models.length+' 個模型可選';
+  } else $("#cStat").textContent='✗ '+r.error;
+};
+
+// handoff
+$("#handoff").onclick=async()=>{
+  const l=lesson();$("#hoTag").textContent=l.title;
+  const mats=(await api.get(stagePath(IDX.mat))).content||'（尚無素材清單）';
+  const plan=(await api.get(stagePath(IDX.plan))).content||'（尚無教學環節）';
+  $("#hoCode").value=`# 交接包 · ${l.title}\n## 送 Claude Code 調整／NotebookLM 生成\n\n【提醒】影片→簡報留空白標題頁；圖片→已下載本機隨包附上（NotebookLM 不吃外連圖）。\n\n===== 素材清單（04）=====\n${mats}\n\n===== 教學環節（05）=====\n${plan}\n\n→ 在 Claude Code 說「繼續 ${l.title} 的成品製作」。`;
+  $("#hoO").classList.add('on');
+};
+$("#hoX").onclick=$("#hoX2").onclick=()=>$("#hoO").classList.remove('on');
+$("#hoCopy").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText($("#hoCode").value);toast('已複製');};
+let lmFolder='';
+$("#lmPack").onclick=async()=>{
+  $("#lmStat").textContent='打包中（下載圖片…）';$("#lmPack").disabled=true;
+  const rel='materials/'+lesson().group+'/'+lesson().folder;
+  const r=await (await fetch('/api/package-lm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lesson:rel})})).json();
+  $("#lmPack").disabled=false;
+  if(r.ok){lmFolder=r.folder;$("#lmOpen").style.display='';
+    $("#lmStat").textContent=`✓ 已建立：${r.folder}（圖片 ${r.images.length} 張${r.failed.length?('，'+r.failed.length+' 張失敗'):''}）`;
+    toast('已建立 NotebookLM 資料夾');}
+  else $("#lmStat").textContent='✗ '+(r.error||'失敗');
+};
+$("#lmOpen").onclick=()=>{ if(lmFolder) fetch('/api/reveal?path='+encodeURIComponent(lmFolder)); };
+
+// 「問題」發布的預設模板：目前只有一份「簽到」（單選），標題自動帶「第X週 單元名稱」（X 由節次資料夾 L0X 推出）。
+// 之後要加別的模板，往這個物件加一筆、在 #pubType 加對應 option、在 applyPubTemplate 的 switch 接上即可。
+const PUB_TEMPLATES={
+  question_checkin:{title:(wk,topic)=>(wk!=null?('第'+wk+'週 '+topic):topic), text:()=>'簽到'}
+};
+function weekNumOf(){const m=(lesson()&&lesson().folder||'').match(/^L(\d+)/);return m?parseInt(m[1],10):null;}
+function applyPubTemplate(){
+  const type=$("#pubType").value;
+  if(type==='question'){
+    const wk=weekNumOf(),topic=lesson().title.replace(/^L\d+_/,'');
+    const tpl=PUB_TEMPLATES.question_checkin;
+    $("#pubTitle").value=tpl.title(wk,topic);
+    $("#pubText").value=tpl.text();
+    $("#pubTextLabel").textContent='選項（每行一個；預設「簽到」單選）';
+    $("#pubTplHint").style.display='';
+  }else{
+    $("#pubTextLabel").textContent='內容文字';
+    $("#pubTplHint").style.display='none';
+  }
+}
+$("#pubType").onchange=applyPubTemplate;
+async function openPublish(file,ptype){
+  window._pub={file,ptype};
+  $("#pubFile").textContent=file;
+  $("#pubType").value='material';   // 每次開啟重設類型，避免延用上次選的「問題」
+  $("#pubTitle").value=lesson().title.replace(/^L\d+_/,'');
+  $("#pubText").value='';
+  applyPubTemplate();
+  $("#pubAttach").textContent = ptype==='html' ? '附件：發布到 GitHub Pages 取得網址後附連結' : '附件：上傳 Google Drive 後附檔';
+  $("#pubStat").textContent='';$("#pubCourse").innerHTML='<option>載入課程中…</option>';
+  $("#pubO").classList.add('on');
+  const c=await (await fetch('/api/google/courses')).json();
+  if(c.ok){$("#pubCourse").innerHTML=(c.courses.length?c.courses:[{id:'',name:'（無課程）'}]).map(x=>`<option value="${x.id}">${x.name}${x.section?(' · '+x.section):''}</option>`).join('');}
+  else{$("#pubCourse").innerHTML='<option value="">尚未授權</option>';$("#pubStat").textContent='⚠ '+(c.error||'請先在設定授權 Google');}
+}
+$("#pubX").onclick=$("#pubX2").onclick=()=>$("#pubO").classList.remove('on');
+$("#pubRun").onclick=async()=>{
+  const {file,ptype}=window._pub||{};const courseId=$("#pubCourse").value;
+  if(!courseId){$("#pubStat").textContent='沒有可用課程（請先授權）';return;}
+  $("#pubRun").disabled=true;const rel=basePath()+file;let driveId=null,link=null;
+  if(ptype==='html'){
+    $("#pubStat").textContent='發布到 GitHub Pages…';
+    const g=await (await fetch('/api/git-publish',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({group:lesson().group,folder:lesson().folder})})).json();
+    if(!g.ok){$("#pubStat").textContent='✗ GitHub：'+g.error;$("#pubRun").disabled=false;return;}
+    link=g.url;
+  }else{
+    $("#pubStat").textContent='上傳 Google Drive…';
+    const d=await (await fetch('/api/drive-upload',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({path:rel,name:$("#pubTitle").value+'_'+file})})).json();
+    if(!d.ok){$("#pubStat").textContent='✗ Drive：'+d.error;$("#pubRun").disabled=false;return;}
+    driveId=d.id;
+  }
+  $("#pubStat").textContent='發布到 Classroom…';
+  const p=await (await fetch('/api/classroom-publish',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({courseId,type:$("#pubType").value,title:$("#pubTitle").value,text:$("#pubText").value,driveId,link})})).json();
+  $("#pubRun").disabled=false;
+  if(p.ok){$("#pubStat").innerHTML='✓ 已發布！ '+(p.link?`<a href="${p.link}" target="_blank">開啟貼文</a>`:'');toast('已發布到 Classroom');}
+  else $("#pubStat").textContent='✗ '+p.error;
+};
+$("#addLesson").onclick=()=>{ if(!TREE.projects.length){toast('先用 ✂ 計畫切分建立專案');return;} $("#alId").value='';$("#alTitle").value='';$("#alStat").textContent='';$("#alO").classList.add('on'); };
+$("#alX").onclick=$("#alX2").onclick=()=>$("#alO").classList.remove('on');
+$("#alRun").onclick=async()=>{
+  const title=$("#alTitle").value.trim(); if(!title){$("#alStat").textContent='請填單元主題';return;}
+  const grp=(lesson()?lesson().group:(groupsOf()[0]&&groupsOf()[0].id));
+  const r=await (await fetch('/api/lesson-add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({group:grp,title})})).json();
+  if(r.ok){toast('已新增 '+r.folder);curFolder=r.folder;si=0;await loadTree();$("#alO").classList.remove('on');}
+  else $("#alStat").textContent='✗ '+(r.error||'失敗');
+};
+$("#splitBtn").onclick=()=>{$("#spStat").textContent='選學期＋貼/匯入計畫；需先在設定填好 API Key。';$("#spPlan").value='';$("#spO").classList.add('on');};
+$("#spX").onclick=$("#spX2").onclick=()=>$("#spO").classList.remove('on');
+$("#spFile").onchange=async e=>{
+  const f=e.target.files[0]; if(!f)return;
+  $("#spFileStat").textContent='讀取「'+f.name+'」…';
+  const b64=await new Promise(res=>{const r=new FileReader();r.onload=()=>res((r.result+'').split(',')[1]);r.readAsDataURL(f);});
+  const r=await (await fetch('/api/extract',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:f.name,b64})})).json();
+  if(r.ok){$("#spPlan").value=r.text.trim();$("#spFileStat").textContent='✓ 已匯入 '+r.text.length+' 字，可再編輯';
+    if(!$("#spName").value)$("#spName").value=f.name.replace(/\.[^.]+$/,'');}
+  else $("#spFileStat").textContent='✗ '+r.error;
+};
+$("#spRun").onclick=async()=>{
+  $("#spStat").textContent='呼叫 Gemini 切分中…';$("#spRun").disabled=true;
+  const r=await (await fetch('/api/split',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({group:$("#spName").value,plan:$("#spPlan").value})})).json();
+  $("#spRun").disabled=false;
+  if(r.ok){$("#spStat").textContent='✓ 已在「'+r.group+'」建立 '+r.lessons.length+' 個節次';
+    selected=new Set();curFolder=null;li=0;si=0;await loadTree();
+    toast('計畫切分完成：'+r.lessons.length+' 節（含原始計畫段落）');setTimeout(()=>$("#spO").classList.remove('on'),1200);}
+  else $("#spStat").textContent='✗ '+(r.error||'失敗');
+};
+$("#proj").onchange=e=>{pi=+e.target.value;li=0;si=0;selected=new Set();curFolder=null;render();};
+$("#reload").onclick=async()=>{await loadTree();toast('已重新讀取');};
+$("#themeBtn").onclick=()=>{const r=document.documentElement;const cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';r.setAttribute('data-theme',nx);try{localStorage.setItem('cockpit_theme',nx);}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay.on').forEach(o=>o.classList.remove('on'));});
+
+loadTree();
+</script>
+</body>
+</html>

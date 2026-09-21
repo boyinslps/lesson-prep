@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>事實還是意見？｜五上 L02 教學活動</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Noto Sans TC',sans-serif;background:#F4F6FB;color:#1f2430}
+  .cute{font-family:'Baloo 2','Noto Sans TC',cursive}
+  .opt{transition:.15s}
+  .pop{animation:pp .35s}@keyframes pp{0%{transform:scale(.9)}60%{transform:scale(1.05)}100%{transform:scale(1)}}
+  .flip{animation:fl .5s}@keyframes fl{0%{transform:rotateX(90deg);opacity:0}100%{transform:rotateX(0);opacity:1}}
+  .step{scroll-margin-top:84px}
+  .idnum{width:52px;text-align:center}
+  .clausewrap{font-size:1.1rem;line-height:2.4}
+  .clause{cursor:pointer;padding:2px 3px;border-radius:5px;transition:.15s;display:inline}
+  .clause:hover{background:#eef2ff}
+  .clause.mk-fact{background:#dbeafe;text-decoration:underline;text-decoration-color:#2563eb;text-decoration-thickness:3px;color:#1e40af;font-weight:700}
+  .clause.mk-opinion{background:#fee2e2;text-decoration:underline;text-decoration-color:#e11d48;text-decoration-thickness:3px;color:#9f1239;font-weight:700}
+  .slido-wrap{width:100%;display:flex;justify-content:center}
+  .slido-wrap iframe{border:0;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.15);max-width:100%}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="text-slate-800">
+
+<!-- 識別列：年級/班級/座號（數字），頁面最上方，見《學習單資料與提交規範》§1 -->
+<div class="sticky top-0 z-20 bg-white/95 backdrop-blur border-b-2 border-sky-200">
+  <div class="max-w-4xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap text-sm">
+    <span class="cute font-bold text-sky-700">我是誰</span>
+    <label class="flex items-center gap-1 text-slate-500">年級<input id="idGrade" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-sky-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">班級<input id="idClass" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-sky-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">座號<input id="idStudent" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-sky-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <span id="idOk" class="hidden text-emerald-600 font-bold text-xs">✓ 已記住</span>
+  </div>
+</div>
+
+<!-- 老師工具列（僅 #admin 時顯示，控制③投票分類的公布時機） -->
+<div id="teacherbar" class="hidden sticky top-0 z-30 bg-slate-900 text-white text-sm">
+  <div class="max-w-4xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap">
+    <span class="cute font-bold text-amber-300">👩‍🏫 教師模式</span>
+    <span id="tStatus" class="text-slate-300 text-xs"></span>
+    <span id="tTally" class="text-emerald-300 text-xs font-bold"></span>
+    <div class="ml-auto flex gap-2">
+      <button id="viewAnswersBtn" class="bg-emerald-600 hover:bg-emerald-700 font-bold rounded-lg px-3 py-1" title="查看目前的正確答案">👁 檢視答案</button>
+      <button id="uploadBtn" class="bg-sky-600 hover:bg-sky-700 font-bold rounded-lg px-3 py-1" title="備課用：把③的正確答案存進資料庫，只需做一次">⬆ 上傳答案</button>
+      <button id="lockBtn" class="bg-slate-700 hover:bg-slate-600 rounded-lg px-3 py-1" title="回到未公布狀態（用詞特徵與分類答案都會收回）">↩ 還原</button>
+      <button id="previewModeBtn" class="bg-indigo-600 hover:bg-indigo-700 font-bold rounded-lg px-3 py-1" title="暫時隱藏教師工具列，看學生看到的畫面">👀 預覽學生模式</button>
+    </div>
+  </div>
+</div>
+<!-- 預覽學生模式時顯示的浮動返回鍵 -->
+<button id="backToTeacher" class="hidden fixed bottom-4 right-4 z-30 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full px-4 py-2 shadow-lg">↩ 返回教師模式</button>
+
+<div class="max-w-4xl mx-auto px-4 py-6">
+
+  <header class="text-center mb-6">
+    <h1 class="cute text-3xl md:text-5xl font-extrabold text-sky-600">🔍 事實還是意見？</h1>
+    <p class="text-sm text-slate-500 mt-2">五年級上學期 · L02 事實與意見區分 · 教學活動流程</p>
+    <div class="mt-3 flex justify-center gap-2 text-xs flex-wrap">
+      <span class="bg-indigo-100 text-indigo-700 rounded-full px-3 py-1 font-bold">① 課前影片</span>
+      <span class="bg-amber-100 text-amber-700 rounded-full px-3 py-1 font-bold">② 解密比喻</span>
+      <span class="bg-emerald-100 text-emerald-700 rounded-full px-3 py-1 font-bold">③ 找線索</span>
+      <span class="bg-teal-100 text-teal-700 rounded-full px-3 py-1 font-bold">④ 偵探畫線</span>
+    </div>
+    <p id="syncBadge" class="hidden mt-2 text-xs text-emerald-600 font-bold">🔗 已連線：老師公布③的答案時，這台會自動同步</p>
+  </header>
+
+  <!-- ===== ① 課前影片 ===== -->
+  <section id="s1" class="step">
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <h2 class="cute text-2xl font-extrabold text-indigo-700">① 課前影片</h2>
+    </div>
+    <div class="aspect-video rounded-2xl overflow-hidden shadow-sm">
+      <iframe class="w-full h-full" src="https://www.youtube.com/embed/_bjdd9XZAbI" title="課前影片" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- ===== ② 解密：溫度計 vs 穿衣服 ===== -->
+  <section id="s2" class="step mt-10">
+    <div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <h2 class="cute text-2xl font-extrabold text-amber-700">② 兩把量尺：溫度計 ／ 穿衣服</h2>
+      <p class="text-slate-600 mt-1 font-bold">🌤️ 如果有人問你：「今天天氣怎麼樣？」你會怎麼回答？</p>
+      <div class="mt-3 grid sm:grid-cols-2 gap-3">
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3">
+          <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-sky-100 text-sky-700">🌡️ 事實</span>
+          <p class="mt-2 text-sm text-slate-700">「現在<b>溫度</b>是攝氏 25 度。」──拿溫度計量，大家量出來都一樣。</p>
+        </div>
+        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3">
+          <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700">👕 意見</span>
+          <p class="mt-2 text-sm text-slate-700">「今天<b>很熱</b>，我只穿一件短袖。」──有多熱、多冷、穿幾件衣服，每個人感覺不同。</p>
+        </div>
+      </div>
+      <p class="text-slate-600 mt-3">同一個天氣，可以有兩種回答！點一下下面的卡片，看看這兩種回答分別叫做什麼名字。</p>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-4">
+      <button class="metaphor text-left bg-white border-4 border-sky-300 rounded-2xl p-5 hover:shadow-md" data-m="fact">
+        <div class="text-4xl">🌡️</div>
+        <h3 class="cute text-xl font-extrabold text-sky-700 mt-1">事實 ＝ 溫度計</h3>
+        <p class="text-sm text-slate-600 mt-1">有刻度、大家量出來都一樣，<b>可以查證</b>。</p>
+        <div class="mex hidden mt-3 bg-sky-50 rounded-xl p-3 text-sm text-sky-900">〔例〕今天氣溫 25 度。──可以拿溫度計量，答案唯一。</div>
+      </button>
+      <button class="metaphor text-left bg-white border-4 border-rose-300 rounded-2xl p-5 hover:shadow-md" data-m="opinion">
+        <div class="text-4xl">👕</div>
+        <h3 class="cute text-xl font-extrabold text-rose-700 mt-1">意見 ＝ 穿幾件衣服</h3>
+        <p class="text-sm text-slate-600 mt-1">有多熱、多冷、要<b>穿幾件衣服</b>，每個人感覺不一樣，<b>沒有標準答案</b>。</p>
+        <div class="mex hidden mt-3 bg-rose-50 rounded-xl p-3 text-sm text-rose-900">〔例〕今天天氣很舒服。──有人覺得冷、有人覺得剛好，因人而異。</div>
+      </button>
+    </div>
+    <p class="text-center text-sm text-slate-500 mt-3">👉 判斷口訣：「拿尺量得出對錯的，是事實；只能問你覺不覺得的，是意見。」</p>
+  </section>
+
+  <!-- ===== ③ 找線索：觀察範例 → Slido 分享發現 → 換你分類（教師公布） ===== -->
+  <section id="s3" class="step mt-10">
+    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <h2 class="cute text-2xl font-extrabold text-emerald-700">③ 偵探的第一步：找出線索
+        <span class="align-middle text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">🧪 體驗，不計分</span>
+      </h2>
+      <p class="text-slate-600 mt-1">下面分成兩組，主題都不一樣。先看看<b>「事實句」</b>這組有什麼共同點，再看看<b>「意見句」</b>這組有什麼共同點。</p>
+    </div>
+
+    <p class="font-bold text-sky-700 mb-2">🔵 以下都是事實句：</p>
+    <div id="examplesFact" class="grid sm:grid-cols-2 gap-3 mb-4"></div>
+    <p class="font-bold text-rose-700 mb-2">🔴 以下都是意見句：</p>
+    <div id="examplesOpinion" class="grid sm:grid-cols-2 gap-3"></div>
+
+    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 my-5 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap mb-2">
+        <p class="text-lg font-bold text-emerald-700 m-0">📝 你發現了嗎？事實句跟意見句，在用詞上有什麼不同？打字分享你發現的「線索」！</p>
+        <button id="revealWordsBtn" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold rounded-lg px-3 py-1.5" title="僅教師 #admin 可見">🎉 公布用詞特徵</button>
+      </div>
+      <div class="slido-wrap">
+        <iframe src="https://app.sli.do/event/1oGrbvgpbJquwtoX9Y8KkX/embed/polls/c477dc45-d294-47d4-87bd-cbd807fe7fb2" width="300" height="400" allow="clipboard-write"></iframe>
+      </div>
+    </div>
+
+    <div id="wordFeatureBox" class="hidden bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm flip">
+      <h3 class="cute text-xl font-extrabold text-emerald-700 mb-3">🔑 老師公布：事實與意見的用詞特徵</h3>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4">
+          <p class="font-bold text-sky-700 mb-1">🔵 事實</p>
+          <p class="text-sm text-slate-700 mb-2">用詞特徵：中性名詞、精確數字、時間、地點、客觀動詞。</p>
+          <p class="text-sm text-slate-700">典型關鍵詞：據……統計、平均、海拔、位於、結果顯示、發生於……</p>
+        </div>
+        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4">
+          <p class="font-bold text-rose-700 mb-1">🔴 意見</p>
+          <p class="text-sm text-slate-700 mb-2">常含主觀形容詞、程度副詞、感受詞與價值判斷詞。</p>
+          <p class="text-sm text-slate-700">典型關鍵詞：覺得、認為、最好、最差、非常、太……、應該、令人……</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap">
+        <h3 class="cute text-xl font-extrabold text-emerald-700 m-0">🕵️ 換你來分類</h3>
+        <button id="revealClassifyBtn" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold rounded-lg px-3 py-1.5" title="僅教師 #admin 可見">🎉 公布分類答案</button>
+      </div>
+      <p class="text-sm text-slate-600 mb-2">用你剛剛發現的線索，幫下面幾句話投票：是事實還是意見？投完票先別急，等老師公布答案。</p>
+      <div class="inline-flex items-center gap-2 bg-emerald-50 border-2 border-emerald-200 rounded-full px-4 py-1.5 text-sm font-bold text-emerald-700">
+        <span>🗳️ 已投票</span><span id="voted">0 / 5</span>
+      </div>
+    </div>
+
+    <div id="grid" class="grid sm:grid-cols-2 gap-4"></div>
+
+    <div id="result" class="hidden mt-6 text-center bg-gradient-to-b from-emerald-100 to-sky-100 border-4 border-emerald-300 rounded-3xl p-6 pop">
+      <div class="text-5xl mb-1">🎯</div>
+      <h3 class="cute text-2xl font-extrabold text-emerald-700">公布答案！</h3>
+      <p class="text-lg mt-2">你答對了 <span id="score" class="cute text-3xl text-sky-600 font-extrabold">0</span> / <span id="scoreTotal">5</span></p>
+    </div>
+
+    <div id="factNote" class="hidden mt-4 bg-sky-50 border-2 border-sky-200 rounded-2xl p-4 text-sm text-sky-900 flip">
+      💡 <b>事實不等於正確！</b> 事實句只代表這件事「可以被查證」，不代表它一定是對的——對不對，要看查證出來的結果。（想一想：剛剛的句子裡，有沒有哪一句其實是假的，卻依然是事實句？）
+    </div>
+  </section>
+
+  <!-- ===== ④ 任務：偵探畫線 ===== -->
+  <section id="s4" class="step mt-10">
+    <div class="bg-white border-4 border-teal-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <h2 class="cute text-2xl font-extrabold text-teal-700">④ 換你當偵探：把事實跟意見拆開</h2>
+      <p class="text-slate-600 mt-1">下面這篇文章把事實跟意見混在一起了。先選一個顏色，再點文章裡的句子把它畫線標出來。</p>
+      <div class="mt-3 flex items-center gap-2">
+        <button id="modeFact" class="modebtn flex-1 border-2 rounded-xl py-2 font-bold">🔵 標事實</button>
+        <button id="modeOpinion" class="modebtn flex-1 border-2 rounded-xl py-2 font-bold">🔴 標意見</button>
+      </div>
+      <p class="text-xs text-slate-400 mt-2">已選色：<span id="curMode" class="font-bold"></span>　·　點一次標記，再點一次取消</p>
+    </div>
+
+    <div class="bg-white border-4 border-teal-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <div id="passage" class="clausewrap text-slate-800"></div>
+    </div>
+
+    <button id="resetClauses" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl px-4 py-3">🔄 清除重來</button>
+  </section>
+
+  <!-- ===== 繳交學習單 ===== -->
+  <section class="step mt-10">
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 mb-5 shadow-sm text-center">
+      <h2 class="cute text-xl font-extrabold text-indigo-700 mb-1">📮 繳交學習單</h2>
+      <p class="text-sm text-slate-500 mb-3">確定都填好了嗎？按下面按鈕交給老師（④畫線由老師後續核對並計算成績，可以重交，會覆蓋前一次）。</p>
+      <button id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white cute text-xl font-extrabold rounded-2xl py-3">繳交學習單</button>
+      <p id="submitStat" class="text-sm font-bold mt-3 min-h-[20px]"></p>
+    </div>
+  </section>
+
+  <!-- 繳交成功才出現：完成獎勵 -->
+  <section id="rewardBox" class="hidden text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-7 mt-6">
+    <div class="text-6xl mb-2 pop">🎉</div>
+    <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
+    <div class="flex flex-wrap gap-3 justify-center mt-4">
+      <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener"
+         class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-xl font-extrabold rounded-2xl px-8 py-3">🎮 打字英雄</a>
+      <a href="https://gemini.google.com/share/0adbaeae6c16?skid=751ce4ac-860d-4160-8a1a-12a1ebcf6f1d" target="_blank" rel="noopener"
+         class="cute inline-block bg-white border-4 border-indigo-300 hover:bg-indigo-50 text-indigo-700 text-xl font-extrabold rounded-2xl px-8 py-3">🕹️ 更多遊戲</a>
+    </div>
+  </section>
+
+  <footer class="text-center text-xs text-slate-400 mt-8 pb-4">教師公布③的答案：在網址列加上 <code class="bg-slate-200 rounded px-1">#admin</code> 後重新整理。③投票和④畫線交出去後由老師核對計分。</footer>
+</div>
+
+<script>
+/* ============================================================
+   Firebase 同步設定（沿用 pcclass-94300 專案，單機模式把 firebaseConfig 設為 null 即可）
+   ============================================================ */
+var firebaseConfig = {
+  apiKey:"AIzaSyAaodBvsP-BSovON14izt22DOXeH40TTGM",
+  authDomain:"pcclass-94300.firebaseapp.com",
+  projectId:"pcclass-94300",
+  storageBucket:"pcclass-94300.firebasestorage.app",
+  messagingSenderId:"1034787516465",
+  appId:"1:1034787516465:web:73c334b2ddad152c472510",
+  measurementId:"G-37P75R7TZ7"
+};
+var TEACHER_EMAIL = "boyin0304@slps.tn.edu.tw";
+var QUIZ_ID = "L02";
+var WS_ID = "g5-L02";
+
+(function(){
+  var IS_ADMIN = location.hash === '#admin';
+  var REVIEW_ID=(function(){try{return new URLSearchParams(location.search).get('review');}catch(e){return null;}})();
+
+  var PREVIEW_KEY='wk_previewMode';
+  if(!IS_ADMIN){
+    try{ if(sessionStorage.getItem(PREVIEW_KEY)==='1')document.getElementById('backToTeacher').classList.remove('hidden'); }catch(e){}
+  }
+
+  // ===== 識別列 =====
+  var ID_KEY='wk_identity';
+  function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
+  function loadIdentity(){try{return JSON.parse(localStorage.getItem(ID_KEY)||'{}')}catch(e){return {}}}
+  function saveIdentity(o){try{localStorage.setItem(ID_KEY,JSON.stringify(o))}catch(e){}}
+  function getIdentity(){
+    var g=digits(document.getElementById('idGrade').value),c=digits(document.getElementById('idClass').value),s=digits(document.getElementById('idStudent').value);
+    return {grade:g?Number(g):null,className:c?Number(c):null,studentId:s?Number(s):null};
+  }
+  function identityValid(id){return id.grade!=null&&id.className!=null&&id.className>=1&&id.className<=14&&id.studentId!=null;}
+  function clampClass(v){while(v!==''&&Number(v)>14)v=v.slice(0,-1);return v;}
+  (function initIdentity(){
+    var saved=loadIdentity();
+    if(saved.grade)document.getElementById('idGrade').value=saved.grade;
+    if(saved.className)document.getElementById('idClass').value=saved.className;
+    if(saved.studentId)document.getElementById('idStudent').value=saved.studentId;
+    if(identityValid(saved))document.getElementById('idOk').classList.remove('hidden');
+    ['idGrade','idClass','idStudent'].forEach(function(id){
+      var el=document.getElementById(id);
+      el.addEventListener('input',function(){
+        var d=digits(el.value);
+        if(id==='idClass')d=clampClass(d);
+        if(d!==el.value)el.value=d;
+        var idn=getIdentity();
+        if(identityValid(idn)){saveIdentity(idn);document.getElementById('idOk').classList.remove('hidden');}
+        else document.getElementById('idOk').classList.add('hidden');
+      });
+    });
+  })();
+
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  // ===== ② 比喻演示：點卡展開範例 =====
+  document.querySelectorAll('.metaphor').forEach(function(b){
+    b.addEventListener('click',function(){ b.querySelector('.mex').classList.toggle('hidden'); });
+  });
+
+  // ===== ③ 找線索：觀察範例（已標好答案，供學生自己歸納規律，不是投票題） =====
+  var factExamples=[
+    '太陽從東方升起，西方落下。',
+    '台灣最高峰為玉山，海拔高度為 <b>3,952 公尺</b>。',
+    '氣候變遷導致全球平均氣溫在過去一世紀中上升了約 <b>1.1°C</b>。',
+    '傳統台南牛肉湯的作法是將生牛肉切成薄片放入碗中，再將滾燙的高湯（約 <b>85°C–90°C</b>）直接沖入碗內，利用餘溫將肉片燙至半熟。'
+  ];
+  var opinionExamples=[
+    '台南牛肉湯是全台灣<b>最好吃</b>的早餐。',
+    '數學是所有學科當中<b>最有趣、最迷人</b>的科目。',
+    '這本小說的結尾寫得<b>太悲傷了</b>，令人感到<b>非常遺憾</b>。',
+    '社群媒體對現代人的社交生活造成了<b>很不好的</b>影響。'
+  ];
+  function renderExamples(el,list,isFact){
+    list.forEach(function(t){
+      var d=document.createElement('div');
+      d.className='bg-white border-4 rounded-2xl p-4 shadow-sm '+(isFact?'border-sky-200':'border-rose-200');
+      d.innerHTML='<p class="text-sm text-slate-700 leading-relaxed">'+t+'</p>';
+      el.appendChild(d);
+    });
+  }
+  renderExamples(document.getElementById('examplesFact'),factExamples,true);
+  renderExamples(document.getElementById('examplesOpinion'),opinionExamples,false);
+
+  // ===== ③ 換你來分類（教師公布，Firebase 同步）=====
+  var items=[
+    {t:'台南市教育局公告，全市國小將於下週三舉辦防災演練。',type:'fact'},
+    {t:'這波高溫熱到讓人幾乎融化，實在讓人受不了。',type:'opinion'},
+    {t:'研究指出，習慣早睡早起的族群，其心血管疾病風險通常低於深夜作息的人。',type:'fact'},
+    {t:'中央氣象署發布，今天台南地區高溫達 35 度。',type:'fact'},
+    {t:'我認為這次防災演練安排得非常用心。',type:'opinion'},
+    {t:'台南孔廟建於西元 2024 年。',type:'fact'}
+  ];
+  var state={votes:{},revealed:false,revealedWords:false,clauses:{},_pushed:false};
+  var ANSWERS=null;
+  function answerOf(i){return (ANSWERS&&ANSWERS.length===items.length)?ANSWERS[i]:items[i].type;}
+  function save(){try{localStorage.setItem('g5L02flow',JSON.stringify({votes:state.votes,clauses:state.clauses}))}catch(e){}}
+  function load(){try{var d=localStorage.getItem('g5L02flow');if(d){var o=JSON.parse(d)||{};state.votes=o.votes||{};state.clauses=o.clauses||{};}}catch(e){}}
+  load();state._pushed=false;
+
+  var grid=document.getElementById('grid');
+  items.forEach(function(it,i){
+    var c=document.createElement('div');
+    c.className='card bg-white border-4 border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col';
+    c.setAttribute('data-qid','v'+(i+1));c.setAttribute('data-qtype','score');
+    c.innerHTML=
+      '<div class="flex items-start gap-2 mb-2"><span class="cute text-lg font-extrabold text-slate-400">'+(i+1)+'</span>'+
+        '<div class="font-bold text-slate-700 leading-snug">'+esc(it.t)+'</div></div>'+
+      '<div class="mt-auto grid grid-cols-2 gap-2">'+
+        '<button class="vt v-fact opt border-2 border-slate-200 rounded-lg py-2 font-bold hover:border-sky-400" data-v="fact">🔵 事實</button>'+
+        '<button class="vt v-opinion opt border-2 border-slate-200 rounded-lg py-2 font-bold hover:border-rose-400" data-v="opinion">🔴 意見</button>'+
+      '</div><div class="reveal hidden mt-3 text-sm rounded-xl p-3"></div>';
+    grid.appendChild(c);
+    var btns=c.querySelectorAll('.vt');
+    btns.forEach(function(b){b.onclick=function(){
+      if(state.revealed)return;
+      state.votes[i]=b.dataset.v;
+      btns.forEach(function(x){x.classList.remove('bg-indigo-100','border-indigo-400','text-indigo-700')});
+      b.classList.add('bg-indigo-100','border-indigo-400','text-indigo-700');
+      updateVoted();save();
+    }});
+    if(state.votes[i]!==undefined)
+      c.querySelector(state.votes[i]==='fact'?'.v-fact':'.v-opinion').classList.add('bg-indigo-100','border-indigo-400','text-indigo-700');
+  });
+  function updateVoted(){document.getElementById('voted').textContent=Object.keys(state.votes).length+' / '+items.length;}
+  updateVoted();
+  function scoreNow(){var n=0;items.forEach(function(it,i){if(state.votes[i]!==undefined&&state.votes[i]===answerOf(i))n++});return n;}
+
+  function doReveal(){
+    if(state.revealed && !document.getElementById('result').classList.contains('hidden'))return;
+    state.revealed=true;save();
+    Array.prototype.forEach.call(grid.children,function(c,i){
+      var it=items[i];
+      c.querySelectorAll('.vt').forEach(function(b){b.disabled=true;b.classList.add('opacity-60')});
+      var rev=c.querySelector('.reveal'),voted=state.votes[i],ans=answerOf(i),got=voted!==undefined&&voted===ans;
+      var isFact=ans==='fact';
+      c.className='card border-4 rounded-2xl p-4 shadow-sm flex flex-col '+(isFact?'bg-sky-50 border-sky-300':'bg-rose-50 border-rose-300');
+      rev.className='reveal mt-3 text-sm rounded-xl p-3 flip bg-white '+(isFact?'text-sky-800':'text-rose-800');
+      rev.innerHTML='<b>'+(isFact?'🔵 這是事實句':'🔴 這是意見句')+'</b>'+
+        (voted===undefined?' <span class="text-slate-400">（你沒投票）</span>':(got?' <span class="text-emerald-600">· 你答對了！</span>':' <span class="text-amber-600">· 再想想</span>'));
+      rev.classList.remove('hidden');
+    });
+    var correct=scoreNow();
+    document.getElementById('score').textContent=correct;
+    document.getElementById('scoreTotal').textContent=items.length;
+    var r=document.getElementById('result');r.classList.remove('hidden');
+    document.getElementById('factNote').classList.remove('hidden');
+    r.scrollIntoView({behavior:'smooth',block:'center'});
+    if(!IS_ADMIN)pushResult(correct);
+  }
+  function doRevealWords(){
+    if(state.revealedWords)return;
+    state.revealedWords=true;
+    var box=document.getElementById('wordFeatureBox');
+    box.classList.remove('hidden');
+    box.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+
+  // ===== ④ 偵探畫線：國華街文章（不在頁面揭曉，老師後台核對計分）=====
+  var clauses=[
+    {text:'位於台南市中西區的國華街全長約 1.5 公里',type:'fact',sep:'，'},
+    {text:'是全台灣最有魅力的美食聖地',type:'opinion',sep:'。'},
+    {text:'這裡聚集了小卷米粉、碗粿等多家在地老店',type:'fact',sep:'，'},
+    {text:'每逢週末假日總是人山人海，可見大家都不想錯過這座城市最棒的古早味。',type:'opinion',sep:'¶'},
+    {text:'在所有小吃中，國華街的牛肉湯最令人驚艷',type:'opinion',sep:'，'},
+    {text:'它不僅是當地美食，更有著一段30年的發展歷史',type:'fact',sep:'，'},
+    {text:'大家可能很難相信',type:'opinion',sep:'，'},
+    {text:'早期的台灣其實是不吃牛肉的',type:'fact',sep:'，'},
+    {text:'因為當時牛隻是幫忙農夫下田種地的農耕動物',type:'fact',sep:'，'},
+    {text:'直到日本政府推廣食用牛肉的風氣，這開啟了台灣人對牛肉的接受和食用。',type:'fact',sep:'¶'},
+    {text:'在台南，善化區和鹽水區是主要的牛墟所在，這也促成了牛肉湯在當地的廣泛流行',type:'fact',sep:'。'},
+    {text:'其製作方式包括將溫體牛肉切成薄片，再與以牛大骨熬煮的清湯一同烹煮，使肉片五至七分熟，最後搭配白飯或肉燥飯食用',type:'fact',sep:'。'},
+    {text:'比起其他縣市的紅燒牛肉麵，這種清湯牛肉湯更能完美展現食材的原味',type:'opinion',sep:'。'},
+    {text:'鮮甜的湯頭讓人一喝就感到無比幸福，如果來到台南卻沒有喝到牛肉湯，這趟行程可說是完全白費了。',type:'opinion',sep:''}
+  ];
+  var activeMode='fact';
+  function paintModeBtns(){
+    document.getElementById('modeFact').className='modebtn flex-1 border-2 rounded-xl py-2 font-bold '+(activeMode==='fact'?'bg-sky-100 border-sky-500 text-sky-700':'border-slate-200 text-slate-500');
+    document.getElementById('modeOpinion').className='modebtn flex-1 border-2 rounded-xl py-2 font-bold '+(activeMode==='opinion'?'bg-rose-100 border-rose-500 text-rose-700':'border-slate-200 text-slate-500');
+    document.getElementById('curMode').textContent=activeMode==='fact'?'🔵 事實':'🔴 意見';
+    document.getElementById('curMode').className='font-bold '+(activeMode==='fact'?'text-sky-600':'text-rose-600');
+  }
+  document.getElementById('modeFact').onclick=function(){activeMode='fact';paintModeBtns();};
+  document.getElementById('modeOpinion').onclick=function(){activeMode='opinion';paintModeBtns();};
+  paintModeBtns();
+
+  var passageEl=document.getElementById('passage');
+  function renderPassage(){
+    var html='';
+    clauses.forEach(function(cl,i){
+      var mk=state.clauses[i];
+      var cls='clause'+(mk?(' mk-'+mk):'');
+      html+='<span class="'+cls+'" data-i="'+i+'">'+esc(cl.text)+'</span>';
+      if(cl.sep==='¶')html+='<br><br>';
+      else html+=esc(cl.sep);
+    });
+    passageEl.innerHTML=html;
+    passageEl.querySelectorAll('.clause').forEach(function(sp){
+      sp.onclick=function(){
+        var i=Number(sp.dataset.i);
+        if(state.clauses[i]===activeMode)delete state.clauses[i];
+        else state.clauses[i]=activeMode;
+        save();renderPassage();
+      };
+    });
+  }
+  renderPassage();
+  document.getElementById('resetClauses').onclick=function(){ state.clauses={};save();renderPassage(); };
+
+  /* ================= Firebase 同步層（③ 投票分類的教師公布）================= */
+  var db=null,auth=null,quizRef=null;
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+  function ensureAuth(){return (auth&&auth.currentUser)?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user});}
+
+  document.getElementById('submitBtn').onclick=function(){
+    var idn=getIdentity();
+    if(!identityValid(idn)){alert('請先在最上方填好年級、班級（1-14）、座號（都是數字）。');window.scrollTo({top:0,behavior:'smooth'});return;}
+    if(!db){alert('系統尚未連線，請稍後或重新整理頁面。');return;}
+    var scoreAnswers={},answers={},qtypes={};
+    var totalCorrect=0,totalScored=items.length+clauses.length;
+    items.forEach(function(it,i){var qid='v'+(i+1),given=state.votes[i];given=(given===undefined)?null:given;var correct=answerOf(i),ok=given!=null&&given===correct;
+      if(ok)totalCorrect++;
+      scoreAnswers[qid]={given:given,correct:correct,isCorrect:ok};answers[qid]=given;qtypes[qid]='score';});
+    clauses.forEach(function(cl,i){var qid='c'+(i+1),given=state.clauses[i];given=(given===undefined)?null:given;var correct=cl.type,ok=given===correct;
+      if(ok)totalCorrect++;
+      scoreAnswers[qid]={given:given,correct:correct,isCorrect:ok};answers[qid]=given;qtypes[qid]='score';});
+    var accuracyRate=Math.round(totalCorrect/totalScored*100);
+    if(!confirm('確定要繳交嗎？③投票和④畫線都會計分，交出去後由老師核對，不會馬上顯示對錯。'))return;
+    var docId=WS_ID+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;
+    var payload={worksheetId:WS_ID,worksheetTitle:'事實與意見區分',lessonPath:'g5/L02',
+      grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      answers:answers,qtypes:qtypes,scoreAnswers:scoreAnswers,experienceAnswers:{},openAnswers:{},
+      accuracyRate:accuracyRate,experienceCompletion:null,
+      status:'submitted',submittedAt:firebase.firestore.FieldValue.serverTimestamp()};
+    var btn=this,stat=document.getElementById('submitStat');
+    btn.disabled=true;stat.className='text-sm font-bold mt-3 min-h-[20px] text-indigo-600';stat.textContent='繳交中…';
+    ensureAuth().then(function(){return db.collection('submissions').doc(docId).set(payload,{merge:true});})
+      .then(function(){
+        btn.disabled=false;btn.textContent='重新繳交（覆蓋）';
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-emerald-600';
+        stat.textContent='✓ 已繳交。可再按一次覆蓋更新。';
+        var rb=document.getElementById('rewardBox');rb.classList.remove('hidden');rb.scrollIntoView({behavior:'smooth'});
+      }).catch(function(e){
+        btn.disabled=false;
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-amber-600';
+        stat.textContent='繳交失敗：'+e.message+'（可能是老師尚未部署 Firestore 規則）';
+      });
+  };
+  function pushResult(correct){
+    if(!db||!auth||!auth.currentUser)return;if(state._pushed)return;state._pushed=true;
+    quizRef.collection('results').doc(auth.currentUser.uid)
+      .set({score:correct,total:items.length,at:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}).catch(function(){});
+  }
+
+  // ===== 教師：檢視目前已上傳的正確答案——直接把答案填進頁面本身（投票選起來、畫線標起來），
+  // 不是另開彈窗列表；「↩ 還原」按鈕會一併清空（見《學習單資料與提交規範》§5-7）=====
+  function fillAnswersIn(){
+    items.forEach(function(it,i){
+      var ans=answerOf(i);
+      state.votes[i]=ans;
+      var card=grid.children[i];if(!card)return;
+      card.querySelectorAll('.vt').forEach(function(b){
+        var on=b.dataset.v===ans;
+        b.classList.toggle('bg-indigo-100',on);b.classList.toggle('border-indigo-400',on);b.classList.toggle('text-indigo-700',on);
+      });
+    });
+    updateVoted();
+    clauses.forEach(function(cl,i){state.clauses[i]=cl.type;});
+    renderPassage();
+  }
+  // 清掉「檢視答案」填進去的內容（不影響 Firestore 上的正確答案本身，只清這台裝置畫面上的顯示）
+  function clearFilledAnswers(){
+    state.votes={};
+    Array.prototype.forEach.call(grid.children,function(card){
+      card.querySelectorAll('.vt').forEach(function(b){b.classList.remove('bg-indigo-100','border-indigo-400','text-indigo-700');});
+    });
+    updateVoted();
+    state.clauses={};
+    renderPassage();
+  }
+  document.getElementById('viewAnswersBtn').onclick=function(){
+    fillAnswersIn();
+    alert('✓ 已將目前的正確答案填入頁面（投票已選好、文章已畫線）。按工具列的「↩ 還原」可以清空回歸空白。');
+  };
+
+  // ===== 教師：檢視某位學生的繳交作答（唯讀重現），見《學習單資料與提交規範》§5-7 =====
+  function applyReview(data){
+    var banner=document.createElement('div');
+    banner.style.cssText='position:sticky;top:0;z-index:40;background:#4f46e5;color:#fff;text-align:center;font-weight:700;padding:8px;font-size:14px';
+    banner.innerHTML='🔍 檢視模式（唯讀）：'+esc(String(data.grade)+'年'+String(data.className)+'班'+String(data.studentId)+'號')+' 的作答　<a href="'+location.pathname+'#admin" style="text-decoration:underline;color:#fff">✕ 離開檢視</a>';
+    document.body.insertBefore(banner,document.body.firstChild);
+    var ans=data.answers||{};
+    items.forEach(function(it,i){
+      var qid='v'+(i+1),given=ans[qid];
+      if(given==null)return;
+      state.votes[i]=given;
+      var card=grid.children[i];if(!card)return;
+      card.querySelectorAll('.vt').forEach(function(b){
+        b.disabled=true;
+        if(b.dataset.v===given)b.classList.add('bg-indigo-100','border-indigo-400','text-indigo-700');
+      });
+    });
+    updateVoted();
+    clauses.forEach(function(cl,i){
+      var qid='c'+(i+1),given=ans[qid];
+      if(given!=null)state.clauses[i]=given;
+    });
+    renderPassage();
+    document.querySelectorAll('#passage .clause').forEach(function(sp){sp.onclick=null;sp.style.cursor='default';});
+    var submitSec=document.getElementById('submitBtn');if(submitSec&&submitSec.closest('section'))submitSec.closest('section').style.display='none';
+    var rb=document.getElementById('rewardBox');if(rb)rb.remove();
+  }
+  function maybeApplyReview(){
+    if(!REVIEW_ID||!db)return;
+    db.collection('submissions').doc(REVIEW_ID).get().then(function(doc){
+      if(!doc.exists){alert('找不到這筆繳交紀錄：'+REVIEW_ID);return;}
+      applyReview(doc.data());
+    }).catch(function(e){console.warn('讀取繳交紀錄失敗',e);});
+  }
+
+  function boot(){
+    if(!firebaseConfig){ if(IS_ADMIN)teacherOffline(); return; }
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    loadScript(base+'firebase-app-compat.js')
+      .then(function(){return loadScript(base+'firebase-auth-compat.js')})
+      .then(function(){return loadScript(base+'firebase-firestore-compat.js')})
+      .then(function(){
+        firebase.initializeApp(firebaseConfig);db=firebase.firestore();auth=firebase.auth();
+        quizRef=db.collection('quizzes').doc(QUIZ_ID);
+        document.getElementById('syncBadge').classList.remove('hidden');
+        quizRef.onSnapshot(function(doc){var d=(doc&&doc.data())||{};
+          if(Array.isArray(d.answers)&&d.answers.length===items.length)ANSWERS=d.answers;
+          if(d.revealedWords&&!state.revealedWords)doRevealWords();
+          if(d.revealed&&!state.revealed)doReveal();
+          if((!d.revealed&&state.revealed)||(!d.revealedWords&&state.revealedWords))location.reload();
+        },function(e){console.warn('讀取失敗',e);});
+        if(IS_ADMIN)teacherOnline();
+        else{
+          var unsubStudent=auth.onAuthStateChanged(function(u){
+            if(unsubStudent)unsubStudent();unsubStudent=null;
+          });
+        }
+      })
+      .catch(function(e){console.warn('Firebase 啟用失敗，改用單機模式',e);if(IS_ADMIN)teacherOffline();});
+  }
+  function showBar(){document.getElementById('teacherbar').classList.remove('hidden');}
+  document.getElementById('previewModeBtn').onclick=function(){
+    if(!confirm('會清空這台裝置上已填寫的身分（年級/班級/座號）與作答，改成全新未填寫的畫面，確定要預覽嗎？'))return;
+    try{localStorage.removeItem(ID_KEY);localStorage.removeItem('g5L02flow');}catch(e){}
+    try{sessionStorage.setItem(PREVIEW_KEY,'1');}catch(e){}
+    location.href=location.pathname+location.search;
+  };
+  document.getElementById('backToTeacher').onclick=function(){
+    try{sessionStorage.removeItem(PREVIEW_KEY);}catch(e){}
+    location.href=location.pathname+location.search+'#admin';
+    location.reload();
+  };
+  function showAdminRevealButtons(){
+    document.getElementById('revealWordsBtn').classList.remove('hidden');
+    document.getElementById('revealClassifyBtn').classList.remove('hidden');
+  }
+  function teacherOffline(){
+    showBar();document.getElementById('tStatus').textContent='單機模式（答案已內建，免上傳）';
+    var pw=prompt('教師密碼：');if(pw!=='1234'){if(pw!==null)alert('密碼錯誤');document.getElementById('teacherbar').classList.add('hidden');return;}
+    showAdminRevealButtons();
+    var up=document.getElementById('uploadBtn');if(up)up.onclick=function(){alert('單機模式：答案已內建，不需上傳。');};
+    document.getElementById('revealWordsBtn').onclick=doRevealWords;
+    document.getElementById('revealClassifyBtn').onclick=doReveal;
+    document.getElementById('lockBtn').onclick=function(){location.reload();};
+  }
+  function wireTeacherUI(email){
+    document.getElementById('tStatus').textContent='已登入 '+email;
+    maybeApplyReview();
+    showAdminRevealButtons();
+    var up=document.getElementById('uploadBtn');
+    if(up)up.onclick=function(){up.disabled=true;up.textContent='上傳中…';
+      quizRef.set({answers:items.map(function(it){return it.type}),answersAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})
+        .then(function(){up.disabled=false;up.textContent='✓ 已上傳';setTimeout(function(){up.textContent='⬆ 上傳答案';},2500);
+          alert('✓ 正確答案已存進資料庫（只需這一次）。之後上課只要用下面各段的「🎉 公布」按鈕即可。');})
+        .catch(function(e){up.disabled=false;up.textContent='⬆ 上傳答案';alert('上傳失敗：'+e.message);});};
+    document.getElementById('revealWordsBtn').onclick=function(){quizRef.set({revealedWords:true,revealedWordsAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});};
+    document.getElementById('revealClassifyBtn').onclick=function(){quizRef.set({revealed:true,revealedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});};
+    document.getElementById('lockBtn').onclick=function(){
+      if(!confirm('確定要還原成未公布狀態嗎？（用詞特徵與分類答案都會收回，「檢視答案」填進畫面的內容也會一併清空）'))return;
+      clearFilledAnswers();
+      quizRef.set({revealed:false,revealedWords:false},{merge:true});
+    };
+    quizRef.collection('results').onSnapshot(function(qs){var n=qs.size,sum=0;qs.forEach(function(d){sum+=(d.data().score||0)});
+      document.getElementById('tTally').textContent='已交卷 '+n+' 人 · 平均 '+(n?(sum/n).toFixed(1):'0')+' / '+items.length;});
+  }
+  function teacherOnline(){
+    showBar();
+    var handled=false;
+    var unsub=auth.onAuthStateChanged(function(u){
+      if(handled)return;handled=true;if(unsub)unsub();
+      if(u&&!u.isAnonymous&&u.email){ wireTeacherUI(u.email); return; }
+      var email=prompt('教師 Email：',TEACHER_EMAIL);if(email===null){document.getElementById('teacherbar').classList.add('hidden');return;}
+      var pw=prompt('密碼：');if(pw===null){document.getElementById('teacherbar').classList.add('hidden');return;}
+      auth.signInWithEmailAndPassword(email,pw).then(function(cred){wireTeacherUI(cred.user.email);})
+        .catch(function(e){alert('登入失敗：'+e.message);document.getElementById('teacherbar').classList.add('hidden');});
+    });
+  }
+  boot();
+
+  var phases=[['s1','① 課前影片'],['s2','② 解密比喻'],['s3','③ 找線索'],['s4','④ 偵探畫線']];
+  window.addEventListener('scroll',function(){var y=window.scrollY+120,cur=phases[0][1];
+    phases.forEach(function(p){var el=document.getElementById(p[0]);if(el&&el.offsetTop<=y)cur=p[1];});
+  },{passive:true});
+})();
+</script>
+
+<!--
+================= Firestore 規則（③ 投票分類跨裝置同步公布）=================
+沿用 L01 的 firestore.rules（見《互動教材進階規範》§2.4／評分平台/firestore.rules）：
+quizzes/{L02}、submissions 都已涵蓋在既有規則的通用路徑內，無需額外新增規則。
+Authentication 需啟用：匿名（學生）＋ 電子郵件/密碼（老師 boyin0304@slps.tn.edu.tw）。
+用法：學生開一般網址作答；老師開 網址#admin → 登入 → 「⬆ 上傳答案」（僅需一次）→
+上課時按「🎉 公布」→ 全班③投票卡同步翻答案（公布後會出現「事實不等於正確」說明），老師看「已交卷 N 人 · 平均 X/5」。
+③投票與④偵探畫線都計入 accuracyRate；④不在頁面揭曉，學生直接繳交，老師於評分平台後台核對計分。
+=====================================================================
+-->
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台南地圖大發現｜家鄉數位領航員 L02</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Noto Sans TC',sans-serif;background:#FFFBF5;}
+  .cute{font-family:'Baloo 2','Noto Sans TC',cursive;}
+  .card{transition:transform .15s, box-shadow .15s;}
+  .card:hover{transform:translateY(-2px);}
+  .opt{transition:all .15s;}
+  .shake{animation:sh .3s;}
+  @keyframes sh{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  .pop{animation:pp .3s;}
+  @keyframes pp{0%{transform:scale(.9)}60%{transform:scale(1.05)}100%{transform:scale(1)}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="text-slate-800">
+
+<div class="max-w-3xl mx-auto px-4 py-6">
+
+  <!-- 標題 -->
+  <header class="text-center mb-6">
+    <h1 class="cute text-3xl md:text-4xl font-extrabold text-orange-600">🗺️ 台南地圖大發現</h1>
+    <p class="text-sm text-slate-500 mt-1">家鄉數位領航員 · 第 2 節</p>
+    <div class="mt-3 inline-flex items-center gap-2 bg-white border-2 border-orange-200 rounded-full px-4 py-1.5 text-sm font-bold">
+      <span>🏅 進度</span>
+      <span id="prog" class="text-orange-600">0 / 4</span>
+    </div>
+  </header>
+
+  <!-- 區塊1：認得幾個 -->
+  <section class="card bg-white border-4 border-sky-300 rounded-3xl p-5 mb-5 shadow-sm">
+    <h2 class="cute text-xl font-extrabold text-sky-700 mb-1">① 這些地方你認得幾個？</h2>
+    <p class="text-sm text-slate-600 mb-3">點一下你去過或聽過的地方。</p>
+    <div id="known" class="grid grid-cols-2 sm:grid-cols-3 gap-2"></div>
+    <p id="knownFb" class="text-sm font-bold mt-3 min-h-[24px]"></p>
+  </section>
+
+  <!-- 區塊2：猜區 -->
+  <section class="card bg-white border-4 border-orange-300 rounded-3xl p-5 mb-5 shadow-sm">
+    <h2 class="cute text-xl font-extrabold text-orange-700 mb-1">② 猜猜看，它在哪一區？</h2>
+    <p class="text-sm text-slate-600 mb-3">台南有 37 個區。先猜猜看，再用地圖驗證！</p>
+    <div class="bg-orange-50 rounded-2xl p-4 text-center mb-3">
+      <div class="text-4xl mb-1">🏯</div>
+      <div class="font-bold text-lg">赤崁樓</div>
+    </div>
+    <div id="guess" class="grid grid-cols-3 gap-2"></div>
+    <p id="guessFb" class="text-sm font-bold mt-3 min-h-[24px]"></p>
+  </section>
+
+  <!-- 區塊3：查證 -->
+  <section class="card bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm">
+    <h2 class="cute text-xl font-extrabold text-emerald-700 mb-1">③ 這個資料對嗎？</h2>
+    <p class="text-sm text-slate-600 mb-3">老師查資料時，有網站說：<b class="text-emerald-800">「孔廟在東區」</b><br>你覺得該怎麼辦？</p>
+    <div id="verify" class="space-y-2"></div>
+    <p id="verifyFb" class="text-sm font-bold mt-3 min-h-[24px]"></p>
+  </section>
+
+  <!-- 區塊4：配對 -->
+  <section class="card bg-white border-4 border-purple-300 rounded-3xl p-5 mb-5 shadow-sm">
+    <h2 class="cute text-xl font-extrabold text-purple-700 mb-1">④ 景點住在哪一區？</h2>
+    <p class="text-sm text-slate-600 mb-3">先點景點，再點它所在的區。</p>
+    <div class="mb-3">
+      <div class="text-xs font-bold text-slate-500 mb-1">景點</div>
+      <div id="spots" class="flex flex-wrap gap-2"></div>
+    </div>
+    <div>
+      <div class="text-xs font-bold text-slate-500 mb-1">行政區</div>
+      <div id="dists" class="flex flex-wrap gap-2"></div>
+    </div>
+    <p id="matchFb" class="text-sm font-bold mt-3 min-h-[24px]"></p>
+  </section>
+
+  <!-- 區塊5：個人化生成器 -->
+  <section class="card bg-white border-4 border-teal-300 rounded-3xl p-5 mb-5 shadow-sm">
+    <h2 class="cute text-xl font-extrabold text-teal-700 mb-1">⑤ 我想介紹的地方</h2>
+    <p class="text-sm text-slate-600 mb-3">填一填，就會變成你的介紹句子。</p>
+    <div class="space-y-2">
+      <input id="i1" class="w-full border-2 border-slate-200 rounded-xl px-3 py-2 focus:border-teal-400 outline-none" placeholder="景點名稱（例：安平古堡）">
+      <input id="i2" class="w-full border-2 border-slate-200 rounded-xl px-3 py-2 focus:border-teal-400 outline-none" placeholder="在台南的哪一區？">
+      <input id="i3" class="w-full border-2 border-slate-200 rounded-xl px-3 py-2 focus:border-teal-400 outline-none" placeholder="我想介紹它，因為…">
+    </div>
+    <button id="gen" class="mt-3 w-full bg-teal-500 hover:bg-teal-600 text-white font-bold rounded-xl py-2.5">✨ 產生我的介紹</button>
+    <div id="out" class="hidden mt-3 bg-teal-50 border-2 border-teal-200 rounded-2xl p-4">
+      <p id="outText" class="font-bold text-teal-900 leading-relaxed"></p>
+      <button id="copy" class="mt-2 text-sm bg-white border-2 border-teal-300 rounded-lg px-3 py-1 font-bold text-teal-700">📋 複製</button>
+    </div>
+  </section>
+
+  <!-- 完成 -->
+  <section id="done" class="hidden text-center bg-gradient-to-b from-amber-100 to-orange-100 border-4 border-amber-300 rounded-3xl p-6">
+    <div class="text-5xl mb-2">🎉</div>
+    <h2 class="cute text-2xl font-extrabold text-orange-700">全部完成！</h2>
+    <p class="text-sm text-slate-700 mt-2">你已經認識台南的區，也選好想介紹的地方了。<br>下一步，我們要把它變成作品！</p>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var done={known:false,guess:false,verify:false,match:false};
+
+  function save(){try{localStorage.setItem('l02',JSON.stringify(done));}catch(e){}}
+  function load(){try{var d=localStorage.getItem('l02');if(d)done=JSON.parse(d);}catch(e){}}
+  load();
+
+  function prog(){
+    var n=Object.keys(done).filter(function(k){return done[k];}).length;
+    document.getElementById('prog').textContent=n+' / 4';
+    if(n===4){var d=document.getElementById('done');d.classList.remove('hidden');d.classList.add('pop');}
+    save();
+  }
+
+  // ① 認得幾個
+  var places=[{e:'🏯',n:'赤崁樓'},{e:'🏰',n:'安平古堡'},{e:'🏬',n:'林百貨'},
+              {e:'🖼️',n:'奇美博物館'},{e:'🍜',n:'花園夜市'},{e:'🏮',n:'神農街'}];
+  var kEl=document.getElementById('known'),picked=0;
+  places.forEach(function(p){
+    var b=document.createElement('button');
+    b.className='opt border-2 border-slate-200 rounded-2xl p-3 text-center hover:border-sky-400';
+    b.innerHTML='<div class="text-2xl">'+p.e+'</div><div class="text-sm font-bold mt-1">'+p.n+'</div>';
+    b.onclick=function(){
+      if(b.dataset.on){b.dataset.on='';b.className='opt border-2 border-slate-200 rounded-2xl p-3 text-center hover:border-sky-400';picked--;}
+      else{b.dataset.on='1';b.className='opt border-2 border-sky-500 bg-sky-50 rounded-2xl p-3 text-center';picked++;}
+      document.getElementById('knownFb').innerHTML='<span class="text-sky-700">你認得 '+picked+' 個！這些都在我們住的台南。</span>';
+      if(picked>0&&!done.known){done.known=true;prog();}
+    };
+    kEl.appendChild(b);
+  });
+
+  // ② 猜區
+  var gEl=document.getElementById('guess');
+  [['中西區',true],['安平區',false],['東區',false]].forEach(function(o){
+    var b=document.createElement('button');
+    b.className='opt border-2 border-slate-200 rounded-xl py-2.5 font-bold hover:border-orange-400';
+    b.textContent=o[0];
+    b.onclick=function(){
+      if(o[1]){
+        b.className='opt border-2 border-emerald-500 bg-emerald-50 text-emerald-700 rounded-xl py-2.5 font-bold';
+        document.getElementById('guessFb').innerHTML='<span class="text-emerald-600">✓ 答對了！赤崁樓在中西區。用地圖查查看，是不是真的？</span>';
+        if(!done.guess){done.guess=true;prog();}
+      }else{
+        b.className='opt border-2 border-amber-400 bg-amber-50 text-amber-700 rounded-xl py-2.5 font-bold shake';
+        document.getElementById('guessFb').innerHTML='<span class="text-amber-600">再想想～ 提示：它離台南火車站不遠喔。</span>';
+      }
+    };
+    gEl.appendChild(b);
+  });
+
+  // ③ 查證
+  var vEl=document.getElementById('verify');
+  [['直接相信，網站寫的一定對',false,'網站也會寫錯喔！要自己查一次才安心。'],
+   ['用 Google 地圖查一次，看它到底在哪區',true,'✓ 沒錯！查證就是自己去確認一次。（孔廟其實在中西區）'],
+   ['問旁邊的同學就好',false,'同學也可能記錯。最好的方法是去查資料來源。']
+  ].forEach(function(o){
+    var b=document.createElement('button');
+    b.className='opt w-full text-left border-2 border-slate-200 rounded-xl px-3 py-2.5 font-bold hover:border-emerald-400';
+    b.textContent=o[0];
+    b.onclick=function(){
+      if(o[1]){
+        b.className='opt w-full text-left border-2 border-emerald-500 bg-emerald-50 text-emerald-700 rounded-xl px-3 py-2.5 font-bold';
+        if(!done.verify){done.verify=true;prog();}
+      }else{
+        b.className='opt w-full text-left border-2 border-amber-400 bg-amber-50 text-amber-700 rounded-xl px-3 py-2.5 font-bold shake';
+      }
+      document.getElementById('verifyFb').innerHTML='<span class="'+(o[1]?'text-emerald-600':'text-amber-600')+'">'+o[2]+'</span>';
+    };
+    vEl.appendChild(b);
+  });
+
+  // ④ 配對
+  var pairs=[['安平古堡','安平區'],['林百貨','中西區'],['巴克禮公園','東區']];
+  var sel=null,ok=0;
+  var sEl=document.getElementById('spots'),dEl=document.getElementById('dists');
+  function chip(t,cls){var b=document.createElement('button');
+    b.className='opt border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-bold hover:border-purple-400 '+cls;
+    b.textContent=t;return b;}
+  pairs.forEach(function(p){
+    var b=chip(p[0],'');
+    b.onclick=function(){
+      if(b.disabled)return;
+      if(sel)sel.className=sel.className.replace(' border-purple-500 bg-purple-50','');
+      sel=b;b.className+=' border-purple-500 bg-purple-50';
+      document.getElementById('matchFb').innerHTML='<span class="text-purple-600">選好了！現在點它所在的區。</span>';
+    };
+    sEl.appendChild(b);
+  });
+  ['安平區','中西區','東區'].forEach(function(d){
+    var b=chip(d,'');
+    b.onclick=function(){
+      if(!sel){document.getElementById('matchFb').innerHTML='<span class="text-amber-600">先點上面的景點喔！</span>';return;}
+      var match=pairs.some(function(p){return p[0]===sel.textContent&&p[1]===d;});
+      if(match){
+        sel.disabled=true;b.disabled=true;
+        sel.className='border-2 border-emerald-500 bg-emerald-50 text-emerald-700 rounded-xl px-3 py-2 text-sm font-bold';
+        b.className='border-2 border-emerald-500 bg-emerald-50 text-emerald-700 rounded-xl px-3 py-2 text-sm font-bold';
+        sel=null;ok++;
+        document.getElementById('matchFb').innerHTML='<span class="text-emerald-600">✓ 配對成功！（'+ok+'/3）</span>';
+        if(ok===3){
+          document.getElementById('matchFb').innerHTML='<span class="text-emerald-600">🎊 全部配對完成！你認識台南的區了。</span>';
+          if(!done.match){done.match=true;prog();}
+        }
+      }else{
+        b.classList.add('shake');setTimeout(function(){b.classList.remove('shake');},300);
+        document.getElementById('matchFb').innerHTML='<span class="text-amber-600">不是這一區喔，再想想～</span>';
+      }
+    };
+    dEl.appendChild(b);
+  });
+
+  // ⑤ 生成器
+  document.getElementById('gen').onclick=function(){
+    var a=document.getElementById('i1').value.trim()||'＿＿＿';
+    var b=document.getElementById('i2').value.trim()||'＿＿＿';
+    var c=document.getElementById('i3').value.trim()||'＿＿＿';
+    document.getElementById('outText').textContent='「'+a+'」在台南的「'+b+'」，我想介紹它，因為'+c+'。';
+    var o=document.getElementById('out');o.classList.remove('hidden');o.classList.add('pop');
+  };
+  document.getElementById('copy').onclick=function(){
+    var t=document.getElementById('outText').textContent;
+    if(navigator.clipboard)navigator.clipboard.writeText(t);
+    document.getElementById('copy').textContent='✓ 已複製';
+  };
+
+  prog();
+})();
+</script>
+</body>
+</html>

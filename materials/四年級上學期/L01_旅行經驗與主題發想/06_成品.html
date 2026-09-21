@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台南小導遊養成記｜四上 L01</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Noto Sans TC',sans-serif;background:#FFFBF3;color:#243b53;font-size:21px;line-height:1.75}
+  .cute{font-family:'Baloo 2','Noto Sans TC',cursive}
+  .shot{border-radius:14px;border:3px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.14);width:100%;display:block}
+  .pop{animation:pp .35s}@keyframes pp{0%{transform:scale(.94)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
+  .vwrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+  .vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .slido-wrap{width:100%;height:480px;border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+  .slido-wrap iframe{width:100%;height:100%;border:0}
+  .lcard{cursor:grab;user-select:none;touch-action:none;border:3px solid #e9d5ff;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+  .lcard img{width:100%;height:88px;object-fit:cover;display:block;pointer-events:none}
+  .lcard .lname{font-size:17px;font-weight:800;text-align:center;padding:6px 4px;color:#6d28d9}
+  .lcard.placed{opacity:0;pointer-events:none}
+  .lcard.shake{animation:shake .4s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .lghost{position:fixed;z-index:50;pointer-events:none;width:108px;border:3px solid #a78bfa;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:.95}
+  .lghost img{width:100%;height:72px;object-fit:cover;display:block}
+  .lghost .lname{font-size:14px;font-weight:800;text-align:center;padding:4px;color:#6d28d9}
+  .dzone{position:absolute;width:9.5%;aspect-ratio:1/1;min-width:32px;max-width:44px;transform:translate(-50%,-50%);border-radius:50%;
+    border:3px dashed rgba(124,58,237,.6);background:rgba(255,255,255,.3);transition:background .15s,border-color .15s,border-style .15s;overflow:hidden}
+  .dzone.over{background:rgba(237,233,254,.92);border-color:#7c3aed;border-style:solid}
+  .dzone.wrong{background:rgba(254,226,226,.92);border-color:#ef4444;border-style:solid}
+  .dzone.done{border-style:solid;border-color:#7c3aed;border-width:4px;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+  .dzone img{width:100%;height:100%;object-fit:cover;display:none}
+  .dzone.done img{display:block}
+  .dzone .mark{position:absolute;right:-2px;bottom:-2px;font-size:18px;line-height:1;display:none;filter:drop-shadow(0 1px 1px #fff)}
+  .dzone.done .mark{display:block}
+  .field{font-size:22px}
+  .idnum{width:52px;text-align:center}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  input,textarea{font-family:inherit}
+</style>
+</head>
+<body>
+
+<!-- 識別列：年級/班級/學號（數字），頁面最上方，見《學習單資料與提交規範》§1 -->
+<div class="sticky top-0 z-20 bg-white/95 backdrop-blur border-b-2 border-orange-200">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap text-sm">
+    <span class="cute font-bold text-orange-700">我是誰</span>
+    <label class="flex items-center gap-1 text-slate-500">年級<input id="idGrade" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-orange-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">班級<input id="idClass" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-orange-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">座號<input id="idStudent" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-orange-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <span id="idOk" class="hidden text-emerald-600 font-bold text-xs">✓ 已記住</span>
+  </div>
+</div>
+
+<div class="max-w-5xl mx-auto px-4 py-6">
+
+  <!-- 標題 -->
+  <header class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center mb-6">
+    <div class="text-5xl">🧭</div>
+    <div>
+      <h1 class="cute text-4xl md:text-5xl font-extrabold text-orange-600 leading-tight">台南小導遊養成記</h1>
+      <p class="text-slate-500">四年級上學期 · 第 1 課：旅行經驗與主題發想</p>
+    </div>
+  </header>
+
+  <!-- ===== 第一節 ===== -->
+  <div class="flex items-center gap-3 my-5">
+    <div class="h-1 flex-1 bg-orange-200 rounded"></div>
+    <span class="cute text-xl font-extrabold text-orange-500">第一節 · 找景點</span>
+    <div class="h-1 flex-1 bg-orange-200 rounded"></div>
+  </div>
+
+  <!-- ① 開場動機 -->
+  <section class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-6 shadow-sm">
+    <h2 class="cute text-3xl font-extrabold text-sky-700 mb-3">① 台南，超好玩！</h2>
+
+    <div class="mb-5">
+      <p class="text-xl font-bold text-sky-800 mb-2">📝 你有去台南哪些地方旅遊過？打幾個字上去，看看全班拼出什麼台南地圖！</p>
+      <div class="slido-wrap">
+        <iframe src="https://app.sli.do/event/57BADTynVjSF6x6cgNGDva" title="台南旅遊地點文字雲" allow="clipboard-write"></iframe>
+      </div>
+    </div>
+
+    <p class="text-2xl mb-3">每年有<b class="text-sky-700">好幾百萬人</b>特地搭高鐵來台南玩。</p>
+    <p class="text-2xl mb-3">如果有外國 YouTuber 要你當導遊帶路 —— 你是不是<b class="text-sky-700">一片空白</b>？😅</p>
+    <p class="text-xl text-slate-600">我們每天住在台南，把它當成「經過的地方」。但在別人眼中，這裡是<b>特地要來的觀光勝地</b>。今天我們用「觀光客的眼睛」重新看台南！</p>
+    <div class="mt-4 bg-sky-50 rounded-2xl p-3">
+      <p class="text-xl font-bold text-sky-800 mb-2">🙋 你帶人玩過台南嗎？</p>
+      <div class="flex gap-3 flex-wrap">
+        <button class="warm bg-sky-100 hover:bg-sky-200 rounded-xl px-4 py-2 font-bold text-sky-700" data-fb="太棒了！你已經有一點導遊經驗，今天讓它升級！">帶過 😎</button>
+        <button class="warm bg-sky-100 hover:bg-sky-200 rounded-xl px-4 py-2 font-bold text-sky-700" data-fb="沒關係！今天就是你的第一次，我們一步一步來。">還沒 🤔</button>
+      </div>
+      <p id="warmFb" class="font-bold text-sky-700 mt-2 min-h-[28px]"></p>
+    </div>
+  </section>
+
+  <!-- ② 認識台南：行政區與景點配對 -->
+  <section class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-6 shadow-sm">
+    <h2 class="cute text-3xl font-extrabold text-violet-700 mb-1">② 認識台南：行政區在哪裡？</h2>
+    <p class="text-xl text-slate-600 mb-4">台南這麼大，其實是分成好多個「行政區」管理的！</p>
+
+    <div class="bg-violet-50 rounded-2xl p-4 mb-5">
+      <p class="text-2xl mb-2">台南市總共有 <b class="text-violet-700 text-3xl">37</b> 個行政區！</p>
+      <p class="text-lg text-slate-600 mb-3">民國 99 年，原本的「台南市」和「台南縣」合併升格，兩邊的區域全部改叫「區」——原台南市的
+        <b class="text-violet-700">中西、東、南、北、安平、安南</b> 6 區，加上原台南縣的
+        <b class="text-violet-700">永康、仁德、新化、麻豆…</b>等 31 個鄉鎮，合起來就是現在的 37 區。</p>
+      <img src="assets/台南行政區域圖.png" alt="台南市 37 行政區地圖" class="shot" style="max-width:420px;margin:0 auto">
+    </div>
+
+    <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 mb-5">
+      <p class="text-xl font-bold text-amber-800 mb-2">🏫 看看我們學校的地址</p>
+      <p class="text-2xl font-bold text-center text-amber-700 bg-white rounded-xl py-3 mb-3">701 臺南市東區中西里勝利路 10 號</p>
+      <p class="text-xl font-bold text-amber-800">🤔 勝利國小在哪一區呢？</p>
+    </div>
+
+    <h3 class="cute text-2xl font-extrabold text-violet-700 mb-1">🗺️ 景點配對：把景點拖進正確的行政區！</h3>
+    <p class="text-lg text-slate-600 mb-3">先來認識 6 個代表性的行政區。看看下面的景點，把它<b>拖到地圖上</b>正確的區域！</p>
+
+    <div class="bg-violet-50/60 border-2 border-violet-200 rounded-2xl p-3 mb-4">
+      <div id="distMapWrap" class="relative mx-auto rounded-xl overflow-hidden" style="max-width:460px;aspect-ratio:270/178;touch-action:none">
+        <img src="assets/台南行政區域圖.png" alt="台南市行政區地圖（放大：安南、北、中西、東、安平、仁德）"
+             style="position:absolute;width:185.19%;left:-14.815%;top:-157.3%;max-width:none">
+        <div class="dzone" data-d="annan" style="left:21.3%;top:14.1%"></div>
+        <div class="dzone" data-d="bei" style="left:34.5%;top:26.7%"></div>
+        <div class="dzone" data-d="zhongxi" style="left:19.9%;top:32.7%"></div>
+        <div class="dzone" data-d="anping" style="left:16.0%;top:48.0%"></div>
+        <div class="dzone" data-d="dong" style="left:45.1%;top:48.0%"></div>
+        <div class="dzone" data-d="rende" style="left:47.5%;top:68.0%"></div>
+      </div>
+    </div>
+
+    <div id="landTray" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+    <p id="matchMsg" class="text-center text-xl font-bold text-violet-700 mt-3 min-h-[28px]"></p>
+  </section>
+
+  <!-- ③ 換個角度看 -->
+  <section class="bg-white border-4 border-cyan-300 rounded-3xl p-6 mb-6 shadow-sm">
+    <h2 class="cute text-2xl font-extrabold text-cyan-700 mb-1">③ 換個角度看</h2>
+    <p class="text-lg text-slate-600 mb-4">同一間廟，「路過」跟「用觀光客的眼睛細看」，看到的東西差很多！</p>
+    <div class="grid md:grid-cols-2 gap-6 items-start mb-5">
+      <div>
+        <p class="text-xl font-bold text-cyan-700 mb-2">🚶 路過視角</p>
+        <img src="assets/城隍廟路過.png" alt="路過城隍廟" class="shot">
+        <p class="text-lg text-slate-500 mt-2">如果只是經過，可能就覺得「喔，一間廟」。</p>
+      </div>
+      <div>
+        <p class="text-xl font-bold text-cyan-700 mb-2">🔍 觀光客細看視角</p>
+        <div class="relative">
+          <img id="templeImg" src="" alt="" class="shot">
+          <button id="templePrev" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full w-9 h-9 shadow-lg font-bold text-cyan-700">‹</button>
+          <button id="templeNext" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full w-9 h-9 shadow-lg font-bold text-cyan-700">›</button>
+        </div>
+        <p id="templeCap" class="text-lg text-slate-600 mt-2 min-h-[40px]"></p>
+        <p id="templeCount" class="text-sm text-slate-400 text-center"></p>
+      </div>
+    </div>
+    <div class="bg-cyan-50 rounded-2xl p-4">
+      <p class="text-xl field font-bold text-cyan-800 m-0">🤔 你發現「路過」跟「用觀光客的眼睛細看」，看到的東西有什麼不同？</p>
+    </div>
+
+    <a href="https://www.youtube.com/watch?v=sI9bKz7IQVQ" target="_blank" rel="noopener" class="vcard block relative rounded-2xl overflow-hidden shadow-lg mt-5">
+      <img src="assets/yt_sI9bKz7IQVQ.jpg" alt="影片：冬季旅遊來台南" loading="lazy" style="width:100%;border-radius:14px">
+      <div class="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/35 transition">
+        <div class="bg-red-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-3xl shadow-lg">▶</div>
+      </div>
+      <div class="absolute bottom-0 inset-x-0 bg-black/65 text-white font-bold px-3 py-2">▶ 再看看觀光局會怎麼介紹台南：冬季旅遊，來台南正好玩！</div>
+    </a>
+  </section>
+
+  <!-- ===== 繳交學習單 ===== -->
+  <section class="mt-8">
+    <div class="bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm text-center">
+      <h2 class="cute text-2xl font-extrabold text-orange-700 mb-1">📮 繳交學習單</h2>
+      <p class="text-lg text-slate-500 mb-3">確定都填好了嗎？按下面按鈕交給老師（可以重交，會覆蓋前一次）。</p>
+      <button id="submitBtn" class="w-full bg-orange-600 hover:bg-orange-700 text-white cute text-2xl font-extrabold rounded-2xl py-3">繳交學習單</button>
+      <p id="submitStat" class="text-base font-bold mt-3 min-h-[20px]"></p>
+    </div>
+  </section>
+
+  <!-- 繳交成功才出現：完成獎勵 -->
+  <section id="rewardBox" class="hidden text-center bg-gradient-to-b from-amber-100 to-orange-100 border-4 border-amber-300 rounded-3xl p-7 mt-6">
+    <div class="text-6xl mb-2 pop">🎉</div>
+    <h2 class="cute text-3xl font-extrabold text-orange-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
+    <div class="flex flex-wrap gap-3 justify-center mt-4">
+      <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener"
+         class="cute inline-block bg-orange-600 hover:bg-orange-700 text-white text-2xl font-extrabold rounded-2xl px-8 py-3">🎮 打字英雄</a>
+      <a href="https://gemini.google.com/share/0adbaeae6c16?skid=751ce4ac-860d-4160-8a1a-12a1ebcf6f1d" target="_blank" rel="noopener"
+         class="cute inline-block bg-white border-4 border-orange-300 hover:bg-orange-50 text-orange-700 text-2xl font-extrabold rounded-2xl px-8 py-3">🕹️ 更多遊戲</a>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   Firebase 同步設定（沿用 pcclass-94300 專案，跟五上 L01 同一個資料庫）
+   單機模式：把 firebaseConfig 設為 null 即可（識別列與作答仍可用，只是不會繳交出去）。
+   ============================================================ */
+var firebaseConfig = {
+  apiKey:"AIzaSyAaodBvsP-BSovON14izt22DOXeH40TTGM",
+  authDomain:"pcclass-94300.firebaseapp.com",
+  projectId:"pcclass-94300",
+  storageBucket:"pcclass-94300.firebasestorage.app",
+  messagingSenderId:"1034787516465",
+  appId:"1:1034787516465:web:73c334b2ddad152c472510",
+  measurementId:"G-37P75R7TZ7"
+};
+
+(function(){
+  // ===== 識別列：年級/班級/學號（數字），見《學習單資料與提交規範》§1 =====
+  var ID_KEY='wk_identity';
+  function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
+  function loadIdentity(){try{return JSON.parse(localStorage.getItem(ID_KEY)||'{}')}catch(e){return {}}}
+  function saveIdentity(o){try{localStorage.setItem(ID_KEY,JSON.stringify(o))}catch(e){}}
+  function getIdentity(){
+    var g=digits(document.getElementById('idGrade').value),c=digits(document.getElementById('idClass').value),s=digits(document.getElementById('idStudent').value);
+    return {grade:g?Number(g):null,className:c?Number(c):null,studentId:s?Number(s):null};
+  }
+  function identityValid(id){return id.grade!=null&&id.className!=null&&id.studentId!=null;}
+  (function initIdentity(){
+    var saved=loadIdentity();
+    if(saved.grade)document.getElementById('idGrade').value=saved.grade;
+    if(saved.className)document.getElementById('idClass').value=saved.className;
+    if(saved.studentId)document.getElementById('idStudent').value=saved.studentId;
+    if(identityValid(saved))document.getElementById('idOk').classList.remove('hidden');
+    ['idGrade','idClass','idStudent'].forEach(function(id){
+      var el=document.getElementById(id);
+      el.addEventListener('input',function(){
+        var d=digits(el.value);if(d!==el.value)el.value=d;
+        var idn=getIdentity();
+        if(identityValid(idn)){saveIdentity(idn);document.getElementById('idOk').classList.remove('hidden');}
+        else document.getElementById('idOk').classList.add('hidden');
+      });
+    });
+  })();
+
+  // ===== Firebase：只用來寫入繳交，這份學習單沒有教師公布機制，不需要登入畫面 =====
+  var db=null,auth=null;
+  function ensureAuth(){return (auth&&auth.currentUser)?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user});}
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+  function boot(){
+    if(!firebaseConfig)return;
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    loadScript(base+'firebase-app-compat.js')
+      .then(function(){return loadScript(base+'firebase-auth-compat.js')})
+      .then(function(){return loadScript(base+'firebase-firestore-compat.js')})
+      .then(function(){firebase.initializeApp(firebaseConfig);db=firebase.firestore();auth=firebase.auth();})
+      .catch(function(e){console.warn('Firebase 啟用失敗，改用單機模式',e);});
+  }
+  boot();
+
+  var done={districts:false};
+  function save(){try{localStorage.setItem('g4L01v4',JSON.stringify(done))}catch(e){}}
+  function load(){try{var d=localStorage.getItem('g4L01v4');if(d)done=Object.assign(done,JSON.parse(d))}catch(e){}}
+  load();
+  function prog(){save();}
+
+  document.querySelectorAll('.warm').forEach(function(b){b.onclick=function(){document.getElementById('warmFb').textContent=b.dataset.fb;};});
+
+  // ② 認識台南：行政區與景點配對（拖曳，用 Pointer Events 統一處理滑鼠／觸控）
+  var LANDS=[
+    {d:'zhongxi',dName:'中西區',name:'赤崁樓',img:'assets/Chihkan_Tower.jpg'},
+    {d:'dong',dName:'東區',name:'大東夜市',img:'assets/Dadong_Night_Market.jpg'},
+    {d:'bei',dName:'北區',name:'花園夜市',img:'assets/Garden_Night_Market.jpg'},
+    {d:'annan',dName:'安南區',name:'四草綠色隧道',img:'assets/Sicao_Green_Tunnel.jpg'},
+    {d:'anping',dName:'安平區',name:'安平古堡',img:'assets/Anping_Fort.jpg'},
+    {d:'rende',dName:'仁德區',name:'奇美博物館',img:'assets/Chimei_Museum.jpg'}
+  ];
+  var matched={}; // d -> true 一旦配對正確
+  (function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}})(LANDS);
+
+  var tray=document.getElementById('landTray');
+  LANDS.forEach(function(land){
+    var c=document.createElement('div');
+    c.className='lcard';c.dataset.d=land.d;
+    c.innerHTML='<img src="'+land.img+'" alt="'+land.name+'"><div class="lname">'+land.name+'</div>';
+    tray.appendChild(c);
+    c.addEventListener('pointerdown',function(ev){startDrag(ev,c,land);});
+  });
+
+  var ghost=null,curDrag=null,curZone=null;
+  function zoneEls(){return Array.from(document.querySelectorAll('.dzone'));}
+  function startDrag(ev,cardEl,land){
+    if(matched[land.d])return;
+    ev.preventDefault();
+    curDrag={cardEl:cardEl,land:land};
+    ghost=document.createElement('div');
+    ghost.className='lghost';
+    ghost.innerHTML='<img src="'+land.img+'" alt=""><div class="lname">'+land.name+'</div>';
+    document.body.appendChild(ghost);
+    moveGhost(ev.clientX,ev.clientY);
+    cardEl.style.opacity='.35';
+    window.addEventListener('pointermove',onDragMove);
+    window.addEventListener('pointerup',onDragEnd);
+  }
+  function moveGhost(x,y){if(ghost){ghost.style.left=(x-48)+'px';ghost.style.top=(y-40)+'px';}}
+  function zoneUnderPoint(x,y){
+    var best=null,bestDist=Infinity;
+    zoneEls().forEach(function(g){
+      var r=g.getBoundingClientRect();
+      var cx=r.left+r.width/2,cy=r.top+r.height/2;
+      var dist=Math.hypot(x-cx,y-cy);
+      if(dist<r.width/2&&dist<bestDist){bestDist=dist;best=g;}
+    });
+    return best;
+  }
+  function onDragMove(ev){
+    if(!curDrag)return;
+    moveGhost(ev.clientX,ev.clientY);
+    var z=zoneUnderPoint(ev.clientX,ev.clientY);
+    if(z!==curZone){
+      if(curZone)curZone.classList.remove('over');
+      curZone=z;
+      if(curZone&&!matched[curZone.dataset.d])curZone.classList.add('over');
+    }
+  }
+  function onDragEnd(ev){
+    window.removeEventListener('pointermove',onDragMove);
+    window.removeEventListener('pointerup',onDragEnd);
+    if(ghost){ghost.remove();ghost=null;}
+    var z=zoneUnderPoint(ev.clientX,ev.clientY);
+    if(curZone){curZone.classList.remove('over');}
+    var land=curDrag.land,cardEl=curDrag.cardEl;
+    curDrag=null;curZone=null;
+    cardEl.style.opacity='';
+    if(z&&z.dataset.d===land.d){
+      matched[land.d]=true;
+      z.classList.add('done');
+      z.innerHTML='<img src="'+land.img+'" alt="'+land.name+'"><span class="mark">✅</span>';
+      cardEl.classList.add('placed');
+      updateMatchMsg();
+    }else if(z){
+      z.classList.add('wrong');
+      setTimeout(function(){z.classList.remove('wrong');},450);
+      cardEl.classList.add('shake');
+      setTimeout(function(){cardEl.classList.remove('shake');},400);
+    }
+  }
+  function updateMatchMsg(){
+    var n=Object.keys(matched).length;
+    var msg=document.getElementById('matchMsg');
+    if(n>=LANDS.length){msg.className='text-center font-bold text-emerald-600 mt-3 min-h-[28px]';msg.textContent='🎉 全部配對成功！你已經認識台南 6 個行政區了！';
+      if(!done.districts){done.districts=true;prog();}}
+    else msg.textContent='已配對 '+n+' / '+LANDS.length;
+  }
+
+  // ③ 換個角度看：城隍廟觀光客細看視角，4 張輪播（上一張/下一張）
+  var temple=[
+    {src:'assets/城隍廟內部.jfif',cap:'走進去才看得到的內部空間——香煙裊裊、金碧輝煌的氣氛，路過完全感受不到。'},
+    {src:'assets/三川殿屋頂.jfif',cap:'抬頭看屋頂：精細的剪黏、雕飾，是老師傅一片一片黏上去的工藝。'},
+    {src:'assets/三川殿「八仙騎獸斗座」.jfif',cap:'「八仙騎獸斗座」：八位仙人各騎一隻神獸，撐著屋頂的木雕，近看才發現這麼講究。'},
+    {src:'assets/「四逸」之「漁」.jfif',cap:'「四逸之漁」：牆上的木雕刻著漁夫捕魚的畫面，是廟裡藏著的小故事。'}
+  ];
+  var templeI=0;
+  function renderTemple(){
+    var t=temple[templeI];
+    document.getElementById('templeImg').src=t.src;
+    document.getElementById('templeImg').alt=t.cap;
+    document.getElementById('templeCap').textContent=t.cap;
+    document.getElementById('templeCount').textContent=(templeI+1)+' / '+temple.length;
+  }
+  document.getElementById('templePrev').onclick=function(){templeI=(templeI-1+temple.length)%temple.length;renderTemple();};
+  document.getElementById('templeNext').onclick=function(){templeI=(templeI+1)%temple.length;renderTemple();};
+  renderTemple();
+
+  // ===== 繳交學習單（見《學習單資料與提交規範》§3）=====
+  // 這份全部標 experience／open，沒有 score 題：這節是「先接觸、有感」的體驗課，不是正式檢核（呼應 L01 一貫定位）。
+  document.getElementById('submitBtn').onclick=function(){
+    var idn=getIdentity();
+    if(!identityValid(idn)){alert('請先在最上方填好年級、班級、學號（都是數字）。');window.scrollTo({top:0,behavior:'smooth'});return;}
+    if(!db){alert('系統尚未連線，請稍後再試或重新整理頁面。');return;}
+
+    var answers={},qtypes={},experienceAnswers={};
+
+    // ② 景點配對：有正確答案（每個景點對應一個行政區），用「配對成功幾個」當完成／正確依據。
+    var matchedCount=Object.keys(matched).length;
+    var givenPairs={};LANDS.forEach(function(l){if(matched[l.d])givenPairs[l.name]=l.dName;});
+    experienceAnswers.districts={given:givenPairs,correct:null,isCorrect:matchedCount===LANDS.length};
+    answers.districts=givenPairs;qtypes.districts='experience';
+
+    // ③ 換個角度看：純觀察／討論，沒有作答欄位，不進繳交（跟①的 icebreaker、影片卡同一種不追蹤慣例）。
+
+    var experienceCompletion=Math.round((matchedCount>0?1:0)/1*100);
+
+    var msg='確定要繳交嗎？\n景點配對：'+(matchedCount===LANDS.length?'6 個行政區都配對成功':(matchedCount>0?'配對了 '+matchedCount+' / '+LANDS.length+' 個':'還沒配對'))+'\n\n送出後這份會被老師看到，確定要交嗎？';
+    if(!confirm(msg))return;
+
+    var docId='g4-L01__'+idn.grade+'-'+idn.className+'-'+idn.studentId;
+    var payload={worksheetId:'g4-L01',worksheetTitle:'台南小導遊養成記',lessonPath:'g4/L01',
+      grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      answers:answers,qtypes:qtypes,scoreAnswers:{},experienceAnswers:experienceAnswers,openAnswers:{},
+      accuracyRate:null,experienceCompletion:experienceCompletion,
+      status:'submitted',submittedAt:firebase.firestore.FieldValue.serverTimestamp()};
+    var btn=this,stat=document.getElementById('submitStat');
+    btn.disabled=true;stat.className='text-sm font-bold mt-3 min-h-[20px] text-orange-600';stat.textContent='繳交中…';
+    ensureAuth().then(function(){return db.collection('submissions').doc(docId).set(payload,{merge:true});})
+      .then(function(){
+        btn.disabled=false;btn.textContent='重新繳交（覆蓋）';
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-emerald-600';
+        stat.textContent='✓ 已繳交！';
+        var rb=document.getElementById('rewardBox');rb.classList.remove('hidden');rb.scrollIntoView({behavior:'smooth'});
+      }).catch(function(e){
+        btn.disabled=false;
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-amber-600';
+        stat.textContent='繳交失敗：'+e.message+'（可能是老師尚未部署 Firestore 規則）';
+      });
+  };
+
+  prog();
+})();
+</script>
+</body>
+</html>
