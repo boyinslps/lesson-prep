@@ -180,7 +180,10 @@
   <!-- ===== ④ 任務：偵探畫線 ===== -->
   <section id="s4" class="step mt-10">
     <div class="bg-white border-4 border-teal-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <h2 class="cute text-2xl font-extrabold text-teal-700">④ 換你當偵探：把事實跟意見拆開</h2>
+      <div class="flex items-center gap-2 flex-wrap">
+        <h2 class="cute text-2xl font-extrabold text-teal-700 m-0">④ 換你當偵探：把事實跟意見拆開</h2>
+        <span class="qtypeSlot" data-qid="clauses" title="控制整段畫線任務的題型"></span>
+      </div>
       <p class="text-slate-600 mt-1">下面這篇文章把事實跟意見混在一起了。先選一個顏色，再點文章裡的句子把它畫線標出來。</p>
       <div class="mt-3 flex items-center gap-2">
         <button id="modeFact" class="modebtn flex-1 border-2 rounded-xl py-2 font-bold">🔵 標事實</button>
@@ -279,6 +282,33 @@ var WS_ID = "g5-L02";
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
+  // ===== 題型切換（檢測／體驗／開放三態循環，教師 admin 專用，見《學習單資料與提交規範》§2/§5-6）=====
+  // 這份預設題型是 score（原本③投票、④畫線都寫死計分），跟 g4-L02 預設 experience 不同——
+  // 切換鈕只是讓老師事後能調整，不改變「沒調整過就維持原設計」的預設值。
+  var QTYPE_CYCLE=['score','experience','open'];
+  var QTYPE_LABEL={score:'檢測',experience:'體驗',open:'開放'};
+  var QTYPE_STYLE={score:'bg-rose-100 text-rose-700 border-rose-300',experience:'bg-sky-100 text-sky-700 border-sky-300',open:'bg-emerald-100 text-emerald-700 border-emerald-300'};
+  var QTYPE_OVERRIDES={};
+  var teacherAuthed=false;
+  // c1~c14（④畫線）沒有個別切換鈕（14 個內文片段逐一放鈕會把文章擠爛），
+  // 整段共用一個「clauses」群組鍵，切一次全部一起變，呼應規範「多個子欄位當同一組一起切換」。
+  function effectiveQtype(qid){
+    if(/^c\d+$/.test(qid))qid='clauses';
+    return QTYPE_OVERRIDES[qid]||'score';
+  }
+  function persistQtypeOverrides(){if(db&&quizRef)quizRef.set({qtypeOverrides:QTYPE_OVERRIDES},{merge:true});}
+  function renderQtypeSlots(){
+    document.querySelectorAll('.qtypeSlot').forEach(function(slot){
+      var qid=slot.dataset.qid,t=effectiveQtype(qid);
+      if(!IS_ADMIN||!teacherAuthed){slot.innerHTML='';return;}
+      slot.innerHTML='<button type="button" class="qtypeBtn border rounded-full px-2 py-0.5 text-xs font-bold '+QTYPE_STYLE[t]+'">'+QTYPE_LABEL[t]+'</button>';
+      slot.querySelector('.qtypeBtn').onclick=function(){
+        var cur=effectiveQtype(qid),next=QTYPE_CYCLE[(QTYPE_CYCLE.indexOf(cur)+1)%QTYPE_CYCLE.length];
+        QTYPE_OVERRIDES[qid]=next;persistQtypeOverrides();renderQtypeSlots();
+      };
+    });
+  }
+
   // ===== ② 比喻演示：點卡展開範例 =====
   document.querySelectorAll('.metaphor').forEach(function(b){
     b.addEventListener('click',function(){ b.querySelector('.mex').classList.toggle('hidden'); });
@@ -331,7 +361,8 @@ var WS_ID = "g5-L02";
     c.setAttribute('data-qid','v'+(i+1));c.setAttribute('data-qtype','score');
     c.innerHTML=
       '<div class="flex items-start gap-2 mb-2"><span class="cute text-lg font-extrabold text-slate-400">'+(i+1)+'</span>'+
-        '<div class="font-bold text-slate-700 leading-snug">'+esc(it.t)+'</div></div>'+
+        '<div class="font-bold text-slate-700 leading-snug flex-1">'+esc(it.t)+'</div>'+
+        '<span class="qtypeSlot shrink-0" data-qid="v'+(i+1)+'"></span></div>'+
       '<div class="mt-auto grid grid-cols-2 gap-2">'+
         '<button class="vt v-fact opt border-2 border-slate-200 rounded-lg py-2 font-bold hover:border-sky-400" data-v="fact">🔵 事實</button>'+
         '<button class="vt v-opinion opt border-2 border-slate-200 rounded-lg py-2 font-bold hover:border-rose-400" data-v="opinion">🔴 意見</button>'+
@@ -348,6 +379,7 @@ var WS_ID = "g5-L02";
     if(state.votes[i]!==undefined)
       c.querySelector(state.votes[i]==='fact'?'.v-fact':'.v-opinion').classList.add('bg-indigo-100','border-indigo-400','text-indigo-700');
   });
+  renderQtypeSlots();
   function updateVoted(){document.getElementById('voted').textContent=Object.keys(state.votes).length+' / '+items.length;}
   updateVoted();
   function scoreNow(){var n=0;items.forEach(function(it,i){if(state.votes[i]!==undefined&&state.votes[i]===answerOf(i))n++});return n;}
@@ -442,21 +474,29 @@ var WS_ID = "g5-L02";
     var idn=getIdentity();
     if(!identityValid(idn)){alert('請先在最上方填好年級、班級（1-14）、座號（都是數字）。');window.scrollTo({top:0,behavior:'smooth'});return;}
     if(!db){alert('系統尚未連線，請稍後或重新整理頁面。');return;}
-    var scoreAnswers={},answers={},qtypes={};
-    var totalCorrect=0,totalScored=items.length+clauses.length;
-    items.forEach(function(it,i){var qid='v'+(i+1),given=state.votes[i];given=(given===undefined)?null:given;var correct=answerOf(i),ok=given!=null&&given===correct;
-      if(ok)totalCorrect++;
-      scoreAnswers[qid]={given:given,correct:correct,isCorrect:ok};answers[qid]=given;qtypes[qid]='score';});
-    clauses.forEach(function(cl,i){var qid='c'+(i+1),given=state.clauses[i];given=(given===undefined)?null:given;var correct=cl.type,ok=given===correct;
-      if(ok)totalCorrect++;
-      scoreAnswers[qid]={given:given,correct:correct,isCorrect:ok};answers[qid]=given;qtypes[qid]='score';});
-    var accuracyRate=Math.round(totalCorrect/totalScored*100);
-    if(!confirm('確定要繳交嗎？③投票和④畫線都會計分，交出去後由老師核對，不會馬上顯示對錯。'))return;
+    // 每題實際題型依教師 #admin 當下的切換結果分流（見《學習單資料與提交規範》§5-6），
+    // 不是寫死 score——沒被老師調整過的題目維持預設 score（呼應這份原本的設計）。
+    var scoreAnswers={},experienceAnswers={},openAnswers={},answers={},qtypes={};
+    var scoreTotal=0,scoreCorrect=0,expTotal=0,expAnswered=0;
+    function fileItem(qid,given,correct){
+      var ok=given!=null&&given===correct,type=effectiveQtype(qid);
+      answers[qid]=given;qtypes[qid]=type;
+      if(type==='open')openAnswers[qid]=given;
+      else if(type==='experience'){experienceAnswers[qid]={given:given,correct:correct,isCorrect:ok};expTotal++;if(given!=null)expAnswered++;}
+      else{scoreAnswers[qid]={given:given,correct:correct,isCorrect:ok};scoreTotal++;if(ok)scoreCorrect++;}
+    }
+    items.forEach(function(it,i){var qid='v'+(i+1),given=state.votes[i];given=(given===undefined)?null:given;
+      fileItem(qid,given,answerOf(i));});
+    clauses.forEach(function(cl,i){var qid='c'+(i+1),given=state.clauses[i];given=(given===undefined)?null:given;
+      fileItem(qid,given,cl.type);});
+    var accuracyRate=scoreTotal?Math.round(scoreCorrect/scoreTotal*100):null;
+    var experienceCompletion=expTotal?Math.round(expAnswered/expTotal*100):null;
+    if(!confirm('確定要繳交嗎？③投票和④畫線都會依老師目前設定的題型計分，交出去後由老師核對，不會馬上顯示對錯。'))return;
     var docId=WS_ID+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;
     var payload={worksheetId:WS_ID,worksheetTitle:'事實與意見區分',lessonPath:'g5/L02',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
-      answers:answers,qtypes:qtypes,scoreAnswers:scoreAnswers,experienceAnswers:{},openAnswers:{},
-      accuracyRate:accuracyRate,experienceCompletion:null,
+      answers:answers,qtypes:qtypes,scoreAnswers:scoreAnswers,experienceAnswers:experienceAnswers,openAnswers:openAnswers,
+      accuracyRate:accuracyRate,experienceCompletion:experienceCompletion,
       status:'submitted',submittedAt:firebase.firestore.FieldValue.serverTimestamp()};
     var btn=this,stat=document.getElementById('submitStat');
     btn.disabled=true;stat.className='text-sm font-bold mt-3 min-h-[20px] text-indigo-600';stat.textContent='繳交中…';
@@ -556,6 +596,8 @@ var WS_ID = "g5-L02";
         document.getElementById('syncBadge').classList.remove('hidden');
         quizRef.onSnapshot(function(doc){var d=(doc&&doc.data())||{};
           if(Array.isArray(d.answers)&&d.answers.length===items.length)ANSWERS=d.answers;
+          if(d.qtypeOverrides)QTYPE_OVERRIDES=d.qtypeOverrides;
+          renderQtypeSlots();
           if(d.revealedWords&&!state.revealedWords)doRevealWords();
           if(d.revealed&&!state.revealed)doReveal();
           if((!d.revealed&&state.revealed)||(!d.revealedWords&&state.revealedWords))location.reload();
@@ -589,6 +631,7 @@ var WS_ID = "g5-L02";
     showBar();document.getElementById('tStatus').textContent='單機模式（答案已內建，免上傳）';
     var pw=prompt('教師密碼：');if(pw!=='1234'){if(pw!==null)alert('密碼錯誤');document.getElementById('teacherbar').classList.add('hidden');return;}
     showAdminRevealButtons();
+    teacherAuthed=true;renderQtypeSlots();
     var up=document.getElementById('uploadBtn');if(up)up.onclick=function(){alert('單機模式：答案已內建，不需上傳。');};
     document.getElementById('revealWordsBtn').onclick=doRevealWords;
     document.getElementById('revealClassifyBtn').onclick=doReveal;
@@ -598,6 +641,7 @@ var WS_ID = "g5-L02";
     document.getElementById('tStatus').textContent='已登入 '+email;
     maybeApplyReview();
     showAdminRevealButtons();
+    teacherAuthed=true;renderQtypeSlots();
     var up=document.getElementById('uploadBtn');
     if(up)up.onclick=function(){up.disabled=true;up.textContent='上傳中…';
       quizRef.set({answers:items.map(function(it){return it.type}),answersAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})

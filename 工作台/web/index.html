@@ -65,10 +65,6 @@
   textarea.doc{width:100%;min-height:52vh;font-family:var(--fm);font-size:12.5px;line-height:1.7;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:14px;resize:vertical}
   .htmllink{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:var(--rs);padding:7px 11px;text-decoration:none}
   .pptx{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.pptx img{width:150px;border:1px solid var(--border);border-radius:6px}
-  .kanban{background:var(--surface);border-top:1px solid var(--border);padding:10px 14px;overflow-x:auto;max-height:30vh}
-  .kbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.kbar h2{margin:0;font-size:11px;font-weight:800;color:var(--muted)}
-  .store{display:flex;gap:12px}.prod{border:1px solid var(--border);border-radius:var(--r);padding:10px;background:var(--surface-2);width:230px;flex:0 0 auto}
-  .prod .pt{font-size:12.5px;font-weight:700;margin-bottom:6px}
   .overlay{position:fixed;inset:0;background:rgba(15,22,20,.5);display:none;place-items:center;padding:24px;z-index:50}.overlay.on{display:grid}
   .modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);width:min(720px,100%);max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
   .mh{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border)}.mh h3{margin:0;font-size:15px;font-weight:800}.mh .tl{font-size:11.5px;color:var(--muted)}
@@ -162,7 +158,6 @@
       </div>
     </section>
   </main>
-  <footer class="kanban"><div class="kbar"><h2>成品庫（Storage）</h2></div><div class="store" id="store"></div></footer>
 </div>
 
 <div class="overlay" id="setO"><div class="modal">
@@ -273,7 +268,7 @@
 
 <script>
 const STAGES=["原始計畫","鷹架分析","關鍵字","素材搜尋","篩選勾選","教學環節","成品"];
-const FILES=[null,"01_目標與鷹架.md","02_搜尋關鍵字.md","03_素材候選.md","04_素材清單與缺口.md","05_教學活動流程.md","06_成品"];
+const FILES=[null,"01_目標與鷹架.md","02_搜尋關鍵字.md","03_素材候選.md","04_素材清單與缺口.md","05_教學活動流程.md",null];
 const AIS=[false,true,true,true,false,true,true];
 const GUIDE_FOR=[null,"工作流程規範.md","工作流程規範.md","工作流程規範.md",null,"教學活動設計規範.md",null];
 const IDX={plan0:0, search:3, mat:4, plan:5, product:6};
@@ -297,9 +292,10 @@ function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clea
 function proj(){return TREE.projects[pi];}
 function lesson(){return proj()&&proj().lessons[li];}
 function basePath(){return 'materials/'+lesson().group+'/'+lesson().folder+'/';}
+function gradeShort(g){g=g||'';return g?(g[0]+(g.includes('下')?'下':'上')):'';}
 function stagePath(i){ const l=lesson();
   if(i===0) return basePath()+'00_原始計畫.md';
-  if(FILES[i]==='06_成品'){const p=(l.products[0]&&l.products[0].file)||'06_成品.md';return basePath()+p;}
+  if(FILES[i]===null){const p=(l.products[0]&&l.products[0].file)||(gradeShort(l.group)+'_'+l.folder+'.md');return basePath()+p;}
   return basePath()+FILES[i];}
 
 async function loadTree(){
@@ -313,7 +309,7 @@ async function loadTree(){
   if(li>=proj().lessons.length)li=Math.max(0,proj().lessons.length-1);
   ps.value=pi; render();
 }
-function render(){ renderLessons(); renderRail(); renderStage(); renderStore(); renderProg();
+function render(){ renderLessons(); renderRail(); renderStage(); renderProg();
   const l=lesson(); $("#lTitle").textContent=l?l.title:'—';
   $("#lMeta").textContent=(l?l.group:''); $("#tplName").textContent='';
 }
@@ -407,7 +403,7 @@ async function renderStage(){
           ${p.type==='html'?`<a class="htmllink" href="${url}" target="_blank">🖥 本機預覽</a>`:''}
           ${p.type==='html'?`<button class="btn btn-primary ghBtn" data-file="${p.file}">🚀 發布到 GitHub</button>`:''}
           <button class="btn btn-ghost pubBtn" data-file="${p.file}" data-ptype="${p.type}">📤 發布到 Classroom</button></div>
-          <div class="hint ghStat" style="margin:0 0 4px"></div>`;
+          <div class="hint ghStat" style="margin:0 0 4px">${l.publishedUrl?('🔗 已發布：<a href="'+l.publishedUrl+'" target="_blank">'+l.publishedUrl+'</a>'+(l.publishedAt?`（${l.publishedAt}）`:'')):''}</div>`;
         box.appendChild(wrap);
         if(p.file.toLowerCase().endsWith('.pptx')){
           const td=document.createElement('div');td.className='pptx';td.textContent='轉縮圖中…';wrap.appendChild(td);
@@ -602,18 +598,6 @@ async function generate(i){
   await editable(i);
   $("#ed").value=r.text;
   if($("#genStat"))$("#genStat").textContent='✓ 已生成草稿 — 檢查後按「儲存」寫入檔案';
-}
-function renderStore(){
-  const box=$("#store");box.innerHTML='';
-  const items=[];proj().lessons.forEach(l=>l.products.forEach(p=>items.push({l,p})));
-  if(!items.length){box.innerHTML='<p class="hint">尚無成品。完成的簡報/HTML 會回存這裡。</p>';return;}
-  items.forEach(({l,p})=>{
-    const d=document.createElement('div');d.className='prod';
-    const url='/materials/'+l.group+'/'+l.folder+'/'+encodeURIComponent(p.file);
-    d.innerHTML=`<div class="pt">${l.folder.split('_')[0]} · ${p.type==='html'?'HTML':'簡報'}</div>`+
-      (p.type==='html'?`<a class="htmllink" href="${url}" target="_blank">🌐 開啟</a>`:`<span class="hint">${p.file}</span>`);
-    box.appendChild(d);
-  });
 }
 function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 

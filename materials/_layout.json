@@ -4,5 +4,37 @@
     "五年級下學期": true,
     "四年級上學期": false,
     "四年級下學期": false
+  },
+  "published": {
+    "四年級上學期/L01_旅行經驗與主題發想": {
+      "url": "https://boyinslps.github.io/pcclass/g4/L01/",
+      "path": "g4/L01/",
+      "at": "2026-09-22 10:00"
+    },
+    "四年級上學期/L02_景點選定與資料蒐集": {
+      "url": "https://boyinslps.github.io/pcclass/g4/L02/",
+      "path": "g4/L02/",
+      "at": "2026-09-22 10:00"
+    },
+    "四年級上學期/L03_導覽主題發想": {
+      "url": "https://boyinslps.github.io/pcclass/g4/L03/",
+      "path": "g4/L03/",
+      "at": "2026-09-22 10:00"
+    },
+    "五年級上學期/L01_假消息與目的辨識": {
+      "url": "https://boyinslps.github.io/pcclass/g5/L01/",
+      "path": "g5/L01/",
+      "at": "2026-09-22 10:00"
+    },
+    "五年級上學期/L02_事實與意見區分": {
+      "url": "https://boyinslps.github.io/pcclass/g5/L02/",
+      "path": "g5/L02/",
+      "at": "2026-09-22 10:00"
+    },
+    "六年級上學期/L02_事實與意見區分": {
+      "url": "https://boyinslps.github.io/pcclass/g6/L02/",
+      "path": "g6/L02/",
+      "at": "2026-09-22 10:00"
+    }
   }
 }

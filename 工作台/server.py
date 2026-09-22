@@ -8,6 +8,9 @@ import base64, zipfile, html, tempfile, time, shutil
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+# 隨附的可攜式 Python 用 ._pth 鎖死 sys.path（只有直譯器自己那個資料夾，不含這個腳本的資料夾），
+# import updater 在這種環境下預設會找不到模組——先把腳本自己的資料夾加進 sys.path。
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 import updater   # 自動更新（見 updater.py／《自動更新規範》）
 
 HERE = Path(__file__).resolve().parent          # …/工作台
@@ -19,14 +22,38 @@ CONFIG = HERE / "config.json"
 PORT = 8770
 
 # 單元層級管線階段 → 對應檔名（計畫切分是專案層級，不在此）
+# 成品用 None 當標記：不再靠「06_成品」前綴認，改用「不是 00~05 編號檔」規則辨識
+# （見 _is_product_file），檔名規範是 {年級簡稱}_{節次資料夾名}.html，例：四上_L02_景點選定與資料蒐集.html。
 STAGES = [
     ("鷹架分析", "01_目標與鷹架.md"),
     ("關鍵字", "02_搜尋關鍵字.md"),
     ("素材搜尋", "03_素材候選.md"),
     ("篩選勾選", "04_素材清單與缺口.md"),
     ("教學環節", "05_教學活動流程.md"),
-    ("成品", "06_成品"),          # 前綴：06_成品.*
+    ("成品", None),
 ]
+
+_STAGE_FILE_RE = re.compile(r'^\d{2}_')
+
+
+def _is_product_file(name):
+    """成品檔＝資料夾裡不是「00~05 編號檔」、不是版面設定、不是說明文件的那個檔案。
+    不再靠 06_成品 這個固定前綴——新命名是 {年級簡稱}_{節次資料夾名}.html。"""
+    if _STAGE_FILE_RE.match(name):
+        return False
+    if name in ("_layout.json",):
+        return False
+    if name.endswith("說明.md") or name.endswith("說明.html"):
+        return False
+    return True
+
+
+def _grade_short(group):
+    """群組名 → 年級簡稱檔名前綴。四年級上學期→四上、四年級下學期→四下…"""
+    g = group or ""
+    if not g:
+        return ""
+    return g[0] + ("下" if "下" in g else "上")
 
 
 def safe(rel: str) -> Path:
@@ -103,6 +130,7 @@ def build_tree():
         return {"projects": []}
     lay = read_ws_layout()
     collapsed = lay.get("collapsed", {})
+    published = lay.get("published", {})
     groups, lessons = [], []
     for gd in sorted([d for d in MATERIALS.iterdir() if d.is_dir()]):
         gname = gd.name
@@ -113,16 +141,18 @@ def build_tree():
             plan_exists = "00_原始計畫.md" in names
             stages = ["done" if plan_exists else "todo"]
             for label, fn in STAGES:
-                if fn == "06_成品":
-                    hit = any(n.startswith("06_成品") and not n.endswith("說明.md") for n in names)
+                if fn is None:
+                    hit = any(_is_product_file(n) and (n.lower().endswith(".html") or n.endswith(".md")) for n in names)
                     stages.append("done" if hit else "todo")
                 else:
                     stages.append("done" if fn in names else "todo")
             products = [{"file": n, "type": ("html" if n.lower().endswith(".html")
                         else ("slides" if n.endswith(".md") else "file"))}
-                        for n in names if n.startswith("06_成品") and not n.endswith("說明.md")]
+                        for n in names if _is_product_file(n) and (n.lower().endswith(".html") or n.endswith(".md"))]
+            pub = published.get(f"{gname}/{ld.name}")
             lessons.append({"folder": ld.name, "title": ld.name, "group": gname,
-                            "stages": stages, "products": products})
+                            "stages": stages, "products": products,
+                            "publishedUrl": (pub or {}).get("url"), "publishedAt": (pub or {}).get("at")})
     if not groups:
         return {"projects": []}
     return {"projects": [{"name": "教材庫", "groups": groups, "lessons": lessons}]}
@@ -1023,7 +1053,7 @@ def _run_git(args, cwd, timeout=180):
 
 
 def git_publish(group, folder):
-    """把某節的 06_成品.html＋assets/ 推到 pcclass 的 g{年級}/L##/（SSH，整包一次 commit）。"""
+    """把某節的成品 .html（{年級簡稱}_{節次資料夾名}.html）＋assets/ 推到 pcclass 的 g{年級}/L##/（SSH，整包一次 commit）。"""
     ssh_url, owner, name = _repo_ssh()
     if not ssh_url:
         return {"ok": False, "error": "設定的 github_repo 需為 owner/repo 或 GitHub 網址"}
@@ -1036,9 +1066,9 @@ def git_publish(group, folder):
     lcode = m.group(1)
     src = safe(f"materials/{group}/{folder}")
     prod = next((src / n for n in sorted(os.listdir(src))
-                 if n.startswith("06_成品") and n.lower().endswith(".html")), None)
+                 if _is_product_file(n) and n.lower().endswith(".html")), None)
     if not prod:
-        return {"ok": False, "error": "找不到 06_成品*.html（先完成成品）"}
+        return {"ok": False, "error": f"找不到成品 .html（先完成成品；命名規範：{_grade_short(group)}_{folder}.html）"}
     # 準備快取庫：沒有就 clone；有就抓最新並硬重置到 origin/main
     try:
         if not (PUB_CACHE / ".git").exists():
@@ -1077,8 +1107,17 @@ def git_publish(group, folder):
         rc, so, se = _run_git(["push", "origin", "HEAD:main"], PUB_CACHE, timeout=240)
         if rc != 0:
             return {"ok": False, "error": "push 失敗（SSH）：" + (se or so)[:300]}
-    return {"ok": True, "url": f"https://{owner}.github.io/{name}/{code}/{lcode}/",
-            "path": f"{code}/{lcode}/", "nothing": nothing}
+    url = f"https://{owner}.github.io/{name}/{code}/{lcode}/"
+    # 每次發布成功就同步存進 materials/_layout.json——vibecoding 做完網址就有記錄，
+    # 不必另開資料庫或輪詢；下次 build_tree() 直接把這個網址帶給面板顯示（見規劃：省 token、最簡潔管理）。
+    try:
+        lay = read_ws_layout()
+        lay.setdefault("published", {})[f"{group}/{folder}"] = {
+            "url": url, "path": f"{code}/{lcode}/", "at": time.strftime("%Y-%m-%d %H:%M")}
+        save_ws_layout(lay)
+    except Exception:
+        pass  # 記錄失敗不影響發布本身已經成功
+    return {"ok": True, "url": url, "path": f"{code}/{lcode}/", "nothing": nothing}
 
 
 def _norm(v):
