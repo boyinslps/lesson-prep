@@ -403,7 +403,7 @@ async function renderStage(){
           ${p.type==='html'?`<a class="htmllink" href="${url}" target="_blank">🖥 本機預覽</a>`:''}
           ${p.type==='html'?`<button class="btn btn-primary ghBtn" data-file="${p.file}">🚀 發布到 GitHub</button>`:''}
           <button class="btn btn-ghost pubBtn" data-file="${p.file}" data-ptype="${p.type}">📤 發布到 Classroom</button></div>
-          <div class="hint ghStat" style="margin:0 0 4px">${l.publishedUrl?('🔗 已發布：<a href="'+l.publishedUrl+'" target="_blank">'+l.publishedUrl+'</a>'+(l.publishedAt?`（${l.publishedAt}）`:'')):''}</div>`;
+          <div class="hint ghStat" style="margin:0 0 4px">${l.publishedUrl?('🔗 已發布：<a href="'+l.publishedUrl+'" target="_blank" style="color:var(--accent-ink);font-weight:700;text-decoration:none">'+l.publishedUrl+'</a>'+(l.publishedAt?`（${l.publishedAt}）`:'')):''}</div>`;
         box.appendChild(wrap);
         if(p.file.toLowerCase().endsWith('.pptx')){
           const td=document.createElement('div');td.className='pptx';td.textContent='轉縮圖中…';wrap.appendChild(td);
@@ -417,7 +417,7 @@ async function renderStage(){
         b.disabled=true;stat.textContent='🚀 發布中（SSH push，整包 index.html＋assets）…';
         const r=await (await fetch('/api/git-publish',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({group:lesson().group,folder:lesson().folder})})).json();
         b.disabled=false;
-        if(r.ok){stat.innerHTML='✓ 已上線 '+(r.nothing?'（內容無變更）':'')+'：<a href="'+r.url+'" target="_blank">'+r.url+'</a>';toast('已發布到 GitHub Pages');}
+        if(r.ok){stat.innerHTML='✓ 已上線 '+(r.nothing?'（內容無變更）':'')+'：<a href="'+r.url+'" target="_blank" style="color:var(--accent-ink);font-weight:700;text-decoration:none">'+r.url+'</a>';toast('已發布到 GitHub Pages');}
         else stat.textContent='✗ '+r.error;
       });
     } else { box.innerHTML+='<p class="hint">尚未生成。到 Claude Code 或用下方 AI 生成。</p>'; await genButton(i);}
@@ -664,7 +664,9 @@ $("#handoff").onclick=async()=>{
   const l=lesson();$("#hoTag").textContent=l.title;
   const mats=(await api.get(stagePath(IDX.mat))).content||'（尚無素材清單）';
   const plan=(await api.get(stagePath(IDX.plan))).content||'（尚無教學環節）';
-  $("#hoCode").value=`# 交接包 · ${l.title}\n## 送 Claude Code 調整／NotebookLM 生成\n\n【提醒】影片→簡報留空白標題頁；圖片→已下載本機隨包附上（NotebookLM 不吃外連圖）。\n\n===== 素材清單（04）=====\n${mats}\n\n===== 教學環節（05）=====\n${plan}\n\n→ 在 Claude Code 說「繼續 ${l.title} 的成品製作」。`;
+  $("#hoCode").value=`# 交接包 · ${l.title}\n## 送 Claude Code 調整／NotebookLM 生成\n\n【提醒】影片→簡報留空白標題頁；圖片→已下載本機隨包附上（NotebookLM 不吃外連圖）。\n\n===== 素材清單（04）=====\n${mats}\n\n===== 教學環節（05）=====\n${plan}\n\n【評分】做互動學習單時，依《學習單資料與提交規範》§2-e 內嵌 grading-spec：開放題題幹＋評分方式＋標準＋配分，加上 scoring（100 分、80 起跳、20 分依題數平均分給主要題，加分題另外加）；體驗題沒正解時 isCorrect＝有沒有作答。評分平台第一次開這份學習單會自動讀入。
+
+→ 在 Claude Code 說「繼續 ${l.title} 的成品製作」。`;
   $("#hoO").classList.add('on');
 };
 $("#hoX").onclick=$("#hoX2").onclick=()=>$("#hoO").classList.remove('on');

@@ -765,8 +765,9 @@ var QUIZ_ID = "g4-L02";
     // 各段「小試身手」：老師公布答案後才知道對錯，這裡先記錄學生當下的作答與（若已公布）正確與否。
     quizItems.forEach(function(item,i){
       var given=state.quiz[i];given=(given===undefined)?null:given;
-      var ans=answerOf(i),isCorrect=state.revealed?(given!=null&&given===ans):false,correct=state.revealed?ans:null;
-      var type=effectiveQtype(item.id);
+      var type=effectiveQtype(item.id),answered=given!=null&&given!=='';
+      // 公布答案前沒有正解可比對：體驗題改看「有沒有作答」（見《學習單資料與提交規範》§3），檢測題維持 false 等老師公布
+      var ans=answerOf(i),isCorrect=state.revealed?(given!=null&&given===ans):(type==='experience'&&answered),correct=state.revealed?ans:null;
       answers[item.id]=given;qtypes[item.id]=type;
       if(type==='open')openAnswers[item.id]=given;
       else if(type==='score')scoreAnswers[item.id]={given:given,correct:correct,isCorrect:isCorrect};
@@ -788,10 +789,16 @@ var QUIZ_ID = "g4-L02";
       +'\n\n送出後這份會被老師看到，確定要交嗎？';
     if(!confirm(msg))return;
 
+    // 題幹隨繳交送出（見《學習單資料與提交規範》§2-e），評分平台自動帶入，AI 評分時看得到題目
+    var qtexts={};
+    quizItems.forEach(function(it){qtexts[it.id]=it.label;});
+    try{(JSON.parse(document.getElementById('grading-spec').textContent).questions||[]).forEach(function(q){qtexts[q.qid]=q.prompt;});}catch(e){}
+    qtexts.q4a='「藍晒圖文創園區」週六開放時間（幾點開始）';qtexts.q4b='「藍晒圖文創園區」週六開放時間（幾點結束）';
+
     var docId='g4-L02__'+idn.grade+'-'+idn.className+'-'+idn.studentId;
     var payload={worksheetId:'g4-L02',worksheetTitle:'台南小導遊養成記',lessonPath:'g4/L02',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
-      answers:answers,qtypes:qtypes,bonusQids:surveyBonusQids,scoreAnswers:scoreAnswers,experienceAnswers:experienceAnswers,openAnswers:openAnswers,bonusAnswers:bonusAnswers,
+      answers:answers,qtypes:qtypes,qtexts:qtexts,bonusQids:surveyBonusQids,scoreAnswers:scoreAnswers,experienceAnswers:experienceAnswers,openAnswers:openAnswers,bonusAnswers:bonusAnswers,
       accuracyRate:accuracyRate,experienceCompletion:experienceCompletion,
       status:'submitted',submittedAt:firebase.firestore.FieldValue.serverTimestamp()};
     var btn=this,stat=document.getElementById('submitStat');
@@ -809,6 +816,30 @@ var QUIZ_ID = "g4-L02";
       });
   };
 })();
+</script>
+<!-- 開放題評分設定（見《學習單資料與提交規範》§2-e、《AI評分規範》）：評分平台「學習單設定 → 從學習單讀取」一鍵帶入。
+     只有被教師切成「開放」的題目會送 AI；這裡的設定只在該題是開放題時才生效。 -->
+<script type="application/json" id="grading-spec">
+{
+  "summary": "用台南旅遊網的主題／區域篩選、關鍵字與旅遊地圖找景點，並查景點的營業時間、門票等資料",
+  "questions": [
+    { "qid": "q1", "prompt": "找出 2 個位於「中西區」的景點", "mode": "condition", "points": 4, "need": 2,
+      "conditions": ["景點位於臺南市中西區"],
+      "basis": "以台南旅遊網的景點資料（區域、地址）為準" },
+    { "qid": "q2", "prompt": "找出 1 個「在地藝文」景點", "mode": "condition", "points": 2, "need": 1,
+      "conditions": ["在台南旅遊網的主題分類屬於「在地藝文」"],
+      "basis": "以台南旅遊網的景點主題分類為準" },
+    { "qid": "q3", "prompt": "用「主題＋區域」，找出 1 個「南區」的「生態教育」景點", "mode": "condition", "points": 2, "need": 1,
+      "conditions": ["景點位於臺南市南區", "在台南旅遊網的主題分類屬於「生態教育」"],
+      "basis": "以台南旅遊網的景點主題分類與區域為準" },
+    { "qid": "q5", "prompt": "加分：找出一個既是「歷史古蹟」也是「生態教育」的景點", "mode": "condition", "points": 2, "need": 1,
+      "conditions": ["在台南旅遊網的主題分類包含「歷史古蹟」", "在台南旅遊網的主題分類也包含「生態教育」"],
+      "basis": "以台南旅遊網的景點主題分類為準（一個景點可以同時屬於多個主題）" },
+    { "qid": "q6", "prompt": "加分：找出兩個「勝利國小」週邊的景點（不包含勝利國小禮堂）", "mode": "condition", "points": 4, "need": 2,
+      "conditions": ["位於臺南市勝利國小附近（距離約 1.5 公里內，步行可到）", "不是勝利國小或勝利國小禮堂本身"],
+      "basis": "以台南旅遊網「旅遊地圖」上勝利國小周邊看得到的景點為準" }
+  ]
+}
 </script>
 </body>
 </html>
