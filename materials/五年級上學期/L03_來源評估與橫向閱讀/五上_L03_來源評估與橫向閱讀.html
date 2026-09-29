@@ -269,7 +269,7 @@
         <li>點開網站連結，看看它的「身分證」</li>
         <li>勾選有沒有「作者」「日期」「來源／單位」</li>
         <li>點星星幫它評可信度</li>
-        <li>針對「來源」離開頁面搜尋查證，寫下你查到什麼</li>
+        <li>🎁 加分題：針對「來源」離開頁面搜尋查證，寫下你查到什麼、你的判斷理由（不寫也可以交）</li>
       </ol>
       <p class="text-slate-600 mt-2">任選 <b>2 個</b>完整做完即可，進度快的可以挑戰第 3 個。</p>
     </div>
@@ -527,7 +527,7 @@
         '<button class="votebtn w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-lg py-1.5" data-site="'+site.n+'">🗳️ 投票</button>'+
         '<div class="votechart mt-2 border-2 border-slate-200 rounded-xl p-2" data-site="'+site.n+'" title="點擊放大看全班投票結果"></div>'+
       '</div>'+
-      '<div><div class="flex items-center gap-2 mb-1"><div class="text-xs font-bold text-slate-500 flex-1">實際查證「來源」：離開頁面搜尋後，寫下查到什麼、你的判斷理由</div><span class="qtypeSlot" data-qid="site'+site.n+'_whereproof"></span></div>'+
+      '<div><div class="flex items-center gap-2 mb-1"><div class="text-xs font-bold text-slate-500 flex-1">🎁 加分題（可不寫）：實際查證「來源」，離開頁面搜尋後寫下查到什麼、你的判斷理由</div><span class="qtypeSlot" data-qid="site'+site.n+'_whereproof"></span></div>'+
         '<textarea class="whereproof w-full border-2 border-emerald-300 bg-emerald-50/40 rounded-xl p-2 text-sm focus:border-emerald-500 outline-none" data-site="'+site.n+'" rows="2"></textarea>'+
         '<button class="pushbtn mt-1.5 w-full bg-white border-2 border-emerald-300 text-emerald-700 text-xs font-bold rounded-lg py-1.5 hover:bg-emerald-50" data-site="'+site.n+'">📤 推送給同學看</button>'+
         '<div class="feedlist mt-1.5 max-h-24 overflow-y-auto space-y-1" data-site="'+site.n+'"></div>'+
@@ -552,7 +552,7 @@
     });
     var ta=document.querySelector('.whereproof[data-site="'+n+'"]');
     if(ta&&s.whereproof!=null&&ta.value!==s.whereproof)ta.value=s.whereproof;
-    var done=s.who&&s.when&&s.where&&s.rating&&s.whereproof&&s.whereproof.trim().length>0;
+    var done=s.who&&s.when&&s.where&&s.rating;   // 來源查證是加分題，不影響「做完」
     var card=ta?ta.closest('.bg-white'):null;
     if(card){var tag=card.querySelector('.doneTag');if(tag)tag.classList.toggle('hidden',!done);}
   }
@@ -837,9 +837,10 @@
   document.getElementById('submitBtn').onclick=function(){
     var idn=getIdentity();
     if(!identityValid(idn)){alert('請先在最上方填好年級、班級（1-14）、座號（都是數字）。');window.scrollTo({top:0,behavior:'smooth'});return;}
-    var doneSites=[1,2,3].filter(function(n){var s=siteState(n);return s.who&&s.when&&s.where&&s.rating&&s.whereproof&&s.whereproof.trim().length>0;});
-    if(doneSites.length<2){alert('④至少要完整做完 2 個網站（勾選＋可信度＋來源查證）才能繳交喔。');return;}
-    var answers={},qtypes={},scoreAnswers={},experienceAnswers={},openAnswers={};
+    var doneSites=[1,2,3].filter(function(n){var s=siteState(n);return s.who&&s.when&&s.where&&s.rating;});
+    if(doneSites.length<2){alert('④至少要完整做完 2 個網站（勾選＋可信度）才能繳交喔。來源查證是加分題，可以不寫。');return;}
+    var answers={},qtypes={},scoreAnswers={},experienceAnswers={},openAnswers={},bonusAnswers={};
+    var bonusQids=['site1_whereproof','site2_whereproof','site3_whereproof'];   // 來源查證＝加分題（見《學習單資料與提交規範》§2-b）
     var scoreTotal=0,scoreCorrect=0,expTotal=0,expAnswered=0;
     function fileItem(qid,given,correct,type){
       answers[qid]=given;qtypes[qid]=type;
@@ -853,7 +854,8 @@
       fileItem('site'+site.n+'_when',s.when||null,ca?ca.when:null,effectiveQtype('site'+site.n+'_checklist'));
       fileItem('site'+site.n+'_where',s.where||null,ca?ca.where:null,effectiveQtype('site'+site.n+'_checklist'));
       fileItem('site'+site.n+'_rating',s.rating||null,null,effectiveQtype('site'+site.n+'_rating'));
-      fileItem('site'+site.n+'_whereproof',s.whereproof||null,null,effectiveQtype('site'+site.n+'_whereproof')); // 必做，不是加分
+      fileItem('site'+site.n+'_whereproof',s.whereproof||null,null,effectiveQtype('site'+site.n+'_whereproof'));
+      bonusAnswers['site'+site.n+'_whereproof']={given:s.whereproof||null,completed:!!(s.whereproof&&s.whereproof.trim())};   // 加分題：兩邊都放（openAnswers 送 AI、bonusAnswers 給完成提示）
     });
     fileItem('match5w',Object.keys(matched).length,5,effectiveQtype('match5w'));
     var accuracyRate=scoreTotal?Math.round(scoreCorrect/scoreTotal*100):null;
@@ -862,7 +864,8 @@
     var docId=WS_ID+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;
     var payload={worksheetId:WS_ID,worksheetTitle:'來源評估與橫向閱讀',lessonPath:'g5/L03',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
-      answers:answers,qtypes:qtypes,scoreAnswers:scoreAnswers,experienceAnswers:experienceAnswers,openAnswers:openAnswers,
+      answers:answers,qtypes:qtypes,qtexts:{site1_whereproof:'網站 1：實際查證「來源」，寫下查到什麼、你的判斷理由',site2_whereproof:'網站 2：實際查證「來源」，寫下查到什麼、你的判斷理由',site3_whereproof:'網站 3：實際查證「來源」，寫下查到什麼、你的判斷理由'},
+      bonusQids:bonusQids,scoreAnswers:scoreAnswers,experienceAnswers:experienceAnswers,openAnswers:openAnswers,bonusAnswers:bonusAnswers,
       accuracyRate:accuracyRate,experienceCompletion:experienceCompletion,
       status:'submitted'};
     var btn=this,stat=document.getElementById('submitStat');
@@ -885,6 +888,17 @@
       });
   };
 })();
+</script>
+<script type="application/json" id="grading-spec">
+{ "summary": "評估網站來源可信度：勾選作者／日期／來源、給可信度星等，並實際搜尋查證來源",
+  "questions": [
+    { "qid":"site1_whereproof", "prompt":"網站 1：實際查證「來源」，寫下查到什麼、你的判斷理由", "mode":"levels", "points":2, "relative":false,
+      "standard":"說出離開頁面查到了什麼，並說明自己為什麼覺得這個來源可不可信" },
+    { "qid":"site2_whereproof", "prompt":"網站 2：實際查證「來源」，寫下查到什麼、你的判斷理由", "mode":"levels", "points":2, "relative":false,
+      "standard":"說出離開頁面查到了什麼，並說明自己為什麼覺得這個來源可不可信" },
+    { "qid":"site3_whereproof", "prompt":"網站 3：實際查證「來源」，寫下查到什麼、你的判斷理由", "mode":"levels", "points":2, "relative":false,
+      "standard":"說出離開頁面查到了什麼，並說明自己為什麼覺得這個來源可不可信" }
+  ] }
 </script>
 </body>
 </html>
