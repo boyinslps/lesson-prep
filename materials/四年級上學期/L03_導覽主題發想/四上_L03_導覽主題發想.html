@@ -739,13 +739,17 @@ var firebaseConfig = {
   }
   $('wsUrlCopy').onclick=function(){copyText(WS_URL,this);};
 
-  // ===== 我的宣言：繳交後存進資料庫，之後填好年級／班級／座號就能拿回來 =====
-  function declDocId(idn){return 'g4-L03__'+idn.grade+'-'+idn.className+'-'+idn.studentId;}
+  // ===== 我的宣言：繳交後存進「學生暫存區」studentWork，之後填好年級／班級／座號就能拿回來 =====
+  // 見《學習單資料與提交規範》§3-c：文件 id＝{worksheetId}__{年級}-{班級}-{座號}__{項目 kind}
+  var WORK_WS='g4-L03',WORK_KIND='declaration';
+  function workDocId(idn){return WORK_WS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;}   // 繳交紀錄（submissions）的 id
+  function declDocId(idn){return workDocId(idn)+'__'+WORK_KIND;}                                  // 暫存區（studentWork）的 id
   function saveDeclaration(idn){                 // 繳交成功後才呼叫；失敗不影響繳交本身，只寫 console
     if(!db||!anyDeclFilled())return;
-    db.collection('declarations').doc(declDocId(idn)).set({
-      worksheetId:'g4-L03',grade:idn.grade,className:idn.className,studentId:idn.studentId,
-      mate:mateVal(),mode:modeSel||'',choice:$('c3').value.trim(),reason:$('c4').value.trim(),text:cardTextStr(),
+    db.collection('studentWork').doc(declDocId(idn)).set({
+      worksheetId:WORK_WS,kind:WORK_KIND,grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      data:{mate:mateVal(),mode:modeSel||'',choice:$('c3').value.trim(),reason:$('c4').value.trim()},
+      text:cardTextStr(),
       updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})
       .catch(function(e){console.warn('宣言存檔失敗',e);});
   }
@@ -759,10 +763,10 @@ var firebaseConfig = {
     if(!db||!auth){declMsg('現在拿不到，晚點再試試看。','warn');return;}
     if(anyDeclFilled()&&!confirm('會用以前寫過的宣言，蓋掉你現在填的內容，可以嗎？'))return;
     declMsg('找找看…');
-    ensureAuth().then(function(){return db.collection('declarations').doc(declDocId(idn)).get();})
+    ensureAuth().then(function(){return db.collection('studentWork').doc(declDocId(idn)).get();})
       .then(function(doc){
         if(!doc.exists){declMsg('還沒有找到你寫過的宣言。填好之後按「繳交學習單」，下次就能拿回來。','warn');return;}
-        var d=doc.data()||{};
+        var d=(doc.data()||{}).data||{};
         if(d.mate){if(mateOpts.indexOf(d.mate)>=0&&d.mate!=='其他')setMate(d.mate);else{setMate('其他');$('mateOther').value=d.mate;}}
         if(MODE_LABEL[d.mode])setMode(d.mode);
         $('c3').value=d.choice||'';$('c4').value=d.reason||'';
@@ -832,7 +836,7 @@ var firebaseConfig = {
       +'\n\n送出後這份會被老師看到，確定要交嗎？';
     if(!confirm(msg))return;
 
-    var docId=declDocId(idn);
+    var docId=workDocId(idn);
     var payload={worksheetId:'g4-L03',worksheetTitle:'台南小導遊養成記',lessonPath:'g4/L03',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
