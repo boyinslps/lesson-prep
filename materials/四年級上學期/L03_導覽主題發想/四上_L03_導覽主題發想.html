@@ -21,6 +21,7 @@
   .bucket.over{background:#f0f9ff;border-color:#0ea5e9}
   .stepnav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;padding-top:14px;border-top:2px solid #f1f5f9}
   .stepdot{width:32px;height:32px}
+  @media(max-width:420px){.stepdot{width:28px;height:28px;font-size:12px}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
   input,textarea{font-family:inherit}
 </style>
@@ -187,8 +188,88 @@
     <div class="stepnav"></div>
   </section>
 
-  <!-- 步驟 5：同行的人＋看別人怎麼排（靜態文字，課堂由老師帶著討論） -->
-  <section class="step hidden bg-white border-4 border-rose-300 rounded-3xl p-5 shadow-sm" data-step="5">
+  <!-- 步驟 5：善用政府的旅遊資源（交通型：台灣好行；靜態文字，課堂由老師帶著討論） -->
+  <section class="step hidden bg-white border-4 border-indigo-300 rounded-3xl p-5 shadow-sm" data-step="5">
+    <h2 class="cute text-2xl font-extrabold text-indigo-700 mb-1">善用政府的旅遊資源</h2>
+    <p class="text-lg text-slate-600 mb-3">除了自己查，政府也幫大家準備了旅遊資源。除了「區域型」「主題型」，還有第三種起點：<b class="text-indigo-700">🚌 交通型</b>。</p>
+
+    <div class="bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-4 mb-4">
+      <p class="cute text-xl font-extrabold text-indigo-700 mb-1">🚌 交通型旅遊：跟著「台灣好行」走</p>
+      <p class="text-base mb-2">先選<b>一條公車路線</b>，沿著站點一路玩。<b>台灣好行</b>是交通部觀光署推動的<b>觀光公車</b>：把火車站、高鐵站和有名的景點連起來，不會開車也能出發。</p>
+      <div class="grid sm:grid-cols-2 gap-x-4 gap-y-1 text-base">
+        <p>✅ 專門開往景點，不用自己轉車找路</p>
+        <p>✅ 車上有語音報站，下車不怕坐過頭</p>
+        <p>✅ 可以刷悠遊卡、一卡通，也有一日票、二日票</p>
+        <p>✅ 兒童、長輩有優待票，部分班次有無障礙車</p>
+      </div>
+    </div>
+
+    <p class="cute text-lg font-extrabold text-indigo-700 mb-2">🗺️ 台南有這些台灣好行路線：</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <figure class="border-2 border-indigo-200 rounded-2xl overflow-hidden bg-white">
+        <img src="assets/bus_98.jpg" alt="七股鹽山" loading="lazy" class="w-full h-28 object-cover">
+        <figcaption class="p-3">
+          <p class="cute text-lg font-extrabold text-indigo-700">98 府城台江線</p>
+          <p class="text-sm mb-1">從台南轉運站出發，先逛府城市區，再一路開到安平、四草和七股。</p>
+          <p class="text-xs font-bold text-indigo-600">赤崁樓・安平古堡・四草生態園區・台灣鹽博物館・七股鹽山</p>
+          <p class="text-[11px] leading-tight text-slate-400 mt-1">照片：月亮灣／Wikimedia Commons／CC BY-SA 4.0</p>
+        </figcaption>
+      </figure>
+      <figure class="border-2 border-indigo-200 rounded-2xl overflow-hidden bg-white">
+        <img src="assets/bus_111.jpg" alt="藍晒圖文創園區" loading="lazy" class="w-full h-28 object-cover">
+        <figcaption class="p-3">
+          <p class="cute text-lg font-extrabold text-indigo-700">111 臺南小港機場線</p>
+          <p class="text-sm mb-1">國道客運，往返高雄小港機場和台南市區，是坐飛機來玩的旅客的好幫手。</p>
+          <p class="text-xs font-bold text-indigo-600">藍晒圖文創園區・海安路藝術街・國華街及西市場・臺南孔廟・巴克禮紀念公園・奇美食品幸福工廠</p>
+          <p class="text-[11px] leading-tight text-slate-400 mt-1">照片：Sinchen.Lin／Wikimedia Commons／CC BY 2.0</p>
+        </figcaption>
+      </figure>
+      <figure class="border-2 border-indigo-200 rounded-2xl overflow-hidden bg-white">
+        <img src="assets/bus_168.jpg" alt="虎頭埤" loading="lazy" class="w-full h-28 object-cover">
+        <figcaption class="p-3">
+          <p class="cute text-lg font-extrabold text-indigo-700">168 虎埤老街線</p>
+          <p class="text-sm mb-1">串起新市站、新化老街和虎頭埤，老街散步加湖邊散心。</p>
+          <p class="text-xs font-bold text-indigo-600">新化老街・虎頭埤風景區・新化武德殿・大目降文化園區・中興大學新化林場</p>
+          <p class="text-[11px] leading-tight text-slate-400 mt-1">照片：lienyuan lee／Wikimedia Commons／CC BY 3.0</p>
+        </figcaption>
+      </figure>
+      <figure class="border-2 border-indigo-200 rounded-2xl overflow-hidden bg-white">
+        <img src="assets/bus_33.jpg" alt="關子嶺" loading="lazy" class="w-full h-28 object-cover">
+        <figcaption class="p-3">
+          <p class="cute text-lg font-extrabold text-indigo-700">33 關子嶺線 <span class="text-xs font-bold text-rose-500">假日行駛</span></p>
+          <p class="text-sm mb-1">從高鐵嘉義站出發，經白河、後壁，泡溫泉、看農村風光。</p>
+          <p class="text-xs font-bold text-indigo-600">關子嶺溫泉・嶺頂公園・白河蓮花・無米樂社區・寶泉橋</p>
+          <p class="text-[11px] leading-tight text-slate-400 mt-1">照片：Jpatokal／Wikimedia Commons／CC BY-SA 4.0</p>
+        </figcaption>
+      </figure>
+      <figure class="border-2 border-indigo-200 rounded-2xl overflow-hidden bg-white">
+        <img src="assets/bus_guantian.jpg" alt="烏山頭水庫" loading="lazy" class="w-full h-28 object-cover">
+        <figcaption class="p-3">
+          <p class="cute text-lg font-extrabold text-indigo-700">菱波官田線 <span class="text-xs font-bold text-rose-500">假日行駛</span></p>
+          <p class="text-sm mb-1">從新營出發，經過柳營、官田、善化，湖光山色加親子踏青。</p>
+          <p class="text-xs font-bold text-indigo-600">尖山埤渡假村・烏山頭水庫・官田遊客中心・隆田 chacha 文化資產教育園區・善化啤酒廠</p>
+          <p class="text-[11px] leading-tight text-slate-400 mt-1">照片：Tze Chiang Hao／Wikimedia Commons／CC BY-SA 4.0</p>
+        </figcaption>
+      </figure>
+      <figure class="border-2 border-indigo-200 rounded-2xl overflow-hidden bg-white">
+        <img src="assets/bus_dongshan.jpg" alt="東山的老建築" loading="lazy" class="w-full h-28 object-cover">
+        <figcaption class="p-3">
+          <p class="cute text-lg font-extrabold text-indigo-700">東山咖啡線</p>
+          <p class="text-sm mb-1">從關子嶺嶺頂公園出發，串起關子嶺風景區和東山咖啡公路，山麓慢慢逛。</p>
+          <p class="text-xs font-bold text-indigo-600">嶺頂公園・關子嶺溫泉・東山咖啡公路</p>
+          <p class="text-[11px] leading-tight text-slate-400 mt-1">照片：Zu3612403／Wikimedia Commons／CC BY-SA 4.0</p>
+        </figcaption>
+      </figure>
+    </div>
+    <p class="text-sm text-slate-500 mt-2">路線資料來源：台灣好行旅遊服務網（交通部觀光署）。哪天行駛、幾點發車，出發前要看官網最新公告。</p>
+
+    <a href="https://www.taiwantrip.com.tw/Frontend/Route/Select_p?RouteID=R0039" target="_blank" rel="noopener"
+       class="cute mt-3 inline-block bg-indigo-500 hover:bg-indigo-600 text-white text-lg font-extrabold rounded-2xl px-6 py-2">🔗 台灣好行：看完整路線與時刻表 ↗</a>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- 步驟 6：同行的人＋看別人怎麼排（靜態文字，課堂由老師帶著討論） -->
+  <section class="step hidden bg-white border-4 border-rose-300 rounded-3xl p-5 shadow-sm" data-step="6">
     <h2 class="cute text-2xl font-extrabold text-rose-700 mb-1">跟誰一起去？景點也要挑人</h2>
     <p class="text-lg text-slate-600 mb-3">同一種景點，帶<b>同學</b>去和帶<b>爺爺奶奶</b>去，感覺可能很不一樣。行程要看<b>同行的人</b>來調整。四種常見的景點<b>類型</b>：</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -238,12 +319,32 @@
     <div class="stepnav"></div>
   </section>
 
-  <!-- 步驟 6：我的規劃宣言 -->
-  <section class="step hidden bg-white border-4 border-teal-300 rounded-3xl p-5 shadow-sm" data-step="6">
+  <!-- 步驟 7：我的規劃宣言 -->
+  <section class="step hidden bg-white border-4 border-teal-300 rounded-3xl p-5 shadow-sm" data-step="7">
     <h2 class="cute text-2xl font-extrabold text-teal-700 mb-1">我的規劃宣言</h2>
-    <p class="text-lg text-slate-600 mb-3">把空格填滿，就完成你的第一張導覽構想卡了！</p>
-    <div class="grid md:grid-cols-2 gap-5 items-start" data-qid="q4" data-qtype="open" data-qtext="請填寫你的規劃宣言：你打算和誰一起去、想以區域還是主題來規劃、選擇的區域或主題是什麼，以及原因。">
-      <div>
+    <p class="text-lg text-slate-700 mb-3">先想想你的旅遊類型：<b class="text-violet-700">🗺️ 區域型</b>？<b class="text-fuchsia-700">🏷️ 主題型</b>？<b class="text-indigo-700">🚌 交通型</b>？想好了，就把空格填滿！</p>
+
+    <div class="grid md:grid-cols-2 gap-5 items-start">
+      <!-- 左：本次學習單的網址＋可以再看的網站 -->
+      <div class="space-y-3">
+        <div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3">
+          <p class="cute text-lg font-extrabold text-teal-700 mb-1">🔗 本次學習單的網址</p>
+          <p class="text-sm text-slate-600 mb-2">想再回來看，或貼到你的文件裡留著，就用這個網址。</p>
+          <input id="wsUrl" readonly class="w-full border-2 border-teal-200 bg-white rounded-xl px-3 py-2 text-sm font-bold text-slate-700 outline-none" value="https://boyinslps.github.io/pcclass/g4/L03/">
+          <button id="wsUrlCopy" class="mt-2 bg-white border-2 border-teal-300 hover:bg-teal-100 rounded-xl px-4 py-1.5 font-bold text-teal-700 text-sm">📋 複製網址</button>
+        </div>
+        <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-3">
+          <p class="cute text-lg font-extrabold text-slate-700 mb-2">🔎 可以再看看這些網站</p>
+          <div class="space-y-2 text-base">
+            <a href="https://www.twtainan.net/zh-tw/" target="_blank" rel="noopener" class="block bg-white border-2 border-slate-200 hover:border-teal-400 rounded-xl px-3 py-2"><b class="text-teal-700">台南旅遊網 ↗</b><br><span class="text-sm text-slate-500">找景點、看主題與區域</span></a>
+            <a href="https://www.twtainan.net/zh-tw/tours/tourslist/" target="_blank" rel="noopener" class="block bg-white border-2 border-slate-200 hover:border-teal-400 rounded-xl px-3 py-2"><b class="text-teal-700">台南旅遊網：遊程搜尋 ↗</b><br><span class="text-sm text-slate-500">看別人排好的行程</span></a>
+            <a href="https://www.taiwantrip.com.tw/Frontend/Route/Select_p?RouteID=R0039" target="_blank" rel="noopener" class="block bg-white border-2 border-slate-200 hover:border-teal-400 rounded-xl px-3 py-2"><b class="text-teal-700">台灣好行觀光公車 ↗</b><br><span class="text-sm text-slate-500">查路線、站點與時刻表</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右：填寫 -->
+      <div data-qid="q4" data-qtype="open" data-qtext="請填寫你的規劃宣言：你打算和誰一起去、想以區域、主題還是交通來規劃、選擇的區域／主題／交通路線是什麼，以及原因。">
         <div class="space-y-3 text-lg">
           <div>
             <p class="mb-1">我打算和…一起去</p>
@@ -252,10 +353,10 @@
           </div>
           <div>
             <p class="mb-1">我想要以…來規劃景點</p>
-            <div id="modeChips" class="flex gap-2"></div>
+            <div id="modeChips" class="flex flex-wrap gap-2"></div>
           </div>
           <div>
-            <p class="mb-1">我選擇的<b id="modeWord" class="text-teal-700">區域／主題</b>是</p>
+            <p class="mb-1">我選擇的<b id="modeWord" class="text-teal-700">區域／主題／交通路線</b>是</p>
             <input id="c3" class="field w-full border-b-4 border-teal-300 focus:border-teal-500 outline-none px-2">
             <div id="choiceChips" class="flex flex-wrap gap-2 mt-2"></div>
           </div>
@@ -269,23 +370,32 @@
           <label class="flex items-center gap-2 mb-1"><input type="checkbox" class="w-5 h-5"> 四個空格都填好了</label>
           <label class="flex items-center gap-2"><input type="checkbox" class="w-5 h-5"> 我的理由跟同行的人或台南特色有關</label>
         </div>
-        <button id="cardBtn" class="mt-3 w-full bg-teal-500 hover:bg-teal-600 text-white cute text-xl font-extrabold rounded-2xl py-2.5">✨ 產生我的構想卡</button>
+        <button id="cardBtn" class="mt-3 w-full bg-teal-500 hover:bg-teal-600 text-white cute text-xl font-extrabold rounded-2xl py-2.5">✨ 產生我的宣言</button>
       </div>
-      <div id="cardOut" class="hidden bg-gradient-to-b from-teal-50 to-cyan-50 border-4 border-teal-200 rounded-3xl p-5 text-center">
-        <div class="text-3xl mb-2">🎴</div>
+    </div>
+
+    <!-- 下：結果 -->
+    <div class="mt-5 bg-gradient-to-b from-teal-50 to-cyan-50 border-4 border-teal-200 rounded-3xl p-5">
+      <div class="flex items-center justify-between gap-2 flex-wrap mb-2">
+        <p class="cute text-xl font-extrabold text-teal-700">🎴 我的宣言</p>
+        <button id="loadDecl" class="bg-white border-2 border-teal-300 hover:bg-teal-100 rounded-xl px-4 py-1.5 font-bold text-teal-700 text-sm">📂 顯示我的宣言</button>
+      </div>
+      <p id="declStat" class="text-sm font-bold min-h-[20px] mb-1"></p>
+      <div id="cardOut" class="hidden text-center">
         <p id="cardText" class="text-xl font-bold text-teal-900 leading-relaxed"></p>
         <div class="flex gap-2 justify-center mt-3">
           <button id="cardCopy" class="bg-white border-2 border-teal-300 rounded-xl px-4 py-2 font-bold text-teal-700">📋 複製</button>
-          <button id="cardDl" class="bg-white border-2 border-teal-300 rounded-xl px-4 py-2 font-bold text-teal-700">📸 下載卡片</button>
+          <button id="cardDl" class="bg-white border-2 border-teal-300 rounded-xl px-4 py-2 font-bold text-teal-700">📸 下載圖片</button>
         </div>
       </div>
+      <p id="cardEmpty" class="text-base text-slate-500">填好上面的空格，按「✨ 產生我的宣言」，宣言就會出現在這裡。以前寫過的，填好年級、班級、座號後按「📂 顯示我的宣言」就能拿回來。</p>
     </div>
     <canvas id="cardCv" width="900" height="500" class="hidden"></canvas>
     <div class="stepnav"></div>
   </section>
 
-  <!-- 步驟 7：貼進行程規劃文件（Google 文件：貼上＋改標題）＋繳交 -->
-  <section class="step hidden bg-white border-4 border-blue-300 rounded-3xl p-5 shadow-sm" data-step="7">
+  <!-- 步驟 8：貼進行程規劃文件（Google 文件：貼上＋改標題）＋繳交 -->
+  <section class="step hidden bg-white border-4 border-blue-300 rounded-3xl p-5 shadow-sm" data-step="8">
     <h2 class="cute text-2xl font-extrabold text-blue-700 mb-1">把宣言貼進你的「行程規劃」文件</h2>
     <p class="text-lg text-slate-600 mb-3">宣言是行程規劃的第一步，把它放進 Google 文件，後面排行程才有依據！</p>
 
@@ -294,7 +404,7 @@
         <div class="cute text-2xl font-extrabold text-blue-600 shrink-0 w-8 text-center">1</div>
         <div>
           <p class="text-lg font-bold">複製宣言</p>
-          <p class="text-base">在上一步按「<b>✨ 產生我的構想卡</b>」，再按「<b>📋 複製</b>」，看到「✓ 已複製」就成功了。</p>
+          <p class="text-base">在上一步按「<b>✨ 產生我的宣言</b>」，再按「<b>📋 複製</b>」，看到「✓ 已複製」就成功了。</p>
         </div>
       </div>
       <div class="flex gap-3 items-start bg-blue-50 rounded-2xl p-3">
@@ -573,22 +683,20 @@ var firebaseConfig = {
   })();
 
   // ===== ⑥ 我的規劃宣言（q4）=====
+  var WS_URL='https://boyinslps.github.io/pcclass/g4/L03/';   // 學生用的正式網址（左側顯示、可複製）
   var mateSel=null,modeSel=null;
   var mateOpts=['同學','爺爺奶奶','爸爸媽媽','其他'];
   var chipCls='opt border-2 border-slate-200 rounded-full px-4 py-1.5 font-bold text-lg hover:border-teal-400';
   var chipOn='opt border-2 border-teal-500 bg-teal-50 rounded-full px-4 py-1.5 font-bold text-lg';
-  mateOpts.forEach(function(n){
-    var b=el('button',chipCls);b.textContent=n;
-    b.onclick=function(){
-      mateSel=n;Array.prototype.forEach.call($('mateChips').children,function(x){x.className=chipCls;});b.className=chipOn;
-      $('mateOther').classList.toggle('hidden',n!=='其他');
-    };
-    $('mateChips').appendChild(b);
-  });
+  var MODE_LABEL={'區域':'🗺️ 區域型','主題':'🏷️ 主題型','交通':'🚌 交通型'};
+  var MODE_WORD={'區域':'區域','主題':'主題','交通':'交通路線'};
   var choiceSets={
     '區域':['東區','中西區','安平區','北區','南區','安南區'],
-    '主題':['大自然與生態','歷史文化與藝術','主題樂園與休閒','百貨商圈與夜市','美食小吃','宗教廟宇']
+    '主題':['大自然與生態','歷史文化與藝術','主題樂園與休閒','百貨商圈與夜市','美食小吃','宗教廟宇'],
+    '交通':['98 府城台江線','111 臺南小港機場線','168 虎埤老街線','33 關子嶺線','菱波官田線','東山咖啡線']
   };
+  function markChips(host,val){Array.prototype.forEach.call(host.children,function(x){x.className=(x.dataset.v===val)?chipOn:chipCls;});}
+  function setMate(n){mateSel=n;markChips($('mateChips'),n);$('mateOther').classList.toggle('hidden',n!=='其他');}
   function renderChoiceChips(){
     var h=$('choiceChips');h.innerHTML='';
     (choiceSets[modeSel]||[]).forEach(function(n){
@@ -596,25 +704,73 @@ var firebaseConfig = {
       b.onclick=function(){$('c3').value=n;};h.appendChild(b);
     });
   }
-  ['區域','主題'].forEach(function(n){
-    var b=el('button',chipCls);b.textContent=(n==='區域'?'🗺️ ':'🏷️ ')+n;
-    b.onclick=function(){
-      modeSel=n;Array.prototype.forEach.call($('modeChips').children,function(x){x.className=chipCls;});b.className=chipOn;
-      $('modeWord').textContent=n;renderChoiceChips();
-    };
+  function setMode(n){modeSel=n;markChips($('modeChips'),n);$('modeWord').textContent=MODE_WORD[n];renderChoiceChips();}
+  mateOpts.forEach(function(n){
+    var b=el('button',chipCls);b.textContent=n;b.dataset.v=n;b.onclick=function(){setMate(n);};
+    $('mateChips').appendChild(b);
+  });
+  Object.keys(MODE_LABEL).forEach(function(n){
+    var b=el('button',chipCls);b.textContent=MODE_LABEL[n];b.dataset.v=n;b.onclick=function(){setMode(n);};
     $('modeChips').appendChild(b);
   });
   function mateVal(){return mateSel==='其他'?$('mateOther').value.trim():(mateSel||'');}
   function cardTextStr(){
-    var a=mateVal()||'＿＿',m=modeSel||'區域／主題',c=$('c3').value.trim()||'＿＿',r=$('c4').value.trim()||'＿＿';
-    return '我打算和「'+a+'」一起去，\n我想以「'+m+'」來規劃行程，\n我選擇的'+m+'是「'+c+'」，\n因為'+r+'。';
+    var a=mateVal()||'＿＿',m=modeSel?modeSel+'型':'區域型／主題型／交通型',w=modeSel?MODE_WORD[modeSel]:'區域／主題／交通路線',c=$('c3').value.trim()||'＿＿',r=$('c4').value.trim()||'＿＿';
+    return '我打算和「'+a+'」一起去，\n我想以「'+m+'」來規劃行程，\n我選擇的'+w+'是「'+c+'」，\n因為'+r+'。';
   }
   function cardComplete(){return !!(mateVal()&&modeSel&&$('c3').value.trim()&&$('c4').value.trim());}
-  $('cardBtn').onclick=function(){
-    $('cardText').innerText=cardTextStr();
-    var o=$('cardOut');o.classList.remove('hidden');o.classList.add('pop');};
-  $('cardCopy').onclick=function(){var t=cardTextStr();
-    try{navigator.clipboard.writeText(t);this.textContent='✓ 已複製';}catch(e){this.textContent='✓';}};
+  function anyDeclFilled(){return !!(mateVal()||modeSel||$('c3').value.trim()||$('c4').value.trim());}
+  function showCard(){
+    $('cardText').innerText=cardTextStr();$('cardEmpty').classList.add('hidden');
+    var o=$('cardOut');o.classList.remove('hidden');o.classList.remove('pop');void o.offsetWidth;o.classList.add('pop');
+  }
+  $('cardBtn').onclick=showCard;
+  $('wsUrl').onclick=function(){this.select();};
+  // 複製：先用剪貼簿 API，被拒絕（沒有權限、頁面沒焦點）就退回選取＋execCommand
+  function copyText(text,btn){
+    function done(){btn.textContent='✓ 已複製';}
+    function fallback(){
+      var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px;top:0';
+      document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');done();}catch(e){btn.textContent='請按 Ctrl+C 複製';}
+      document.body.removeChild(ta);
+    }
+    try{navigator.clipboard.writeText(text).then(done,fallback);}catch(e){fallback();}
+  }
+  $('wsUrlCopy').onclick=function(){copyText(WS_URL,this);};
+
+  // ===== 我的宣言：繳交後存進資料庫，之後填好年級／班級／座號就能拿回來 =====
+  function declDocId(idn){return 'g4-L03__'+idn.grade+'-'+idn.className+'-'+idn.studentId;}
+  function saveDeclaration(idn){                 // 繳交成功後才呼叫；失敗不影響繳交本身，只寫 console
+    if(!db||!anyDeclFilled())return;
+    db.collection('declarations').doc(declDocId(idn)).set({
+      worksheetId:'g4-L03',grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      mate:mateVal(),mode:modeSel||'',choice:$('c3').value.trim(),reason:$('c4').value.trim(),text:cardTextStr(),
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})
+      .catch(function(e){console.warn('宣言存檔失敗',e);});
+  }
+  function declMsg(txt,kind){
+    var st=$('declStat');st.textContent=txt;
+    st.className='text-sm font-bold min-h-[20px] mb-1 '+(kind==='ok'?'text-emerald-700':(kind==='warn'?'text-amber-600':'text-teal-700'));
+  }
+  $('loadDecl').onclick=function(){
+    var idn=getIdentity();
+    if(!identityValid(idn)){declMsg('先在最上方填好年級、班級、座號，我才知道要找誰的宣言。','warn');return;}
+    if(!db||!auth){declMsg('現在拿不到，晚點再試試看。','warn');return;}
+    if(anyDeclFilled()&&!confirm('會用以前寫過的宣言，蓋掉你現在填的內容，可以嗎？'))return;
+    declMsg('找找看…');
+    ensureAuth().then(function(){return db.collection('declarations').doc(declDocId(idn)).get();})
+      .then(function(doc){
+        if(!doc.exists){declMsg('還沒有找到你寫過的宣言。填好之後按「繳交學習單」，下次就能拿回來。','warn');return;}
+        var d=doc.data()||{};
+        if(d.mate){if(mateOpts.indexOf(d.mate)>=0&&d.mate!=='其他')setMate(d.mate);else{setMate('其他');$('mateOther').value=d.mate;}}
+        if(MODE_LABEL[d.mode])setMode(d.mode);
+        $('c3').value=d.choice||'';$('c4').value=d.reason||'';
+        showCard();declMsg('✓ 找到了！這是你上次繳交的宣言，可以複製，也可以下載成圖片。','ok');
+      })
+      .catch(function(e){console.warn('讀取宣言失敗',e);declMsg('現在拿不到，晚點再試試看。','warn');});
+  };
+  $('cardCopy').onclick=function(){copyText(cardTextStr(),this);};
   $('cardDl').onclick=function(){
     var cv=$('cardCv'),x=cv.getContext('2d');
     x.fillStyle='#f0fdfa';x.fillRect(0,0,900,500);x.strokeStyle='#5eead4';x.lineWidth=8;x.strokeRect(16,16,868,468);
@@ -676,12 +832,12 @@ var firebaseConfig = {
       +'\n\n送出後這份會被老師看到，確定要交嗎？';
     if(!confirm(msg))return;
 
-    var docId='g4-L03__'+idn.grade+'-'+idn.className+'-'+idn.studentId;
+    var docId=declDocId(idn);
     var payload={worksheetId:'g4-L03',worksheetTitle:'台南小導遊養成記',lessonPath:'g4/L03',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
       qtexts:{
-        q4:'請填寫你的規劃宣言：你打算和誰一起去、想以區域還是主題來規劃、選擇的區域或主題是什麼，以及原因。',
+        q4:'請填寫你的規劃宣言：你打算和誰一起去、想以區域、主題還是交通來規劃、選擇的區域／主題／交通路線是什麼，以及原因。',
         q5:'加分：除了這些主題，你還想得到什麼旅遊主題？寫出主題名稱。'
       },
       bonusQids:['q5'],
@@ -695,6 +851,7 @@ var firebaseConfig = {
         btn.disabled=false;btn.textContent='重新繳交（覆蓋）';
         stat.className='text-sm font-bold mt-3 min-h-[20px] text-emerald-600';
         stat.textContent='✓ 已繳交！';submittedOnce=true;renderStepper();
+        saveDeclaration(idn);
         var rb=$('rewardBox');rb.classList.remove('hidden');rb.scrollIntoView({behavior:'smooth'});
       }).catch(function(e){
         console.warn('繳交失敗',e);
@@ -705,14 +862,14 @@ var firebaseConfig = {
   };
 
   // ===== 學習路徑：一次只顯示一步，頂端進度列可以跳步 =====
-  var STEP_NAMES=['起點','主題','分類','比較','同行','宣言','交出'];
+  var STEP_NAMES=['起點','主題','分類','比較','資源','同行','宣言','交出'];
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true},submittedOnce=false;
   function stepDone(n){
     if(n===1)return q1Items.every(function(it){return q1St[it.id]&&q1St[it.id].ok;});
     if(n===3)return Object.keys(q2Placed).length===spots.length;
-    if(n===6)return cardComplete();
-    if(n===7)return submittedOnce;
+    if(n===7)return cardComplete();
+    if(n===8)return submittedOnce;
     return !!visited[n]&&n!==curStep;
   }
   function renderStepper(){
@@ -729,7 +886,7 @@ var firebaseConfig = {
       cell.appendChild(b);
       cell.appendChild(el('span','hidden sm:block text-xs font-bold mt-0.5 '+(cur?'text-orange-600':'text-slate-400'),name));
       host.appendChild(cell);
-      if(n<STEP_NAMES.length)host.appendChild(el('div','flex-1 h-0.5 mt-4 mx-1 rounded '+(done&&!cur?'bg-emerald-300':'bg-slate-200')));
+      if(n<STEP_NAMES.length)host.appendChild(el('div','flex-1 h-0.5 mt-3.5 sm:mt-4 mx-0.5 sm:mx-1 rounded '+(done&&!cur?'bg-emerald-300':'bg-slate-200')));
     });
     $('stepLabel').textContent='第 '+curStep+' 步／共 '+STEP_NAMES.length+' 步 · '+STEP_NAMES[curStep-1];
   }
@@ -757,10 +914,10 @@ var firebaseConfig = {
 {
   "summary": "認識規劃行程的兩種起點（區域型／主題型）與四大旅遊主題，練習分類台南景點，並寫下自己打算和誰去、用區域或主題規劃",
   "questions": [
-    { "qid": "q4", "prompt": "請填寫你的規劃宣言：你打算和誰一起去、想以區域還是主題來規劃、選擇的區域或主題是什麼，以及原因。", "mode": "checklist",
+    { "qid": "q4", "prompt": "請填寫你的規劃宣言：你打算和誰一起去、想以區域、主題還是交通來規劃、選擇的區域／主題／交通路線是什麼，以及原因。", "mode": "checklist",
       "checks": [
         { "desc": "說出同行的人", "pts": 1 },
-        { "desc": "選定「區域」或「主題」其中一種，並具體說出是哪一個區域或哪一個主題（不是空白或只寫「區域／主題」）", "pts": 2 },
+        { "desc": "選定「區域型」「主題型」「交通型」其中一種，並具體說出是哪一個區域、哪一個主題或哪一條交通路線（不是空白或只寫類型名稱）", "pts": 2 },
         { "desc": "「因為」的理由合理，跟同行的人、選擇的區域或主題、或台南的特色有關", "pts": 2 }
       ] },
     { "qid": "q5", "prompt": "加分：除了這些主題，你還想得到什麼旅遊主題？寫出主題名稱。", "mode": "condition", "points": 2, "need": 1,
