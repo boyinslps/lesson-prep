@@ -664,7 +664,7 @@ $("#handoff").onclick=async()=>{
   const l=lesson();$("#hoTag").textContent=l.title;
   const mats=(await api.get(stagePath(IDX.mat))).content||'（尚無素材清單）';
   const plan=(await api.get(stagePath(IDX.plan))).content||'（尚無教學環節）';
-  $("#hoCode").value=`# 交接包 · ${l.title}\n## 送 Claude Code 調整／NotebookLM 生成\n\n【提醒】影片→簡報留空白標題頁；圖片→已下載本機隨包附上（NotebookLM 不吃外連圖）。\n\n===== 素材清單（04）=====\n${mats}\n\n===== 教學環節（05）=====\n${plan}\n\n【評分】做互動學習單時，依《學習單資料與提交規範》§2-e 內嵌 grading-spec：開放題題幹＋評分方式＋標準＋配分，加上 scoring（100 分、80 起跳、20 分依題數平均分給主要題，加分題另外加）；體驗題沒正解時 isCorrect＝有沒有作答。評分平台第一次開這份學習單會自動讀入。
+  $("#hoCode").value=`# 交接包 · ${l.title}\n## 送 Claude Code 調整／NotebookLM 生成\n\n【提醒】影片→簡報留空白標題頁；圖片→已下載本機隨包附上（NotebookLM 不吃外連圖）。\n\n===== 素材清單（04）=====\n${mats}\n\n===== 教學環節（05）=====\n${plan}\n\n【版面】互動學習單區塊≥4個、或預估超過3個手機螢幕時，依《HTML互動教材設計規範》§5.8 做成步驟分頁（頂端進度列、每步上一步／下一步、繳交放最後一步）。\n\n【評分】做互動學習單時，依《學習單資料與提交規範》§2-e 內嵌 grading-spec：開放題題幹＋評分方式＋標準＋配分，加上 scoring（100 分、80 起跳、20 分依題數平均分給主要題，加分題另外加）；體驗題沒正解時 isCorrect＝有沒有作答。評分平台第一次開這份學習單會自動讀入。
 
 → 在 Claude Code 說「繼續 ${l.title} 的成品製作」。`;
   $("#hoO").classList.add('on');

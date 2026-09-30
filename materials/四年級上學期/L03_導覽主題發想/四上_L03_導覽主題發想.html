@@ -19,14 +19,16 @@
   .pcard{cursor:grab;user-select:none;touch-action:manipulation}
   .pcard.sel{border-color:#0ea5e9;background:#e0f2fe;box-shadow:0 0 0 3px #bae6fd}
   .bucket.over{background:#f0f9ff;border-color:#0ea5e9}
+  .stepnav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;padding-top:14px;border-top:2px solid #f1f5f9}
+  .stepdot{width:32px;height:32px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
   input,textarea{font-family:inherit}
 </style>
 </head>
 <body>
 
-<!-- 識別列：年級/班級/學號（數字），頁面最上方，見《學習單資料與提交規範》§1 -->
-<div class="sticky top-0 z-20 bg-white/95 backdrop-blur border-b-2 border-orange-200">
+<!-- 識別列：年級/班級/學號，頁面最上方（見《學習單資料與提交規範》§1） -->
+<div class="bg-white border-b-2 border-orange-200">
   <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap text-sm">
     <span class="cute font-bold text-orange-700">我是誰</span>
     <label class="flex items-center gap-1 text-slate-500">年級<input id="idGrade" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-orange-400 outline-none" inputmode="numeric" maxlength="2"></label>
@@ -36,222 +38,213 @@
   </div>
 </div>
 
-<div class="max-w-5xl mx-auto px-4 py-6">
+<!-- 學習路徑進度列（固定在畫面上方，可點圓點跳步） -->
+<div class="sticky top-0 z-20 bg-white/95 backdrop-blur border-b-2 border-orange-100">
+  <div class="max-w-5xl mx-auto px-4 py-2">
+    <div id="stepper" class="flex items-start"></div>
+    <p id="stepLabel" class="sm:hidden text-xs font-bold text-orange-700 text-center mt-1"></p>
+  </div>
+</div>
+
+<div class="max-w-5xl mx-auto px-4 py-5">
 
   <!-- 標題 -->
-  <header class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center mb-6">
-    <div class="text-5xl">🧭</div>
+  <header class="flex items-center justify-center gap-3 text-center mb-4">
+    <div class="text-4xl">🧭</div>
     <div>
-      <h1 class="cute text-4xl md:text-5xl font-extrabold text-orange-600 leading-tight">台南小導遊養成記</h1>
-      <p class="text-slate-500">四年級上學期 · 第 3 課：規劃行程，從哪裡開始？</p>
+      <h1 class="cute text-3xl md:text-4xl font-extrabold text-orange-600 leading-tight">台南小導遊養成記</h1>
+      <p class="text-sm text-slate-500">四年級上學期 · 第 3 課：規劃行程，從哪裡開始？</p>
     </div>
   </header>
 
-  <!-- ① 兩種起點 -->
-  <section class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-6 shadow-sm">
-    <h2 class="cute text-2xl font-extrabold text-violet-700 mb-3">① 規劃行程的兩種起點</h2>
-    <p class="text-xl mb-4">只跟朋友說「我們去台南玩」，範圍太大了！先決定<b class="text-violet-700">從哪裡開始想</b>，行程才排得出來。</p>
+  <!-- 步驟 1：兩種起點 -->
+  <section class="step bg-white border-4 border-violet-300 rounded-3xl p-5 shadow-sm" data-step="1">
+    <h2 class="cute text-2xl font-extrabold text-violet-700 mb-1">規劃行程的兩種起點</h2>
+    <p class="text-lg mb-3">只說「去台南玩」範圍太大了！先決定<b class="text-violet-700">從哪裡開始想</b>：</p>
 
-    <div class="grid md:grid-cols-2 gap-5 mb-5">
-      <div class="bg-violet-50 rounded-2xl p-4">
-        <p class="cute text-xl font-extrabold text-violet-700 mb-1">🗺️ 區域型旅遊</p>
-        <p class="text-lg font-bold mb-2">先選定<b class="text-violet-700">一個區域</b>，就在裡面深度遊玩。</p>
-        <img src="assets/type_area.jpg" alt="安平的老街" class="shot mb-2">
-        <p class="text-base text-slate-600">例：「<b>安平區</b>一日遊」——古堡、老街、小吃、海邊，都在附近，走路或騎車就到。</p>
-        <p class="text-xs text-slate-400 mt-1">照片：Chongkian／Wikimedia Commons／CC BY-SA 4.0</p>
-      </div>
-      <div class="bg-fuchsia-50 rounded-2xl p-4">
-        <p class="cute text-xl font-extrabold text-fuchsia-700 mb-1">🏷️ 主題型旅遊</p>
-        <p class="text-lg font-bold mb-2">先選一個<b class="text-fuchsia-700">主題</b>，再去找符合這個主題的景點。</p>
-        <img src="assets/food.jpg" alt="台南的各種美食" class="shot mb-2">
-        <div class="bg-white rounded-xl p-3 mb-2 text-lg">
-          <p class="font-bold text-fuchsia-700 mb-1">🍔 主題就像速食店的「套餐」</p>
-          <p>選「美食探險套餐」就不會排到圖書館；選「時光機套餐（古蹟）」就帶大家看古蹟，不是逛百貨。</p>
-        </div>
-        <p class="text-base text-slate-600">例：「<b>美食探險</b>」——擔仔麵、牛肉湯、碗粿、米糕……這些好味道分散在台南<b>好幾個區</b>，要一區一區跑。</p>
-      </div>
+    <div class="grid md:grid-cols-2 gap-4 mb-4">
+      <figure class="bg-violet-50 rounded-2xl overflow-hidden">
+        <img src="assets/type_area.jpg" alt="安平的老街" class="w-full h-40 object-cover">
+        <figcaption class="p-3">
+          <p class="cute text-xl font-extrabold text-violet-700">🗺️ 區域型旅遊</p>
+          <p class="text-base font-bold mb-1">先選<b class="text-violet-700">一個區域</b>，就在裡面深度遊玩。</p>
+          <p class="text-sm text-slate-600">例：「<b>安平區</b>一日遊」——古堡、老街、小吃、海邊，都在附近，走路或騎車就到。</p>
+          <p class="text-xs text-slate-400 mt-1">照片：Chongkian／Wikimedia Commons／CC BY-SA 4.0</p>
+        </figcaption>
+      </figure>
+      <figure class="bg-fuchsia-50 rounded-2xl overflow-hidden">
+        <img src="assets/food.jpg" alt="台南的各種美食" class="w-full h-40 object-cover">
+        <figcaption class="p-3">
+          <p class="cute text-xl font-extrabold text-fuchsia-700">🏷️ 主題型旅遊</p>
+          <p class="text-base font-bold mb-1">先選一個<b class="text-fuchsia-700">主題</b>，再去找符合的景點。</p>
+          <p class="text-sm text-slate-600">主題像速食店的「套餐」。例：「<b>美食探險</b>」——擔仔麵、牛肉湯、碗粿、米糕……分散在台南<b>好幾個區</b>，要一區一區跑。</p>
+        </figcaption>
+      </figure>
     </div>
 
-    <div class="bg-white border-2 border-violet-200 rounded-2xl p-4" data-qid="q1" data-qtype="experience">
-      <p class="field font-bold text-violet-800 mb-3">🎯 判斷看看：下面四句話，是「區域型」還是「主題型」？</p>
-      <div id="q1List"></div>
+    <div class="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3" data-qid="q1" data-qtype="experience">
+      <p class="field font-bold text-violet-800 mb-2">🎯 判斷看看：下面四句話，是「區域型」還是「主題型」？</p>
+      <div id="q1List" class="grid md:grid-cols-2 gap-x-3"></div>
     </div>
+    <div class="stepnav"></div>
   </section>
 
-  <!-- ② 四大主題＋還有更多 -->
-  <section class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-6 shadow-sm">
-    <h2 class="cute text-2xl font-extrabold text-emerald-700 mb-1">② 四大主題，你想玩哪一種？</h2>
-    <p class="text-lg text-slate-600 mb-4">選「主題型」的話，最常見的有這四種：</p>
-    <div class="grid sm:grid-cols-2 gap-4 mb-6">
-      <div class="border-4 border-emerald-200 bg-emerald-50 rounded-2xl p-4">
-        <p class="cute text-xl font-extrabold text-emerald-700">🌲 大自然與生態 <span class="text-base font-bold text-emerald-600">「戶外踏青」型</span></p>
-        <p class="text-base mt-1">山、海、森林、動植物。重點是欣賞自然景觀、保護生態。</p>
+  <!-- 步驟 2：四大主題 -->
+  <section class="step hidden bg-white border-4 border-emerald-300 rounded-3xl p-5 shadow-sm" data-step="2">
+    <h2 class="cute text-2xl font-extrabold text-emerald-700 mb-1">四大主題，你想玩哪一種？</h2>
+    <p class="text-lg text-slate-600 mb-3">選「主題型」的話，最常見的有這四種：</p>
+    <div class="grid sm:grid-cols-2 gap-3 mb-4">
+      <div class="border-2 border-emerald-200 bg-emerald-50 rounded-2xl p-3">
+        <p class="cute text-lg font-extrabold text-emerald-700">🌲 大自然與生態 <span class="text-sm font-bold text-emerald-600">「戶外踏青」型</span></p>
+        <p class="text-sm mt-1">山、海、森林、動植物。欣賞自然景觀、保護生態。</p>
       </div>
-      <div class="border-4 border-amber-200 bg-amber-50 rounded-2xl p-4">
-        <p class="cute text-xl font-extrabold text-amber-700">🏛️ 歷史文化與藝術 <span class="text-base font-bold text-amber-600">「說故事」型</span></p>
-        <p class="text-base mt-1">古蹟、老街、博物館、美術館。重點是欣賞歷史與文化。</p>
+      <div class="border-2 border-amber-200 bg-amber-50 rounded-2xl p-3">
+        <p class="cute text-lg font-extrabold text-amber-700">🏛️ 歷史文化與藝術 <span class="text-sm font-bold text-amber-600">「說故事」型</span></p>
+        <p class="text-sm mt-1">古蹟、老街、博物館、美術館。欣賞歷史與文化。</p>
       </div>
-      <div class="border-4 border-pink-200 bg-pink-50 rounded-2xl p-4">
-        <p class="cute text-xl font-extrabold text-pink-700">🎡 主題樂園與休閒 <span class="text-base font-bold text-pink-600">「找快樂」型</span></p>
-        <p class="text-base mt-1">遊樂設施、農場體驗、觀光工廠 DIY。重點是互動、娛樂、親子同樂。</p>
+      <div class="border-2 border-pink-200 bg-pink-50 rounded-2xl p-3">
+        <p class="cute text-lg font-extrabold text-pink-700">🎡 主題樂園與休閒 <span class="text-sm font-bold text-pink-600">「找快樂」型</span></p>
+        <p class="text-sm mt-1">遊樂設施、農場體驗、觀光工廠 DIY。互動、娛樂、親子同樂。</p>
       </div>
-      <div class="border-4 border-sky-200 bg-sky-50 rounded-2xl p-4">
-        <p class="cute text-xl font-extrabold text-sky-700">🛍️ 百貨商圈與夜市 <span class="text-base font-bold text-sky-600">「吃喝玩樂」型</span></p>
-        <p class="text-base mt-1">逛街、購物、在地小吃。重點是方便，體驗在地人的日常生活。</p>
+      <div class="border-2 border-sky-200 bg-sky-50 rounded-2xl p-3">
+        <p class="cute text-lg font-extrabold text-sky-700">🛍️ 百貨商圈與夜市 <span class="text-sm font-bold text-sky-600">「吃喝玩樂」型</span></p>
+        <p class="text-sm mt-1">逛街、購物、在地小吃。方便，體驗在地人的日常生活。</p>
       </div>
     </div>
 
-    <div class="bg-emerald-50 rounded-2xl p-4">
-      <p class="cute text-xl font-extrabold text-emerald-700 mb-2">🔎 主題只有這四種嗎？還有更多！</p>
-      <div class="grid md:grid-cols-2 gap-5 items-start">
-        <div>
-          <p class="text-base mb-2">四大主題只是常見的分法。<b>台南旅遊網</b>把景點分得更細，你在上一課看過的主題篩選就是這些：</p>
-          <img src="assets/九宮格.png" alt="台南旅遊網主題分類" class="shot">
-        </div>
-        <div>
-          <p class="text-base font-bold text-emerald-700 mb-2">還可以是這些主題：</p>
-          <div class="flex flex-wrap gap-2 text-base">
-            <span class="bg-white border-2 border-emerald-200 rounded-full px-3 py-1">🍜 美食小吃</span>
-            <span class="bg-white border-2 border-emerald-200 rounded-full px-3 py-1">🛕 宗教廟宇</span>
-            <span class="bg-white border-2 border-emerald-200 rounded-full px-3 py-1">♨️ 溫泉度假</span>
-            <span class="bg-white border-2 border-emerald-200 rounded-full px-3 py-1">🚲 戶外運動</span>
-            <span class="bg-white border-2 border-emerald-200 rounded-full px-3 py-1">🎣 休閒農漁</span>
-            <span class="bg-white border-2 border-emerald-200 rounded-full px-3 py-1">🌸 賞花</span>
-            <span class="bg-white border-2 border-emerald-200 rounded-full px-3 py-1">🏘️ 原民／客家文化</span>
-            <span class="bg-white border-2 border-emerald-200 rounded-full px-3 py-1">♿ 無障礙友善</span>
-            <span class="bg-white border-2 border-emerald-200 rounded-full px-3 py-1">📸 拍照打卡</span>
-          </div>
-          <p class="text-base text-slate-600 mt-2">同一個地方也可以同時符合好幾個主題喔！</p>
-        </div>
+    <div class="grid md:grid-cols-2 gap-4 items-start bg-emerald-50 rounded-2xl p-3">
+      <div>
+        <p class="cute text-lg font-extrabold text-emerald-700 mb-1">🔎 主題只有這四種嗎？還有更多！</p>
+        <p class="text-sm mb-2">四大主題只是常見的分法。<b>台南旅遊網</b>把景點分得更細，你在上一課看過的主題篩選就是這些：</p>
+        <img src="assets/九宮格.png" alt="台南旅遊網主題分類" class="shot">
       </div>
-      <div class="mt-4 bg-white border-2 border-emerald-200 rounded-2xl p-4" data-qid="q5" data-qtype="open" data-bonus="1" data-qtext="加分：除了上面這些，你還想得到什麼旅遊主題？寫出主題名稱。">
+      <div class="bg-white border-2 border-emerald-200 rounded-2xl p-3" data-qid="q5" data-qtype="open" data-bonus="1" data-qtext="加分：除了這些主題，你還想得到什麼旅遊主題？寫出主題名稱。">
         <div class="flex items-center justify-between gap-2 flex-wrap mb-2">
-          <p class="field font-bold text-emerald-800">⭐ 加分：除了上面這些，你還想得到什麼旅遊主題？寫出<b>主題名稱</b>。</p>
+          <p class="field font-bold text-emerald-800">⭐ 加分：除了這些主題，你還想得到什麼旅遊主題？寫出<b>主題名稱</b>。</p>
           <span id="q5Status" class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-400 shrink-0">🎁 尚未完成</span>
         </div>
         <input id="q5" class="field w-full border-2 border-emerald-300 rounded-xl px-3 py-2 focus:border-emerald-500 outline-none">
       </div>
     </div>
+    <div class="stepnav"></div>
   </section>
 
-  <!-- ③ 景點分類 -->
-  <section class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-6 shadow-sm">
-    <h2 class="cute text-2xl font-extrabold text-sky-700 mb-1">③ 景點分類挑戰</h2>
+  <!-- 步驟 3：景點分類 -->
+  <section class="step hidden bg-white border-4 border-sky-300 rounded-3xl p-5 shadow-sm" data-step="3">
+    <h2 class="cute text-2xl font-extrabold text-sky-700 mb-1">景點分類挑戰</h2>
     <p class="text-lg mb-1">這 8 個景點都是<b>台南旅遊網</b>上找得到的，把它們放進最適合的<b>四大主題</b>吧！</p>
-    <p class="text-sm text-slate-500 mb-4">電腦：把卡片拖到主題格子裡。平板／手機：先點卡片，再點主題格子。放對才會留下來喔！</p>
+    <p class="text-sm text-slate-500 mb-3">電腦：把卡片拖到主題格子裡。平板／手機：先點卡片，再點主題格子。放對才會留下來喔！</p>
 
-    <div class="grid lg:grid-cols-3 gap-4" data-qid="q2" data-qtype="experience">
+    <div class="grid lg:grid-cols-3 gap-3" data-qid="q2" data-qtype="experience">
       <div class="lg:col-span-1">
-        <p class="text-sm font-bold text-sky-700 mb-2">📍 還沒分類的景點</p>
+        <p class="text-sm font-bold text-sky-700 mb-1">📍 還沒分類的景點</p>
         <div id="pool" class="flex flex-wrap lg:flex-col gap-2 min-h-[80px] bg-sky-50 rounded-2xl p-3"></div>
       </div>
       <div id="buckets" class="lg:col-span-2 grid sm:grid-cols-2 gap-3"></div>
     </div>
-    <p id="q2Fb" class="font-bold text-sky-700 mt-3 min-h-[28px]"></p>
+    <p id="q2Fb" class="font-bold text-sky-700 mt-2 min-h-[28px]"></p>
 
-    <div id="q3Box" class="hidden mt-4 bg-sky-50 rounded-2xl p-4" data-qid="q3" data-qtype="experience">
+    <div id="q3Box" class="hidden mt-3 bg-sky-50 rounded-2xl p-3" data-qid="q3" data-qtype="experience">
       <p class="cute text-lg font-extrabold text-sky-700 mb-1">👀 發現時間：看看每張卡片上的「📍區域」標籤</p>
-      <div class="mb-4">
-        <p class="field font-bold mb-2">(1)「赤崁樓」和「安平古堡」都是歷史古蹟，它們在同一區嗎？</p>
-        <div class="flex gap-2 flex-wrap" id="q3aBtns"></div>
-        <p id="q3aFb" class="font-bold text-sm mt-2 min-h-[20px]"></p>
-      </div>
-      <div>
-        <p class="field font-bold mb-2">(2) 標籤是「東區」的景點，出現了哪幾種主題？（可複選）</p>
-        <div class="flex flex-wrap gap-2" id="q3bOpts"></div>
-        <button id="q3bBtn" class="mt-2 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl px-5 py-2">檢查</button>
-        <p id="q3bFb" class="font-bold text-sm mt-2 min-h-[20px]"></p>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div>
+          <p class="field font-bold mb-2">(1)「赤崁樓」和「安平古堡」都是歷史古蹟，它們在同一區嗎？</p>
+          <div class="flex gap-2 flex-wrap" id="q3aBtns"></div>
+          <p id="q3aFb" class="font-bold text-sm mt-2 min-h-[20px]"></p>
+        </div>
+        <div>
+          <p class="field font-bold mb-2">(2) 標籤是「東區」的景點，出現了哪幾種主題？（可複選）</p>
+          <div class="flex flex-wrap gap-2" id="q3bOpts"></div>
+          <button id="q3bBtn" class="mt-2 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl px-5 py-1.5">檢查</button>
+          <p id="q3bFb" class="font-bold text-sm mt-2 min-h-[20px]"></p>
+        </div>
       </div>
     </div>
+    <div class="stepnav"></div>
   </section>
 
-  <!-- ④ 比較表 -->
-  <section class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-6 shadow-sm">
-    <h2 class="cute text-2xl font-extrabold text-amber-700 mb-1">④ 區域型 vs 主題型：哪裡不一樣？</h2>
-    <p class="text-lg text-slate-600 mb-4">兩種規劃方式各有特色，一起來比一比：</p>
+  <!-- 步驟 4：比較表（靜態文字，課堂由老師帶著討論） -->
+  <section class="step hidden bg-white border-4 border-amber-300 rounded-3xl p-5 shadow-sm" data-step="4">
+    <h2 class="cute text-2xl font-extrabold text-amber-700 mb-1">區域型 vs 主題型：哪裡不一樣？</h2>
+    <p class="text-lg text-slate-600 mb-3">兩種規劃方式各有特色，一起來比一比：</p>
     <div class="overflow-x-auto">
-      <table class="w-full text-base border-collapse">
+      <table class="w-full text-sm md:text-base border-collapse">
         <thead>
-          <tr class="bg-amber-100 text-amber-800">
-            <th class="border-2 border-amber-200 px-2 py-2 w-24">比較</th>
-            <th class="border-2 border-amber-200 px-2 py-2">🗺️ 區域型</th>
-            <th class="border-2 border-amber-200 px-2 py-2">🏷️ 主題型</th>
-          </tr>
+          <tr class="bg-amber-100 text-amber-800"><th class="border-2 border-amber-200 px-2 py-1.5 w-20">比較</th><th class="border-2 border-amber-200 px-2 py-1.5">🗺️ 區域型</th><th class="border-2 border-amber-200 px-2 py-1.5">🏷️ 主題型</th></tr>
         </thead>
         <tbody>
-          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-2 font-bold text-amber-800 text-center">起點</td><td class="border-2 border-amber-200 px-2 py-2">先選「一個地方」</td><td class="border-2 border-amber-200 px-2 py-2">先選「一種好玩的事」</td></tr>
-          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-2 font-bold text-amber-800 text-center">交通</td><td class="border-2 border-amber-200 px-2 py-2">景點集中，走路或短程移動就到</td><td class="border-2 border-amber-200 px-2 py-2">景點分散，常要跨區搭車</td></tr>
-          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-2 font-bold text-amber-800 text-center">時間</td><td class="border-2 border-amber-200 px-2 py-2">路上花得少，每個景點可以多停留</td><td class="border-2 border-amber-200 px-2 py-2">路上花得多，停留時間會被壓縮</td></tr>
-          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-2 font-bold text-amber-800 text-center">景點種類</td><td class="border-2 border-amber-200 px-2 py-2">種類多，吃喝玩樂都有</td><td class="border-2 border-amber-200 px-2 py-2">種類單一，但每個都符合主題</td></tr>
-          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-2 font-bold text-amber-800 text-center">體驗</td><td class="border-2 border-amber-200 px-2 py-2">悠閒，可以走走停停</td><td class="border-2 border-amber-200 px-2 py-2">通常較匆忙，要趕著換地點</td></tr>
-          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-2 font-bold text-amber-800 text-center">深度</td><td class="border-2 border-amber-200 px-2 py-2">對一個地方越逛越熟，看見在地生活</td><td class="border-2 border-amber-200 px-2 py-2">把同一種好玩的事看得特別透徹</td></tr>
-          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-2 font-bold text-amber-800 text-center">適合</td><td class="border-2 border-amber-200 px-2 py-2">時間短、帶小朋友或長輩</td><td class="border-2 border-amber-200 px-2 py-2">有明確興趣、交通方便、時間充裕</td></tr>
+          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-1.5 font-bold text-amber-800 text-center">起點</td><td class="border-2 border-amber-200 px-2 py-1.5">先選「一個地方」</td><td class="border-2 border-amber-200 px-2 py-1.5">先選「一種好玩的事」</td></tr>
+          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-1.5 font-bold text-amber-800 text-center">交通</td><td class="border-2 border-amber-200 px-2 py-1.5">景點集中，走路或短程移動就到</td><td class="border-2 border-amber-200 px-2 py-1.5">景點分散，常要跨區搭車</td></tr>
+          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-1.5 font-bold text-amber-800 text-center">時間</td><td class="border-2 border-amber-200 px-2 py-1.5">路上花得少，每個景點可以多停留</td><td class="border-2 border-amber-200 px-2 py-1.5">路上花得多，停留時間會被壓縮</td></tr>
+          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-1.5 font-bold text-amber-800 text-center">景點種類</td><td class="border-2 border-amber-200 px-2 py-1.5">種類多，吃喝玩樂都有</td><td class="border-2 border-amber-200 px-2 py-1.5">種類單一，但每個都符合主題</td></tr>
+          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-1.5 font-bold text-amber-800 text-center">體驗</td><td class="border-2 border-amber-200 px-2 py-1.5">悠閒，可以走走停停</td><td class="border-2 border-amber-200 px-2 py-1.5">通常較匆忙，要趕著換地點</td></tr>
+          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-1.5 font-bold text-amber-800 text-center">深度</td><td class="border-2 border-amber-200 px-2 py-1.5">對一個地方越逛越熟，看見在地生活</td><td class="border-2 border-amber-200 px-2 py-1.5">把同一種好玩的事看得特別透徹</td></tr>
+          <tr><td class="border-2 border-amber-200 bg-amber-50 px-2 py-1.5 font-bold text-amber-800 text-center">適合</td><td class="border-2 border-amber-200 px-2 py-1.5">時間短、帶小朋友或長輩</td><td class="border-2 border-amber-200 px-2 py-1.5">有明確興趣、交通方便、時間充裕</td></tr>
         </tbody>
       </table>
     </div>
     <p class="font-bold text-amber-700 mt-3">💡 這些是「通常」的情況，不是絕對的。沒有哪一種比較好，要看你的<b>時間</b>、<b>同行的人</b>和<b>想玩什麼</b>來選！</p>
+    <div class="stepnav"></div>
   </section>
 
-  <!-- ⑤ 同行的人 -->
-  <section class="bg-white border-4 border-rose-300 rounded-3xl p-6 mb-6 shadow-sm">
-    <h2 class="cute text-2xl font-extrabold text-rose-700 mb-1">⑤ 跟誰一起去？景點也要挑人</h2>
-    <p class="text-lg text-slate-600 mb-4">同一種景點，帶<b>同學</b>去和帶<b>爺爺奶奶</b>去，感覺可能很不一樣。行程要看<b>同行的人</b>來調整。下面是四種常見的景點<b>類型</b>：</p>
-    <div class="grid md:grid-cols-2 gap-4">
+  <!-- 步驟 5：同行的人＋看別人怎麼排（靜態文字，課堂由老師帶著討論） -->
+  <section class="step hidden bg-white border-4 border-rose-300 rounded-3xl p-5 shadow-sm" data-step="5">
+    <h2 class="cute text-2xl font-extrabold text-rose-700 mb-1">跟誰一起去？景點也要挑人</h2>
+    <p class="text-lg text-slate-600 mb-3">同一種景點，帶<b>同學</b>去和帶<b>爺爺奶奶</b>去，感覺可能很不一樣。行程要看<b>同行的人</b>來調整。四種常見的景點<b>類型</b>：</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
       <figure class="border-2 border-rose-200 rounded-2xl overflow-hidden bg-white">
-        <img src="assets/type_park.jpg" alt="遊樂園的摩天輪" loading="lazy" class="w-full h-48 object-cover">
+        <img src="assets/type_park.jpg" alt="遊樂園的摩天輪" loading="lazy" class="w-full h-32 object-cover">
         <figcaption class="p-3">
-          <p class="cute text-xl font-extrabold text-rose-700">🎡 遊樂園</p>
-          <p class="text-base mb-2">有摩天輪、雲霄飛車、旋轉木馬等遊樂設施，一整天都玩不完。園區通常很大，玩設施要排隊，也要走很多路。</p>
-          <p class="text-xs text-slate-400 mt-2">照片：Roller Coaster Philosophy, Jeremy Thompson／Wikimedia Commons／CC BY 2.0</p>
+          <p class="cute text-lg font-extrabold text-rose-700">🎡 遊樂園</p>
+          <p class="text-sm">有摩天輪、雲霄飛車、旋轉木馬等遊樂設施，一整天玩不完。園區通常很大，要排隊，也要走很多路。</p>
+          <p class="text-[11px] leading-tight text-slate-400 mt-1">照片：Roller Coaster Philosophy, Jeremy Thompson／Wikimedia Commons／CC BY 2.0</p>
         </figcaption>
       </figure>
       <figure class="border-2 border-rose-200 rounded-2xl overflow-hidden bg-white">
-        <img src="assets/type_heritage.jpg" alt="台灣的歷史古蹟" loading="lazy" class="w-full h-48 object-cover">
+        <img src="assets/type_heritage.jpg" alt="台灣的歷史古蹟" loading="lazy" class="w-full h-32 object-cover">
         <figcaption class="p-3">
-          <p class="cute text-xl font-extrabold text-rose-700">🏛️ 歷史古蹟</p>
-          <p class="text-base mb-2">很久以前留下來的老建築或城牆，可以看老房子、聽歷史故事。通常有解說牌，園區裡常有階梯或石板路。</p>
-          <p class="text-xs text-slate-400 mt-2">照片：CEphoto, Uwe Aranas／Wikimedia Commons／CC BY-SA 3.0</p>
+          <p class="cute text-lg font-extrabold text-rose-700">🏛️ 歷史古蹟</p>
+          <p class="text-sm">很久以前留下來的老建築或城牆，可以看老房子、聽歷史故事。通常有解說牌，常有階梯或石板路。</p>
+          <p class="text-[11px] leading-tight text-slate-400 mt-1">照片：CEphoto, Uwe Aranas／Wikimedia Commons／CC BY-SA 3.0</p>
         </figcaption>
       </figure>
       <figure class="border-2 border-rose-200 rounded-2xl overflow-hidden bg-white">
-        <img src="assets/type_mall.jpg" alt="台灣的百貨公司大樓" loading="lazy" class="w-full h-48 object-cover">
+        <img src="assets/type_mall.jpg" alt="台灣的百貨公司大樓" loading="lazy" class="w-full h-32 object-cover">
         <figcaption class="p-3">
-          <p class="cute text-xl font-extrabold text-rose-700">🛍️ 百貨公司</p>
-          <p class="text-base mb-2">一棟大樓裡有很多商店、餐廳，還有遊戲區。有冷氣、電梯和廁所，不怕太陽，也不怕下雨。</p>
-          <p class="text-xs text-slate-400 mt-2">照片：Wpcpey／Wikimedia Commons／CC BY 4.0</p>
+          <p class="cute text-lg font-extrabold text-rose-700">🛍️ 百貨公司</p>
+          <p class="text-sm">一棟大樓裡有很多商店、餐廳，還有遊戲區。有冷氣、電梯和廁所，不怕太陽，也不怕下雨。</p>
+          <p class="text-[11px] leading-tight text-slate-400 mt-1">照片：Wpcpey／Wikimedia Commons／CC BY 4.0</p>
         </figcaption>
       </figure>
       <figure class="border-2 border-rose-200 rounded-2xl overflow-hidden bg-white">
-        <img src="assets/type_nature.jpg" alt="台灣的自然生態景點" loading="lazy" class="w-full h-48 object-cover">
+        <img src="assets/type_nature.jpg" alt="台灣的自然生態景點" loading="lazy" class="w-full h-32 object-cover">
         <figcaption class="p-3">
-          <p class="cute text-xl font-extrabold text-rose-700">🌲 自然生態</p>
-          <p class="text-base mb-2">山林、溼地、河流等大自然，可以看植物和動物、呼吸新鮮空氣。有些地方要走步道，有些要搭船。</p>
-          <p class="text-xs text-slate-400 mt-2">照片：Wikipeeeder／Wikimedia Commons／CC BY-SA 4.0</p>
+          <p class="cute text-lg font-extrabold text-rose-700">🌲 自然生態</p>
+          <p class="text-sm">山林、溼地、河流等大自然，可以看植物和動物、呼吸新鮮空氣。有些要走步道，有些要搭船。</p>
+          <p class="text-[11px] leading-tight text-slate-400 mt-1">照片：Wikipeeeder／Wikimedia Commons／CC BY-SA 4.0</p>
         </figcaption>
       </figure>
     </div>
 
-    <div class="mt-6 bg-rose-50 border-2 border-rose-200 rounded-2xl p-4">
-      <p class="cute text-xl font-extrabold text-rose-700 mb-1">👀 來看看別人怎麼排</p>
-      <p class="text-lg mb-3">台南旅遊網的「遊程搜尋」有很多排好的行程。點進去看看：這個行程是先選<b>地方</b>（區域型），還是先選<b>主題</b>（主題型）？</p>
-      <a href="https://www.twtainan.net/zh-tw/tours/tourslist/" target="_blank" rel="noopener"
-         class="block max-w-md bg-white border-2 border-rose-200 hover:border-rose-400 rounded-2xl overflow-hidden shadow-sm transition">
-        <img src="assets/tainan_tours_preview.jpg" alt="台南旅遊網「遊程搜尋」頁面預覽" loading="lazy" class="w-full h-48 object-cover">
-        <div class="p-3">
-          <p class="cute text-lg font-extrabold text-rose-700">遊程搜尋－台南旅遊網</p>
-          <p class="text-sm text-slate-500">twtainan.net　點一下，用新視窗打開 ↗</p>
-        </div>
-      </a>
-    </div>
+    <a href="https://www.twtainan.net/zh-tw/tours/tourslist/" target="_blank" rel="noopener"
+       class="mt-4 flex flex-col sm:flex-row bg-rose-50 border-2 border-rose-200 hover:border-rose-400 rounded-2xl overflow-hidden transition">
+      <img src="assets/tainan_tours_preview.jpg" alt="台南旅遊網「遊程搜尋」頁面預覽" loading="lazy" class="w-full sm:w-56 h-36 sm:h-auto object-cover">
+      <div class="p-3 self-center">
+        <p class="cute text-xl font-extrabold text-rose-700">👀 來看看別人怎麼排</p>
+        <p class="text-base">台南旅遊網的「遊程搜尋」有很多排好的行程。點進去看看：這個行程是先選<b>地方</b>（區域型），還是先選<b>主題</b>（主題型）？</p>
+        <p class="text-sm font-bold text-rose-600 mt-1">遊程搜尋－台南旅遊網 ↗（用新視窗打開）</p>
+      </div>
+    </a>
+    <div class="stepnav"></div>
   </section>
 
-  <!-- ⑥ 我的規劃宣言 -->
-  <section class="bg-white border-4 border-teal-300 rounded-3xl p-6 mb-6 shadow-sm">
-    <h2 class="cute text-2xl font-extrabold text-teal-700 mb-1">⑥ 我的規劃宣言</h2>
-    <p class="text-lg text-slate-600 mb-4">把空格填滿，就完成你的第一張導覽構想卡了！</p>
-    <div class="grid md:grid-cols-2 gap-6 items-start" data-qid="q4" data-qtype="open" data-qtext="請填寫你的規劃宣言：你打算和誰一起去、想以區域還是主題來規劃、選擇的區域或主題是什麼，以及原因。">
+  <!-- 步驟 6：我的規劃宣言 -->
+  <section class="step hidden bg-white border-4 border-teal-300 rounded-3xl p-5 shadow-sm" data-step="6">
+    <h2 class="cute text-2xl font-extrabold text-teal-700 mb-1">我的規劃宣言</h2>
+    <p class="text-lg text-slate-600 mb-3">把空格填滿，就完成你的第一張導覽構想卡了！</p>
+    <div class="grid md:grid-cols-2 gap-5 items-start" data-qid="q4" data-qtype="open" data-qtext="請填寫你的規劃宣言：你打算和誰一起去、想以區域還是主題來規劃、選擇的區域或主題是什麼，以及原因。">
       <div>
-        <div class="space-y-4 text-xl">
+        <div class="space-y-3 text-lg">
           <div>
             <p class="mb-1">我打算和…一起去</p>
             <div id="mateChips" class="flex flex-wrap gap-2 items-center"></div>
@@ -271,12 +264,12 @@
             <input id="c4" class="field w-full border-b-4 border-teal-300 focus:border-teal-500 outline-none px-2">
           </div>
         </div>
-        <div class="mt-4 bg-teal-50 rounded-2xl p-4 text-lg">
+        <div class="mt-3 bg-teal-50 rounded-2xl p-3 text-base">
           <p class="font-bold text-teal-800 mb-1">✅ 交出前自己檢查：</p>
           <label class="flex items-center gap-2 mb-1"><input type="checkbox" class="w-5 h-5"> 四個空格都填好了</label>
           <label class="flex items-center gap-2"><input type="checkbox" class="w-5 h-5"> 我的理由跟同行的人或台南特色有關</label>
         </div>
-        <button id="cardBtn" class="mt-4 w-full bg-teal-500 hover:bg-teal-600 text-white cute text-xl font-extrabold rounded-2xl py-3">✨ 產生我的構想卡</button>
+        <button id="cardBtn" class="mt-3 w-full bg-teal-500 hover:bg-teal-600 text-white cute text-xl font-extrabold rounded-2xl py-2.5">✨ 產生我的構想卡</button>
       </div>
       <div id="cardOut" class="hidden bg-gradient-to-b from-teal-50 to-cyan-50 border-4 border-teal-200 rounded-3xl p-5 text-center">
         <div class="text-3xl mb-2">🎴</div>
@@ -288,85 +281,80 @@
       </div>
     </div>
     <canvas id="cardCv" width="900" height="500" class="hidden"></canvas>
+    <div class="stepnav"></div>
   </section>
 
-  <!-- ⑦ 把宣言貼進行程規劃文件（Google 文件：貼上＋改標題） -->
-  <section class="bg-white border-4 border-blue-300 rounded-3xl p-6 mb-6 shadow-sm">
-    <h2 class="cute text-2xl font-extrabold text-blue-700 mb-1">⑦ 把宣言貼進你的「行程規劃」文件</h2>
-    <p class="text-lg text-slate-600 mb-4">宣言是行程規劃的第一步，把它放進 Google 文件，後面排行程才有依據！照著做：</p>
+  <!-- 步驟 7：貼進行程規劃文件（Google 文件：貼上＋改標題）＋繳交 -->
+  <section class="step hidden bg-white border-4 border-blue-300 rounded-3xl p-5 shadow-sm" data-step="7">
+    <h2 class="cute text-2xl font-extrabold text-blue-700 mb-1">把宣言貼進你的「行程規劃」文件</h2>
+    <p class="text-lg text-slate-600 mb-3">宣言是行程規劃的第一步，把它放進 Google 文件，後面排行程才有依據！</p>
 
-    <div class="space-y-4">
-      <div class="flex gap-3 items-start bg-blue-50 rounded-2xl p-4">
-        <div class="cute text-3xl font-extrabold text-blue-600 shrink-0 w-10 text-center">1</div>
+    <div class="grid md:grid-cols-2 gap-3">
+      <div class="flex gap-3 items-start bg-blue-50 rounded-2xl p-3">
+        <div class="cute text-2xl font-extrabold text-blue-600 shrink-0 w-8 text-center">1</div>
         <div>
-          <p class="text-xl font-bold">複製宣言</p>
-          <p class="text-lg">在上面按「<b>✨ 產生我的構想卡</b>」，再按卡片下面的「<b>📋 複製</b>」，看到「✓ 已複製」就成功了。</p>
+          <p class="text-lg font-bold">複製宣言</p>
+          <p class="text-base">在上一步按「<b>✨ 產生我的構想卡</b>」，再按「<b>📋 複製</b>」，看到「✓ 已複製」就成功了。</p>
         </div>
       </div>
-
-      <div class="flex gap-3 items-start bg-blue-50 rounded-2xl p-4">
-        <div class="cute text-3xl font-extrabold text-blue-600 shrink-0 w-10 text-center">2</div>
+      <div class="flex gap-3 items-start bg-blue-50 rounded-2xl p-3">
+        <div class="cute text-2xl font-extrabold text-blue-600 shrink-0 w-8 text-center">2</div>
         <div>
-          <p class="text-xl font-bold">打開你的行程規劃文件</p>
-          <p class="text-lg">到 Google Classroom 或雲端硬碟，點開你的「行程規劃」Google 文件。</p>
+          <p class="text-lg font-bold">打開你的行程規劃文件</p>
+          <p class="text-base">到 Google Classroom 或雲端硬碟，點開你的「行程規劃」Google 文件。</p>
         </div>
       </div>
-
-      <div class="flex gap-3 items-start bg-blue-50 rounded-2xl p-4">
-        <div class="cute text-3xl font-extrabold text-blue-600 shrink-0 w-10 text-center">3</div>
+      <div class="flex gap-3 items-start bg-blue-50 rounded-2xl p-3">
+        <div class="cute text-2xl font-extrabold text-blue-600 shrink-0 w-8 text-center">3</div>
         <div>
-          <p class="text-xl font-bold">貼上宣言</p>
-          <p class="text-lg mb-2">用滑鼠在文件的<b>第一行</b>點一下，讓游標閃爍，然後貼上：</p>
-          <div class="flex flex-wrap gap-2 text-lg">
-            <span class="bg-white border-2 border-blue-200 rounded-xl px-3 py-1 font-bold">鍵盤：<kbd class="bg-slate-100 border border-slate-300 rounded px-2">Ctrl</kbd> + <kbd class="bg-slate-100 border border-slate-300 rounded px-2">V</kbd></span>
-            <span class="bg-white border-2 border-blue-200 rounded-xl px-3 py-1 font-bold">或：按滑鼠右鍵 → 貼上</span>
+          <p class="text-lg font-bold">貼上宣言</p>
+          <p class="text-base mb-1">在文件<b>第一行</b>點一下，讓游標閃爍，然後貼上：</p>
+          <div class="flex flex-wrap gap-2 text-base">
+            <span class="bg-white border-2 border-blue-200 rounded-xl px-2 py-0.5 font-bold"><kbd class="bg-slate-100 border border-slate-300 rounded px-1.5">Ctrl</kbd> + <kbd class="bg-slate-100 border border-slate-300 rounded px-1.5">V</kbd></span>
+            <span class="bg-white border-2 border-blue-200 rounded-xl px-2 py-0.5 font-bold">或：右鍵 → 貼上</span>
           </div>
-          <p class="text-base text-slate-600 mt-2">如果貼上後字的顏色或大小怪怪的，改按 <kbd class="bg-slate-100 border border-slate-300 rounded px-2">Ctrl</kbd> + <kbd class="bg-slate-100 border border-slate-300 rounded px-2">Shift</kbd> + <kbd class="bg-slate-100 border border-slate-300 rounded px-2">V</kbd>（純文字貼上）。</p>
+          <p class="text-sm text-slate-600 mt-1">字的顏色或大小怪怪的，改按 <kbd class="bg-slate-100 border border-slate-300 rounded px-1.5">Ctrl</kbd> + <kbd class="bg-slate-100 border border-slate-300 rounded px-1.5">Shift</kbd> + <kbd class="bg-slate-100 border border-slate-300 rounded px-1.5">V</kbd>（純文字貼上）。</p>
         </div>
       </div>
-
-      <div class="flex gap-3 items-start bg-blue-50 rounded-2xl p-4">
-        <div class="cute text-3xl font-extrabold text-blue-600 shrink-0 w-10 text-center">4</div>
+      <div class="flex gap-3 items-start bg-blue-50 rounded-2xl p-3">
+        <div class="cute text-2xl font-extrabold text-blue-600 shrink-0 w-8 text-center">4</div>
         <div class="min-w-0">
-          <p class="text-xl font-bold">修改文件標題</p>
-          <p class="text-lg mb-2">看文件的<b>左上角</b>，那裡有文件的名字（可能寫著「無標題文件」）。</p>
-          <div class="bg-white border-2 border-blue-200 rounded-xl p-3 mb-2 max-w-md">
-            <div class="flex items-center gap-2">
-              <span class="text-2xl">📄</span>
-              <span class="border-2 border-dashed border-blue-400 rounded-lg px-2 py-0.5 font-bold text-slate-700">無標題文件</span>
-              <span class="text-blue-600 font-bold">← 點這裡</span>
-            </div>
+          <p class="text-lg font-bold">修改文件標題</p>
+          <p class="text-base mb-1">文件<b>左上角</b>是文件的名字（可能寫著「無標題文件」）。</p>
+          <div class="bg-white border-2 border-blue-200 rounded-xl px-3 py-1.5 mb-1 inline-flex items-center gap-2">
+            <span class="text-xl">📄</span>
+            <span class="border-2 border-dashed border-blue-400 rounded-lg px-2 font-bold text-slate-700">無標題文件</span>
+            <span class="text-blue-600 font-bold text-sm">← 點這裡</span>
           </div>
-          <ol class="list-decimal pl-6 text-lg space-y-1">
-            <li>用滑鼠<b>點一下</b>標題文字，整段字會被選起來（或點兩下）。</li>
-            <li>直接打字，換成新標題，例如：<b class="text-blue-700">台南行程規劃＿4年1班7號</b>（年級、班級、座號換成自己的）。</li>
-            <li>按鍵盤上的 <kbd class="bg-slate-100 border border-slate-300 rounded px-2">Enter</kbd>，標題就改好了，Google 文件會自動存檔。</li>
+          <ol class="list-decimal pl-5 text-base">
+            <li><b>點一下</b>標題，整段字會被選起來（或點兩下）。</li>
+            <li>打字換成新標題，例如：<b class="text-blue-700">台南行程規劃＿4年1班7號</b>（換成自己的年級、班級、座號）。</li>
+            <li>按 <kbd class="bg-slate-100 border border-slate-300 rounded px-1.5">Enter</kbd>，標題就改好了，文件會自動存檔。</li>
           </ol>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- ===== 繳交學習單 ===== -->
-  <section class="mt-8">
-    <div class="bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm text-center">
-      <h2 class="cute text-xl font-extrabold text-orange-700 mb-1">📮 繳交學習單</h2>
+    <!-- 繳交學習單 -->
+    <div class="mt-5 bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 text-center">
+      <h3 class="cute text-xl font-extrabold text-orange-700 mb-1">📮 繳交學習單</h3>
       <p class="text-sm text-slate-500 mb-3">確定都填好了嗎？按下面按鈕交給老師（可以重交，會覆蓋前一次）。</p>
       <button id="submitBtn" class="w-full bg-orange-600 hover:bg-orange-700 text-white cute text-xl font-extrabold rounded-2xl py-3">繳交學習單</button>
       <p id="submitStat" class="text-sm font-bold mt-3 min-h-[20px]"></p>
     </div>
-  </section>
 
-  <!-- 繳交成功才出現：完成獎勵 -->
-  <section id="rewardBox" class="hidden text-center bg-gradient-to-b from-amber-100 to-orange-100 border-4 border-amber-300 rounded-3xl p-7 mt-6">
-    <div class="text-6xl mb-2 pop">🎉</div>
-    <h2 class="cute text-3xl font-extrabold text-orange-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
-    <div class="flex flex-wrap gap-3 justify-center mt-4">
-      <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener"
-         class="cute inline-block bg-orange-600 hover:bg-orange-700 text-white text-xl font-extrabold rounded-2xl px-8 py-3">🎮 打字英雄</a>
-      <a href="https://gemini.google.com/share/0adbaeae6c16?skid=751ce4ac-860d-4160-8a1a-12a1ebcf6f1d" target="_blank" rel="noopener"
-         class="cute inline-block bg-white border-4 border-orange-300 hover:bg-orange-50 text-orange-700 text-xl font-extrabold rounded-2xl px-8 py-3">🕹️ 更多遊戲</a>
+    <!-- 繳交成功才出現：完成獎勵 -->
+    <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-amber-100 to-orange-100 border-4 border-amber-300 rounded-3xl p-6 mt-4">
+      <div class="text-5xl mb-2 pop">🎉</div>
+      <h3 class="cute text-2xl font-extrabold text-orange-700">恭喜你已經做完今日的作業，可以遊玩！</h3>
+      <div class="flex flex-wrap gap-3 justify-center mt-3">
+        <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener"
+           class="cute inline-block bg-orange-600 hover:bg-orange-700 text-white text-lg font-extrabold rounded-2xl px-6 py-2">🎮 打字英雄</a>
+        <a href="https://gemini.google.com/share/0adbaeae6c16?skid=751ce4ac-860d-4160-8a1a-12a1ebcf6f1d" target="_blank" rel="noopener"
+           class="cute inline-block bg-white border-4 border-orange-300 hover:bg-orange-50 text-orange-700 text-lg font-extrabold rounded-2xl px-6 py-2">🕹️ 更多遊戲</a>
+      </div>
     </div>
+    <div class="stepnav"></div>
   </section>
 
 </div>
@@ -694,7 +682,7 @@ var firebaseConfig = {
       answers:answers,qtypes:qtypes,
       qtexts:{
         q4:'請填寫你的規劃宣言：你打算和誰一起去、想以區域還是主題來規劃、選擇的區域或主題是什麼，以及原因。',
-        q5:'加分：除了上面這些，你還想得到什麼旅遊主題？寫出主題名稱。'
+        q5:'加分：除了這些主題，你還想得到什麼旅遊主題？寫出主題名稱。'
       },
       bonusQids:['q5'],
       scoreAnswers:{},experienceAnswers:experienceAnswers,openAnswers:openAnswers,bonusAnswers:bonusAnswers,
@@ -706,7 +694,7 @@ var firebaseConfig = {
       .then(function(){
         btn.disabled=false;btn.textContent='重新繳交（覆蓋）';
         stat.className='text-sm font-bold mt-3 min-h-[20px] text-emerald-600';
-        stat.textContent='✓ 已繳交！';
+        stat.textContent='✓ 已繳交！';submittedOnce=true;renderStepper();
         var rb=$('rewardBox');rb.classList.remove('hidden');rb.scrollIntoView({behavior:'smooth'});
       }).catch(function(e){
         console.warn('繳交失敗',e);
@@ -715,6 +703,51 @@ var firebaseConfig = {
         stat.textContent='繳交失敗，請檢查網路後再按一次；還是不行就告訴老師。';
       });
   };
+
+  // ===== 學習路徑：一次只顯示一步，頂端進度列可以跳步 =====
+  var STEP_NAMES=['起點','主題','分類','比較','同行','宣言','交出'];
+  var stepEls=[].slice.call(document.querySelectorAll('.step'));
+  var curStep=1,visited={1:true},submittedOnce=false;
+  function stepDone(n){
+    if(n===1)return q1Items.every(function(it){return q1St[it.id]&&q1St[it.id].ok;});
+    if(n===3)return Object.keys(q2Placed).length===spots.length;
+    if(n===6)return cardComplete();
+    if(n===7)return submittedOnce;
+    return !!visited[n]&&n!==curStep;
+  }
+  function renderStepper(){
+    var host=$('stepper');host.innerHTML='';
+    STEP_NAMES.forEach(function(name,idx){
+      var n=idx+1,cur=n===curStep,done=stepDone(n);
+      var cell=el('div','flex flex-col items-center');
+      var b=el('button','stepdot cute rounded-full border-2 font-extrabold text-sm flex items-center justify-center transition '+
+        (cur?'bg-orange-500 border-orange-500 text-white':(done?'bg-emerald-500 border-emerald-500 text-white':'bg-white border-slate-300 text-slate-400 hover:border-orange-300')));
+      b.textContent=done&&!cur?'✓':String(n);
+      b.setAttribute('aria-label','第 '+n+' 步：'+name);
+      if(cur)b.setAttribute('aria-current','step');
+      b.onclick=function(){showStep(n);};
+      cell.appendChild(b);
+      cell.appendChild(el('span','hidden sm:block text-xs font-bold mt-0.5 '+(cur?'text-orange-600':'text-slate-400'),name));
+      host.appendChild(cell);
+      if(n<STEP_NAMES.length)host.appendChild(el('div','flex-1 h-0.5 mt-4 mx-1 rounded '+(done&&!cur?'bg-emerald-300':'bg-slate-200')));
+    });
+    $('stepLabel').textContent='第 '+curStep+' 步／共 '+STEP_NAMES.length+' 步 · '+STEP_NAMES[curStep-1];
+  }
+  function showStep(n){
+    curStep=n;visited[n]=true;
+    stepEls.forEach(function(s){s.classList.toggle('hidden',Number(s.dataset.step)!==n);});
+    renderStepper();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  stepEls.forEach(function(s){
+    var n=Number(s.dataset.step),nav=s.querySelector('.stepnav');
+    if(n>1){var p=el('button','bg-white border-2 border-slate-300 hover:border-orange-400 text-slate-600 font-bold rounded-2xl px-5 py-2','← 上一步');p.onclick=function(){showStep(n-1);};nav.appendChild(p);}
+    else nav.appendChild(el('span',''));
+    if(n<STEP_NAMES.length){var x=el('button','cute bg-orange-500 hover:bg-orange-600 text-white text-lg font-extrabold rounded-2xl px-6 py-2','下一步：'+STEP_NAMES[n]+' →');x.onclick=function(){showStep(n+1);};nav.appendChild(x);}
+  });
+  document.addEventListener('click',function(){setTimeout(renderStepper,0);});
+  document.addEventListener('input',function(){setTimeout(renderStepper,0);});
+  renderStepper();
 })();
 </script>
 
@@ -730,7 +763,7 @@ var firebaseConfig = {
         { "desc": "選定「區域」或「主題」其中一種，並具體說出是哪一個區域或哪一個主題（不是空白或只寫「區域／主題」）", "pts": 2 },
         { "desc": "「因為」的理由合理，跟同行的人、選擇的區域或主題、或台南的特色有關", "pts": 2 }
       ] },
-    { "qid": "q5", "prompt": "加分：除了上面這些，你還想得到什麼旅遊主題？寫出主題名稱。", "mode": "condition", "points": 2, "need": 1,
+    { "qid": "q5", "prompt": "加分：除了這些主題，你還想得到什麼旅遊主題？寫出主題名稱。", "mode": "condition", "points": 2, "need": 1,
       "conditions": ["提出一個合理的旅遊主題（不是四大主題或課堂上已列出的主題原封不動照抄）"],
       "basis": "只要是合理、能拿來當作旅遊起點的主題就算，不要求跟台南旅遊網的分類一致" }
   ],
