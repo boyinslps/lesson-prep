@@ -23,11 +23,13 @@
 - [x] P1-1／P2-1／P2-2（2026-10-06）：判定器 `fileUpload`（文字檔驗證碼、改名比對含 .txt.txt／少副檔名／沒改名提示、圖片 SHA-256）；關卡 C1 下載檔案、C2 檔案重新命名、D1 另存圖片（圖片用 System.Drawing 繪製）
 - [x] P1-2／P1-3（2026-10-06）：判定器 `popup`（cookie／notify／ad／prize／subscribe，陷阱按鈕說明原因、廣告 × 可延遲出現）、`tabPair`（site/tab/ 密碼小卡＋BroadcastChannel，關分頁用 ping 偵測）；關卡 E3 處理彈出視窗、E1 開新分頁與切換分頁
 - [x] P3-1（2026-10-06）：證書頁 Canvas（1600×1131，可自填姓名不上傳、下載 PNG、列印 A4 橫式）；未達成時列出還差哪些關；進網站時補發已達成的證書。8 個必修關卡到齊，第一階證書已可取得
+- [x] P3-2（2026-10-06）：教師後台 `site/admin/`（Google 登入、全班×關卡進度表、通過率、點日期重設、證書編號查驗）；`admin/?demo=1` 用 28 人假資料驗證過畫面。真實資料要等 Firebase 開啟匿名＋Google 登入
 
 ## 待老師處理（不在夜間做）
 
 - [ ] **Firebase 匿名登入沒開**：測試時 `auth/configuration-not-found`。到 Firebase Console（worksheet-f47f3）→ Authentication → 開始使用 → 登入方式 → 啟用「匿名」。賀卡創作營也受影響（目前也只存在本機）。
 - [ ] 把 `技能闖關/firestore.rules` 整份貼到 Firestore 規則並發布。
+- [ ] Firebase Console → Authentication → 登入方式 → 也要啟用「Google」（教師後台用）；「設定 → 已授權網域」加上 `boyinslps.github.io`。
 - [ ] 實機用 Chrome 試 B1、B3：真的按 Ctrl+C／Ctrl+V／Ctrl+Shift+V 是否都正確判定。
 - [ ] P4 錄影（computer use，需老師在電腦前）：見下方「錄影待辦」。
 
@@ -36,7 +38,6 @@
 - [ ] P0-4 地圖頁加先修連線（同類別內用 SVG 線連起來）、手機版檢查
 - [ ] P2-3 判定器 `keyCombo`＋`quiz`（拖曳分類／選擇題）；做 A4 復原與取消復原
 - [ ] P2-4 網頁類教學影片：A1、B1、B3、E1、E3（步驟影片工具 cdp.ps1＋render.ps1，影片放 levels/xx/assets/教學.mp4）
-- [ ] P3-2 教師後台 `admin/`：Google 登入（boyin0304@slps.tn.edu.tw）、選年級班級 → 全班×關卡進度表、單關通過率、重設某生某關、查證書編號
 - [ ] P5-1 A2 拖曳、A3 中英全半形
 - [ ] P5-2 B2 剪下、B4 複製網址
 - [ ] P5-3 C3 資料夾、C4 副檔名、C5 資源回收筒

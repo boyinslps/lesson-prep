@@ -1,0 +1,118 @@
+<header class="topbar"><div class="wrap">
+  <a class="back" href="../"><svg class="ico"><use href="#i-back"/></svg>技能地圖</a>
+  <span class="lvname">教師後台</span>
+  <div class="who"><span id="who"></span><button class="pill" id="login" style="border:0;cursor:pointer">Google 登入</button></div>
+</div></header>
+<main><div class="wrap" style="padding-top:20px;padding-bottom:40px">
+  <div class="box">
+    <div class="ad-bar">
+      <label>年級 <input id="aG" inputmode="numeric" maxlength="1"></label>
+      <label>班級 <input id="aC" inputmode="numeric" maxlength="2"></label>
+      <button class="go" id="loadBtn">讀取全班</button>
+      <span class="ad-sep"></span>
+      <label>證書編號 <input id="aCode" style="width:130px"></label>
+      <button class="go ghost" id="findBtn">查驗</button>
+    </div>
+    <p id="aMsg" class="ad-msg"></p>
+  </div>
+  <div class="box ad-wrap" id="aTable" style="margin-top:14px;display:none"></div>
+</div></main>
+<style>
+.ad-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ad-bar input{width:54px;border:1.5px solid #c9cfdc;border-radius:8px;padding:5px 8px;text-align:center}
+.ad-bar .go{padding:7px 16px;font-size:15px}
+.ad-sep{flex:1}
+.ad-msg{margin:10px 0 0;color:var(--sub);font-size:15px}
+.ad-wrap{overflow-x:auto;padding:12px}
+.ad{border-collapse:collapse;font-size:14px;min-width:100%}
+.ad th,.ad td{border:1px solid var(--line);padding:5px 7px;text-align:center;white-space:nowrap}
+.ad thead th{background:#f1f4fa;position:sticky;top:0}
+.ad th.lv{writing-mode:vertical-rl;padding:8px 4px;font-weight:700}
+.ad td.p{background:var(--green-soft);color:var(--green);font-weight:700;cursor:pointer}
+.ad td.p:hover{background:#d3efdd}
+.ad td.c{background:var(--gold-soft);color:#8a5a0c;font-weight:700}
+.ad tr.sum td{background:#f7f8fb;font-weight:700}
+.ad td.left{text-align:left}
+</style>
+<script>
+/* 教師後台：Google 登入（只有 firestore.rules 裡的老師帳號能列出全班）。?demo=1 用假資料看畫面。 */
+(function(){
+  var Q=Quest, CFG=Q.config, L=Q.levels, demo=/demo=1/.test(location.search), FB=null, rows=[];
+  function $(id){return document.getElementById(id);}
+  function msg(t){$('aMsg').innerHTML=t;}
+  function d2(ms){var d=new Date(ms);return (d.getMonth()+1)+'/'+d.getDate();}
+
+  Q.firebase().then(function(fb){
+    FB=fb;
+    if(demo){$('who').textContent='示範資料模式';$('login').style.display='none';$('aG').value=4;$('aC').value=1;load();return;}
+    if(!fb){msg('Firebase 載入失敗（或用 file:// 開啟），無法讀取資料。');return;}
+    fb.auth.onAuthStateChanged(function(u){
+      $('who').textContent=u&&!u.isAnonymous?u.email:'';
+      $('login').textContent=u&&!u.isAnonymous?'登出':'Google 登入';
+    });
+  });
+  $('login').addEventListener('click',function(){
+    if(!FB)return;
+    var u=FB.auth.currentUser;
+    if(u&&!u.isAnonymous){FB.auth.signOut();return;}
+    FB.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(e){msg('登入失敗：'+Q.esc(e.code||e.message)+'（Firebase Console → Authentication 要啟用 Google 登入）');});
+  });
+
+  function fake(g,c){
+    var out=[];for(var s=1;s<=28;s++){var lv={},n=Math.floor(Math.random()*(L.length+1));
+      L.slice(0,n).forEach(function(l,k){lv[l.code]={passedAt:Date.now()-k*86400000,tries:1+Math.floor(Math.random()*3),seconds:20+Math.floor(Math.random()*200)};});
+      var certs=n===L.length?{T1:{awardedAt:Date.now(),code:'T1-DEMO'+s}}:{};
+      out.push({id:g+'-'+c+'-'+s,grade:g,className:c,studentId:s,levels:lv,certs:certs});}
+    return Promise.resolve(out);
+  }
+  function fetchClass(g,c){
+    if(demo)return fake(g,c);
+    return FB.coll().where('grade','==',g).where('className','==',c).get().then(function(snap){
+      var out=[];snap.forEach(function(d){var o=d.data();o.id=d.id;out.push(o);});return out;});
+  }
+  function load(){
+    var g=+$('aG').value, c=+$('aC').value;
+    if(!g||!c){msg('請填年級和班級。');return;}
+    if(!demo&&!(FB&&FB.auth.currentUser&&!FB.auth.currentUser.isAnonymous)){msg('請先用老師的 Google 帳號登入。');return;}
+    msg('讀取中…');
+    fetchClass(g,c).then(function(r){rows=r.sort(function(a,b){return a.studentId-b.studentId;});draw(g,c);})
+      .catch(function(e){msg('讀取失敗：'+Q.esc(e.code||e.message)+'（確認登入的是老師帳號，且 firestore.rules 已發布）');});
+  }
+  function draw(g,c){
+    if(!rows.length){msg(g+' 年 '+c+' 班還沒有人留下紀錄。');$('aTable').style.display='none';return;}
+    var h='<table class="ad"><thead><tr><th>座號</th><th>過關</th>'+L.map(function(l){return '<th class="lv" title="'+Q.esc(l.title)+'">'+l.code+' '+Q.esc(l.title)+'</th>';}).join('')+
+      CFG.certs.map(function(ct){return '<th class="lv">'+Q.esc(ct.name)+'</th>';}).join('')+'</tr></thead><tbody>';
+    rows.forEach(function(r){
+      var lv=r.levels||{}, n=L.filter(function(l){return lv[l.code];}).length;
+      h+='<tr><td>'+r.studentId+'</td><td>'+n+'</td>'+L.map(function(l){var x=lv[l.code];
+        return x?'<td class="p" data-id="'+r.id+'" data-lv="'+l.code+'" title="'+d2(x.passedAt)+' 過關，嘗試 '+(x.tries||1)+' 次，'+Math.round(x.seconds||0)+' 秒（點一下可重設）">'+d2(x.passedAt)+'</td>':'<td></td>';}).join('')+
+        CFG.certs.map(function(ct){var x=(r.certs||{})[ct.id];return x?'<td class="c" title="'+Q.esc(x.code)+'">'+d2(x.awardedAt)+'</td>':'<td></td>';}).join('')+'</tr>';
+    });
+    h+='<tr class="sum"><td>通過率</td><td></td>'+L.map(function(l){var k=rows.filter(function(r){return (r.levels||{})[l.code];}).length;return '<td>'+Math.round(k/rows.length*100)+'%</td>';}).join('')+
+      CFG.certs.map(function(ct){var k=rows.filter(function(r){return (r.certs||{})[ct.id];}).length;return '<td>'+k+' 人</td>';}).join('')+'</tr></tbody></table>';
+    $('aTable').innerHTML=h;$('aTable').style.display='block';
+    msg(g+' 年 '+c+' 班，共 '+rows.length+' 人有紀錄。日期上滑鼠可看嘗試次數與秒數；點日期可以重設該關。'+(demo?'（示範資料）':''));
+  }
+  $('aTable').addEventListener('click',function(e){
+    var td=e.target.closest('td.p');if(!td)return;
+    var id=td.dataset.id, code=td.dataset.lv;
+    if(!confirm('確定要重設 '+id+' 的 '+code+'？學生要重新挑戰這一關。（已頒發的證書不會收回）'))return;
+    var done=function(){rows.forEach(function(r){if(r.id===id&&r.levels)delete r.levels[code];});draw(+$('aG').value,+$('aC').value);};
+    if(demo){done();return;}
+    var up={};up['levels.'+code]=firebase.firestore.FieldValue.delete();
+    FB.coll().doc(id).update(up).then(done).catch(function(e){msg('重設失敗：'+Q.esc(e.code||e.message));});
+  });
+  $('loadBtn').addEventListener('click',load);
+  $('findBtn').addEventListener('click',function(){
+    var code=$('aCode').value.trim().toUpperCase();if(!code)return;
+    var hit=function(list){for(var i=0;i<list.length;i++){var cs=list[i].certs||{};for(var k in cs)if(cs[k].code===code)return {r:list[i],c:k,x:cs[k]};}return null;};
+    var show=function(f){if(!f){msg('查無證書編號 '+Q.esc(code)+'。');return;}
+      var ct=CFG.certs.filter(function(c){return c.id===f.c;})[0];
+      msg('證書編號 <b>'+Q.esc(code)+'</b>：'+f.r.grade+' 年 '+f.r.className+' 班 '+f.r.studentId+' 號，「'+Q.esc(ct?ct.name:f.c)+'」，'+new Date(f.x.awardedAt).toLocaleDateString('zh-TW')+' 頒發。');};
+    if(demo){show(hit(rows));return;}
+    if(!(FB&&FB.auth.currentUser&&!FB.auth.currentUser.isAnonymous)){msg('請先用老師的 Google 帳號登入。');return;}
+    FB.coll().get().then(function(snap){var all=[];snap.forEach(function(d){var o=d.data();o.id=d.id;all.push(o);});show(hit(all));})
+      .catch(function(e){msg('查驗失敗：'+Q.esc(e.code||e.message));});
+  });
+})();
+</script>

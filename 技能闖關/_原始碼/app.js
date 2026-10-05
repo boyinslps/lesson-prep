@@ -87,6 +87,7 @@
       .then(function(){if(!firebase.apps.length)firebase.initializeApp(CFG.firebase);db=firebase.firestore();auth=firebase.auth();resolve(true);})
       .catch(function(e){console.warn('Firebase 載入失敗，改成只存在這台電腦',e);resolve(false);});
   });
+  Q.firebase = function(){return fbReady.then(function(ok){return ok?{db:db,auth:auth,coll:coll}:null;});};
   function ensureAuth(){return auth.currentUser?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user;});}
   function coll(){return db.collection(CFG.collection||'skillQuest');}
 
