@@ -200,3 +200,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 .qz-bucket{border:2.5px dashed #c9cfdc;border-radius:14px;padding:10px;min-height:110px;cursor:pointer;background:#fff}
 .qz-bucket b{display:block;margin-bottom:6px}
 .qz-in{display:flex;flex-wrap:wrap;gap:6px}
+
+/* 地圖先修連線 */
+.grid{position:relative;column-gap:34px}
+.grid svg.links{position:absolute;left:0;top:0;pointer-events:none;overflow:visible;z-index:0}
+.grid svg.links path{fill:none;stroke:#b8c0d2;stroke-width:2.5;stroke-dasharray:6 5}
+.grid svg.links path.done{stroke:var(--green);stroke-dasharray:none}
+.card{z-index:1}

@@ -244,7 +244,7 @@
     var practice=ctx.mode==='practice', list=(p.popups||[]).slice();
     if(p.shuffle)list.sort(function(){return Math.random()-.5;});
     var pg=p.page||{};
-    var tl=taskList(el,list.map(function(k){return '關掉「'+POPS[k].name+'」';}));
+    var tl=taskList(el,list.map(function(k,n){return practice?'關掉「'+POPS[k].name+'」':'安全地處理第 '+(n+1)+' 個跳出來的視窗';}));
     var wrap=document.createElement('div');
     wrap.innerHTML='<div class="fb"><div class="fb-tabs"><span class="fb-tab">'+esc(pg.tab||'小學生線上字典')+'</span></div><div class="fb-url">'+esc(pg.url||'dict.example.tw')+'</div><div class="fb-page">'+(pg.html||'<h3>小學生線上字典</h3><p>搜尋：<b>電腦</b></p><p>英文：computer</p>')+'</div><div class="fb-layer"></div></div>';
     el.appendChild(wrap);

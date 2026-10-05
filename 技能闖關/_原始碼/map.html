@@ -34,14 +34,35 @@
           var st=Q.status(l.code);
           var need=st==='locked'?'<span class="need">先完成 '+l.prereq.filter(function(c){return !Q.passed(c);}).map(function(c){return c+' '+Q.esc(Q.byCode[c].title);}).join('、')+'</span>':'';
           var ico=st==='passed'?Q.icon('check'):st==='locked'?Q.icon('lock'):'';
-          return '<a class="card '+st+'" href="'+(st==='locked'?'#':l.code+'/')+'"'+(st==='locked'?' aria-disabled="true"':'')+'><div class="top"><span class="code">'+l.code+'</span>'+(l.core?'<span class="core">必修</span>':'')+'<span class="st">'+ico+'</span></div><h3>'+Q.esc(l.title)+'</h3><p>'+Q.esc(l.summary)+'</p>'+need+'</a>';
+          return '<a data-code="'+l.code+'" class="card '+st+'" href="'+(st==='locked'?'#':l.code+'/')+'"'+(st==='locked'?' aria-disabled="true"':'')+'><div class="top"><span class="code">'+l.code+'</span>'+(l.core?'<span class="core">必修</span>':'')+'<span class="st">'+ico+'</span></div><h3>'+Q.esc(l.title)+'</h3><p>'+Q.esc(l.summary)+'</p>'+need+'</a>';
         }).join('')+'</div></section>';
     }).join('');
   }
+  // 同類別裡的先修關係畫成連線（跨類別的用卡片上的「先完成…」文字表示）
+  function lines(){
+    [].forEach.call(document.querySelectorAll('.grid'),function(grid){
+      var old=grid.querySelector('svg.links');if(old)old.remove();
+      var gb=grid.getBoundingClientRect(), paths='';
+      [].forEach.call(grid.querySelectorAll('.card'),function(card){
+        var l=Q.byCode[card.dataset.code];
+        (l.prereq||[]).forEach(function(pc){
+          var from=grid.querySelector('.card[data-code="'+pc+'"]');if(!from)return;
+          var a=from.getBoundingClientRect(), b=card.getBoundingClientRect(), x1,y1,x2,y2,d;
+          if(Math.abs(a.top-b.top)<10){x1=a.right-gb.left;y1=a.top+a.height/2-gb.top;x2=b.left-gb.left;y2=b.top+b.height/2-gb.top;d='M'+x1+' '+y1+' L'+x2+' '+y2;}
+          else{x1=a.left+a.width/2-gb.left;y1=a.bottom-gb.top;x2=b.left+b.width/2-gb.left;y2=b.top-gb.top;var m=(y1+y2)/2;d='M'+x1+' '+y1+' C'+x1+' '+m+' '+x2+' '+m+' '+x2+' '+y2;}
+          paths+='<path d="'+d+'" class="'+(Q.passed(pc)?'done':'')+'" marker-end="url(#arr)"/>';
+        });
+      });
+      if(!paths)return;
+      grid.insertAdjacentHTML('afterbegin','<svg class="links" width="'+gb.width+'" height="'+gb.height+'"><defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b8c0d2"/></marker></defs>'+paths+'</svg>');
+    });
+  }
+  var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(lines,150);});
   document.getElementById('cats').addEventListener('click',function(e){
     var a=e.target.closest('.card.locked');if(a){e.preventDefault();Q.toast('這一關要先完成前面的關卡');}
   });
-  Q.onChange(render);
+  Q.onChange(function(){render();lines();});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(lines);
   Q.initIdBar();
 })();
 </script>
