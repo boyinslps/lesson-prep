@@ -1,0 +1,118 @@
+<header class="topbar"><div class="wrap">
+  <a class="back" href="../"><svg class="ico"><use href="#i-back"/></svg>技能地圖</a>
+  <span class="lvname">{{CODE}} {{TITLE}}</span>
+  <div class="who"><label>年級<input id="idG" inputmode="numeric" maxlength="1" aria-label="年級"></label><label>班級<input id="idC" inputmode="numeric" maxlength="2" aria-label="班級"></label><label>座號<input id="idS" inputmode="numeric" maxlength="2" aria-label="座號"></label><span id="saveStat" class="pill">…</span></div>
+</div></header>
+<main style="--ac:{{COLOR}};--ac-soft:{{SOFT}}">
+<section class="lvhead"><div class="wrap">
+  <h1>{{TITLE}} <span id="lvBadge"></span></h1>
+  <p>{{SUMMARY}}</p>
+  <nav class="tabs" role="tablist">
+    <button data-t="learn" class="on"><span class="n">1</span>看</button>
+    <button data-t="practice"><span class="n">2</span>練</button>
+    <button data-t="challenge"><span class="n">3</span>闖</button>
+  </nav>
+</div></section>
+<div class="wrap">
+  <section class="panel on" id="p-learn">
+    <div class="box" id="learnBox"></div>
+  </section>
+  <section class="panel" id="p-practice">
+    <div class="box"><h2>練習：跟著提示做一次</h2><div id="ckPractice"></div><div class="hint" id="hintPractice"></div>
+      <div class="actions"><button class="go ghost" data-retry="practice"><svg class="ico"><use href="#i-retry"/></svg>重來</button></div></div>
+  </section>
+  <section class="panel" id="p-challenge">
+    <div class="box"><h2>挑戰：這次沒有提示，做對就過關</h2><div id="lockNote"></div><div id="ckChallenge"></div><div class="hint" id="hintChallenge"></div>
+      <div class="actions"><button class="go ghost" data-retry="challenge"><svg class="ico"><use href="#i-retry"/></svg>重來</button></div></div>
+  </section>
+</div>
+</main>
+<div class="pass" id="passBox"><div class="card2" id="passCard"></div></div>
+<script>
+(function(){
+  var Q=Quest, LV=window.SITE.level;
+  function $(id){return document.getElementById(id);}
+
+  /* ---------- 看 ---------- */
+  var L=LV.learn||{};
+  $('learnBox').innerHTML=
+    (L.video?'<div class="vid"><video controls playsinline preload="metadata" src="'+L.video+'"'+(L.poster?' poster="'+L.poster+'"':'')+'></video></div>':
+      '<div class="novid">'+Q.icon('play')+'教學影片製作中，先看下面的步驟。</div>')+
+    '<h2 style="margin-top:18px">步驟</h2><ol class="steps">'+(L.steps||[]).map(function(s){return '<li>'+s+'</li>';}).join('')+'</ol>'+
+    (L.tips||[]).map(function(t){return '<div class="tip">'+Q.icon('bulb')+'<div>'+t+'</div></div>';}).join('')+
+    '<div class="actions"><button class="go" data-goto="practice">去練習</button><button class="go ghost" data-goto="challenge">我會了，直接挑戰</button></div>';
+
+  /* ---------- 分頁 ---------- */
+  var tabs=[].slice.call(document.querySelectorAll('.tabs button'));
+  function show(t){
+    tabs.forEach(function(b){b.classList.toggle('on',b.dataset.t===t);});
+    ['learn','practice','challenge'].forEach(function(k){$('p-'+k).classList.toggle('on',k===t);});
+    if(t!=='learn')mount(t);
+    var v=document.querySelector('video');if(v&&t!=='learn')v.pause();
+    try{history.replaceState(null,'','#'+t);}catch(e){}
+    window.scrollTo(0,0);
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.t);});});
+  document.addEventListener('click',function(e){
+    var g=e.target.closest('[data-goto]');if(g){closePass();show(g.dataset.goto);}
+    var r=e.target.closest('[data-retry]');if(r)mount(r.dataset.retry,true);
+  });
+
+  /* ---------- 判定器掛載 ---------- */
+  var mounted={},cleanup={},tries=0,t0=0;
+  function mount(mode,force){
+    if(mounted[mode]&&!force)return;
+    var el=$(mode==='practice'?'ckPractice':'ckChallenge'), hint=$(mode==='practice'?'hintPractice':'hintChallenge');
+    if(cleanup[mode]){try{cleanup[mode]();}catch(e){}}
+    el.innerHTML='';hint.className='hint';hint.innerHTML='';
+    var spec=LV[mode];
+    if(mode==='challenge'){tries=1;t0=Date.now();}
+    var ctx={mode:mode,
+      hint:function(t){hint.className='hint'+(t?' on info':'');hint.innerHTML=t||'';},
+      miss:function(t){if(mode==='challenge')tries++;hint.className='hint on bad';hint.innerHTML=t;},
+      pass:function(){done(mode);}};
+    var fn=window.Checkers[spec.checker];
+    if(!fn){el.innerHTML='<p>找不到判定器：'+spec.checker+'</p>';return;}
+    cleanup[mode]=fn(el,JSON.parse(JSON.stringify(spec.params||{})),ctx);
+    mounted[mode]=true;
+  }
+
+  /* ---------- 過關 ---------- */
+  function closePass(){$('passBox').classList.remove('on');}
+  function nextLevel(){
+    var open=Q.levels.filter(function(l){return Q.status(l.code)==='open';});
+    var same=open.filter(function(l){return l.category===LV.category;});
+    return same[0]||open[0];
+  }
+  function done(mode){
+    var card=$('passCard');
+    if(mode==='practice'){
+      tabs[1].classList.add('done');
+      card.innerHTML='<div class="medal">'+Q.icon('star','')+'</div><h2>練習完成！</h2><p>很好！現在不看提示，自己做一次。</p><div class="actions"><button class="go" data-goto="challenge">去挑戰</button></div>';
+      $('passBox').classList.add('on');return;
+    }
+    var secs=(Date.now()-t0)/1000;
+    Q.recordPass(LV.code,{tries:tries,seconds:secs}).then(function(r){
+      tabs[2].classList.add('done');
+      var nx=nextLevel();
+      var certs=(r.fresh||[]).map(function(c){return '<p style="color:#8a5a0c;font-weight:700">'+Q.icon('award')+' 獲得證書：'+Q.esc(c.name)+'</p>';}).join('');
+      card.innerHTML='<div class="medal">'+Q.icon('check')+'</div><h2>過關！</h2><p>'+LV.code+' '+Q.esc(LV.title)+'</p>'+
+        (r.noId?'<p style="color:#c0392b">還沒填年級、班級、座號，這次過關<b>沒有保存</b>。填好後再挑戰一次。</p>':'')+certs+
+        '<div class="actions"><a class="go ghost" href="../">回地圖</a>'+(r.fresh&&r.fresh.length?'<a class="go ghost" href="../cert/?c='+r.fresh[0].id+'">看證書</a>':'')+(nx?'<a class="go" href="../'+nx.code+'/">下一關：'+Q.esc(nx.title)+'</a>':'')+'</div>';
+      $('passBox').classList.add('on');
+    });
+  }
+
+  /* ---------- 狀態 ---------- */
+  Q.onChange(function(){
+    var st=Q.status(LV.code);
+    $('lvBadge').innerHTML=st==='passed'?'<span class="core" style="background:#e6f6ec;color:#2f9e62">已過關</span>':LV.core?'<span class="core">必修</span>':'';
+    tabs[2].classList.toggle('done',st==='passed');
+    var need=(LV.prereq||[]).filter(function(c){return !Q.passed(c);});
+    $('lockNote').innerHTML=need.length?'<div class="tip">'+Q.icon('lock')+'<div>建議先完成 '+need.map(function(c){return '<a href="../'+c+'/">'+c+' '+Q.esc(Q.byCode[c].title)+'</a>';}).join('、')+'，這一關會比較容易。</div></div>':'';
+  });
+  Q.initIdBar();
+  var h=(location.hash||'').slice(1);
+  if(h==='practice'||h==='challenge')show(h);
+})();
+</script>

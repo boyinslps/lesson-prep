@@ -1,0 +1,42 @@
+{
+  "code": "B3",
+  "title": "純文字貼上",
+  "category": "B",
+  "core": true,
+  "prereq": ["B1"],
+  "order": 3,
+  "enabled": true,
+  "summary": "從網頁複製資料時，只貼文字、不要把顏色和字型一起帶過來",
+  "learn": {
+    "video": "",
+    "steps": [
+      "從網頁複製文字時，<b>顏色、粗體、字型</b>常常會一起被複製",
+      "一般的 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 會把這些格式全部貼過來，文件就變得亂七八糟",
+      "改按 <kbd>Ctrl</kbd>＋<kbd>Shift</kbd>＋<kbd>V</kbd>（三個鍵一起按）——只貼文字，字型會跟文件原本的一樣",
+      "已經貼錯了？按 <kbd>Ctrl</kbd>＋<kbd>Z</kbd> 復原，再重貼一次"
+    ],
+    "tips": [
+      "用滑鼠也可以：在要貼的地方按右鍵 →「貼上純文字」或「貼上並符合樣式」。",
+      "Google 文件、簡報、Canva 都適用 <kbd>Ctrl</kbd>＋<kbd>Shift</kbd>＋<kbd>V</kbd>。"
+    ]
+  },
+  "practice": {
+    "checker": "plainPaste",
+    "params": {
+      "richHtml": "<p style=\"margin:0\"><span style=\"font-size:22px;font-weight:900;color:#c0392b;background:#fff3b0\">臺灣黑熊胸前有一塊 V 字形的白色毛。</span></p>",
+      "target": "臺灣黑熊胸前有一塊 V 字形的白色毛。",
+      "docHtml": "<p>我的動物報告</p><p>特徵：<span class=\"slot\">（貼在這裡）</span></p>"
+    }
+  },
+  "challenge": {
+    "checker": "plainPaste",
+    "params": {
+      "richHtml": "<p style=\"margin:0;font-family:serif\"><b style=\"font-size:20px;color:#1b5e20\">阿里山</b><i style=\"color:#6a1b9a;font-size:18px\">的日出和雲海很有名，</i><u style=\"color:#0d47a1\">吸引很多遊客。</u></p>",
+      "target": "阿里山的日出和雲海很有名，吸引很多遊客。",
+      "docHtml": "<p>景點介紹</p><p>簡介：<span class=\"slot\">（貼在這裡）</span></p>",
+      "say1": "把上面那句話整句複製下來",
+      "say2": "貼進文件灰色的位置，字要跟文件原本的一樣（沒有顏色、粗體）"
+    }
+  },
+  "production": {"video": "todo", "videoKind": "web", "note": "示範：一般貼上（格式亂）→ Ctrl+Z → Ctrl+Shift+V；可用 mockdoc.html"}
+}

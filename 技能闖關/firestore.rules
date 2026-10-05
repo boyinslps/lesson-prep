@@ -1,0 +1,66 @@
+rules_version = '2';
+// worksheet-f47f3 的完整 Firestore 規則（賀卡創作營＋電腦急救站共用同一個專案）。
+// 這份與 materials/競賽專區/C00_賀卡創作營/firestore.rules、技能闖關/firestore.rules 內容相同，
+// 改任何一邊都要兩邊一起改；貼到 Firebase Console → Firestore Database → 規則 → 發布（整份覆蓋）。
+//
+// 資料一：cardWork/{年級-班級-座號}（賀卡創作營）
+//   欄位：grade、className、studentId（數字）、updatedAt、L1～L5（每一節的作答，map）。
+// 資料二：skillQuest/{年級-班級-座號}（電腦急救站）
+//   欄位：grade、className、studentId、updatedAt、levels（過關紀錄 map）、certs（證書 map）。
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 老師帳號（用 Google 登入，才能看全部學生）
+    function isTeacher() {
+      return request.auth != null
+        && request.auth.token.email == 'boyin0304@slps.tn.edu.tw'
+        && request.auth.token.email_verified == true;
+    }
+
+    // 每一節的作答：可以沒有；有的話必須是 map，欄位不超過 40 個
+    function okLesson(d, k) {
+      return !(k in d) || (d[k] is map && d[k].size() <= 40);
+    }
+
+    function okDoc(wid) {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['grade', 'className', 'studentId', 'updatedAt', 'L1', 'L2', 'L3', 'L4', 'L5'])
+        && d.grade is int && d.grade >= 3 && d.grade <= 6
+        && d.className is int && d.className >= 1 && d.className <= 20
+        && d.studentId is int && d.studentId >= 1 && d.studentId <= 40
+        && wid == string(d.grade) + '-' + string(d.className) + '-' + string(d.studentId)
+        && okLesson(d, 'L1') && okLesson(d, 'L2') && okLesson(d, 'L3') && okLesson(d, 'L4') && okLesson(d, 'L5');
+    }
+
+    match /cardWork/{wid} {
+      // 學生（匿名登入）只能用自己的「年級-班級-座號」讀寫那一份；不能一次列出全部
+      allow get: if request.auth != null;
+      allow create, update: if request.auth != null && okDoc(wid);
+      // 列出全部、刪除：只有老師
+      allow list, delete: if isTeacher();
+    }
+
+    // 電腦急救站：過關紀錄與證書
+    function okQuest(wid) {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['grade', 'className', 'studentId', 'updatedAt', 'levels', 'certs'])
+        && d.grade is int && d.grade >= 3 && d.grade <= 6
+        && d.className is int && d.className >= 1 && d.className <= 20
+        && d.studentId is int && d.studentId >= 1 && d.studentId <= 40
+        && wid == string(d.grade) + '-' + string(d.className) + '-' + string(d.studentId)
+        && (!('levels' in d) || (d.levels is map && d.levels.size() <= 200))
+        && (!('certs' in d) || (d.certs is map && d.certs.size() <= 10));
+    }
+
+    match /skillQuest/{wid} {
+      allow get: if request.auth != null;
+      allow create, update: if request.auth != null && okQuest(wid);
+      allow list, delete: if isTeacher();
+    }
+
+    // 其他集合一律不開放
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

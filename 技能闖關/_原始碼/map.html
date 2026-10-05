@@ -1,0 +1,47 @@
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="./"><svg class="ico"><use href="#i-logo"/></svg>{{SITE_TITLE}}</a>
+  <div class="who"><label>年級<input id="idG" inputmode="numeric" maxlength="1" aria-label="年級"></label><label>班級<input id="idC" inputmode="numeric" maxlength="2" aria-label="班級"></label><label>座號<input id="idS" inputmode="numeric" maxlength="2" aria-label="座號"></label><span id="saveStat" class="pill">…</span></div>
+</div></header>
+<main>
+<section class="hero"><div class="wrap">
+  <div>
+    <h1>{{SITE_TITLE}}</h1>
+    <p>{{TAGLINE}}</p>
+    <div class="meter"><div class="bar"><i id="meterBar" style="width:0"></i></div><b id="meterTxt"></b></div>
+  </div>
+  <div class="certrow" id="certRow"></div>
+</div></section>
+<div class="wrap" id="cats"></div>
+</main>
+<script>
+(function(){
+  var Q=Quest, CFG=Q.config;
+  function render(){
+    var L=Q.levels, done=L.filter(function(l){return Q.passed(l.code);}).length;
+    document.getElementById('meterBar').style.width=(L.length?done/L.length*100:0)+'%';
+    document.getElementById('meterTxt').textContent=Q.idValid()?('已過關 '+done+' / '+L.length):'先在右上角填年級、班級、座號，才會保存紀錄';
+    var P=Q.progress();
+    document.getElementById('certRow').innerHTML=CFG.certs.map(function(c){
+      var got=P.certs[c.id];
+      return '<a class="cert'+(got?' got':'')+'" href="cert/?c='+c.id+'" title="'+Q.esc(c.desc)+'">'+Q.icon('award')+'<b>'+Q.esc(c.name)+'</b><span>'+(got?'已獲得':Q.certOpen(c)?Q.esc(c.desc):'關卡準備中')+'</span></a>';
+    }).join('');
+    document.getElementById('cats').innerHTML=CFG.categories.map(function(cat){
+      var lv=L.filter(function(l){return l.category===cat.id;});
+      if(!lv.length)return '';
+      var d=lv.filter(function(l){return Q.passed(l.code);}).length;
+      return '<section class="cat" style="--col:'+cat.color+';--soft:'+cat.soft+'"><h2><span class="badge">'+Q.icon(cat.icon)+'</span>'+Q.esc(cat.name)+' <small>'+d+' / '+lv.length+'</small></h2><div class="grid">'+
+        lv.map(function(l){
+          var st=Q.status(l.code);
+          var need=st==='locked'?'<span class="need">先完成 '+l.prereq.filter(function(c){return !Q.passed(c);}).map(function(c){return c+' '+Q.esc(Q.byCode[c].title);}).join('、')+'</span>':'';
+          var ico=st==='passed'?Q.icon('check'):st==='locked'?Q.icon('lock'):'';
+          return '<a class="card '+st+'" href="'+(st==='locked'?'#':l.code+'/')+'"'+(st==='locked'?' aria-disabled="true"':'')+'><div class="top"><span class="code">'+l.code+'</span>'+(l.core?'<span class="core">必修</span>':'')+'<span class="st">'+ico+'</span></div><h3>'+Q.esc(l.title)+'</h3><p>'+Q.esc(l.summary)+'</p>'+need+'</a>';
+        }).join('')+'</div></section>';
+    }).join('');
+  }
+  document.getElementById('cats').addEventListener('click',function(e){
+    var a=e.target.closest('.card.locked');if(a){e.preventDefault();Q.toast('這一關要先完成前面的關卡');}
+  });
+  Q.onChange(render);
+  Q.initIdBar();
+})();
+</script>

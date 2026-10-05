@@ -1,0 +1,43 @@
+{
+  "code": "B1",
+  "title": "複製貼上",
+  "category": "B",
+  "core": true,
+  "prereq": ["A1"],
+  "order": 1,
+  "enabled": true,
+  "summary": "把一段文字複製下來，貼到另一個地方，不用自己重打",
+  "learn": {
+    "video": "",
+    "steps": [
+      "先把要複製的文字<b>選起來</b>（變藍色）",
+      "按 <kbd>Ctrl</kbd>＋<kbd>C</kbd> 複製——畫面不會有變化，但電腦已經記住了",
+      "<b>點一下</b>要貼上的地方，讓游標在那裡閃",
+      "按 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上"
+    ],
+    "tips": [
+      "也可以用滑鼠：選好文字後按<b>右鍵</b>→「複製」，到要貼的地方按右鍵→「貼上」。",
+      "記法：C 像一個夾子，把字夾起來；V 像一個往下的箭頭，把字放下去。"
+    ]
+  },
+  "practice": {
+    "checker": "copyPaste",
+    "params": {
+      "passage": "今天的自學網址是 pcclass-skills-2026，請把它複製到下面的框框裡。",
+      "tasks": [
+        {"target": "pcclass-skills-2026", "label": "自學網址", "say": "複製「pcclass-skills-2026」，貼到「自學網址」框"}
+      ]
+    }
+  },
+  "challenge": {
+    "checker": "copyPaste",
+    "params": {
+      "passage": "臺南市東區勝利國小位在勝利路 119 號。學校的英文名字是 Tainan Municipal Sheng-Li Elementary School。",
+      "tasks": [
+        {"target": "Tainan Municipal Sheng-Li Elementary School", "label": "學校英文名字"},
+        {"target": "勝利路 119 號", "label": "學校地址（只要路名和號碼）"}
+      ]
+    }
+  },
+  "production": {"video": "todo", "videoKind": "web", "note": "可參考 四上 L04 已做好的「複製資料」步驟影片 specs/四上L04_複製資料.json"}
+}

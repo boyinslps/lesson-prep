@@ -1,0 +1,21 @@
+<header class="topbar"><div class="wrap">
+  <a class="back" href="../"><svg class="ico"><use href="#i-back"/></svg>技能地圖</a>
+  <span class="lvname">我的證書</span>
+  <div class="who"><label>年級<input id="idG" inputmode="numeric" maxlength="1" aria-label="年級"></label><label>班級<input id="idC" inputmode="numeric" maxlength="2" aria-label="班級"></label><label>座號<input id="idS" inputmode="numeric" maxlength="2" aria-label="座號"></label><span id="saveStat" class="pill">…</span></div>
+</div></header>
+<main><div class="wrap" style="padding-top:24px;padding-bottom:40px"><div id="certList"></div></div></main>
+<script>
+/* 證書頁：P3 會換成 Canvas 產生 PNG＋列印；目前先列出條件與進度 */
+(function(){
+  var Q=Quest;
+  Q.onChange(function(){
+    var P=Q.progress();
+    document.getElementById('certList').innerHTML=Q.config.certs.map(function(c){
+      var got=P.certs[c.id];
+      return '<div class="box"><h2>'+Q.icon('award')+' '+Q.esc(c.name)+'</h2><p>'+Q.esc(c.desc)+'</p>'+
+        (got?'<p style="color:#2f9e62;font-weight:700">已獲得（'+new Date(got.awardedAt).toLocaleDateString('zh-TW')+'，證書編號 '+got.code+'）</p><p style="color:#8a91a3">可下載、列印的電子證書製作中。</p>':'<p style="color:#8a91a3">'+(Q.certOpen(c)?'還沒達成':'關卡還在準備中，之後開放')+'</p>')+'</div>';
+    }).join('');
+  });
+  Q.initIdBar();
+})();
+</script>

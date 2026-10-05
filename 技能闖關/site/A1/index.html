@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="資訊老師黃博胤">
+<meta name="description" content="看影片、做一次、過關！把上課最常卡住的電腦操作一關一關學會">
+<title>A1 選取文字｜電腦急救站</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1f2a44; --sub:#5b6478; --mute:#8a91a3; --line:#e3e6ee; --bg:#f4f6fb; --paper:#ffffff;
+  --navy:#22305e; --gold:#e2a63b; --gold-soft:#fdf1d8; --red:#d9534f; --red-soft:#fdecea; --green:#2f9e62; --green-soft:#e6f6ec;
+  --ac:#3b7dd8; --ac-soft:#e5effc;
+  --r:16px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans TC',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+main{flex:1}
+img,video{max-width:100%;display:block}
+a{color:inherit}
+button,input,textarea,select{font:inherit;color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+.ico{width:1.15em;height:1.15em;flex:none;display:inline-block;vertical-align:-.2em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== 頂端列 ===== */
+.topbar{background:var(--navy);color:#fff;position:sticky;top:0;z-index:20}
+.topbar .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.brand{display:inline-flex;align-items:center;gap:8px;font-weight:900;font-size:18px;text-decoration:none;letter-spacing:.5px}
+.brand .ico{width:26px;height:26px;color:var(--gold)}
+.back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;font-size:15px;padding:4px 12px 4px 8px;border-radius:999px;background:rgba(255,255,255,.12)}
+.back:hover{background:rgba(255,255,255,.22)}
+.lvname{font-weight:700;font-size:16px}
+.who{display:flex;align-items:center;gap:8px;margin-left:auto;font-size:14px;flex-wrap:wrap}
+.who label{display:flex;align-items:center;gap:4px;color:#cfd6ea}
+.who input{width:44px;text-align:center;border:0;border-radius:8px;padding:3px 4px;font-weight:700;color:var(--navy);background:#fff}
+.who input:focus{outline:3px solid var(--gold)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;white-space:nowrap}
+.pill.ok{background:#2f9e62}.pill.warn{background:#d9822b}.pill.bad{background:#c0392b}
+
+/* ===== 首頁 ===== */
+.hero{background:var(--paper);border-bottom:1px solid var(--line)}
+.hero .wrap{padding-top:26px;padding-bottom:22px;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
+.hero h1{font-size:32px;line-height:1.25;margin:0 0 6px;font-weight:900}
+.hero p{margin:0;color:var(--sub)}
+.meter{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+.bar{width:260px;max-width:100%;height:12px;border-radius:99px;background:#e9edf5;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--green),#5cc98c);border-radius:99px;transition:width .5s}
+.meter b{font-size:15px}
+.certrow{display:flex;gap:10px;flex-wrap:wrap}
+.cert{display:flex;flex-direction:column;align-items:center;gap:2px;width:108px;padding:10px 6px;border-radius:14px;border:1.5px dashed var(--line);text-align:center;font-size:13px;color:var(--mute);text-decoration:none}
+.cert .ico{width:34px;height:34px}
+.cert b{font-size:14px;color:var(--sub)}
+.cert.got{border-style:solid;border-color:var(--gold);background:var(--gold-soft);color:#8a5a0c}
+.cert.got b{color:#6b4508}
+
+.cat{margin:26px 0}
+.cat h2{display:flex;align-items:center;gap:10px;font-size:21px;margin:0 0 12px}
+.cat h2 .badge{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--soft);color:var(--col)}
+.cat h2 small{font-size:14px;font-weight:500;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.card{position:relative;display:flex;flex-direction:column;gap:4px;padding:14px 16px 14px;border-radius:var(--r);background:var(--paper);border:1.5px solid var(--line);text-decoration:none;transition:transform .12s,box-shadow .12s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(34,48,94,.10)}
+.card .top{display:flex;align-items:center;gap:8px}
+.code{font-weight:900;font-size:13px;padding:1px 8px;border-radius:7px;background:var(--soft);color:var(--col)}
+.core{font-size:12px;font-weight:700;color:#8a5a0c;background:var(--gold-soft);padding:1px 7px;border-radius:7px}
+.card .st{margin-left:auto;width:26px;height:26px;border-radius:50%;display:grid;place-items:center}
+.card h3{margin:2px 0 0;font-size:18px}
+.card p{margin:0;font-size:14px;color:var(--sub);line-height:1.55}
+.card .need{font-size:13px;color:var(--mute)}
+.card.passed{border-color:var(--green);background:linear-gradient(180deg,#fff,var(--green-soft))}
+.card.passed .st{background:var(--green);color:#fff}
+.card.open .st{border:2px solid var(--line)}
+.card.locked{opacity:.62;background:#f7f8fb}
+.card.locked .st{color:var(--mute)}
+.card.locked:hover{transform:none;box-shadow:none}
+
+/* ===== 關卡頁 ===== */
+.lvhead{background:var(--paper);border-bottom:1px solid var(--line)}
+.lvhead .wrap{padding-top:18px;padding-bottom:0}
+.lvhead h1{margin:6px 0 4px;font-size:28px;font-weight:900;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.lvhead p{margin:0 0 14px;color:var(--sub)}
+.tabs{display:flex;gap:6px}
+.tabs button{display:flex;align-items:center;gap:8px;border:0;background:none;padding:10px 18px 12px;font-weight:700;font-size:17px;color:var(--mute);cursor:pointer;border-bottom:4px solid transparent}
+.tabs button .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#e9edf5;font-size:14px}
+.tabs button.on{color:var(--ink);border-bottom-color:var(--ac)}
+.tabs button.on .n{background:var(--ac);color:#fff}
+.tabs button.done .n{background:var(--green);color:#fff}
+.panel{display:none;padding:22px 0 40px}
+.panel.on{display:block}
+.box{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:20px 22px}
+.box + .box{margin-top:14px}
+.box h2{margin:0 0 10px;font-size:20px}
+.vid{border-radius:12px;overflow:hidden;background:#000;aspect-ratio:16/9}
+.vid video{width:100%;height:100%}
+.novid{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:#f1f4fa;color:var(--sub);font-size:15px}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:8px 0 8px 46px;border-bottom:1px dashed var(--line)}
+ol.steps li:last-child{border-bottom:0}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:7px;width:32px;height:32px;border-radius:50%;background:var(--ac-soft);color:var(--ac);font-weight:900;display:grid;place-items:center}
+kbd{display:inline-block;min-width:1.6em;padding:0 7px;border:1.5px solid #c9cfdc;border-bottom-width:3px;border-radius:7px;background:#fff;font:700 .88em/1.6 'Noto Sans TC',system-ui,sans-serif;text-align:center;color:var(--ink);margin:0 1px}
+.tip{display:flex;gap:8px;margin-top:12px;padding:10px 14px;border-radius:12px;background:var(--gold-soft);font-size:15px}
+.tip .ico{color:#b07a16;margin-top:4px}
+.go{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:10px 22px;background:var(--ac);color:#fff;font-weight:700;font-size:17px;cursor:pointer;text-decoration:none}
+.go:hover{filter:brightness(1.07)}
+.go.ghost{background:#fff;color:var(--ac);border:2px solid var(--ac)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+/* 任務與判定區 */
+.task{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:12px;background:#f1f4fa;margin-bottom:10px;font-weight:500}
+.task .dot{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid #c9cfdc;display:grid;place-items:center;margin-top:1px;background:#fff}
+.task.done{background:var(--green-soft)}
+.task.done .dot{background:var(--green);border-color:var(--green);color:#fff}
+.task.now{outline:2px solid var(--ac)}
+.hint{margin-top:10px;padding:10px 14px;border-radius:12px;font-size:15px;display:none}
+.hint.on{display:block}
+.hint.info{background:var(--ac-soft);color:#1d4f96}
+.hint.bad{background:var(--red-soft);color:#9b2c28}
+.passage{padding:14px 16px;border-radius:12px;border:1.5px solid var(--line);background:#fff;line-height:2}
+.passage mark{background:none;border-bottom:3px dotted var(--ac);color:inherit}
+.field{display:block;width:100%;min-height:76px;border:2px solid #c9cfdc;border-radius:12px;padding:10px 12px;background:#fff;resize:vertical}
+.field:focus{outline:none;border-color:var(--ac)}
+.lbl{display:block;font-weight:700;font-size:15px;margin:12px 0 6px;color:var(--sub)}
+.doc{min-height:150px;border:1.5px solid #d4d9e4;border-radius:6px;padding:26px 30px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.06);font-family:'Noto Sans TC',sans-serif;font-size:16px;color:#222;line-height:1.9}
+.doc:focus{outline:2px solid var(--ac)}
+.doc .slot{color:#9aa1b2;background:#f3f5f9;border-radius:4px;padding:0 4px}
+.docbar{display:flex;gap:6px;align-items:center;padding:6px 10px;border:1.5px solid #d4d9e4;border-bottom:0;border-radius:6px 6px 0 0;background:#f6f7fa;font-size:13px;color:var(--mute)}
+.docbar + .doc{border-radius:0 0 6px 6px}
+.rich{padding:14px 16px;border-radius:12px;border:1.5px solid var(--line);background:#fff}
+
+/* 過關 */
+.pass{position:fixed;inset:0;background:rgba(20,28,56,.55);display:none;place-items:center;z-index:50;padding:16px}
+.pass.on{display:grid}
+.pass .card2{background:#fff;border-radius:22px;padding:28px 30px;text-align:center;max-width:420px;width:100%;animation:pop .35s ease-out}
+.pass .medal{width:110px;height:110px;margin:0 auto 8px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#ffe7a8,var(--gold));color:#fff;box-shadow:0 6px 0 #c48a22}
+.pass .medal .ico{width:58px;height:58px;stroke-width:2.4}
+.pass h2{margin:8px 0 4px;font-size:26px}
+.pass p{margin:0 0 6px;color:var(--sub)}
+.pass .actions{justify-content:center}
+@keyframes pop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:9px 18px;border-radius:999px;font-size:15px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+footer{border-top:1px solid var(--line);background:var(--paper);font-size:13px;color:var(--mute)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
+.sign{margin-left:auto}
+
+@media (max-width:640px){
+  .hero .wrap{grid-template-columns:1fr}
+  .hero h1{font-size:26px}
+  .tabs button{padding:8px 10px 10px;font-size:15px}
+  .box{padding:16px}
+  .doc{padding:18px}
+  .who{margin-left:0}
+}
+
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-logo" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4M12 7.5v6M9 10.5h6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.5L7 21l5-2.5 5 2.5-1.5-7.5"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-retry" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.7M4 4v4h4"/></symbol>
+  <symbol id="i-mouse" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="6"/><path d="M12 7v4"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></symbol>
+  <symbol id="i-aid" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M12 10.5v6M9 13.5h6"/></symbol>
+</svg>
+
+<script>window.SITE={"config": {"siteTitle": "電腦急救站", "tagline": "看影片、做一次、過關！把上課最常卡住的電腦操作一關一關學會", "collection": "skillQuest", "firebase": {"apiKey": "AIzaSyDxAPNchjR37VsBPO4QltbuNIJ98F3mwtw", "authDomain": "worksheet-f47f3.firebaseapp.com", "projectId": "worksheet-f47f3", "storageBucket": "worksheet-f47f3.firebasestorage.app", "messagingSenderId": "42265052892", "appId": "1:42265052892:web:415d41d37b96fd24e61619"}, "categories": [{"id": "A", "name": "滑鼠與鍵盤", "icon": "mouse", "color": "#3b7dd8", "soft": "#e5effc"}, {"id": "B", "name": "複製與貼上", "icon": "copy", "color": "#2f9e62", "soft": "#e3f5ea"}, {"id": "C", "name": "檔案與資料夾", "icon": "folder", "color": "#d9822b", "soft": "#fdeedd"}, {"id": "D", "name": "圖片", "icon": "image", "color": "#8e5bd0", "soft": "#f0e8fb"}, {"id": "E", "name": "瀏覽器與分頁", "icon": "browser", "color": "#1b9aaa", "soft": "#ddf3f5"}, {"id": "F", "name": "急救包", "icon": "aid", "color": "#d9534f", "soft": "#fbe6e5"}], "certs": [{"id": "T1", "name": "電腦新手上路", "rule": {"core": true, "minLevels": 8}, "desc": "必修關卡全部通過"}, {"id": "T2", "name": "電腦小幫手", "rule": {"core": true, "perCategory": 2, "minLevels": 16}, "desc": "必修全過，而且每一類至少過 2 關"}, {"id": "T3", "name": "電腦急救小醫生", "rule": {"all": true, "minLevels": 24}, "desc": "目前開放的關卡全部通過"}]}, "levels": [{"code": "A1", "title": "選取文字", "category": "A", "core": true, "prereq": [], "summary": "用滑鼠拖曳選一句話、雙擊選一個單字、Ctrl+A 一次全選"}, {"code": "B1", "title": "複製貼上", "category": "B", "core": true, "prereq": ["A1"], "summary": "把一段文字複製下來，貼到另一個地方，不用自己重打"}, {"code": "B3", "title": "純文字貼上", "category": "B", "core": true, "prereq": ["B1"], "summary": "從網頁複製資料時，只貼文字、不要把顏色和字型一起帶過來"}], "level": {"code": "A1", "title": "選取文字", "category": "A", "core": true, "prereq": [], "order": 1, "enabled": true, "summary": "用滑鼠拖曳選一句話、雙擊選一個單字、Ctrl+A 一次全選", "learn": {"video": "", "steps": ["把滑鼠移到要選的<b>第一個字前面<\/b>，游標會變成「I」的樣子", "<b>按住左鍵不放<\/b>，往右拖到最後一個字，放開——選到的字會變藍色", "想選一個英文單字：在單字上<b>快速按兩下<\/b>左鍵", "想選全部：先點進文字框，再按 <kbd>Ctrl<\/kbd>＋<kbd>A<\/kbd>"], "tips": ["選錯了沒關係，在空白的地方點一下就會取消，再重新選。"]}, "practice": {"checker": "selectText", "params": {"passage": "下課時間到了，小明打開 Chrome 查資料。他發現選取文字其實很簡單。", "allText": "這是一個文字框，裡面有好幾行字。\n點進來以後，按 Ctrl + A 就能一次全部選起來。", "tasks": [{"kind": "range", "target": "他發現選取文字其實很簡單。", "say": "用滑鼠拖曳，選取「他發現選取文字其實很簡單。」這一句"}, {"kind": "word", "target": "Chrome", "say": "在英文單字「Chrome」上快速按兩下，把它選起來"}, {"kind": "all", "say": "點進下面的文字框，按 <kbd>Ctrl<\/kbd>＋<kbd>A<\/kbd> 全選"}]}}, "challenge": {"checker": "selectText", "params": {"passage": "我們學校的電腦教室有三十台電腦。上課前要先登入 Google 帳號，下課前記得登出。", "allText": "第一行：今天的作業\n第二行：把文字全部選起來\n第三行：只要一個快速鍵", "tasks": [{"kind": "range", "target": "上課前要先登入", "say": "選取「上課前要先登入」這幾個字"}, {"kind": "word", "target": "Google", "say": "雙擊選取英文單字「Google」"}, {"kind": "all", "say": "把下面文字框裡的字全部選起來"}]}}}};</script>
+<script>
+/* ============================================================
+   電腦急救站｜共用程式（地圖頁、關卡頁都用這一份）
+   ------------------------------------------------------------
+   window.SITE 由 build.py 注入：{config, levels:[...], base}
+   紀錄：localStorage「skillQuest_年-班-座」＋ Firestore skillQuest/{年-班-座}
+   ============================================================ */
+(function(){
+  var SITE = window.SITE, CFG = SITE.config, LEVELS = SITE.levels;
+  var ID_KEY = 'wk_identity';
+  function $(id){return document.getElementById(id);}
+  function digits(s){return String(s||'').replace(/\D/g,'');}
+  var Q = window.Quest = {levels: LEVELS, config: CFG};
+  Q.byCode = {}; LEVELS.forEach(function(l){Q.byCode[l.code]=l;});
+
+  /* ---------- 小工具 ---------- */
+  var toastT;
+  Q.toast = function(t){var e=$('toast');if(!e)return;e.textContent=t;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){e.classList.remove('on');},2400);};
+  Q.icon = function(name,cls){return '<svg class="ico'+(cls?' '+cls:'')+'"><use href="#i-'+name+'"/></svg>';};
+  Q.esc = function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+
+  /* ---------- 身分（年級／班級／座號）---------- */
+  Q.getId = function(){
+    var s={};try{s=JSON.parse(localStorage.getItem(ID_KEY)||'{}')||{};}catch(e){}
+    return {grade:+s.grade||0, className:+s.className||0, studentId:+s.studentId||0};
+  };
+  Q.idValid = function(i){i=i||Q.getId();return i.grade>=3&&i.grade<=6&&i.className>=1&&i.className<=20&&i.studentId>=1&&i.studentId<=40;};
+  Q.docId = function(i){i=i||Q.getId();return i.grade+'-'+i.className+'-'+i.studentId;};
+  function setId(i){try{localStorage.setItem(ID_KEY,JSON.stringify(i));}catch(e){}}
+
+  /* ---------- 紀錄 ---------- */
+  var PROG = {levels:{}, certs:{}};
+  function lkey(){return 'skillQuest_'+Q.docId();}
+  function readLocal(){try{var o=JSON.parse(localStorage.getItem(lkey())||'{}')||{};return {levels:o.levels||{},certs:o.certs||{}};}catch(e){return {levels:{},certs:{}};}}
+  function writeLocal(){try{localStorage.setItem(lkey(),JSON.stringify(PROG));}catch(e){}}
+  Q.progress = function(){return PROG;};
+  Q.passed = function(code){return !!PROG.levels[code];};
+  Q.status = function(code){
+    if(Q.passed(code))return 'passed';
+    var l=Q.byCode[code];
+    return (l.prereq||[]).every(Q.passed)?'open':'locked';
+  };
+
+  /* ---------- 證書條件 ---------- */
+  Q.certOpen = function(c){return LEVELS.length>=((c.rule||{}).minLevels||0);};
+  Q.certMet = function(c){
+    var r=c.rule||{}, lv=LEVELS;
+    if(!Q.certOpen(c))return false;
+    if(r.all&&!lv.every(function(l){return Q.passed(l.code);}))return false;
+    if(r.core&&!lv.filter(function(l){return l.core;}).every(function(l){return Q.passed(l.code);}))return false;
+    if(r.perCategory){
+      var ok=CFG.categories.every(function(cat){
+        var inCat=lv.filter(function(l){return l.category===cat.id;});
+        if(!inCat.length)return true;
+        var need=Math.min(r.perCategory,inCat.length);
+        return inCat.filter(function(l){return Q.passed(l.code);}).length>=need;
+      });
+      if(!ok)return false;
+    }
+    return true;
+  };
+  function certCode(cid){
+    var s=Q.docId()+'|'+cid+'|'+Date.now(), h=0;
+    for(var k=0;k<s.length;k++){h=(h*31+s.charCodeAt(k))>>>0;}
+    return cid+'-'+h.toString(36).toUpperCase().slice(-6);
+  }
+  // 條件達成就頒發；頒發後永久保留（之後新增關卡也不會收回）
+  Q.awardCerts = function(){
+    var fresh=[];
+    CFG.certs.forEach(function(c){
+      if(!PROG.certs[c.id]&&Q.certMet(c)){
+        PROG.certs[c.id]={awardedAt:Date.now(),code:certCode(c.id),levelSnapshot:LEVELS.map(function(l){return l.code;})};
+        fresh.push(c);
+      }
+    });
+    return fresh;
+  };
+
+  /* ---------- Firebase ---------- */
+  var db=null,auth=null;
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+  var fbReady=new Promise(function(resolve){
+    if(!CFG.firebase||location.protocol==='file:'){resolve(false);return;}
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    loadScript(base+'firebase-app-compat.js')
+      .then(function(){return loadScript(base+'firebase-auth-compat.js');})
+      .then(function(){return loadScript(base+'firebase-firestore-compat.js');})
+      .then(function(){if(!firebase.apps.length)firebase.initializeApp(CFG.firebase);db=firebase.firestore();auth=firebase.auth();resolve(true);})
+      .catch(function(e){console.warn('Firebase 載入失敗，改成只存在這台電腦',e);resolve(false);});
+  });
+  function ensureAuth(){return auth.currentUser?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user;});}
+  function coll(){return db.collection(CFG.collection||'skillQuest');}
+
+  function stat(cls,t){var e=$('saveStat');if(!e)return;e.className='pill'+(cls?' '+cls:'');e.textContent=t;}
+
+  // 雲端與本機合併：關卡取「最早過關」那筆；證書取最早頒發那筆
+  function merge(a,b){
+    Object.keys(b||{}).forEach(function(k){if(!a[k]||(b[k].passedAt||b[k].awardedAt||0)<(a[k].passedAt||a[k].awardedAt||0))a[k]=b[k];});
+    return a;
+  }
+
+  var listeners=[];
+  Q.onChange = function(fn){listeners.push(fn);fn();};
+  function emit(){listeners.forEach(function(fn){try{fn();}catch(e){console.error(e);}});}
+
+  var loadedFor='';
+  Q.load = function(){
+    if(!Q.idValid()){PROG={levels:{},certs:{}};stat('warn','先填年級、班級、座號');emit();return Promise.resolve();}
+    var id=Q.docId();loadedFor=id;
+    PROG=readLocal();emit();
+    stat('','讀取中…');
+    return fbReady.then(function(ok){
+      if(!ok){stat('warn','紀錄存在這台電腦');return;}
+      return ensureAuth().then(function(){return coll().doc(id).get();}).then(function(doc){
+        if(loadedFor!==id)return;
+        var c=doc.exists?doc.data():{};
+        merge(PROG.levels,c.levels);merge(PROG.certs,c.certs);
+        writeLocal();emit();
+        stat('ok','已連上雲端');
+        // 本機有、雲端沒有的（例如之前離線過關）補上傳
+        var needPush=Object.keys(PROG.levels).some(function(k){return !(c.levels||{})[k];})||Object.keys(PROG.certs).some(function(k){return !(c.certs||{})[k];});
+        if(needPush)return push();
+      });
+    }).catch(function(e){console.warn('讀取失敗',e);stat('bad','雲端讀不到，先存在這台電腦');});
+  };
+  function push(){
+    var i=Q.getId();
+    return fbReady.then(function(ok){
+      if(!ok){stat('warn','紀錄存在這台電腦');return false;}
+      var payload={grade:i.grade,className:i.className,studentId:i.studentId,levels:PROG.levels,certs:PROG.certs,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+      return ensureAuth().then(function(){return coll().doc(Q.docId(i)).set(payload,{merge:true});})
+        .then(function(){stat('ok','已存到雲端');return true;})
+        .catch(function(e){console.warn('雲端存檔失敗',e);stat('bad','雲端沒存到，先存在這台電腦');return false;});
+    });
+  }
+
+  // 過關：記錄＋檢查證書。回傳 {fresh:[新拿到的證書]}
+  Q.recordPass = function(code,info){
+    if(!Q.idValid())return Promise.resolve({fresh:[],noId:true});
+    if(!PROG.levels[code])PROG.levels[code]={passedAt:Date.now(),tries:info.tries||1,seconds:Math.round(info.seconds||0)};
+    var fresh=Q.awardCerts();
+    writeLocal();emit();
+    return push().then(function(){return {fresh:fresh};});
+  };
+
+  /* ---------- 身分欄位 ---------- */
+  Q.initIdBar = function(){
+    if(!$('idG'))return Q.load();
+    var s=Q.getId();
+    if(s.grade)$('idG').value=s.grade;if(s.className)$('idC').value=s.className;if(s.studentId)$('idS').value=s.studentId;
+    var t;
+    ['idG','idC','idS'].forEach(function(id){
+      $(id).addEventListener('input',function(){
+        var d=digits(this.value);if(d!==this.value)this.value=d;
+        setId({grade:+$('idG').value||0,className:+$('idC').value||0,studentId:+$('idS').value||0});
+        clearTimeout(t);t=setTimeout(Q.load,500);
+      });
+    });
+    return Q.load();
+  };
+})();
+
+/* ============================================================
+   電腦急救站｜判定器（checker）
+   ------------------------------------------------------------
+   每個判定器：Checkers[名稱](el, params, ctx) → 回傳清除函式（可省略）
+     el     ：放關卡畫面的容器
+     params ：level.json 裡 practice／challenge 的 params
+     ctx.mode     'practice'（有提示）或 'challenge'（沒有提示）
+     ctx.pass()   全部完成
+     ctx.miss(t)  做錯一次（會算進嘗試次數），t＝要給學生看的話
+     ctx.hint(t)  單純提示，不算錯
+   原則：一定要偵測「真的做了那個動作」，不能只按一個「我完成了」。
+   ============================================================ */
+(function(){
+  var C = window.Checkers = {};
+  var esc = function(s){return Quest.esc(s);};
+  function norm(s){return String(s||'').replace(/\s+/g,'').replace(/[，。、！？：；「」（）,.!?:;()"']/g,'');}
+
+  // 共用：任務清單（一次一個任務，做完打勾）
+  function taskList(el,tasks){
+    var box=document.createElement('div');
+    box.innerHTML=tasks.map(function(t,k){return '<div class="task" data-k="'+k+'"><span class="dot">'+(k+1)+'</span><span>'+t+'</span></div>';}).join('');
+    el.appendChild(box);
+    var cur=0;
+    function paint(){[].forEach.call(box.children,function(d,k){d.classList.toggle('done',k<cur);d.classList.toggle('now',k===cur);if(k<cur)d.querySelector('.dot').innerHTML=Quest.icon('check');});}
+    paint();
+    return {get cur(){return cur;}, next:function(){cur++;paint();return cur>=tasks.length;}};
+  }
+
+  /* ---------- selectText：選取文字（拖選、雙擊選詞、Ctrl+A 全選）----------
+     params.passage：一段文字；params.tasks：[{kind:'range'|'word'|'all', target, say}]
+       range：用滑鼠拖曳選到 target；word：雙擊選到 target（請用英文單字，中文雙擊斷詞不穩定）
+       all  ：在下方的文字框裡按 Ctrl+A 全選 */
+  C.selectText = function(el,p,ctx){
+    var practice=ctx.mode==='practice';
+    var html=esc(p.passage);
+    if(practice)p.tasks.forEach(function(t){if(t.target&&t.kind!=='all')html=html.replace(esc(t.target),'<mark>'+esc(t.target)+'</mark>');});
+    var tl=taskList(el,p.tasks.map(function(t){return t.say;}));
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<div class="passage" data-ck="passage">'+html+'</div>'+
+      (p.tasks.some(function(t){return t.kind==='all';})?'<label class="lbl">文字框</label><textarea class="field" data-ck="all" rows="4">'+esc(p.allText||p.passage)+'</textarea>':'');
+    el.appendChild(wrap);
+    var passage=wrap.querySelector('[data-ck=passage]'), ta=wrap.querySelector('[data-ck=all]');
+    var lastDbl=0;
+    passage.addEventListener('dblclick',function(){lastDbl=Date.now();setTimeout(check,30);});
+    function check(){
+      var t=p.tasks[tl.cur];if(!t)return;
+      if(t.kind==='all'){
+        if(ta&&document.activeElement===ta&&ta.selectionStart===0&&ta.selectionEnd===ta.value.length&&ta.value.length>0)ok();
+        return;
+      }
+      var sel=window.getSelection();if(!sel||sel.isCollapsed)return;
+      if(!passage.contains(sel.anchorNode))return;
+      var got=sel.toString();
+      if(norm(got)===norm(t.target)){
+        if(t.kind==='word'&&Date.now()-lastDbl>800){ctx.hint('選對了！不過這一題要練「雙擊」：在單字上快速按兩下左鍵。');return;}
+        ok();
+      }else if(got.length>2&&t.kind==='range'){
+        var g=norm(got),w=norm(t.target);
+        ctx.miss(g.indexOf(w)>=0?'選太多了，再試一次：從第一個字按住，拖到最後一個字就放開。':
+          w.indexOf(g)>=0?'還沒選完整，要從第一個字一路拖到最後一個字。':'選到別的字了，看清楚題目要選哪幾個字。');
+      }
+    }
+    function ok(){ctx.hint('');if(tl.next())ctx.pass();}
+    var onUp=function(){setTimeout(check,20);};
+    passage.addEventListener('mouseup',onUp);
+    if(ta){ta.addEventListener('keyup',onUp);ta.addEventListener('select',onUp);}
+    if(practice)ctx.hint('看清楚有<b>點點底線</b>的地方，就是要選取的文字。');
+  };
+
+  /* ---------- copyPaste：複製 → 貼上 ----------
+     params.passage：來源文字；params.tasks：[{target, label}]，每個任務一個文字框
+     判定：要發生「複製」動作，而且文字框是用「貼上」放進去的，內容含 target */
+  C.copyPaste = function(el,p,ctx){
+    var practice=ctx.mode==='practice';
+    var html=esc(p.passage);
+    if(practice)p.tasks.forEach(function(t){html=html.replace(esc(t.target),'<mark>'+esc(t.target)+'</mark>');});
+    var tl=taskList(el,p.tasks.map(function(t){return t.say||('複製「'+esc(t.target)+'」，貼到「'+esc(t.label)+'」');}));
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<div class="passage">'+html+'</div>'+p.tasks.map(function(t,k){return '<label class="lbl">'+esc(t.label)+'<textarea class="field" data-ck="f'+k+'" rows="2" spellcheck="false" style="margin-top:6px"></textarea></label>';}).join('');
+    el.appendChild(wrap);
+    var copied=false;
+    var onCopy=function(){copied=true;if(practice)ctx.hint('複製好了！現在點一下下面的框框，按 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上。');};
+    document.addEventListener('copy',onCopy);
+    p.tasks.forEach(function(t,k){
+      var f=wrap.querySelector('[data-ck=f'+k+']'), pasted=false;
+      f.addEventListener('paste',function(){pasted=true;setTimeout(check,20);});
+      f.addEventListener('input',function(){setTimeout(check,20);});
+      function check(){
+        if(tl.cur!==k)return;
+        var v=f.value;
+        if(!v.trim())return;
+        if(!pasted){ctx.miss('這一關要用「貼上」喔，不要自己打字。先清空框框，再用 <kbd>Ctrl</kbd>＋<kbd>V</kbd>。');f.value='';return;}
+        if(norm(v).indexOf(norm(t.target))<0){ctx.miss('貼上的內容不對，檢查一下是不是複製到別的字了。清空框框後再試一次。');return;}
+        ctx.hint('');f.readOnly=true;
+        if(tl.next())ctx.pass();
+        else{copied=false;var nx=wrap.querySelector('[data-ck=f'+(k+1)+']');if(nx)nx.scrollIntoView({block:'nearest'});}
+      }
+    });
+    return function(){document.removeEventListener('copy',onCopy);};
+  };
+
+  /* ---------- plainPaste：純文字貼上（Ctrl+Shift+V）----------
+     params.richHtml：有顏色粗體的來源；params.target：要貼的那段文字（純文字）
+     params.docHtml ：文件原本的內容，用 <span class="slot">…</span> 標出要貼的位置
+     判定：文件裡出現 target，而且沒有帶進任何格式（style、粗體、字型、顏色…） */
+  C.plainPaste = function(el,p,ctx){
+    var practice=ctx.mode==='practice';
+    var tl=taskList(el,[p.say1||'把上面彩色那段文字選起來，按 <kbd>Ctrl</kbd>＋<kbd>C</kbd> 複製',p.say2||'點文件裡灰色的位置，用「純文字貼上」貼進去']);
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<label class="lbl">網頁上的資料</label><div class="rich" data-ck="rich">'+p.richHtml+'</div>'+
+      '<label class="lbl">我的文件</label><div class="docbar">文件　|　字型：預設　大小：16</div><div class="doc" data-ck="doc" contenteditable="true" spellcheck="false">'+p.docHtml+'</div>';
+    el.appendChild(wrap);
+    var doc=wrap.querySelector('[data-ck=doc]');
+    [].forEach.call(doc.querySelectorAll('*'),function(n){n.setAttribute('data-keep','1');});
+    var onCopy=function(){if(tl.cur===0){tl.next();if(practice)ctx.hint('現在點文件裡的灰色字，然後按 <kbd>Ctrl</kbd>＋<kbd>Shift</kbd>＋<kbd>V</kbd>（三個鍵一起按）。');}};
+    document.addEventListener('copy',onCopy);
+    // 點進文件時把灰色「貼在這裡」拿掉，游標放在那一段最後面（直接刪 span 的話，Chrome 會把灰色樣式留給接下來貼上的字）
+    doc.addEventListener('focus',function(){
+      var s=doc.querySelector('.slot');if(!s)return;
+      var par=s.parentNode;par.removeChild(s);
+      setTimeout(function(){var r=document.createRange();r.selectNodeContents(par);r.collapse(false);var sel=window.getSelection();sel.removeAllRanges();sel.addRange(r);},0);
+    });
+    doc.addEventListener('paste',function(){setTimeout(check,30);});
+    function styled(){
+      var bad=false;
+      [].forEach.call(doc.querySelectorAll('*'),function(n){
+        if(n.hasAttribute('data-keep'))return;
+        if(n.hasAttribute('style')||/^(B|STRONG|I|EM|U|FONT|H\d|SPAN|A|TABLE|IMG)$/.test(n.tagName))bad=true;
+      });
+      return bad;
+    }
+    function check(){
+      if(norm(doc.textContent).indexOf(norm(p.target))<0){
+        if(styled())ctx.miss('格式（顏色、粗體）也跟著貼過來了！先按 <kbd>Ctrl</kbd>＋<kbd>Z</kbd> 復原，再改用 <kbd>Ctrl</kbd>＋<kbd>Shift</kbd>＋<kbd>V</kbd>。');
+        else ctx.miss('貼進來的內容不完整，按 <kbd>Ctrl</kbd>＋<kbd>Z</kbd> 復原，再把整段複製一次。');
+        return;
+      }
+      if(styled()){ctx.miss('格式（顏色、粗體）也跟著貼過來了！先按 <kbd>Ctrl</kbd>＋<kbd>Z</kbd> 復原，再改用 <kbd>Ctrl</kbd>＋<kbd>Shift</kbd>＋<kbd>V</kbd>。');return;}
+      ctx.hint('');
+      if(tl.cur===0)tl.next();
+      if(tl.next()){doc.contentEditable='false';ctx.pass();}
+    }
+    return function(){document.removeEventListener('copy',onCopy);};
+  };
+})();
+
+</script>
+<header class="topbar"><div class="wrap">
+  <a class="back" href="../"><svg class="ico"><use href="#i-back"/></svg>技能地圖</a>
+  <span class="lvname">A1 選取文字</span>
+  <div class="who"><label>年級<input id="idG" inputmode="numeric" maxlength="1" aria-label="年級"></label><label>班級<input id="idC" inputmode="numeric" maxlength="2" aria-label="班級"></label><label>座號<input id="idS" inputmode="numeric" maxlength="2" aria-label="座號"></label><span id="saveStat" class="pill">…</span></div>
+</div></header>
+<main style="--ac:#3b7dd8;--ac-soft:#e5effc">
+<section class="lvhead"><div class="wrap">
+  <h1>選取文字 <span id="lvBadge"></span></h1>
+  <p>用滑鼠拖曳選一句話、雙擊選一個單字、Ctrl+A 一次全選</p>
+  <nav class="tabs" role="tablist">
+    <button data-t="learn" class="on"><span class="n">1</span>看</button>
+    <button data-t="practice"><span class="n">2</span>練</button>
+    <button data-t="challenge"><span class="n">3</span>闖</button>
+  </nav>
+</div></section>
+<div class="wrap">
+  <section class="panel on" id="p-learn">
+    <div class="box" id="learnBox"></div>
+  </section>
+  <section class="panel" id="p-practice">
+    <div class="box"><h2>練習：跟著提示做一次</h2><div id="ckPractice"></div><div class="hint" id="hintPractice"></div>
+      <div class="actions"><button class="go ghost" data-retry="practice"><svg class="ico"><use href="#i-retry"/></svg>重來</button></div></div>
+  </section>
+  <section class="panel" id="p-challenge">
+    <div class="box"><h2>挑戰：這次沒有提示，做對就過關</h2><div id="lockNote"></div><div id="ckChallenge"></div><div class="hint" id="hintChallenge"></div>
+      <div class="actions"><button class="go ghost" data-retry="challenge"><svg class="ico"><use href="#i-retry"/></svg>重來</button></div></div>
+  </section>
+</div>
+</main>
+<div class="pass" id="passBox"><div class="card2" id="passCard"></div></div>
+<script>
+(function(){
+  var Q=Quest, LV=window.SITE.level;
+  function $(id){return document.getElementById(id);}
+
+  /* ---------- 看 ---------- */
+  var L=LV.learn||{};
+  $('learnBox').innerHTML=
+    (L.video?'<div class="vid"><video controls playsinline preload="metadata" src="'+L.video+'"'+(L.poster?' poster="'+L.poster+'"':'')+'></video></div>':
+      '<div class="novid">'+Q.icon('play')+'教學影片製作中，先看下面的步驟。</div>')+
+    '<h2 style="margin-top:18px">步驟</h2><ol class="steps">'+(L.steps||[]).map(function(s){return '<li>'+s+'</li>';}).join('')+'</ol>'+
+    (L.tips||[]).map(function(t){return '<div class="tip">'+Q.icon('bulb')+'<div>'+t+'</div></div>';}).join('')+
+    '<div class="actions"><button class="go" data-goto="practice">去練習</button><button class="go ghost" data-goto="challenge">我會了，直接挑戰</button></div>';
+
+  /* ---------- 分頁 ---------- */
+  var tabs=[].slice.call(document.querySelectorAll('.tabs button'));
+  function show(t){
+    tabs.forEach(function(b){b.classList.toggle('on',b.dataset.t===t);});
+    ['learn','practice','challenge'].forEach(function(k){$('p-'+k).classList.toggle('on',k===t);});
+    if(t!=='learn')mount(t);
+    var v=document.querySelector('video');if(v&&t!=='learn')v.pause();
+    try{history.replaceState(null,'','#'+t);}catch(e){}
+    window.scrollTo(0,0);
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.t);});});
+  document.addEventListener('click',function(e){
+    var g=e.target.closest('[data-goto]');if(g){closePass();show(g.dataset.goto);}
+    var r=e.target.closest('[data-retry]');if(r)mount(r.dataset.retry,true);
+  });
+
+  /* ---------- 判定器掛載 ---------- */
+  var mounted={},cleanup={},tries=0,t0=0;
+  function mount(mode,force){
+    if(mounted[mode]&&!force)return;
+    var el=$(mode==='practice'?'ckPractice':'ckChallenge'), hint=$(mode==='practice'?'hintPractice':'hintChallenge');
+    if(cleanup[mode]){try{cleanup[mode]();}catch(e){}}
+    el.innerHTML='';hint.className='hint';hint.innerHTML='';
+    var spec=LV[mode];
+    if(mode==='challenge'){tries=1;t0=Date.now();}
+    var ctx={mode:mode,
+      hint:function(t){hint.className='hint'+(t?' on info':'');hint.innerHTML=t||'';},
+      miss:function(t){if(mode==='challenge')tries++;hint.className='hint on bad';hint.innerHTML=t;},
+      pass:function(){done(mode);}};
+    var fn=window.Checkers[spec.checker];
+    if(!fn){el.innerHTML='<p>找不到判定器：'+spec.checker+'</p>';return;}
+    cleanup[mode]=fn(el,JSON.parse(JSON.stringify(spec.params||{})),ctx);
+    mounted[mode]=true;
+  }
+
+  /* ---------- 過關 ---------- */
+  function closePass(){$('passBox').classList.remove('on');}
+  function nextLevel(){
+    var open=Q.levels.filter(function(l){return Q.status(l.code)==='open';});
+    var same=open.filter(function(l){return l.category===LV.category;});
+    return same[0]||open[0];
+  }
+  function done(mode){
+    var card=$('passCard');
+    if(mode==='practice'){
+      tabs[1].classList.add('done');
+      card.innerHTML='<div class="medal">'+Q.icon('star','')+'</div><h2>練習完成！</h2><p>很好！現在不看提示，自己做一次。</p><div class="actions"><button class="go" data-goto="challenge">去挑戰</button></div>';
+      $('passBox').classList.add('on');return;
+    }
+    var secs=(Date.now()-t0)/1000;
+    Q.recordPass(LV.code,{tries:tries,seconds:secs}).then(function(r){
+      tabs[2].classList.add('done');
+      var nx=nextLevel();
+      var certs=(r.fresh||[]).map(function(c){return '<p style="color:#8a5a0c;font-weight:700">'+Q.icon('award')+' 獲得證書：'+Q.esc(c.name)+'</p>';}).join('');
+      card.innerHTML='<div class="medal">'+Q.icon('check')+'</div><h2>過關！</h2><p>'+LV.code+' '+Q.esc(LV.title)+'</p>'+
+        (r.noId?'<p style="color:#c0392b">還沒填年級、班級、座號，這次過關<b>沒有保存</b>。填好後再挑戰一次。</p>':'')+certs+
+        '<div class="actions"><a class="go ghost" href="../">回地圖</a>'+(r.fresh&&r.fresh.length?'<a class="go ghost" href="../cert/?c='+r.fresh[0].id+'">看證書</a>':'')+(nx?'<a class="go" href="../'+nx.code+'/">下一關：'+Q.esc(nx.title)+'</a>':'')+'</div>';
+      $('passBox').classList.add('on');
+    });
+  }
+
+  /* ---------- 狀態 ---------- */
+  Q.onChange(function(){
+    var st=Q.status(LV.code);
+    $('lvBadge').innerHTML=st==='passed'?'<span class="core" style="background:#e6f6ec;color:#2f9e62">已過關</span>':LV.core?'<span class="core">必修</span>':'';
+    tabs[2].classList.toggle('done',st==='passed');
+    var need=(LV.prereq||[]).filter(function(c){return !Q.passed(c);});
+    $('lockNote').innerHTML=need.length?'<div class="tip">'+Q.icon('lock')+'<div>建議先完成 '+need.map(function(c){return '<a href="../'+c+'/">'+c+' '+Q.esc(Q.byCode[c].title)+'</a>';}).join('、')+'，這一關會比較容易。</div></div>':'';
+  });
+  Q.initIdBar();
+  var h=(location.hash||'').slice(1);
+  if(h==='practice'||h==='challenge')show(h);
+})();
+</script>
+
+<div class="toast" id="toast"></div>
+<footer><div class="wrap"><span>電腦急救站｜學生電腦技能闖關</span><span class="sign">made by 資訊老師黃博胤</span></div></footer>
+</body>
+</html>
