@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8"><title>台南行程規劃＿4年1班7號 - Google 文件</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Arial,'Microsoft JhengHei',sans-serif;background:#f9fbfd;color:#1f1f1f;height:640px;overflow:hidden}
+  .top{display:flex;align-items:center;gap:10px;padding:8px 14px 2px;background:#f9fbfd}
+  .logo{width:28px;height:38px;background:#4285f4;border-radius:3px;position:relative}
+  .logo:after{content:'';position:absolute;left:6px;right:6px;top:12px;height:2px;background:#fff;box-shadow:0 5px 0 #fff,0 10px 0 #fff,0 15px 0 #fff}
+  .title{font-size:18px}
+  .menu{display:flex;gap:16px;font-size:14px;color:#444;padding:2px 0 0 52px;margin-top:-6px;background:#f9fbfd}
+  .share{margin-left:auto;background:#c2e7ff;border-radius:18px;padding:8px 18px;font-size:14px;font-weight:bold}
+  .bar{margin:8px 12px 0;height:40px;background:#edf2fa;border-radius:20px;display:flex;align-items:center;gap:14px;padding:0 18px;font-size:13px;color:#444}
+  .bar b{font-weight:normal;border-right:1px solid #c7c7c7;padding-right:14px}
+  .ruler{height:22px;margin:6px auto 0;width:816px;border-bottom:1px solid #ddd;background:repeating-linear-gradient(90deg,transparent 0 47px,#bbb 47px 48px)}
+  .page{width:816px;margin:0 auto;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);height:600px;padding:46px 96px;font-size:16px;line-height:1.75}
+  .page p{margin:0;min-height:28px}
+  .page{zoom:1.35;height:460px;padding:30px 70px}
+  .tag{position:absolute;right:14px;top:96px;font-size:12px;color:#888;background:#fff;border:1px solid #ddd;border-radius:10px;padding:2px 8px}
+  .pasted{color:#1f1f1f}
+  .url{color:#1155cc;text-decoration:underline}
+</style></head>
+<body>
+  <div class="top"><div class="logo"></div><div class="title">台南行程規劃＿4年1班7號</div><div class="share">共用</div></div>
+  <div class="menu"><span>檔案</span><span>編輯</span><span>查看</span><span>插入</span><span>格式</span><span>工具</span><span>擴充功能</span><span>說明</span></div>
+  <div class="bar"><b>↶ ↷ 🖨</b><b>100%</b><b>內文</b><b>Arial</b><span>－ 11 ＋</span><span><u>B</u></span><span><i>I</i></span><span>U</span></div>
+  <div class="ruler"></div>
+  <span class="tag">示意畫面</span>
+  <div class="page" id="page">
+    <p>我的宣言：我要規劃一趟「安平區」一日遊，和家人一起去，吃當地小吃、看古蹟。</p>
+    <p></p>
+    <p>第 1 站：安平古堡</p>
+    <p>在哪一區：安平區</p>
+    <p>開放時間：10:00～17:10</p>
+    <p id="ticket">門票：</p>
+    <p>停留多久：1 小時</p>
+    <p id="url">景點網址：</p>
+  </div>
+<script>
+  var q=new URLSearchParams(location.search);
+  if(q.get('ticket'))document.getElementById('ticket').innerHTML='門票：<span class="pasted">全票70、半票35（台南市市民憑身分證免費）</span>';
+  if(q.get('url'))document.getElementById('url').innerHTML='景點網址：<span class="url">https://www.twtainan.net/zh-tw/attractions/detail/671/</span>';
+</script>
+</body></html>

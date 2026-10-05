@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="資訊老師黃博胤">
 <title>台南小導遊養成記｜四上 L04</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -246,22 +247,45 @@
 
   <!-- 步驟 4：怎麼挑、去哪裡找 -->
   <section class="step hidden bg-white border-4 border-violet-300 rounded-3xl p-5 shadow-sm" data-step="4">
-    <h2 class="cute text-2xl font-extrabold text-violet-700 mb-1">怎麼挑？去哪找？</h2>
+    <h2 class="cute text-2xl font-extrabold text-violet-700 mb-2">怎麼挑？去哪找？</h2>
+    <div class="bg-yellow-50 border-4 border-yellow-300 rounded-3xl p-4 mb-4 text-center">
+      <p class="cute text-2xl md:text-3xl font-extrabold text-slate-800">今天只做：<span class="text-violet-700">找景點 🔍</span></p>
+      <p class="cute text-xl md:text-2xl font-extrabold text-slate-500 mt-1">下一節：把景點連起來 🔗</p>
+      <p class="text-xl md:text-2xl font-bold text-orange-700 mt-3 leading-relaxed">安排行程要<b>反覆調整</b>，不順可以<b>回來改景點</b><br>今天先把<b>要去的地方</b>選好！</p>
+    </div>
     <p class="text-lg text-slate-600 mb-3">目標：<b>至少 3 個景點 ＋ 1 家美食</b>　<b id="myModeHint" class="text-violet-700"></b></p>
+
+    <p class="cute text-xl font-extrabold text-violet-700 mb-2">🧰 不同類型，準備不一樣</p>
     <div class="grid md:grid-cols-3 gap-3 mb-4">
-      <div class="mode-card border-4 border-violet-200 bg-violet-50 rounded-2xl p-3" data-mode="區域">
-        <p class="cute text-xl font-extrabold text-violet-700">🗺️ 區域型</p>
-        <p class="text-base"><b>同一區</b>・種類<b>混著挑</b></p>
+      <div class="mode-card border-4 border-violet-200 bg-violet-50 rounded-2xl overflow-hidden" data-mode="區域">
+        <a href="assets/twmap_anping.jpg" target="_blank" rel="noopener" title="點圖放大"><img src="assets/twmap_anping.jpg" alt="台南旅遊網旅遊地圖，放大到安平區" class="w-full h-40 object-cover object-right"></a>
+        <div class="p-3">
+          <p class="cute text-xl font-extrabold text-violet-700">🗺️ 區域型</p>
+          <p class="text-base font-bold">看<b>地圖</b> → 找<b>附近</b>的景點</p>
+          <p class="text-sm text-slate-600">同一區・種類混著挑</p>
+          <a href="https://www.twtainan.net/zh-tw/attractions/map/" target="_blank" rel="noopener" class="inline-block mt-2 bg-violet-500 hover:bg-violet-600 text-white font-bold rounded-xl px-3 py-1 text-sm">旅遊地圖 ↗</a>
+        </div>
       </div>
-      <div class="mode-card border-4 border-fuchsia-200 bg-fuchsia-50 rounded-2xl p-3" data-mode="主題">
-        <p class="cute text-xl font-extrabold text-fuchsia-700">🏷️ 主題型</p>
-        <p class="text-base">都符合<b>主題</b>・挑<b>想去的</b></p>
+      <div class="mode-card border-4 border-fuchsia-200 bg-fuchsia-50 rounded-2xl overflow-hidden" data-mode="主題">
+        <a href="assets/tw_spotinfo.jpg" target="_blank" rel="noopener" title="點圖放大"><img src="assets/tw_spotinfo.jpg" alt="台南旅遊網景點頁的景點資訊與如何到達" class="w-full h-40 object-cover object-top"></a>
+        <div class="p-3">
+          <p class="cute text-xl font-extrabold text-fuchsia-700">🏷️ 主題型</p>
+          <p class="text-base font-bold">查<b>資料</b> → 找<b>想去的</b>景點＋<b>怎麼去</b></p>
+          <p class="text-sm text-slate-600">都符合主題・看「如何到達」</p>
+          <a href="https://www.twtainan.net/zh-tw/attractions/" target="_blank" rel="noopener" class="inline-block mt-2 bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-bold rounded-xl px-3 py-1 text-sm">景點搜尋 ↗</a>
+        </div>
       </div>
-      <div class="mode-card border-4 border-indigo-200 bg-indigo-50 rounded-2xl p-3" data-mode="交通">
-        <p class="cute text-xl font-extrabold text-indigo-700">🚌 交通型</p>
-        <p class="text-base"><b>站牌附近</b>・查<b>哪天有開</b></p>
+      <div class="mode-card border-4 border-indigo-200 bg-indigo-50 rounded-2xl overflow-hidden" data-mode="交通">
+        <a href="assets/bus33_stops.png" target="_blank" rel="noopener" title="點圖放大"><img src="assets/bus33_stops.png" alt="33 關子嶺線的站牌：高鐵嘉義站、菁寮、後壁火車站、白河轉運站、仙草埔、寶泉橋、嶺頂旅遊資訊站" class="w-full h-40 object-contain bg-white"></a>
+        <div class="p-3">
+          <p class="cute text-xl font-extrabold text-indigo-700">🚌 交通型</p>
+          <p class="text-base font-bold">查<b>站牌</b>上的景點＋<b>班次</b></p>
+          <p class="text-sm text-slate-600">例：33 關子嶺線（假日）</p>
+          <a href="https://www.taiwantrip.com.tw/Frontend/Route/Select_p?RouteID=R0039" target="_blank" rel="noopener" class="inline-block mt-2 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-xl px-3 py-1 text-sm">台灣好行 ↗</a>
+        </div>
       </div>
     </div>
+    <p class="text-[11px] leading-tight text-slate-400 -mt-2 mb-4">畫面：台南旅遊網旅遊地圖、景點頁（2026/10/5 擷取）；33 線站牌圖：大台南公車</p>
 
     <div id="myPath" class="hidden bg-orange-50 border-2 border-orange-200 rounded-2xl p-3 mb-4">
       <p class="cute text-lg font-extrabold text-orange-700 mb-1">🧭 我的找景點路線</p>
@@ -302,11 +326,6 @@
         <p class="text-base font-bold text-sky-800 mt-2">💡 太少 → 太多結果　太多 → 找不到　<b>官方網站</b>最準</p>
         <a href="https://www.google.com/search?q=%E5%AE%89%E5%B9%B3+%E5%8F%A4%E8%B9%9F" target="_blank" rel="noopener" class="inline-block mt-2 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl px-4 py-1.5">試試：安平 古蹟 ↗</a>
       </div>
-      <div class="bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-3">
-        <p class="cute text-xl font-extrabold text-indigo-700">④ 交通型：台灣好行</p>
-        <p class="text-base">看<b>沿線站牌</b>・<b>哪幾天行駛</b></p>
-        <a href="https://www.taiwantrip.com.tw/Frontend/Route/Select_p?RouteID=R0039" target="_blank" rel="noopener" class="inline-block mt-2 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-xl px-4 py-1.5">台灣好行 ↗</a>
-      </div>
     </div>
     <div class="stepnav"></div>
   </section>
@@ -319,7 +338,7 @@
       <p class="cute text-lg font-extrabold text-orange-700 mb-1">📋 要交</p>
       <ul class="text-base space-y-0.5">
         <li>✅ <b>3 個景點 ＋ 1 家美食</b>（最多 5 個）</li>
-        <li>✅ 每個地點 6 項：<b>區域・時間・門票・停留・網址・理由</b></li>
+        <li>✅ 每個地點 5 項：<b>區域・時間・門票・停留・網址</b></li>
         <li>✅ 符合我的宣言</li>
       </ul>
     </div>
@@ -333,25 +352,26 @@
         </div>
         <div class="flex gap-3 items-start bg-emerald-50 rounded-2xl p-3">
           <div class="cute text-2xl font-extrabold text-emerald-600 shrink-0 w-8 text-center">2</div>
-          <div><p class="text-lg font-bold">從網站貼資料</p><ol class="list-decimal pl-5 text-base"><li>選字，<kbd>Ctrl</kbd> + <kbd>C</kbd></li><li>切回文件分頁</li><li>點「：」後面，<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></li></ol><p class="text-sm text-slate-500">加 <kbd>Shift</kbd>＝只貼文字，不帶顏色</p></div>
+          <div class="flex-1 min-w-0"><p class="text-lg font-bold">從網站貼資料</p><ol class="list-decimal pl-5 text-base"><li>選字，<kbd>Ctrl</kbd> + <kbd>C</kbd></li><li>切回文件分頁</li><li>點「：」後面，<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></li></ol><p class="text-sm text-slate-500">加 <kbd>Shift</kbd>＝只貼文字，不帶顏色</p>
+            <video class="w-full rounded-xl border-2 border-emerald-200 bg-slate-900 mt-2" src="assets/教學_複製資料貼文件.mp4" poster="assets/教學_複製資料貼文件_封面.jpg" controls playsinline preload="metadata"></video>
+            <p class="text-sm text-slate-500">▶ 看影片（29 秒）</p></div>
         </div>
         <div class="flex gap-3 items-start bg-emerald-50 rounded-2xl p-3">
           <div class="cute text-2xl font-extrabold text-emerald-600 shrink-0 w-8 text-center">3</div>
-          <div><p class="text-lg font-bold">換行整理</p><p class="text-base">一項一行，每站<b>空一行</b>。理由<b>自己打</b>。</p></div>
+          <div><p class="text-lg font-bold">換行整理</p><p class="text-base">一項一行，每站<b>空一行</b>。</p></div>
         </div>
         <div class="flex gap-3 items-start bg-emerald-50 rounded-2xl p-3">
           <div class="cute text-2xl font-extrabold text-emerald-600 shrink-0 w-8 text-center">4</div>
-          <div>
+          <div class="flex-1 min-w-0">
             <p class="text-lg font-bold">貼網址</p>
-            <div class="grid sm:grid-cols-2 gap-2 items-center">
-              <img src="assets/share_link.png" alt="台南旅遊網景點頁的分享按鈕，最右邊是複製連結" class="shot">
-              <ol class="list-decimal pl-5 text-base">
-                <li>景點頁往下找「<b>分享</b>」</li>
-                <li>按最右邊「<b>複製連結</b>」</li>
-                <li>貼在「網址：」後面</li>
-              </ol>
-            </div>
-            <p class="text-sm text-slate-500 mt-1">沒有分享鈕？複製<b>網址列</b>。</p>
+            <ol class="list-decimal pl-5 text-base">
+              <li>景點頁往下找「<b>分享</b>」</li>
+              <li>按最右邊「<b>複製網址</b>」，變打勾＝好了</li>
+              <li>貼在「網址：」後面，<kbd>Ctrl</kbd> + <kbd>V</kbd></li>
+            </ol>
+            <p class="text-sm text-slate-500 mt-1">沒有分享鈕？點<b>網址列</b>，<kbd>Ctrl</kbd> + <kbd>C</kbd>。</p>
+            <video class="w-full rounded-xl border-2 border-emerald-200 bg-slate-900 mt-2" src="assets/教學_複製網址貼文件.mp4" poster="assets/教學_複製網址貼文件_封面.jpg" controls playsinline preload="metadata"></video>
+            <p class="text-sm text-slate-500">▶ 看影片（36 秒）</p>
           </div>
         </div>
         <div class="bg-white border-2 border-emerald-200 rounded-2xl p-3">
@@ -361,8 +381,7 @@
 開放時間：10:00～17:10
 門票：全票 70 元，半票 35 元
 停留多久：1 小時
-景點網址：https://www.twtainan.net/zh-tw/attractions/…
-為什麼選它：可以爬上白色的塔，看整個安平</pre>
+景點網址：https://www.twtainan.net/zh-tw/attractions/…</pre>
         </div>
       </div>
 
@@ -381,7 +400,7 @@
     <div class="mt-5 bg-orange-50 border-4 border-orange-300 rounded-3xl p-4">
       <h3 class="cute text-xl font-extrabold text-orange-700 mb-1">📮 交給老師</h3>
       <div class="grid md:grid-cols-2 gap-4 items-start">
-        <div data-qid="q2" data-qtype="open" data-qtext="把 Google 文件裡寫好的「我的景點清單」複製，貼到這裡（至少 3 個景點加 1 家美食，每一站有區域、開放時間、門票、停留多久、景點網址和選它的理由）。">
+        <div data-qid="q2" data-qtype="open" data-qtext="把 Google 文件裡寫好的「我的景點清單」複製，貼到這裡（至少 3 個景點加 1 家美食，每一站有區域、開放時間、門票、停留多久和網址）。">
           <p class="field font-bold text-orange-800 mb-1">文件裡的「我的景點清單」→ <kbd>Ctrl</kbd> + <kbd>C</kbd> → 貼這裡</p>
           <textarea id="q2" rows="10" class="field w-full border-2 border-orange-300 rounded-xl px-3 py-2 focus:border-orange-500 outline-none bg-white"></textarea>
           <p id="q2Count" class="text-sm font-bold text-slate-500 min-h-[20px]"></p>
@@ -421,6 +440,8 @@
   </section>
 
 </div>
+
+<footer class="max-w-5xl mx-auto px-4 pb-6 text-right text-xs text-slate-400">made by 資訊老師黃博胤</footer>
 
 <script>
 /* ============================================================
@@ -627,9 +648,9 @@ var firebaseConfig = {
     if(!modeSel){box.classList.add('hidden');return;}
     box.classList.remove('hidden');
     var c=choiceVal()||('你選的'+MODE_WORD[modeSel]),steps;
-    if(modeSel==='區域')steps=['① 景點搜尋 → 進階搜尋選「'+c+'」','挑 3 個<b>不同種類</b>','② 店家搜尋 → 找<b>同一區</b>的美食'];
+    if(modeSel==='區域')steps=['旅遊地圖 → 放大「'+c+'」，看附近景點','挑 3 個<b>不同種類</b>','② 店家搜尋 → 找<b>同一區</b>的美食'];
     else if(modeSel==='主題')steps=['① 景點搜尋 → 找「'+c+'」','挑<b>想去的</b> 3 個，看<b>在哪一區</b>','② 店家搜尋 → 找景點附近的美食'];
-    else steps=['④ 台灣好行 → 打開「'+c+'」','挑<b>站牌附近</b>的 3 個景點','② 店家搜尋 → 找站牌附近的美食'];
+    else steps=['台灣好行 → 打開「'+c+'」，看站牌','挑<b>站牌附近</b>的 3 個景點','② 店家搜尋 → 找站牌附近的美食'];
     if(/爺爺|奶奶|長輩|阿公|阿嬤/.test(mateVal()))steps.push('跟<b>爺爺奶奶</b>：少階梯、有地方坐');
     ol.innerHTML=steps.map(function(s){return '<li>'+s+'</li>';}).join('');
   }
@@ -638,8 +659,8 @@ var firebaseConfig = {
   function tplStr(){
     var head='我的景點清單';
     if(modeSel)head+='（'+modeSel+'型'+(choiceVal()?'：'+choiceVal():'')+'）';
-    var spot=function(n){return '第 '+n+' 站：\n在哪一區：\n開放時間：\n門票：\n停留多久：\n景點網址：\n為什麼選它：\n';};
-    return head+'\n\n'+spot(1)+'\n'+spot(2)+'\n'+spot(3)+'\n美食：\n在哪一區：\n營業時間：\n想吃什麼：\n店家網址：\n為什麼選它：';
+    var spot=function(n){return '第 '+n+' 站：\n在哪一區：\n開放時間：\n門票：\n停留多久：\n景點網址：\n';};
+    return head+'\n\n'+spot(1)+'\n'+spot(2)+'\n'+spot(3)+'\n美食：\n在哪一區：\n營業時間：\n想吃什麼：\n店家網址：';
   }
   function q2Stat(t){return {n:(t.match(/第\s*\d+\s*站/g)||[]).length,food:/美食/.test(t),urls:(t.match(/https?:\/\/\S+/g)||[]).length};}
   $('tplCopy').onclick=function(){copyText(tplStr(),this);};
@@ -680,7 +701,7 @@ var firebaseConfig = {
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
       qtexts:{
-        q2:'把 Google 文件裡寫好的「我的景點清單」複製，貼到這裡（至少 3 個景點加 1 家美食，每一站有區域、開放時間、門票、停留多久、景點網址和選它的理由）。',
+        q2:'把 Google 文件裡寫好的「我的景點清單」複製，貼到這裡（至少 3 個景點加 1 家美食，每一站有區域、開放時間、門票、停留多久和網址）。',
         q3:'加分：如果出發那天下雨，你的「雨天備案」要換去哪裡？為什麼？'
       },
       bonusQids:['q3'],
@@ -754,19 +775,18 @@ var firebaseConfig = {
 </script>
 
 <!-- 評分設定（見《學習單資料與提交規範》§2-e、《AI評分規範》）：評分平台「學習單設定 → 從學習單讀取」一鍵帶入。
-     沒有非開放題；開放題 q2（景點清單，本課唯一主要產出）20 分（檢核 3+3+5+3+3+3）；主要題合計 20 分＝base 100 − floor 80。q3 是加分題，另外加。 -->
+     沒有非開放題；開放題 q2（景點清單，本課唯一主要產出）20 分（檢核 3+3+6+4+4）；主要題合計 20 分＝base 100 − floor 80。q3 是加分題，另外加。 -->
 <script type="application/json" id="grading-spec">
 {
   "summary": "理解一日遊景點數量要考量停留時間與距離（同區近、跨區遠），依區域型／主題型／交通型挑選至少 3 個景點加 1 家美食（每個附網址），從台南旅遊網找資料、找不到時用關鍵字搜尋，用換行整理進 Google 文件",
   "questions": [
-    { "qid": "q2", "prompt": "把 Google 文件裡寫好的「我的景點清單」複製，貼到這裡（至少 3 個景點加 1 家美食，每一站有區域、開放時間、門票、停留多久、景點網址和選它的理由）。", "mode": "checklist",
+    { "qid": "q2", "prompt": "把 Google 文件裡寫好的「我的景點清單」複製，貼到這裡（至少 3 個景點加 1 家美食，每一站有區域、開放時間、門票、停留多久和網址）。", "mode": "checklist",
       "checks": [
         { "desc": "至少 3 個景點（最多 5 個地點都可接受）", "pts": 3 },
         { "desc": "有 1 家美食（店名或小吃名稱）", "pts": 3 },
-        { "desc": "地點符合清單開頭寫的規劃方式：區域型都在同一區、主題型都符合主題、交通型都在該公車路線沿線；開頭沒寫規劃方式時，只要地點彼此合理即可", "pts": 5 },
-        { "desc": "每個地點（含美食）都貼了網址（http 開頭），且網址看起來是該景點或店家的頁面", "pts": 3 },
-        { "desc": "每一站的區域、開放時間、門票、停留多久都有寫（少數一兩格空白只扣 1 分）", "pts": 3 },
-        { "desc": "每一站的「為什麼選它」都有自己寫的理由，跟景點特色、同行的人或規劃方式有關", "pts": 3 }
+        { "desc": "地點符合清單開頭寫的規劃方式：區域型都在同一區、主題型都符合主題、交通型都在該公車路線沿線；開頭沒寫規劃方式時，只要地點彼此合理即可", "pts": 6 },
+        { "desc": "每個地點（含美食）都貼了網址（http 開頭），且網址看起來是該景點或店家的頁面", "pts": 4 },
+        { "desc": "每一站的區域、開放時間、門票、停留多久都有寫（少數一兩格空白只扣 1 分）", "pts": 4 }
       ] },
     { "qid": "q3", "prompt": "加分：如果出發那天下雨，你的「雨天備案」要換去哪裡？為什麼？", "mode": "condition", "points": 2, "need": 1,
       "conditions": ["說出一個下雨也適合去的室內地點（如博物館、百貨公司、室內展館），並說明原因"],

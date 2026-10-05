@@ -1,0 +1,380 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "type": "title",
+   "dur": 3,
+   "title": "把景點網址貼進 Google 文件",
+   "subtitle": "按「複製網址」→ 切到文件分頁 → Ctrl＋V"
+  },
+  {
+   "dur": 5,
+   "img": "shots/ta_share.png",
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "台南行程規劃＿4年1班7號 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "step": "1",
+   "caption": "景點頁往下捲，找到分享按鈕",
+   "sub": "在頁面最下面，「上一則／下一則」的上面",
+   "circles": [
+    {
+     "t": 0.6,
+     "dur": 99,
+     "x": 182,
+     "y": 460,
+     "w": 184,
+     "h": 40,
+     "pad": 12
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 700,
+     "y": 300
+    },
+    {
+     "t": 1.5,
+     "x": 520,
+     "y": 580
+    },
+    {
+     "t": 5,
+     "x": 520,
+     "y": 580
+    }
+   ]
+  },
+  {
+   "dur": 6,
+   "img": "shots/ta_share.png",
+   "imgs": [
+    {
+     "t": 1.6,
+     "img": "shots/ta_share_copied.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "台南行程規劃＿4年1班7號 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "step": "2",
+   "caption": "按最右邊的「複製網址」",
+   "sub": "按鈕變成打勾，就複製好了",
+   "clicks": [
+    {
+     "t": 1.5,
+     "x": 346,
+     "y": 482
+    }
+   ],
+   "circles": [
+    {
+     "t": 1.9,
+     "dur": 99,
+     "x": 326,
+     "y": 460,
+     "w": 40,
+     "h": 40,
+     "pad": 10
+    }
+   ],
+   "labels": [
+    {
+     "t": 2.2,
+     "dur": 99,
+     "x": 392,
+     "y": 452,
+     "text": "變成打勾＝複製好了",
+     "color": "green"
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 520,
+     "y": 580
+    },
+    {
+     "t": 1.3,
+     "x": 346,
+     "y": 482
+    },
+    {
+     "t": 2.2,
+     "x": 360,
+     "y": 540
+    },
+    {
+     "t": 6,
+     "x": 360,
+     "y": 540
+    }
+   ]
+  },
+  {
+   "dur": 5.5,
+   "img": "shots/ta_share_copied.png",
+   "imgs": [
+    {
+     "t": 1.6,
+     "img": "shots/doc_ticket.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "台南行程規劃＿4年1班7號 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "activeAt": [
+     {
+      "t": 1.6,
+      "active": 1
+     }
+    ]
+   },
+   "step": "3",
+   "caption": "切回文件分頁",
+   "captions": [
+    {
+     "t": 2.6,
+     "caption": "點「景點網址：」的後面",
+     "sub": "讓游標停在冒號後面"
+    }
+   ],
+   "circles": [
+    {
+     "x": 272,
+     "y": 6,
+     "w": 256,
+     "h": 36,
+     "t": 0.3,
+     "dur": 1.4,
+     "pad": 6
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.5,
+     "x": 400,
+     "y": 24
+    },
+    {
+     "t": 3.2,
+     "x": 296,
+     "y": 543
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 360,
+     "y": 540
+    },
+    {
+     "t": 1.3,
+     "x": 400,
+     "y": 24
+    },
+    {
+     "t": 1.9,
+     "x": 400,
+     "y": 24
+    },
+    {
+     "t": 3.0,
+     "x": 296,
+     "y": 543,
+     "mode": "ibeam"
+    },
+    {
+     "t": 5.5,
+     "x": 296,
+     "y": 543,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 5.5,
+   "img": "shots/doc_ticket.png",
+   "imgs": [
+    {
+     "t": 1.6,
+     "img": "shots/doc_url.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "台南行程規劃＿4年1班7號 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 1
+   },
+   "step": "4",
+   "caption": "按 Ctrl＋V 貼上",
+   "sub": "藍色底線的網址，點了就能回到景點頁",
+   "keys": [
+    {
+     "t": 0.4,
+     "dur": 2.0,
+     "keys": [
+      "Ctrl",
+      "V"
+     ],
+     "y": 560
+    }
+   ],
+   "boxes": [
+    {
+     "t": 1.8,
+     "dur": 99,
+     "x": 178,
+     "y": 527,
+     "w": 622,
+     "h": 32,
+     "style": "highlight"
+    }
+   ],
+   "labels": [
+    {
+     "t": 2.1,
+     "dur": 99,
+     "x": 816,
+     "y": 522,
+     "text": "網址貼好了！",
+     "color": "green"
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 296,
+     "y": 543,
+     "mode": "ibeam"
+    },
+    {
+     "t": 1.6,
+     "x": 798,
+     "y": 543,
+     "mode": "ibeam"
+    },
+    {
+     "t": 5.5,
+     "x": 798,
+     "y": 543,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 7,
+   "img": "shots/ta_share.png",
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "台南行程規劃＿4年1班7號 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": [
+     {
+      "t": 1.9,
+      "dur": 99
+     }
+    ]
+   },
+   "step": "＋",
+   "caption": "沒有分享鈕？點一下上面的網址列",
+   "captions": [
+    {
+     "t": 2.0,
+     "caption": "整條網址變藍色 → 按 Ctrl＋C",
+     "sub": "再切到文件，一樣按 Ctrl＋V 貼上"
+    }
+   ],
+   "boxes": [
+    {
+     "t": 0.3,
+     "dur": 99,
+     "x": 116,
+     "y": 43,
+     "w": 1088,
+     "h": 36
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.8,
+     "x": 420,
+     "y": 61
+    }
+   ],
+   "keys": [
+    {
+     "t": 3.0,
+     "dur": 2.6,
+     "keys": [
+      "Ctrl",
+      "C"
+     ],
+     "x": 760,
+     "y": 300
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 600,
+     "y": 400
+    },
+    {
+     "t": 1.6,
+     "x": 420,
+     "y": 61
+    },
+    {
+     "t": 7,
+     "x": 420,
+     "y": 61
+    }
+   ]
+  },
+  {
+   "type": "title",
+   "dur": 3.5,
+   "title": "複製網址 → 切分頁 → Ctrl＋V",
+   "subtitle": "每個景點、店家都要附網址"
+  }
+ ]
+}

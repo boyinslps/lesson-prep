@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="資訊老師黃博胤">
+<title>照片影片查出身｜五上 L04 教學活動</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Noto Sans TC',sans-serif;background:#F4F6FB;color:#1f2430}
+  .cute{font-family:'Baloo 2','Noto Sans TC',cursive}
+  .pop{animation:pp .35s}@keyframes pp{0%{transform:scale(.9)}60%{transform:scale(1.05)}100%{transform:scale(1)}}
+  .flip{animation:fl .5s}@keyframes fl{0%{transform:rotateX(90deg);opacity:0}100%{transform:rotateX(0);opacity:1}}
+  .idnum{width:52px;text-align:center}
+  .shotimg{width:100%;border-radius:1rem;border:3px solid #cbd5e1;display:block;background:#fff;cursor:zoom-in}
+  .imgph{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;text-align:center;background:repeating-linear-gradient(45deg,#f1f5f9,#f1f5f9 10px,#e2e8f0 10px,#e2e8f0 20px);border:3px dashed #94a3b8;border-radius:1rem;color:#64748b;font-weight:700;padding:1rem;width:100%}
+  .vidbox{position:relative;width:100%;padding-top:56.25%}.vidbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vidtall{position:relative;width:100%;max-width:340px;margin:0 auto;padding-top:min(177%,600px)}.vidtall iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:1rem}
+  .opt{transition:.15s}
+  .fld{width:100%;border:2px solid #cbd5e1;border-radius:12px;padding:6px 10px;background:#fff;outline:none}
+  .fld:focus{border-color:#6366f1}
+  kbd{background:#f1f5f9;border:1px solid #cbd5e1;border-bottom-width:3px;border-radius:6px;padding:0 6px;font-family:inherit;font-weight:700}
+  .locked .ans{pointer-events:none}
+  details>summary{cursor:pointer;list-style:none}details>summary::-webkit-details-marker{display:none}
+  /* 學習路徑（《HTML互動教材設計規範》§5.8） */
+  .stepnav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:24px;padding-top:16px;border-top:2px solid #e2e8f0}
+  .stepdot{width:32px;height:32px}
+  @media(max-width:420px){.stepdot{width:28px;height:28px;font-size:12px}}
+  /* ⑥ 拖曳排序 */
+  .skill{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #c7d2fe;border-radius:14px;padding:8px 10px;cursor:grab;user-select:none}
+  .skill.dragging{opacity:.45;border-style:dashed}
+  .skill.bad{border-color:#fb7185;background:#fff1f2}
+  .skill.good{border-color:#34d399;background:#ecfdf5}
+  .skill .num{flex:none;width:30px;height:30px;border-radius:999px;background:#6366f1;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+  .skill .mv{flex:none;border:2px solid #e2e8f0;border-radius:8px;width:30px;height:30px;font-weight:800;color:#64748b;background:#fff}
+  .skill .mv:hover{border-color:#818cf8;color:#4f46e5}
+  .skill .mv:disabled{opacity:.3}
+  /* 點圖放大：滾輪縮放、拖曳移動、雙擊還原 */
+  #lightbox{position:fixed;inset:0;z-index:60;background:rgba(15,20,35,.92);display:none;flex-direction:column}
+  #lightbox.on{display:flex}
+  .lbtop{display:flex;align-items:center;gap:10px;padding:10px 16px;color:#cbd5e1;font-size:14px;flex-wrap:wrap}
+  .lbstage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 16px 16px}
+  .lbstage img{max-height:100%;max-width:100%;border-radius:10px;background:#fff;object-fit:contain;touch-action:none;user-select:none}
+  .zbtn{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:8px;padding:4px 10px;font-weight:700;cursor:pointer}
+  .zbtn:hover{background:rgba(255,255,255,.26)}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="text-slate-800">
+
+<!-- 教師檢視模式橫幅（?review= 時顯示，見《學習單資料與提交規範》§5-7） -->
+<div id="reviewBanner" class="hidden bg-amber-400 text-amber-950 text-sm font-bold">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap">
+    <span id="reviewText">🔍 檢視模式（唯讀）</span>
+    <a id="reviewExit" href="#" class="ml-auto underline">✕ 離開檢視</a>
+  </div>
+</div>
+
+<!-- 老師工具列（僅 #admin 時顯示；公布鈕放在各段落旁邊，見《學習單資料與提交規範》§5-8） -->
+<div id="teacherbar" class="hidden bg-slate-900 text-white text-sm">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-2 flex-wrap">
+    <span class="cute font-bold text-amber-300">👩‍🏫 教師模式</span>
+    <span id="tStatus" class="text-slate-300 text-xs"></span>
+    <div class="ml-auto flex gap-2 flex-wrap">
+      <button id="showAnsBtn" class="hidden bg-emerald-600 hover:bg-emerald-700 rounded-lg px-3 py-1" title="把標準答案填進學習單的作答欄">👁 檢視答案</button>
+      <button id="uploadAnsBtn" class="hidden bg-sky-600 hover:bg-sky-700 rounded-lg px-3 py-1" title="把④⑤文字題作答框裡的內容存成標準答案（可用 | 分隔多個答案）">⬆ 上傳答案</button>
+      <button id="lockBtn" class="hidden bg-slate-700 hover:bg-slate-600 rounded-lg px-3 py-1" title="收回所有公布，清掉「檢視答案」填進去的內容">↩ 還原</button>
+      <button id="previewModeBtn" class="bg-indigo-600 hover:bg-indigo-700 font-bold rounded-lg px-3 py-1">👀 預覽學生模式</button>
+    </div>
+  </div>
+</div>
+<button id="backToTeacher" class="hidden fixed bottom-4 right-4 z-30 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full px-4 py-2 shadow-lg">↩ 返回教師模式</button>
+
+<!-- 識別列：年級/班級/座號（數字），頁面最上方、不固定（見《學習單資料與提交規範》§1、《HTML互動教材設計規範》§5.8-6） -->
+<div class="bg-white border-b-2 border-indigo-200">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap text-sm">
+    <span class="cute font-bold text-indigo-700">我是誰</span>
+    <label class="flex items-center gap-1 text-slate-500">年級<input id="idGrade" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-indigo-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">班級<input id="idClass" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-indigo-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">座號<input id="idStudent" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-indigo-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <span id="idOk" class="hidden text-emerald-600 font-bold text-xs">✓ 已記住</span>
+  </div>
+</div>
+
+<!-- 學習路徑進度列（固定在畫面上方，可點圓點跳步） -->
+<div class="sticky top-0 z-20 bg-white/95 backdrop-blur border-b-2 border-indigo-100">
+  <div class="max-w-5xl mx-auto px-4 py-2">
+    <div id="stepper" class="flex items-start"></div>
+    <p id="stepLabel" class="sm:hidden text-xs font-bold text-indigo-700 text-center mt-1"></p>
+  </div>
+</div>
+
+<div id="main" class="max-w-5xl mx-auto px-4 py-6">
+
+  <header class="text-center mb-6">
+    <h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600">🕵️ 照片影片也要查出身</h1>
+    <p class="text-sm text-slate-500 mt-2">五年級上學期 · L04 認識農場文與 AI 假資訊影片 · 教學活動流程（40 分鐘）</p>
+    <p id="syncBadge" class="hidden mt-2 text-xs text-emerald-600 font-bold">🔗 已連線：老師公布答案時，這台會自動同步</p>
+  </header>
+
+  <!-- ===== 步驟 1：開場影片 ===== -->
+  <section class="step" data-step="1">
+    <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-rose-700">① 先看一支短影片</h2>
+      <div id="openVideo" class="mt-4"></div>
+      <p class="font-bold text-rose-700 text-xl mt-4">🤔 看完你相信嗎？如果想知道它是不是真的，你會從哪裡開始查？</p>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 2：農場文與 AI 假資訊影片 ===== -->
+  <section class="step hidden" data-step="2">
+    <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-amber-700">② 認識農場文與 AI 假資訊影片</h2>
+      <p class="text-slate-600 mt-2 text-lg">網路上很多「看起來像新聞」的文章和影片，其實不是記者寫的，也不是為了告訴你真相。先認識兩種最常見的：</p>
+    </div>
+
+    <div class="bg-white border-4 border-amber-200 rounded-3xl p-6 mb-5">
+      <h3 class="cute text-2xl font-extrabold text-amber-700">🚜 什麼是農場文（內容農場）？</h3>
+      <p class="text-slate-700 text-lg mt-2">就像農場大量種菜一樣，有些網站和頻道<b>大量生產</b>「吸引你點進去」的文章或影片。它們的目的是<b>衝點閱、賺廣告錢</b>，內容是真是假、是新是舊，它們不在乎。</p>
+      <div class="grid sm:grid-cols-2 gap-3 mt-3 text-base">
+        <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4">
+          <p class="font-bold text-amber-700 mb-1">常見特徵</p>
+          <ul class="list-disc pl-5 space-y-1 text-slate-700">
+            <li>標題誇張嚇人：「十大」「震驚」「第一名竟是」</li>
+            <li>沒有作者，或查不到是誰</li>
+            <li>東拼西湊，把<b>舊新聞當成新的</b>講</li>
+          </ul>
+        </div>
+        <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4">
+          <p class="font-bold text-amber-700 mb-1">〔例〕「台灣十大跌下神壇名店」</p>
+          <p class="text-slate-700">頻道「親密實戰」2026 年 5 月才開，已經發了 143 部影片，從都市傳說、湖泊到美食什麼都講，標題幾乎都叫「十大」。這支把 2011～2025 年的食安<b>舊聞</b>包裝成最新消息。</p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 mt-4">
+        <img class="shotimg" src="assets/揭曉_親密實戰頻道.jpg" alt="親密實戰頻道首頁，被查核單位標示為內容農場頻道" loading="lazy">
+        <img class="shotimg" src="assets/農場影片縮圖.png" alt="同一類農場頻道的十大系列短影片縮圖" loading="lazy">
+      </div>
+      <p class="text-[11px] text-slate-400 mt-1">圖片來源：MyGoPen 查核報告・點圖可放大</p>
+    </div>
+
+    <div class="bg-white border-4 border-amber-200 rounded-3xl p-6 mb-5">
+      <h3 class="cute text-2xl font-extrabold text-amber-700">🤖 什麼是 AI 假資訊影片？</h3>
+      <p class="text-slate-700 text-lg mt-2">用 AI 寫稿、AI 配音，甚至用 AI 做出畫面，做成像紀錄片或新聞的影片。做一支的成本很低，一個頻道一天可以發好幾支。它比農場文更難分辨，因為<b>有聲音、有畫面</b>，看起來特別像真的。</p>
+      <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 mt-3">
+        <p class="font-bold text-amber-700 mb-1">常見特徵</p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-700">
+          <li>AI 配音，語氣很肯定、一直說「驚爆」「真相」「別再…」</li>
+          <li>說「營養師表示」「專家指出」，卻<b>沒有名字</b>，查不到是誰</li>
+          <li>頻道剛開沒多久，影片卻一部接一部，畫面<b>來源不明</b></li>
+          <li>畫面不合常理</li>
+        </ul>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 mt-4 items-start">
+        <div>
+          <p class="font-bold text-amber-700 text-lg mb-2">〔例一〕「全支付驚爆 39 人慘遭盜刷 340 萬！」</p>
+          <div class="vidtall"><iframe src="https://www.youtube-nocookie.com/embed/aJh4h2VO7k4?rel=0" title="全支付驚爆39人慘遭盜刷340萬（AI 配音的農場短影片）" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+          <img class="shotimg mt-3" src="assets/例一_寶島地誌頻道.jpg" alt="寶島地誌頻道首頁：2026年5月才建立，已發布大量短影音" loading="lazy">
+          <p class="text-slate-700 mt-2">發這支短片的「寶島地誌」<b>2026 年 5 月才開</b>，已經發了 88 部影片，全部是<b>來源不明的畫面＋AI 配音＋聳動標題</b>。影片講的盜刷其實是 <b>2025 年 11 月的舊事件</b>，而且是詐騙集團做假網站騙人輸入驗證碼，不是全支付外洩資料；「綁銀行帳戶危險百倍」也是誇大的說法。MyGoPen 判定<b>【誤導】</b>。</p>
+          <a href="https://www.mygopen.com/2026/10/PXPayPlus.html" target="_blank" rel="noopener" class="inline-block mt-2 text-sm font-bold text-indigo-700 underline">MyGoPen 查核報告 ↗</a>
+          <p class="text-[11px] text-slate-400 mt-1">圖片來源：MyGoPen 查核報告</p>
+        </div>
+        <div>
+          <p class="font-bold text-amber-700 text-lg mb-2">〔例二〕「牙膏都是牛骨頭做的」</p>
+          <img class="shotimg" src="assets/AI標示_牙膏影片.jpg" alt="TikTok 上的牙膏牛骨影片，左下角有「包含 AI 生成媒體」標示" loading="lazy">
+          <p class="text-slate-700 mt-2">AI 做的「工廠揭秘」影片：明火烤牛骨、牙膏從管口灌進去，都不合常理。仔細看左下角，平台標了「<b>包含 AI 生成媒體</b>」。查核中心判定<b>錯誤</b>：現代牙膏的研磨劑大多不是動物來源。</p>
+          <p class="text-[11px] text-slate-400 mt-1">圖片來源：台灣事實查核中心查核報告</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 shadow-sm">
+      <h3 class="cute text-2xl font-extrabold text-sky-700 mb-2">🪪 還記得 L03 的 5W 嗎？</h3>
+      <p class="text-slate-700 text-lg">農場文和 AI 假資訊影片最愛藏起來的，就是這三個 W：</p>
+      <div class="grid sm:grid-cols-3 gap-3 mt-3 text-base">
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4"><p class="cute text-xl font-extrabold text-sky-700">Who 誰做的？</p><p class="text-slate-700">剛開的頻道、沒有真名</p></div>
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4"><p class="cute text-xl font-extrabold text-sky-700">When 什麼時候？</p><p class="text-slate-700">舊新聞、舊照片當成新的講</p></div>
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4"><p class="cute text-xl font-extrabold text-sky-700">Why 為什麼做？</p><p class="text-slate-700">衝點閱、賺廣告錢</p></div>
+      </div>
+      <p class="text-slate-700 text-lg mt-3">💡 而且就像 L01 學的：信了它，可能會恐慌、亂改設定，還轉傳給家人，變成幫兇。<b>畫面再真，也要查出它從哪裡來。</b></p>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 3：照片以圖搜圖 ===== -->
+  <section class="step hidden" data-step="3">
+    <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-sky-700">③ 查指紋Ⅰ：照片從哪裡來？</h2>
+      <p class="text-slate-600 mt-2 text-lg">照片和人一樣有「指紋」：同一張照片在網路上出現過的地方，Google 都找得到。找到<b>最早</b>出現的那一次，就知道它原本是什麼時候、在哪裡拍的。</p>
+      <p class="font-bold text-sky-700 text-lg mt-4">眼見不為憑的三種型</p>
+      <div class="grid sm:grid-cols-3 gap-3 mt-2">
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4"><p class="font-bold text-sky-700 text-lg">🕰️ 舊圖新用</p><p class="text-slate-700">舊照片當成新事件。</p></div>
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4"><p class="font-bold text-sky-700 text-lg">✂️ 移花接木</p><p class="text-slate-700">裁掉時間、地點，接到別的事件上。</p></div>
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4"><p class="font-bold text-sky-700 text-lg">🤖 AI 生成</p><p class="text-slate-700">根本不存在的畫面。</p></div>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h3 class="cute text-2xl font-extrabold text-sky-700 mb-3">🔎 怎麼做：Chrome 內建的 Google 智慧鏡頭</h3>
+      <div class="grid md:grid-cols-3 gap-3 text-lg">
+        <div class="bg-sky-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-sky-600">1</div>在照片上按<b>滑鼠右鍵</b></div>
+        <div class="bg-sky-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-sky-600">2</div>選「<b>透過 Google 智慧鏡頭搜尋</b>」</div>
+        <div class="bg-sky-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-sky-600">3</div>右邊出現結果：看<b>網站和日期</b>，找<b>最早</b>的那一筆</div>
+      </div>
+      <p class="text-slate-500 mt-3">不用登入。</p>
+    </div>
+
+    <div class="bg-white border-4 border-slate-200 rounded-3xl p-6 mb-5">
+      <h3 class="cute text-2xl font-extrabold text-slate-700 mb-2">👩‍🏫 老師示範：「熊本 7.1 強震撼九州！交通一度停擺」</h3>
+      <p class="text-slate-600 mb-3">熊本地震（2026/7/28）是真的。那這張照片呢？</p>
+      <div class="grid md:grid-cols-2 gap-4 items-start">
+        <img class="shotimg" src="assets/開場_熊本.jpg" alt="網傳熊本地震照片：一艘船被沖到街上" loading="lazy">
+        <details class="bg-slate-50 rounded-2xl p-4">
+          <summary class="font-bold text-indigo-700">▶ 看反搜結果</summary>
+          <img class="shotimg mt-3" src="assets/揭曉_熊本反搜結果.png" alt="反搜結果：相同照片最早在2011年就出現在圖庫與新聞網站" loading="lazy">
+          <p class="text-slate-700 mt-2">相同的照片<b>最早在 2011 年</b>就出現了：這是東日本大地震後，在<b>日本岩手縣大船渡市</b>拍的。<b>事件是真的，照片卻是舊的</b>→ 舊圖新用。</p>
+          <a href="https://www.mygopen.com/2026/08/Kumamoto.html" target="_blank" rel="noopener" class="inline-block mt-2 text-sm font-bold text-indigo-700 underline">MyGoPen 查核報告 ↗</a>
+        </details>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-cyan-300 rounded-3xl p-6 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap">
+        <img src="https://www.google.com/s2/favicons?domain=tineye.com&sz=64" class="w-8 h-8" alt="">
+        <h3 class="cute text-2xl font-extrabold text-cyan-700 m-0">🔬 進階搜圖：TinEye 找「最早」的那一張</h3>
+      </div>
+      <p class="text-slate-700 text-lg mt-2">Google 智慧鏡頭會把「<b>長得像</b>」的圖一起找出來，結果很多、很雜。TinEye 只找「<b>同一張圖</b>」（被裁切、縮小、調過顏色也認得出來），而且可以<b>照日期排序</b>，最適合用來查「這張照片第一次出現是什麼時候」。</p>
+      <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mt-4 text-base">
+        <div class="bg-cyan-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-cyan-600">1</div><b>截圖</b>：按 <kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd>，拖曳<b>框住照片</b>（影片就先暫停再框）。框好就自動<b>複製</b>了。</div>
+        <div class="bg-cyan-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-cyan-600">2</div><b>貼上</b>：打開 <b>tineye.com</b>，在網頁上按 <kbd>Ctrl</kbd>＋<kbd>V</kbd>，它就會<b>自動開始搜尋</b>。</div>
+        <div class="bg-cyan-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-cyan-600">3</div><b>排序</b>：結果上方的 <kbd>Sort by</kbd> 改成 <kbd>Oldest</kbd>（最舊的排最前面）。</div>
+        <div class="bg-cyan-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-cyan-600">4</div><b>看最早那一筆</b>：標 <kbd>SPONSORED</kbd> 的是廣告，跳過。上方的 <kbd>First indexed</kbd> 也會寫 TinEye 最早看到它的日期。</div>
+      </div>
+      <figure class="mt-4">
+        <video class="w-full rounded-2xl border-4 border-cyan-200 bg-slate-900" src="assets/教學_TinEye步驟.mp4" poster="assets/教學_TinEye步驟_封面.jpg" controls playsinline preload="metadata"></video>
+        <figcaption class="text-sm text-slate-500 mt-1">▶ 步驟影片（45 秒）：截圖 → 貼到 TinEye → 排 Oldest → 跳過廣告看最早那一筆</figcaption>
+      </figure>
+      <p class="text-slate-700 mt-3">💡 TinEye 是英文網站，不用登入。截圖框<b>越剛好</b>（只框照片、不要框到網頁按鈕）越好找。找不到結果，只代表它的資料庫裡沒有，不代表照片是新的：回去用智慧鏡頭＋關鍵字再找。</p>
+      <div class="flex flex-wrap items-center gap-3 mt-3">
+        <a href="https://tineye.com/" target="_blank" rel="noopener" class="inline-block bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-xl px-4 py-1.5">開啟 TinEye ↗</a>
+        <span class="text-slate-600">✋ 看完影片，自己把上面熊本的照片截圖貼進 TinEye 做一次。</span>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 4：查證網站 ===== -->
+  <section class="step hidden" data-step="4">
+    <div class="bg-white border-4 border-teal-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap">
+        <h2 class="cute text-3xl font-extrabold text-teal-700 m-0">④ 查證網站：有人查過了嗎？</h2>
+        <button data-reveal-btn="r1" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-lg px-3 py-1.5">🎉 公布④</button>
+      </div>
+      <p class="text-slate-600 mt-2 text-lg">台灣有專門幫大家查證網路傳言的網站。看到可疑的東西，先看看<b>有沒有人查過</b>，就不用從零開始。</p>
+      <div class="grid md:grid-cols-2 gap-4 mt-4">
+        <div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-4">
+          <div class="flex items-center gap-2"><img src="https://www.google.com/s2/favicons?domain=tfc-taiwan.org.tw&sz=64" class="w-7 h-7" alt=""><p class="font-bold text-teal-800 text-xl">台灣事實查核中心</p></div>
+          <p class="text-slate-700 mt-2">專門查網路傳言的非營利組織，每份報告都寫出查核過程和證據。查核結果分四種：</p>
+          <div class="flex flex-wrap gap-1.5 mt-2"><span class="bg-rose-500 text-white rounded-full px-3 py-0.5 text-sm font-bold">錯誤</span><span class="bg-amber-500 text-white rounded-full px-3 py-0.5 text-sm font-bold">部分錯誤</span><span class="bg-sky-500 text-white rounded-full px-3 py-0.5 text-sm font-bold">事實釐清</span><span class="bg-emerald-500 text-white rounded-full px-3 py-0.5 text-sm font-bold">正確</span></div>
+          <a href="https://tfc-taiwan.org.tw/" target="_blank" rel="noopener" class="inline-block mt-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-1.5">開啟網站 ↗</a>
+        </div>
+        <div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-4">
+          <div class="flex items-center gap-2"><img src="https://www.google.com/s2/favicons?domain=mygopen.com&sz=64" class="w-7 h-7" alt=""><p class="font-bold text-teal-800 text-xl">MyGoPen 麥擱騙</p></div>
+          <p class="text-slate-700 mt-2">查謠言和詐騙，也可以加 LINE 直接把訊息丟給它問。報告標題前會標出結果，例如：</p>
+          <div class="flex flex-wrap gap-1.5 mt-2"><span class="bg-rose-500 text-white rounded-full px-3 py-0.5 text-sm font-bold">【錯誤】</span><span class="bg-amber-500 text-white rounded-full px-3 py-0.5 text-sm font-bold">【誤導】</span><span class="bg-sky-500 text-white rounded-full px-3 py-0.5 text-sm font-bold">【易誤解】</span><span class="bg-slate-700 text-white rounded-full px-3 py-0.5 text-sm font-bold">【詐騙】</span></div>
+          <a href="https://www.mygopen.com/" target="_blank" rel="noopener" class="inline-block mt-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-1.5">開啟網站 ↗</a>
+        </div>
+      </div>
+      <p class="text-slate-700 text-lg mt-4">兩種用法：① <b>以圖搜圖</b>時，結果常常直接出現它們的報告；② 用 L03 學的方法<b>抓關鍵字</b>，到網站的搜尋框搜。下面用第①種練一次。</p>
+    </div>
+
+    <div class="bg-white border-4 border-teal-300 rounded-3xl p-6 shadow-sm">
+      <h3 class="cute text-2xl font-extrabold text-teal-700 m-0">✋ 換你查：以圖搜圖 → 找到查核報告</h3>
+      <p class="text-slate-600 mt-1 mb-3">「台灣球迷在東京巨蛋看完比賽，留下滿地垃圾！」這張圖在 X、臉書、Threads 被轉傳。對它按右鍵反搜，找到查核報告後回答：</p>
+      <div class="grid md:grid-cols-2 gap-4 items-start">
+        <img class="shotimg" src="assets/練習_東京巨蛋.jpg" alt="網傳圖片：東京巨蛋座位區滿地垃圾，標題寫丟臉丟到東京巨蛋" loading="lazy">
+        <div class="space-y-4">
+          <div>
+            <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800">1. 這張圖是？</p><span class="qtypeSlot" data-qid="d1"></span><span id="d1Fb" class="text-sm font-bold"></span></div>
+            <div id="d1Opts" class="flex flex-wrap gap-2 mt-1"></div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap"><label for="d2" class="font-bold text-teal-800">2. 原圖右下角，本來標了什麼字？</label><span class="qtypeSlot" data-qid="d2"></span><span id="d2Fb" class="text-sm font-bold"></span></div>
+            <input id="d2" data-k="d2" class="fld ans mt-1">
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800">3. 查核中心給的查核結果是？</p><span class="qtypeSlot" data-qid="d3"></span><span id="d3Fb" class="text-sm font-bold"></span></div>
+            <div id="d3Opts" class="flex flex-wrap gap-2 mt-1"></div>
+            <label class="block text-sm text-slate-500 mt-2">我的證據：報告網址<input data-k="d3url" class="fld ans mt-1" inputmode="url"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p data-wait="r1" class="text-center text-slate-400 mt-5 text-lg">🔒 答案等老師公布</p>
+    <div data-r="r1" class="hidden mt-5 bg-white border-4 border-rose-200 rounded-3xl p-6 flip">
+      <h3 class="cute text-2xl font-extrabold text-rose-700 mb-3">🎉 公布：東京巨蛋圖是 AI 生成的</h3>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div><img class="shotimg" src="assets/揭曉_東京巨蛋原標示.png" alt="原圖右下角標示示意圖／AI生成，轉傳時被抹掉" loading="lazy"><p class="text-slate-700 mt-2">最早發這張圖的媒體，<b>本來有標「示意圖／AI生成」</b>，轉傳的人把標示抹掉，就被當成真的照片。查核結果：<b>錯誤</b>。</p></div>
+        <div><img class="shotimg" src="assets/揭曉_東京巨蛋比對.jpg" alt="東京巨蛋實景與網傳圖的比對：座位樣式不符、標竿消失、看板亂碼" loading="lazy"><p class="text-slate-700 mt-2">和東京巨蛋實景比對：座椅樣式不同、左外野標竿不見、看板文字變亂碼。</p></div>
+      </div>
+      <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4 text-lg mt-4">
+        <p class="cute text-xl font-extrabold text-rose-700 mb-2">🤖 AI 畫面的標示</p>
+        <ul class="space-y-1 text-slate-700">
+          <li>👀 看得到的標示：媒體寫的「示意圖／AI生成」、TikTok 的「包含 AI 生成媒體」（②的牙膏影片）、Gemini 圖片角落的 ✦ 浮水印。</li>
+          <li>✂️ 標示<b>會被抹掉、被裁掉</b>，轉傳幾手之後就看不到了。</li>
+          <li>❗ 所以：<b>沒看到標示，不代表是真的。</b>怎麼看出 AI 的破綻，我們 L06 再練。</li>
+        </ul>
+      </div>
+      <a href="https://tfc-taiwan.org.tw/fact-check-reports/taiwan-fans-tokyo-dome-trash-photo-ai-generated" target="_blank" rel="noopener" class="inline-block mt-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-1.5">東京巨蛋查核報告 ↗</a>
+      <p class="text-[11px] text-slate-400 mt-2">圖片來源：台灣事實查核中心查核報告</p>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 5：影片截圖＋關鍵字 ===== -->
+  <section class="step hidden" data-step="5">
+    <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-violet-700">⑤ 進階：影片截圖＋關鍵字</h2>
+      <p class="text-slate-600 mt-2 text-lg">影片不能直接按右鍵搜。而且一支影片有上千個畫面，直接反搜，結果常常太雜。偵探的做法是：<b>截一個有特徵的畫面</b>（建築、招牌、柵欄、制服），再<b>加上關鍵字</b>（地點、事件）縮小範圍。</p>
+      <div class="grid md:grid-cols-4 gap-3 mt-4 text-base">
+        <div class="bg-violet-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-violet-600">1</div>暫停在<b>有特徵</b>的畫面</div>
+        <div class="bg-violet-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-violet-600">2</div>右上角 <kbd>⋮</kbd> →「<b>使用 Google 智慧鏡頭搜尋這個分頁</b>」</div>
+        <div class="bg-violet-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-violet-600">3</div>拖曳<b>框住畫面</b></div>
+        <div class="bg-violet-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-violet-600">4</div>在搜尋框<b>再打關鍵字</b>，例如「火山 學生」</div>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-slate-200 rounded-3xl p-6 mb-5">
+      <h3 class="cute text-2xl font-extrabold text-slate-700 mb-2">👩‍🏫 老師示範：「2026年9月8日，印尼6座火山同時爆發！」</h3>
+      <p class="text-slate-600 mb-3">網傳影片用的就是下面這段畫面。看老師怎麼暫停在<b>學生奔跑</b>的那一幕、框住，再加上「火山 學生」去搜。</p>
+      <div class="vidbox rounded-2xl overflow-hidden bg-slate-900"><iframe src="https://www.youtube-nocookie.com/embed/Fh1cBAsWr-g?rel=0" title="網傳印尼火山爆發影片的畫面" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <p class="text-[11px] text-slate-400 mt-1">影片：KOMPAS TV（YouTube）</p>
+    </div>
+
+    <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap">
+        <h3 class="cute text-2xl font-extrabold text-violet-700 m-0">✋ 換你查：「巴威颱風重創關島！」</h3>
+        <button data-reveal-btn="r2" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-lg px-3 py-1.5">🎉 公布⑤</button>
+      </div>
+      <p class="text-slate-600 mt-1 mb-3">2026 年 7 月巴威颱風經過關島時，有一段「<b>隔著黑色尖頭柵欄拍狂風暴雨</b>」的影片被大量轉傳，還有新聞引用（就是下面這支）。找到柵欄那一段、暫停、框住反搜，再自己想關鍵字加上去。</p>
+      <div class="grid md:grid-cols-2 gap-4 items-start">
+        <div>
+          <div class="vidbox rounded-2xl overflow-hidden bg-slate-900"><iframe src="https://www.youtube-nocookie.com/embed/i-V1hbuI1bM?rel=0" title="巴威颱風侵襲畫面（新聞引用了網傳影片）" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+          <p class="text-[11px] text-slate-400 mt-1">影片：三立新聞網（YouTube）</p>
+        </div>
+        <div class="space-y-4">
+          <label class="block"><span class="font-bold text-violet-800">我加的關鍵字</span><input data-k="bkw" class="fld ans mt-1"></label>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap"><label for="b1" class="font-bold text-violet-800">1. 柵欄這段影片最早是哪一年拍的？</label><span class="qtypeSlot" data-qid="b1"></span><span id="b1Fb" class="text-sm font-bold"></span></div>
+            <input id="b1" data-k="b1" class="fld ans mt-1" inputmode="numeric">
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap"><label for="b2" class="font-bold text-violet-800">2. 真正是在哪個國家拍的？</label><span class="qtypeSlot" data-qid="b2"></span><span id="b2Fb" class="text-sm font-bold"></span></div>
+            <input id="b2" data-k="b2" class="fld ans mt-1">
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-violet-800">3. 這屬於哪一型？</p><span class="qtypeSlot" data-qid="b3"></span><span id="b3Fb" class="text-sm font-bold"></span></div>
+            <div id="b3Opts" class="flex flex-wrap gap-2 mt-1"></div>
+          </div>
+        </div>
+      </div>
+      <p data-wait="r2" class="text-center text-slate-400 mt-4">🔒 答案等老師公布</p>
+      <div data-r="r2" class="hidden mt-5 grid md:grid-cols-2 gap-4 items-center flip">
+        <img class="shotimg" src="assets/揭曉_巴威時間標記.jpg" alt="比對圖：網傳影片裁掉了原片上的 Nov1, 2020 時間標記" loading="lazy">
+        <div class="text-lg text-slate-700">
+          <p>原片是 <b>2020 年 11 月 1 日</b>，天鵝颱風侵襲<b>菲律賓</b>維拉克的畫面。轉傳的人把原片上的時間字樣<b>裁掉</b>，再說成巴威颱風——這就是<b>移花接木</b>。連新聞都可能用錯畫面，所以每一手都要查。</p>
+          <a href="https://tfc-taiwan.org.tw/fact-check-reports/typhoon-bavi-guam-disaster-video-is-misplaced" target="_blank" rel="noopener" class="inline-block mt-3 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl px-4 py-1.5">台灣事實查核中心報告 ↗</a>
+          <p class="text-[11px] text-slate-400 mt-1">圖片來源：台灣事實查核中心查核報告</p>
+        </div>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 6：我的查證步驟＋繳交 ===== -->
+  <section class="step hidden" data-step="6">
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap"><h2 class="cute text-2xl font-extrabold text-indigo-700 m-0">⑥ 換你當偵探：我的查證步驟</h2><span class="qtypeSlot" data-qid="x1"></span></div>
+      <p class="text-slate-600 mt-2 text-lg">下面是從 L01 到今天學過的查證技能。下次在網路上看到一支很誇張的短影片，你會<b>先做什麼、再做什麼</b>？把卡片<b>拖曳</b>排成你的順序（也可以按 ▲▼ 移動），排好按「<b>對答案</b>」。沒對可以一直改、一直試。</p>
+      <ol id="x1List" class="space-y-2 mt-4"></ol>
+      <div class="flex items-center gap-3 flex-wrap mt-4">
+        <button id="x1Check" type="button" class="ans cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl px-6 py-2">✔ 對答案</button>
+        <span id="x1Tries" class="text-sm text-slate-400 font-bold"></span>
+      </div>
+      <div id="x1Fb" class="mt-3" aria-live="polite"></div>
+    </div>
+    <div class="text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-6">
+      <div class="text-5xl mb-2">🎖️</div>
+      <h2 class="cute text-2xl font-extrabold text-indigo-700">今天你帶走的能力</h2>
+      <p class="text-slate-700 mt-2 text-lg"><b>照片影片也要查出身。</b><br>先看<b>查證網站</b>有沒有人查過，再<b>以圖搜圖</b>、<b>截圖加關鍵字</b>，用 <b>TinEye</b> 找最早的那一筆。<br>下一節，我們要把查證過程整理成一份 Google 文件查證報告！</p>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-4 mt-5">
+      <a href="https://www.youtube.com/watch?v=pg_5ftIwHak" target="_blank" rel="noopener" class="flex items-center gap-3 bg-white border-4 border-dashed border-indigo-300 rounded-2xl p-4 hover:bg-indigo-50">
+        <div class="text-3xl">🎬</div><div class="flex-1"><div class="font-bold text-indigo-700">延伸影片：智慧搜尋技巧（以圖搜圖）</div><div class="text-xs text-slate-400">教育部樂齡數位學習系列課程</div></div><div class="text-indigo-600 font-bold text-sm">開啟 ↗</div>
+      </a>
+      <a href="https://class.mygopen.com/2026/04/SynthID.html" target="_blank" rel="noopener" class="flex items-center gap-3 bg-white border-4 border-dashed border-indigo-300 rounded-2xl p-4 hover:bg-indigo-50">
+        <div class="text-3xl">📰</div><div class="flex-1"><div class="font-bold text-indigo-700">延伸閱讀：SynthID 幫你辨識 AI 生成圖像</div><div class="text-xs text-slate-400">MyGoPen 麥擱騙｜AI 查證學習平台</div></div><div class="text-indigo-600 font-bold text-sm">開啟 ↗</div>
+      </a>
+    </div>
+
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 shadow-sm text-center mt-6">
+      <h2 class="cute text-xl font-extrabold text-indigo-700 mb-1">📮 繳交學習單</h2>
+      <p class="text-sm text-slate-500 mb-3">確定都填好了嗎？按下面按鈕交給老師（可以重交，會覆蓋前一次）。</p>
+      <button id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white cute text-xl font-extrabold rounded-2xl py-3">繳交學習單</button>
+      <p id="submitStat" class="text-sm font-bold mt-3 min-h-[20px]"></p>
+    </div>
+
+    <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-7 mt-6">
+      <div class="text-6xl mb-2 pop">🎉</div>
+      <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
+      <div class="flex flex-wrap gap-3 justify-center mt-4">
+        <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-xl font-extrabold rounded-2xl px-8 py-3">🎮 打字英雄</a>
+        <a href="https://gemini.google.com/share/0adbaeae6c16?skid=751ce4ac-860d-4160-8a1a-12a1ebcf6f1d" target="_blank" rel="noopener" class="cute inline-block bg-white border-4 border-indigo-300 hover:bg-indigo-50 text-indigo-700 text-xl font-extrabold rounded-2xl px-8 py-3">🕹️ 更多遊戲</a>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <footer class="text-center text-xs text-slate-400 mt-8 pb-2">教師公布答案：在網址列加上 <code class="bg-slate-200 rounded px-1">#admin</code> 後重新整理。圖片皆取自台灣事實查核中心與 MyGoPen 查核報告中的網傳擷圖。</footer>
+  <p class="text-right text-xs text-slate-400 pb-4">made by 資訊老師黃博胤</p>
+</div>
+
+<!-- 點圖放大 -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="放大看圖">
+  <div class="lbtop">
+    <span>滾輪放大縮小・放大後拖曳移動・雙擊還原</span>
+    <button type="button" class="zbtn" id="lbOut" aria-label="縮小">－</button>
+    <span id="lbPct" class="font-bold text-white w-12 text-center">100%</span>
+    <button type="button" class="zbtn" id="lbIn" aria-label="放大">＋</button>
+    <button type="button" class="zbtn" id="lbReset">還原</button>
+    <button type="button" class="zbtn ml-auto" id="lbClose">✕ 關閉</button>
+  </div>
+  <div class="lbstage" id="lbStage"><img id="lbImg" alt=""></div>
+</div>
+
+<script>
+/* ============================================================
+   ① 開場影片：老師自選短影片，填 YouTube 網址（watch / shorts / youtu.be 都可以）。
+   url 留空時顯示「老師的開場影片」佔位框。
+   ============================================================ */
+var OPENING_VIDEO = { url: '', title: '' };
+
+/* Firebase（沿用 pcclass-94300 專案）。設為 null＝單機模式（可作答，不會繳交出去）。 */
+var firebaseConfig = {
+  apiKey:"AIzaSyAaodBvsP-BSovON14izt22DOXeH40TTGM",
+  authDomain:"pcclass-94300.firebaseapp.com",
+  projectId:"pcclass-94300",
+  storageBucket:"pcclass-94300.firebasestorage.app",
+  messagingSenderId:"1034787516465",
+  appId:"1:1034787516465:web:73c334b2ddad152c472510",
+  measurementId:"G-37P75R7TZ7"
+};
+
+(function(){
+  var WS='g5-L04', QUIZ_ID='g5-L04', LESSON_PATH='g5/L04', TITLE='認識農場文與 AI 假資訊影片';
+  var TEACHER_EMAIL='boyin0304@slps.tn.edu.tw';
+  var IS_ADMIN=location.hash==='#admin';
+  var REVIEW_ID=IS_ADMIN?new URLSearchParams(location.search).get('review'):null;   // 沒有 #admin 不給看別人的作答
+  function $(id){return document.getElementById(id);}
+  function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  // 圖片載不到 → 明確的佔位框（《HTML互動教材設計規範》§4.5）
+  function phImg(img){var d=el('div','imgph','🖼️ '+esc(img.getAttribute('src')));img.replaceWith(d);}
+  document.querySelectorAll('img.shotimg').forEach(function(img){if(img.complete&&img.naturalWidth===0)phImg(img);else img.addEventListener('error',function(){phImg(img);});});
+
+  // ===== 點圖放大：滾輪多段放大、拖曳移動、雙擊還原 =====
+  (function(){
+    var lb=$('lightbox'),stage=$('lbStage'),img=$('lbImg'),pct=$('lbPct');
+    var sc=1,tx=0,ty=0,drag=null,moved=false,MAX=8;
+    img.style.transformOrigin='0 0';img.draggable=false;
+    function apply(){img.style.transform='translate('+tx+'px,'+ty+'px) scale('+sc+')';img.style.cursor=sc>1?(drag?'grabbing':'grab'):'zoom-in';pct.textContent=Math.round(sc*100)+'%';}
+    function zoomAt(f,cx,cy){
+      var r=img.getBoundingClientRect(),bl=r.left-tx,bt=r.top-ty;
+      if(cx==null){cx=r.left+r.width/2;cy=r.top+r.height/2;}
+      var x=(cx-bl-tx)/sc,y=(cy-bt-ty)/sc,s2=Math.max(1,Math.min(MAX,sc*f));
+      if(s2===1){tx=ty=0;}else{tx=cx-bl-x*s2;ty=cy-bt-y*s2;}
+      sc=s2;apply();
+    }
+    function reset(){sc=1;tx=ty=0;apply();}
+    stage.addEventListener('wheel',function(e){e.preventDefault();zoomAt(e.deltaY<0?1.25:0.8,e.clientX,e.clientY);},{passive:false});
+    img.addEventListener('dblclick',function(e){e.preventDefault();if(sc>1)reset();else zoomAt(2.5,e.clientX,e.clientY);});
+    img.addEventListener('pointerdown',function(e){if(sc<=1)return;e.preventDefault();drag={x:e.clientX-tx,y:e.clientY-ty};moved=false;img.setPointerCapture(e.pointerId);apply();});
+    img.addEventListener('pointermove',function(e){if(!drag)return;tx=e.clientX-drag.x;ty=e.clientY-drag.y;moved=true;apply();});
+    img.addEventListener('pointerup',function(){drag=null;apply();});
+    img.addEventListener('click',function(e){e.stopPropagation();if(!moved&&sc===1)zoomAt(2,e.clientX,e.clientY);moved=false;});
+    $('lbIn').onclick=function(){zoomAt(1.25);};$('lbOut').onclick=function(){zoomAt(0.8);};$('lbReset').onclick=reset;
+    function close(){lb.classList.remove('on');document.body.style.overflow='';}
+    $('lbClose').onclick=close;
+    stage.addEventListener('click',function(e){if(e.target===stage)close();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('on'))close();});
+    document.addEventListener('click',function(e){
+      var t=e.target.closest&&e.target.closest('img.shotimg');
+      if(!t||lb.contains(t))return;
+      e.preventDefault();img.src=t.getAttribute('src');img.alt=t.alt||'';reset();lb.classList.add('on');document.body.style.overflow='hidden';
+    });
+  })();
+
+  // ===== ① 開場影片 =====
+  function ytId(u){var m=String(u||'').match(/(?:shorts\/|youtu\.be\/|[?&]v=|embed\/)([A-Za-z0-9_-]{11})/);return m?m[1]:null;}
+  (function(){
+    var box=$('openVideo'),id=ytId(OPENING_VIDEO.url);
+    if(!id){box.innerHTML='<div class="imgph">🎬 老師的開場影片</div>';return;}
+    var tall=/shorts\//.test(OPENING_VIDEO.url);
+    box.innerHTML='<div class="'+(tall?'vidtall':'vidbox rounded-2xl overflow-hidden bg-slate-900')+'"><iframe src="https://www.youtube-nocookie.com/embed/'+id+'?rel=0" title="'+esc(OPENING_VIDEO.title||'開場影片')+'" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
+  })();
+
+  // ===== 識別列 =====
+  var ID_KEY='wk_identity',ID_FIELDS=['idGrade','idClass','idStudent'];
+  function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
+  function loadIdentity(){try{return JSON.parse(localStorage.getItem(ID_KEY)||'{}');}catch(e){return {};}}
+  function saveIdentity(o){try{localStorage.setItem(ID_KEY,JSON.stringify(o));}catch(e){}}
+  function getIdentity(){
+    var g=digits($('idGrade').value),c=digits($('idClass').value),s=digits($('idStudent').value);
+    return {grade:g?Number(g):null,className:c?Number(c):null,studentId:s?Number(s):null};
+  }
+  function identityValid(id){return id.grade!=null&&id.className!=null&&id.className>=1&&id.className<=14&&id.studentId!=null;}
+  function clampClass(v){while(v!==''&&Number(v)>14)v=v.slice(0,-1);return v;}
+  function markIdentity(on){ID_FIELDS.forEach(function(id){var e=$(id),bad=on&&!digits(e.value);e.classList.toggle('border-rose-400',bad);e.classList.toggle('bg-rose-50',bad);e.classList.toggle('border-slate-200',!bad);});}
+  (function(){
+    var saved=loadIdentity();
+    if(saved.grade)$('idGrade').value=saved.grade;
+    if(saved.className)$('idClass').value=saved.className;
+    if(saved.studentId)$('idStudent').value=saved.studentId;
+    if(identityValid(saved))$('idOk').classList.remove('hidden');
+    ID_FIELDS.forEach(function(id){
+      var e=$(id);
+      e.addEventListener('input',function(){
+        var d=digits(e.value);if(id==='idClass')d=clampClass(d);if(d!==e.value)e.value=d;
+        if(d){e.classList.remove('border-rose-400','bg-rose-50');e.classList.add('border-slate-200');}
+        var idn=getIdentity();
+        if(identityValid(idn)){saveIdentity(idn);$('idOk').classList.remove('hidden');}else $('idOk').classList.add('hidden');
+      });
+    });
+  })();
+
+  // ===== Firebase =====
+  var db=null,auth=null,quizRef=null;
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+  var fbReady=(function(){
+    if(!firebaseConfig)return Promise.resolve();
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    return loadScript(base+'firebase-app-compat.js')
+      .then(function(){return loadScript(base+'firebase-auth-compat.js');})
+      .then(function(){return loadScript(base+'firebase-firestore-compat.js');})
+      .then(function(){firebase.initializeApp(firebaseConfig);db=firebase.firestore();auth=firebase.auth();quizRef=db.collection('quizzes').doc(QUIZ_ID);$('syncBadge').classList.remove('hidden');})
+      .catch(function(e){console.warn('Firebase 啟用失敗，改用單機模式',e);});
+  })();
+  // 等 Firebase 還原持久化登入狀態；學生分支確認沒人登入才匿名登入（§5-2，避免洗掉老師的 session）
+  var authResolved=fbReady.then(function(){
+    if(!auth)return null;
+    return new Promise(function(resolve){var unsub=auth.onAuthStateChanged(function(u){if(unsub){unsub();unsub=null;}resolve(u);});});
+  });
+  function ensureAuth(){return (auth&&auth.currentUser)?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user;});}
+
+  // ===== 題目與標準答案（唯一來源＝這份學習單；文字題可由老師在 #admin 上傳正則覆蓋，§2-d、§5-3）=====
+  var CHOICES={
+    d1:{opts:['真的照片','舊照片','AI 生成'],correct:'AI 生成'},
+    d3:{opts:['錯誤','部分錯誤','事實釐清','正確'],correct:'錯誤'},
+    b3:{opts:['舊圖新用','移花接木','AI 生成'],correct:'移花接木'}
+  };
+  var DEFAULT_PATTERNS={d2:'示意|AI',b1:'2020',b2:'菲律賓|Philippines|維拉克'};
+  var PATTERNS=Object.assign({},DEFAULT_PATTERNS);
+  function testPattern(qid,val){
+    val=String(val||'').trim();if(!val)return false;
+    var p=PATTERNS[qid];if(!p)return true;
+    try{return new RegExp(p,'i').test(val);}catch(e){console.warn('答案格式有誤，改成有填就算',qid,e);return true;}
+  }
+
+  // ===== ⑥ 查證技能卡（L01～L04），學生拖曳排順序 =====
+  var SKILLS={
+    a:{ic:'🛑',t:'先停一下：不只看標題、不輕信、先不轉傳',from:'L03'},
+    b:{ic:'🪪',t:'看身分證 5W：誰做的？什麼時候？',from:'L03'},
+    c:{ic:'⚖️',t:'分清楚哪些是事實、哪些是意見',from:'L02'},
+    d:{ic:'🔑',t:'抓關鍵字，到查證網站搜：有沒有人查過？',from:'L03・L04'},
+    e:{ic:'🖼️',t:'照片：按右鍵，用 Google 智慧鏡頭以圖搜圖',from:'L04'},
+    f:{ic:'🎬',t:'影片：截一個有特徵的畫面，再加關鍵字反搜',from:'L04'},
+    g:{ic:'🔬',t:'截圖貼到 TinEye，照日期排序找最早出現的那一次',from:'L04'},
+    h:{ic:'💭',t:'想想信了會怎樣，再決定要不要轉傳',from:'L01・L03'}
+  };
+  var X1_START=['f','a','h','d','b','g','e','c'];
+  var X1_REF=['a','b','c','d','e','f','g','h'];
+  function x1Text(order){return order.map(function(k,i){return (i+1)+'. '+SKILLS[k].t;}).join('\n');}
+  // 對答案用「規則」不用單一順序：5W 和事實意見（b、c）誰先都行，三種反搜工具（e、f、g）也可以互換
+  var X1_RULES=[
+    {keys:['a'],ok:function(p,n){return p.a===0;},
+     hint:'🛑 第一步要先做什麼？看到誇張的影片，還沒查之前，先別急著相信、更別急著轉傳。'},
+    {keys:['b','c'],ok:function(p){return Math.max(p.b,p.c)<Math.min(p.d,p.e,p.f,p.g);},
+     hint:'🪪 動手搜尋之前，先讀懂它在說什麼：誰做的、什麼時候、哪些是事實。這樣才知道要搜什麼關鍵字。'},
+    {keys:['d'],ok:function(p){return p.d<Math.min(p.e,p.f,p.g);},
+     hint:'🔑 自己反搜之前，先看看有沒有人已經查過了？查證網站找得到，就不用從零開始。'},
+    {keys:['h'],ok:function(p,n){return p.h===n-1;},
+     hint:'💭 要不要轉傳，是全部查完才決定的事，應該放在哪裡？'}
+  ];
+  function x1Errors(order){
+    var p={};order.forEach(function(k,i){p[k]=i;});
+    return X1_RULES.filter(function(r){return !r.ok(p,order.length);});
+  }
+
+  // ===== 作答狀態（localStorage 暫存）=====
+  var STATE_KEY='g5L04flow';
+  var FIELDS=['d2','d3url','bkw','b1','b2'];
+  var state={d1:null,d3:null,b3:null,x1order:X1_START.slice(),x1moved:false,x1tries:0,x1shown:false};
+  FIELDS.forEach(function(k){state[k]='';});
+  if(!REVIEW_ID){try{var sv=localStorage.getItem(STATE_KEY);if(sv)state=Object.assign(state,JSON.parse(sv));}catch(e){}}
+  function validOrder(o){return Array.isArray(o)&&o.length===X1_START.length&&X1_START.every(function(k){return o.indexOf(k)>=0;});}
+  if(!validOrder(state.x1order))state.x1order=X1_START.slice();
+  function save(){if(REVIEW_ID)return;try{localStorage.setItem(STATE_KEY,JSON.stringify(state));}catch(e){}}
+  var REV={r1:false,r2:false};
+  var REVEAL_OF={d1:'r1',d2:'r1',d3:'r1',b1:'r2',b2:'r2',b3:'r2'};
+
+  // ===== 題型（預設＋老師即時切換，§5-6）=====
+  var DEFAULT_QTYPE={d1:'score',d2:'score',d3:'score',b1:'score',b2:'score',b3:'score',x1:'score'};
+  var QTYPE_OVERRIDES={};
+  function qtypeOf(qid){return QTYPE_OVERRIDES[qid]||DEFAULT_QTYPE[qid]||'experience';}
+
+  // ===== 畫面 =====
+  var chipCls='opt ans border-2 border-slate-200 bg-white rounded-full px-4 py-1.5 font-bold hover:border-indigo-400';
+  var chipOn='opt ans border-2 border-indigo-500 bg-indigo-50 text-indigo-800 rounded-full px-4 py-1.5 font-bold';
+  function renderChoice(q){
+    var host=$(q+'Opts');host.innerHTML='';
+    CHOICES[q].opts.forEach(function(o){
+      var b=el('button',state[q]===o?chipOn:chipCls,esc(o));b.type='button';
+      b.onclick=function(){state[q]=o;save();renderChoice(q);renderFeedback();};
+      host.appendChild(b);
+    });
+  }
+  function bindFields(){
+    document.querySelectorAll('[data-k]').forEach(function(f){
+      f.value=state[f.dataset.k]||'';
+      f.addEventListener('input',function(){state[f.dataset.k]=f.value;save();renderFeedback();});
+    });
+  }
+  function fillFields(){document.querySelectorAll('[data-k]').forEach(function(f){f.value=state[f.dataset.k]||'';});}
+  function isRight(q){return CHOICES[q]?state[q]===CHOICES[q].correct:testPattern(q,state[q]);}
+  function renderFeedback(){
+    Object.keys(REVEAL_OF).forEach(function(q){
+      var e=$(q+'Fb');if(!e)return;
+      var show=REV[REVEAL_OF[q]]&&String(state[q]||'').trim();
+      if(!show){e.textContent='';return;}
+      var ok=isRight(q);e.className='text-sm font-bold '+(ok?'text-emerald-600':'text-rose-600');e.textContent=ok?'✔ 正確':'✘ 再查查看';
+    });
+  }
+  function applyReveal(){
+    document.querySelectorAll('[data-r]').forEach(function(e){e.classList.toggle('hidden',!REV[e.dataset.r]);});
+    document.querySelectorAll('[data-wait]').forEach(function(e){e.classList.toggle('hidden',!!REV[e.dataset.wait]);});
+    renderFeedback();
+  }
+
+  // ⑥ 拖曳排序（滑鼠拖曳；觸控或鍵盤用 ▲▼）＋馬上對答案，可以一直重試
+  var x1List=$('x1List'),dragLi=null;
+  function x1Moved(){state.x1moved=true;state.x1shown=false;save();renumberX1();renderX1Fb();}   // 一改順序就收起舊的回饋
+  function moveX1(i,d){var j=i+d,o=state.x1order;if(j<0||j>=o.length)return;var t=o[i];o[i]=o[j];o[j]=t;state.x1moved=true;state.x1shown=false;save();renderX1();}
+  function renderX1Fb(){
+    var fb=$('x1Fb'),errs=x1Errors(state.x1order);
+    $('x1Tries').textContent=state.x1tries?'已經試了 '+state.x1tries+' 次':'';
+    [].forEach.call(x1List.children,function(li){li.classList.remove('bad','good');});
+    if(!state.x1shown){fb.innerHTML='';return;}
+    if(!errs.length){
+      [].forEach.call(x1List.children,function(li){li.classList.add('good');});
+      fb.innerHTML='<div class="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-4 pop"><p class="cute text-xl font-extrabold text-emerald-700">🎉 全對！這是一套很合理的查證順序。</p>'+
+        '<p class="text-slate-700 mt-1">小提醒：「看 5W」和「分事實意見」誰先都可以；照片、影片、TinEye 三種反搜，也看手上拿到的是什麼來決定先用哪個。</p></div>';
+      return;
+    }
+    errs.forEach(function(r){r.keys.forEach(function(k){var li=x1List.querySelector('[data-k="'+k+'"]');if(li)li.classList.add('bad');});});
+    fb.innerHTML='<div class="bg-rose-50 border-2 border-rose-300 rounded-2xl p-4"><p class="cute text-xl font-extrabold text-rose-700">還差一點！有 '+errs.length+' 個地方要再想想（紅色的卡）：</p>'+
+      '<ul class="mt-2 space-y-1 text-slate-700">'+errs.map(function(r){return '<li>'+r.hint+'</li>';}).join('')+'</ul>'+
+      '<p class="text-sm text-slate-500 mt-2">改好再按一次「對答案」。</p></div>';
+  }
+  $('x1Check').onclick=function(){state.x1moved=true;state.x1tries=(state.x1tries||0)+1;state.x1shown=true;save();renderX1Fb();};
+  function renumberX1(){
+    [].forEach.call(x1List.children,function(li,i){
+      li.querySelector('.num').textContent=i+1;
+      li.querySelector('.up').disabled=i===0;li.querySelector('.dn').disabled=i===x1List.children.length-1;
+    });
+  }
+  function renderX1(){
+    x1List.innerHTML='';
+    state.x1order.forEach(function(k,i){
+      var s=SKILLS[k],li=el('li','skill ans');li.dataset.k=k;li.draggable=!REVIEW_ID;
+      li.innerHTML='<span class="num"></span><span class="text-2xl">'+s.ic+'</span><span class="flex-1 font-bold text-slate-700">'+esc(s.t)+'</span>'+
+        '<span class="hidden sm:inline text-xs font-bold text-indigo-500 bg-indigo-50 rounded-full px-2 py-0.5">'+s.from+'</span>'+
+        '<button type="button" class="mv up" aria-label="往上移">▲</button><button type="button" class="mv dn" aria-label="往下移">▼</button>';
+      li.querySelector('.up').onclick=function(){moveX1(state.x1order.indexOf(k),-1);};
+      li.querySelector('.dn').onclick=function(){moveX1(state.x1order.indexOf(k),1);};
+      li.addEventListener('dragstart',function(e){dragLi=li;li.classList.add('dragging');e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',k);}catch(err){}});
+      li.addEventListener('dragend',function(){li.classList.remove('dragging');dragLi=null;
+        var o=[].map.call(x1List.children,function(c){return c.dataset.k;});
+        if(o.join()!==state.x1order.join()){state.x1order=o;x1Moved();}else renumberX1();});
+      x1List.appendChild(li);
+    });
+    renumberX1();renderX1Fb();
+  }
+  x1List.addEventListener('dragover',function(e){
+    if(!dragLi)return;e.preventDefault();
+    var after=null;
+    [].some.call(x1List.children,function(c){if(c===dragLi)return false;var r=c.getBoundingClientRect();if(e.clientY<r.top+r.height/2){after=c;return true;}return false;});
+    if(after)x1List.insertBefore(dragLi,after);else x1List.appendChild(dragLi);
+  });
+
+  function renderAll(){Object.keys(CHOICES).forEach(renderChoice);fillFields();renderX1();renderFeedback();}
+  bindFields();renderAll();
+
+  // ===== 每題判斷（繳交與檢視共用）=====
+  function filled(v){return !!String(v==null?'':v).trim();}
+  function judge(){
+    var r={};
+    ['d1','d3','b3'].forEach(function(q){r[q]={given:state[q]||null,correct:CHOICES[q].correct,isCorrect:isRight(q)};});
+    if(r.d3.given&&filled(state.d3url))r.d3.given+='｜報告：'+state.d3url.trim();
+    ['d2','b1','b2'].forEach(function(q){r[q]={given:String(state[q]||'').trim()||null,correct:PATTERNS[q],isCorrect:isRight(q)};});
+    if(r.b1.given&&filled(state.bkw))r.b1.given+='｜關鍵字：'+state.bkw.trim();
+    r.x1={given:state.x1moved?x1Text(state.x1order)+'\n（按了 '+(state.x1tries||0)+' 次對答案）':null,
+      correct:'先停一下排第一；5W／事實意見排在所有搜尋之前；查證網站排在三種反搜之前；決定轉傳排最後（其餘可互換）',
+      isCorrect:!!state.x1moved&&!x1Errors(state.x1order).length};
+    return r;
+  }
+
+  // ===== 繳交（§2-b、§3、§3-b）=====
+  var X1_QTEXT='下次在網路上看到一支很誇張的短影片，你會怎麼查？把從 L01 到今天學過的查證技能，拖曳排成你的查證順序。';
+  function buildPayload(idn){
+    var j=judge(),answers={},qtypes={},scoreAnswers={},experienceAnswers={},openAnswers={};
+    var sT=0,sC=0,eT=0,eA=0;
+    var x1=state.x1moved?x1Text(state.x1order):'';
+    Object.keys(DEFAULT_QTYPE).forEach(function(qid){
+      var t=qtypeOf(qid);qtypes[qid]=t;
+      var item=j[qid]||{given:x1||null,correct:null,isCorrect:filled(x1)};
+      answers[qid]=item.given;
+      if(t==='open'){openAnswers[qid]=qid==='x1'?x1:String(item.given||'');}
+      else if(t==='experience'){experienceAnswers[qid]=item;eT++;if(filled(item.given))eA++;}
+      else{scoreAnswers[qid]=item;sT++;if(item.isCorrect)sC++;}
+    });
+    var parts={d1:state.d1,d3:state.d3,b3:state.b3,x1order:state.x1order,x1moved:state.x1moved,x1tries:state.x1tries||0,x1shown:state.x1shown};FIELDS.forEach(function(k){parts[k]=state[k];});
+    return {worksheetId:WS,worksheetTitle:TITLE,lessonPath:LESSON_PATH,
+      grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      answers:answers,qtypes:qtypes,
+      qtexts:{x1:X1_QTEXT},
+      scoreAnswers:scoreAnswers,experienceAnswers:experienceAnswers,openAnswers:openAnswers,
+      accuracyRate:sT?Math.round(sC/sT*100):null,experienceCompletion:eT?Math.round(eA/eT*100):null,
+      parts:parts,status:'submitted'};
+  }
+  function report(){
+    function done(keys){return keys.every(function(k){return filled(state[k]);});}
+    return ['④ 東京巨蛋：'+(done(['d1','d2','d3'])?'已作答':'還沒寫完'),
+      '⑤ 巴威颱風：'+(done(['b1','b2','b3'])?'已作答':'還沒寫完'),
+      '⑥ 我的查證步驟：'+(!state.x1moved?'還沒排':(x1Errors(state.x1order).length?'還沒排對（可以再試）':'答對了'))];
+  }
+  var submittedOnce=false;
+  $('submitBtn').onclick=function(){
+    var idn=getIdentity(),stat=$('submitStat');
+    if(!identityValid(idn)){   // 不捲到頂端，只在按鈕下提示、把空格標紅
+      markIdentity(true);
+      stat.className='text-sm font-bold mt-3 min-h-[20px] text-rose-600';stat.textContent='⚠️ 還沒填好身分：請到頁面最上面填年級、班級（1-14）、座號，再按一次繳交。';
+      return;
+    }
+    markIdentity(false);
+    if(!db){alert('現在連不上，請稍後再試或重新整理頁面。');return;}
+    if(!confirm('確定要繳交嗎？\n\n'+report().join('\n')+'\n\n送出後老師會看到，確定要交嗎？'))return;
+    var payload=buildPayload(idn);payload.submittedAt=firebase.firestore.FieldValue.serverTimestamp();
+    var btn=this;
+    btn.disabled=true;stat.className='text-sm font-bold mt-3 min-h-[20px] text-indigo-600';stat.textContent='繳交中…';
+    authResolved.then(function(){return ensureAuth();})
+      .then(function(){return db.collection('submissions').doc(WS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId).set(payload,{merge:true});})
+      .then(function(){
+        btn.disabled=false;btn.textContent='重新繳交（覆蓋）';submittedOnce=true;renderStepper();
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-emerald-600';stat.textContent='✓ 已繳交。可再按一次覆蓋更新。';
+        var rb=$('rewardBox');rb.classList.remove('hidden');rb.scrollIntoView({behavior:'smooth'});
+      }).catch(function(e){
+        console.warn('繳交失敗',e);btn.disabled=false;
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-amber-600';stat.textContent='繳交失敗，請檢查網路後再按一次；還是不行就告訴老師。';
+      });
+  };
+
+  // ===== 教師模式（§5）=====
+  var PREVIEW_KEY='wk_previewMode',teacherAuthed=false;
+  if(!IS_ADMIN){try{if(sessionStorage.getItem(PREVIEW_KEY)==='1')$('backToTeacher').classList.remove('hidden');}catch(e){}}
+  $('previewModeBtn').onclick=function(){
+    if(!confirm('會清空這台裝置上的身分（年級/班級/座號）與作答，變回全新學生的畫面，確定要預覽嗎？'))return;
+    try{localStorage.removeItem(ID_KEY);localStorage.removeItem(STATE_KEY);sessionStorage.setItem(PREVIEW_KEY,'1');}catch(e){}
+    location.href=location.pathname;
+  };
+  $('backToTeacher').onclick=function(){
+    try{sessionStorage.removeItem(PREVIEW_KEY);}catch(e){}
+    location.href=location.pathname+location.search+'#admin';location.reload();
+  };
+  var QTYPE_CYCLE=['experience','score','open'];
+  var QTYPE_LABEL={score:'檢測',experience:'體驗',open:'開放'};
+  var QTYPE_STYLE={score:'bg-rose-100 text-rose-700 border-rose-300',experience:'bg-sky-100 text-sky-700 border-sky-300',open:'bg-emerald-100 text-emerald-700 border-emerald-300'};
+  function renderQtypeSlots(){
+    document.querySelectorAll('.qtypeSlot').forEach(function(slot){
+      var qid=slot.dataset.qid,t=qtypeOf(qid);
+      if(!IS_ADMIN||!teacherAuthed||REVIEW_ID){slot.innerHTML='';return;}
+      slot.innerHTML='<button type="button" class="border rounded-full px-2 py-0.5 text-xs font-bold '+QTYPE_STYLE[t]+'" title="點一下切換題型">'+QTYPE_LABEL[t]+'</button>';
+      slot.firstChild.onclick=function(){
+        QTYPE_OVERRIDES[qid]=QTYPE_CYCLE[(QTYPE_CYCLE.indexOf(qtypeOf(qid))+1)%QTYPE_CYCLE.length];renderQtypeSlots();
+        if(quizRef)quizRef.set({qtypeOverrides:QTYPE_OVERRIDES},{merge:true}).catch(function(e){alert('題型存不進去：'+e.message);});
+      };
+    });
+  }
+  // 檢視答案：把標準答案填進作答欄（寫死在程式裡的＋已上傳的正則）；⑥ 排成參考順序
+  function showAnswers(){
+    Object.keys(CHOICES).forEach(function(q){state[q]=CHOICES[q].correct;});
+    state.d2=PATTERNS.d2;state.b1=PATTERNS.b1;state.b2=PATTERNS.b2;
+    state.x1order=X1_REF.slice();state.x1shown=true;
+    renderAll();
+  }
+  function clearAnswers(){
+    Object.keys(CHOICES).forEach(function(q){state[q]=null;});
+    state.d2='';state.b1='';state.b2='';state.x1order=X1_START.slice();state.x1moved=false;state.x1tries=0;state.x1shown=false;save();renderAll();
+  }
+  function uploadAnswers(){
+    var p={},bad=[];
+    ['d2','b1','b2'].forEach(function(q){var v=String(state[q]||'').trim();if(!v)return;try{new RegExp(v);p[q]=v;}catch(e){bad.push(q);}});
+    if(bad.length){alert('這幾題的答案格式有誤：'+bad.join('、'));return;}
+    if(!Object.keys(p).length){alert('先在④⑤的文字作答框打上標準答案（多個答案用 | 隔開）。');return;}
+    if(!confirm('把下面的答案存成標準答案？\n'+Object.keys(p).map(function(q){return q+'：'+p[q];}).join('\n')))return;
+    quizRef.set({surveyPatterns:p},{merge:true}).then(function(){alert('✓ 已上傳');}).catch(function(e){alert('上傳失敗：'+e.message);});
+  }
+  function wireTeacher(label){
+    $('teacherbar').classList.remove('hidden');$('tStatus').textContent=label;teacherAuthed=true;renderQtypeSlots();
+    if(REVIEW_ID){loadReview();return;}
+    ['showAnsBtn','lockBtn'].forEach(function(id){$(id).classList.remove('hidden');});
+    if(quizRef)$('uploadAnsBtn').classList.remove('hidden');
+    document.querySelectorAll('[data-reveal-btn]').forEach(function(b){
+      b.classList.remove('hidden');
+      b.onclick=function(){
+        var r=b.dataset.revealBtn,o={};o[r]=true;
+        if(quizRef)quizRef.set(o,{merge:true}).catch(function(e){alert('公布失敗：'+e.message);});
+        else{REV[r]=true;applyReveal();}
+      };
+    });
+    $('showAnsBtn').onclick=showAnswers;$('uploadAnsBtn').onclick=uploadAnswers;
+    $('lockBtn').onclick=function(){
+      if(!confirm('確定要還原嗎？\n全班畫面會收回所有公布，「檢視答案」填進去的內容也會清掉。\n學生已經繳交的學習單不受影響。'))return;
+      clearAnswers();
+      if(quizRef)quizRef.set({r1:false,r2:false},{merge:true}).catch(function(e){alert('還原失敗：'+e.message);});
+      else{REV={r1:false,r2:false};applyReveal();}
+    };
+  }
+  function teacherOnline(){
+    authResolved.then(function(u){
+      if(u&&!u.isAnonymous&&u.email){wireTeacher('已登入 '+u.email);return;}
+      var email=prompt('教師 Email：',TEACHER_EMAIL);if(email===null)return;
+      var pw=prompt('密碼：');if(pw===null)return;
+      auth.signInWithEmailAndPassword(email,pw).then(function(c){wireTeacher('已登入 '+c.user.email);})
+        .catch(function(e){alert('登入失敗：'+e.message);});
+    });
+  }
+  function teacherOffline(){
+    var pw=prompt('教師密碼：');if(pw!=='1234'){if(pw!==null)alert('密碼錯誤');return;}
+    wireTeacher('單機模式（公布、題型只影響這台）');
+  }
+  // 檢視學生繳交（唯讀重現，§5-7）
+  function loadReview(){
+    $('reviewBanner').classList.remove('hidden');$('reviewExit').href=location.pathname+'#admin';
+    $('submitBtn').classList.add('hidden');$('rewardBox').remove();
+    REV={r1:true,r2:true};
+    if(!db){$('reviewText').textContent='🔍 檢視模式：現在連不上資料庫';return;}
+    db.collection('submissions').doc(REVIEW_ID).get().then(function(doc){
+      if(!doc.exists){$('reviewText').textContent='🔍 檢視模式：找不到這份繳交';return;}
+      var d=doc.data()||{};
+      $('reviewText').textContent='🔍 檢視模式（唯讀）：'+d.grade+'年'+d.className+'班'+d.studentId+'號 的作答';
+      $('idGrade').value=d.grade||'';$('idClass').value=d.className||'';$('idStudent').value=d.studentId||'';
+      if(d.qtypes)QTYPE_OVERRIDES=d.qtypes;
+      Object.assign(state,d.parts||{});
+      if(!validOrder(state.x1order))state.x1order=X1_START.slice();
+      applyReveal();renderAll();
+      $('main').classList.add('locked');
+      document.querySelectorAll('#main input,#main textarea,#idGrade,#idClass,#idStudent').forEach(function(f){f.disabled=true;});
+    }).catch(function(e){console.warn('讀取繳交失敗',e);$('reviewText').textContent='🔍 檢視模式：讀取失敗';});
+  }
+
+  // ===== 學習路徑：一次只顯示一步，頂端進度列可以跳步（《HTML互動教材設計規範》§5.8）=====
+  var STEP_NAMES=['開場影片','認識農場','以圖搜圖','查證網站','截圖搜尋','我的步驟'];
+  var stepEls=[].slice.call(document.querySelectorAll('.step'));
+  var curStep=1,visited={1:true};
+  function stepDone(n){
+    if(n===4)return ['d1','d2','d3'].every(function(k){return filled(state[k]);});
+    if(n===5)return ['b1','b2','b3'].every(function(k){return filled(state[k]);});
+    if(n===6)return submittedOnce;
+    return !!visited[n]&&n!==curStep;
+  }
+  function renderStepper(){
+    var host=$('stepper');host.innerHTML='';
+    STEP_NAMES.forEach(function(name,idx){
+      var n=idx+1,cur=n===curStep,done=stepDone(n);
+      var cell=el('div','flex flex-col items-center');
+      var b=el('button','stepdot cute rounded-full border-2 font-extrabold text-sm flex items-center justify-center transition '+
+        (cur?'bg-indigo-600 border-indigo-600 text-white':(done?'bg-emerald-500 border-emerald-500 text-white':'bg-white border-slate-300 text-slate-400 hover:border-indigo-300')));
+      b.type='button';b.textContent=done&&!cur?'✓':String(n);
+      b.setAttribute('aria-label','第 '+n+' 步：'+name);
+      if(cur)b.setAttribute('aria-current','step');
+      b.onclick=function(){showStep(n);};
+      cell.appendChild(b);
+      cell.appendChild(el('span','hidden sm:block text-xs font-bold mt-0.5 '+(cur?'text-indigo-700':'text-slate-400'),name));
+      host.appendChild(cell);
+      if(n<STEP_NAMES.length)host.appendChild(el('div','flex-1 h-0.5 mt-3.5 sm:mt-4 mx-0.5 sm:mx-1 rounded '+(done&&!cur?'bg-emerald-300':'bg-slate-200')));
+    });
+    $('stepLabel').textContent='第 '+curStep+' 步／共 '+STEP_NAMES.length+' 步 · '+STEP_NAMES[curStep-1];
+  }
+  function showStep(n){
+    curStep=n;visited[n]=true;
+    stepEls.forEach(function(s){s.classList.toggle('hidden',Number(s.dataset.step)!==n);});
+    renderStepper();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  stepEls.forEach(function(s){
+    var n=Number(s.dataset.step),nav=s.querySelector('.stepnav');
+    if(n>1){var p=el('button','bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-2xl px-5 py-2','← 上一步');p.type='button';p.onclick=function(){showStep(n-1);};nav.appendChild(p);}
+    else nav.appendChild(el('span',''));
+    if(n<STEP_NAMES.length){var x=el('button','cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl px-6 py-2','下一步：'+STEP_NAMES[n]+' →');x.type='button';x.onclick=function(){showStep(n+1);};nav.appendChild(x);}
+  });
+  document.addEventListener('click',function(){setTimeout(renderStepper,0);});
+  document.addEventListener('input',function(){setTimeout(renderStepper,0);});
+  renderStepper();
+
+  fbReady.then(function(){
+    if(!quizRef){if(IS_ADMIN)teacherOffline();return;}
+    var first=true;
+    quizRef.onSnapshot(function(doc){
+      var d=(doc&&doc.data())||{};
+      PATTERNS=Object.assign({},DEFAULT_PATTERNS,d.surveyPatterns||{});
+      if(d.qtypeOverrides&&!REVIEW_ID){QTYPE_OVERRIDES=d.qtypeOverrides;renderQtypeSlots();}
+      if(REVIEW_ID)return;
+      var next={r1:!!d.r1,r2:!!d.r2};
+      var undone=Object.keys(next).some(function(k){return REV[k]&&!next[k];});
+      if(undone&&!first&&!IS_ADMIN){location.reload();return;}   // 老師按還原：全部收回
+      REV=next;first=false;applyReveal();
+    },function(e){console.warn('讀取公布狀態失敗',e);});
+    if(IS_ADMIN)teacherOnline();
+  });
+})();
+</script>
+
+<!-- 評分設定（《學習單資料與提交規範》§2-e、《AI評分規範》）：評分平台「學習單設定 → 從學習單讀取」一鍵帶入。
+     沒有開放題。檢測題 d1、d2、d3、b1、b2、b3 各 2 分＋x1 查證步驟排序 8 分（頁面內依規則自動對答案，學生可反覆嘗試）＝20 分＝base 100 − floor 80。 -->
+<script type="application/json" id="grading-spec">
+{
+  "summary": "認識農場文與 AI 假資訊影片的特徵，分辨舊圖新用／移花接木／AI 生成，用 Chrome 智慧鏡頭對照片以圖搜圖、對影片截圖加關鍵字反搜、用 TinEye 依日期找最早出處，並在台灣事實查核中心、MyGoPen 找到並看懂查核報告；最後把 L01～L04 學過的查證技能排成自己的查證順序",
+  "questions": [],
+  "scoring": { "base": 100, "floor": 80, "deduction": 1,
+    "itemPoints": { "d1": 2, "d2": 2, "d3": 2, "b1": 2, "b2": 2, "b3": 2, "x1": 8 } }
+}
+</script>
+</body>
+</html>

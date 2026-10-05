@@ -1,0 +1,312 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "type": "title",
+   "dur": 3,
+   "title": "從網站複製資料，貼到 Google 文件",
+   "subtitle": "選字 → Ctrl＋C → 切到文件分頁 → Ctrl＋Shift＋V"
+  },
+  {
+   "dur": 6,
+   "img": "shots/ta_info.png",
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "台南行程規劃＿4年1班7號 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "step": "1",
+   "caption": "在字的開頭按住滑鼠，拖到最後一個字",
+   "sub": "選到的字會變藍色",
+   "boxes": [
+    {
+     "t": 1.3,
+     "dur": 99,
+     "x": 278,
+     "y": 506,
+     "w": 366,
+     "h": 28,
+     "style": "select",
+     "grow": 1.6
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 700,
+     "y": 300
+    },
+    {
+     "t": 1.0,
+     "x": 279,
+     "y": 520,
+     "mode": "ibeam"
+    },
+    {
+     "t": 1.3,
+     "x": 279,
+     "y": 520,
+     "mode": "ibeam"
+    },
+    {
+     "t": 2.9,
+     "x": 644,
+     "y": 520,
+     "mode": "ibeam"
+    },
+    {
+     "t": 6,
+     "x": 644,
+     "y": 520,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 4.5,
+   "img": "shots/ta_info.png",
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "台南行程規劃＿4年1班7號 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "step": "2",
+   "caption": "按 Ctrl＋C 複製",
+   "sub": "畫面不會變，但字已經複製好了",
+   "boxes": [
+    {
+     "t": 0,
+     "dur": 99,
+     "x": 278,
+     "y": 506,
+     "w": 366,
+     "h": 28,
+     "style": "select"
+    }
+   ],
+   "keys": [
+    {
+     "t": 0.4,
+     "dur": 2.8,
+     "keys": [
+      "Ctrl",
+      "C"
+     ],
+     "x": 930,
+     "y": 300
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 644,
+     "y": 520,
+     "mode": "ibeam"
+    },
+    {
+     "t": 4.5,
+     "x": 644,
+     "y": 520,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 6,
+   "img": "shots/ta_info.png",
+   "imgs": [
+    {
+     "t": 1.6,
+     "img": "shots/doc0.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "台南行程規劃＿4年1班7號 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "activeAt": [
+     {
+      "t": 1.6,
+      "active": 1
+     }
+    ]
+   },
+   "step": "3",
+   "caption": "點上面的分頁，切回 Google 文件",
+   "captions": [
+    {
+     "t": 2.8,
+     "caption": "點「門票：」的後面",
+     "sub": "讓游標停在冒號後面"
+    }
+   ],
+   "boxes": [
+    {
+     "t": 0,
+     "dur": 1.6,
+     "x": 278,
+     "y": 506,
+     "w": 366,
+     "h": 28,
+     "style": "select"
+    }
+   ],
+   "circles": [
+    {
+     "x": 272,
+     "y": 6,
+     "w": 256,
+     "h": 36,
+     "t": 0.3,
+     "dur": 1.4,
+     "pad": 6
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.5,
+     "x": 400,
+     "y": 24
+    },
+    {
+     "t": 3.3,
+     "x": 252,
+     "y": 467
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 644,
+     "y": 520
+    },
+    {
+     "t": 1.3,
+     "x": 400,
+     "y": 24
+    },
+    {
+     "t": 2.0,
+     "x": 400,
+     "y": 24
+    },
+    {
+     "t": 3.1,
+     "x": 252,
+     "y": 467,
+     "mode": "ibeam"
+    },
+    {
+     "t": 6,
+     "x": 252,
+     "y": 467,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 6,
+   "img": "shots/doc0.png",
+   "imgs": [
+    {
+     "t": 1.8,
+     "img": "shots/doc_ticket.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "台南行程規劃＿4年1班7號 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 1
+   },
+   "step": "4",
+   "caption": "按 Ctrl＋Shift＋V 貼上",
+   "sub": "加 Shift＝只貼文字，字型、顏色跟文件一樣",
+   "keys": [
+    {
+     "t": 0.4,
+     "dur": 2.2,
+     "keys": [
+      "Ctrl",
+      "Shift",
+      "V"
+     ],
+     "y": 560
+    }
+   ],
+   "boxes": [
+    {
+     "t": 2.0,
+     "dur": 99,
+     "x": 178,
+     "y": 451,
+     "w": 514,
+     "h": 32,
+     "style": "highlight"
+    }
+   ],
+   "labels": [
+    {
+     "t": 2.3,
+     "dur": 99,
+     "x": 708,
+     "y": 446,
+     "text": "貼好了！",
+     "color": "green"
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 252,
+     "y": 467,
+     "mode": "ibeam"
+    },
+    {
+     "t": 1.8,
+     "x": 690,
+     "y": 467,
+     "mode": "ibeam"
+    },
+    {
+     "t": 6,
+     "x": 690,
+     "y": 467,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "type": "title",
+   "dur": 3.5,
+   "title": "選字 → Ctrl＋C → 切分頁 → Ctrl＋Shift＋V",
+   "subtitle": "開放時間、門票、停留多久，都用同一招"
+  }
+ ]
+}
