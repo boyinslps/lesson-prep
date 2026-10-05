@@ -1052,24 +1052,8 @@ def _run_git(args, cwd, timeout=180):
     return r.returncode, r.stdout.decode("utf-8", "replace"), r.stderr.decode("utf-8", "replace")
 
 
-def git_publish(group, folder):
-    """把某節的成品 .html（{年級簡稱}_{節次資料夾名}.html）＋assets/ 推到 pcclass 的 g{年級}/L##/（SSH，整包一次 commit）。"""
-    ssh_url, owner, name = _repo_ssh()
-    if not ssh_url:
-        return {"ok": False, "error": "設定的 github_repo 需為 owner/repo 或 GitHub 網址"}
-    code = _grade_code(group)
-    if not code:
-        return {"ok": False, "error": f"無法從群組「{group}」判斷年級碼（需含 四/五 年級）"}
-    m = re.match(r'(L\d+)', folder or "")
-    if not m:
-        return {"ok": False, "error": "節次資料夾需以 L## 開頭"}
-    lcode = m.group(1)
-    src = safe(f"materials/{group}/{folder}")
-    prod = next((src / n for n in sorted(os.listdir(src))
-                 if _is_product_file(n) and n.lower().endswith(".html")), None)
-    if not prod:
-        return {"ok": False, "error": f"找不到成品 .html（先完成成品；命名規範：{_grade_short(group)}_{folder}.html）"}
-    # 準備快取庫：沒有就 clone；有就抓最新並硬重置到 origin/main
+def _prep_pub_cache(ssh_url):
+    """準備發布快取庫：沒有就 clone；有就抓最新並硬重置到 origin/main。成功回 None，失敗回錯誤 dict。"""
     try:
         if not (PUB_CACHE / ".git").exists():
             if PUB_CACHE.exists():
@@ -1084,30 +1068,101 @@ def git_publish(group, folder):
             _run_git(["clean", "-fd"], PUB_CACHE)
     except Exception as e:
         return {"ok": False, "error": f"準備儲存庫失敗：{e}"}
-    # 複製整包 → g{code}/L##/
-    dest = PUB_CACHE / code / lcode
-    if dest.exists():
-        shutil.rmtree(dest, ignore_errors=True)
-    dest.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(str(prod), str(dest / "index.html"))
-    adir = src / "assets"
-    if adir.is_dir():
-        shutil.copytree(str(adir), str(dest / "assets"))
+    return None
+
+
+def _commit_push(owner, msg):
+    """快取庫整包 add → commit → push。回 (nothing, 錯誤 dict 或 None)。"""
     gi = PUB_CACHE / ".gitignore"
     if not gi.exists():
         gi.write_text("*.md\nclient_secret*.json\n*credentials*.json\n*.env\n.env*\n*.key\n*.pem\n.DS_Store\nThumbs.db\n__pycache__/\n", "utf-8")
     _run_git(["config", "user.name", owner or "cockpit"], PUB_CACHE)
     _run_git(["config", "user.email", (read_config().get("teacher_email") or "cockpit@local")], PUB_CACHE)
     _run_git(["add", "-A"], PUB_CACHE)
-    rc, so, se = _run_git(["commit", "-m", f"publish {code}/{lcode}"], PUB_CACHE)
+    rc, so, se = _run_git(["commit", "-m", msg], PUB_CACHE)
     nothing = "nothing to commit" in (so + se)
     if rc != 0 and not nothing:
-        return {"ok": False, "error": "commit 失敗：" + (se or so)[:300]}
+        return nothing, {"ok": False, "error": "commit 失敗：" + (se or so)[:300]}
     if not nothing:
         rc, so, se = _run_git(["push", "origin", "HEAD:main"], PUB_CACHE, timeout=240)
         if rc != 0:
-            return {"ok": False, "error": "push 失敗（SSH）：" + (se or so)[:300]}
-    url = f"https://{owner}.github.io/{name}/{code}/{lcode}/"
+            return nothing, {"ok": False, "error": "push 失敗（SSH）：" + (se or so)[:300]}
+    return nothing, None
+
+
+def skills_publish(dry_run=False):
+    """電腦急救站：先跑 技能闖關/build.py，再把整個 site/ 換到 pcclass 的 skills/。
+    dry_run=True 只列出會變動的檔案，不 commit、不 push，最後把快取庫還原。"""
+    ssh_url, owner, name = _repo_ssh()
+    if not ssh_url:
+        return {"ok": False, "error": "設定的 github_repo 需為 owner/repo 或 GitHub 網址"}
+    r = subprocess.run([sys.executable, str(ROOT / "技能闖關" / "build.py")], capture_output=True,
+                       env=dict(os.environ, PYTHONIOENCODING="utf-8"), timeout=120)
+    out = r.stdout.decode("utf-8", "replace") + r.stderr.decode("utf-8", "replace")
+    if r.returncode != 0:
+        return {"ok": False, "error": "build 失敗：" + out[:400]}
+    err = _prep_pub_cache(ssh_url)
+    if err:
+        return err
+    dest = PUB_CACHE / "skills"
+    if dest.exists():
+        shutil.rmtree(dest, ignore_errors=True)
+    shutil.copytree(str(ROOT / "技能闖關" / "site"), str(dest))
+    url = f"https://{owner}.github.io/{name}/skills/"
+    if dry_run:
+        _, so, _ = _run_git(["status", "--porcelain", "--", "skills"], PUB_CACHE)
+        _run_git(["reset", "--hard", "origin/main"], PUB_CACHE)
+        _run_git(["clean", "-fd"], PUB_CACHE)
+        return {"ok": True, "dryRun": True, "url": url, "changes": so.strip().splitlines(), "build": out.strip()}
+    nothing, err = _commit_push(owner, "publish skills/")
+    if err:
+        return err
+    return {"ok": True, "url": url, "path": "skills/", "nothing": nothing}
+
+
+def git_publish(group, folder):
+    """把某節的成品 .html（{年級簡稱}_{節次資料夾名}.html）＋assets/ 推到 pcclass 的 g{年級}/L##/（SSH，整包一次 commit）。"""
+    ssh_url, owner, name = _repo_ssh()
+    if not ssh_url:
+        return {"ok": False, "error": "設定的 github_repo 需為 owner/repo 或 GitHub 網址"}
+    contest = "競賽" in (group or "")
+    code = "contest" if contest else _grade_code(group)
+    if not code:
+        return {"ok": False, "error": f"無法從群組「{group}」判斷年級碼（需含 四/五 年級）"}
+    # 競賽專區：資料夾 C## 開頭；C00 是目錄頁，發布到 contest/ 根目錄，其餘到 contest/C##/
+    m = re.match(r'(C\d+)' if contest else r'(L\d+)', folder or "")
+    if not m:
+        return {"ok": False, "error": "節次資料夾需以 C## 開頭" if contest else "節次資料夾需以 L## 開頭"}
+    lcode = m.group(1)
+    root_page = contest and lcode == "C00"
+    src = safe(f"materials/{group}/{folder}")
+    prod = next((src / n for n in sorted(os.listdir(src))
+                 if _is_product_file(n) and n.lower().endswith(".html")), None)
+    if not prod:
+        return {"ok": False, "error": f"找不到成品 .html（先完成成品；命名規範：{_grade_short(group)}_{folder}.html）"}
+    err = _prep_pub_cache(ssh_url)
+    if err:
+        return err
+    # 複製整包 → g{code}/L##/
+    if root_page:
+        # 目錄頁只換 index.html 和 assets/，不能刪掉旁邊各節的 C##/ 資料夾
+        dest = PUB_CACHE / code
+        dest.mkdir(parents=True, exist_ok=True)
+        if (dest / "assets").exists():
+            shutil.rmtree(dest / "assets", ignore_errors=True)
+    else:
+        dest = PUB_CACHE / code / lcode
+        if dest.exists():
+            shutil.rmtree(dest, ignore_errors=True)
+        dest.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(str(prod), str(dest / "index.html"))
+    adir = src / "assets"
+    if adir.is_dir():
+        shutil.copytree(str(adir), str(dest / "assets"))
+    nothing, err = _commit_push(owner, f"publish {code}/{lcode}")
+    if err:
+        return err
+    url = f"https://{owner}.github.io/{name}/{code}/" + ("" if root_page else f"{lcode}/")
     # 每次發布成功就同步存進 materials/_layout.json——vibecoding 做完網址就有記錄，
     # 不必另開資料庫或輪詢；下次 build_tree() 直接把這個網址帶給面板顯示（見規劃：省 token、最簡潔管理）。
     try:
@@ -1408,6 +1463,8 @@ class H(BaseHTTPRequestHandler):
             if u.path == "/api/github-publish":
                 return self._send(200, github_publish(data.get("path", ""), data.get("dest", "")))
             if u.path == "/api/git-publish":
+                if data.get("group") == "技能闖關":
+                    return self._send(200, skills_publish(bool(data.get("dryRun"))))
                 return self._send(200, git_publish(data.get("group", ""), data.get("folder", "")))
             if u.path == "/api/grade":
                 return self._send(200, grade_submission(data))

@@ -19,6 +19,7 @@
 - [x] P0-2 判定器第一批：`selectText`、`copyPaste`、`plainPaste`
 - [x] 示範關卡 A1 選取文字、B1 複製貼上、B3 純文字貼上（判定已用模擬事件測過；真實鍵盤剪貼簿待實機確認）
 - [x] `firestore.rules` 合併版（cardWork＋skillQuest）
+- [x] P0-3 發布管線（2026-10-06）：`POST /api/git-publish` body `{"group":"技能闖關"}` → 先 build 再把 site/ 換到 pcclass `skills/`；加 `"dryRun":true` 只列變動不推（已測 dry-run）
 
 ## 待老師處理（不在夜間做）
 
@@ -29,7 +30,6 @@
 
 ## 工作包清單（依序）
 
-- [ ] P0-3 發布管線：`工作台/server.py` 的 git_publish 支援「技能闖關」→ pcclass `skills/`（整個 site/ 複製過去）；只寫好、測 dry-run，不實際 push
 - [ ] P0-4 地圖頁加先修連線（同類別內用 SVG 線連起來）、手機版檢查
 - [ ] P1-1 判定器 `fileUpload`：下載關卡檔（檔內有驗證碼）→ 上傳回來，比對檔名／內容／圖片雜湊；同時做 C1 下載檔案
 - [ ] P1-2 判定器 `popup`：網頁內模擬廣告、Cookie、通知權限、假中獎視窗；做 E3 處理彈出視窗
