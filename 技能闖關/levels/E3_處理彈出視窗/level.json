@@ -1,0 +1,40 @@
+{
+  "code": "E3",
+  "title": "處理彈出視窗",
+  "category": "E",
+  "core": true,
+  "prereq": [],
+  "order": 3,
+  "enabled": true,
+  "summary": "廣告、Cookie、通知、假中獎……跳出來的視窗要怎麼安全地關掉",
+  "learn": {
+    "video": "",
+    "steps": [
+      "<b>廣告</b>：大大的彩色按鈕是陷阱，真正的關閉是<b>角落的小 ×</b>，有時要等幾秒才出現",
+      "<b>Cookie 同意</b>：選「只接受必要的」或「拒絕」，不要隨手按「全部接受」",
+      "<b>通知權限</b>（網址列下面跳出「想要顯示通知」）：不認識的網站按<b>「封鎖」</b>",
+      "<b>恭喜中獎、限時領取</b>：一定是詐騙，按「關閉」，<b>不要填任何資料</b>"
+    ],
+    "tips": [
+      "關不掉、一直跳？直接關掉這個分頁（<kbd>Ctrl</kbd>＋<kbd>W</kbd>），再告訴老師。",
+      "跳出來的視窗叫你「下載」「安裝」「輸入密碼」，一律先停下來問老師。"
+    ]
+  },
+  "practice": {
+    "checker": "popup",
+    "params": {
+      "popups": ["cookie", "ad", "prize"],
+      "adWait": 0
+    }
+  },
+  "challenge": {
+    "checker": "popup",
+    "params": {
+      "popups": ["notify", "ad", "subscribe", "cookie", "prize"],
+      "shuffle": true,
+      "adWait": 3,
+      "page": {"tab": "臺灣景點介紹", "url": "travel.example.tw", "html": "<h3>阿里山國家森林遊樂區</h3><p>阿里山以日出、雲海、晚霞、森林與高山鐵路聞名。</p>"}
+    }
+  },
+  "production": {"video": "todo", "videoKind": "web", "note": "可直接拍本關的模擬畫面（cdp.ps1）"}
+}

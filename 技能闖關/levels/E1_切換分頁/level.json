@@ -1,0 +1,32 @@
+{
+  "code": "E1",
+  "title": "開新分頁與切換分頁",
+  "category": "E",
+  "core": true,
+  "prereq": [],
+  "order": 1,
+  "enabled": true,
+  "summary": "讓連結在新分頁打開，在分頁之間切來切去，用完把多的分頁關掉",
+  "learn": {
+    "video": "",
+    "steps": [
+      "想讓連結在<b>新分頁</b>打開：按住 <kbd>Ctrl</kbd> 再點連結（或在連結上按右鍵 →「在新分頁中開啟連結」）",
+      "Chrome 最上面一格一格的就是<b>分頁</b>，點一下就能切過去",
+      "用鍵盤切換：<kbd>Ctrl</kbd>＋<kbd>Tab</kbd> 到下一個分頁；<kbd>Ctrl</kbd>＋<kbd>1</kbd>～<kbd>8</kbd> 直接跳到第幾個",
+      "用完的分頁要關掉：分頁上的 ×，或按 <kbd>Ctrl</kbd>＋<kbd>W</kbd>"
+    ],
+    "tips": [
+      "上課做作業時，把「作業說明」和「要用的網站」開在不同分頁，切來切去就不會迷路。",
+      "分頁開太多會找不到、電腦也會變慢，用完就關。"
+    ]
+  },
+  "practice": {
+    "checker": "tabPair",
+    "params": {"linkText": "打開密碼小卡", "closeTab": false}
+  },
+  "challenge": {
+    "checker": "tabPair",
+    "params": {"linkText": "打開今天的密碼小卡", "closeTab": true}
+  },
+  "production": {"video": "todo", "videoKind": "web", "note": "cdp.ps1 拍兩個分頁切換；步驟影片工具 chrome 參數可畫分頁列"}
+}

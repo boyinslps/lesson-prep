@@ -1,0 +1,29 @@
+<main><div class="wrap" style="padding-top:40px;padding-bottom:40px;max-width:560px">
+  <div class="box" style="text-align:center">
+    <h2>密碼小卡</h2>
+    <div id="tabMsg"><p>連線中…</p></div>
+  </div>
+</div></main>
+<script>
+/* 給「分頁」類關卡用的另一個分頁：和關卡頁用 BroadcastChannel 溝通（同一個網站才收得到）
+   網址 #後面是關卡給的 sid；hello → 關卡回 code；切到這頁時送 seen；關掉時送 bye */
+(function(){
+  var sid=(location.hash||'').slice(1), msg=document.getElementById('tabMsg');
+  if(!sid||!window.BroadcastChannel){msg.innerHTML='<p>請從「電腦急救站」的關卡打開這一頁。</p>';return;}
+  var ch=new BroadcastChannel('skillquest-tab'), got=false;
+  function send(type){ch.postMessage({sid:sid,type:type});}
+  ch.onmessage=function(e){
+    var d=e.data||{};if(d.sid!==sid)return;
+    if(d.type==='ping'){send('pong');return;}
+    if(d.type!=='code')return;
+    got=true;
+    msg.innerHTML='<p>密碼是</p><p style="font-size:56px;font-weight:900;letter-spacing:10px;margin:0;color:var(--navy)">'+Quest.esc(d.code)+'</p>'+
+      '<p style="color:var(--sub)">記住它，切回「電腦急救站」的分頁輸入。<br>切換方法：點上面的分頁，或按 <kbd>Ctrl</kbd>＋<kbd>Tab</kbd>。</p>';
+    if(document.visibilityState==='visible')send('seen');
+  };
+  document.addEventListener('visibilitychange',function(){if(got&&document.visibilityState==='visible')send('seen');});
+  window.addEventListener('pagehide',function(){send('bye');});
+  send('hello');
+  setTimeout(function(){if(!got)msg.innerHTML='<p>找不到關卡頁。請從「電腦急救站」的關卡重新打開這一頁。</p>';},2000);
+})();
+</script>

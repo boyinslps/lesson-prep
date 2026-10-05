@@ -136,6 +136,9 @@ def main():
     body = rd(SRC, 'cert.html')
     write(os.path.join('cert', 'index.html'), page('我的證書｜' + cfg['siteTitle'], body, base, cfg, css, sprite, app))
 
+    body = rd(SRC, 'tab.html')
+    write(os.path.join('tab', 'index.html'), page('密碼小卡｜' + cfg['siteTitle'], body, base, cfg, css, sprite, app))
+
     cats = {c['id']: c for c in cfg['categories']}
     tpl = rd(SRC, 'level.html')
     for l in levels:

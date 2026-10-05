@@ -217,4 +217,104 @@
     }
     function done(){ctx.hint('');while(tl.cur<say.length-1)tl.next();tl.next();drop.style.pointerEvents='none';ctx.pass();}
   };
+
+  /* ---------- popup：處理彈出視窗（網頁內模擬）----------
+     params.popups：依序出現的視窗種類 cookie／notify／ad／prize／subscribe
+     params.shuffle：true＝打亂順序；params.adWait：廣告的 × 要等幾秒才出現（0＝馬上）
+     params.page：{tab, url, html} 底下那個網頁的樣子
+     按到陷阱按鈕＝miss（說明為什麼不能按），視窗留著；按對才關掉、換下一個 */
+  var POPS={
+    cookie:{name:'Cookie 同意視窗',hint:'這是 Cookie 同意視窗。網站想記錄你看了什麼。選<b>「只接受必要的」</b>最安全。',
+      html:function(){return '<div class="pp pp-cookie"><b>這個網站使用 Cookie</b><p>我們和合作夥伴會使用 Cookie 來提供個人化廣告與分析。</p><div class="pp-row"><button data-bad="全部接受">全部接受</button><button data-ok class="pp-plain">只接受必要的</button></div></div>';},
+      bad:{'全部接受':'「全部接受」會讓網站和廣告商記錄你看了什麼。選「只接受必要的」比較保護自己。'}},
+    notify:{name:'通知權限',hint:'網址列下面跳出「想要顯示通知」。不認識的網站一律按<b>「封鎖」</b>。',
+      html:function(o){return '<div class="pp pp-notify"><b>'+esc(o.host)+' 想要</b><p>顯示通知</p><div class="pp-row"><button data-bad="允許">允許</button><button data-ok class="pp-plain">封鎖</button></div></div>';},
+      bad:{'允許':'按了「允許」，這個網站以後可以一直跳通知給你，很多是廣告或詐騙。不認識的網站按「封鎖」。'}},
+    ad:{name:'廣告視窗',hint:'這是廣告。大大的按鈕是陷阱，要找<b>角落的小 ×</b>（有時要等幾秒才出現）。',
+      html:function(o){var left=o.shuffle&&Math.random()<.5;return '<div class="pp-mask"><div class="pp pp-ad"><span class="pp-x'+(left?' l':'')+'" data-ok'+(o.adWait?' hidden':'')+' title="關閉">×</span>'+(o.adWait?'<span class="pp-wait">'+o.adWait+' 秒後可關閉</span>':'')+'<div class="pp-adart">超好玩手機遊戲<br><small>限時免費</small></div><button data-bad="下載" class="pp-big">立即免費下載</button><button data-bad="關閉廣告" class="pp-fake">關閉廣告</button></div></div>';},
+      bad:{'下載':'這是廣告按鈕！按了會跑到別的網站，甚至下載奇怪的程式。要找角落的小 ×。','關閉廣告':'小心！這個「關閉廣告」是廣告的一部分，按了一樣會跳到廣告網站。真正的關閉是角落的小 ×。'}},
+    prize:{name:'假中獎視窗',hint:'「恭喜中獎」幾乎都是詐騙。不要領獎，按<b>「關閉」</b>。',
+      html:function(){return '<div class="pp-mask"><div class="pp pp-prize"><div class="pp-trophy">恭喜你！</div><p>你是今天第 <b>1,000,000</b> 位訪客，獲得最新平板電腦一台！</p><p class="pp-red">只剩 59 秒，快領取！</p><div class="pp-row"><button data-bad="領獎" class="pp-big">立即領獎</button><button data-ok class="pp-plain">關閉</button></div></div></div>';},
+      bad:{'領獎':'天下沒有白吃的午餐！「中獎」視窗是詐騙，按了會要你填個資、手機號碼或付錢。'}},
+    subscribe:{name:'訂閱視窗',hint:'不需要的東西<b>不要留 Email</b>。點小小的<b>「不用了，謝謝」</b>。',
+      html:function(){return '<div class="pp-mask"><div class="pp pp-sub"><b>訂閱我們的電子報！</b><p>輸入 Email 就送你 100 元折價券</p><input data-bad-input placeholder="你的 Email" aria-label="Email"><div class="pp-row"><button data-bad="訂閱" class="pp-big">訂閱</button></div><a href="#" data-ok class="pp-no">不用了，謝謝</a></div></div>';},
+      bad:{'訂閱':'不需要的東西不要留 Email 或個資，留了之後會收到一堆廣告信。點「不用了，謝謝」就好。'}}
+  };
+  C.popup = function(el,p,ctx){
+    var practice=ctx.mode==='practice', list=(p.popups||[]).slice();
+    if(p.shuffle)list.sort(function(){return Math.random()-.5;});
+    var pg=p.page||{};
+    var tl=taskList(el,list.map(function(k){return '關掉「'+POPS[k].name+'」';}));
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<div class="fb"><div class="fb-tabs"><span class="fb-tab">'+esc(pg.tab||'小學生線上字典')+'</span></div><div class="fb-url">'+esc(pg.url||'dict.example.tw')+'</div><div class="fb-page">'+(pg.html||'<h3>小學生線上字典</h3><p>搜尋：<b>電腦</b></p><p>英文：computer</p>')+'</div><div class="fb-layer"></div></div>';
+    el.appendChild(wrap);
+    var layer=wrap.querySelector('.fb-layer'), i=0, timer=null;
+    function showNext(){
+      layer.innerHTML='';
+      if(i>=list.length){ctx.hint('');ctx.pass();return;}
+      var k=list[i], P=POPS[k];
+      layer.innerHTML=P.html({host:pg.url||'dict.example.tw',shuffle:p.shuffle,adWait:p.adWait||0});
+      if(practice){ctx.hint(P.hint);var ok=layer.querySelector('[data-ok]');if(ok)ok.classList.add('pulse');}
+      var x=layer.querySelector('.pp-x[hidden]');
+      if(x){var n=p.adWait,w=layer.querySelector('.pp-wait');timer=setInterval(function(){n--;if(n>0){w.textContent=n+' 秒後可關閉';}else{clearInterval(timer);w.remove();x.hidden=false;}},1000);}
+    }
+    layer.addEventListener('click',function(e){
+      var t=e.target.closest('[data-ok],[data-bad]');if(!t)return;
+      e.preventDefault();
+      if(t.hasAttribute('data-ok')){clearInterval(timer);i++;tl.next();ctx.hint('');setTimeout(showNext,500);layer.innerHTML='';return;}
+      ctx.miss(POPS[list[i]].bad[t.getAttribute('data-bad')]||'這個按鈕不對喔。');
+    });
+    layer.addEventListener('focusin',function(e){if(e.target.hasAttribute('data-bad-input'))ctx.hint('先停一下！不需要的東西，不要在跳出來的視窗裡填 Email 或個資。');});
+    setTimeout(showNext,600);
+    return function(){clearInterval(timer);};
+  };
+
+  /* ---------- tabPair：開新分頁 → 切過去看密碼 → 切回來輸入 → 關掉多的分頁 ----------
+     搭配 site/tab/（密碼小卡），用 BroadcastChannel 溝通。
+     params.linkText：連結文字；params.closeTab：true＝最後要把密碼小卡分頁關掉 */
+  C.tabPair = function(el,p,ctx){
+    var practice=ctx.mode==='practice';
+    var sid=ctx.mode+Math.random().toString(36).slice(2,8), code=String(1000+Math.floor(Math.random()*9000));
+    var steps=['按住 <kbd>Ctrl</kbd> 點下面的連結，讓它在<b>新分頁</b>打開','切換到新分頁，看密碼是多少','切回這個分頁，把密碼打進框框'];
+    if(p.closeTab)steps.push('把「密碼小卡」那個分頁關掉（<kbd>Ctrl</kbd>＋<kbd>W</kbd> 或分頁上的 ×）');
+    var tl=taskList(el,steps);
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<div class="passage"><a href="../tab/#'+sid+'" target="_blank" rel="opener" data-ck="link" style="font-weight:700;color:var(--ac)">'+esc(p.linkText||'打開密碼小卡')+'</a></div>'+
+      '<label class="lbl">密碼<input class="field" data-ck="code" inputmode="numeric" maxlength="4" style="min-height:0;max-width:180px;margin-top:6px;font-size:22px;letter-spacing:6px" disabled></label>';
+    el.appendChild(wrap);
+    var link=wrap.querySelector('[data-ck=link]'), inp=wrap.querySelector('[data-ck=code]');
+    link.addEventListener('click',function(e){
+      if(e.ctrlKey||e.metaKey||e.shiftKey)return;
+      e.preventDefault();
+      ctx.miss('直接點會蓋掉這一頁！要<b>按住 <kbd>Ctrl</kbd> 不放</b>再點連結（或按右鍵 →「在新分頁中開啟連結」）。');
+    });
+    if(!window.BroadcastChannel){ctx.hint('這個瀏覽器太舊，請改用 Chrome。');return;}
+    var ch=new BroadcastChannel('skillquest-tab'), seen=false, typed=false, lastPong=0, poll=null;
+    // 分頁被關掉時 pagehide 的 bye 不一定送得出來，所以輸入密碼後改成每秒 ping，連續 2.5 秒沒回應就當作關掉了
+    function closed(){clearInterval(poll);if(tl.cur===3){tl.next();ctx.hint('');ctx.pass();}}
+    function startPoll(){lastPong=Date.now();poll=setInterval(function(){ch.postMessage({sid:sid,type:'ping'});if(Date.now()-lastPong>2500)closed();},1000);}
+    ch.onmessage=function(e){
+      var d=e.data||{};if(d.sid!==sid)return;
+      if(d.type==='pong'){lastPong=Date.now();return;}
+      if(d.type==='hello'){
+        ch.postMessage({sid:sid,type:'code',code:code});
+        if(tl.cur===0){tl.next();if(practice)ctx.hint('新分頁開好了，在最上面。點它，或按 <kbd>Ctrl</kbd>＋<kbd>Tab</kbd> 切過去。');}
+      }else if(d.type==='seen'&&!seen){
+        seen=true;while(tl.cur<2)tl.next();inp.disabled=false;
+        if(practice)ctx.hint('看到密碼了吧？切回這個分頁（點分頁或 <kbd>Ctrl</kbd>＋<kbd>Tab</kbd>），把密碼打進框框。');
+      }else if(d.type==='bye'&&p.closeTab){
+        if(!typed){ctx.miss('密碼還沒輸入，就把密碼小卡關掉了。按住 <kbd>Ctrl</kbd> 再點一次連結重新打開。');seen=false;inp.disabled=true;return;}
+        closed();
+      }
+    };
+    inp.addEventListener('input',function(){
+      var v=inp.value.replace(/\D/g,'');if(v!==inp.value)inp.value=v;
+      if(v.length<4)return;
+      if(v!==code){ctx.miss('密碼不對，再切過去看一次。');return;}
+      typed=true;inp.disabled=true;tl.next();
+      if(!p.closeTab){ctx.hint('');ctx.pass();}
+      else{startPoll();if(practice)ctx.hint('答對了！最後把「密碼小卡」分頁關掉：切過去按 <kbd>Ctrl</kbd>＋<kbd>W</kbd>，或按分頁上的 ×。');}
+    });
+    return function(){clearInterval(poll);ch.close();};
+  };
 })();
