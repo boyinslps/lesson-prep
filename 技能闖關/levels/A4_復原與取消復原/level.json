@@ -1,0 +1,43 @@
+{
+  "code": "A4",
+  "title": "復原與取消復原",
+  "category": "A",
+  "core": false,
+  "prereq": ["A1"],
+  "order": 4,
+  "enabled": true,
+  "summary": "不小心刪掉、貼錯了？Ctrl+Z 一鍵救回來，Ctrl+Y 再改回去",
+  "learn": {
+    "video": "",
+    "steps": [
+      "做錯了（刪錯字、貼錯東西、格式跑掉），馬上按 <kbd>Ctrl</kbd>＋<kbd>Z</kbd>，就會<b>回到上一步</b>",
+      "按一次退一步，可以連按好幾次一直往回退",
+      "退太多了？按 <kbd>Ctrl</kbd>＋<kbd>Y</kbd> 再做一次（取消復原）",
+      "Word、Google 文件、簡報、Canva、小畫家幾乎都能用"
+    ],
+    "tips": ["記法：Z 是最後一個字母，代表「回到前面」。"]
+  },
+  "practice": {
+    "checker": "keyTask",
+    "params": {
+      "text": "早上起床刷牙。今天下雨了。我帶了雨傘出門。",
+      "tasks": [
+        {"say": "把「今天下雨了。」這一句選起來刪掉", "cond": {"notContains": "今天下雨了。", "contains": "我帶了雨傘出門。"}, "hint": "拖曳選取「今天下雨了。」，按 <kbd>Delete</kbd> 或 <kbd>Backspace</kbd>。"},
+        {"say": "糟糕刪錯了！按 <kbd>Ctrl</kbd>＋<kbd>Z</kbd> 把它救回來", "key": "ctrl+z", "cond": {"equals": "@original"}, "hint": "按住 <kbd>Ctrl</kbd> 再按 <kbd>Z</kbd>，一次不夠就再按一次。"},
+        {"say": "其實真的要刪。按 <kbd>Ctrl</kbd>＋<kbd>Y</kbd> 再刪一次", "key": "ctrl+y|ctrl+shift+z", "cond": {"notContains": "今天下雨了。"}, "hint": "按住 <kbd>Ctrl</kbd> 再按 <kbd>Y</kbd>。"}
+      ]
+    }
+  },
+  "challenge": {
+    "checker": "keyTask",
+    "params": {
+      "text": "電腦教室規則：不能吃東西。下課要關機。椅子要靠好。",
+      "tasks": [
+        {"say": "把「下課要關機。」刪掉", "cond": {"notContains": "下課要關機。", "contains": "椅子要靠好。"}},
+        {"say": "用快速鍵把它救回來", "key": "ctrl+z", "cond": {"equals": "@original"}},
+        {"say": "用快速鍵再刪一次", "key": "ctrl+y|ctrl+shift+z", "cond": {"notContains": "下課要關機。"}}
+      ]
+    }
+  },
+  "production": {"video": "todo", "videoKind": "web"}
+}

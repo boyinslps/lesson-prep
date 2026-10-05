@@ -1,0 +1,48 @@
+{
+  "code": "C4",
+  "title": "認識副檔名",
+  "category": "C",
+  "core": false,
+  "prereq": ["C2"],
+  "order": 4,
+  "enabled": true,
+  "summary": "看檔名最後的 .jpg .docx .pdf，就知道它是什麼檔、要用什麼打開",
+  "learn": {
+    "video": "",
+    "steps": [
+      "檔名最後「點」後面的字叫<b>副檔名</b>，告訴電腦這是什麼檔案",
+      "圖片：<b>.jpg .png .gif</b>　文件：<b>.docx .pdf .txt</b>　簡報：<b>.pptx</b>　影片：<b>.mp4</b>　音樂：<b>.mp3</b>",
+      "壓縮檔 <b>.zip</b> 要先「解壓縮」才能用",
+      "<b>.exe</b> 是程式，會在電腦上執行——不認識的 .exe 不要打開"
+    ],
+    "tips": ["改檔名時不要動副檔名，改錯了電腦就不知道要用什麼打開。"]
+  },
+  "practice": {
+    "checker": "quiz",
+    "params": {
+      "kind": "bucket",
+      "buckets": ["圖片", "文件", "影片或聲音"],
+      "items": [
+        {"t": "貓咪.jpg", "b": 0, "why": ".jpg 是照片最常用的格式。"},
+        {"t": "報告.docx", "b": 1, "why": ".docx 是 Word 文件。"},
+        {"t": "上課錄影.mp4", "b": 2, "why": ".mp4 是影片。"},
+        {"t": "截圖.png", "b": 0, "why": ".png 也是圖片，截圖常用。"},
+        {"t": "通知單.pdf", "b": 1, "why": ".pdf 是排版固定的文件，用瀏覽器就能看。"},
+        {"t": "校歌.mp3", "b": 2, "why": ".mp3 是聲音檔。"}
+      ]
+    }
+  },
+  "challenge": {
+    "checker": "quiz",
+    "params": {
+      "kind": "choice",
+      "questions": [
+        {"q": "老師說「交 PDF 檔」，下面哪一個是對的？", "options": ["作業.docx", "作業.pdf", "作業.jpg", "作業.pptx"], "answer": 1},
+        {"q": "你下載了「免費遊戲.exe」，應該怎麼辦？", "options": ["馬上打開來玩", "先問老師或大人，不認識的程式不要開", "改名成 .jpg 再打開", "傳給同學一起玩"], "answer": 1},
+        {"q": "「照片.zip」打不開裡面的照片，要先做什麼？", "options": ["解壓縮", "改名成 .jpg", "重新開機", "刪掉重下載"], "answer": 0},
+        {"q": "哪一個是簡報檔？", "options": ["期末發表.pptx", "期末發表.mp3", "期末發表.txt", "期末發表.png"], "answer": 0}
+      ]
+    }
+  },
+  "production": {"video": "todo", "videoKind": "desktop", "note": "檔案總管顯示副檔名＋各種圖示"}
+}

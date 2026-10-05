@@ -198,6 +198,20 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 .pulse{animation:pulse 1.2s infinite;outline:3px solid #2f9e62;outline-offset:2px}
 @keyframes pulse{50%{outline-color:transparent}}
 
+/* 測驗（quiz 判定器）*/
+.qz-opts{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.qz-opt{border:2px solid #c9cfdc;background:#fff;border-radius:12px;padding:10px 14px;text-align:left;cursor:pointer;font-weight:500}
+.qz-opt:hover{border-color:var(--ac)}
+.qz-opt.no{border-color:var(--red);background:var(--red-soft);color:#9b2c28}
+.qz-pool{display:flex;flex-wrap:wrap;gap:8px;min-height:46px;padding:10px;border-radius:12px;background:#f1f4fa;margin-bottom:12px}
+.qz-item{display:inline-block;padding:6px 14px;border-radius:999px;background:#fff;border:2px solid #c9cfdc;font-weight:700;cursor:grab;user-select:none}
+.qz-item.on{border-color:var(--ac);background:var(--ac-soft)}
+.qz-item.ok{border-color:var(--green);background:var(--green-soft);cursor:default}
+.qz-buckets{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.qz-bucket{border:2.5px dashed #c9cfdc;border-radius:14px;padding:10px;min-height:110px;cursor:pointer;background:#fff}
+.qz-bucket b{display:block;margin-bottom:6px}
+.qz-in{display:flex;flex-wrap:wrap;gap:6px}
+
 </style>
 </head>
 <body>
@@ -219,7 +233,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   <symbol id="i-aid" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M12 10.5v6M9 13.5h6"/></symbol>
 </svg>
 
-<script>window.SITE={"config": {"siteTitle": "電腦急救站", "tagline": "看影片、做一次、過關！把上課最常卡住的電腦操作一關一關學會", "collection": "skillQuest", "firebase": {"apiKey": "AIzaSyDxAPNchjR37VsBPO4QltbuNIJ98F3mwtw", "authDomain": "worksheet-f47f3.firebaseapp.com", "projectId": "worksheet-f47f3", "storageBucket": "worksheet-f47f3.firebasestorage.app", "messagingSenderId": "42265052892", "appId": "1:42265052892:web:415d41d37b96fd24e61619"}, "categories": [{"id": "A", "name": "滑鼠與鍵盤", "icon": "mouse", "color": "#3b7dd8", "soft": "#e5effc"}, {"id": "B", "name": "複製與貼上", "icon": "copy", "color": "#2f9e62", "soft": "#e3f5ea"}, {"id": "C", "name": "檔案與資料夾", "icon": "folder", "color": "#d9822b", "soft": "#fdeedd"}, {"id": "D", "name": "圖片", "icon": "image", "color": "#8e5bd0", "soft": "#f0e8fb"}, {"id": "E", "name": "瀏覽器與分頁", "icon": "browser", "color": "#1b9aaa", "soft": "#ddf3f5"}, {"id": "F", "name": "急救包", "icon": "aid", "color": "#d9534f", "soft": "#fbe6e5"}], "certs": [{"id": "T1", "name": "電腦新手上路", "rule": {"core": true, "minLevels": 8}, "desc": "必修關卡全部通過"}, {"id": "T2", "name": "電腦小幫手", "rule": {"core": true, "perCategory": 2, "minLevels": 16}, "desc": "必修全過，而且每一類至少過 2 關"}, {"id": "T3", "name": "電腦急救小醫生", "rule": {"all": true, "minLevels": 24}, "desc": "目前開放的關卡全部通過"}]}, "levels": [{"code": "A1", "title": "選取文字", "category": "A", "core": true, "prereq": [], "summary": "用滑鼠拖曳選一句話、雙擊選一個單字、Ctrl+A 一次全選"}, {"code": "B1", "title": "複製貼上", "category": "B", "core": true, "prereq": ["A1"], "summary": "把一段文字複製下來，貼到另一個地方，不用自己重打"}, {"code": "B3", "title": "純文字貼上", "category": "B", "core": true, "prereq": ["B1"], "summary": "從網頁複製資料時，只貼文字、不要把顏色和字型一起帶過來"}, {"code": "C1", "title": "下載檔案與找到它", "category": "C", "core": true, "prereq": [], "summary": "下載的檔案跑去哪裡了？學會在「下載」資料夾找到它，再上傳回網站"}, {"code": "C2", "title": "檔案重新命名", "category": "C", "core": true, "prereq": ["C1"], "summary": "把檔案改成老師要的名字，而且不能弄壞後面的副檔名"}, {"code": "D1", "title": "另存圖片", "category": "D", "core": true, "prereq": ["C1"], "summary": "把網頁上的圖片存到電腦裡，之後才能放進簡報、文件或上傳"}, {"code": "E1", "title": "開新分頁與切換分頁", "category": "E", "core": true, "prereq": [], "summary": "讓連結在新分頁打開，在分頁之間切來切去，用完把多的分頁關掉"}, {"code": "E3", "title": "處理彈出視窗", "category": "E", "core": true, "prereq": [], "summary": "廣告、Cookie、通知、假中獎……跳出來的視窗要怎麼安全地關掉"}], "level": {"code": "D1", "title": "另存圖片", "category": "D", "core": true, "prereq": ["C1"], "order": 1, "enabled": true, "summary": "把網頁上的圖片存到電腦裡，之後才能放進簡報、文件或上傳", "learn": {"video": "", "steps": ["把滑鼠移到圖片上，按<b>右鍵<\/b>", "選「<b>另存圖片<\/b>」（有的電腦寫「圖片另存為」）", "跳出來的視窗會告訴你要存在哪裡，通常是<b>「下載」<\/b>資料夾；可以順便改檔名", "按「存檔」，圖片就在電腦裡了"], "tips": ["存之前看一下<b>存到哪個資料夾<\/b>，等一下才找得到。", "網路上的圖片大多有著作權，做作業要註明出處，不能拿去賣或說是自己畫的。"]}, "practice": {"checker": "fileUpload", "params": {"file": {"src": "assets/練習_小貓.png", "name": "練習_小貓.png", "alt": "小貓圖片"}}}, "challenge": {"checker": "fileUpload", "params": {"file": {"src": "assets/挑戰_火箭.png", "name": "挑戰_火箭.png", "alt": "火箭圖片"}, "say": ["把上面這張火箭圖片存到電腦裡", "把存好的圖片上傳回來"]}}}};</script>
+<script>window.SITE={"config": {"siteTitle": "電腦急救站", "tagline": "看影片、做一次、過關！把上課最常卡住的電腦操作一關一關學會", "collection": "skillQuest", "firebase": {"apiKey": "AIzaSyDxAPNchjR37VsBPO4QltbuNIJ98F3mwtw", "authDomain": "worksheet-f47f3.firebaseapp.com", "projectId": "worksheet-f47f3", "storageBucket": "worksheet-f47f3.firebasestorage.app", "messagingSenderId": "42265052892", "appId": "1:42265052892:web:415d41d37b96fd24e61619"}, "categories": [{"id": "A", "name": "滑鼠與鍵盤", "icon": "mouse", "color": "#3b7dd8", "soft": "#e5effc"}, {"id": "B", "name": "複製與貼上", "icon": "copy", "color": "#2f9e62", "soft": "#e3f5ea"}, {"id": "C", "name": "檔案與資料夾", "icon": "folder", "color": "#d9822b", "soft": "#fdeedd"}, {"id": "D", "name": "圖片", "icon": "image", "color": "#8e5bd0", "soft": "#f0e8fb"}, {"id": "E", "name": "瀏覽器與分頁", "icon": "browser", "color": "#1b9aaa", "soft": "#ddf3f5"}, {"id": "F", "name": "急救包", "icon": "aid", "color": "#d9534f", "soft": "#fbe6e5"}], "certs": [{"id": "T1", "name": "電腦新手上路", "rule": {"core": true, "minLevels": 8}, "desc": "必修關卡全部通過"}, {"id": "T2", "name": "電腦小幫手", "rule": {"core": true, "perCategory": 2, "minLevels": 16}, "desc": "必修全過，而且每一類至少過 2 關"}, {"id": "T3", "name": "電腦急救小醫生", "rule": {"all": true, "minLevels": 24}, "desc": "目前開放的關卡全部通過"}]}, "levels": [{"code": "A1", "title": "選取文字", "category": "A", "core": true, "prereq": [], "summary": "用滑鼠拖曳選一句話、雙擊選一個單字、Ctrl+A 一次全選"}, {"code": "A4", "title": "復原與取消復原", "category": "A", "core": false, "prereq": ["A1"], "summary": "不小心刪掉、貼錯了？Ctrl+Z 一鍵救回來，Ctrl+Y 再改回去"}, {"code": "B1", "title": "複製貼上", "category": "B", "core": true, "prereq": ["A1"], "summary": "把一段文字複製下來，貼到另一個地方，不用自己重打"}, {"code": "B3", "title": "純文字貼上", "category": "B", "core": true, "prereq": ["B1"], "summary": "從網頁複製資料時，只貼文字、不要把顏色和字型一起帶過來"}, {"code": "C1", "title": "下載檔案與找到它", "category": "C", "core": true, "prereq": [], "summary": "下載的檔案跑去哪裡了？學會在「下載」資料夾找到它，再上傳回網站"}, {"code": "C2", "title": "檔案重新命名", "category": "C", "core": true, "prereq": ["C1"], "summary": "把檔案改成老師要的名字，而且不能弄壞後面的副檔名"}, {"code": "C4", "title": "認識副檔名", "category": "C", "core": false, "prereq": ["C2"], "summary": "看檔名最後的 .jpg .docx .pdf，就知道它是什麼檔、要用什麼打開"}, {"code": "D1", "title": "另存圖片", "category": "D", "core": true, "prereq": ["C1"], "summary": "把網頁上的圖片存到電腦裡，之後才能放進簡報、文件或上傳"}, {"code": "E1", "title": "開新分頁與切換分頁", "category": "E", "core": true, "prereq": [], "summary": "讓連結在新分頁打開，在分頁之間切來切去，用完把多的分頁關掉"}, {"code": "E3", "title": "處理彈出視窗", "category": "E", "core": true, "prereq": [], "summary": "廣告、Cookie、通知、假中獎……跳出來的視窗要怎麼安全地關掉"}], "level": {"code": "D1", "title": "另存圖片", "category": "D", "core": true, "prereq": ["C1"], "order": 1, "enabled": true, "summary": "把網頁上的圖片存到電腦裡，之後才能放進簡報、文件或上傳", "learn": {"video": "", "steps": ["把滑鼠移到圖片上，按<b>右鍵<\/b>", "選「<b>另存圖片<\/b>」（有的電腦寫「圖片另存為」）", "跳出來的視窗會告訴你要存在哪裡，通常是<b>「下載」<\/b>資料夾；可以順便改檔名", "按「存檔」，圖片就在電腦裡了"], "tips": ["存之前看一下<b>存到哪個資料夾<\/b>，等一下才找得到。", "網路上的圖片大多有著作權，做作業要註明出處，不能拿去賣或說是自己畫的。"]}, "practice": {"checker": "fileUpload", "params": {"file": {"src": "assets/練習_小貓.png", "name": "練習_小貓.png", "alt": "小貓圖片"}}}, "challenge": {"checker": "fileUpload", "params": {"file": {"src": "assets/挑戰_火箭.png", "name": "挑戰_火箭.png", "alt": "火箭圖片"}, "say": ["把上面這張火箭圖片存到電腦裡", "把存好的圖片上傳回來"]}}}};</script>
 <script>
 /* ============================================================
    電腦急救站｜共用程式（地圖頁、關卡頁都用這一份）
@@ -705,6 +719,96 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
       else{startPoll();if(practice)ctx.hint('答對了！最後把「密碼小卡」分頁關掉：切過去按 <kbd>Ctrl</kbd>＋<kbd>W</kbd>，或按分頁上的 ×。');}
     });
     return function(){clearInterval(poll);ch.close();};
+  };
+
+  /* ---------- keyTask：在文字框裡依序完成任務，可指定要用哪個快速鍵 ----------
+     params.text：文字框一開始的內容；params.tasks：[{say, key, cond, hint}]
+       key ：必須用這個快速鍵完成（例 'ctrl+z'；可用 | 分隔多個 'ctrl+y|ctrl+shift+z'）
+       cond：{equals:'@original'|文字, contains, notContains, caps:true}——文字框內容要符合
+     條件達成但沒按指定快速鍵（例如自己重打）→ miss */
+  // 鍵盤事件 → 'ctrl+shift+z' 這種字串（單獨按 Shift 打字不算組合鍵）
+  function comboOf(e){
+    var mod=e.ctrlKey||e.metaKey, parts=[];
+    if(mod)parts.push('ctrl');
+    if(e.shiftKey&&(mod||e.altKey||e.key.length>1))parts.push('shift');
+    if(e.altKey)parts.push('alt');
+    parts.push(e.key.toLowerCase());
+    return parts.join('+');
+  }
+  function keyLabel(c){return c.split('+').map(function(k){return '<kbd>'+(k.length===1?k.toUpperCase():k.charAt(0).toUpperCase()+k.slice(1))+'</kbd>';}).join('＋');}
+  C.keyTask = function(el,p,ctx){
+    var practice=ctx.mode==='practice', T=p.tasks;
+    var tl=taskList(el,T.map(function(t){return t.say;}));
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<textarea class="field" data-ck="ta" rows="4" spellcheck="false"></textarea>';
+    el.appendChild(wrap);
+    var ta=wrap.querySelector('[data-ck=ta]'); ta.value=p.text||'';
+    var lastCombo='', lastAt=0;
+    function met(c){
+      var v=ta.value;
+      if(c.equals!=null&&v!==(c.equals==='@original'?p.text:c.equals))return false;
+      if(c.contains!=null&&v.indexOf(c.contains)<0)return false;
+      if(c.notContains!=null&&v.indexOf(c.notContains)>=0)return false;
+      return true;
+    }
+    function check(){
+      var t=T[tl.cur];if(!t)return;
+      if(!met(t.cond||{}))return;
+      if(t.key){
+        var ok=t.key.split('|').indexOf(lastCombo)>=0&&Date.now()-lastAt<1500;
+        if(!ok){ctx.miss(t.miss||('這一步要用 '+keyLabel(t.key.split('|')[0])+' 完成，不要自己重打。'));return;}
+      }
+      ctx.hint('');
+      if(tl.next()){ta.readOnly=true;ctx.pass();}
+      else if(practice&&T[tl.cur].hint)ctx.hint(T[tl.cur].hint);
+    }
+    ta.addEventListener('keydown',function(e){if(e.ctrlKey||e.metaKey||e.altKey||e.key.length>1){lastCombo=comboOf(e);lastAt=Date.now();}});
+    ta.addEventListener('input',function(){setTimeout(check,10);});
+    ta.addEventListener('keyup',function(){setTimeout(check,10);});
+    if(practice&&T[0].hint)ctx.hint(T[0].hint);
+  };
+
+  /* ---------- quiz：選擇題或分類題（不計分數，全部答對才過關）----------
+     params.kind：'choice'——questions:[{q, options:[…], answer:索引, why}]
+                  'bucket'——buckets:[名稱…]、items:[{t, b:桶子索引, why}]；拖曳或「先點項目再點桶子」 */
+  C.quiz = function(el,p,ctx){
+    var practice=ctx.mode==='practice';
+    var wrap=document.createElement('div');el.appendChild(wrap);
+    if(p.kind==='bucket'){
+      var left=p.items.length;
+      wrap.innerHTML='<div class="qz-pool" data-ck="pool">'+p.items.map(function(it,k){return '<span class="qz-item" draggable="true" data-k="'+k+'">'+esc(it.t)+'</span>';}).join('')+'</div>'+
+        '<div class="qz-buckets">'+p.buckets.map(function(b,k){return '<div class="qz-bucket" data-b="'+k+'"><b>'+esc(b)+'</b><div class="qz-in"></div></div>';}).join('')+'</div>';
+      var pick=null;
+      function sel(it){[].forEach.call(wrap.querySelectorAll('.qz-item'),function(x){x.classList.toggle('on',x===it);});pick=it;}
+      function put(it,bk){
+        var I=p.items[+it.dataset.k];
+        if(I.b!==+bk.dataset.b){ctx.miss('「'+esc(I.t)+'」不是放這裡喔。'+(practice&&I.why?esc(I.why):''));sel(null);return;}
+        bk.querySelector('.qz-in').appendChild(it);it.draggable=false;it.classList.remove('on');it.classList.add('ok');pick=null;ctx.hint(practice&&I.why?'答對了！'+esc(I.why):'');
+        if(--left===0)ctx.pass();
+      }
+      wrap.addEventListener('click',function(e){
+        var it=e.target.closest('.qz-item:not(.ok)');if(it){sel(it);return;}
+        var bk=e.target.closest('.qz-bucket');if(bk&&pick)put(pick,bk);
+      });
+      wrap.addEventListener('dragstart',function(e){var it=e.target.closest('.qz-item');if(it){sel(it);e.dataTransfer.setData('text/plain',it.dataset.k);}});
+      wrap.addEventListener('dragover',function(e){if(e.target.closest('.qz-bucket'))e.preventDefault();});
+      wrap.addEventListener('drop',function(e){var bk=e.target.closest('.qz-bucket');if(bk&&pick){e.preventDefault();put(pick,bk);}});
+      if(practice)ctx.hint('把上面的每一個拖到正確的框框裡（也可以先點一下，再點框框）。');
+      return;
+    }
+    var Qs=p.questions, i=0;
+    function show(){
+      if(i>=Qs.length){ctx.hint('');ctx.pass();return;}
+      var q=Qs[i];
+      wrap.innerHTML='<div class="task now"><span class="dot">'+(i+1)+'</span><span>'+q.q+'</span></div><div class="qz-opts">'+q.options.map(function(o,k){return '<button class="qz-opt" data-k="'+k+'">'+o+'</button>';}).join('')+'</div>';
+    }
+    wrap.addEventListener('click',function(e){
+      var b=e.target.closest('.qz-opt');if(!b)return;
+      var q=Qs[i];
+      if(+b.dataset.k!==q.answer){b.classList.add('no');ctx.miss(q.wrong||'再想想看。');return;}
+      ctx.hint(practice&&q.why?'答對了！'+q.why:'');i++;setTimeout(show,practice&&q.why?1400:300);
+    });
+    show();
   };
 })();
 

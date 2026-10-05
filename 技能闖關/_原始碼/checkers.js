@@ -317,4 +317,94 @@
     });
     return function(){clearInterval(poll);ch.close();};
   };
+
+  /* ---------- keyTask：在文字框裡依序完成任務，可指定要用哪個快速鍵 ----------
+     params.text：文字框一開始的內容；params.tasks：[{say, key, cond, hint}]
+       key ：必須用這個快速鍵完成（例 'ctrl+z'；可用 | 分隔多個 'ctrl+y|ctrl+shift+z'）
+       cond：{equals:'@original'|文字, contains, notContains, caps:true}——文字框內容要符合
+     條件達成但沒按指定快速鍵（例如自己重打）→ miss */
+  // 鍵盤事件 → 'ctrl+shift+z' 這種字串（單獨按 Shift 打字不算組合鍵）
+  function comboOf(e){
+    var mod=e.ctrlKey||e.metaKey, parts=[];
+    if(mod)parts.push('ctrl');
+    if(e.shiftKey&&(mod||e.altKey||e.key.length>1))parts.push('shift');
+    if(e.altKey)parts.push('alt');
+    parts.push(e.key.toLowerCase());
+    return parts.join('+');
+  }
+  function keyLabel(c){return c.split('+').map(function(k){return '<kbd>'+(k.length===1?k.toUpperCase():k.charAt(0).toUpperCase()+k.slice(1))+'</kbd>';}).join('＋');}
+  C.keyTask = function(el,p,ctx){
+    var practice=ctx.mode==='practice', T=p.tasks;
+    var tl=taskList(el,T.map(function(t){return t.say;}));
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<textarea class="field" data-ck="ta" rows="4" spellcheck="false"></textarea>';
+    el.appendChild(wrap);
+    var ta=wrap.querySelector('[data-ck=ta]'); ta.value=p.text||'';
+    var lastCombo='', lastAt=0;
+    function met(c){
+      var v=ta.value;
+      if(c.equals!=null&&v!==(c.equals==='@original'?p.text:c.equals))return false;
+      if(c.contains!=null&&v.indexOf(c.contains)<0)return false;
+      if(c.notContains!=null&&v.indexOf(c.notContains)>=0)return false;
+      return true;
+    }
+    function check(){
+      var t=T[tl.cur];if(!t)return;
+      if(!met(t.cond||{}))return;
+      if(t.key){
+        var ok=t.key.split('|').indexOf(lastCombo)>=0&&Date.now()-lastAt<1500;
+        if(!ok){ctx.miss(t.miss||('這一步要用 '+keyLabel(t.key.split('|')[0])+' 完成，不要自己重打。'));return;}
+      }
+      ctx.hint('');
+      if(tl.next()){ta.readOnly=true;ctx.pass();}
+      else if(practice&&T[tl.cur].hint)ctx.hint(T[tl.cur].hint);
+    }
+    ta.addEventListener('keydown',function(e){if(e.ctrlKey||e.metaKey||e.altKey||e.key.length>1){lastCombo=comboOf(e);lastAt=Date.now();}});
+    ta.addEventListener('input',function(){setTimeout(check,10);});
+    ta.addEventListener('keyup',function(){setTimeout(check,10);});
+    if(practice&&T[0].hint)ctx.hint(T[0].hint);
+  };
+
+  /* ---------- quiz：選擇題或分類題（不計分數，全部答對才過關）----------
+     params.kind：'choice'——questions:[{q, options:[…], answer:索引, why}]
+                  'bucket'——buckets:[名稱…]、items:[{t, b:桶子索引, why}]；拖曳或「先點項目再點桶子」 */
+  C.quiz = function(el,p,ctx){
+    var practice=ctx.mode==='practice';
+    var wrap=document.createElement('div');el.appendChild(wrap);
+    if(p.kind==='bucket'){
+      var left=p.items.length;
+      wrap.innerHTML='<div class="qz-pool" data-ck="pool">'+p.items.map(function(it,k){return '<span class="qz-item" draggable="true" data-k="'+k+'">'+esc(it.t)+'</span>';}).join('')+'</div>'+
+        '<div class="qz-buckets">'+p.buckets.map(function(b,k){return '<div class="qz-bucket" data-b="'+k+'"><b>'+esc(b)+'</b><div class="qz-in"></div></div>';}).join('')+'</div>';
+      var pick=null;
+      function sel(it){[].forEach.call(wrap.querySelectorAll('.qz-item'),function(x){x.classList.toggle('on',x===it);});pick=it;}
+      function put(it,bk){
+        var I=p.items[+it.dataset.k];
+        if(I.b!==+bk.dataset.b){ctx.miss('「'+esc(I.t)+'」不是放這裡喔。'+(practice&&I.why?esc(I.why):''));sel(null);return;}
+        bk.querySelector('.qz-in').appendChild(it);it.draggable=false;it.classList.remove('on');it.classList.add('ok');pick=null;ctx.hint(practice&&I.why?'答對了！'+esc(I.why):'');
+        if(--left===0)ctx.pass();
+      }
+      wrap.addEventListener('click',function(e){
+        var it=e.target.closest('.qz-item:not(.ok)');if(it){sel(it);return;}
+        var bk=e.target.closest('.qz-bucket');if(bk&&pick)put(pick,bk);
+      });
+      wrap.addEventListener('dragstart',function(e){var it=e.target.closest('.qz-item');if(it){sel(it);e.dataTransfer.setData('text/plain',it.dataset.k);}});
+      wrap.addEventListener('dragover',function(e){if(e.target.closest('.qz-bucket'))e.preventDefault();});
+      wrap.addEventListener('drop',function(e){var bk=e.target.closest('.qz-bucket');if(bk&&pick){e.preventDefault();put(pick,bk);}});
+      if(practice)ctx.hint('把上面的每一個拖到正確的框框裡（也可以先點一下，再點框框）。');
+      return;
+    }
+    var Qs=p.questions, i=0;
+    function show(){
+      if(i>=Qs.length){ctx.hint('');ctx.pass();return;}
+      var q=Qs[i];
+      wrap.innerHTML='<div class="task now"><span class="dot">'+(i+1)+'</span><span>'+q.q+'</span></div><div class="qz-opts">'+q.options.map(function(o,k){return '<button class="qz-opt" data-k="'+k+'">'+o+'</button>';}).join('')+'</div>';
+    }
+    wrap.addEventListener('click',function(e){
+      var b=e.target.closest('.qz-opt');if(!b)return;
+      var q=Qs[i];
+      if(+b.dataset.k!==q.answer){b.classList.add('no');ctx.miss(q.wrong||'再想想看。');return;}
+      ctx.hint(practice&&q.why?'答對了！'+q.why:'');i++;setTimeout(show,practice&&q.why?1400:300);
+    });
+    show();
+  };
 })();
