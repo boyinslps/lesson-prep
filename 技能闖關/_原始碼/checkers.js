@@ -494,4 +494,45 @@
     el.insertAdjacentHTML('beforeend','<div class="fb"><div class="fb-tabs"><span class="fb-tab">'+esc(p.tab||'載入中…')+'</span></div><div class="fb-url">'+esc(p.url||'school.example.tw')+'</div><div class="fb-page" style="display:grid;place-items:center;min-height:240px"><div class="spin"></div><p style="color:#888">載入中，請稍候……</p></div></div>');
     if(ctx.mode==='practice')ctx.hint('按鍵盤最上面一排的 <kbd>F5</kbd>，或按網址列左邊的「↻」重新整理按鈕。');
   };
+
+  /* ---------- zoom：網頁縮放（Ctrl+滾輪／Ctrl+加減）再用 Ctrl+0 還原 ----------
+     用 devicePixelRatio 判斷縮放比例；params.bigger：要放大到原本的幾倍（預設 1.2） */
+  C.zoom = function(el,p,ctx){
+    var practice=ctx.mode==='practice', base=window.devicePixelRatio, k0=false, big=false;
+    var tl=taskList(el,['把網頁<b>放大</b>（按住 <kbd>Ctrl</kbd> 滾動滑鼠滾輪往上，或按 <kbd>Ctrl</kbd>＋<kbd>+</kbd>）','用 <kbd>Ctrl</kbd>＋<kbd>0</kbd>（數字零）一鍵恢復原本大小']);
+    el.insertAdjacentHTML('beforeend','<div class="passage" style="font-size:13px">這段字很小很小，看不清楚的時候，可以把網頁放大。放大之後記得恢復，不然版面會跑掉。</div>');
+    function check(){
+      var r=window.devicePixelRatio/base;
+      if(tl.cur===0&&r>=(p.bigger||1.2)){big=true;tl.next();if(practice)ctx.hint('放大了！字變大了吧？現在按 <kbd>Ctrl</kbd>＋<kbd>0</kbd> 恢復。');return;}
+      if(tl.cur===1&&Math.abs(r-1)<0.02){
+        if(!k0){ctx.miss('大小恢復了，不過這一關要練 <kbd>Ctrl</kbd>＋<kbd>0</kbd>：再放大一次，然後按 <kbd>Ctrl</kbd>＋<kbd>0</kbd>。');return;}
+        tl.next();ctx.hint('');ctx.pass();
+      }
+    }
+    function onKey(e){if((e.ctrlKey||e.metaKey)&&(e.key==='0'||e.code==='Digit0'||e.code==='Numpad0')){k0=true;setTimeout(function(){k0=false;},2500);setTimeout(check,300);}}
+    window.addEventListener('resize',check);document.addEventListener('keydown',onKey);
+    if(practice)ctx.hint('按住 <kbd>Ctrl</kbd> 不放，滑鼠滾輪往上滾兩下。');
+    return function(){window.removeEventListener('resize',check);document.removeEventListener('keydown',onKey);};
+  };
+
+  /* ---------- findWord：用 Ctrl+F 在長文章裡找字，回答出現幾次 ----------
+     params.passage（可用 \n 分段）、params.word；次數由程式自己數 */
+  C.findWord = function(el,p,ctx){
+    var practice=ctx.mode==='practice', usedF=false, n=p.passage.split(p.word).length-1;
+    var tl=taskList(el,['按 <kbd>Ctrl</kbd>＋<kbd>F</kbd>，在右上角出現的搜尋框打「<b>'+esc(p.word)+'</b>」','看搜尋框右邊的數字（例如 1/5），回答下面的問題']);
+    el.insertAdjacentHTML('beforeend','<div class="passage" style="max-height:260px;overflow:auto">'+p.passage.split('\n').map(function(t){return '<p style="margin:0 0 10px">'+esc(t)+'</p>';}).join('')+'</div>'+
+      '<label class="lbl">「'+esc(p.word)+'」在文章裡出現幾次？<input class="field" data-ck="n" inputmode="numeric" maxlength="3" style="min-height:0;max-width:120px;margin-top:6px"></label>');
+    var inp=el.querySelector('[data-ck=n]');
+    function onKey(e){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='f'){usedF=true;if(tl.cur===0){tl.next();if(practice)ctx.hint('打好字之後，搜尋框右邊會出現「1/'+'?'+'」，後面那個數字就是總共有幾個。');}}}
+    document.addEventListener('keydown',onKey);
+    inp.addEventListener('input',function(){
+      var v=inp.value.replace(/\D/g,'');if(v!==inp.value)inp.value=v;if(!v)return;
+      clearTimeout(inp._t);inp._t=setTimeout(function(){
+        if(!usedF){ctx.miss('先按 <kbd>Ctrl</kbd>＋<kbd>F</kbd> 讓電腦幫你找，不要用眼睛一個一個數。');inp.value='';return;}
+        if(+v!==n){ctx.miss('不對喔，再看一次搜尋框右邊的數字（斜線後面那個）。');return;}
+        while(tl.cur<2)tl.next();inp.readOnly=true;ctx.hint('');ctx.pass();
+      },500);
+    });
+    return function(){document.removeEventListener('keydown',onKey);};
+  };
 })();

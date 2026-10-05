@@ -1,0 +1,23 @@
+{
+  "code": "E4",
+  "title": "網頁縮放與還原",
+  "category": "E",
+  "core": false,
+  "prereq": [],
+  "order": 4,
+  "enabled": true,
+  "summary": "字太小看不清楚就放大；畫面突然變好大，Ctrl+0 一鍵還原",
+  "learn": {
+    "video": "",
+    "steps": [
+      "<b>放大</b>：按住 <kbd>Ctrl</kbd>，滑鼠滾輪往上；或按 <kbd>Ctrl</kbd>＋<kbd>+</kbd>",
+      "<b>縮小</b>：按住 <kbd>Ctrl</kbd>，滾輪往下；或按 <kbd>Ctrl</kbd>＋<kbd>-</kbd>",
+      "<b>還原 100%</b>：按 <kbd>Ctrl</kbd>＋<kbd>0</kbd>（數字零）",
+      "網址列右邊出現放大鏡圖示，代表這個網頁有被縮放過"
+    ],
+    "tips": ["畫面突然變很大或很小，通常是不小心按著 Ctrl 滾了滾輪，按 <kbd>Ctrl</kbd>＋<kbd>0</kbd> 就好。"]
+  },
+  "practice": {"checker": "zoom", "params": {}},
+  "challenge": {"checker": "zoom", "params": {"bigger": 1.4}},
+  "production": {"video": "todo", "videoKind": "web"}
+}
