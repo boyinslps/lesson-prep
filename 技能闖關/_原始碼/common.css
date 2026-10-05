@@ -207,3 +207,5 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 .grid svg.links path{fill:none;stroke:#b8c0d2;stroke-width:2.5;stroke-dasharray:6 5}
 .grid svg.links path.done{stroke:var(--green);stroke-dasharray:none}
 .card{z-index:1}
+.spin{width:46px;height:46px;border-radius:50%;border:5px solid #e3e6ee;border-top-color:#1a73e8;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}

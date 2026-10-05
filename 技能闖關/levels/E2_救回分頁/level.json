@@ -1,0 +1,22 @@
+{
+  "code": "E2",
+  "title": "救回關錯的分頁",
+  "category": "E",
+  "core": false,
+  "prereq": ["E1"],
+  "order": 2,
+  "enabled": true,
+  "summary": "不小心把分頁關掉了？Ctrl+Shift+T 一秒救回來",
+  "learn": {
+    "video": "",
+    "steps": [
+      "不小心按到分頁的 ×、或按了 <kbd>Ctrl</kbd>＋<kbd>W</kbd>，分頁就關掉了",
+      "馬上按 <kbd>Ctrl</kbd>＋<kbd>Shift</kbd>＋<kbd>T</kbd>，剛剛關掉的分頁會回來",
+      "連按好幾次，可以依序救回更早關掉的分頁"
+    ],
+    "tips": ["也可以在分頁列空白的地方按右鍵 →「重新開啟已關閉的分頁」。", "救回來的分頁，之前打的字不一定還在，重要的東西要記得存檔。"]
+  },
+  "practice": {"checker": "tabReopen", "params": {}},
+  "challenge": {"checker": "tabReopen", "params": {"linkText": "打開要練習的分頁"}},
+  "production": {"video": "todo", "videoKind": "web"}
+}

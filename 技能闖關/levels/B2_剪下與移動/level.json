@@ -1,0 +1,39 @@
+{
+  "code": "B2",
+  "title": "剪下與移動文字",
+  "category": "B",
+  "core": false,
+  "prereq": ["B1"],
+  "order": 2,
+  "enabled": true,
+  "summary": "文字放錯位置？用剪下（Ctrl+X）把它搬到對的地方",
+  "learn": {
+    "video": "",
+    "steps": [
+      "把要搬走的文字<b>選起來</b>",
+      "按 <kbd>Ctrl</kbd>＋<kbd>X</kbd> 剪下——原本的字會<b>不見</b>，但電腦已經記住了",
+      "點一下要放的地方",
+      "按 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上"
+    ],
+    "tips": ["複製（Ctrl+C）是「影印一份」，原本的還在；剪下（Ctrl+X）是「搬家」，原本的會不見。", "X 長得像剪刀。"]
+  },
+  "practice": {
+    "checker": "copyPaste",
+    "params": {
+      "cut": true,
+      "srcLabel": "購物清單（放錯了一樣）",
+      "passage": "牛奶、雞蛋、麵包、橡皮擦、蘋果",
+      "tasks": [{"target": "橡皮擦", "label": "文具清單", "say": "「橡皮擦」不是食物！把它剪下，貼到「文具清單」"}]
+    }
+  },
+  "challenge": {
+    "checker": "copyPaste",
+    "params": {
+      "cut": true,
+      "srcLabel": "動物報告（有一句放錯段落）",
+      "passage": "臺灣黑熊住在高山森林裡。牠最愛吃的是芒果和香蕉。牠胸前有 V 字形的白毛。",
+      "tasks": [{"target": "牠最愛吃的是芒果和香蕉。", "label": "我最喜歡的水果", "say": "「牠最愛吃的是芒果和香蕉。」放錯了，把它搬到「我最喜歡的水果」"}]
+    }
+  },
+  "production": {"video": "todo", "videoKind": "web"}
+}

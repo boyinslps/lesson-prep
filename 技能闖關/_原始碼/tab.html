@@ -1,6 +1,6 @@
 <main><div class="wrap" style="padding-top:40px;padding-bottom:40px;max-width:560px">
   <div class="box" style="text-align:center">
-    <h2>密碼小卡</h2>
+    <h2 id="tabTitle">練習分頁</h2>
     <div id="tabMsg"><p>連線中…</p></div>
   </div>
 </div></main>
@@ -17,6 +17,10 @@
     if(d.type==='ping'){send('pong');return;}
     if(d.type!=='code')return;
     got=true;
+    if(d.mode==='url'){msg.innerHTML='<p style="font-size:20px;font-weight:700">把這一頁的網址複製下來</p><p style="color:var(--sub)">① 點一下最上面的<b>網址列</b>（網址會整個變藍）<br>② 按 <kbd>Ctrl</kbd>＋<kbd>C</kbd> 複製<br>③ 切回「電腦急救站」的分頁，貼到框框裡</p>';return;}
+    if(d.mode==='close'){msg.innerHTML='<p style="font-size:20px;font-weight:700">這是要練習「關掉」的分頁</p><p style="color:var(--sub)">按 <kbd>Ctrl</kbd>＋<kbd>W</kbd> 把它關掉（或按分頁上的 ×）。</p>';if(document.visibilityState==='visible')send('seen');return;}
+    if(d.mode==='back'){msg.innerHTML='<p style="font-size:22px;font-weight:900;color:var(--green)">救回來了！</p><p style="color:var(--sub)">切回「電腦急救站」的分頁看看。</p>';return;}
+    document.getElementById('tabTitle').textContent='密碼小卡';document.title='密碼小卡｜電腦急救站';
     msg.innerHTML='<p>密碼是</p><p style="font-size:56px;font-weight:900;letter-spacing:10px;margin:0;color:var(--navy)">'+Quest.esc(d.code)+'</p>'+
       '<p style="color:var(--sub)">記住它，切回「電腦急救站」的分頁輸入。<br>切換方法：點上面的分頁，或按 <kbd>Ctrl</kbd>＋<kbd>Tab</kbd>。</p>';
     if(document.visibilityState==='visible')send('seen');

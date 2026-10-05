@@ -71,26 +71,35 @@
      params.passage：來源文字；params.tasks：[{target, label}]，每個任務一個文字框
      判定：要發生「複製」動作，而且文字框是用「貼上」放進去的，內容含 target */
   C.copyPaste = function(el,p,ctx){
+    // params.cut：true＝剪下（來源變成可編輯的文字框，剪下後原處要消失）
     var practice=ctx.mode==='practice';
     var html=esc(p.passage);
     if(practice)p.tasks.forEach(function(t){html=html.replace(esc(t.target),'<mark>'+esc(t.target)+'</mark>');});
-    var tl=taskList(el,p.tasks.map(function(t){return t.say||('複製「'+esc(t.target)+'」，貼到「'+esc(t.label)+'」');}));
+    var tl=taskList(el,p.tasks.map(function(t){return t.say||((p.cut?'剪下':'複製')+'「'+esc(t.target)+'」，貼到「'+esc(t.label)+'」');}));
     var wrap=document.createElement('div');
-    wrap.innerHTML='<div class="passage">'+html+'</div>'+p.tasks.map(function(t,k){return '<label class="lbl">'+esc(t.label)+'<textarea class="field" data-ck="f'+k+'" rows="2" spellcheck="false" style="margin-top:6px"></textarea></label>';}).join('');
+    wrap.innerHTML=(p.cut?'<label class="lbl">'+esc(p.srcLabel||'原本的文字')+'<textarea class="field" data-ck="src" rows="3" spellcheck="false" style="margin-top:6px"></textarea></label>':'<div class="passage">'+html+'</div>')+p.tasks.map(function(t,k){return '<label class="lbl">'+esc(t.label)+'<textarea class="field" data-ck="f'+k+'" rows="2" spellcheck="false" style="margin-top:6px"></textarea></label>';}).join('');
     el.appendChild(wrap);
-    var copied=false;
+    var copied=false, src=wrap.querySelector('[data-ck=src]'), cutDone=false;
     var onCopy=function(){copied=true;if(practice)ctx.hint('複製好了！現在點一下下面的框框，按 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上。');};
-    document.addEventListener('copy',onCopy);
+    if(src){
+      src.value=p.passage;
+      src.addEventListener('cut',function(){cutDone=true;if(practice)ctx.hint('剪下了！原本的字不見了，但電腦記住了。點下面的框框，按 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上。');});
+      src.addEventListener('copy',function(e){e.stopPropagation();if(practice)ctx.hint('這是「複製」喔，原本的字還在。這一關要用 <kbd>Ctrl</kbd>＋<kbd>X</kbd> 剪下。');});
+      if(practice)ctx.hint('把「'+esc(p.tasks[0].target)+'」選起來，按 <kbd>Ctrl</kbd>＋<kbd>X</kbd> 剪下。');
+    }else document.addEventListener('copy',onCopy);
     p.tasks.forEach(function(t,k){
-      var f=wrap.querySelector('[data-ck=f'+k+']'), pasted=false;
-      f.addEventListener('paste',function(){pasted=true;setTimeout(check,20);});
-      f.addEventListener('input',function(){setTimeout(check,20);});
+      var f=wrap.querySelector('[data-ck=f'+k+']'), pasted=false, tm=null;
+      // 貼上會同時觸發 paste 和 input，合併成一次判定，避免錯一次算兩次
+      function later(){clearTimeout(tm);tm=setTimeout(check,30);}
+      f.addEventListener('paste',function(){pasted=true;later();});
+      f.addEventListener('input',later);
       function check(){
         if(tl.cur!==k)return;
         var v=f.value;
         if(!v.trim())return;
         if(!pasted){ctx.miss('這一關要用「貼上」喔，不要自己打字。先清空框框，再用 <kbd>Ctrl</kbd>＋<kbd>V</kbd>。');f.value='';return;}
         if(norm(v).indexOf(norm(t.target))<0){ctx.miss('貼上的內容不對，檢查一下是不是複製到別的字了。清空框框後再試一次。');return;}
+        if(src&&(!cutDone||norm(src.value).indexOf(norm(t.target))>=0)){ctx.miss('原本的地方還有這段字——這是「複製」不是「剪下」。清空下面的框框，按 <kbd>Ctrl</kbd>＋<kbd>Z</kbd> 或重來，改用 <kbd>Ctrl</kbd>＋<kbd>X</kbd>。');return;}
         ctx.hint('');f.readOnly=true;
         if(tl.next())ctx.pass();
         else{copied=false;var nx=wrap.querySelector('[data-ck=f'+(k+1)+']');if(nx)nx.scrollIntoView({block:'nearest'});}
@@ -406,5 +415,75 @@
       ctx.hint(practice&&q.why?'答對了！'+q.why:'');i++;setTimeout(show,practice&&q.why?1400:300);
     });
     show();
+  };
+
+  /* ---------- tabUrl：開新分頁 → 複製網址列的網址 → 切回來貼上 ----------
+     搭配 site/tab/（mode:url）。網址裡有這次專用的 #代碼，所以只有複製那個分頁的網址才會對。 */
+  C.tabUrl = function(el,p,ctx){
+    var practice=ctx.mode==='practice', sid='u'+ctx.mode+Math.random().toString(36).slice(2,8);
+    var tl=taskList(el,['按住 <kbd>Ctrl</kbd> 點下面的連結，在新分頁打開','到新分頁，點網址列，按 <kbd>Ctrl</kbd>＋<kbd>C</kbd> 複製網址','切回這裡，把網址貼到框框']);
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<div class="passage"><a href="../tab/#'+sid+'" target="_blank" data-ck="link" style="font-weight:700;color:var(--ac)">'+esc(p.linkText||'打開要複製網址的網頁')+'</a></div>'+
+      '<label class="lbl">網址<textarea class="field" data-ck="url" rows="2" spellcheck="false" style="margin-top:6px"></textarea></label>';
+    el.appendChild(wrap);
+    var link=wrap.querySelector('[data-ck=link]'), f=wrap.querySelector('[data-ck=url]'), pasted=false;
+    link.addEventListener('click',function(e){if(e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();ctx.miss('要<b>按住 <kbd>Ctrl</kbd></b> 再點連結，讓它在新分頁打開。');});
+    if(!window.BroadcastChannel){ctx.hint('這個瀏覽器太舊，請改用 Chrome。');return;}
+    var ch=new BroadcastChannel('skillquest-tab');
+    ch.onmessage=function(e){var d=e.data||{};if(d.sid!==sid)return;
+      if(d.type==='hello'){ch.postMessage({sid:sid,type:'code',mode:'url'});if(tl.cur===0){tl.next();if(practice)ctx.hint('打開了！切到新分頁，照上面的說明複製網址。');}}
+      else if(d.type==='seen'&&tl.cur===1&&practice)ctx.hint('點一下網址列，網址會整個變藍，這時按 <kbd>Ctrl</kbd>＋<kbd>C</kbd>。');};
+    var tm=null;function later(){clearTimeout(tm);tm=setTimeout(check,30);}
+    f.addEventListener('paste',function(){pasted=true;later();});
+    f.addEventListener('input',later);
+    function clean(u){try{u=decodeURI(u);}catch(x){}return u.trim().replace(/^https?:\/\//,'').replace(/\/$/,'');}
+    function check(){
+      var v=f.value.trim();if(!v)return;
+      if(!pasted){ctx.miss('網址要用複製貼上，不要自己打（很容易打錯）。清空框框再試一次。');f.value='';return;}
+      if(clean(v)!==clean(link.href)){ctx.miss(v.indexOf('#'+sid)<0?'這不是那個分頁的網址。到新打開的分頁，點網址列再複製一次。':'網址不完整，點一下網址列讓它整個變藍，再複製。');pasted=false;return;}
+      while(tl.cur<3)tl.next();f.readOnly=true;ctx.hint('');ctx.pass();
+    }
+    return function(){ch.close();};
+  };
+
+  /* ---------- tabReopen：開分頁 → 關掉 → 用 Ctrl+Shift+T 救回來 ---------- */
+  C.tabReopen = function(el,p,ctx){
+    var practice=ctx.mode==='practice', sid='r'+ctx.mode+Math.random().toString(36).slice(2,8);
+    var tl=taskList(el,['按住 <kbd>Ctrl</kbd> 點下面的連結，在新分頁打開','切到那個分頁，把它關掉（<kbd>Ctrl</kbd>＋<kbd>W</kbd>）','糟糕關錯了！按 <kbd>Ctrl</kbd>＋<kbd>Shift</kbd>＋<kbd>T</kbd> 把它救回來']);
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<div class="passage"><a href="../tab/#'+sid+'" target="_blank" data-ck="link" style="font-weight:700;color:var(--ac)">'+esc(p.linkText||'打開練習用的分頁')+'</a></div>';
+    el.appendChild(wrap);
+    wrap.querySelector('[data-ck=link]').addEventListener('click',function(e){if(e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();ctx.miss('要<b>按住 <kbd>Ctrl</kbd></b> 再點連結。');});
+    if(!window.BroadcastChannel){ctx.hint('這個瀏覽器太舊，請改用 Chrome。');return;}
+    var ch=new BroadcastChannel('skillquest-tab'), lastPong=0, poll=null;
+    function closed(){clearInterval(poll);poll=null;if(tl.cur===1){tl.next();if(practice)ctx.hint('關掉了。現在按 <kbd>Ctrl</kbd>＋<kbd>Shift</kbd>＋<kbd>T</kbd>（三個鍵一起按），剛剛關掉的分頁會回來。');}}
+    ch.onmessage=function(e){var d=e.data||{};if(d.sid!==sid)return;
+      if(d.type==='pong'){lastPong=Date.now();return;}
+      if(d.type==='hello'){
+        if(tl.cur===2){ch.postMessage({sid:sid,type:'code',mode:'back'});tl.next();ctx.hint('');ctx.pass();return;}
+        ch.postMessage({sid:sid,type:'code',mode:'close'});
+        lastPong=Date.now();
+        if(!poll)poll=setInterval(function(){ch.postMessage({sid:sid,type:'ping'});if(Date.now()-lastPong>2500)closed();},1000);
+        if(tl.cur===0){tl.next();if(practice)ctx.hint('打開了！切到那個分頁，按 <kbd>Ctrl</kbd>＋<kbd>W</kbd> 把它關掉。');}
+      }else if(d.type==='bye')closed();
+    };
+    return function(){clearInterval(poll);ch.close();};
+  };
+
+  /* ---------- reload：網頁卡住了 → 按 F5（或重新整理鈕）----------
+     進關卡時在 sessionStorage 記一筆；重新整理後同一個分頁回來、而且是 reload，就算過關。 */
+  C.reload = function(el,p,ctx){
+    var key='sq-reload-'+ctx.mode, t0=0;
+    try{t0=+sessionStorage.getItem(key)||0;}catch(e){}
+    var nav=(performance.getEntriesByType&&performance.getEntriesByType('navigation')[0])||{};
+    var tl=taskList(el,[p.say||'這個網頁卡住了，一直轉圈圈。用<b>重新整理</b>讓它重新載入']);
+    if(t0&&Date.now()-t0<10*60*1000&&nav.type==='reload'){
+      try{sessionStorage.removeItem(key);}catch(e){}
+      el.insertAdjacentHTML('beforeend','<div class="passage" style="text-align:center"><b style="color:var(--green)">重新整理成功，網頁正常了！</b></div>');
+      tl.next();setTimeout(ctx.pass,400);return;
+    }
+    try{sessionStorage.setItem(key,String(Date.now()));}catch(e){}
+    el.insertAdjacentHTML('beforeend','<div class="fb"><div class="fb-tabs"><span class="fb-tab">'+esc(p.tab||'載入中…')+'</span></div><div class="fb-url">'+esc(p.url||'school.example.tw')+'</div><div class="fb-page" style="display:grid;place-items:center;min-height:240px"><div class="spin"></div><p style="color:#888">載入中，請稍候……</p></div></div>');
+    if(ctx.mode==='practice')ctx.hint('按鍵盤最上面一排的 <kbd>F5</kbd>，或按網址列左邊的「↻」重新整理按鈕。');
   };
 })();

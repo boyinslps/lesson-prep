@@ -1,0 +1,22 @@
+{
+  "code": "F3",
+  "title": "網頁卡住了：重新整理",
+  "category": "F",
+  "core": false,
+  "prereq": [],
+  "order": 3,
+  "enabled": true,
+  "summary": "網頁一直轉圈圈、按了沒反應？先重新整理看看",
+  "learn": {
+    "video": "",
+    "steps": [
+      "網頁一直轉圈圈、圖片跑不出來、按鈕按了沒反應，先試試<b>重新整理</b>",
+      "按鍵盤最上面一排的 <kbd>F5</kbd>，或按網址列左邊的 <b>↻</b>",
+      "還是不行？等幾秒再試一次；再不行就舉手問老師"
+    ],
+    "tips": ["正在填的表單或打到一半的字，重新整理可能會不見。先把重要的字複製起來再按。"]
+  },
+  "practice": {"checker": "reload", "params": {}},
+  "challenge": {"checker": "reload", "params": {"say": "學習單的網頁卡住了，讓它重新載入", "tab": "學習單", "url": "pcclass.example.tw/worksheet"}},
+  "production": {"video": "todo", "videoKind": "web"}
+}

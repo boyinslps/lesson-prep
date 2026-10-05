@@ -1,0 +1,23 @@
+{
+  "code": "B4",
+  "title": "複製網址",
+  "category": "B",
+  "core": false,
+  "prereq": ["B1", "E1"],
+  "order": 4,
+  "enabled": true,
+  "summary": "交作業、寫資料來源都要附網址——從網址列完整複製下來",
+  "learn": {
+    "video": "assets/教學.mp4",
+    "poster": "assets/封面.jpg",
+    "steps": [
+      "到要複製網址的網頁，<b>點一下最上面的網址列</b>，網址會整個變藍（全選）",
+      "按 <kbd>Ctrl</kbd>＋<kbd>C</kbd> 複製",
+      "切到要貼的地方（文件、表單、學習單），按 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上"
+    ],
+    "tips": ["網址很長又有奇怪的符號，<b>不要自己打</b>，一定用複製貼上。", "沒變藍？在網址列裡按 <kbd>Ctrl</kbd>＋<kbd>A</kbd> 全選再複製。"]
+  },
+  "practice": {"checker": "tabUrl", "params": {"linkText": "打開「景點介紹」網頁"}},
+  "challenge": {"checker": "tabUrl", "params": {"linkText": "打開今天要查的網頁"}},
+  "production": {"video": "done", "videoKind": "web", "spec": "沿用四上 L04 教學_複製網址貼文件.mp4（specs/四上L04_複製網址.json）"}
+}

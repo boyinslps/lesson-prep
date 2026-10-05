@@ -218,6 +218,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 .grid svg.links path{fill:none;stroke:#b8c0d2;stroke-width:2.5;stroke-dasharray:6 5}
 .grid svg.links path.done{stroke:var(--green);stroke-dasharray:none}
 .card{z-index:1}
+.spin{width:46px;height:46px;border-radius:50%;border:5px solid #e3e6ee;border-top-color:#1a73e8;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 </style>
 </head>
@@ -240,7 +242,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   <symbol id="i-aid" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M12 10.5v6M9 13.5h6"/></symbol>
 </svg>
 
-<script>window.SITE={"config": {"siteTitle": "電腦急救站", "tagline": "看影片、做一次、過關！把上課最常卡住的電腦操作一關一關學會", "collection": "skillQuest", "firebase": {"apiKey": "AIzaSyDxAPNchjR37VsBPO4QltbuNIJ98F3mwtw", "authDomain": "worksheet-f47f3.firebaseapp.com", "projectId": "worksheet-f47f3", "storageBucket": "worksheet-f47f3.firebasestorage.app", "messagingSenderId": "42265052892", "appId": "1:42265052892:web:415d41d37b96fd24e61619"}, "categories": [{"id": "A", "name": "滑鼠與鍵盤", "icon": "mouse", "color": "#3b7dd8", "soft": "#e5effc"}, {"id": "B", "name": "複製與貼上", "icon": "copy", "color": "#2f9e62", "soft": "#e3f5ea"}, {"id": "C", "name": "檔案與資料夾", "icon": "folder", "color": "#d9822b", "soft": "#fdeedd"}, {"id": "D", "name": "圖片", "icon": "image", "color": "#8e5bd0", "soft": "#f0e8fb"}, {"id": "E", "name": "瀏覽器與分頁", "icon": "browser", "color": "#1b9aaa", "soft": "#ddf3f5"}, {"id": "F", "name": "急救包", "icon": "aid", "color": "#d9534f", "soft": "#fbe6e5"}], "certs": [{"id": "T1", "name": "電腦新手上路", "rule": {"core": true, "minLevels": 8}, "desc": "必修關卡全部通過"}, {"id": "T2", "name": "電腦小幫手", "rule": {"core": true, "perCategory": 2, "minLevels": 16}, "desc": "必修全過，而且每一類至少過 2 關"}, {"id": "T3", "name": "電腦急救小醫生", "rule": {"all": true, "minLevels": 24}, "desc": "目前開放的關卡全部通過"}]}, "levels": [{"code": "A1", "title": "選取文字", "category": "A", "core": true, "prereq": [], "summary": "用滑鼠拖曳選一句話、雙擊選一個單字、Ctrl+A 一次全選"}, {"code": "A4", "title": "復原與取消復原", "category": "A", "core": false, "prereq": ["A1"], "summary": "不小心刪掉、貼錯了？Ctrl+Z 一鍵救回來，Ctrl+Y 再改回去"}, {"code": "B1", "title": "複製貼上", "category": "B", "core": true, "prereq": ["A1"], "summary": "把一段文字複製下來，貼到另一個地方，不用自己重打"}, {"code": "B3", "title": "純文字貼上", "category": "B", "core": true, "prereq": ["B1"], "summary": "從網頁複製資料時，只貼文字、不要把顏色和字型一起帶過來"}, {"code": "C1", "title": "下載檔案與找到它", "category": "C", "core": true, "prereq": [], "summary": "下載的檔案跑去哪裡了？學會在「下載」資料夾找到它，再上傳回網站"}, {"code": "C2", "title": "檔案重新命名", "category": "C", "core": true, "prereq": ["C1"], "summary": "把檔案改成老師要的名字，而且不能弄壞後面的副檔名"}, {"code": "C4", "title": "認識副檔名", "category": "C", "core": false, "prereq": ["C2"], "summary": "看檔名最後的 .jpg .docx .pdf，就知道它是什麼檔、要用什麼打開"}, {"code": "D1", "title": "另存圖片", "category": "D", "core": true, "prereq": ["C1"], "summary": "把網頁上的圖片存到電腦裡，之後才能放進簡報、文件或上傳"}, {"code": "E1", "title": "開新分頁與切換分頁", "category": "E", "core": true, "prereq": [], "summary": "讓連結在新分頁打開，在分頁之間切來切去，用完把多的分頁關掉"}, {"code": "E3", "title": "處理彈出視窗", "category": "E", "core": true, "prereq": [], "summary": "廣告、Cookie、通知、假中獎……跳出來的視窗要怎麼安全地關掉"}], "level": {"code": "C4", "title": "認識副檔名", "category": "C", "core": false, "prereq": ["C2"], "order": 4, "enabled": true, "summary": "看檔名最後的 .jpg .docx .pdf，就知道它是什麼檔、要用什麼打開", "learn": {"video": "", "steps": ["檔名最後「點」後面的字叫<b>副檔名<\/b>，告訴電腦這是什麼檔案", "圖片：<b>.jpg .png .gif<\/b>　文件：<b>.docx .pdf .txt<\/b>　簡報：<b>.pptx<\/b>　影片：<b>.mp4<\/b>　音樂：<b>.mp3<\/b>", "壓縮檔 <b>.zip<\/b> 要先「解壓縮」才能用", "<b>.exe<\/b> 是程式，會在電腦上執行——不認識的 .exe 不要打開"], "tips": ["改檔名時不要動副檔名，改錯了電腦就不知道要用什麼打開。"]}, "practice": {"checker": "quiz", "params": {"kind": "bucket", "buckets": ["圖片", "文件", "影片或聲音"], "items": [{"t": "貓咪.jpg", "b": 0, "why": ".jpg 是照片最常用的格式。"}, {"t": "報告.docx", "b": 1, "why": ".docx 是 Word 文件。"}, {"t": "上課錄影.mp4", "b": 2, "why": ".mp4 是影片。"}, {"t": "截圖.png", "b": 0, "why": ".png 也是圖片，截圖常用。"}, {"t": "通知單.pdf", "b": 1, "why": ".pdf 是排版固定的文件，用瀏覽器就能看。"}, {"t": "校歌.mp3", "b": 2, "why": ".mp3 是聲音檔。"}]}}, "challenge": {"checker": "quiz", "params": {"kind": "choice", "questions": [{"q": "老師說「交 PDF 檔」，下面哪一個是對的？", "options": ["作業.docx", "作業.pdf", "作業.jpg", "作業.pptx"], "answer": 1}, {"q": "你下載了「免費遊戲.exe」，應該怎麼辦？", "options": ["馬上打開來玩", "先問老師或大人，不認識的程式不要開", "改名成 .jpg 再打開", "傳給同學一起玩"], "answer": 1}, {"q": "「照片.zip」打不開裡面的照片，要先做什麼？", "options": ["解壓縮", "改名成 .jpg", "重新開機", "刪掉重下載"], "answer": 0}, {"q": "哪一個是簡報檔？", "options": ["期末發表.pptx", "期末發表.mp3", "期末發表.txt", "期末發表.png"], "answer": 0}]}}}};</script>
+<script>window.SITE={"config": {"siteTitle": "電腦急救站", "tagline": "看影片、做一次、過關！把上課最常卡住的電腦操作一關一關學會", "collection": "skillQuest", "firebase": {"apiKey": "AIzaSyDxAPNchjR37VsBPO4QltbuNIJ98F3mwtw", "authDomain": "worksheet-f47f3.firebaseapp.com", "projectId": "worksheet-f47f3", "storageBucket": "worksheet-f47f3.firebasestorage.app", "messagingSenderId": "42265052892", "appId": "1:42265052892:web:415d41d37b96fd24e61619"}, "categories": [{"id": "A", "name": "滑鼠與鍵盤", "icon": "mouse", "color": "#3b7dd8", "soft": "#e5effc"}, {"id": "B", "name": "複製與貼上", "icon": "copy", "color": "#2f9e62", "soft": "#e3f5ea"}, {"id": "C", "name": "檔案與資料夾", "icon": "folder", "color": "#d9822b", "soft": "#fdeedd"}, {"id": "D", "name": "圖片", "icon": "image", "color": "#8e5bd0", "soft": "#f0e8fb"}, {"id": "E", "name": "瀏覽器與分頁", "icon": "browser", "color": "#1b9aaa", "soft": "#ddf3f5"}, {"id": "F", "name": "急救包", "icon": "aid", "color": "#d9534f", "soft": "#fbe6e5"}], "certs": [{"id": "T1", "name": "電腦新手上路", "rule": {"core": true, "minLevels": 8}, "desc": "必修關卡全部通過"}, {"id": "T2", "name": "電腦小幫手", "rule": {"core": true, "perCategory": 2, "minLevels": 16}, "desc": "必修全過，而且每一類至少過 2 關"}, {"id": "T3", "name": "電腦急救小醫生", "rule": {"all": true, "minLevels": 24}, "desc": "目前開放的關卡全部通過"}]}, "levels": [{"code": "A1", "title": "選取文字", "category": "A", "core": true, "prereq": [], "summary": "用滑鼠拖曳選一句話、雙擊選一個單字、Ctrl+A 一次全選"}, {"code": "A4", "title": "復原與取消復原", "category": "A", "core": false, "prereq": ["A1"], "summary": "不小心刪掉、貼錯了？Ctrl+Z 一鍵救回來，Ctrl+Y 再改回去"}, {"code": "B1", "title": "複製貼上", "category": "B", "core": true, "prereq": ["A1"], "summary": "把一段文字複製下來，貼到另一個地方，不用自己重打"}, {"code": "B2", "title": "剪下與移動文字", "category": "B", "core": false, "prereq": ["B1"], "summary": "文字放錯位置？用剪下（Ctrl+X）把它搬到對的地方"}, {"code": "B3", "title": "純文字貼上", "category": "B", "core": true, "prereq": ["B1"], "summary": "從網頁複製資料時，只貼文字、不要把顏色和字型一起帶過來"}, {"code": "B4", "title": "複製網址", "category": "B", "core": false, "prereq": ["B1", "E1"], "summary": "交作業、寫資料來源都要附網址——從網址列完整複製下來"}, {"code": "C1", "title": "下載檔案與找到它", "category": "C", "core": true, "prereq": [], "summary": "下載的檔案跑去哪裡了？學會在「下載」資料夾找到它，再上傳回網站"}, {"code": "C2", "title": "檔案重新命名", "category": "C", "core": true, "prereq": ["C1"], "summary": "把檔案改成老師要的名字，而且不能弄壞後面的副檔名"}, {"code": "C4", "title": "認識副檔名", "category": "C", "core": false, "prereq": ["C2"], "summary": "看檔名最後的 .jpg .docx .pdf，就知道它是什麼檔、要用什麼打開"}, {"code": "D1", "title": "另存圖片", "category": "D", "core": true, "prereq": ["C1"], "summary": "把網頁上的圖片存到電腦裡，之後才能放進簡報、文件或上傳"}, {"code": "E1", "title": "開新分頁與切換分頁", "category": "E", "core": true, "prereq": [], "summary": "讓連結在新分頁打開，在分頁之間切來切去，用完把多的分頁關掉"}, {"code": "E2", "title": "救回關錯的分頁", "category": "E", "core": false, "prereq": ["E1"], "summary": "不小心把分頁關掉了？Ctrl+Shift+T 一秒救回來"}, {"code": "E3", "title": "處理彈出視窗", "category": "E", "core": true, "prereq": [], "summary": "廣告、Cookie、通知、假中獎……跳出來的視窗要怎麼安全地關掉"}, {"code": "F3", "title": "網頁卡住了：重新整理", "category": "F", "core": false, "prereq": [], "summary": "網頁一直轉圈圈、按了沒反應？先重新整理看看"}], "level": {"code": "C4", "title": "認識副檔名", "category": "C", "core": false, "prereq": ["C2"], "order": 4, "enabled": true, "summary": "看檔名最後的 .jpg .docx .pdf，就知道它是什麼檔、要用什麼打開", "learn": {"video": "", "steps": ["檔名最後「點」後面的字叫<b>副檔名<\/b>，告訴電腦這是什麼檔案", "圖片：<b>.jpg .png .gif<\/b>　文件：<b>.docx .pdf .txt<\/b>　簡報：<b>.pptx<\/b>　影片：<b>.mp4<\/b>　音樂：<b>.mp3<\/b>", "壓縮檔 <b>.zip<\/b> 要先「解壓縮」才能用", "<b>.exe<\/b> 是程式，會在電腦上執行——不認識的 .exe 不要打開"], "tips": ["改檔名時不要動副檔名，改錯了電腦就不知道要用什麼打開。"]}, "practice": {"checker": "quiz", "params": {"kind": "bucket", "buckets": ["圖片", "文件", "影片或聲音"], "items": [{"t": "貓咪.jpg", "b": 0, "why": ".jpg 是照片最常用的格式。"}, {"t": "報告.docx", "b": 1, "why": ".docx 是 Word 文件。"}, {"t": "上課錄影.mp4", "b": 2, "why": ".mp4 是影片。"}, {"t": "截圖.png", "b": 0, "why": ".png 也是圖片，截圖常用。"}, {"t": "通知單.pdf", "b": 1, "why": ".pdf 是排版固定的文件，用瀏覽器就能看。"}, {"t": "校歌.mp3", "b": 2, "why": ".mp3 是聲音檔。"}]}}, "challenge": {"checker": "quiz", "params": {"kind": "choice", "questions": [{"q": "老師說「交 PDF 檔」，下面哪一個是對的？", "options": ["作業.docx", "作業.pdf", "作業.jpg", "作業.pptx"], "answer": 1}, {"q": "你下載了「免費遊戲.exe」，應該怎麼辦？", "options": ["馬上打開來玩", "先問老師或大人，不認識的程式不要開", "改名成 .jpg 再打開", "傳給同學一起玩"], "answer": 1}, {"q": "「照片.zip」打不開裡面的照片，要先做什麼？", "options": ["解壓縮", "改名成 .jpg", "重新開機", "刪掉重下載"], "answer": 0}, {"q": "哪一個是簡報檔？", "options": ["期末發表.pptx", "期末發表.mp3", "期末發表.txt", "期末發表.png"], "answer": 0}]}}}};</script>
 <script>
 /* ============================================================
    電腦急救站｜共用程式（地圖頁、關卡頁都用這一份）
@@ -481,26 +483,35 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
      params.passage：來源文字；params.tasks：[{target, label}]，每個任務一個文字框
      判定：要發生「複製」動作，而且文字框是用「貼上」放進去的，內容含 target */
   C.copyPaste = function(el,p,ctx){
+    // params.cut：true＝剪下（來源變成可編輯的文字框，剪下後原處要消失）
     var practice=ctx.mode==='practice';
     var html=esc(p.passage);
     if(practice)p.tasks.forEach(function(t){html=html.replace(esc(t.target),'<mark>'+esc(t.target)+'</mark>');});
-    var tl=taskList(el,p.tasks.map(function(t){return t.say||('複製「'+esc(t.target)+'」，貼到「'+esc(t.label)+'」');}));
+    var tl=taskList(el,p.tasks.map(function(t){return t.say||((p.cut?'剪下':'複製')+'「'+esc(t.target)+'」，貼到「'+esc(t.label)+'」');}));
     var wrap=document.createElement('div');
-    wrap.innerHTML='<div class="passage">'+html+'</div>'+p.tasks.map(function(t,k){return '<label class="lbl">'+esc(t.label)+'<textarea class="field" data-ck="f'+k+'" rows="2" spellcheck="false" style="margin-top:6px"></textarea></label>';}).join('');
+    wrap.innerHTML=(p.cut?'<label class="lbl">'+esc(p.srcLabel||'原本的文字')+'<textarea class="field" data-ck="src" rows="3" spellcheck="false" style="margin-top:6px"></textarea></label>':'<div class="passage">'+html+'</div>')+p.tasks.map(function(t,k){return '<label class="lbl">'+esc(t.label)+'<textarea class="field" data-ck="f'+k+'" rows="2" spellcheck="false" style="margin-top:6px"></textarea></label>';}).join('');
     el.appendChild(wrap);
-    var copied=false;
+    var copied=false, src=wrap.querySelector('[data-ck=src]'), cutDone=false;
     var onCopy=function(){copied=true;if(practice)ctx.hint('複製好了！現在點一下下面的框框，按 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上。');};
-    document.addEventListener('copy',onCopy);
+    if(src){
+      src.value=p.passage;
+      src.addEventListener('cut',function(){cutDone=true;if(practice)ctx.hint('剪下了！原本的字不見了，但電腦記住了。點下面的框框，按 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上。');});
+      src.addEventListener('copy',function(e){e.stopPropagation();if(practice)ctx.hint('這是「複製」喔，原本的字還在。這一關要用 <kbd>Ctrl</kbd>＋<kbd>X</kbd> 剪下。');});
+      if(practice)ctx.hint('把「'+esc(p.tasks[0].target)+'」選起來，按 <kbd>Ctrl</kbd>＋<kbd>X</kbd> 剪下。');
+    }else document.addEventListener('copy',onCopy);
     p.tasks.forEach(function(t,k){
-      var f=wrap.querySelector('[data-ck=f'+k+']'), pasted=false;
-      f.addEventListener('paste',function(){pasted=true;setTimeout(check,20);});
-      f.addEventListener('input',function(){setTimeout(check,20);});
+      var f=wrap.querySelector('[data-ck=f'+k+']'), pasted=false, tm=null;
+      // 貼上會同時觸發 paste 和 input，合併成一次判定，避免錯一次算兩次
+      function later(){clearTimeout(tm);tm=setTimeout(check,30);}
+      f.addEventListener('paste',function(){pasted=true;later();});
+      f.addEventListener('input',later);
       function check(){
         if(tl.cur!==k)return;
         var v=f.value;
         if(!v.trim())return;
         if(!pasted){ctx.miss('這一關要用「貼上」喔，不要自己打字。先清空框框，再用 <kbd>Ctrl</kbd>＋<kbd>V</kbd>。');f.value='';return;}
         if(norm(v).indexOf(norm(t.target))<0){ctx.miss('貼上的內容不對，檢查一下是不是複製到別的字了。清空框框後再試一次。');return;}
+        if(src&&(!cutDone||norm(src.value).indexOf(norm(t.target))>=0)){ctx.miss('原本的地方還有這段字——這是「複製」不是「剪下」。清空下面的框框，按 <kbd>Ctrl</kbd>＋<kbd>Z</kbd> 或重來，改用 <kbd>Ctrl</kbd>＋<kbd>X</kbd>。');return;}
         ctx.hint('');f.readOnly=true;
         if(tl.next())ctx.pass();
         else{copied=false;var nx=wrap.querySelector('[data-ck=f'+(k+1)+']');if(nx)nx.scrollIntoView({block:'nearest'});}
@@ -816,6 +827,76 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
       ctx.hint(practice&&q.why?'答對了！'+q.why:'');i++;setTimeout(show,practice&&q.why?1400:300);
     });
     show();
+  };
+
+  /* ---------- tabUrl：開新分頁 → 複製網址列的網址 → 切回來貼上 ----------
+     搭配 site/tab/（mode:url）。網址裡有這次專用的 #代碼，所以只有複製那個分頁的網址才會對。 */
+  C.tabUrl = function(el,p,ctx){
+    var practice=ctx.mode==='practice', sid='u'+ctx.mode+Math.random().toString(36).slice(2,8);
+    var tl=taskList(el,['按住 <kbd>Ctrl</kbd> 點下面的連結，在新分頁打開','到新分頁，點網址列，按 <kbd>Ctrl</kbd>＋<kbd>C</kbd> 複製網址','切回這裡，把網址貼到框框']);
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<div class="passage"><a href="../tab/#'+sid+'" target="_blank" data-ck="link" style="font-weight:700;color:var(--ac)">'+esc(p.linkText||'打開要複製網址的網頁')+'</a></div>'+
+      '<label class="lbl">網址<textarea class="field" data-ck="url" rows="2" spellcheck="false" style="margin-top:6px"></textarea></label>';
+    el.appendChild(wrap);
+    var link=wrap.querySelector('[data-ck=link]'), f=wrap.querySelector('[data-ck=url]'), pasted=false;
+    link.addEventListener('click',function(e){if(e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();ctx.miss('要<b>按住 <kbd>Ctrl</kbd></b> 再點連結，讓它在新分頁打開。');});
+    if(!window.BroadcastChannel){ctx.hint('這個瀏覽器太舊，請改用 Chrome。');return;}
+    var ch=new BroadcastChannel('skillquest-tab');
+    ch.onmessage=function(e){var d=e.data||{};if(d.sid!==sid)return;
+      if(d.type==='hello'){ch.postMessage({sid:sid,type:'code',mode:'url'});if(tl.cur===0){tl.next();if(practice)ctx.hint('打開了！切到新分頁，照上面的說明複製網址。');}}
+      else if(d.type==='seen'&&tl.cur===1&&practice)ctx.hint('點一下網址列，網址會整個變藍，這時按 <kbd>Ctrl</kbd>＋<kbd>C</kbd>。');};
+    var tm=null;function later(){clearTimeout(tm);tm=setTimeout(check,30);}
+    f.addEventListener('paste',function(){pasted=true;later();});
+    f.addEventListener('input',later);
+    function clean(u){try{u=decodeURI(u);}catch(x){}return u.trim().replace(/^https?:\/\//,'').replace(/\/$/,'');}
+    function check(){
+      var v=f.value.trim();if(!v)return;
+      if(!pasted){ctx.miss('網址要用複製貼上，不要自己打（很容易打錯）。清空框框再試一次。');f.value='';return;}
+      if(clean(v)!==clean(link.href)){ctx.miss(v.indexOf('#'+sid)<0?'這不是那個分頁的網址。到新打開的分頁，點網址列再複製一次。':'網址不完整，點一下網址列讓它整個變藍，再複製。');pasted=false;return;}
+      while(tl.cur<3)tl.next();f.readOnly=true;ctx.hint('');ctx.pass();
+    }
+    return function(){ch.close();};
+  };
+
+  /* ---------- tabReopen：開分頁 → 關掉 → 用 Ctrl+Shift+T 救回來 ---------- */
+  C.tabReopen = function(el,p,ctx){
+    var practice=ctx.mode==='practice', sid='r'+ctx.mode+Math.random().toString(36).slice(2,8);
+    var tl=taskList(el,['按住 <kbd>Ctrl</kbd> 點下面的連結，在新分頁打開','切到那個分頁，把它關掉（<kbd>Ctrl</kbd>＋<kbd>W</kbd>）','糟糕關錯了！按 <kbd>Ctrl</kbd>＋<kbd>Shift</kbd>＋<kbd>T</kbd> 把它救回來']);
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<div class="passage"><a href="../tab/#'+sid+'" target="_blank" data-ck="link" style="font-weight:700;color:var(--ac)">'+esc(p.linkText||'打開練習用的分頁')+'</a></div>';
+    el.appendChild(wrap);
+    wrap.querySelector('[data-ck=link]').addEventListener('click',function(e){if(e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();ctx.miss('要<b>按住 <kbd>Ctrl</kbd></b> 再點連結。');});
+    if(!window.BroadcastChannel){ctx.hint('這個瀏覽器太舊，請改用 Chrome。');return;}
+    var ch=new BroadcastChannel('skillquest-tab'), lastPong=0, poll=null;
+    function closed(){clearInterval(poll);poll=null;if(tl.cur===1){tl.next();if(practice)ctx.hint('關掉了。現在按 <kbd>Ctrl</kbd>＋<kbd>Shift</kbd>＋<kbd>T</kbd>（三個鍵一起按），剛剛關掉的分頁會回來。');}}
+    ch.onmessage=function(e){var d=e.data||{};if(d.sid!==sid)return;
+      if(d.type==='pong'){lastPong=Date.now();return;}
+      if(d.type==='hello'){
+        if(tl.cur===2){ch.postMessage({sid:sid,type:'code',mode:'back'});tl.next();ctx.hint('');ctx.pass();return;}
+        ch.postMessage({sid:sid,type:'code',mode:'close'});
+        lastPong=Date.now();
+        if(!poll)poll=setInterval(function(){ch.postMessage({sid:sid,type:'ping'});if(Date.now()-lastPong>2500)closed();},1000);
+        if(tl.cur===0){tl.next();if(practice)ctx.hint('打開了！切到那個分頁，按 <kbd>Ctrl</kbd>＋<kbd>W</kbd> 把它關掉。');}
+      }else if(d.type==='bye')closed();
+    };
+    return function(){clearInterval(poll);ch.close();};
+  };
+
+  /* ---------- reload：網頁卡住了 → 按 F5（或重新整理鈕）----------
+     進關卡時在 sessionStorage 記一筆；重新整理後同一個分頁回來、而且是 reload，就算過關。 */
+  C.reload = function(el,p,ctx){
+    var key='sq-reload-'+ctx.mode, t0=0;
+    try{t0=+sessionStorage.getItem(key)||0;}catch(e){}
+    var nav=(performance.getEntriesByType&&performance.getEntriesByType('navigation')[0])||{};
+    var tl=taskList(el,[p.say||'這個網頁卡住了，一直轉圈圈。用<b>重新整理</b>讓它重新載入']);
+    if(t0&&Date.now()-t0<10*60*1000&&nav.type==='reload'){
+      try{sessionStorage.removeItem(key);}catch(e){}
+      el.insertAdjacentHTML('beforeend','<div class="passage" style="text-align:center"><b style="color:var(--green)">重新整理成功，網頁正常了！</b></div>');
+      tl.next();setTimeout(ctx.pass,400);return;
+    }
+    try{sessionStorage.setItem(key,String(Date.now()));}catch(e){}
+    el.insertAdjacentHTML('beforeend','<div class="fb"><div class="fb-tabs"><span class="fb-tab">'+esc(p.tab||'載入中…')+'</span></div><div class="fb-url">'+esc(p.url||'school.example.tw')+'</div><div class="fb-page" style="display:grid;place-items:center;min-height:240px"><div class="spin"></div><p style="color:#888">載入中，請稍候……</p></div></div>');
+    if(ctx.mode==='practice')ctx.hint('按鍵盤最上面一排的 <kbd>F5</kbd>，或按網址列左邊的「↻」重新整理按鈕。');
   };
 })();
 

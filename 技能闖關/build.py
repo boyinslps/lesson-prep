@@ -140,7 +140,7 @@ def main():
     write(os.path.join('admin', 'index.html'), page('教師後台｜' + cfg['siteTitle'], body, base, cfg, css, sprite, app))
 
     body = rd(SRC, 'tab.html')
-    write(os.path.join('tab', 'index.html'), page('密碼小卡｜' + cfg['siteTitle'], body, base, cfg, css, sprite, app))
+    write(os.path.join('tab', 'index.html'), page('練習分頁｜' + cfg['siteTitle'], body, base, cfg, css, sprite, app))
 
     cats = {c['id']: c for c in cfg['categories']}
     tpl = rd(SRC, 'level.html')
