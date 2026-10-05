@@ -1,0 +1,37 @@
+{
+  "code": "A2",
+  "title": "拖曳",
+  "category": "A",
+  "core": false,
+  "prereq": [],
+  "order": 2,
+  "enabled": true,
+  "summary": "按住左鍵不放、移動、放開——搬檔案、排順序、拼圖都要用到",
+  "learn": {
+    "video": "",
+    "steps": [
+      "把滑鼠移到要搬的東西上",
+      "<b>按住左鍵不放</b>",
+      "移到目的地（框框會變色）",
+      "<b>放開</b>左鍵"
+    ],
+    "tips": ["半路就放開了？東西會回到原位，再拖一次就好。", "用觸控板：用一根手指按住觸控板，另一根手指滑動。"]
+  },
+  "practice": {
+    "checker": "quiz",
+    "params": {
+      "kind": "bucket", "dragOnly": true,
+      "buckets": ["紙類", "塑膠", "鐵鋁罐"],
+      "items": [{"t": "報紙", "b": 0}, {"t": "寶特瓶", "b": 1}, {"t": "汽水罐", "b": 2}]
+    }
+  },
+  "challenge": {
+    "checker": "quiz",
+    "params": {
+      "kind": "bucket", "dragOnly": true,
+      "buckets": ["春天", "夏天", "秋天", "冬天"],
+      "items": [{"t": "櫻花", "b": 0}, {"t": "游泳", "b": 1}, {"t": "中秋節", "b": 2}, {"t": "下雪", "b": 3}, {"t": "端午節", "b": 1}, {"t": "過年", "b": 3}]
+    }
+  },
+  "production": {"video": "todo", "videoKind": "web"}
+}

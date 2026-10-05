@@ -28,6 +28,7 @@
 - [x] P0-4（2026-10-06）：地圖同類別先修連線（SVG，過關變綠實線）；手機 375px 無橫向捲動；E3 挑戰模式任務清單不再透露視窗種類
 - [x] 影片（2026-10-06）：E3 新做（specs/技能闖關_E3_彈出視窗.json，CDP 截判定器畫面）；B3 沿用四上 L04「複製資料貼文件」
 - [x] P5 部分（2026-10-06）：copyPaste 加 `cut` 模式、判定器 `tabUrl`、`tabReopen`、`reload`；關卡 B2 剪下與移動、B4 複製網址（沿用四上 L04 複製網址影片）、E2 救回分頁、F3 網頁卡住；paste／input 合併判定避免錯一次算兩次
+- [x] P5-1（2026-10-06）：A2 拖曳（quiz bucket＋`dragOnly`）、A3 中英與全半形（keyTask＋`bad` 規則：全形字、全大寫提示）
 
 ## 待老師處理（不在夜間做）
 
@@ -40,7 +41,6 @@
 ## 工作包清單（依序）
 
 - [ ] P2-4 網頁類教學影片：A1、B1、E1、A4（步驟影片工具 cdp.ps1＋render.ps1，影片放 levels/xx/assets/教學.mp4＋封面.jpg；做法參考 specs/技能闖關_E3_彈出視窗.json：用 CDP 開本機預覽站，呼叫 window.Checkers 把判定器畫面單獨畫滿 1280×640 再截圖，量按鈕座標寫進 spec；Chrome 用暫存設定檔、port 9333）
-- [ ] P5-1 A2 拖曳（可用 quiz bucket）、A3 中英全半形（keyTask，建議加 bad 規則偵測全形字並提示 Shift+空白鍵）
 - [ ] P5-3 C3 資料夾、C5 資源回收筒
 - [ ] P5-4 D2 複製圖片貼上、D3 螢幕截圖
 - [ ] P5-5 E4 縮放（偵測 devicePixelRatio 變大再回 100%、Ctrl+0）、E5 Ctrl+F（長文找字回答次數，要偵測到 Ctrl+F keydown）、E6 全螢幕（innerHeight≈screen.height 進入再離開）

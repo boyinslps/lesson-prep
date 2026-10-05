@@ -349,7 +349,13 @@
     wrap.innerHTML='<textarea class="field" data-ck="ta" rows="4" spellcheck="false"></textarea>';
     el.appendChild(wrap);
     var ta=wrap.querySelector('[data-ck=ta]'); ta.value=p.text||'';
-    var lastCombo='', lastAt=0;
+    var lastCombo='', lastAt=0, lastBad='';
+    // bad：[{re, msg}]，打出不該出現的字（例如全形數字、全部大寫）就提示
+    function bad(t){
+      var hit=null;(t.bad||p.bad||[]).some(function(b){if(new RegExp(b.re).test(ta.value)){hit=b.msg;return true;}});
+      if(hit&&hit!==lastBad)ctx.miss(hit);
+      lastBad=hit||'';return !!hit;
+    }
     function met(c){
       var v=ta.value;
       if(c.equals!=null&&v!==(c.equals==='@original'?p.text:c.equals))return false;
@@ -359,6 +365,7 @@
     }
     function check(){
       var t=T[tl.cur];if(!t)return;
+      if(bad(t))return;
       if(!met(t.cond||{}))return;
       if(t.key){
         var ok=t.key.split('|').indexOf(lastCombo)>=0&&Date.now()-lastAt<1500;
@@ -392,14 +399,15 @@
         bk.querySelector('.qz-in').appendChild(it);it.draggable=false;it.classList.remove('on');it.classList.add('ok');pick=null;ctx.hint(practice&&I.why?'答對了！'+esc(I.why):'');
         if(--left===0)ctx.pass();
       }
+      // dragOnly：練「拖曳」本身的關卡，不接受「點一下再點框框」
       wrap.addEventListener('click',function(e){
-        var it=e.target.closest('.qz-item:not(.ok)');if(it){sel(it);return;}
-        var bk=e.target.closest('.qz-bucket');if(bk&&pick)put(pick,bk);
+        var it=e.target.closest('.qz-item:not(.ok)');if(it){sel(it);if(p.dragOnly)ctx.hint('要用<b>拖曳</b>：在它上面按住左鍵不放，移到框框上再放開。');return;}
+        var bk=e.target.closest('.qz-bucket');if(bk&&pick&&!p.dragOnly)put(pick,bk);
       });
       wrap.addEventListener('dragstart',function(e){var it=e.target.closest('.qz-item');if(it){sel(it);e.dataTransfer.setData('text/plain',it.dataset.k);}});
       wrap.addEventListener('dragover',function(e){if(e.target.closest('.qz-bucket'))e.preventDefault();});
       wrap.addEventListener('drop',function(e){var bk=e.target.closest('.qz-bucket');if(bk&&pick){e.preventDefault();put(pick,bk);}});
-      if(practice)ctx.hint('把上面的每一個拖到正確的框框裡（也可以先點一下，再點框框）。');
+      if(practice)ctx.hint(p.dragOnly?'在上面的東西按住左鍵不放，拖到正確的框框上再放開。':'把上面的每一個拖到正確的框框裡（也可以先點一下，再點框框）。');
       return;
     }
     var Qs=p.questions, i=0;

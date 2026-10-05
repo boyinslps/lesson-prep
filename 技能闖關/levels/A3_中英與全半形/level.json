@@ -1,0 +1,50 @@
+{
+  "code": "A3",
+  "title": "中英切換與全形半形",
+  "category": "A",
+  "core": false,
+  "prereq": [],
+  "order": 3,
+  "enabled": true,
+  "summary": "打英文、數字、網址時，要切成英文和半形，不然帳號密碼都會錯",
+  "learn": {
+    "video": "",
+    "steps": [
+      "<b>中文 ↔ 英文</b>：按一下 <kbd>Shift</kbd>（或 <kbd>Ctrl</kbd>＋<kbd>空白鍵</kbd>），右下角會顯示「中」或「英」",
+      "<b>全形 ↔ 半形</b>：按 <kbd>Shift</kbd>＋<kbd>空白鍵</kbd>。全形字比較寬（１２３），半形比較窄（123）",
+      "<b>大寫</b>：按住 <kbd>Shift</kbd> 再按字母；如果<b>全部</b>都變大寫，是 <kbd>Caps Lock</kbd> 開著，按一下關掉",
+      "帳號、密碼、網址、Email 一定要用<b>英文半形</b>"
+    ],
+    "tips": ["密碼一直錯？先看看是不是全形或 Caps Lock 開著。"]
+  },
+  "practice": {
+    "checker": "keyTask",
+    "params": {
+      "text": "",
+      "bad": [
+        {"re": "[０-９Ａ-Ｚａ-ｚ]", "msg": "變成<b>全形</b>字了（字比較寬）。按 <kbd>Shift</kbd>＋<kbd>空白鍵</kbd> 切回半形，把全形字刪掉重打。"},
+        {"re": "HELLO", "msg": "全部變大寫了，是不是 <kbd>Caps Lock</kbd> 開著？按一下關掉，再重打。"}
+      ],
+      "tasks": [
+        {"say": "在框框裡打出英文 <b>Hello</b>（只有 H 大寫）", "cond": {"contains": "Hello"}, "hint": "先切成英文：按一下 <kbd>Shift</kbd>。大寫 H：按住 <kbd>Shift</kbd> 再按 H。"},
+        {"say": "接著打出半形數字 <b>2026</b>", "cond": {"contains": "2026"}, "hint": "數字要窄窄的半形。如果變寬了，按 <kbd>Shift</kbd>＋<kbd>空白鍵</kbd>。"},
+        {"say": "切回中文，打出「<b>你好</b>」", "cond": {"contains": "你好"}, "hint": "按一下 <kbd>Shift</kbd> 切回中文，用注音打「你好」。"}
+      ]
+    }
+  },
+  "challenge": {
+    "checker": "keyTask",
+    "params": {
+      "text": "",
+      "bad": [
+        {"re": "[０-９Ａ-Ｚａ-ｚ＠．]", "msg": "有<b>全形</b>字（字比較寬）。按 <kbd>Shift</kbd>＋<kbd>空白鍵</kbd> 切回半形，刪掉重打。"},
+        {"re": "STUDENT|SLPS", "msg": "全部變大寫了，檢查 <kbd>Caps Lock</kbd>。"}
+      ],
+      "tasks": [
+        {"say": "打出學校 Email：<b>student01@slps.tn.edu.tw</b>", "cond": {"contains": "student01@slps.tn.edu.tw"}},
+        {"say": "換一行，打出「<b>我是勝利國小的學生</b>」", "cond": {"contains": "我是勝利國小的學生"}}
+      ]
+    }
+  },
+  "production": {"video": "todo", "videoKind": "desktop", "note": "要拍右下角輸入法圖示「中／英」切換"}
+}
