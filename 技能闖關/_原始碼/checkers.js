@@ -142,4 +142,79 @@
     }
     return function(){document.removeEventListener('copy',onCopy);};
   };
+
+  /* ---------- fileUpload：做完 → 把檔案上傳回來比對 ----------
+     網頁看不到檔案總管，所以「下載、改名、另存」都用上傳回來的檔案判定。
+     params.file：
+       文字檔 {name, lines:[…]}：按鈕下載，內容自動加一行驗證碼（每次進關卡都不同，舊檔案過不了）
+       圖片   {src, name, alt}：顯示圖片讓學生「另存圖片」，用 SHA-256 比對是不是同一張
+     params.rename：要改成的檔名，可用 {grade}{class}{seat}（會比對時忽略前導 0、全形數字、空白）
+     params.say：[第一步說明, 第二步說明]（可省略） */
+  C.fileUpload = function(el,p,ctx){
+    var practice=ctx.mode==='practice', F=p.file||{}, isImg=!!F.src;
+    var code=Math.random().toString(36).slice(2,6).toUpperCase();
+    var say=p.say||[
+      isImg?'在圖片上按<b>右鍵</b> →「另存圖片」，存到電腦裡':'按「下載」，把 <b>'+esc(F.name)+'</b> 存到電腦',
+      p.rename?'到檔案總管把檔名改成 <b>'+esc(fill(p.rename))+'</b>，再上傳':'按「選擇檔案」，找到剛剛的檔案上傳'];
+    var tl=taskList(el,say);
+    var wrap=document.createElement('div');
+    wrap.innerHTML=(isImg?'<div class="rich" style="text-align:center"><img data-ck="img" src="'+esc(F.src)+'" alt="'+esc(F.alt||'')+'" style="margin:0 auto;max-height:320px"></div>':
+        '<button class="go" data-ck="dl" type="button">下載 '+esc(F.name)+'</button>')+
+      '<label class="drop" data-ck="drop"><input type="file" data-ck="file" hidden><b>選擇檔案</b>　或把檔案拖到這裡</label>';
+    el.appendChild(wrap);
+    var drop=wrap.querySelector('[data-ck=drop]'), inp=wrap.querySelector('[data-ck=file]');
+    var origHash=null;
+    if(isImg){
+      fetch(F.src).then(function(r){return r.arrayBuffer();}).then(sha).then(function(h){origHash=h;});
+      wrap.querySelector('[data-ck=img]').addEventListener('contextmenu',function(){
+        if(tl.cur===0){tl.next();if(practice)ctx.hint('選「另存圖片」，記住存到哪個資料夾（通常是「下載」）。存好後按下面的「選擇檔案」把它找出來。');}
+      });
+    }else{
+      wrap.querySelector('[data-ck=dl]').addEventListener('click',function(){
+        var text='﻿'+(F.lines||[]).join('\r\n')+'\r\n驗證碼：'+code+'\r\n';
+        var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain'}));a.download=F.name;
+        document.body.appendChild(a);a.click();a.remove();
+        if(tl.cur===0)tl.next();
+        if(practice)ctx.hint(p.rename?'下載好了！打開檔案總管 →「下載」資料夾，在檔案上按右鍵 →「重新命名」（或選取後按 <kbd>F2</kbd>）。':
+          '下載好了！按下面的「選擇檔案」，在左邊點「下載」，選 <b>'+esc(F.name)+'</b> →「開啟」。');
+      });
+    }
+    inp.addEventListener('change',function(){if(inp.files[0])check(inp.files[0]);inp.value='';});
+    drop.addEventListener('dragover',function(e){e.preventDefault();drop.classList.add('on');});
+    drop.addEventListener('dragleave',function(){drop.classList.remove('on');});
+    drop.addEventListener('drop',function(e){e.preventDefault();drop.classList.remove('on');var f=e.dataTransfer.files[0];if(f)check(f);});
+
+    function fill(s){var i=Quest.getId();return s.replace('{grade}',i.grade||'?').replace('{class}',i.className||'?').replace('{seat}',i.studentId||'?');}
+    function nname(s){return String(s).replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0xFEE0);}).replace(/\s+/g,'').replace(/\d+/g,function(d){return String(+d);}).toLowerCase();}
+    function sha(buf){return crypto.subtle.digest('SHA-256',buf).then(function(h){return Array.prototype.map.call(new Uint8Array(h),function(b){return ('0'+b.toString(16)).slice(-2);}).join('');});}
+    function base(n){return n.replace(/ ?\(\d+\)(?=\.[^.]+$)/,'');}   // 「任務卡 (1).txt」→「任務卡.txt」
+
+    function check(f){
+      if(p.rename&&!Quest.idValid()){ctx.hint('先在右上角填好年級、班級、座號，才知道檔名要改成什麼。');return;}
+      if(isImg){
+        if(!/^image\//.test(f.type)){ctx.miss('這不是圖片檔，要上傳剛剛另存的那張圖片。');return;}
+        f.arrayBuffer().then(sha).then(function(h){
+          if(origHash&&h!==origHash){ctx.miss('這張圖片和上面的不一樣。要用「另存圖片」存下來，不要用截圖。');return;}
+          done();
+        });
+        return;
+      }
+      if(p.rename){
+        var want=nname(fill(p.rename)), got=nname(f.name), ext=(want.match(/\.[^.]+$/)||[''])[0];
+        if(got!==want){
+          if(got===want+ext)return ctx.miss('檔名變成「'+esc(f.name)+'」，多了一個 '+ext+'。副檔名本來就有了，只要改前面的名字。');
+          if(got===want.slice(0,-ext.length))return ctx.miss('副檔名 '+ext+' 不見了！改名時只改前面，後面的 '+ext+' 要留著。');
+          if(nname(base(f.name))===nname(F.name))return ctx.miss('這個檔案還沒改名喔。到檔案總管把它改成 <b>'+esc(fill(p.rename))+'</b> 再上傳。');
+          return ctx.miss('檔名是「'+esc(f.name)+'」，和題目要的 <b>'+esc(fill(p.rename))+'</b> 不一樣，仔細看每個字。');
+        }
+      }else if(nname(base(f.name))!==nname(F.name)){
+        return ctx.miss('上傳的是「'+esc(f.name)+'」，要找的是剛剛下載的 <b>'+esc(F.name)+'</b>。');
+      }
+      f.text().then(function(t){
+        if(t.indexOf('驗證碼：'+code)<0)return ctx.miss('這是之前下載的舊檔案。請上傳<b>剛剛</b>下載的那一個（檔名後面可能多了 (1)、(2)）。');
+        done();
+      });
+    }
+    function done(){ctx.hint('');while(tl.cur<say.length-1)tl.next();tl.next();drop.style.pointerEvents='none';ctx.pass();}
+  };
 })();

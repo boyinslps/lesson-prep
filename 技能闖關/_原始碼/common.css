@@ -143,3 +143,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   .doc{padding:18px}
   .who{margin-left:0}
 }
+
+/* 上傳區 */
+.drop{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;min-height:96px;border:2.5px dashed #c9cfdc;border-radius:14px;background:#fafbfd;color:var(--sub);cursor:pointer;text-align:center;padding:12px}
+.drop b{color:var(--ac);background:var(--ac-soft);padding:4px 14px;border-radius:999px}
+.drop:hover,.drop.on{border-color:var(--ac);background:var(--ac-soft)}

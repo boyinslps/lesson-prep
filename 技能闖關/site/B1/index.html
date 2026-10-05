@@ -155,6 +155,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   .who{margin-left:0}
 }
 
+/* 上傳區 */
+.drop{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;min-height:96px;border:2.5px dashed #c9cfdc;border-radius:14px;background:#fafbfd;color:var(--sub);cursor:pointer;text-align:center;padding:12px}
+.drop b{color:var(--ac);background:var(--ac-soft);padding:4px 14px;border-radius:999px}
+.drop:hover,.drop.on{border-color:var(--ac);background:var(--ac-soft)}
+
 </style>
 </head>
 <body>
@@ -176,7 +181,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   <symbol id="i-aid" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M12 10.5v6M9 13.5h6"/></symbol>
 </svg>
 
-<script>window.SITE={"config": {"siteTitle": "電腦急救站", "tagline": "看影片、做一次、過關！把上課最常卡住的電腦操作一關一關學會", "collection": "skillQuest", "firebase": {"apiKey": "AIzaSyDxAPNchjR37VsBPO4QltbuNIJ98F3mwtw", "authDomain": "worksheet-f47f3.firebaseapp.com", "projectId": "worksheet-f47f3", "storageBucket": "worksheet-f47f3.firebasestorage.app", "messagingSenderId": "42265052892", "appId": "1:42265052892:web:415d41d37b96fd24e61619"}, "categories": [{"id": "A", "name": "滑鼠與鍵盤", "icon": "mouse", "color": "#3b7dd8", "soft": "#e5effc"}, {"id": "B", "name": "複製與貼上", "icon": "copy", "color": "#2f9e62", "soft": "#e3f5ea"}, {"id": "C", "name": "檔案與資料夾", "icon": "folder", "color": "#d9822b", "soft": "#fdeedd"}, {"id": "D", "name": "圖片", "icon": "image", "color": "#8e5bd0", "soft": "#f0e8fb"}, {"id": "E", "name": "瀏覽器與分頁", "icon": "browser", "color": "#1b9aaa", "soft": "#ddf3f5"}, {"id": "F", "name": "急救包", "icon": "aid", "color": "#d9534f", "soft": "#fbe6e5"}], "certs": [{"id": "T1", "name": "電腦新手上路", "rule": {"core": true, "minLevels": 8}, "desc": "必修關卡全部通過"}, {"id": "T2", "name": "電腦小幫手", "rule": {"core": true, "perCategory": 2, "minLevels": 16}, "desc": "必修全過，而且每一類至少過 2 關"}, {"id": "T3", "name": "電腦急救小醫生", "rule": {"all": true, "minLevels": 24}, "desc": "目前開放的關卡全部通過"}]}, "levels": [{"code": "A1", "title": "選取文字", "category": "A", "core": true, "prereq": [], "summary": "用滑鼠拖曳選一句話、雙擊選一個單字、Ctrl+A 一次全選"}, {"code": "B1", "title": "複製貼上", "category": "B", "core": true, "prereq": ["A1"], "summary": "把一段文字複製下來，貼到另一個地方，不用自己重打"}, {"code": "B3", "title": "純文字貼上", "category": "B", "core": true, "prereq": ["B1"], "summary": "從網頁複製資料時，只貼文字、不要把顏色和字型一起帶過來"}], "level": {"code": "B1", "title": "複製貼上", "category": "B", "core": true, "prereq": ["A1"], "order": 1, "enabled": true, "summary": "把一段文字複製下來，貼到另一個地方，不用自己重打", "learn": {"video": "", "steps": ["先把要複製的文字<b>選起來<\/b>（變藍色）", "按 <kbd>Ctrl<\/kbd>＋<kbd>C<\/kbd> 複製——畫面不會有變化，但電腦已經記住了", "<b>點一下<\/b>要貼上的地方，讓游標在那裡閃", "按 <kbd>Ctrl<\/kbd>＋<kbd>V<\/kbd> 貼上"], "tips": ["也可以用滑鼠：選好文字後按<b>右鍵<\/b>→「複製」，到要貼的地方按右鍵→「貼上」。", "記法：C 像一個夾子，把字夾起來；V 像一個往下的箭頭，把字放下去。"]}, "practice": {"checker": "copyPaste", "params": {"passage": "今天的自學網址是 pcclass-skills-2026，請把它複製到下面的框框裡。", "tasks": [{"target": "pcclass-skills-2026", "label": "自學網址", "say": "複製「pcclass-skills-2026」，貼到「自學網址」框"}]}}, "challenge": {"checker": "copyPaste", "params": {"passage": "臺南市東區勝利國小位在勝利路 119 號。學校的英文名字是 Tainan Municipal Sheng-Li Elementary School。", "tasks": [{"target": "Tainan Municipal Sheng-Li Elementary School", "label": "學校英文名字"}, {"target": "勝利路 119 號", "label": "學校地址（只要路名和號碼）"}]}}}};</script>
+<script>window.SITE={"config": {"siteTitle": "電腦急救站", "tagline": "看影片、做一次、過關！把上課最常卡住的電腦操作一關一關學會", "collection": "skillQuest", "firebase": {"apiKey": "AIzaSyDxAPNchjR37VsBPO4QltbuNIJ98F3mwtw", "authDomain": "worksheet-f47f3.firebaseapp.com", "projectId": "worksheet-f47f3", "storageBucket": "worksheet-f47f3.firebasestorage.app", "messagingSenderId": "42265052892", "appId": "1:42265052892:web:415d41d37b96fd24e61619"}, "categories": [{"id": "A", "name": "滑鼠與鍵盤", "icon": "mouse", "color": "#3b7dd8", "soft": "#e5effc"}, {"id": "B", "name": "複製與貼上", "icon": "copy", "color": "#2f9e62", "soft": "#e3f5ea"}, {"id": "C", "name": "檔案與資料夾", "icon": "folder", "color": "#d9822b", "soft": "#fdeedd"}, {"id": "D", "name": "圖片", "icon": "image", "color": "#8e5bd0", "soft": "#f0e8fb"}, {"id": "E", "name": "瀏覽器與分頁", "icon": "browser", "color": "#1b9aaa", "soft": "#ddf3f5"}, {"id": "F", "name": "急救包", "icon": "aid", "color": "#d9534f", "soft": "#fbe6e5"}], "certs": [{"id": "T1", "name": "電腦新手上路", "rule": {"core": true, "minLevels": 8}, "desc": "必修關卡全部通過"}, {"id": "T2", "name": "電腦小幫手", "rule": {"core": true, "perCategory": 2, "minLevels": 16}, "desc": "必修全過，而且每一類至少過 2 關"}, {"id": "T3", "name": "電腦急救小醫生", "rule": {"all": true, "minLevels": 24}, "desc": "目前開放的關卡全部通過"}]}, "levels": [{"code": "A1", "title": "選取文字", "category": "A", "core": true, "prereq": [], "summary": "用滑鼠拖曳選一句話、雙擊選一個單字、Ctrl+A 一次全選"}, {"code": "B1", "title": "複製貼上", "category": "B", "core": true, "prereq": ["A1"], "summary": "把一段文字複製下來，貼到另一個地方，不用自己重打"}, {"code": "B3", "title": "純文字貼上", "category": "B", "core": true, "prereq": ["B1"], "summary": "從網頁複製資料時，只貼文字、不要把顏色和字型一起帶過來"}, {"code": "C1", "title": "下載檔案與找到它", "category": "C", "core": true, "prereq": [], "summary": "下載的檔案跑去哪裡了？學會在「下載」資料夾找到它，再上傳回網站"}, {"code": "C2", "title": "檔案重新命名", "category": "C", "core": true, "prereq": ["C1"], "summary": "把檔案改成老師要的名字，而且不能弄壞後面的副檔名"}, {"code": "D1", "title": "另存圖片", "category": "D", "core": true, "prereq": ["C1"], "summary": "把網頁上的圖片存到電腦裡，之後才能放進簡報、文件或上傳"}], "level": {"code": "B1", "title": "複製貼上", "category": "B", "core": true, "prereq": ["A1"], "order": 1, "enabled": true, "summary": "把一段文字複製下來，貼到另一個地方，不用自己重打", "learn": {"video": "", "steps": ["先把要複製的文字<b>選起來<\/b>（變藍色）", "按 <kbd>Ctrl<\/kbd>＋<kbd>C<\/kbd> 複製——畫面不會有變化，但電腦已經記住了", "<b>點一下<\/b>要貼上的地方，讓游標在那裡閃", "按 <kbd>Ctrl<\/kbd>＋<kbd>V<\/kbd> 貼上"], "tips": ["也可以用滑鼠：選好文字後按<b>右鍵<\/b>→「複製」，到要貼的地方按右鍵→「貼上」。", "記法：C 像一個夾子，把字夾起來；V 像一個往下的箭頭，把字放下去。"]}, "practice": {"checker": "copyPaste", "params": {"passage": "今天的自學網址是 pcclass-skills-2026，請把它複製到下面的框框裡。", "tasks": [{"target": "pcclass-skills-2026", "label": "自學網址", "say": "複製「pcclass-skills-2026」，貼到「自學網址」框"}]}}, "challenge": {"checker": "copyPaste", "params": {"passage": "臺南市東區勝利國小位在勝利路 119 號。學校的英文名字是 Tainan Municipal Sheng-Li Elementary School。", "tasks": [{"target": "Tainan Municipal Sheng-Li Elementary School", "label": "學校英文名字"}, {"target": "勝利路 119 號", "label": "學校地址（只要路名和號碼）"}]}}}};</script>
 <script>
 /* ============================================================
    電腦急救站｜共用程式（地圖頁、關卡頁都用這一份）
@@ -482,6 +487,81 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
       if(tl.next()){doc.contentEditable='false';ctx.pass();}
     }
     return function(){document.removeEventListener('copy',onCopy);};
+  };
+
+  /* ---------- fileUpload：做完 → 把檔案上傳回來比對 ----------
+     網頁看不到檔案總管，所以「下載、改名、另存」都用上傳回來的檔案判定。
+     params.file：
+       文字檔 {name, lines:[…]}：按鈕下載，內容自動加一行驗證碼（每次進關卡都不同，舊檔案過不了）
+       圖片   {src, name, alt}：顯示圖片讓學生「另存圖片」，用 SHA-256 比對是不是同一張
+     params.rename：要改成的檔名，可用 {grade}{class}{seat}（會比對時忽略前導 0、全形數字、空白）
+     params.say：[第一步說明, 第二步說明]（可省略） */
+  C.fileUpload = function(el,p,ctx){
+    var practice=ctx.mode==='practice', F=p.file||{}, isImg=!!F.src;
+    var code=Math.random().toString(36).slice(2,6).toUpperCase();
+    var say=p.say||[
+      isImg?'在圖片上按<b>右鍵</b> →「另存圖片」，存到電腦裡':'按「下載」，把 <b>'+esc(F.name)+'</b> 存到電腦',
+      p.rename?'到檔案總管把檔名改成 <b>'+esc(fill(p.rename))+'</b>，再上傳':'按「選擇檔案」，找到剛剛的檔案上傳'];
+    var tl=taskList(el,say);
+    var wrap=document.createElement('div');
+    wrap.innerHTML=(isImg?'<div class="rich" style="text-align:center"><img data-ck="img" src="'+esc(F.src)+'" alt="'+esc(F.alt||'')+'" style="margin:0 auto;max-height:320px"></div>':
+        '<button class="go" data-ck="dl" type="button">下載 '+esc(F.name)+'</button>')+
+      '<label class="drop" data-ck="drop"><input type="file" data-ck="file" hidden><b>選擇檔案</b>　或把檔案拖到這裡</label>';
+    el.appendChild(wrap);
+    var drop=wrap.querySelector('[data-ck=drop]'), inp=wrap.querySelector('[data-ck=file]');
+    var origHash=null;
+    if(isImg){
+      fetch(F.src).then(function(r){return r.arrayBuffer();}).then(sha).then(function(h){origHash=h;});
+      wrap.querySelector('[data-ck=img]').addEventListener('contextmenu',function(){
+        if(tl.cur===0){tl.next();if(practice)ctx.hint('選「另存圖片」，記住存到哪個資料夾（通常是「下載」）。存好後按下面的「選擇檔案」把它找出來。');}
+      });
+    }else{
+      wrap.querySelector('[data-ck=dl]').addEventListener('click',function(){
+        var text='﻿'+(F.lines||[]).join('\r\n')+'\r\n驗證碼：'+code+'\r\n';
+        var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain'}));a.download=F.name;
+        document.body.appendChild(a);a.click();a.remove();
+        if(tl.cur===0)tl.next();
+        if(practice)ctx.hint(p.rename?'下載好了！打開檔案總管 →「下載」資料夾，在檔案上按右鍵 →「重新命名」（或選取後按 <kbd>F2</kbd>）。':
+          '下載好了！按下面的「選擇檔案」，在左邊點「下載」，選 <b>'+esc(F.name)+'</b> →「開啟」。');
+      });
+    }
+    inp.addEventListener('change',function(){if(inp.files[0])check(inp.files[0]);inp.value='';});
+    drop.addEventListener('dragover',function(e){e.preventDefault();drop.classList.add('on');});
+    drop.addEventListener('dragleave',function(){drop.classList.remove('on');});
+    drop.addEventListener('drop',function(e){e.preventDefault();drop.classList.remove('on');var f=e.dataTransfer.files[0];if(f)check(f);});
+
+    function fill(s){var i=Quest.getId();return s.replace('{grade}',i.grade||'?').replace('{class}',i.className||'?').replace('{seat}',i.studentId||'?');}
+    function nname(s){return String(s).replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0xFEE0);}).replace(/\s+/g,'').replace(/\d+/g,function(d){return String(+d);}).toLowerCase();}
+    function sha(buf){return crypto.subtle.digest('SHA-256',buf).then(function(h){return Array.prototype.map.call(new Uint8Array(h),function(b){return ('0'+b.toString(16)).slice(-2);}).join('');});}
+    function base(n){return n.replace(/ ?\(\d+\)(?=\.[^.]+$)/,'');}   // 「任務卡 (1).txt」→「任務卡.txt」
+
+    function check(f){
+      if(p.rename&&!Quest.idValid()){ctx.hint('先在右上角填好年級、班級、座號，才知道檔名要改成什麼。');return;}
+      if(isImg){
+        if(!/^image\//.test(f.type)){ctx.miss('這不是圖片檔，要上傳剛剛另存的那張圖片。');return;}
+        f.arrayBuffer().then(sha).then(function(h){
+          if(origHash&&h!==origHash){ctx.miss('這張圖片和上面的不一樣。要用「另存圖片」存下來，不要用截圖。');return;}
+          done();
+        });
+        return;
+      }
+      if(p.rename){
+        var want=nname(fill(p.rename)), got=nname(f.name), ext=(want.match(/\.[^.]+$/)||[''])[0];
+        if(got!==want){
+          if(got===want+ext)return ctx.miss('檔名變成「'+esc(f.name)+'」，多了一個 '+ext+'。副檔名本來就有了，只要改前面的名字。');
+          if(got===want.slice(0,-ext.length))return ctx.miss('副檔名 '+ext+' 不見了！改名時只改前面，後面的 '+ext+' 要留著。');
+          if(nname(base(f.name))===nname(F.name))return ctx.miss('這個檔案還沒改名喔。到檔案總管把它改成 <b>'+esc(fill(p.rename))+'</b> 再上傳。');
+          return ctx.miss('檔名是「'+esc(f.name)+'」，和題目要的 <b>'+esc(fill(p.rename))+'</b> 不一樣，仔細看每個字。');
+        }
+      }else if(nname(base(f.name))!==nname(F.name)){
+        return ctx.miss('上傳的是「'+esc(f.name)+'」，要找的是剛剛下載的 <b>'+esc(F.name)+'</b>。');
+      }
+      f.text().then(function(t){
+        if(t.indexOf('驗證碼：'+code)<0)return ctx.miss('這是之前下載的舊檔案。請上傳<b>剛剛</b>下載的那一個（檔名後面可能多了 (1)、(2)）。');
+        done();
+      });
+    }
+    function done(){ctx.hint('');while(tl.cur<say.length-1)tl.next();tl.next();drop.style.pointerEvents='none';ctx.pass();}
   };
 })();
 

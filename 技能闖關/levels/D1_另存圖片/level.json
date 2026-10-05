@@ -1,0 +1,37 @@
+{
+  "code": "D1",
+  "title": "另存圖片",
+  "category": "D",
+  "core": true,
+  "prereq": ["C1"],
+  "order": 1,
+  "enabled": true,
+  "summary": "把網頁上的圖片存到電腦裡，之後才能放進簡報、文件或上傳",
+  "learn": {
+    "video": "",
+    "steps": [
+      "把滑鼠移到圖片上，按<b>右鍵</b>",
+      "選「<b>另存圖片</b>」（有的電腦寫「圖片另存為」）",
+      "跳出來的視窗會告訴你要存在哪裡，通常是<b>「下載」</b>資料夾；可以順便改檔名",
+      "按「存檔」，圖片就在電腦裡了"
+    ],
+    "tips": [
+      "存之前看一下<b>存到哪個資料夾</b>，等一下才找得到。",
+      "網路上的圖片大多有著作權，做作業要註明出處，不能拿去賣或說是自己畫的。"
+    ]
+  },
+  "practice": {
+    "checker": "fileUpload",
+    "params": {
+      "file": {"src": "assets/練習_小貓.png", "name": "練習_小貓.png", "alt": "小貓圖片"}
+    }
+  },
+  "challenge": {
+    "checker": "fileUpload",
+    "params": {
+      "file": {"src": "assets/挑戰_火箭.png", "name": "挑戰_火箭.png", "alt": "火箭圖片"},
+      "say": ["把上面這張火箭圖片存到電腦裡", "把存好的圖片上傳回來"]
+    }
+  },
+  "production": {"video": "todo", "videoKind": "desktop", "note": "右鍵選單＋另存新檔視窗，需 computer use"}
+}

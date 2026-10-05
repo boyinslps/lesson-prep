@@ -1,0 +1,36 @@
+{
+  "code": "C1",
+  "title": "下載檔案與找到它",
+  "category": "C",
+  "core": true,
+  "prereq": [],
+  "order": 1,
+  "enabled": true,
+  "summary": "下載的檔案跑去哪裡了？學會在「下載」資料夾找到它，再上傳回網站",
+  "learn": {
+    "video": "",
+    "steps": [
+      "在網頁上按「下載」，Chrome 右上角會出現一個<b>向下箭頭</b>，代表下載好了",
+      "下載的檔案通常都在<b>「下載」資料夾</b>（英文 Downloads）",
+      "要上傳時，按網頁上的「選擇檔案」，在跳出來的視窗<b>左邊點「下載」</b>",
+      "找到檔案，點一下再按「開啟」（或直接連點兩下）"
+    ],
+    "tips": [
+      "同一個檔案下載兩次，第二個會變成「檔名 (1)」，要看清楚是哪一個。",
+      "找不到？按 Chrome 右上角的向下箭頭 → 在檔案旁邊的資料夾圖示，就會打開它所在的位置。"
+    ]
+  },
+  "practice": {
+    "checker": "fileUpload",
+    "params": {
+      "file": {"name": "任務卡.txt", "lines": ["電腦急救站｜C1 練習任務卡", "恭喜你找到這個檔案了！"]}
+    }
+  },
+  "challenge": {
+    "checker": "fileUpload",
+    "params": {
+      "file": {"name": "寶藏地圖.txt", "lines": ["電腦急救站｜C1 挑戰", "寶藏藏在「下載」資料夾裡。"]}
+    }
+  },
+  "production": {"video": "todo", "videoKind": "desktop", "note": "要拍檔案選擇視窗與 Chrome 下載列，需 computer use"}
+}

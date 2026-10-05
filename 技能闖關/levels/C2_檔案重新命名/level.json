@@ -1,0 +1,38 @@
+{
+  "code": "C2",
+  "title": "檔案重新命名",
+  "category": "C",
+  "core": true,
+  "prereq": ["C1"],
+  "order": 2,
+  "enabled": true,
+  "summary": "把檔案改成老師要的名字，而且不能弄壞後面的副檔名",
+  "learn": {
+    "video": "",
+    "steps": [
+      "打開<b>檔案總管</b>（黃色資料夾圖示，或按 <kbd>Win</kbd>＋<kbd>E</kbd>），到「下載」資料夾",
+      "在檔案上按<b>右鍵</b> →「重新命名」，或點一下檔案再按 <kbd>F2</kbd>",
+      "打新的名字。檔名後面的 <b>.txt</b>、<b>.docx</b>、<b>.png</b> 叫「副檔名」，<b>不要刪、不要重打</b>",
+      "按 <kbd>Enter</kbd> 完成"
+    ],
+    "tips": [
+      "看不到副檔名？檔案總管上方「檢視」→「顯示」→ 勾選「副檔名」。",
+      "改到一半想放棄，按 <kbd>Esc</kbd> 就會回到原本的名字。"
+    ]
+  },
+  "practice": {
+    "checker": "fileUpload",
+    "params": {
+      "file": {"name": "作業.txt", "lines": ["電腦急救站｜C2 練習", "請把這個檔案改名。"]},
+      "rename": "{seat}號作業.txt"
+    }
+  },
+  "challenge": {
+    "checker": "fileUpload",
+    "params": {
+      "file": {"name": "報告.txt", "lines": ["電腦急救站｜C2 挑戰", "請照老師規定的格式改名。"]},
+      "rename": "{grade}年{class}班{seat}號報告.txt"
+    }
+  },
+  "production": {"video": "todo", "videoKind": "desktop", "note": "檔案總管 F2 改名、顯示副檔名，需 computer use"}
+}
