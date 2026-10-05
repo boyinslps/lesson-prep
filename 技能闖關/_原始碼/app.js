@@ -106,7 +106,10 @@
   Q.load = function(){
     if(!Q.idValid()){PROG={levels:{},certs:{}};stat('warn','先填年級、班級、座號');emit();return Promise.resolve();}
     var id=Q.docId();loadedFor=id;
-    PROG=readLocal();emit();
+    PROG=readLocal();
+    // 之前就達成、但當時證書還沒開放的，進網站時補發
+    var freshLocal=Q.awardCerts().length;if(freshLocal)writeLocal();
+    emit();
     stat('','讀取中…');
     return fbReady.then(function(ok){
       if(!ok){stat('warn','紀錄存在這台電腦');return;}
@@ -114,6 +117,7 @@
         if(loadedFor!==id)return;
         var c=doc.exists?doc.data():{};
         merge(PROG.levels,c.levels);merge(PROG.certs,c.certs);
+        Q.awardCerts();
         writeLocal();emit();
         stat('ok','已連上雲端');
         // 本機有、雲端沒有的（例如之前離線過關）補上傳

@@ -22,6 +22,7 @@
 - [x] P0-3 發布管線（2026-10-06）：`POST /api/git-publish` body `{"group":"技能闖關"}` → 先 build 再把 site/ 換到 pcclass `skills/`；加 `"dryRun":true` 只列變動不推（已測 dry-run）
 - [x] P1-1／P2-1／P2-2（2026-10-06）：判定器 `fileUpload`（文字檔驗證碼、改名比對含 .txt.txt／少副檔名／沒改名提示、圖片 SHA-256）；關卡 C1 下載檔案、C2 檔案重新命名、D1 另存圖片（圖片用 System.Drawing 繪製）
 - [x] P1-2／P1-3（2026-10-06）：判定器 `popup`（cookie／notify／ad／prize／subscribe，陷阱按鈕說明原因、廣告 × 可延遲出現）、`tabPair`（site/tab/ 密碼小卡＋BroadcastChannel，關分頁用 ping 偵測）；關卡 E3 處理彈出視窗、E1 開新分頁與切換分頁
+- [x] P3-1（2026-10-06）：證書頁 Canvas（1600×1131，可自填姓名不上傳、下載 PNG、列印 A4 橫式）；未達成時列出還差哪些關；進網站時補發已達成的證書。8 個必修關卡到齊，第一階證書已可取得
 
 ## 待老師處理（不在夜間做）
 
@@ -35,7 +36,6 @@
 - [ ] P0-4 地圖頁加先修連線（同類別內用 SVG 線連起來）、手機版檢查
 - [ ] P2-3 判定器 `keyCombo`＋`quiz`（拖曳分類／選擇題）；做 A4 復原與取消復原
 - [ ] P2-4 網頁類教學影片：A1、B1、B3、E1、E3（步驟影片工具 cdp.ps1＋render.ps1，影片放 levels/xx/assets/教學.mp4）
-- [ ] P3-1 證書頁：Canvas 產生 PNG（年級班級座號、日期、證書編號、可自填姓名列印不存檔、右下署名）
 - [ ] P3-2 教師後台 `admin/`：Google 登入（boyin0304@slps.tn.edu.tw）、選年級班級 → 全班×關卡進度表、單關通過率、重設某生某關、查證書編號
 - [ ] P5-1 A2 拖曳、A3 中英全半形
 - [ ] P5-2 B2 剪下、B4 複製網址

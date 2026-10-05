@@ -329,7 +329,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   Q.load = function(){
     if(!Q.idValid()){PROG={levels:{},certs:{}};stat('warn','先填年級、班級、座號');emit();return Promise.resolve();}
     var id=Q.docId();loadedFor=id;
-    PROG=readLocal();emit();
+    PROG=readLocal();
+    // 之前就達成、但當時證書還沒開放的，進網站時補發
+    var freshLocal=Q.awardCerts().length;if(freshLocal)writeLocal();
+    emit();
     stat('','讀取中…');
     return fbReady.then(function(ok){
       if(!ok){stat('warn','紀錄存在這台電腦');return;}
@@ -337,6 +340,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
         if(loadedFor!==id)return;
         var c=doc.exists?doc.data():{};
         merge(PROG.levels,c.levels);merge(PROG.certs,c.certs);
+        Q.awardCerts();
         writeLocal();emit();
         stat('ok','已連上雲端');
         // 本機有、雲端沒有的（例如之前離線過關）補上傳
@@ -388,20 +392,98 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   <span class="lvname">我的證書</span>
   <div class="who"><label>年級<input id="idG" inputmode="numeric" maxlength="1" aria-label="年級"></label><label>班級<input id="idC" inputmode="numeric" maxlength="2" aria-label="班級"></label><label>座號<input id="idS" inputmode="numeric" maxlength="2" aria-label="座號"></label><span id="saveStat" class="pill">…</span></div>
 </div></header>
-<main><div class="wrap" style="padding-top:24px;padding-bottom:40px"><div id="certList"></div></div></main>
+<main><div class="wrap" style="padding-top:20px;padding-bottom:40px">
+  <nav class="tabs" id="certTabs" style="flex-wrap:wrap"></nav>
+  <div class="box" style="margin-top:12px" id="certBox"></div>
+</div></main>
+<style>
+.certcv{width:100%;height:auto;border-radius:8px;box-shadow:0 4px 18px rgba(0,0,0,.12);display:block}
+.need li{margin:4px 0}
+@media print{body *{visibility:hidden}#printImg,#printImg *{visibility:visible}#printImg{position:fixed;inset:0;width:100%}@page{size:A4 landscape;margin:0}}
+</style>
+<img id="printImg" alt="" style="display:none">
 <script>
-/* 證書頁：P3 會換成 Canvas 產生 PNG＋列印；目前先列出條件與進度 */
 (function(){
-  var Q=Quest;
-  Q.onChange(function(){
+  var Q=Quest, CFG=Q.config;
+  var cur=(location.search.match(/c=(\w+)/)||[])[1]||CFG.certs[0].id;
+  function $(id){return document.getElementById(id);}
+
+  function tabs(){
     var P=Q.progress();
-    document.getElementById('certList').innerHTML=Q.config.certs.map(function(c){
-      var got=P.certs[c.id];
-      return '<div class="box"><h2>'+Q.icon('award')+' '+Q.esc(c.name)+'</h2><p>'+Q.esc(c.desc)+'</p>'+
-        (got?'<p style="color:#2f9e62;font-weight:700">已獲得（'+new Date(got.awardedAt).toLocaleDateString('zh-TW')+'，證書編號 '+got.code+'）</p><p style="color:#8a91a3">可下載、列印的電子證書製作中。</p>':'<p style="color:#8a91a3">'+(Q.certOpen(c)?'還沒達成':'關卡還在準備中，之後開放')+'</p>')+'</div>';
+    $('certTabs').innerHTML=CFG.certs.map(function(c,k){
+      return '<button data-c="'+c.id+'" class="'+(c.id===cur?'on ':'')+(P.certs[c.id]?'done':'')+'"><span class="n">'+(k+1)+'</span>'+Q.esc(c.name)+'</button>';
     }).join('');
-  });
+  }
+  $('certTabs').addEventListener('click',function(e){var b=e.target.closest('[data-c]');if(!b)return;cur=b.dataset.c;try{history.replaceState(null,'','?c='+cur);}catch(x){}render();});
+
+  // 還差哪些關（給沒拿到證書的人看）
+  function missing(c){
+    var r=c.rule||{}, out=[];
+    if(!Q.certOpen(c))return ['網站的關卡還在增加中，這張證書之後開放'];
+    if(r.core||r.all)Q.levels.filter(function(l){return (r.all||l.core)&&!Q.passed(l.code);}).forEach(function(l){out.push('<a href="../'+l.code+'/">'+l.code+' '+Q.esc(l.title)+'</a>');});
+    if(r.perCategory)CFG.categories.forEach(function(cat){
+      var inCat=Q.levels.filter(function(l){return l.category===cat.id;});if(!inCat.length)return;
+      var need=Math.min(r.perCategory,inCat.length), have=inCat.filter(function(l){return Q.passed(l.code);}).length;
+      if(have<need)out.push('「'+Q.esc(cat.name)+'」再過 '+(need-have)+' 關');
+    });
+    return out;
+  }
+
+  function render(){
+    tabs();
+    var c=CFG.certs.filter(function(x){return x.id===cur;})[0]||CFG.certs[0], got=Q.progress().certs[c.id];
+    if(!Q.idValid()){$('certBox').innerHTML='<p>先在右上角填好年級、班級、座號。</p>';return;}
+    if(!got){
+      $('certBox').innerHTML='<h2>'+Q.icon('award')+' '+Q.esc(c.name)+'</h2><p>條件：'+Q.esc(c.desc)+'</p><p style="font-weight:700">還差：</p><ul class="need">'+missing(c).map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>';
+      return;
+    }
+    $('certBox').innerHTML='<canvas class="certcv" id="cv" width="1600" height="1131"></canvas>'+
+      '<label class="lbl">想在證書上印姓名，可以打在這裡（只印在證書上，不會上傳）<input class="field" id="nm" maxlength="8" style="min-height:0;max-width:260px;margin-top:6px"></label>'+
+      '<div class="actions"><button class="go" id="dl">下載證書圖片</button><button class="go ghost" id="pr">列印</button></div>';
+    var nm=$('nm');
+    nm.addEventListener('input',function(){draw(c,got,nm.value.trim());});
+    $('dl').addEventListener('click',function(){var a=document.createElement('a');a.href=$('cv').toDataURL('image/png');a.download='電腦急救站_'+c.name+'_'+Q.docId()+'.png';a.click();});
+    $('pr').addEventListener('click',function(){var im=$('printImg');im.src=$('cv').toDataURL('image/png');im.style.display='block';setTimeout(function(){window.print();im.style.display='none';},200);});
+    draw(c,got,'');
+  }
+
+  function draw(c,got,name){
+    var cv=$('cv');if(!cv)return;var g=cv.getContext('2d'),W=1600,H=1131,F='"Noto Sans TC","Microsoft JhengHei",sans-serif';
+    var navy='#22305e',gold='#c8962e';
+    g.fillStyle='#fffaf0';g.fillRect(0,0,W,H);
+    // 角落淡色圓
+    g.fillStyle='rgba(226,166,59,.10)';g.beginPath();g.arc(W,0,360,0,7);g.fill();g.beginPath();g.arc(0,H,300,0,7);g.fill();
+    // 雙框
+    g.strokeStyle=gold;g.lineWidth=10;g.strokeRect(46,46,W-92,H-92);
+    g.lineWidth=2;g.strokeRect(72,72,W-144,H-144);
+    g.textAlign='center';g.textBaseline='alphabetic';
+    g.fillStyle=gold;g.font='700 34px '+F;g.fillText('電 腦 急 救 站',W/2,190);
+    g.fillStyle=navy;g.font='900 96px '+F;g.fillText(c.name,W/2,320);
+    g.font='700 44px '+F;g.fillStyle=gold;g.fillText('證  書',W/2,395);
+    var i=Q.getId(), who=i.grade+' 年 '+i.className+' 班 '+i.studentId+' 號'+(name?'　'+name:'');
+    g.fillStyle='#1f2a44';g.font='700 54px '+F;g.fillText(who,W/2,520);
+    g.strokeStyle='#d9cfb8';g.lineWidth=2;g.beginPath();g.moveTo(W/2-380,545);g.lineTo(W/2+380,545);g.stroke();
+    var n=Object.keys(Q.progress().levels).length;
+    g.font='500 36px '+F;g.fillStyle='#3b4560';
+    g.fillText('完成「'+c.desc+'」的挑戰',W/2,625);
+    g.fillText('目前已通過 '+n+' 個電腦技能關卡，特頒此證，以資鼓勵。',W/2,685);
+    // 徽章
+    var cx=W/2,cy=840;
+    g.fillStyle=gold;g.beginPath();for(var k=0;k<24;k++){var a=k*Math.PI/12,r=k%2?92:108;g.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));}g.closePath();g.fill();
+    g.fillStyle='#fff3d6';g.beginPath();g.arc(cx,cy,74,0,7);g.fill();
+    g.strokeStyle=gold;g.lineWidth=12;g.lineCap='round';g.lineJoin='round';g.beginPath();g.moveTo(cx-34,cy+2);g.lineTo(cx-8,cy+28);g.lineTo(cx+38,cy-26);g.stroke();
+    // 日期與編號
+    var d=new Date(got.awardedAt);
+    g.textAlign='left';g.fillStyle='#5b6478';g.font='500 28px '+F;
+    g.fillText('頒發日期：'+d.getFullYear()+' 年 '+(d.getMonth()+1)+' 月 '+d.getDate()+' 日',140,1000);
+    g.fillText('證書編號：'+got.code,140,1044);
+    g.textAlign='right';g.font='500 24px '+F;g.fillStyle='#8a91a3';
+    g.fillText('made by 資訊老師黃博胤',W-120,1044);
+  }
+
+  Q.onChange(render);
   Q.initIdBar();
+  if(document.fonts&&document.fonts.load)document.fonts.load('900 40px "Noto Sans TC"').then(function(){var c=CFG.certs.filter(function(x){return x.id===cur;})[0],got=c&&Q.progress().certs[c.id];if(got)draw(c,got,($('nm')||{}).value||'');});
 })();
 </script>
 
