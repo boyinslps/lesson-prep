@@ -3,12 +3,15 @@
   "title": "純文字貼上",
   "category": "B",
   "core": true,
-  "prereq": ["B1"],
+  "prereq": [
+    "B1"
+  ],
   "order": 3,
   "enabled": true,
   "summary": "從網頁複製資料時，只貼文字、不要把顏色和字型一起帶過來",
   "learn": {
-    "video": "",
+    "video": "assets/教學.mp4",
+    "poster": "assets/封面.jpg",
     "steps": [
       "從網頁複製文字時，<b>顏色、粗體、字型</b>常常會一起被複製",
       "一般的 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 會把這些格式全部貼過來，文件就變得亂七八糟",
@@ -38,5 +41,10 @@
       "say2": "貼進文件灰色的位置，字要跟文件原本的一樣（沒有顏色、粗體）"
     }
   },
-  "production": {"video": "todo", "videoKind": "web", "note": "示範：一般貼上（格式亂）→ Ctrl+Z → Ctrl+Shift+V；可用 mockdoc.html"}
+  "production": {
+    "video": "done",
+    "videoKind": "web",
+    "note": "示範：一般貼上（格式亂）→ Ctrl+Z → Ctrl+Shift+V；可用 mockdoc.html",
+    "spec": "沿用四上 L04 教學_複製資料貼文件.mp4（specs/四上L04_複製資料.json）"
+  }
 }

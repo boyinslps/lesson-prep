@@ -8,7 +8,8 @@
   "enabled": true,
   "summary": "廣告、Cookie、通知、假中獎……跳出來的視窗要怎麼安全地關掉",
   "learn": {
-    "video": "",
+    "video": "assets/教學.mp4",
+    "poster": "assets/封面.jpg",
     "steps": [
       "<b>廣告</b>：大大的彩色按鈕是陷阱，真正的關閉是<b>角落的小 ×</b>，有時要等幾秒才出現",
       "<b>Cookie 同意</b>：選「只接受必要的」或「拒絕」，不要隨手按「全部接受」",
@@ -23,18 +24,37 @@
   "practice": {
     "checker": "popup",
     "params": {
-      "popups": ["cookie", "ad", "prize"],
+      "popups": [
+        "cookie",
+        "ad",
+        "prize"
+      ],
       "adWait": 0
     }
   },
   "challenge": {
     "checker": "popup",
     "params": {
-      "popups": ["notify", "ad", "subscribe", "cookie", "prize"],
+      "popups": [
+        "notify",
+        "ad",
+        "subscribe",
+        "cookie",
+        "prize"
+      ],
       "shuffle": true,
       "adWait": 3,
-      "page": {"tab": "臺灣景點介紹", "url": "travel.example.tw", "html": "<h3>阿里山國家森林遊樂區</h3><p>阿里山以日出、雲海、晚霞、森林與高山鐵路聞名。</p>"}
+      "page": {
+        "tab": "臺灣景點介紹",
+        "url": "travel.example.tw",
+        "html": "<h3>阿里山國家森林遊樂區</h3><p>阿里山以日出、雲海、晚霞、森林與高山鐵路聞名。</p>"
+      }
     }
   },
-  "production": {"video": "todo", "videoKind": "web", "note": "可直接拍本關的模擬畫面（cdp.ps1）"}
+  "production": {
+    "video": "done",
+    "videoKind": "web",
+    "note": "可直接拍本關的模擬畫面（cdp.ps1）",
+    "spec": "工作台/步驟影片工具/specs/技能闖關_E3_彈出視窗.json"
+  }
 }
