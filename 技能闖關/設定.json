@@ -11,12 +11,12 @@
     "appId": "1:42265052892:web:415d41d37b96fd24e61619"
   },
   "categories": [
-    {"id": "A", "name": "滑鼠與鍵盤", "icon": "mouse",   "color": "#3b7dd8", "soft": "#e5effc"},
-    {"id": "B", "name": "複製與貼上", "icon": "copy",    "color": "#2f9e62", "soft": "#e3f5ea"},
-    {"id": "C", "name": "檔案與資料夾", "icon": "folder", "color": "#d9822b", "soft": "#fdeedd"},
-    {"id": "D", "name": "圖片",       "icon": "image",   "color": "#8e5bd0", "soft": "#f0e8fb"},
-    {"id": "E", "name": "瀏覽器與分頁", "icon": "browser", "color": "#1b9aaa", "soft": "#ddf3f5"},
-    {"id": "F", "name": "急救包",     "icon": "aid",     "color": "#d9534f", "soft": "#fbe6e5"}
+    {"id": "A", "name": "輸入技能", "icon": "mouse",   "color": "#3b7dd8", "soft": "#e5effc"},
+    {"id": "B", "name": "複製貼上技能", "icon": "copy",    "color": "#2f9e62", "soft": "#e3f5ea"},
+    {"id": "C", "name": "檔案技能", "icon": "folder", "color": "#d9822b", "soft": "#fdeedd"},
+    {"id": "D", "name": "圖片技能",       "icon": "image",   "color": "#8e5bd0", "soft": "#f0e8fb"},
+    {"id": "E", "name": "瀏覽器技能", "icon": "browser", "color": "#1b9aaa", "soft": "#ddf3f5"},
+    {"id": "F", "name": "急救技能",     "icon": "aid",     "color": "#d9534f", "soft": "#fbe6e5"}
   ],
   "certs": [
     {"id": "T1", "name": "電腦新手上路", "rule": {"core": true, "minLevels": 8},
