@@ -422,7 +422,7 @@
   <!-- ===== 步驟 6：我的查證步驟＋繳交 ===== -->
   <section class="step hidden" data-step="6">
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-6 shadow-sm">
-      <div class="flex items-center gap-2 flex-wrap"><h2 class="cute text-3xl font-extrabold text-indigo-700 m-0">🔍 換你判斷：標題和照片對得上嗎？</h2></div>
+      <div class="flex items-center gap-2 flex-wrap"><h2 class="cute text-3xl font-extrabold text-indigo-700 m-0">⑥ 換你判斷：標題和照片對得上嗎？</h2></div>
       <p class="text-slate-600 mt-2 text-lg">判斷下面三張圖的<b>標題</b>和<b>實際圖片內容</b>是否相符。動手查查看圖片的<b>真實由來</b>，再選答案。<span class="text-slate-400 text-base">（選完不公布，老師會看）</span></p>
       <div class="grid md:grid-cols-3 gap-4 mt-4">
         <div class="bg-indigo-50/60 border-2 border-indigo-100 rounded-2xl p-3 flex flex-col">
@@ -448,16 +448,6 @@
         </div>
       </div>
       <p class="text-[11px] text-slate-400 mt-2">點圖可放大</p>
-    </div>
-    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <div class="flex items-center gap-2 flex-wrap"><h2 class="cute text-2xl font-extrabold text-indigo-700 m-0">⑥ 換你當偵探：我的查證步驟</h2><span class="qtypeSlot" data-qid="x1"></span></div>
-      <p class="text-slate-600 mt-2 text-lg">下面是從 L01 到今天學過的查證技能。下次在網路上看到一支很誇張的短影片，你會<b>先做什麼、再做什麼</b>？把卡片<b>拖曳</b>排成你的順序（也可以按 ▲▼ 移動），排好按「<b>對答案</b>」。沒對可以一直改、一直試。</p>
-      <ol id="x1List" class="space-y-2 mt-4"></ol>
-      <div class="flex items-center gap-3 flex-wrap mt-4">
-        <button id="x1Check" type="button" class="ans cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl px-6 py-2">✔ 對答案</button>
-        <span id="x1Tries" class="text-sm text-slate-400 font-bold"></span>
-      </div>
-      <div id="x1Fb" class="mt-3" aria-live="polite"></div>
     </div>
     <div class="text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-6">
       <div class="text-5xl mb-2">🎖️</div>
@@ -679,7 +669,7 @@ var firebaseConfig = {
   var REVEAL_OF={d1:'r1',d2:'r1',d3:'r1',b1:'r2',b2:'r2',b3:'r2'};
 
   // ===== 題型（預設＋老師即時切換，§5-6）=====
-  var DEFAULT_QTYPE={w1:'score',w2:'score',w3:'score',d0:'experience',d1:'score',d2:'score',d3:'score',b1:'score',b2:'score',b3:'score',x1:'score'};
+  var DEFAULT_QTYPE={w1:'score',w2:'score',w3:'score',d0:'experience',d1:'score',d2:'score',d3:'score',b1:'score',b2:'score',b3:'score'};
   var QTYPE_OVERRIDES={};
   function qtypeOf(qid){return QTYPE_OVERRIDES[qid]||DEFAULT_QTYPE[qid]||'experience';}
 
@@ -727,58 +717,8 @@ var firebaseConfig = {
     renderFeedback();
   }
 
-  // ⑥ 拖曳排序（滑鼠拖曳；觸控或鍵盤用 ▲▼）＋馬上對答案，可以一直重試
-  var x1List=$('x1List'),dragLi=null;
-  function x1Moved(){state.x1moved=true;state.x1shown=false;save();renumberX1();renderX1Fb();}   // 一改順序就收起舊的回饋
-  function moveX1(i,d){var j=i+d,o=state.x1order;if(j<0||j>=o.length)return;var t=o[i];o[i]=o[j];o[j]=t;state.x1moved=true;state.x1shown=false;save();renderX1();}
-  function renderX1Fb(){
-    var fb=$('x1Fb'),errs=x1Errors(state.x1order);
-    $('x1Tries').textContent=state.x1tries?'已經試了 '+state.x1tries+' 次':'';
-    [].forEach.call(x1List.children,function(li){li.classList.remove('bad','good');});
-    if(!state.x1shown){fb.innerHTML='';return;}
-    if(!errs.length){
-      [].forEach.call(x1List.children,function(li){li.classList.add('good');});
-      fb.innerHTML='<div class="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-4 pop"><p class="cute text-xl font-extrabold text-emerald-700">🎉 全對！這是一套很合理的查證順序。</p>'+
-        '<p class="text-slate-700 mt-1">小提醒：「看 5W」和「分事實意見」誰先都可以；照片用右鍵、影片用截圖，看手上拿到的是什麼來決定。</p></div>';
-      return;
-    }
-    errs.forEach(function(r){r.keys.forEach(function(k){var li=x1List.querySelector('[data-k="'+k+'"]');if(li)li.classList.add('bad');});});
-    fb.innerHTML='<div class="bg-rose-50 border-2 border-rose-300 rounded-2xl p-4"><p class="cute text-xl font-extrabold text-rose-700">還差一點！有 '+errs.length+' 個地方要再想想（紅色的卡）：</p>'+
-      '<ul class="mt-2 space-y-1 text-slate-700">'+errs.map(function(r){return '<li>'+r.hint+'</li>';}).join('')+'</ul>'+
-      '<p class="text-sm text-slate-500 mt-2">改好再按一次「對答案」。</p></div>';
-  }
-  $('x1Check').onclick=function(){state.x1moved=true;state.x1tries=(state.x1tries||0)+1;state.x1shown=true;save();renderX1Fb();};
-  function renumberX1(){
-    [].forEach.call(x1List.children,function(li,i){
-      li.querySelector('.num').textContent=i+1;
-      li.querySelector('.up').disabled=i===0;li.querySelector('.dn').disabled=i===x1List.children.length-1;
-    });
-  }
-  function renderX1(){
-    x1List.innerHTML='';
-    state.x1order.forEach(function(k,i){
-      var s=SKILLS[k],li=el('li','skill ans');li.dataset.k=k;li.draggable=!REVIEW_ID;
-      li.innerHTML='<span class="num"></span><span class="text-2xl">'+s.ic+'</span><span class="flex-1 font-bold text-slate-700">'+esc(s.t)+'</span>'+
-        '<span class="hidden sm:inline text-xs font-bold text-indigo-500 bg-indigo-50 rounded-full px-2 py-0.5">'+s.from+'</span>'+
-        '<button type="button" class="mv up" aria-label="往上移">▲</button><button type="button" class="mv dn" aria-label="往下移">▼</button>';
-      li.querySelector('.up').onclick=function(){moveX1(state.x1order.indexOf(k),-1);};
-      li.querySelector('.dn').onclick=function(){moveX1(state.x1order.indexOf(k),1);};
-      li.addEventListener('dragstart',function(e){dragLi=li;li.classList.add('dragging');e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',k);}catch(err){}});
-      li.addEventListener('dragend',function(){li.classList.remove('dragging');dragLi=null;
-        var o=[].map.call(x1List.children,function(c){return c.dataset.k;});
-        if(o.join()!==state.x1order.join()){state.x1order=o;x1Moved();}else renumberX1();});
-      x1List.appendChild(li);
-    });
-    renumberX1();renderX1Fb();
-  }
-  x1List.addEventListener('dragover',function(e){
-    if(!dragLi)return;e.preventDefault();
-    var after=null;
-    [].some.call(x1List.children,function(c){if(c===dragLi)return false;var r=c.getBoundingClientRect();if(e.clientY<r.top+r.height/2){after=c;return true;}return false;});
-    if(after)x1List.insertBefore(dragLi,after);else x1List.appendChild(dragLi);
-  });
 
-  function renderAll(){Object.keys(CHOICES).forEach(renderChoice);renderHow();fillFields();renderX1();renderFeedback();}
+  function renderAll(){Object.keys(CHOICES).forEach(renderChoice);renderHow();fillFields();renderFeedback();}
   bindFields();renderAll();
 
   // ===== 每題判斷（繳交與檢視共用）=====
@@ -791,9 +731,6 @@ var firebaseConfig = {
     r.d0={given:how.length?how.join('、'):null,correct:null,isCorrect:how.length>0};
     ['d2','b2','b3'].forEach(function(q){r[q]={given:String(state[q]||'').trim()||null,correct:PATTERNS[q],isCorrect:isRight(q)};});
     if(r.b1.given&&filled(state.bkw))r.b1.given+='｜關鍵字：'+state.bkw.trim();
-    r.x1={given:state.x1moved?x1Text(state.x1order)+'\n（按了 '+(state.x1tries||0)+' 次對答案）':null,
-      correct:'先停一下排第一；5W／事實意見排在所有搜尋之前；查證網站排在兩種反搜之前；決定轉傳排最後（其餘可互換）',
-      isCorrect:!!state.x1moved&&!x1Errors(state.x1order).length};
     return r;
   }
 
@@ -815,7 +752,7 @@ var firebaseConfig = {
     return {worksheetId:WS,worksheetTitle:TITLE,lessonPath:LESSON_PATH,
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
-      qtexts:{x1:X1_QTEXT},
+      qtexts:{},
       scoreAnswers:scoreAnswers,experienceAnswers:experienceAnswers,openAnswers:openAnswers,
       accuracyRate:sT?Math.round(sC/sT*100):null,experienceCompletion:eT?Math.round(eA/eT*100):null,
       parts:parts,status:'submitted'};
@@ -824,8 +761,7 @@ var firebaseConfig = {
     function done(keys){return keys.every(function(k){return filled(state[k]);});}
     return ['④ 東京巨蛋：'+(done(['d1','d2','d3'])&&(state.d0||[]).length?'已作答':'還沒寫完'),
       '⑤ 曼谷魚群：'+(done(['b1','b2','b3'])?'已作答':'還沒寫完'),
-      '⑥ 標題和照片對得上嗎：'+(done(['w1','w2','w3'])?'已作答':'還沒選完')+(done(['w1t','w2t','w3t'])?'':'（「實際上是」還沒寫完）'),
-      '⑥ 我的查證步驟：'+(!state.x1moved?'還沒排':(x1Errors(state.x1order).length?'還沒排對（可以再試）':'答對了'))];
+      '⑥ 標題和照片對得上嗎：'+(done(['w1','w2','w3'])?'已作答':'還沒選完')+(done(['w1t','w2t','w3t'])?'':'（「實際上是」還沒寫完）')];
   }
   var submittedOnce=false;
   $('submitBtn').onclick=function(){
@@ -956,7 +892,7 @@ var firebaseConfig = {
   }
 
   // ===== 學習路徑：一次只顯示一步，頂端進度列可以跳步（《HTML互動教材設計規範》§5.8）=====
-  var STEP_NAMES=['開場影片','認識農場','以圖搜圖','查證網站','截圖搜尋','我的步驟'];
+  var STEP_NAMES=['開場影片','認識農場','以圖搜圖','查證網站','截圖搜尋','換你判斷'];
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true};
   function stepDone(n){
@@ -1019,13 +955,13 @@ var firebaseConfig = {
 </script>
 
 <!-- 評分設定（《學習單資料與提交規範》§2-e、《AI評分規範》）：評分平台「學習單設定 → 從學習單讀取」一鍵帶入。
-     沒有開放題。⑥ w1～w3（標題與圖是否相符＋「實際上是」說明，頁面不公布、老師後台看）、檢測題 d1、d2、d3、b1、b2、b3 各 2 分＋x1 查證步驟排序 8 分（頁面內依規則自動對答案，學生可反覆嘗試）＝20 分＝base 100 − floor 80。 -->
+     沒有開放題。⑥ w1～w3（標題與圖是否相符＋「實際上是」說明，頁面不公布、老師後台看）、檢測題 d1、d2、d3、b1、b2、b3 各 2 分＝20 分＝base 100 − floor 80。 -->
 <script type="application/json" id="grading-spec">
 {
   "summary": "認識農場文與 AI 假資訊影片的特徵，分辨舊圖新用／移花接木／AI 生成，用 Chrome 智慧鏡頭對照片以圖搜圖、對影片截圖貼到 Google 圖片加關鍵字反搜，並在台灣事實查核中心、MyGoPen 找到並看懂查核報告；最後把 L01～L04 學過的查證技能排成自己的查證順序",
   "questions": [],
   "scoring": { "base": 100, "floor": 80, "deduction": 1,
-    "itemPoints": { "w1": 2, "w2": 2, "w3": 2, "d1": 2, "d2": 2, "d3": 2, "b1": 2, "b2": 2, "b3": 2, "x1": 8 } }
+    "itemPoints": { "w1": 2, "w2": 2, "w3": 2, "d1": 2, "d2": 2, "d3": 2, "b1": 2, "b2": 2, "b3": 2 } }
 }
 </script>
 </body>
