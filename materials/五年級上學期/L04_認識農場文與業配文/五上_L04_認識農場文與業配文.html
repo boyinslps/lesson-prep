@@ -615,6 +615,12 @@ var firebaseConfig = {
 
   // ===== 題目與標準答案（唯一來源＝這份學習單；文字題可由老師在 #admin 上傳正則覆蓋，§2-d、§5-3）=====
   var WARM_OPTS=['真實','AI偽造','移花接木','舊圖新用'];
+  // ⑥ 三張圖的「實際上是」參考答案（老師可在 #admin 改好按「上傳答案」覆蓋）
+  var WARM_REF={
+    w1t:'照片是日本栃木縣東武世界廣場的人面獅身像縮小模型（約 1/25）下雪，被說成埃及（2013 年就被查證是假的）',
+    w2t:'影片經過 AI 變造，女大生其實只看了一次機車，不是反覆查看車損（台灣事實查核中心、MyGoPen 判定錯誤）',
+    w3t:'2021 年英國康瓦爾海岸真的拍到，是海市蜃樓（光線經過冷熱空氣層彎曲），船沒有真的飄起來'
+  };
   var CHOICES={
     w1:{opts:WARM_OPTS,correct:'移花接木',silent:true},
     w2:{opts:WARM_OPTS,correct:'AI偽造',silent:true},
@@ -780,7 +786,7 @@ var firebaseConfig = {
   function judge(){
     var r={};
     ['w1','w2','w3','d1','d3','b1'].forEach(function(q){r[q]={given:state[q]||null,correct:CHOICES[q].correct,isCorrect:isRight(q)};});
-    ['w1','w2','w3'].forEach(function(q){var t=String(state[q+'t']||'').trim();if(t)r[q].given=(r[q].given||'（沒選）')+'｜實際上是：'+t;});
+    ['w1','w2','w3'].forEach(function(q){var t=String(state[q+'t']||'').trim();if(t)r[q].given=(r[q].given||'（沒選）')+'｜實際上是：'+t;r[q].correct=CHOICES[q].correct+'｜實際上是：'+WARM_REF[q+'t'];});
     var how=Array.isArray(state.d0)?state.d0:[];
     r.d0={given:how.length?how.join('、'):null,correct:null,isCorrect:how.length>0};
     ['d2','b2','b3'].forEach(function(q){r[q]={given:String(state[q]||'').trim()||null,correct:PATTERNS[q],isCorrect:isRight(q)};});
@@ -877,20 +883,23 @@ var firebaseConfig = {
   function showAnswers(){
     Object.keys(CHOICES).forEach(function(q){state[q]=CHOICES[q].correct;});
     state.d2=PATTERNS.d2;state.b2=PATTERNS.b2;state.b3='高架捷運';
+    ['w1t','w2t','w3t'].forEach(function(k){state[k]=WARM_REF[k];});
     state.x1order=X1_REF.slice();state.x1shown=true;
     renderAll();
   }
   function clearAnswers(){
     Object.keys(CHOICES).forEach(function(q){state[q]=null;});
-    state.d2='';state.b2='';state.b3='';state.x1order=X1_START.slice();state.x1moved=false;state.x1tries=0;state.x1shown=false;save();renderAll();
+    state.d2='';state.b2='';state.b3='';state.w1t='';state.w2t='';state.w3t='';state.x1order=X1_START.slice();state.x1moved=false;state.x1tries=0;state.x1shown=false;save();renderAll();
   }
   function uploadAnswers(){
     var p={},bad=[];
     ['d2','b2','b3'].forEach(function(q){var v=String(state[q]||'').trim();if(!v)return;try{new RegExp(v);p[q]=v;}catch(e){bad.push(q);}});
     if(bad.length){alert('這幾題的答案格式有誤：'+bad.join('、'));return;}
-    if(!Object.keys(p).length){alert('先在④⑤的文字作答框打上標準答案（多個答案用 | 隔開）。');return;}
-    if(!confirm('把下面的答案存成標準答案？\n'+Object.keys(p).map(function(q){return q+'：'+p[q];}).join('\n')))return;
-    quizRef.set({surveyPatterns:p},{merge:true}).then(function(){alert('✓ 已上傳');}).catch(function(e){alert('上傳失敗：'+e.message);});
+    var w={};['w1t','w2t','w3t'].forEach(function(k){var v=String(state[k]||'').trim();if(v)w[k]=v;});
+    if(!Object.keys(p).length&&!Object.keys(w).length){alert('先按「檢視答案」或在作答框打上標準答案（多個答案用 | 隔開）。');return;}
+    if(!confirm('把下面的答案存成標準答案？\n'+Object.keys(p).map(function(q){return q+'：'+p[q];}).concat(Object.keys(w).map(function(k){return k+'（實際上是）：'+w[k];})).join('\n')))return;
+    var up={};if(Object.keys(p).length)up.surveyPatterns=p;if(Object.keys(w).length)up.warmAnswers=w;
+    quizRef.set(up,{merge:true}).then(function(){alert('✓ 已上傳');}).catch(function(e){alert('上傳失敗：'+e.message);});
   }
   function wireTeacher(label){
     $('teacherbar').classList.remove('hidden');$('tStatus').textContent=label;teacherAuthed=true;renderQtypeSlots();
@@ -996,6 +1005,7 @@ var firebaseConfig = {
     quizRef.onSnapshot(function(doc){
       var d=(doc&&doc.data())||{};
       PATTERNS=Object.assign({},DEFAULT_PATTERNS,d.surveyPatterns||{});
+      if(d.warmAnswers)Object.assign(WARM_REF,d.warmAnswers);
       if(d.qtypeOverrides&&!REVIEW_ID){QTYPE_OVERRIDES=d.qtypeOverrides;renderQtypeSlots();}
       if(REVIEW_ID)return;
       var next={r1:!!d.r1,r2:!!d.r2};
