@@ -36,6 +36,29 @@ public static class StepVideo
     static double Ease(double t) { t = Math.Max(0, Math.Min(1, t)); return t < .5 ? 4 * t * t * t : 1 - Math.Pow(-2 * t + 2, 3) / 2; }
     static double Clamp01(double t) { return Math.Max(0, Math.Min(1, t)); }
 
+    // 疊在真實錄影上的透明圖層：每個場景輸出一張 PNG（字卡＋按鍵＋紅框），沒有背景圖
+    public static int RenderOverlays(string specPath, string outDir)
+    {
+        var js = new JavaScriptSerializer(); js.MaxJsonLength = int.MaxValue;
+        var spec = js.Deserialize<Dictionary<string, object>>(File.ReadAllText(specPath, System.Text.Encoding.UTF8));
+        W = (int)G(spec, "w", 1280); H = (int)G(spec, "h", 720); BAND = (int)G(spec, "band", 140);
+        Directory.CreateDirectory(outDir);
+        int i = 0;
+        foreach (var sc in L(spec, "scenes"))
+        {
+            using (var bmp = new Bitmap(W, H + BAND, PixelFormat.Format32bppArgb))
+            using (var g = Graphics.FromImage(bmp))
+            {
+                g.Clear(Color.Transparent);
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+                DrawScene(g, sc, 50, 99);
+                bmp.Save(Path.Combine(outDir, string.Format("o{0:D2}.png", i++)), ImageFormat.Png);
+            }
+        }
+        return i;
+    }
+
     public static int Render(string specPath, string outDir)
     {
         var js = new JavaScriptSerializer(); js.MaxJsonLength = int.MaxValue;
@@ -80,7 +103,8 @@ public static class StepVideo
         // 背景截圖（可依時間切換）
         string img = S(sc, "img");
         foreach (var sw in L(sc, "imgs")) if (t >= G(sw, "t", 0)) img = S(sw, "img");
-        if (sc.ContainsKey("chrome")) { g.DrawImage(Img(img), new Rectangle(0, 80, W, H - 80)); DrawChrome(g, (Dictionary<string, object>)sc["chrome"], t); }
+        if (img == null) { }
+        else if (sc.ContainsKey("chrome")) { g.DrawImage(Img(img), new Rectangle(0, 80, W, H - 80)); DrawChrome(g, (Dictionary<string, object>)sc["chrome"], t); }
         else g.DrawImage(Img(img), new Rectangle(0, 0, W, H));
 
         foreach (var b in L(sc, "dims")) DrawDim(g, b, t);

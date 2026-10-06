@@ -104,7 +104,14 @@
   <section class="step" data-step="1">
     <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-rose-700">① 先看一支短影片</h2>
-      <div id="openVideo" class="mt-4"></div>
+      <p class="text-slate-600 mt-2 text-lg">「曼谷素坤逸路淹水，連魚都上街了！」2026 年 9 月底泰國大雨，這支影片在 Threads 被看了 <b>188 萬次</b>、分享 <b>3 萬次</b>。</p>
+      <div class="grid md:grid-cols-2 gap-5 mt-4 items-start">
+        <video class="w-full max-w-[340px] mx-auto rounded-2xl bg-slate-900" src="assets/網傳_曼谷魚群影片.mp4" poster="assets/網傳_曼谷魚群影片_封面.jpg" controls playsinline preload="metadata"></video>
+        <div>
+          <img class="shotimg" src="assets/網傳_曼谷魚群Threads.png" alt="Threads 上的原始貼文：188 萬次瀏覽，帳號名稱已遮蔽" loading="lazy">
+          <p class="text-[11px] text-slate-400 mt-1">原始貼文擷圖（Threads，帳號已遮蔽）・點圖可放大</p>
+        </div>
+      </div>
       <p class="font-bold text-rose-700 text-xl mt-4">🤔 看完你相信嗎？如果想知道它是不是真的，你會從哪裡開始查？</p>
     </div>
     <div class="stepnav"></div>
@@ -153,20 +160,38 @@
           <li>畫面不合常理</li>
         </ul>
       </div>
-      <div class="grid md:grid-cols-2 gap-4 mt-4 items-start">
-        <div>
-          <p class="font-bold text-amber-700 text-lg mb-2">〔例一〕「全支付驚爆 39 人慘遭盜刷 340 萬！」</p>
-          <div class="vidtall"><iframe src="https://www.youtube-nocookie.com/embed/aJh4h2VO7k4?rel=0" title="全支付驚爆39人慘遭盜刷340萬（AI 配音的農場短影片）" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-          <img class="shotimg mt-3" src="assets/例一_寶島地誌頻道.jpg" alt="寶島地誌頻道首頁：2026年5月才建立，已發布大量短影音" loading="lazy">
-          <p class="text-slate-700 mt-2">發這支短片的「寶島地誌」<b>2026 年 5 月才開</b>，已經發了 88 部影片，全部是<b>來源不明的畫面＋AI 配音＋聳動標題</b>。影片講的盜刷其實是 <b>2025 年 11 月的舊事件</b>，而且是詐騙集團做假網站騙人輸入驗證碼，不是全支付外洩資料；「綁銀行帳戶危險百倍」也是誇大的說法。MyGoPen 判定<b>【誤導】</b>。</p>
-          <a href="https://www.mygopen.com/2026/10/PXPayPlus.html" target="_blank" rel="noopener" class="inline-block mt-2 text-sm font-bold text-indigo-700 underline">MyGoPen 查核報告 ↗</a>
-          <p class="text-[11px] text-slate-400 mt-1">圖片來源：MyGoPen 查核報告</p>
+      <div class="mt-5 bg-amber-50/60 border-2 border-amber-200 rounded-2xl p-4">
+        <p class="font-bold text-amber-700 text-lg mb-3">〔例一〕「全支付驚爆 39 人慘遭盜刷 340 萬！」</p>
+        <div class="grid md:grid-cols-2 gap-4 items-start">
+          <div>
+            <img class="shotimg" src="assets/例一_全支付影片.jpg" alt="臉書上轉傳的全支付盜刷 YouTube 短片" loading="lazy">
+            <p class="text-xs text-slate-500 mt-1">網傳：臉書轉貼的 YouTube 短片</p>
+          </div>
+          <div>
+            <img class="shotimg" src="assets/例一_寶島地誌頻道.jpg" alt="寶島地誌頻道首頁：被標示為內容農場頻道" loading="lazy">
+            <p class="text-xs text-slate-500 mt-1">發片的頻道「寶島地誌」</p>
+          </div>
         </div>
-        <div>
-          <p class="font-bold text-amber-700 text-lg mb-2">〔例二〕「牙膏都是牛骨頭做的」</p>
-          <img class="shotimg" src="assets/AI標示_牙膏影片.jpg" alt="TikTok 上的牙膏牛骨影片，左下角有「包含 AI 生成媒體」標示" loading="lazy">
-          <p class="text-slate-700 mt-2">AI 做的「工廠揭秘」影片：明火烤牛骨、牙膏從管口灌進去，都不合常理。仔細看左下角，平台標了「<b>包含 AI 生成媒體</b>」。查核中心判定<b>錯誤</b>：現代牙膏的研磨劑大多不是動物來源。</p>
-          <p class="text-[11px] text-slate-400 mt-1">圖片來源：台灣事實查核中心查核報告</p>
+        <ul class="list-disc pl-5 mt-3 space-y-1 text-slate-700">
+          <li>頻道 <b>2026 年 5 月才開</b>，已經發了 88 部影片，全部是<b>來源不明的畫面＋AI 配音＋聳動標題</b>。</li>
+          <li>講的盜刷其實是 <b>2025 年 11 月的舊事件</b>：詐騙集團做假網站騙人輸入驗證碼，不是全支付外洩資料。</li>
+          <li>「綁銀行帳戶危險百倍」是誇大的說法。MyGoPen 判定<b>【誤導】</b>。</li>
+        </ul>
+        <a href="https://www.mygopen.com/2026/10/PXPayPlus.html" target="_blank" rel="noopener" class="inline-block mt-2 text-sm font-bold text-indigo-700 underline">MyGoPen 查核報告 ↗</a>
+        <p class="text-[11px] text-slate-400 mt-1">圖片來源：MyGoPen 查核報告</p>
+      </div>
+      <div class="mt-4 bg-amber-50/60 border-2 border-amber-200 rounded-2xl p-4">
+        <p class="font-bold text-amber-700 text-lg mb-3">〔例二〕「牙膏都是牛骨頭做的」</p>
+        <div class="grid md:grid-cols-5 gap-5 items-center">
+          <div class="md:col-span-2">
+            <video class="w-full max-w-[300px] mx-auto rounded-2xl bg-slate-900" src="assets/網傳_牙膏牛骨影片.mp4" poster="assets/網傳_牙膏牛骨影片_封面.jpg" controls playsinline preload="metadata"></video>
+            <p class="text-xs text-slate-500 mt-1 text-center">網傳：臉書流傳的原始影片</p>
+          </div>
+          <ul class="md:col-span-3 list-disc pl-5 space-y-2 text-slate-700 text-lg">
+            <li>AI 做的「工廠揭秘」：整車牛骨倒進工廠、明火烤牛骨，<b>不合常理</b>。</li>
+            <li>臉書已標上「<b>不實資訊</b>」；TikTok 版本也被平台標「<b>包含 AI 生成媒體</b>」。</li>
+            <li>查核中心判定<b>錯誤</b>：現代牙膏的研磨劑大多<b>不是動物來源</b>。</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -205,44 +230,24 @@
         <div class="bg-sky-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-sky-600">3</div>右邊出現結果：看<b>網站和日期</b>，找<b>最早</b>的那一筆</div>
       </div>
       <p class="text-slate-500 mt-3">不用登入。</p>
+      <figure class="mt-4">
+        <video class="w-full rounded-2xl border-4 border-sky-200 bg-slate-900" src="assets/智慧鏡頭.mp4" controls playsinline preload="metadata"></video>
+        <figcaption class="text-sm text-slate-500 mt-1">▶ 操作影片：在照片上按右鍵 → 透過 Google 智慧鏡頭搜尋 → 右邊看結果</figcaption>
+      </figure>
     </div>
 
     <div class="bg-white border-4 border-slate-200 rounded-3xl p-6 mb-5">
       <h3 class="cute text-2xl font-extrabold text-slate-700 mb-2">👩‍🏫 老師示範：「熊本 7.1 強震撼九州！交通一度停擺」</h3>
-      <p class="text-slate-600 mb-3">熊本地震（2026/7/28）是真的。那這張照片呢？</p>
-      <div class="grid md:grid-cols-2 gap-4 items-start">
+      <div class="grid md:grid-cols-2 gap-5 items-center">
         <img class="shotimg" src="assets/開場_熊本.jpg" alt="網傳熊本地震照片：一艘船被沖到街上" loading="lazy">
-        <details class="bg-slate-50 rounded-2xl p-4">
-          <summary class="font-bold text-indigo-700">▶ 看反搜結果</summary>
-          <img class="shotimg mt-3" src="assets/揭曉_熊本反搜結果.png" alt="反搜結果：相同照片最早在2011年就出現在圖庫與新聞網站" loading="lazy">
-          <p class="text-slate-700 mt-2">相同的照片<b>最早在 2011 年</b>就出現了：這是東日本大地震後，在<b>日本岩手縣大船渡市</b>拍的。<b>事件是真的，照片卻是舊的</b>→ 舊圖新用。</p>
-          <a href="https://www.mygopen.com/2026/08/Kumamoto.html" target="_blank" rel="noopener" class="inline-block mt-2 text-sm font-bold text-indigo-700 underline">MyGoPen 查核報告 ↗</a>
-        </details>
+        <div class="text-lg text-slate-700 space-y-3">
+          <p>熊本地震（2026/7/28）是<b>真的</b>。</p>
+          <p class="font-bold text-slate-800">🤔 那這張照片，也是這次地震拍的嗎？</p>
+          <p class="text-base text-slate-500">看老師對照片按右鍵 → 智慧鏡頭，找<b>最早</b>出現的那一筆。</p>
+        </div>
       </div>
     </div>
 
-    <div class="bg-white border-4 border-cyan-300 rounded-3xl p-6 shadow-sm">
-      <div class="flex items-center gap-2 flex-wrap">
-        <img src="https://www.google.com/s2/favicons?domain=tineye.com&sz=64" class="w-8 h-8" alt="">
-        <h3 class="cute text-2xl font-extrabold text-cyan-700 m-0">🔬 進階搜圖：TinEye 找「最早」的那一張</h3>
-      </div>
-      <p class="text-slate-700 text-lg mt-2">Google 智慧鏡頭會把「<b>長得像</b>」的圖一起找出來，結果很多、很雜。TinEye 只找「<b>同一張圖</b>」（被裁切、縮小、調過顏色也認得出來），而且可以<b>照日期排序</b>，最適合用來查「這張照片第一次出現是什麼時候」。</p>
-      <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mt-4 text-base">
-        <div class="bg-cyan-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-cyan-600">1</div><b>截圖</b>：按 <kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd>，拖曳<b>框住照片</b>（影片就先暫停再框）。框好就自動<b>複製</b>了。</div>
-        <div class="bg-cyan-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-cyan-600">2</div><b>貼上</b>：打開 <b>tineye.com</b>，在網頁上按 <kbd>Ctrl</kbd>＋<kbd>V</kbd>，它就會<b>自動開始搜尋</b>。</div>
-        <div class="bg-cyan-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-cyan-600">3</div><b>排序</b>：結果上方的 <kbd>Sort by</kbd> 改成 <kbd>Oldest</kbd>（最舊的排最前面）。</div>
-        <div class="bg-cyan-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-cyan-600">4</div><b>看最早那一筆</b>：標 <kbd>SPONSORED</kbd> 的是廣告，跳過。上方的 <kbd>First indexed</kbd> 也會寫 TinEye 最早看到它的日期。</div>
-      </div>
-      <figure class="mt-4">
-        <video class="w-full rounded-2xl border-4 border-cyan-200 bg-slate-900" src="assets/教學_TinEye步驟.mp4" poster="assets/教學_TinEye步驟_封面.jpg" controls playsinline preload="metadata"></video>
-        <figcaption class="text-sm text-slate-500 mt-1">▶ 步驟影片（45 秒）：截圖 → 貼到 TinEye → 排 Oldest → 跳過廣告看最早那一筆</figcaption>
-      </figure>
-      <p class="text-slate-700 mt-3">💡 TinEye 是英文網站，不用登入。截圖框<b>越剛好</b>（只框照片、不要框到網頁按鈕）越好找。找不到結果，只代表它的資料庫裡沒有，不代表照片是新的：回去用智慧鏡頭＋關鍵字再找。</p>
-      <div class="flex flex-wrap items-center gap-3 mt-3">
-        <a href="https://tineye.com/" target="_blank" rel="noopener" class="inline-block bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-xl px-4 py-1.5">開啟 TinEye ↗</a>
-        <span class="text-slate-600">✋ 看完影片，自己把上面熊本的照片截圖貼進 TinEye 做一次。</span>
-      </div>
-    </div>
     <div class="stepnav"></div>
   </section>
 
@@ -268,15 +273,33 @@
           <a href="https://www.mygopen.com/" target="_blank" rel="noopener" class="inline-block mt-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-1.5">開啟網站 ↗</a>
         </div>
       </div>
-      <p class="text-slate-700 text-lg mt-4">兩種用法：① <b>以圖搜圖</b>時，結果常常直接出現它們的報告；② 用 L03 學的方法<b>抓關鍵字</b>，到網站的搜尋框搜。下面用第①種練一次。</p>
+      <p class="font-bold text-teal-800 text-xl mt-5">三種找法（用哪一種都可以）</p>
+      <div class="grid md:grid-cols-3 gap-3 mt-2">
+        <div class="flex gap-3 items-start bg-white border-2 border-teal-200 rounded-2xl p-4">
+          <div class="cute text-3xl font-extrabold text-teal-600 shrink-0">1</div>
+          <div><p class="font-bold text-lg text-slate-800">以圖搜圖</p><p class="text-slate-700">結果裡常常<b>直接出現</b>查核報告。</p></div>
+        </div>
+        <div class="flex gap-3 items-start bg-white border-2 border-teal-200 rounded-2xl p-4">
+          <div class="cute text-3xl font-extrabold text-teal-600 shrink-0">2</div>
+          <div><p class="font-bold text-lg text-slate-800">關鍵字搜尋</p><p class="text-slate-700">用 L03 的方法<b>抓關鍵字</b>，再加「查核」去 Google 搜。</p></div>
+        </div>
+        <div class="flex gap-3 items-start bg-white border-2 border-teal-200 rounded-2xl p-4">
+          <div class="cute text-3xl font-extrabold text-teal-600 shrink-0">3</div>
+          <div><p class="font-bold text-lg text-slate-800">直接上查核網站</p><p class="text-slate-700">打開上面兩個網站，在<b>搜尋框</b>打關鍵字。</p></div>
+        </div>
+      </div>
     </div>
 
     <div class="bg-white border-4 border-teal-300 rounded-3xl p-6 shadow-sm">
-      <h3 class="cute text-2xl font-extrabold text-teal-700 m-0">✋ 換你查：以圖搜圖 → 找到查核報告</h3>
-      <p class="text-slate-600 mt-1 mb-3">「台灣球迷在東京巨蛋看完比賽，留下滿地垃圾！」這張圖在 X、臉書、Threads 被轉傳。對它按右鍵反搜，找到查核報告後回答：</p>
+      <h3 class="cute text-2xl font-extrabold text-teal-700 m-0">✋ 換你查：找到查核報告</h3>
+      <p class="text-slate-600 mt-1 mb-3">「台灣球迷在東京巨蛋看完比賽，留下滿地垃圾！」這張圖在 X、臉書、Threads 被轉傳。<b>用哪一種方法查都可以</b>，找到查核報告後回答：</p>
       <div class="grid md:grid-cols-2 gap-4 items-start">
         <img class="shotimg" src="assets/練習_東京巨蛋.jpg" alt="網傳圖片：東京巨蛋座位區滿地垃圾，標題寫丟臉丟到東京巨蛋" loading="lazy">
         <div class="space-y-4">
+          <div>
+            <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800">0. 你怎麼查到的？<span class="font-normal text-slate-500 text-sm">（可以選好幾個）</span></p><span class="qtypeSlot" data-qid="d0"></span></div>
+            <div id="d0Opts" class="flex flex-wrap gap-2 mt-1"></div>
+          </div>
           <div>
             <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800">1. 這張圖是？</p><span class="qtypeSlot" data-qid="d1"></span><span id="d1Fb" class="text-sm font-bold"></span></div>
             <div id="d1Opts" class="flex flex-wrap gap-2 mt-1"></div>
@@ -288,7 +311,6 @@
           <div>
             <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800">3. 查核中心給的查核結果是？</p><span class="qtypeSlot" data-qid="d3"></span><span id="d3Fb" class="text-sm font-bold"></span></div>
             <div id="d3Opts" class="flex flex-wrap gap-2 mt-1"></div>
-            <label class="block text-sm text-slate-500 mt-2">我的證據：報告網址<input data-k="d3url" class="fld ans mt-1" inputmode="url"></label>
           </div>
         </div>
       </div>
@@ -306,7 +328,7 @@
         <ul class="space-y-1 text-slate-700">
           <li>👀 看得到的標示：媒體寫的「示意圖／AI生成」、TikTok 的「包含 AI 生成媒體」（②的牙膏影片）、Gemini 圖片角落的 ✦ 浮水印。</li>
           <li>✂️ 標示<b>會被抹掉、被裁掉</b>，轉傳幾手之後就看不到了。</li>
-          <li>❗ 所以：<b>沒看到標示，不代表是真的。</b>怎麼看出 AI 的破綻，我們 L06 再練。</li>
+          <li>❗ 所以：<b>沒看到標示，不代表是真的。</b></li>
         </ul>
       </div>
       <a href="https://tfc-taiwan.org.tw/fact-check-reports/taiwan-fans-tokyo-dome-trash-photo-ai-generated" target="_blank" rel="noopener" class="inline-block mt-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-1.5">東京巨蛋查核報告 ↗</a>
@@ -319,57 +341,74 @@
   <section class="step hidden" data-step="5">
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-violet-700">⑤ 進階：影片截圖＋關鍵字</h2>
-      <p class="text-slate-600 mt-2 text-lg">影片不能直接按右鍵搜。而且一支影片有上千個畫面，直接反搜，結果常常太雜。偵探的做法是：<b>截一個有特徵的畫面</b>（建築、招牌、柵欄、制服），再<b>加上關鍵字</b>（地點、事件）縮小範圍。</p>
-      <div class="grid md:grid-cols-4 gap-3 mt-4 text-base">
-        <div class="bg-violet-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-violet-600">1</div>暫停在<b>有特徵</b>的畫面</div>
-        <div class="bg-violet-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-violet-600">2</div>右上角 <kbd>⋮</kbd> →「<b>使用 Google 智慧鏡頭搜尋這個分頁</b>」</div>
-        <div class="bg-violet-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-violet-600">3</div>拖曳<b>框住畫面</b></div>
+      <p class="text-slate-600 mt-2 text-lg">影片沒辦法按右鍵用智慧鏡頭，<b>嵌在網頁裡的影片</b>更不行。偵探的做法是：<b>暫停在有特徵的畫面</b>（建築、招牌、制服）→ <b>截圖</b> → 貼到 <b>Google 圖片</b>搜，再<b>加上關鍵字</b>（地點、事件）縮小範圍。</p>
+      <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-3 mt-4 text-base">
+        <div class="bg-violet-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-violet-600">1</div><b>暫停</b>在有特徵的畫面</div>
+        <div class="bg-violet-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-violet-600">2</div><b>截圖</b>：<kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd>，框住畫面（自動複製）</div>
+        <div class="bg-violet-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-violet-600">3</div>開 <a href="https://images.google.com/?hl=zh-tw" target="_blank" rel="noopener" class="font-bold text-violet-700 underline">Google 圖片</a> → 點搜尋框的<b>相機圖示</b> → <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上</div>
         <div class="bg-violet-50 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-violet-600">4</div>在搜尋框<b>再打關鍵字</b>，例如「火山 學生」</div>
       </div>
+      <figure class="mt-4">
+        <video class="w-full rounded-2xl border-4 border-violet-200 bg-slate-900" src="assets/截圖google圖片搜尋_字卡.mp4" poster="assets/截圖google圖片搜尋_字卡_封面.jpg" controls playsinline preload="metadata"></video>
+        <figcaption class="text-sm text-slate-500 mt-1">▶ 操作影片：暫停 → Win＋Shift＋S 截圖 → Google 圖片 → 相機圖示 → Ctrl＋V 貼上</figcaption>
+      </figure>
     </div>
+
+    <a href="https://images.google.com/?hl=zh-tw" target="_blank" rel="noopener" class="cute flex items-center justify-center gap-3 w-full bg-violet-600 hover:bg-violet-700 text-white text-2xl md:text-3xl font-extrabold rounded-3xl py-5 mb-5 shadow-lg">🖼️ 開啟 Google 圖片搜尋 ↗</a>
 
     <div class="bg-white border-4 border-slate-200 rounded-3xl p-6 mb-5">
       <h3 class="cute text-2xl font-extrabold text-slate-700 mb-2">👩‍🏫 老師示範：「2026年9月8日，印尼6座火山同時爆發！」</h3>
-      <p class="text-slate-600 mb-3">網傳影片用的就是下面這段畫面。看老師怎麼暫停在<b>學生奔跑</b>的那一幕、框住，再加上「火山 學生」去搜。</p>
-      <div class="vidbox rounded-2xl overflow-hidden bg-slate-900"><iframe src="https://www.youtube-nocookie.com/embed/Fh1cBAsWr-g?rel=0" title="網傳印尼火山爆發影片的畫面" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-      <p class="text-[11px] text-slate-400 mt-1">影片：KOMPAS TV（YouTube）</p>
+      <div class="grid md:grid-cols-2 gap-5 items-center">
+        <div>
+          <video class="w-full max-w-[420px] mx-auto rounded-2xl bg-slate-900" src="assets/網傳_印尼火山影片.mp4" poster="assets/網傳_印尼火山影片_封面.jpg" controls playsinline preload="metadata"></video>
+          <p class="text-[11px] text-slate-400 mt-1">影片：社群平台網傳版本（MyGoPen 判定錯誤）</p>
+        </div>
+        <div class="text-lg text-slate-700 space-y-3">
+          <p>這支影片在臉書、IG 流傳，貼文寫「<b>2026 年 9 月 8 日，印尼同時面臨 6 座火山同時爆發</b>」。</p>
+          <p class="font-bold text-slate-800">🤔 畫面真的是 9 月 8 日拍的嗎？</p>
+          <p class="text-base text-slate-500">看老師暫停在<b>學生奔跑</b>的那一幕、框住，再加上「火山 學生」去搜。</p>
+        </div>
+      </div>
     </div>
 
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 shadow-sm">
       <div class="flex items-center gap-2 flex-wrap">
-        <h3 class="cute text-2xl font-extrabold text-violet-700 m-0">✋ 換你查：「巴威颱風重創關島！」</h3>
+        <h3 class="cute text-2xl font-extrabold text-violet-700 m-0">✋ 換你查：開場的「曼谷淹水，魚都上街了」</h3>
         <button data-reveal-btn="r2" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-lg px-3 py-1.5">🎉 公布⑤</button>
       </div>
-      <p class="text-slate-600 mt-1 mb-3">2026 年 7 月巴威颱風經過關島時，有一段「<b>隔著黑色尖頭柵欄拍狂風暴雨</b>」的影片被大量轉傳，還有新聞引用（就是下面這支）。找到柵欄那一段、暫停、框住反搜，再自己想關鍵字加上去。</p>
-      <div class="grid md:grid-cols-2 gap-4 items-start">
-        <div>
-          <div class="vidbox rounded-2xl overflow-hidden bg-slate-900"><iframe src="https://www.youtube-nocookie.com/embed/i-V1hbuI1bM?rel=0" title="巴威颱風侵襲畫面（新聞引用了網傳影片）" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-          <p class="text-[11px] text-slate-400 mt-1">影片：三立新聞網（YouTube）</p>
-        </div>
+      <p class="text-slate-600 text-lg mt-2 mb-4">還記得一開始那支影片嗎？現在用剛學的方法查它：<b>暫停 → 截有特徵的畫面</b>（招牌、街道）<b>→ 加關鍵字</b>，找到查核報告後回答。</p>
+      <div class="grid md:grid-cols-2 gap-5 items-start">
+        <video class="w-full max-w-[340px] mx-auto rounded-2xl bg-slate-900" src="assets/網傳_曼谷魚群影片.mp4" poster="assets/網傳_曼谷魚群影片_封面.jpg" controls playsinline preload="metadata"></video>
         <div class="space-y-4">
           <label class="block"><span class="font-bold text-violet-800">我加的關鍵字</span><input data-k="bkw" class="fld ans mt-1"></label>
           <div>
-            <div class="flex items-center gap-2 flex-wrap"><label for="b1" class="font-bold text-violet-800">1. 柵欄這段影片最早是哪一年拍的？</label><span class="qtypeSlot" data-qid="b1"></span><span id="b1Fb" class="text-sm font-bold"></span></div>
-            <input id="b1" data-k="b1" class="fld ans mt-1" inputmode="numeric">
+            <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-violet-800">1. 這段影片是？</p><span class="qtypeSlot" data-qid="b1"></span><span id="b1Fb" class="text-sm font-bold"></span></div>
+            <div id="b1Opts" class="flex flex-wrap gap-2 mt-1"></div>
           </div>
           <div>
-            <div class="flex items-center gap-2 flex-wrap"><label for="b2" class="font-bold text-violet-800">2. 真正是在哪個國家拍的？</label><span class="qtypeSlot" data-qid="b2"></span><span id="b2Fb" class="text-sm font-bold"></span></div>
+            <div class="flex items-center gap-2 flex-wrap"><label for="b2" class="font-bold text-violet-800">2. 畫面裡 7-11 的招牌，英文被拼成什麼？</label><span class="qtypeSlot" data-qid="b2"></span><span id="b2Fb" class="text-sm font-bold"></span></div>
             <input id="b2" data-k="b2" class="fld ans mt-1">
           </div>
           <div>
-            <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-violet-800">3. 這屬於哪一型？</p><span class="qtypeSlot" data-qid="b3"></span><span id="b3Fb" class="text-sm font-bold"></span></div>
-            <div id="b3Opts" class="flex flex-wrap gap-2 mt-1"></div>
+            <div class="flex items-center gap-2 flex-wrap"><label for="b3" class="font-bold text-violet-800">3. 真正的素坤逸路上方有什麼，影片裡卻沒有？</label><span class="qtypeSlot" data-qid="b3"></span><span id="b3Fb" class="text-sm font-bold"></span></div>
+            <input id="b3" data-k="b3" class="fld ans mt-1">
           </div>
         </div>
       </div>
       <p data-wait="r2" class="text-center text-slate-400 mt-4">🔒 答案等老師公布</p>
-      <div data-r="r2" class="hidden mt-5 grid md:grid-cols-2 gap-4 items-center flip">
-        <img class="shotimg" src="assets/揭曉_巴威時間標記.jpg" alt="比對圖：網傳影片裁掉了原片上的 Nov1, 2020 時間標記" loading="lazy">
-        <div class="text-lg text-slate-700">
-          <p>原片是 <b>2020 年 11 月 1 日</b>，天鵝颱風侵襲<b>菲律賓</b>維拉克的畫面。轉傳的人把原片上的時間字樣<b>裁掉</b>，再說成巴威颱風——這就是<b>移花接木</b>。連新聞都可能用錯畫面，所以每一手都要查。</p>
-          <a href="https://tfc-taiwan.org.tw/fact-check-reports/typhoon-bavi-guam-disaster-video-is-misplaced" target="_blank" rel="noopener" class="inline-block mt-3 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl px-4 py-1.5">台灣事實查核中心報告 ↗</a>
-          <p class="text-[11px] text-slate-400 mt-1">圖片來源：台灣事實查核中心查核報告</p>
+      <div data-r="r2" class="hidden mt-5 flip">
+        <h3 class="cute text-2xl font-extrabold text-rose-700 mb-3">🎉 公布：魚群影片是 AI 生成的</h3>
+        <div class="grid md:grid-cols-2 gap-4 items-start">
+          <img class="shotimg" src="assets/揭曉_曼谷魚群破綻.jpg" alt="網傳影片的破綻：7-11 招牌拼成 LEVEN、婦人手指融進手機；真實素坤逸路上方有高架捷運" loading="lazy">
+          <div class="text-lg text-slate-700 space-y-2">
+            <p>🔍 <b>破綻</b>：7-11 招牌拼成「<b>LEVEN</b>」、婦人的手指<b>融進手機</b>裡。</p>
+            <p>🗺️ <b>對不上</b>：真正的素坤逸路上方有<b>高架捷運</b>，影片裡卻是空的天空。</p>
+            <p>🤖 <b>檢測</b>：AI 偵測工具判定由 Meta AI 生成。查核結果：<b>錯誤</b>。</p>
+            <p class="text-base text-slate-500">泰國那幾天真的淹水，但沒有證據顯示路上出現魚群——<b>事件是真的，畫面是假的。</b></p>
+          </div>
         </div>
+        <a href="https://tfc-taiwan.org.tw/fact-check-reports/fake-bangkok-flooding-fish-in-street-ai-photo/" target="_blank" rel="noopener" class="inline-block mt-3 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl px-4 py-1.5">台灣事實查核中心報告 ↗</a>
+        <p class="text-[11px] text-slate-400 mt-1">圖片來源：台灣事實查核中心查核報告</p>
       </div>
     </div>
     <div class="stepnav"></div>
@@ -390,7 +429,7 @@
     <div class="text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-6">
       <div class="text-5xl mb-2">🎖️</div>
       <h2 class="cute text-2xl font-extrabold text-indigo-700">今天你帶走的能力</h2>
-      <p class="text-slate-700 mt-2 text-lg"><b>照片影片也要查出身。</b><br>先看<b>查證網站</b>有沒有人查過，再<b>以圖搜圖</b>、<b>截圖加關鍵字</b>，用 <b>TinEye</b> 找最早的那一筆。<br>下一節，我們要把查證過程整理成一份 Google 文件查證報告！</p>
+      <p class="text-slate-700 mt-2 text-lg"><b>照片影片也要查出身。</b><br>先看<b>查證網站</b>有沒有人查過，再<b>以圖搜圖</b>；影片就<b>截圖貼到 Google 圖片</b>加關鍵字，找到最早的那一筆。<br>下一節，我們要把查證過程整理成一份 Google 文件查證報告！</p>
     </div>
     <div class="grid sm:grid-cols-2 gap-4 mt-5">
       <a href="https://www.youtube.com/watch?v=pg_5ftIwHak" target="_blank" rel="noopener" class="flex items-center gap-3 bg-white border-4 border-dashed border-indigo-300 rounded-2xl p-4 hover:bg-indigo-50">
@@ -437,12 +476,6 @@
 </div>
 
 <script>
-/* ============================================================
-   ① 開場影片：老師自選短影片，填 YouTube 網址（watch / shorts / youtu.be 都可以）。
-   url 留空時顯示「老師的開場影片」佔位框。
-   ============================================================ */
-var OPENING_VIDEO = { url: '', title: '' };
-
 /* Firebase（沿用 pcclass-94300 專案）。設為 null＝單機模式（可作答，不會繳交出去）。 */
 var firebaseConfig = {
   apiKey:"AIzaSyAaodBvsP-BSovON14izt22DOXeH40TTGM",
@@ -499,15 +532,6 @@ var firebaseConfig = {
     });
   })();
 
-  // ===== ① 開場影片 =====
-  function ytId(u){var m=String(u||'').match(/(?:shorts\/|youtu\.be\/|[?&]v=|embed\/)([A-Za-z0-9_-]{11})/);return m?m[1]:null;}
-  (function(){
-    var box=$('openVideo'),id=ytId(OPENING_VIDEO.url);
-    if(!id){box.innerHTML='<div class="imgph">🎬 老師的開場影片</div>';return;}
-    var tall=/shorts\//.test(OPENING_VIDEO.url);
-    box.innerHTML='<div class="'+(tall?'vidtall':'vidbox rounded-2xl overflow-hidden bg-slate-900')+'"><iframe src="https://www.youtube-nocookie.com/embed/'+id+'?rel=0" title="'+esc(OPENING_VIDEO.title||'開場影片')+'" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
-  })();
-
   // ===== 識別列 =====
   var ID_KEY='wk_identity',ID_FIELDS=['idGrade','idClass','idStudent'];
   function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
@@ -560,9 +584,9 @@ var firebaseConfig = {
   var CHOICES={
     d1:{opts:['真的照片','舊照片','AI 生成'],correct:'AI 生成'},
     d3:{opts:['錯誤','部分錯誤','事實釐清','正確'],correct:'錯誤'},
-    b3:{opts:['舊圖新用','移花接木','AI 生成'],correct:'移花接木'}
+    b1:{opts:['真的淹水畫面','舊影片','AI 生成'],correct:'AI 生成'}
   };
-  var DEFAULT_PATTERNS={d2:'示意|AI',b1:'2020',b2:'菲律賓|Philippines|維拉克'};
+  var DEFAULT_PATTERNS={d2:'示意|AI',b2:'LEVEN',b3:'捷運|BTS|高架|軌道|天橋|橋'};
   var PATTERNS=Object.assign({},DEFAULT_PATTERNS);
   function testPattern(qid,val){
     val=String(val||'').trim();if(!val)return false;
@@ -577,20 +601,19 @@ var firebaseConfig = {
     c:{ic:'⚖️',t:'分清楚哪些是事實、哪些是意見',from:'L02'},
     d:{ic:'🔑',t:'抓關鍵字，到查證網站搜：有沒有人查過？',from:'L03・L04'},
     e:{ic:'🖼️',t:'照片：按右鍵，用 Google 智慧鏡頭以圖搜圖',from:'L04'},
-    f:{ic:'🎬',t:'影片：截一個有特徵的畫面，再加關鍵字反搜',from:'L04'},
-    g:{ic:'🔬',t:'截圖貼到 TinEye，照日期排序找最早出現的那一次',from:'L04'},
+    f:{ic:'🎬',t:'影片：截有特徵的畫面，貼到 Google 圖片＋關鍵字',from:'L04'},
     h:{ic:'💭',t:'想想信了會怎樣，再決定要不要轉傳',from:'L01・L03'}
   };
-  var X1_START=['f','a','h','d','b','g','e','c'];
-  var X1_REF=['a','b','c','d','e','f','g','h'];
+  var X1_START=['f','a','h','d','b','e','c'];
+  var X1_REF=['a','b','c','d','e','f','h'];
   function x1Text(order){return order.map(function(k,i){return (i+1)+'. '+SKILLS[k].t;}).join('\n');}
-  // 對答案用「規則」不用單一順序：5W 和事實意見（b、c）誰先都行，三種反搜工具（e、f、g）也可以互換
+  // 對答案用「規則」不用單一順序：5W 和事實意見（b、c）誰先都行，兩種反搜（e、f）也可以互換
   var X1_RULES=[
     {keys:['a'],ok:function(p,n){return p.a===0;},
      hint:'🛑 第一步要先做什麼？看到誇張的影片，還沒查之前，先別急著相信、更別急著轉傳。'},
-    {keys:['b','c'],ok:function(p){return Math.max(p.b,p.c)<Math.min(p.d,p.e,p.f,p.g);},
+    {keys:['b','c'],ok:function(p){return Math.max(p.b,p.c)<Math.min(p.d,p.e,p.f);},
      hint:'🪪 動手搜尋之前，先讀懂它在說什麼：誰做的、什麼時候、哪些是事實。這樣才知道要搜什麼關鍵字。'},
-    {keys:['d'],ok:function(p){return p.d<Math.min(p.e,p.f,p.g);},
+    {keys:['d'],ok:function(p){return p.d<Math.min(p.e,p.f);},
      hint:'🔑 自己反搜之前，先看看有沒有人已經查過了？查證網站找得到，就不用從零開始。'},
     {keys:['h'],ok:function(p,n){return p.h===n-1;},
      hint:'💭 要不要轉傳，是全部查完才決定的事，應該放在哪裡？'}
@@ -602,8 +625,8 @@ var firebaseConfig = {
 
   // ===== 作答狀態（localStorage 暫存）=====
   var STATE_KEY='g5L04flow';
-  var FIELDS=['d2','d3url','bkw','b1','b2'];
-  var state={d1:null,d3:null,b3:null,x1order:X1_START.slice(),x1moved:false,x1tries:0,x1shown:false};
+  var FIELDS=['d2','bkw','b2','b3'];
+  var state={d0:[],d1:null,d3:null,b1:null,x1order:X1_START.slice(),x1moved:false,x1tries:0,x1shown:false};
   FIELDS.forEach(function(k){state[k]='';});
   if(!REVIEW_ID){try{var sv=localStorage.getItem(STATE_KEY);if(sv)state=Object.assign(state,JSON.parse(sv));}catch(e){}}
   function validOrder(o){return Array.isArray(o)&&o.length===X1_START.length&&X1_START.every(function(k){return o.indexOf(k)>=0;});}
@@ -613,7 +636,7 @@ var firebaseConfig = {
   var REVEAL_OF={d1:'r1',d2:'r1',d3:'r1',b1:'r2',b2:'r2',b3:'r2'};
 
   // ===== 題型（預設＋老師即時切換，§5-6）=====
-  var DEFAULT_QTYPE={d1:'score',d2:'score',d3:'score',b1:'score',b2:'score',b3:'score',x1:'score'};
+  var DEFAULT_QTYPE={d0:'experience',d1:'score',d2:'score',d3:'score',b1:'score',b2:'score',b3:'score',x1:'score'};
   var QTYPE_OVERRIDES={};
   function qtypeOf(qid){return QTYPE_OVERRIDES[qid]||DEFAULT_QTYPE[qid]||'experience';}
 
@@ -625,6 +648,17 @@ var firebaseConfig = {
     CHOICES[q].opts.forEach(function(o){
       var b=el('button',state[q]===o?chipOn:chipCls,esc(o));b.type='button';
       b.onclick=function(){state[q]=o;save();renderChoice(q);renderFeedback();};
+      host.appendChild(b);
+    });
+  }
+  // ④-0 複選：你怎麼查到的（體驗題，選了就算）
+  var HOW_OPTS=['關鍵字搜尋','以圖搜圖','直接上查核網站查'];
+  function renderHow(){
+    var host=$('d0Opts');host.innerHTML='';if(!Array.isArray(state.d0))state.d0=[];
+    HOW_OPTS.forEach(function(o){
+      var on=state.d0.indexOf(o)>=0;
+      var b=el('button',on?chipOn:chipCls,(on?'✔ ':'')+esc(o));b.type='button';
+      b.onclick=function(){var i=state.d0.indexOf(o);if(i>=0)state.d0.splice(i,1);else state.d0.push(o);save();renderHow();};
       host.appendChild(b);
     });
   }
@@ -662,7 +696,7 @@ var firebaseConfig = {
     if(!errs.length){
       [].forEach.call(x1List.children,function(li){li.classList.add('good');});
       fb.innerHTML='<div class="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-4 pop"><p class="cute text-xl font-extrabold text-emerald-700">🎉 全對！這是一套很合理的查證順序。</p>'+
-        '<p class="text-slate-700 mt-1">小提醒：「看 5W」和「分事實意見」誰先都可以；照片、影片、TinEye 三種反搜，也看手上拿到的是什麼來決定先用哪個。</p></div>';
+        '<p class="text-slate-700 mt-1">小提醒：「看 5W」和「分事實意見」誰先都可以；照片用右鍵、影片用截圖，看手上拿到的是什麼來決定。</p></div>';
       return;
     }
     errs.forEach(function(r){r.keys.forEach(function(k){var li=x1List.querySelector('[data-k="'+k+'"]');if(li)li.classList.add('bad');});});
@@ -701,19 +735,20 @@ var firebaseConfig = {
     if(after)x1List.insertBefore(dragLi,after);else x1List.appendChild(dragLi);
   });
 
-  function renderAll(){Object.keys(CHOICES).forEach(renderChoice);fillFields();renderX1();renderFeedback();}
+  function renderAll(){Object.keys(CHOICES).forEach(renderChoice);renderHow();fillFields();renderX1();renderFeedback();}
   bindFields();renderAll();
 
   // ===== 每題判斷（繳交與檢視共用）=====
   function filled(v){return !!String(v==null?'':v).trim();}
   function judge(){
     var r={};
-    ['d1','d3','b3'].forEach(function(q){r[q]={given:state[q]||null,correct:CHOICES[q].correct,isCorrect:isRight(q)};});
-    if(r.d3.given&&filled(state.d3url))r.d3.given+='｜報告：'+state.d3url.trim();
-    ['d2','b1','b2'].forEach(function(q){r[q]={given:String(state[q]||'').trim()||null,correct:PATTERNS[q],isCorrect:isRight(q)};});
+    ['d1','d3','b1'].forEach(function(q){r[q]={given:state[q]||null,correct:CHOICES[q].correct,isCorrect:isRight(q)};});
+    var how=Array.isArray(state.d0)?state.d0:[];
+    r.d0={given:how.length?how.join('、'):null,correct:null,isCorrect:how.length>0};
+    ['d2','b2','b3'].forEach(function(q){r[q]={given:String(state[q]||'').trim()||null,correct:PATTERNS[q],isCorrect:isRight(q)};});
     if(r.b1.given&&filled(state.bkw))r.b1.given+='｜關鍵字：'+state.bkw.trim();
     r.x1={given:state.x1moved?x1Text(state.x1order)+'\n（按了 '+(state.x1tries||0)+' 次對答案）':null,
-      correct:'先停一下排第一；5W／事實意見排在所有搜尋之前；查證網站排在三種反搜之前；決定轉傳排最後（其餘可互換）',
+      correct:'先停一下排第一；5W／事實意見排在所有搜尋之前；查證網站排在兩種反搜之前；決定轉傳排最後（其餘可互換）',
       isCorrect:!!state.x1moved&&!x1Errors(state.x1order).length};
     return r;
   }
@@ -732,7 +767,7 @@ var firebaseConfig = {
       else if(t==='experience'){experienceAnswers[qid]=item;eT++;if(filled(item.given))eA++;}
       else{scoreAnswers[qid]=item;sT++;if(item.isCorrect)sC++;}
     });
-    var parts={d1:state.d1,d3:state.d3,b3:state.b3,x1order:state.x1order,x1moved:state.x1moved,x1tries:state.x1tries||0,x1shown:state.x1shown};FIELDS.forEach(function(k){parts[k]=state[k];});
+    var parts={d0:state.d0,d1:state.d1,d3:state.d3,b1:state.b1,x1order:state.x1order,x1moved:state.x1moved,x1tries:state.x1tries||0,x1shown:state.x1shown};FIELDS.forEach(function(k){parts[k]=state[k];});
     return {worksheetId:WS,worksheetTitle:TITLE,lessonPath:LESSON_PATH,
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
@@ -743,8 +778,8 @@ var firebaseConfig = {
   }
   function report(){
     function done(keys){return keys.every(function(k){return filled(state[k]);});}
-    return ['④ 東京巨蛋：'+(done(['d1','d2','d3'])?'已作答':'還沒寫完'),
-      '⑤ 巴威颱風：'+(done(['b1','b2','b3'])?'已作答':'還沒寫完'),
+    return ['④ 東京巨蛋：'+(done(['d1','d2','d3'])&&(state.d0||[]).length?'已作答':'還沒寫完'),
+      '⑤ 曼谷魚群：'+(done(['b1','b2','b3'])?'已作答':'還沒寫完'),
       '⑥ 我的查證步驟：'+(!state.x1moved?'還沒排':(x1Errors(state.x1order).length?'還沒排對（可以再試）':'答對了'))];
   }
   var submittedOnce=false;
@@ -802,17 +837,17 @@ var firebaseConfig = {
   // 檢視答案：把標準答案填進作答欄（寫死在程式裡的＋已上傳的正則）；⑥ 排成參考順序
   function showAnswers(){
     Object.keys(CHOICES).forEach(function(q){state[q]=CHOICES[q].correct;});
-    state.d2=PATTERNS.d2;state.b1=PATTERNS.b1;state.b2=PATTERNS.b2;
+    state.d2=PATTERNS.d2;state.b2=PATTERNS.b2;state.b3='高架捷運';
     state.x1order=X1_REF.slice();state.x1shown=true;
     renderAll();
   }
   function clearAnswers(){
     Object.keys(CHOICES).forEach(function(q){state[q]=null;});
-    state.d2='';state.b1='';state.b2='';state.x1order=X1_START.slice();state.x1moved=false;state.x1tries=0;state.x1shown=false;save();renderAll();
+    state.d2='';state.b2='';state.b3='';state.x1order=X1_START.slice();state.x1moved=false;state.x1tries=0;state.x1shown=false;save();renderAll();
   }
   function uploadAnswers(){
     var p={},bad=[];
-    ['d2','b1','b2'].forEach(function(q){var v=String(state[q]||'').trim();if(!v)return;try{new RegExp(v);p[q]=v;}catch(e){bad.push(q);}});
+    ['d2','b2','b3'].forEach(function(q){var v=String(state[q]||'').trim();if(!v)return;try{new RegExp(v);p[q]=v;}catch(e){bad.push(q);}});
     if(bad.length){alert('這幾題的答案格式有誤：'+bad.join('、'));return;}
     if(!Object.keys(p).length){alert('先在④⑤的文字作答框打上標準答案（多個答案用 | 隔開）。');return;}
     if(!confirm('把下面的答案存成標準答案？\n'+Object.keys(p).map(function(q){return q+'：'+p[q];}).join('\n')))return;
@@ -877,7 +912,7 @@ var firebaseConfig = {
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true};
   function stepDone(n){
-    if(n===4)return ['d1','d2','d3'].every(function(k){return filled(state[k]);});
+    if(n===4)return ['d1','d2','d3'].every(function(k){return filled(state[k]);})&&(state.d0||[]).length>0;
     if(n===5)return ['b1','b2','b3'].every(function(k){return filled(state[k]);});
     if(n===6)return submittedOnce;
     return !!visited[n]&&n!==curStep;
@@ -938,7 +973,7 @@ var firebaseConfig = {
      沒有開放題。檢測題 d1、d2、d3、b1、b2、b3 各 2 分＋x1 查證步驟排序 8 分（頁面內依規則自動對答案，學生可反覆嘗試）＝20 分＝base 100 − floor 80。 -->
 <script type="application/json" id="grading-spec">
 {
-  "summary": "認識農場文與 AI 假資訊影片的特徵，分辨舊圖新用／移花接木／AI 生成，用 Chrome 智慧鏡頭對照片以圖搜圖、對影片截圖加關鍵字反搜、用 TinEye 依日期找最早出處，並在台灣事實查核中心、MyGoPen 找到並看懂查核報告；最後把 L01～L04 學過的查證技能排成自己的查證順序",
+  "summary": "認識農場文與 AI 假資訊影片的特徵，分辨舊圖新用／移花接木／AI 生成，用 Chrome 智慧鏡頭對照片以圖搜圖、對影片截圖貼到 Google 圖片加關鍵字反搜，並在台灣事實查核中心、MyGoPen 找到並看懂查核報告；最後把 L01～L04 學過的查證技能排成自己的查證順序",
   "questions": [],
   "scoring": { "base": 100, "floor": 80, "deduction": 1,
     "itemPoints": { "d1": 2, "d2": 2, "d3": 2, "b1": 2, "b2": 2, "b3": 2, "x1": 8 } }
