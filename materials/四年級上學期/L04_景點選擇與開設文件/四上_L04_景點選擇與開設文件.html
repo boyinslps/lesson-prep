@@ -419,12 +419,9 @@
             <label class="flex items-start gap-2 mb-1"><input type="checkbox" class="w-5 h-5 mt-1"> 每站都寫完、都有網址</label>
             <label class="flex items-start gap-2"><input type="checkbox" class="w-5 h-5 mt-1"> 文件裡也寫好了</label>
           </div>
-          <div class="bg-white border-2 border-sky-200 rounded-2xl p-3" data-qid="q3" data-qtype="open" data-bonus="1" data-qtext="加分：如果出發那天下雨，你的「雨天備案」要換去哪裡？為什麼？">
-            <div class="flex items-center justify-between gap-2 flex-wrap mb-1">
-              <p class="field font-bold text-sky-800">⭐ 加分：<b>下雨</b>了，換去哪？為什麼？</p>
-              <span id="q3Status" class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-400 shrink-0">🎁 尚未完成</span>
-            </div>
-            <input id="q3" class="field w-full border-2 border-sky-300 rounded-xl px-3 py-1.5 focus:border-sky-500 outline-none">
+          <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3">
+            <p class="field font-bold text-sky-800">⭐ 加分：<b>下雨</b>了，換去哪？為什麼？</p>
+            <p class="text-base">寫在<b>文件最下面</b>（格子裡已經有了）</p>
           </div>
         </div>
       </div>
@@ -666,18 +663,13 @@ var firebaseConfig = {
     var head='我的景點清單';
     if(modeSel)head+='（'+modeSel+'型'+(choiceVal()?'：'+choiceVal():'')+'）';
     var spot=function(n){return '第 '+n+' 站：\n在哪一區：\n開放時間：\n門票：\n停留多久：\n景點網址：\n';};
-    return head+'\n\n'+spot(1)+'\n'+spot(2)+'\n'+spot(3)+'\n美食：\n在哪一區：\n營業時間：\n想吃什麼：\n店家網址：';
+    return head+'\n\n'+spot(1)+'\n'+spot(2)+'\n'+spot(3)+'\n美食：\n在哪一區：\n營業時間：\n想吃什麼：\n店家網址：\n\n⭐ 加分：雨天備案\n原本景點：\n雨天備案：\n在哪一區：\n開放時間：\n門票：\n停留多久：\n景點網址：\n為什麼換這裡：';
   }
   $('tplCopy').onclick=function(){copyText(tplStr(),this);};
-  $('q3').addEventListener('input',function(){
-    var s=$('q3Status'),done=!!this.value.trim();
-    s.textContent=done?'🎁 已完成':'🎁 尚未完成';
-    s.className='text-xs font-bold px-2 py-0.5 rounded-full shrink-0 '+(done?'bg-emerald-100 text-emerald-700':'bg-slate-100 text-slate-400');
-  });
   refreshDecl();
 
   // ===== 繳交學習單（見《學習單資料與提交規範》§2-b、§3）=====
-  // 定位：本課重點是「找景點、把資料貼進 Google 文件」。沒有選擇題，q2 景點清單是唯一主要產出（open，學生寫在 Google 文件、交在 Classroom 作業，老師用評分平台「匯入 Classroom 文件」寫進繳交）；q3 雨天備案是加分開放題。
+  // 定位：本課重點是「找景點、把資料貼進 Google 文件」。沒有選擇題，q2 景點清單是唯一主要產出（open，學生寫在 Google 文件、交在 Classroom 作業，老師用評分平台「匯入 Classroom 文件」寫進繳交）；q3 雨天備案是加分開放題（寫在同一份文件最後的「⭐ 加分」段，匯入時拆成 q3）。
   // 景點清單同時存進學生暫存區 studentWork（kind:spots），下一課排路線時可以拿回來（規範 §3-c）。
   var WS='g4-L04';
   function workDocId(idn){return WS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;}   // 繳交紀錄（submissions）的 id
@@ -687,9 +679,7 @@ var firebaseConfig = {
     if(!identityValid(idn)){alert('請先在最上方填好年級、班級、座號（都是數字，班級是 1 到 14）。');window.scrollTo({top:0,behavior:'smooth'});return;}
     if(!db){alert('系統尚未連線，請稍後再試或重新整理頁面。');return;}
 
-    var t3=$('q3').value.trim();
-    var answers={q3:t3},qtypes={q3:'open'};
-    var openAnswers={q3:t3},bonusAnswers={q3:{given:t3,completed:!!t3}};   // q2 景點清單在 Google 文件裡，由老師在評分平台「匯入 Classroom 文件」寫進來
+    var answers={},qtypes={},openAnswers={},bonusAnswers={};   // q2 景點清單、q3 加分（文件最後「⭐ 加分」段）都在 Google 文件裡，由老師在評分平台「匯入 Classroom 文件」寫進來
     
     var msg='確定要繳交學習單嗎？\n\n景點清單在 Google 文件裡：記得也要回 Classroom 作業按「繳交」喔！';
     if(!confirm(msg))return;
@@ -779,8 +769,8 @@ var firebaseConfig = {
         { "desc": "每個地點（含美食）都貼了網址（http 開頭），且網址看起來是該景點或店家的頁面", "pts": 4 },
         { "desc": "每一站的區域、開放時間、門票、停留多久都有寫（少數一兩格空白只扣 1 分）", "pts": 4 }
       ] },
-    { "qid": "q3", "prompt": "加分：如果出發那天下雨，你的「雨天備案」要換去哪裡？為什麼？", "mode": "condition", "points": 2, "need": 1,
-      "conditions": ["說出一個下雨也適合去的室內地點（如博物館、百貨公司、室內展館），並說明原因"],
+    { "qid": "q3", "prompt": "加分：如果出發那天下雨，你的「雨天備案」要換去哪裡？為什麼？（寫在景點清單文件最後的「⭐ 加分」段）", "mode": "condition", "points": 2, "need": 1,
+      "conditions": ["說出原本哪個景點要換、換成一個下雨也適合去的室內地點（如博物館、百貨公司、室內展館），並說明原因；有附區域、開放時間、門票或網址更好"],
       "basis": "地點不必在原本的清單裡，只要合理、真的是台南的地點就算" }
   ],
   "scoring": { "base": 100, "floor": 80, "deduction": 1,
