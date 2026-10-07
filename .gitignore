@@ -47,3 +47,10 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# --- 競賽專區：教育部手冊原檔 260MB 超過 GitHub 上限；上屆得獎原圖含學生姓名 ---
+materials/競賽專區/115年中小學AI之學習應用手冊*.pdf
+materials/競賽專區/**/*含姓名勿發布*
+
+# 影片原檔（備份用，不發布）
+_影片原檔/
