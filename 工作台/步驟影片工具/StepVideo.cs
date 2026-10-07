@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -112,6 +112,7 @@ public static class StepVideo
         foreach (var b in L(sc, "boxes")) DrawBox(g, b, t);
         foreach (var b in L(sc, "typing")) DrawTyping(g, b, t);
         foreach (var b in L(sc, "circles")) DrawCircle(g, b, t);
+        foreach (var b in L(sc, "arrows")) DrawArrow(g, b, t);
         foreach (var b in L(sc, "labels")) DrawLabel(g, b, t);
         foreach (var b in L(sc, "keys")) DrawKeys(g, b, t);
         foreach (var b in L(sc, "toasts")) DrawToast(g, b, t);
@@ -266,6 +267,23 @@ public static class StepVideo
         float sweep = (float)(360 * Ease(lt / 0.5));
         using (var pen = new Pen(RED, 6) { StartCap = LineCap.Round, EndCap = LineCap.Round })
             if (sweep > 1) g.DrawArc(pen, r, -100f, sweep);
+    }
+
+    // 紅色粗箭頭：從 (x1,y1) 指向 (x2,y2)，白色描邊讓它在任何底色上都看得到
+    static void DrawArrow(Graphics g, Dictionary<string, object> b, double t)
+    {
+        double lt; if (!Live(b, t, out lt)) return;
+        float x1 = (float)G(b, "x1", 0), y1 = (float)G(b, "y1", 0), x2 = (float)G(b, "x2", 0), y2 = (float)G(b, "y2", 0);
+        float p = (float)Ease(lt / 0.4);
+        float ex = x1 + (x2 - x1) * p, ey = y1 + (y2 - y1) * p;
+        using (var cap = new AdjustableArrowCap(4, 4, true))
+        using (var halo = new Pen(Color.White, 12) { StartCap = LineCap.Round })
+        using (var pen = new Pen(RED, 7) { StartCap = LineCap.Round })
+        {
+            halo.CustomEndCap = cap; pen.CustomEndCap = cap;
+            g.DrawLine(halo, x1, y1, ex, ey);
+            g.DrawLine(pen, x1, y1, ex, ey);
+        }
     }
 
     static void DrawLabel(Graphics g, Dictionary<string, object> b, double t)

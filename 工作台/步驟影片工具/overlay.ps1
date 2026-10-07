@@ -1,4 +1,4 @@
-param([string]$spec, [string]$out)
+﻿param([string]$spec, [string]$out)
 # 把字卡／按鍵／紅框疊到老師自己錄的影片上（影片放上方 1280x720，下方 140px 字卡）
 $ErrorActionPreference = 'Stop'
 $sp = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -11,7 +11,16 @@ $n = [StepVideo]::RenderOverlays($specPath, $od)
 $j = Get-Content $specPath -Raw -Encoding UTF8 | ConvertFrom-Json
 $src = Join-Path (Resolve-Path "$sp\..\..").Path $j.source
 $inputs = @('-i', $src)
-$fc = "[0:v]trim=0:$($j.cut),setpts=PTS-STARTPTS,scale=1280:720,pad=1280:860:0:0:color=0x1e1b4b[v0]"
+# keep：只保留這些片段（[[開始,結束],…]，秒）再接起來；fit：等比例縮放、上下補邊（錄影不是 16:9 時用）
+$scale = if ($j.fit) { "scale=1280:-2,pad=1280:720:0:(720-ih)/2:color=0xffffff" } else { "scale=1280:720" }
+if ($j.keep) {
+  $parts = @(); $k = 0
+  foreach ($seg in $j.keep) { $parts += "[0:v]trim=$($seg[0]):$($seg[1]),setpts=PTS-STARTPTS[k$k]"; $k++ }
+  $cat = (0..($k-1) | ForEach-Object { "[k$_]" }) -join ''
+  $fc = ($parts -join ';') + ";$cat" + "concat=n=$($k):v=1:a=0,$scale,pad=1280:860:0:0:color=0x1e1b4b[v0]"
+} else {
+  $fc = "[0:v]trim=0:$($j.cut),setpts=PTS-STARTPTS,$scale,pad=1280:860:0:0:color=0x1e1b4b[v0]"
+}
 $last = 'v0'
 for ($i = 0; $i -lt $n; $i++) {
   $inputs += @('-i', (Join-Path $od ("o{0:D2}.png" -f $i)))

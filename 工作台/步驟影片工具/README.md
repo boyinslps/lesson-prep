@@ -12,4 +12,6 @@
 
 spec 每個場景可用：`img`／`imgs`（依時間換圖）、`chrome`（模擬分頁列與網址列）、`cursor`（關鍵影格，mode：arrow／cross／ibeam）、`clicks`、`circles`、`boxes`（red／highlight／select／gray-x）、`labels`、`keys`、`snip`（Win+Shift+S 截圖動畫）、`toasts`、`caption`／`sub`／`captions`、`step`；`type:"title"` 是全畫面字卡。
 
+- `overlay.ps1`：把字卡／紅圈／箭頭疊到**老師自己錄的影片**上。spec 用 `source`（相對專案根目錄）＋ `cut`（只留前幾秒）或 `keep`（`[[開始,結束],…]` 只留這些片段並接起來，scenes 的時間用接起來後的時間）；錄影不是 16:9 時加 `"fit": true`（等比例縮放、上下補白）。場景可用 `arrows`：`{ "x1","y1","x2","y2" }` 紅色粗箭頭（從 1 指向 2）。
+
 made by 資訊老師黃博胤
