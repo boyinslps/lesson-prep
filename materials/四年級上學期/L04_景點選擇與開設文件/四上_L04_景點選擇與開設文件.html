@@ -123,7 +123,7 @@
     <div class="grid md:grid-cols-2 gap-3 mt-4">
         <div class="flex gap-3 items-start bg-blue-50 rounded-2xl p-3">
           <div class="cute text-2xl font-extrabold text-blue-600 shrink-0 w-8 text-center">1</div>
-          <div><p class="text-lg font-bold">開新文件</p><p class="text-base">作業裡按「＋ 新增或建立」→「文件」</p><p class="text-sm text-slate-500">沒有作業？網址列打 <kbd>docs.new</kbd></p></div>
+          <div><p class="text-lg font-bold">開新文件</p><p class="text-base">作業裡按「＋ 新增或建立」→「文件」</p><p class="text-sm text-slate-500">一定要從<b>作業裡</b>開，老師才看得到！</p></div>
         </div>
         <div class="flex gap-3 items-start bg-blue-50 rounded-2xl p-3">
           <div class="cute text-2xl font-extrabold text-blue-600 shrink-0 w-8 text-center">2</div>
@@ -400,10 +400,16 @@
     <div class="mt-5 bg-orange-50 border-4 border-orange-300 rounded-3xl p-4">
       <h3 class="cute text-xl font-extrabold text-orange-700 mb-1">📮 交給老師</h3>
       <div class="grid md:grid-cols-2 gap-4 items-start">
-        <div data-qid="q2" data-qtype="open" data-qtext="把 Google 文件裡寫好的「我的景點清單」複製，貼到這裡（至少 3 個景點加 1 家美食，每一站有區域、開放時間、門票、停留多久和網址）。">
-          <p class="field font-bold text-orange-800 mb-1">文件裡的「我的景點清單」→ <kbd>Ctrl</kbd> + <kbd>C</kbd> → 貼這裡</p>
-          <textarea id="q2" rows="10" class="field w-full border-2 border-orange-300 rounded-xl px-3 py-2 focus:border-orange-500 outline-none bg-white"></textarea>
-          <p id="q2Count" class="text-sm font-bold text-slate-500 min-h-[20px]"></p>
+        <div class="bg-white border-2 border-orange-200 rounded-2xl p-4">
+          <p class="cute text-lg font-extrabold text-orange-700 mb-2">① 交文件</p>
+          <ol class="list-decimal pl-5 text-lg space-y-1">
+            <li>回到 <b>Classroom 作業</b></li>
+            <li>確認文件<b>附在作業裡</b></li>
+            <li>按「<b>繳交</b>」</li>
+          </ol>
+          <p class="text-base font-bold text-orange-800 mt-2">💡 老師會直接看你的文件</p>
+          <p class="cute text-lg font-extrabold text-orange-700 mt-4">② 交學習單</p>
+          <p class="text-base">再按下面的「繳交學習單」</p>
         </div>
         <div class="space-y-3">
           <div class="bg-white rounded-2xl p-3 text-base">
@@ -662,13 +668,7 @@ var firebaseConfig = {
     var spot=function(n){return '第 '+n+' 站：\n在哪一區：\n開放時間：\n門票：\n停留多久：\n景點網址：\n';};
     return head+'\n\n'+spot(1)+'\n'+spot(2)+'\n'+spot(3)+'\n美食：\n在哪一區：\n營業時間：\n想吃什麼：\n店家網址：';
   }
-  function q2Stat(t){return {n:(t.match(/第\s*\d+\s*站/g)||[]).length,food:/美食/.test(t),urls:(t.match(/https?:\/\/\S+/g)||[]).length};}
   $('tplCopy').onclick=function(){copyText(tplStr(),this);};
-  $('q2').addEventListener('input',function(){
-    var c=q2Stat(this.value),ok=c.n>=3&&c.food&&c.urls>=c.n+1;
-    $('q2Count').className='text-sm font-bold min-h-[20px] '+(ok?'text-emerald-700':'text-amber-600');
-    $('q2Count').textContent=this.value.trim()?('看到 '+c.n+' 個景點、'+(c.food?'有':'還沒看到')+'美食、'+c.urls+' 個網址'+(ok?' ✓':'（要 3 個景點＋1 家美食，每個都有網址）')):'';
-  });
   $('q3').addEventListener('input',function(){
     var s=$('q3Status'),done=!!this.value.trim();
     s.textContent=done?'🎁 已完成':'🎁 尚未完成';
@@ -677,7 +677,7 @@ var firebaseConfig = {
   refreshDecl();
 
   // ===== 繳交學習單（見《學習單資料與提交規範》§2-b、§3）=====
-  // 定位：本課重點是「找景點、把資料貼進 Google 文件」。沒有選擇題，q2 景點清單是唯一主要產出（open）；q3 雨天備案是加分開放題。
+  // 定位：本課重點是「找景點、把資料貼進 Google 文件」。沒有選擇題，q2 景點清單是唯一主要產出（open，學生寫在 Google 文件、交在 Classroom 作業，老師用評分平台「匯入 Classroom 文件」寫進繳交）；q3 雨天備案是加分開放題。
   // 景點清單同時存進學生暫存區 studentWork（kind:spots），下一課排路線時可以拿回來（規範 §3-c）。
   var WS='g4-L04';
   function workDocId(idn){return WS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;}   // 繳交紀錄（submissions）的 id
@@ -687,21 +687,17 @@ var firebaseConfig = {
     if(!identityValid(idn)){alert('請先在最上方填好年級、班級、座號（都是數字，班級是 1 到 14）。');window.scrollTo({top:0,behavior:'smooth'});return;}
     if(!db){alert('系統尚未連線，請稍後再試或重新整理頁面。');return;}
 
-    var t2=$('q2').value.trim(),t3=$('q3').value.trim();
-    var answers={q2:t2,q3:t3},qtypes={q2:'open',q3:'open'};
-    var openAnswers={q2:t2,q3:t3},bonusAnswers={q3:{given:t3,completed:!!t3}};
+    var t3=$('q3').value.trim();
+    var answers={q3:t3},qtypes={q3:'open'};
+    var openAnswers={q3:t3},bonusAnswers={q3:{given:t3,completed:!!t3}};   // q2 景點清單在 Google 文件裡，由老師在評分平台「匯入 Classroom 文件」寫進來
     
-    var c2=q2Stat(t2),n=c2.n;
-    var msg='確定要繳交嗎？'
-      +'\n第 5 步 景點清單：'+(t2?'看到 '+n+' 個景點、'+(c2.food?'有':'還沒看到')+'美食、'+c2.urls+' 個網址'+((n>=3&&c2.food&&c2.urls>=n+1)?'':'\n　⚠ 規定：至少 3 個景點＋1 家美食，每個都要有網址'):'還沒貼上')
-      +'\n\n送出後這份會被老師看到，確定要交嗎？';
+    var msg='確定要繳交學習單嗎？\n\n景點清單在 Google 文件裡：記得也要回 Classroom 作業按「繳交」喔！';
     if(!confirm(msg))return;
 
     var payload={worksheetId:WS,worksheetTitle:'台南小導遊養成記',lessonPath:'g4/L04',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
       qtexts:{
-        q2:'把 Google 文件裡寫好的「我的景點清單」複製，貼到這裡（至少 3 個景點加 1 家美食，每一站有區域、開放時間、門票、停留多久和網址）。',
         q3:'加分：如果出發那天下雨，你的「雨天備案」要換去哪裡？為什麼？'
       },
       bonusQids:['q3'],
@@ -715,11 +711,6 @@ var firebaseConfig = {
         btn.disabled=false;btn.textContent='重新繳交（覆蓋）';
         stat.className='text-sm font-bold mt-2 min-h-[20px] text-center text-emerald-600';
         stat.textContent='✓ 已繳交！';submittedOnce=true;renderStepper();
-        if(t2)db.collection('studentWork').doc(spotsDocId(idn)).set({   // best-effort，失敗不影響繳交
-          worksheetId:WS,kind:'spots',grade:idn.grade,className:idn.className,studentId:idn.studentId,
-          data:{mode:modeSel||'',choice:choiceVal(),rain:t3},text:t2.slice(0,2000),
-          updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})
-          .catch(function(e){console.warn('景點清單存檔失敗',e);});
         var rb=$('rewardBox');rb.classList.remove('hidden');rb.scrollIntoView({behavior:'smooth'});
       }).catch(function(e){
         console.warn('繳交失敗',e);
@@ -780,7 +771,7 @@ var firebaseConfig = {
 {
   "summary": "理解一日遊景點數量要考量停留時間與距離（同區近、跨區遠），依區域型／主題型／交通型挑選至少 3 個景點加 1 家美食（每個附網址），從台南旅遊網找資料、找不到時用關鍵字搜尋，用換行整理進 Google 文件",
   "questions": [
-    { "qid": "q2", "prompt": "把 Google 文件裡寫好的「我的景點清單」複製，貼到這裡（至少 3 個景點加 1 家美食，每一站有區域、開放時間、門票、停留多久和網址）。", "mode": "checklist",
+    { "qid": "q2", "prompt": "Google 文件「我的景點清單」：至少 3 個景點加 1 家美食，每一站有區域、開放時間、門票、停留多久和網址（老師從 Classroom 作業讀取文件內容）。", "mode": "checklist",
       "checks": [
         { "desc": "至少 3 個景點（最多 5 個地點都可接受）", "pts": 3 },
         { "desc": "有 1 家美食（店名或小吃名稱）", "pts": 3 },
