@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 1 節 認識 e度與主題｜AI 繪家賀卡創作營</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1f2a44; --sub:#5b6478; --mute:#8a91a3; --line:#e0cf93; --cream:#fbefc2; --paper:#fffbea;
+  --navy:#24305e; --gold:#e2a63b; --gold-soft:#fdf1d8; --red:#d9534f; --red-soft:#fdecea; --green:#2f9e62; --green-soft:#e6f6ec;
+  --ac:#e2a63b; --ac-soft:#fdf1d8; --ac-ink:#8a5a0c;
+  --r:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Noto Sans TC',system-ui,sans-serif;background:var(--cream);color:var(--ink);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+button,input,textarea,select{font:inherit;color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px}
+.ico{width:1.15em;height:1.15em;flex:none;display:inline-block;vertical-align:-.2em}
+svg.ico{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ===== 頂端列 ===== */
+.topbar{background:var(--navy);color:#fff}
+.topbar .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;font-size:15px;padding:4px 12px 4px 8px;border-radius:999px;background:rgba(255,255,255,.12)}
+.back:hover{background:rgba(255,255,255,.22)}
+.who{display:flex;align-items:center;gap:8px;margin-left:auto;font-size:14px;flex-wrap:wrap}
+.who label{display:flex;align-items:center;gap:4px;color:#cfd6ea}
+.who input{width:46px;text-align:center;border:0;border-radius:8px;padding:3px 4px;font-weight:700;color:var(--navy);background:#fff}
+.who input:focus{outline:3px solid var(--gold)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;white-space:nowrap}
+.pill.ok{background:#2f9e62}.pill.warn{background:#d9822b}.pill.bad{background:#c0392b}
+
+/* ===== 首頁大標 ===== */
+.hero{background:linear-gradient(180deg,var(--paper),var(--cream));border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:1fr 210px;gap:20px;align-items:center;padding-top:26px;padding-bottom:22px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--ac-ink);background:var(--ac-soft);padding:3px 12px;border-radius:999px}
+.hero h1{font-size:34px;line-height:1.25;margin:10px 0 6px;font-weight:900;letter-spacing:.5px}
+.hero .goal{font-size:18px;color:var(--sub);margin:0}
+.hero .goal b{color:var(--ink)}
+.hero .art{width:200px;height:170px;justify-self:end}
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.flow button{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px 5px 6px;font-weight:700;font-size:15px;cursor:pointer}
+.flow button:hover{border-color:var(--ac)}
+.flow .n{width:26px;height:26px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:14px}
+.flow .m{color:var(--mute);font-weight:500;font-size:13px}
+@media(max-width:720px){.hero .wrap{grid-template-columns:1fr}.hero .art{display:none}.hero h1{font-size:27px}}
+
+/* ===== 步驟列 ===== */
+.stepbar{position:sticky;top:0;z-index:20;background:rgba(251,239,194,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.stepbar .wrap{display:flex;gap:6px;padding-top:8px;padding-bottom:8px;overflow-x:auto;scrollbar-width:none}
+.stepbar button{flex:1 0 auto;display:flex;align-items:center;gap:8px;border:0;background:transparent;border-radius:12px;padding:6px 12px;font-weight:700;font-size:15px;color:var(--mute);cursor:pointer;white-space:nowrap}
+.stepbar button .d{width:28px;height:28px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center;font-size:14px;flex:none}
+.stepbar button[aria-current=step]{background:var(--ac);color:#fff}
+.stepbar button[aria-current=step] .d{border-color:#fff}
+.stepbar button.done{color:var(--green)}
+.stepbar button.done .d{background:var(--green);border-color:var(--green);color:#fff}
+@media(max-width:640px){.stepbar button .t{display:none}.stepbar button[aria-current=step] .t{display:inline}}
+
+/* ===== 步驟內容 ===== */
+main{padding:24px 0 60px}
+.step-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+.step-head .num{width:52px;height:52px;border-radius:16px;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:26px;font-weight:900;flex:none}
+.step-head h2{font-size:27px;line-height:1.3;margin:2px 0 4px;font-weight:900}
+.step-head .meta{display:flex;flex-wrap:wrap;gap:8px;font-size:14px;color:var(--sub)}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:13.5px;font-weight:700;padding:2px 10px;border-radius:999px;background:#fff;border:1.5px solid var(--line);color:var(--sub)}
+.chip.book{border-color:#e9cf98;background:var(--gold-soft);color:#8a5a0c;cursor:pointer}
+.chip.book:hover{background:#fae3b3}
+.lead{font-size:18px;margin:0 0 16px}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:0 0 16px}
+.card h3{font-size:20px;margin:0 0 8px;display:flex;align-items:center;gap:8px;font-weight:900}
+.card h3 .ico{color:var(--ac)}
+.card p{margin:0 0 8px}.card p:last-child{margin-bottom:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:820px){.grid4{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr}}
+@media(max-width:680px){.grid2,.grid4{grid-template-columns:1fr}}
+.muted{color:var(--sub)}.small{font-size:14px}.tiny{font-size:12px;color:var(--mute);line-height:1.5}
+.hl{background:linear-gradient(transparent 58%,var(--gold-soft) 58%);font-weight:700}
+
+/* 手冊這樣說 */
+.hb{position:relative;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;background:#fffaf0;border:1px solid #efdcb4;border-left:6px solid var(--gold);border-radius:14px;padding:14px 16px;margin:0 0 16px}
+.hb .tag{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:900;color:#8a5a0c;margin-bottom:4px}
+.hb q,.hb .q{display:block;font-size:17.5px;font-weight:500;quotes:"「" "」"}
+.hb q::before{content:open-quote}.hb q::after{content:close-quote}
+.hb .src{font-size:13px;color:#a07a3a;margin-top:4px}
+.hb .thumb{width:92px;border-radius:8px;border:1px solid #e9cf98;box-shadow:0 3px 10px rgba(120,80,0,.12);cursor:zoom-in;background:#fff}
+@media(max-width:560px){.hb{grid-template-columns:1fr}.hb .thumb{width:120px}}
+
+/* 照著做 */
+.do{list-style:none;counter-reset:d;margin:0;padding:0}
+.do>li{counter-increment:d;position:relative;padding:0 0 14px 46px}
+.do>li:last-child{padding-bottom:0}
+.do>li::before{content:counter(d);position:absolute;left:0;top:0;width:32px;height:32px;border-radius:10px;background:var(--ac-soft);color:var(--ac-ink);font-weight:900;display:grid;place-items:center}
+.do>li b.t{display:block;font-size:18px}
+.shot{border-radius:12px;border:1px solid var(--line);box-shadow:0 6px 18px rgba(31,42,68,.10);margin-top:8px;cursor:zoom-in;background:#fff}
+kbd{font-family:inherit;font-size:.9em;font-weight:700;background:#f3f1ec;border:1px solid #d9d3c4;border-bottom-width:3px;border-radius:6px;padding:0 6px}
+
+/* 提醒 */
+.note{display:flex;gap:12px;align-items:flex-start;border-radius:14px;padding:12px 16px;margin:0 0 16px;background:var(--ac-soft)}
+.note .ico{width:26px;height:26px;color:var(--ac-ink);margin-top:2px}
+.note.safe{background:var(--red-soft)}.note.safe .ico{color:var(--red)}
+.note.good{background:var(--green-soft)}.note.good .ico{color:var(--green)}
+.note p{margin:0}
+.bot-note{display:flex;gap:12px;align-items:center;margin:0 0 16px}
+.bot-note svg.bot{width:58px;height:58px;flex:none}
+.bubble{position:relative;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:10px 14px;font-weight:500}
+.bubble::before{content:"";position:absolute;left:-8px;top:50%;width:14px;height:14px;background:#fff;border-left:1.5px solid var(--line);border-bottom:1.5px solid var(--line);transform:translateY(-50%) rotate(45deg)}
+
+/* 提問框架 */
+.frames{display:grid;gap:12px;margin:0 0 16px}
+.frame{background:#fff;border:1.5px solid #ecd9ad;border-radius:14px;padding:12px 14px}
+.frame .lab{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;font-weight:900;color:#8a5a0c;margin-bottom:6px}
+.frame .lab .k{background:var(--gold);color:#fff;border-radius:6px;padding:0 7px;font-size:13px}
+.demo{font-size:15px;color:var(--sub);background:#f6f4ef;border-radius:10px;padding:8px 12px;margin:0 0 8px;user-select:none}
+.demo .s{display:block;font-size:12px;color:var(--mute)}
+.demo q{quotes:"「" "」"}.demo q::before{content:open-quote}.demo q::after{content:close-quote}
+.arrow{font-size:13px;color:#a07a3a;font-weight:700;margin:0 0 4px}
+.fbox{display:flex;gap:10px;align-items:flex-start}
+.ftext{flex:1;font-size:17px;font-weight:500;background:#fffdf7;border:1.5px dashed #e2c27e;border-radius:10px;padding:8px 12px}
+.blank{background:#fde6b0;border-radius:6px;padding:0 4px;color:#7a4d00;font-weight:700}
+.copy{flex:none;display:inline-flex;align-items:center;gap:6px;border:0;border-radius:10px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;padding:8px 12px;cursor:pointer}
+.copy:hover{background:#1a2347}.copy.done{background:var(--green)}
+.frame .safe-line{font-size:13px;color:var(--red);font-weight:700;margin-top:6px;display:flex;gap:6px;align-items:center}
+.frame .ev{font-size:13px;color:#2f6f9e;font-weight:700;margin-top:4px;display:flex;gap:6px;align-items:center}
+details.more{background:#fff;border:1.5px solid var(--line);border-radius:14px;margin:0 0 16px}
+details.more>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;padding:12px 16px;font-weight:900;font-size:18px}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary .ico{color:var(--ac)}
+details.more>summary .chev{margin-left:auto;transition:.2s}
+details.more[open]>summary .chev{transform:rotate(180deg)}
+details.more>.in{padding:0 16px 16px}
+
+/* 我的紀錄（輸入）*/
+.field{margin:0 0 14px}
+.field>label,.field>.lbl{display:flex;align-items:baseline;gap:8px;font-weight:900;font-size:17px;margin-bottom:4px}
+.field .hint{font-weight:500;font-size:14px;color:var(--sub)}
+.field input[type=text],.field textarea{width:100%;border:2.5px solid #9a8650;border-radius:12px;padding:9px 12px;background:#fff;font-size:17px;line-height:1.7;box-shadow:inset 0 1px 3px rgba(80,60,0,.12)}
+.field input[type=text]:hover,.field textarea:hover{border-color:#7d6a36}
+.field textarea{resize:vertical;min-height:84px}
+.field input[type=text]:focus,.field textarea:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 4px var(--ac-soft),inset 0 1px 3px rgba(80,60,0,.1)}
+.count{font-size:13px;color:var(--mute);text-align:right}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--line);background:#fff;border-radius:12px;padding:6px 12px;font-weight:700;cursor:pointer}
+.opt input{width:18px;height:18px;accent-color:var(--ac)}
+.opt:has(input:checked){border-color:var(--ac);background:var(--ac-soft)}
+.checks{display:grid;gap:8px}
+.checks label{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer}
+.checks input{width:20px;height:20px;margin-top:4px;accent-color:var(--green);flex:none}
+.checks label:has(input:checked){border-color:#9fd6b6;background:var(--green-soft)}
+.ref{background:#f4f6fb;border:1.5px solid #d9dff0;border-radius:12px;padding:10px 14px;font-size:15.5px;margin:0 0 10px}
+.ref .rt{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:900;color:#4a5a8a;margin-bottom:2px}
+.ref .rv{white-space:pre-wrap}
+.ref .rv.empty{color:var(--mute)}
+
+/* 成果卡 */
+.result{background:linear-gradient(135deg,#fff,var(--ac-soft));border:2px solid var(--ac);border-radius:22px;padding:20px 22px;margin:0 0 16px;position:relative;overflow:hidden}
+.result h3{margin:0 0 10px;font-size:22px;font-weight:900;display:flex;gap:8px;align-items:center}
+.result dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
+.result dt{font-weight:900;color:var(--ac-ink);white-space:nowrap}
+.result dd{margin:0;white-space:pre-wrap}
+.result .bot{position:absolute;right:-6px;bottom:-8px;width:96px;height:96px;opacity:.95}
+@media(max-width:560px){.result dl{grid-template-columns:1fr}.result .bot{display:none}}
+
+/* 互動小題 */
+.quiz{display:grid;gap:10px}
+.qrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px}
+.qrow .bt{display:flex;gap:6px}
+.qrow button{border:2px solid var(--line);background:#fff;border-radius:10px;padding:4px 12px;font-weight:700;cursor:pointer}
+.qrow button.yes:hover{border-color:var(--green)}.qrow button.no:hover{border-color:var(--red)}
+.qrow.right{border-color:#9fd6b6;background:var(--green-soft)}
+.qrow.wrong{border-color:#f1b3ae;background:var(--red-soft)}
+.qrow .why{grid-column:1/-1;font-size:14.5px;color:var(--sub);display:none}
+.qrow.right .why,.qrow.wrong .why{display:block}
+.shake{animation:sk .3s}@keyframes sk{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* 影片、外連 */
+.vid{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#111}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vcap{font-size:13px;color:var(--mute);margin-top:4px}
+.link-card{display:flex;align-items:center;gap:12px;text-decoration:none;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 12px}
+.link-card:hover{border-color:var(--ac)}
+.link-card .li{width:44px;height:44px;border-radius:12px;background:var(--ac-soft);color:var(--ac-ink);display:grid;place-items:center;flex:none}
+.link-card .li .ico{width:24px;height:24px}
+.link-card b{display:block}
+.link-card span{font-size:14px;color:var(--sub)}
+.link-card .go{margin-left:auto;color:var(--mute)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;background:var(--ac);color:#fff;font-weight:900;font-size:16px;padding:10px 18px;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(.95)}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line)}
+.btn.navy{background:var(--navy)}
+
+/* 步驟導覽 */
+.stepnav{display:flex;justify-content:space-between;gap:12px;margin-top:22px;padding-top:16px;border-top:1px dashed var(--line)}
+.stepnav .btn{font-size:17px}
+
+/* 放大圖 */
+#lightbox{position:fixed;inset:0;z-index:50;background:rgba(15,20,35,.9);display:none;flex-direction:column}
+#lightbox.on{display:flex}
+.lbtop{display:flex;align-items:center;gap:12px;padding:10px 16px;color:#cfd6ea;font-size:14px;flex-wrap:wrap}
+.lbtop .x,#hbr .x{margin-left:auto;border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:10px;padding:6px 12px;font-weight:700;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.lbstage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 16px 16px}
+.lbstage img{max-height:100%;max-width:100%;border-radius:10px;background:#fff;object-fit:contain;touch-action:none;user-select:none}
+#hbr .stage{overflow:hidden}
+#hbr .stage img{touch-action:none;user-select:none}
+.zbar{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.1);border-radius:10px;padding:3px}
+.zbar button{border:0;background:transparent;color:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;font-weight:700;display:inline-flex;align-items:center}
+.zbar button:hover{background:rgba(255,255,255,.18)}
+.zbar .zl{min-width:48px;text-align:center;font-weight:700;color:#fff;font-size:13px}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);opacity:0;z-index:60;background:var(--navy);color:#fff;font-weight:700;padding:10px 18px;border-radius:999px;transition:.25s;pointer-events:none}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+footer{border-top:1px solid var(--line);padding:18px 0 30px;font-size:12.5px;color:var(--mute);line-height:1.6}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{.topbar,.stepbar,.stepnav,.copy{display:none!important}.step{display:block!important}}
+
+/* ===== 單元手冊：標題旁的小縮圖＋翻頁閱讀器（不用 FlipHTML5）===== */
+.h1row{display:flex;align-items:center;gap:22px}
+.h1row h1{flex:0 1 auto}
+.hbbook{flex:none;position:relative;width:96px;height:132px;border:0;background:none;cursor:pointer;padding:0;margin:4px 6px 18px 0}
+.hbbook img{position:absolute;left:8px;top:4px;width:78px;border-radius:6px;border:1px solid #e3cf9f;box-shadow:0 4px 12px rgba(80,55,0,.18);background:#fff;transition:.2s}
+.hbbook img:nth-child(1){transform:rotate(-9deg) translate(-6px,4px)}
+.hbbook img:nth-child(2){transform:rotate(6deg) translate(6px,2px)}
+.hbbook:hover img:nth-child(1){transform:rotate(-14deg) translate(-12px,4px)}
+.hbbook:hover img:nth-child(2){transform:rotate(11deg) translate(12px,2px)}
+.hbbook:hover img:nth-child(3){transform:translateY(-4px)}
+.hbbook .lb{position:absolute;left:-4px;right:-4px;bottom:-14px;display:flex;align-items:center;justify-content:center;gap:4px;font-size:12.5px;font-weight:900;color:#8a5a0c;background:var(--gold-soft);border:1.5px solid #e9cf98;border-radius:999px;padding:1px 6px;white-space:nowrap}
+.hbbook .lb .ico{width:14px;height:14px}
+@media(max-width:560px){.h1row{gap:12px}.hbbook{width:76px;height:106px}.hbbook img{width:62px}}
+#hbr{position:fixed;inset:0;z-index:55;background:rgba(15,20,35,.92);display:none;flex-direction:column;color:#fff}
+#hbr.on{display:flex}
+#hbr .top{display:flex;align-items:center;gap:12px;padding:10px 16px;flex-wrap:wrap}
+#hbr .top b{font-size:16px}
+#hbr .top .cap{color:#f6d79b;font-weight:700}
+#hbr .top .cnt{color:#aab3c8;font-size:14px}
+#hbr .x{margin-left:auto;border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:10px;padding:6px 12px;font-weight:700;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+#hbr .stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 10px}
+#hbr .stage img{max-height:100%;max-width:min(860px,100%);border-radius:8px;background:#fff;object-fit:contain;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+#hbr .nav{flex:none;width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;cursor:pointer;display:grid;place-items:center}
+#hbr .nav:hover{background:rgba(255,255,255,.3)}
+#hbr .nav:disabled{opacity:.25;cursor:default}
+#hbr .nav .ico{width:26px;height:26px}
+#hbr .strip{display:flex;gap:8px;overflow-x:auto;padding:10px 16px 14px;justify-content:safe center}
+#hbr .strip button{flex:none;border:2px solid transparent;border-radius:6px;padding:0;background:none;cursor:pointer;text-align:center;color:#cfd6ea;font-size:11.5px;font-weight:700}
+#hbr .strip img{width:54px;border-radius:4px;display:block;margin-bottom:2px}
+#hbr .strip button.on{border-color:var(--gold);color:#fff}
+@media(max-width:560px){#hbr .nav{position:absolute;bottom:96px;width:44px;height:44px}#hbr .nav.p{left:10px}#hbr .nav.n{right:10px}}
+
+.frame .why{display:flex;gap:6px;align-items:flex-start;font-size:14.5px;color:#2f5a4f;background:#eef8f4;border-radius:10px;padding:6px 10px;margin:0 0 8px}
+.frame .why .ico{color:#2f9e62;margin-top:3px}
+
+/* 讀取學習單按鈕、繳交區、主題卡、換句話說 */
+.loadbtn{display:inline-flex;align-items:center;gap:5px;border:0;border-radius:999px;background:var(--gold);color:#3b2a00;font-weight:900;font-size:13.5px;padding:3px 12px;cursor:pointer;white-space:nowrap}
+.loadbtn:hover{filter:brightness(1.07)}
+.loadbtn .ico{width:15px;height:15px}
+.submitbox{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:2.5px solid var(--ac);border-radius:18px;padding:14px 18px;margin:18px 0 0}
+.submitbox>div{flex:1;min-width:200px;display:flex;flex-direction:column}
+.submitbox b{font-size:19px}
+.submitbox .ss{font-size:14.5px;color:var(--sub)}
+.submitbox .ss.ok{color:var(--green);font-weight:700}
+.submitbox .ss.bad{color:var(--red);font-weight:700}
+.tc{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px}
+.tc dt{font-weight:900;color:var(--ac-ink);white-space:nowrap}
+.tc dd{margin:0;white-space:pre-wrap}
+.tc dd:empty::before{content:"（還沒寫）";color:var(--mute)}
+.rp{display:grid;gap:12px}
+.rp .it{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:10px 14px}
+.rp .it .o{font-size:17.5px;font-weight:700}
+.rp .it .t{font-size:13.5px;font-weight:900;color:var(--ac-ink);margin-bottom:2px}
+.rp .it .k{font-size:14.5px;color:var(--sub);margin:2px 0 0}
+.rp details{margin-top:6px}
+.rp details>summary{cursor:pointer;font-weight:700;color:#2f6f9e;font-size:14.5px}
+.rp details .vs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.rp details .vs div{background:#f6f4ef;border-radius:10px;padding:6px 10px;font-size:15px}
+@media(max-width:620px){.rp details .vs{grid-template-columns:1fr}}
+
+.docq{display:flex;gap:10px;align-items:flex-start;background:#eef4ff;border:1.5px solid #bcd0f5;border-radius:12px;padding:8px 12px;margin:0 0 10px;font-size:16px}
+.docq .ico{color:#2f5aa8;margin-top:4px}
+.docbox{background:#fff;border:2.5px solid #2f5aa8;border-radius:18px;padding:14px 18px;margin:0 0 16px}
+.docbox h3{margin:0 0 8px;font-size:19px;display:flex;gap:8px;align-items:center;color:#22427e}
+pre.skel{white-space:pre-wrap;font-family:inherit;font-size:16px;background:#f6f8fd;border:1.5px dashed #9db6e6;border-radius:12px;padding:10px 14px;margin:8px 0}
+.eg{background:#fff;border:1.5px solid var(--line);border-left:6px solid #2f5aa8;border-radius:12px;padding:10px 14px;margin:0 0 10px;font-size:16px}
+.eg .egt{font-size:13px;font-weight:900;color:#22427e;margin-bottom:2px}
+.eg .blu{color:#2f5aa8;font-weight:700}.eg .rd{color:#d9534f;font-weight:700}
+
+/* Canva 步驟：左文右圖 */
+.cs{display:grid;grid-template-columns:1fr 1.2fr;gap:18px;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;margin:0 0 14px}
+.cs:nth-of-type(even){grid-template-columns:1.2fr 1fr}
+.cs:nth-of-type(even) .ct{order:2}
+@media(max-width:760px){.cs,.cs:nth-of-type(even){grid-template-columns:1fr}.cs:nth-of-type(even) .ct{order:0}}
+.cs h3{margin:0 0 6px;font-size:20px;font-weight:900;display:flex;gap:10px;align-items:center}
+.cs h3 .no{width:32px;height:32px;border-radius:10px;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:17px;flex:none}
+.cs p{margin:0 0 6px}
+.cs ul{margin:4px 0 6px;padding-left:20px}
+svg.cv{width:100%;height:auto;border-radius:12px;display:block;font-family:inherit;cursor:zoom-in}
+.cs .vwrap{margin-top:10px}
+.vwrap{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#111}
+.vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lib{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.lib{grid-template-columns:1fr}}
+.lib a{display:block;text-decoration:none;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:10px 14px}
+.lib a:hover{border-color:var(--ac)}
+.lib b{display:flex;gap:6px;align-items:center;font-size:17px}
+.lib span{display:block;font-size:14px;color:var(--sub);margin-top:2px}
+.lib .tag{display:inline-block;font-size:12.5px;font-weight:900;border-radius:999px;padding:0 9px;margin:4px 4px 0 0}
+.lib .ok{background:var(--green-soft);color:var(--green)}.lib .wa{background:#fff1d6;color:#a86b00}
+
+:root{--ac:#1f9e8f;--ac-soft:#e2f4f1;--ac-ink:#12675d}
+.score{display:grid;gap:10px}
+.score .row{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center}
+.score .bar{height:30px;border-radius:9px;background:#eef1f5;overflow:hidden}
+.score .bar i{display:flex;align-items:center;height:100%;padding-left:10px;color:#fff;font-style:normal;font-weight:900;font-size:15px;border-radius:9px}
+.score .row p{grid-column:2;margin:-4px 0 0;font-size:14.5px;color:var(--sub)}
+@media(max-width:560px){.score .row{grid-template-columns:1fr}.score .row p{grid-column:1}}
+.files{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.files div{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px;text-align:center;font-weight:700;font-size:15px}
+.files .ico{width:30px;height:30px;color:var(--ac);display:block;margin:0 auto 6px}
+.files small{display:block;font-weight:500;color:var(--sub);font-size:13px}
+@media(max-width:680px){.files{grid-template-columns:1fr 1fr}}
+.motto{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:8px 0 0}
+.motto div{border-radius:14px;padding:10px 12px;color:#fff;font-weight:900;font-size:18px}
+.motto small{display:block;font-weight:500;font-size:13.5px;opacity:.95}
+@media(max-width:680px){.motto{grid-template-columns:1fr 1fr}}
+.win{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.win figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.win figcaption{padding:10px 14px;font-size:15px}
+.win figcaption b{color:var(--ac-ink)}
+@media(max-width:680px){.win{grid-template-columns:1fr}}
+.lights{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.lights>div{border-radius:14px;padding:12px 14px}
+.lights .g{background:var(--green-soft);border:1.5px solid #a8dcbe}
+.lights .r{background:var(--red-soft);border:1.5px solid #f1b3ae}
+.lights h4{margin:0 0 4px;display:flex;align-items:center;gap:6px;font-size:17px}
+.lights ul{margin:0;padding-left:20px}
+@media(max-width:560px){.lights{grid-template-columns:1fr}}
+.months{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
+.months span{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:2px 10px;font-size:14px}
+.promise{background:linear-gradient(135deg,#f2fbf9,#fff);border:2px dashed #8fcfc4;border-radius:20px;padding:16px 18px}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <!-- 線條小圖示（24×24，跟著文字顏色） -->
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M8 7h8M8 10.5h6"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.5l8 3v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10v-6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M16.5 3.5l4 4L8 20H4v-4z"/><path d="M14 6l4 4"/></symbol>
+  <symbol id="i-brush" viewBox="0 0 24 24"><path d="M14.5 4.5l5 5-7.5 7.5-5-5z"/><path d="M7 12l-2.5 2.5c-1.5 1.5-.5 3-2 4.5 2.5 1 5 .5 6.5-1L11.5 16"/><path d="M17 2l5 5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L19.5 7"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 8.5V6a2.5 2.5 0 0 0-2.5-2.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18.5a4.5 4.5 0 0 1-.6-9A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 10z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-5 4.5V16h0a2.5 2.5 0 0 1-1-2z"/><path d="M8.5 8.5h7M8.5 12h4.5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="9.5" r="1.8"/><path d="M21 16l-5-5-9 9"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2.5 2.5 0 0 0-2.5 2.5v13A2.5 2.5 0 0 0 7 21h10a2.5 2.5 0 0 0 2.5-2.5V8.5z"/><path d="M14 3v5.5h5.5M8.5 13h7M8.5 16.5h5"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v11M7 10l5 5 5-5M4.5 20.5h15"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7 8.5l5-5 5 5M4.5 20.5h15"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5.5 3.5-5.5 3.5z"/></symbol>
+  <symbol id="i-game" viewBox="0 0 24 24"><path d="M7 7h10a5 5 0 0 1 4.8 6.4l-.9 3.2a2.5 2.5 0 0 1-4.3 1L14.5 15h-5l-2.1 2.6a2.5 2.5 0 0 1-4.3-1l-.9-3.2A5 5 0 0 1 7 7z"/><path d="M8 10v3M6.5 11.5h3"/><circle cx="16" cy="10.5" r=".6"/><circle cx="17.5" cy="12.5" r=".6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17.3v.2"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 17.5h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.4 1.1 2.2v1.5h5V16c0-.8.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7.5 4h9v5a4.5 4.5 0 0 1-9 0z"/><path d="M7.5 6H4.5a3 3 0 0 0 3 4M16.5 6h3a3 3 0 0 1-3 4M12 13.5V17M8.5 20.5h7M9.5 17h5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0 0 18c1.2 0 1.8-.9 1.8-1.8 0-1.4-1.3-1.6-1.3-2.9 0-.9.7-1.5 1.6-1.5H16a5 5 0 0 0 5-5C21 6.3 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="9.5" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v4.5A1.5 1.5 0 0 1 16.5 20h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M5 12.5v8h14v-8M12 8.5v12"/><path d="M12 8.5C10.5 5 7 4.5 7 6.5S10 8.5 12 8.5zM12 8.5c1.5-3.5 5-4 5-2s-3 2-5 2z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.3A6.5 6.5 0 0 1 21.5 20"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 11L12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5.5h4V20"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></symbol>
+  <symbol id="i-unlock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.8"/></symbol>
+
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+
+  <!-- 小機器人：配色跟著每一節的主色 --ac -->
+  <symbol id="bot" viewBox="0 0 120 120">
+    <line x1="60" y1="10" x2="60" y2="24" stroke="#24305e" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="60" cy="9" r="6" fill="var(--ac,#e2a63b)" stroke="#24305e" stroke-width="3"/>
+    <rect x="24" y="22" width="72" height="56" rx="20" fill="#fff" stroke="#24305e" stroke-width="4"/>
+    <rect x="34" y="32" width="52" height="34" rx="12" fill="#24305e"/>
+    <circle cx="49" cy="47" r="5" fill="#9ef0e1"/><circle cx="71" cy="47" r="5" fill="#9ef0e1"/>
+    <path d="M51 56q9 7 18 0" fill="none" stroke="#9ef0e1" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="30" cy="62" r="4" fill="var(--ac,#e2a63b)" opacity=".55"/><circle cx="90" cy="62" r="4" fill="var(--ac,#e2a63b)" opacity=".55"/>
+    <rect x="18" y="44" width="8" height="16" rx="4" fill="var(--ac,#e2a63b)" stroke="#24305e" stroke-width="3"/>
+    <rect x="94" y="44" width="8" height="16" rx="4" fill="var(--ac,#e2a63b)" stroke="#24305e" stroke-width="3"/>
+    <rect x="36" y="82" width="48" height="30" rx="12" fill="var(--ac,#e2a63b)" stroke="#24305e" stroke-width="4"/>
+    <path d="M60 103s-8-5-8-10a4.5 4.5 0 0 1 8-2.6 4.5 4.5 0 0 1 8 2.6c0 5-8 10-8 10z" fill="#fff"/>
+    <path d="M36 92q-12 2-14 -10" fill="none" stroke="#24305e" stroke-width="4" stroke-linecap="round"/>
+    <path d="M84 92q12 2 16 -12" fill="none" stroke="#24305e" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="22" cy="80" r="5" fill="#fff" stroke="#24305e" stroke-width="3"/><circle cx="100" cy="78" r="5" fill="#fff" stroke="#24305e" stroke-width="3"/>
+  </symbol>
+</svg>
+
+<header class="topbar"><div class="wrap">
+  <a class="back" data-go="C00" href="#"><svg class="ico"><use href="#i-back"/></svg>目錄</a>
+  <span style="font-weight:700;font-size:15px">第 1 節／共 5 節　10/8（四）</span>
+  <div class="who"><label>年級<input id="idG" inputmode="numeric" maxlength="1" aria-label="年級"></label><label>班級<input id="idC" inputmode="numeric" maxlength="2" aria-label="班級"></label><label>座號<input id="idS" inputmode="numeric" maxlength="2" aria-label="座號"></label><button id="loadBtn" class="loadbtn" type="button" title="把之前存在雲端的紀錄讀回來"><svg class="ico"><use href="#i-download"/></svg>讀取學習單</button><span id="saveStat" class="pill">…</span></div>
+</div></header>
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="kicker"><svg class="ico"><use href="#i-flag"/></svg>第 1 節・10/8（四）・40 分鐘</span>
+    <div class="h1row"><h1>認識比賽、認識 e度，<br>找到你家的那一刻</h1><button class="hbbook" id="hbBook" type="button" aria-label="打開這一節的手冊頁面"></button></div>
+    <p class="goal">今天做完：<b>勾好我的聲明</b>、<b>會打開 e度</b>、<b>開好作品紀錄文件</b>、<b>寫好「我的主題卡」</b>。</p>
+    <div class="flow" id="flow"></div>
+  </div>
+  <svg class="art" viewBox="0 0 200 170" aria-hidden="true">
+    <rect x="112" y="40" width="74" height="96" rx="10" fill="#fff" stroke="#24305e" stroke-width="4" transform="rotate(8 149 88)"/>
+    <path d="M149 78s-12-8-12-16a7 7 0 0 1 12-4 7 7 0 0 1 12 4c0 8-12 16-12 16z" fill="var(--ac)" transform="rotate(8 149 88)"/>
+    <path d="M128 104h42M128 116h30" stroke="#c9cfdd" stroke-width="4" stroke-linecap="round" transform="rotate(8 149 88)"/>
+    <use href="#bot" x="6" y="36" width="124" height="124"/>
+  </svg>
+</div></section>
+
+<nav class="stepbar"><div class="wrap" id="stepbar"></div></nav>
+
+<main><div class="wrap">
+
+<!-- ========== 步驟 1 ========== -->
+<section class="step" data-title="看懂比賽" data-min="8">
+  <div class="step-head"><div class="num">1</div><div>
+    <h2>這個比賽要做什麼？</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>8 分鐘</span><span class="chip">簡章 第四、五點</span></div>
+  </div></div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-gift"/></svg>比賽主題：家的年度記憶－AI 繪家、感謝有你</h3>
+    <p>做一張<b>給家人的賀年感恩卡</b>。卡片要有 <b>e度 畫的圖</b>，加上<b>你自己寫的感謝的話</b>，再用 Canva 或 PowerPoint 排版。</p>
+    <p class="muted small">作品要<b>自己訂題目</b>。工具只能用<b>因材網 e度</b>和數位工具（Canva、PowerPoint、Word）。</p>
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-file"/></svg>最後要交 4 份東西（10/23 截止）</h3>
+    <div class="files">
+      <div><svg class="ico"><use href="#i-image"/></svg>賀卡<small>存成 PDF</small></div>
+      <div><svg class="ico"><use href="#i-pen"/></svg>作品說明書<small>第 5 節寫</small></div>
+      <div><svg class="ico"><use href="#i-chat"/></svg>AI 協作歷程紀錄<small>最多 2 頁</small></div>
+      <div><svg class="ico"><use href="#i-users"/></svg>授權同意書<small>家長簽名</small></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-target"/></svg>評審看什麼？</h3>
+    <div class="score">
+      <div class="row"><b>會發現錯、會追問、會自己改</b><div class="bar"><i style="width:100%;background:#1f9e8f">30%</i></div><p>同分時先比這一項。只問一次就交，會很吃虧。</p></div>
+      <div class="row"><b>創意、原創、真的生活</b><div class="bar"><i style="width:100%;background:#e0664f">30%</i></div><p>是不是只有你家才寫得出來的故事？</p></div>
+      <div class="row"><b>AI 和數位工具用得好</b><div class="bar"><i style="width:67%;background:#6d5bd0">20%</i></div><p>e度 畫圖、給建議；Canva 排版；字自己寫。</p></div>
+      <div class="row"><b>安全、誠實、標清楚</b><div class="bar"><i style="width:67%;background:#2f5aa8">20%</i></div><p>沒打個人資料；哪些是 AI 做的，寫得清清楚楚。</p></div>
+    </div>
+  </div>
+
+  <div class="hb">
+    <div>
+      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+      <q>先想想、再問問、檢查看、要標記</q>
+      <div class="src">《國小生聰明用 AI》序章 p.VI、參 p.33</div>
+      <div class="motto">
+        <div style="background:#1f9e8f">先想想<small>第 1 節 找主題</small></div>
+        <div style="background:#e0664f">再問問<small>第 2、3 節 寫字、畫圖</small></div>
+        <div style="background:#6d5bd0">檢查看<small>第 4 節 找錯</small></div>
+        <div style="background:#2f5aa8">要標記<small>第 4、5 節 標清楚</small></div>
+      </div>
+    </div>
+    <img class="thumb" src="assets/hb_pVI.jpg" alt="手冊序章 p.VI">
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-trophy"/></svg>看看上一屆得獎的卡片</h3>
+    <div class="win">
+      <figure><img class="shot" style="margin:0;border-radius:0;box-shadow:none;border:0" src="assets/winner1.jpg" alt="上屆特優作品：寫給朋友的信">
+        <figcaption><b>特優（六年級）</b>寫「大隊接力跌倒，朋友陪我去健康中心」這<b>一件事</b>，還寫出朋友說的那句話：「輸了沒關係」。</figcaption></figure>
+      <figure><img class="shot" style="margin:0;border-radius:0;box-shadow:none;border:0" src="assets/winner2.jpg" alt="上屆優等作品：給媽媽的童詩">
+        <figcaption><b>優等（四年級）</b>寫媽媽煮的「那一碗軟綿綿的蒸蛋」這<b>一個東西</b>，有香味、有畫面。</figcaption></figure>
+    </div>
+    <p style="margin-top:10px"><span class="hl">它們都寫「只有自己經歷過的那一刻」</span>，不是「謝謝你一直照顧我」這種誰都能寫的話。</p>
+    <p class="tiny">圖片：上屆【AI 創意領航員】得獎作品，學生姓名已遮住。這一屆主題不同，圖一定要用 e度 畫。</p>
+  </div>
+
+  <div class="card" style="border:2px solid var(--ac)">
+    <h3><svg class="ico"><use href="#i-bulb"/></svg>這五節課要學的是「原理」，不是背提示詞</h3>
+    <p>比賽時，評審會看到<b>每一個人</b>和 e度 的完整對話。如果全班都貼上同一段句子，每個人的紀錄都長得一樣，評審就看不出<b>你</b>是怎麼想的，「提問策略」那 30% 也拿不到分。</p>
+    <div class="grid2" style="margin:10px 0">
+      <div class="note safe" style="margin:0"><svg class="ico"><use href="#i-x"/></svg><p><b>只會照抄</b><br>把學習單的句子整句貼給 e度。換一個題目，就不知道怎麼問了。</p></div>
+      <div class="note good" style="margin:0"><svg class="ico"><use href="#i-check"/></svg><p><b>懂得原理</b><br>知道「為什麼這樣問會比較好」，用<b>自己的話</b>問<b>自己的事</b>。換什麼題目都會問。</p></div>
+    </div>
+    <p>〔例〕同一個原理「說清楚我是誰、要做什麼」，兩個人可以這樣問，句子完全不一樣（手冊 貳 p.19 的恐龍報告）：</p>
+    <div class="grid2" style="margin:6px 0 10px">
+      <div class="demo" style="margin:0"><span class="s">小安</span>我要做一份給三年級同學看的恐龍小報告，請幫我整理暴龍的 3 個重點。</div>
+      <div class="demo" style="margin:0"><span class="s">小宇</span>我想讓三年級的弟弟妹妹看懂暴龍，可以先告訴我最重要的三件事嗎？</div>
+    </div>
+    <p>所以接下來每一個「提問框架」旁邊，都有一行<b>「為什麼這樣問」</b>。<span class="hl">先讀懂為什麼，再用自己的話問。</span>框架只是骨架，就像數學公式：懂了原理，才會用在自己的題目上。</p>
+    <div class="hb" style="margin:10px 0 0">
+      <div><div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+        <q>我知道不能直接「複製貼上」AI 的答案來交作業，因為這樣會讓我的「思考肌肉」變無力。</q>
+        <div class="src">貳 p.20「我學到了嗎」。提問也一樣：自己想過的問題，才是你的。</div></div>
+    </div>
+  </div>
+
+  <div class="note">
+    <svg class="ico"><use href="#i-users"/></svg>
+    <p><b>老師可以幫你什麼？</b>簡章規定：老師只能帶方向、陪你討論，<b>不能幫你寫提示詞，也不能幫你改圖和文字</b>。所以這份學習單只給你「方法」和「框架」，內容要你自己想。</p>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 2 ========== -->
+<section class="step" data-title="e度與安全" data-min="10" hidden>
+  <div class="step-head"><div class="num">2</div><div>
+    <h2>打開 e度，先學會保護自己</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>10 分鐘</span><span class="chip book" data-zoom="assets/hb_p17.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 貳 p.10–12、p.17</span></div>
+  </div></div>
+
+  <div class="hb">
+    <div>
+      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+      <q>教育部因材網的 e度即是人工智慧代理人搭配生成式 AI 的工具，能根據學生寫下的內容生成新的回答。</q>
+      <div class="src">壹 p.3</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-list"/></svg>照著做：打開 e度</h3>
+    <ol class="do">
+      <li><b class="t">登入因材網</b>用<b>教育雲端帳號</b>登入（選「老師／學生」那一格）。
+        <div><a class="btn navy" style="margin-top:8px" href="https://adl.edu.tw/" target="_blank" rel="noopener">開啟因材網<svg class="ico"><use href="#i-ext"/></svg></a></div>
+        <img class="shot" src="assets/edu_login.jpg" alt="因材網登入畫面，選老師／學生的教育雲端帳號登入" style="width:100%;max-width:560px"></li>
+      <li><b class="t">點右下角的 e度</b>登入後，畫面右下角有一隻綠色的 e度，點它。
+        <img class="shot" src="assets/edu_open.jpg" alt="因材網首頁右下角的 e度 圖示" style="width:100%;max-width:560px"></li>
+      <li><b class="t">選模式，開始聊天</b>左下角可以換模式：<b>一般模式、文思精靈、寫作精靈、繪圖精靈</b>。注意：<span class="hl">換模式會重新開始對話</span>。
+        <img class="shot" src="assets/edu_chat.jpg" alt="e度 通用型學習夥伴的對話視窗，左下角是模式選單" style="width:100%;max-width:420px"></li>
+    </ol>
+    <p class="tiny" style="margin-top:8px">截圖：手冊 貳 p.10–11。</p>
+  </div>
+
+  <div class="frame">
+    <div class="lab"><span class="k">試試看</span>跟 e度 打聲招呼（用一般模式）</div>
+    <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>先認識它會做什麼、不會做什麼，之後才知道該請它幫哪些忙。</span></div>
+    <div class="fbox"><div class="ftext">你好，請用三句話介紹你自己，並告訴我你可以幫我做哪些事。</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div>
+  </div>
+  <div class="bot-note" style="margin-top:12px"><svg class="bot" viewBox="0 0 120 120"><use href="#bot"/></svg>
+    <div class="bubble">e度 自己也說：「我並非全能，有時也會有犯錯的情況喔！」所以它的回答，<b>都要檢查</b>。</div></div>
+
+  <div class="card" style="border-color:#f1b3ae">
+    <h3 style="color:var(--red)"><svg class="ico" style="color:var(--red)"><use href="#i-shield"/></svg>最重要：跟 e度 說話，只給「剛剛好的資料」</h3>
+    <p>比賽時，老師會把<b>你和 e度 的全部對話</b>匯出給評審看。<span class="hl">打過的字都會留下來，改不掉。</span>只要打過一次家人的全名，就會被扣分。</p>
+    <div class="lights" style="margin-top:10px">
+      <div class="g"><h4><svg class="ico" style="color:var(--green)"><use href="#i-check"/></svg>可以說</h4>
+        <ul><li>稱謂：阿嬤、哥哥、爸爸</li><li>發生的事：一起去看海、一起包水餃</li><li>地方的種類：海邊、夜市、台南</li><li>心情、季節、寵物的名字</li></ul></div>
+      <div class="r"><h4><svg class="ico" style="color:var(--red)"><use href="#i-x"/></svg>不能說</h4>
+        <ul><li>任何人的全名（自己、家人、同學）</li><li>學校、班級、住址、電話</li><li>帳號、密碼</li><li>上傳家人的照片、別人的作品、卡通人物圖</li></ul></div>
+    </div>
+  </div>
+
+  <div class="hb">
+    <div>
+      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+      <q>就是你的姓名、住址、學校、電話和密碼這些秘密資訊！因為在網路上傳送訊息時，可能會被壞人偷偷記下來！</q>
+      <div class="src">貳 p.17「怎麼保護自己？」；陸 p.55 原則四：只給「剛剛好的資料」</div>
+    </div>
+    <img class="thumb" src="assets/hb_p17.jpg" alt="手冊貳 p.17 漫畫：怎麼保護自己">
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-search"/></svg>判斷看看：這句話可以跟 e度 說嗎？</h3>
+    <div class="quiz" id="safeQuiz"></div>
+    <p id="safeScore" class="muted small" style="margin-top:8px"></p>
+  </div>
+
+  <div class="promise">
+    <h3 style="margin:0 0 6px;display:flex;gap:8px;align-items:center;font-size:20px"><svg class="ico" style="color:var(--ac)"><use href="#i-heart"/></svg>我的聲明</h3>
+    <p class="small muted" style="margin:0 0 10px">讀完每一句，真的做得到再打勾。<b>六項都勾</b>，才能開始用 e度 創作。（依手冊 陸 p.58「AI 使用承諾卡」改寫）</p>
+    <div class="checks">
+      <label><input type="checkbox" data-key="promise" value="不給隱私" data-req="all"><span><b>我不會告訴 AI 隱私資訊。</b>不打任何人的姓名、學校、班級、住址、電話、帳號密碼，也不上傳家人的照片。</span></label>
+      <label><input type="checkbox" data-key="promise" value="自己動腦"><span><b>我會自己動腦思考。</b>先想好自己的故事再問 AI，不讓 AI 整篇幫我寫、整張幫我決定。</span></label>
+      <label><input type="checkbox" data-key="promise" value="學原理"><span><b>我會學原理，用自己的話問。</b>先讀懂「為什麼這樣問」，不整句照抄學習單或別人的提示詞。</span></label>
+      <label><input type="checkbox" data-key="promise" value="檢查追問"><span><b>我會檢查 AI 的回答。</b>覺得不對、不像我家，就追問、自己修正，不直接照用。</span></label>
+      <label><input type="checkbox" data-key="promise" value="清楚標記"><span><b>我會誠實標記。</b>分清楚哪些是我自己做的、哪些是 AI 幫忙的，並清楚寫出來。</span></label>
+      <label><input type="checkbox" data-key="promise" value="負責求助"><span><b>我會為自己的作品負責。</b>遇到不確定的事，會問老師、家長或可信的資料。</span></label>
+    </div>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 3：作品紀錄文件 ========== -->
+<section class="step" data-title="我的文件" data-min="7" hidden>
+  <div class="step-head"><div class="num">3</div><div>
+    <h2>開好你的「作品紀錄」文件</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>7 分鐘</span><span class="chip">Google 文件</span></div>
+  </div></div>
+
+  <div class="note"><svg class="ico"><use href="#i-file"/></svg><p><b>這份 Google 文件，就是你的作品紀錄。</b>五節課做出來的東西，都要記在這裡；最後交件時會用到。所以<b>每一節都要好好寫</b>，寫完存好，不要弄丟。</p></div>
+
+  <div class="grid2">
+    <div>
+      <video class="shot" style="width:100%;margin:0;background:#111" src="assets/教學_打開文件.mp4" poster="assets/教學_打開文件_封面.jpg" controls playsinline preload="none"></video>
+      <p class="vcap">影片：怎麼打開老師給你的文件（示範用的是四年級的作業，打開的方法一樣）</p>
+    </div>
+    <div class="card" style="margin:0">
+      <h3><svg class="ico"><use href="#i-list"/></svg>照著做</h3>
+      <ol class="do">
+        <li><b class="t">打開 Google Classroom</b>找到老師的作業，點進去。</li>
+        <li><b class="t">點「你的作業」裡老師給你的文件</b>文件就會打開。</li>
+        <li><b class="t">改檔名</b>點左上角的名字，改成下面這一行。</li>
+        <li><b class="t">貼上標題格式</b>下面按「複製」，貼到文件最上面。</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="docbox">
+    <h3><svg class="ico"><use href="#i-pen"/></svg>檔名（會依你填的年級、班級、座號自動變）</h3>
+    <div class="fname" id="docName" style="font-size:18px">賀卡作品紀錄＿（先填最上面的年級、班級、座號）</div>
+    <button class="copy" type="button" data-copy="docName" data-done="已複製檔名" style="margin-top:8px"><svg class="ico"><use href="#i-copy"/></svg>複製檔名</button>
+  </div>
+
+  <div class="docbox">
+    <h3><svg class="ico"><use href="#i-file"/></svg>文件的標題格式（貼在文件最上面）</h3>
+    <pre class="skel" id="docSkel">賀卡作品紀錄
+
+一、主題卡（第 1 節）
+
+二、感謝文字（第 2 節）
+
+三、畫面規劃與繪圖（第 3 節）
+
+四、AI 協作歷程紀錄（第 4 節）
+
+五、作品說明書（第 4 節）
+</pre>
+    <button class="copy" type="button" data-copy="docSkel" data-done="已複製！貼到你的文件最上面"><svg class="ico"><use href="#i-copy"/></svg>複製標題格式</button>
+    <div style="margin-top:12px">
+      <video class="shot" style="width:100%;max-width:520px;margin:0;background:#111" src="assets/教學_複製資料.mp4" poster="assets/教學_複製資料_封面.jpg" controls playsinline preload="none"></video>
+      <p class="vcap">影片：複製、貼上到文件（示範的內容不同，做法一樣；加上 <kbd>Shift</kbd> 是只貼文字）</p>
+    </div>
+  </div>
+
+  <div class="card" style="border:2px solid var(--ac)">
+    <h3><svg class="ico"><use href="#i-home"/></svg>以後每次來上課</h3>
+    <ol class="do">
+      <li><b class="t">到電腦教室2，自己開電腦</b>坐在自己的位子。</li>
+      <li><b class="t">用 OpenID 登入</b>用你的教育雲端帳號。</li>
+      <li><b class="t">打開兩樣東西</b>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><a class="btn navy" href="https://adl.edu.tw/" target="_blank" rel="noopener">因材網（e度）<svg class="ico"><use href="#i-ext"/></svg></a><a class="btn navy" href="https://classroom.google.com/" target="_blank" rel="noopener">Google Classroom（打開你的文件）<svg class="ico"><use href="#i-ext"/></svg></a></div></li>
+      <li><b class="t">打開這份學習單</b>填好年級、班級、座號，就可以接著做。</li>
+    </ol>
+  </div>
+
+  <div class="checks">
+    <label><input type="checkbox" data-key="doc1" value="已開文件" data-req>我已經打開文件、改好檔名、貼上標題格式了。</label>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 4 ========== -->
+<section class="step" data-title="我的主題卡" data-min="13" hidden>
+  <div class="step-head"><div class="num">4</div><div>
+    <h2>先想想：你最想留下哪一個回憶？</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>13 分鐘</span><span class="chip">手冊 參 p.22、p.33</span></div>
+  </div></div>
+
+  <a class="link-card" href="assets/第1節回家學習單_先想想.docx" download>
+    <span class="li"><svg class="ico"><use href="#i-download"/></svg></span>
+    <span><b>下載 Word 學習單（A4 一頁，黑白列印回家寫）</b><span>6 個問題，和下面的主題卡一樣。寫好帶回來，照著打進下面。</span></span>
+    <svg class="ico go"><use href="#i-download"/></svg></a>
+
+  <div class="hb">
+    <div>
+      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+      <q>先想想：自己得要先思考，AI 才能幫助我們學習。</q>
+      <div class="src">參 p.33。手冊裡的思思寫詩，也是先自己決定「主題」和「氛圍」，才去問 e度（參 p.22）。</div>
+    </div>
+  </div>
+
+  <div class="card" style="background:#fffdf0;border:2px solid var(--gold)">
+    <h3><svg class="ico"><use href="#i-heart"/></svg>今年，你最想把哪一個家的回憶留下來？</h3>
+    <p>一頓全家一起吃的晚餐、一趟難忘的旅行、最好笑的一件事、最感動的一天、家人說過的一句話，或是一個你很想謝謝的人……</p>
+    <p><b>生活裡的大小事，都可以成為最棒的創意來源！</b></p>
+    <p>找 e 度當你的學習夥伴，從一個想法開始，試著提問、追問、查證、修改，一步一步把屬於你的生活故事變成一張獨一無二的年度賀年感恩卡。</p>
+    <p class="small muted" style="margin-top:6px">年度記憶不一定是被誰幫助了，也可以是<b>度過一段快樂的時光</b>：旅行、和家人團聚、一起笑的那一天。重點是你的<b>回憶、感想，和想說的謝謝</b>。</p>
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-search"/></svg>什麼叫「只有你家寫得出來」？</h3>
+    <div class="grid2">
+      <div class="note safe" style="margin:0"><svg class="ico"><use href="#i-x"/></svg><p><b>太空泛</b><br>我們全家出去玩，很開心。<br>謝謝媽媽一直照顧我。</p></div>
+      <div class="note good" style="margin:0"><svg class="ico"><use href="#i-check"/></svg><p><b>有畫面</b><br>夜市裡，爸爸為了搶最後一碗豆花被擠得滿頭大汗，全家笑成一團。<br>颱風停電那晚，媽媽用手電筒照著，幫我綁頭髮。</p></div>
+    </div>
+    <p class="tiny" style="margin-top:6px">只是說明「具體」是什麼意思，不要照抄，要寫你自己家的事。</p>
+  </div>
+
+  <div class="card" style="border:2px solid var(--ac)">
+    <h3><svg class="ico"><use href="#i-pen"/></svg>我的主題卡</h3>
+    <p class="small muted">和紙本學習單一樣的 6 題。寫在這裡就好，<b>不要整段貼給 e度</b>，跟 e度 說的時候只說稱謂和發生的事。</p>
+    <div class="field"><label for="f_moment">1. 這是哪一個回憶？什麼時候、在哪裡、和誰一起？</label><textarea id="f_moment" data-key="moment" data-req rows="3" data-count></textarea></div>
+    <div class="field"><label for="f_detail">2. 那一刻發生了什麼事？有沒有一句話、一個畫面或一樣東西，讓你一直記得？</label><textarea id="f_detail" data-key="detail" data-req rows="3" data-count></textarea></div>
+    <div class="field"><label for="f_why">3. 我的感想：那時候我覺得……　現在想起來……</label><textarea id="f_why" data-key="why" rows="3" data-count></textarea></div>
+    <div class="field"><label for="f_who">4. 我想感謝誰？我想對他說什麼？<span class="hint">用稱謂就好，例如阿嬤、哥哥</span></label><textarea id="f_who" data-key="who" data-req rows="2" data-count></textarea></div>
+    <div class="field"><label for="f_reason">5. 為什麼我想寫這個回憶？<span class="hint">這就是作品的「創作理念」</span></label><textarea id="f_reason" data-key="reason" rows="3" data-count></textarea></div>
+    <div class="field"><label for="f_title">6. 作品名稱（先暫定）<span class="hint">會用在檔名，之後可以改</span></label><input type="text" id="f_title" data-key="title" data-req maxlength="20"></div>
+  </div>
+
+  <div class="bot-note"><svg class="bot" viewBox="0 0 120 120"><use href="#bot"/></svg>
+    <div class="bubble">想不出細節也沒關係！下一節會教你用「文思精靈」，讓 e度 問你問題，幫你想起更多。</div></div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 4 ========== -->
+<section class="step" data-title="今天的成果" data-min="2" hidden>
+  <div class="step-head"><div class="num">5</div><div>
+    <h2>今天的成果</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>2 分鐘</span></div>
+  </div></div>
+
+  <div class="result">
+    <h3><svg class="ico" style="color:var(--ac)"><use href="#i-star"/></svg>我的主題卡</h3>
+    <dl>
+      <dt>回憶</dt><dd data-ref="L1.moment"></dd>
+      <dt>那一刻</dt><dd data-ref="L1.detail"></dd>
+      <dt>我的感想</dt><dd data-ref="L1.why"></dd>
+      <dt>想感謝</dt><dd data-ref="L1.who"></dd>
+      <dt>創作理念</dt><dd data-ref="L1.reason"></dd>
+      <dt>作品名稱</dt><dd data-ref="L1.title"></dd>
+    </dl>
+    <svg class="bot" viewBox="0 0 120 120"><use href="#bot"/></svg>
+  </div>
+  <div class="docbox" style="margin-top:16px">
+    <h3><svg class="ico"><use href="#i-copy"/></svg>把主題卡複製到你的文件</h3>
+    <p class="small muted" style="margin:0 0 6px">按下複製，打開你的文件，貼在「一、主題卡（第 1 節）」下面。</p>
+    <pre class="skel" id="themeTxt"></pre>
+    <button class="copy" type="button" data-copy="themeTxt" data-done="已複製！貼到文件的「一、主題卡」下面"><svg class="ico"><use href="#i-copy"/></svg>複製我的主題卡</button>
+    <div class="checks" style="margin-top:10px"><label><input type="checkbox" data-key="doc1b" value="已貼主題卡" data-req>我已經貼到文件裡了。</label></div>
+  </div>
+  <div class="checks" id="doneList" style="margin-top:12px"></div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-home"/></svg>回家任務</h3>
+      <p>問問你要感謝的人：「你還記得那一天嗎？」聽聽他記得什麼，<b>補一個細節</b>到主題卡。</p></div>
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-next"/></svg>下一節（10/13）</h3>
+      <p>用<b>手冊的提問六招</b>，請文思精靈、寫作精靈幫忙，寫出<b>你自己的感謝文字</b>。</p>
+      <a class="btn" data-go="C02" href="#">先看第 2 節<svg class="ico"><use href="#i-next"/></svg></a></div>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+</div></main>
+<footer><div class="wrap">本頁引用《中小學 AI 之學習應用手冊—國小生聰明用 AI》（教育部，2026）的內容與頁面，僅供本校競賽指導使用；頁碼為手冊印刷頁碼。競賽規定以「115 年度小學生教育型 AI 學習夥伴應用競賽」簡章為準。</div></footer>
+<script>
+window.PAGE={code:'C01',lesson:'L1',hbTitle:"第 1 節要讀的手冊頁面",hb:[[12, "序章 p.VI", "四個口訣：先想想、再問問、檢查看、要標記"], [16, "壹 p.3", "AI 是什麼？e度 是 AI 代理人"], [23, "貳 p.10", "認識 e度、登入因材網"], [24, "貳 p.11", "打開 e度、開始輸入"], [25, "貳 p.12", "語音輸入、三個技巧"], [30, "貳 p.17", "怎麼保護自己？"], [68, "陸 p.55", "只給剛剛好的資料"], [71, "陸 p.58", "AI 使用承諾卡"]],onData:function(all){
+  var d=all.L1||{},list=document.getElementById('doneList'),g=(window.cardIdentity&&cardIdentity())||null;
+  var dn=document.getElementById('docName');if(dn)dn.textContent='賀卡作品紀錄＿'+(g?g.grade+'年'+g.className+'班'+g.studentId+'號':'（先填最上面的年級、班級、座號）');
+  var t=document.getElementById('themeTxt');
+  if(t)t.textContent='一、主題卡（第 1 節）\n這是哪一個回憶：'+(d.moment||'')+'\n那一刻發生了什麼事：'+(d.detail||'')+'\n我的感想：'+(d.why||'')+'\n我想感謝誰、想說什麼：'+(d.who||'')+'\n為什麼我想寫這個回憶（創作理念）：'+(d.reason||'')+'\n作品名稱（暫定）：'+(d.title||'');
+  if(!list)return;
+  var items=[['勾好我的聲明（6 項）',(d.promise||[]).length>=6],['開好作品紀錄文件',(d.doc1||[]).length>0],['主題卡：回憶、那一刻、想感謝誰',!!(d.who&&d.moment&&d.detail)],['作品名稱',!!d.title],['主題卡貼進文件',(d.doc1b||[]).length>0]];
+  list.innerHTML=items.map(function(x){return '<label style="cursor:default"><input type="checkbox" disabled '+(x[1]?'checked':'')+'>'+x[0]+(x[1]?'':'　<span class="muted small">（還沒完成）</span>')+'</label>';}).join('');
+}};
+</script>
+<script>
+/* ============================================================
+   賀卡創作營｜共用程式（六個頁面都一樣）
+   ------------------------------------------------------------
+   ◆ Firebase：老師建好新專案後，把 firebaseConfig 整段貼到 FB_CONFIG（六個頁面都要換）。
+     維持 null＝只存在這台電腦的瀏覽器（換電腦就看不到），頁面其他功能照常。
+   ◆ 資料放在 cardWork/{年級-班級-座號}，每一節一個欄位 L1～L5（見 firestore.rules）。
+   ============================================================ */
+var FB_CONFIG = {
+  apiKey: "AIzaSyDxAPNchjR37VsBPO4QltbuNIJ98F3mwtw",
+  authDomain: "worksheet-f47f3.firebaseapp.com",
+  projectId: "worksheet-f47f3",
+  storageBucket: "worksheet-f47f3.firebasestorage.app",
+  messagingSenderId: "42265052892",
+  appId: "1:42265052892:web:415d41d37b96fd24e61619"
+};
+var COLL = 'cardWork';
+
+(function(){
+  var P = window.PAGE || {};
+  var LESSON = P.lesson || '';
+  function $(id){return document.getElementById(id);}
+  function $$(sel,root){return Array.prototype.slice.call((root||document).querySelectorAll(sel));}
+  window.$ = $; window.$$ = $$;
+
+  /* ---------- 小工具 ---------- */
+  var toastT;
+  function toast(t){var e=$('toast');if(!e)return;e.textContent=t;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){e.classList.remove('on');},2200);}
+  window.toast = toast;
+  function copyText(text,btn,doneLabel){
+    function ok(){
+      if(btn){var old=btn.innerHTML;btn.classList.add('done');btn.innerHTML='<svg class="ico"><use href="#i-check"/></svg>已複製';setTimeout(function(){btn.classList.remove('done');btn.innerHTML=old;},1800);}
+      toast(doneLabel||'已複製！〔 〕換成你的內容，句子用你自己的話改一改');
+    }
+    function fb(){var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px;top:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){toast('請按 Ctrl＋C 複製');}document.body.removeChild(ta);}
+    try{navigator.clipboard.writeText(text).then(ok,fb);}catch(e){fb();}
+  }
+  window.copyText = copyText;
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  window.esc = esc;
+
+  /* ---------- 我是誰：年級／班級／座號 ---------- */
+  var ID_KEY='card_identity';
+  function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
+  function getId(){
+    var g=digits($('idG')&&$('idG').value),c=digits($('idC')&&$('idC').value),s=digits($('idS')&&$('idS').value);
+    return {grade:g?Number(g):null,className:c?Number(c):null,studentId:s?Number(s):null};
+  }
+  function idValid(i){return i.grade>=3&&i.grade<=6&&i.className>=1&&i.className<=20&&i.studentId>=1&&i.studentId<=40;}
+  function docId(i){return i.grade+'-'+i.className+'-'+i.studentId;}
+  window.cardIdentity = function(){var i=getId();return idValid(i)?i:null;};
+
+  /* ---------- 存檔狀態 ---------- */
+  function stat(kind,text){var e=$('saveStat');if(!e)return;e.className='pill'+(kind?' '+kind:'');e.innerHTML='<svg class="ico"><use href="#i-cloud"/></svg>'+esc(text);}
+
+  /* ---------- 讀寫頁面上的欄位（data-key） ---------- */
+  function fieldEls(){return $$('[data-key]');}
+  function collect(){
+    var o={};
+    fieldEls().forEach(function(el){
+      var k=el.dataset.key;
+      if(el.type==='checkbox'){if(!o[k])o[k]=[];if(el.checked)o[k].push(el.value);}
+      else if(el.type==='radio'){if(el.checked)o[k]=el.value;else if(!(k in o))o[k]='';}
+      else o[k]=(el.value||'').slice(0,3000);
+    });
+    return o;
+  }
+  function isEmptyVal(v){return v==null||v===''||(Array.isArray(v)&&!v.length);}
+  function fill(obj,force){
+    if(!obj)return;
+    fieldEls().forEach(function(el){
+      var k=el.dataset.key;if(!(k in obj))return;var v=obj[k];
+      if(el.type==='checkbox'){var cur=el.checked;if(force||!$$('[data-key="'+k+'"]').some(function(x){return x.checked;}))el.checked=Array.isArray(v)&&v.indexOf(el.value)>=0;else el.checked=cur;}
+      else if(el.type==='radio'){if(force||!$$('[data-key="'+k+'"]').some(function(x){return x.checked;}))el.checked=(v===el.value);}
+      else if(force||!el.value.trim())el.value=v||'';
+    });
+  }
+
+  /* ---------- 全部資料（五節）---------- */
+  var ALL={};
+  window.cardData = function(){return ALL;};
+  function getPath(path){var p=path.split('.'),o=ALL[p[0]]||{};var v=o[p[1]];return Array.isArray(v)?v.join('、'):(v||'');}
+  window.cardGet = getPath;
+  function updSub(){var e=$('subStat'),b=$('subBtn');if(!e||!LESSON)return;var t=(ALL[LESSON]||{})._sub;if(t){var d=new Date(t);e.className='ss ok';e.textContent='已繳交（'+(d.getMonth()+1)+'/'+d.getDate()+' '+d.getHours()+':'+('0'+d.getMinutes()).slice(-2)+'）。之後再改內容會自動更新。';if(b)b.innerHTML='<svg class="ico"><use href="#i-upload"/></svg>重新繳交';}else{e.className='ss';e.textContent='還沒繳交。這一節做完，按右邊的按鈕交給老師。';if(b)b.innerHTML='<svg class="ico"><use href="#i-upload"/></svg>繳交這一節';}}
+  function renderRefs(){
+    $$('[data-ref]').forEach(function(el){
+      var v=getPath(el.dataset.ref);
+      el.textContent=v||(el.dataset.empty||'（還沒寫）');
+      el.classList.toggle('empty',!v);
+    });
+    $$('[data-need]').forEach(function(el){el.hidden=!!getPath(el.dataset.need);});
+    if(typeof P.onSub==='function'||true)updSub();
+    if(typeof P.onData==='function')try{P.onData(ALL);}catch(e){console.warn(e);}
+    if(window.__refreshSteps)window.__refreshSteps();
+  }
+  window.cardRefresh = function(){ if(LESSON)ALL[LESSON]=Object.assign({},ALL[LESSON]||{},collect());renderRefs(); };
+
+  /* ---------- 本機暫存 ---------- */
+  function lkey(i){return 'card_work_'+docId(i);}
+  function readLocal(i){try{return JSON.parse(localStorage.getItem(lkey(i))||'{}')||{};}catch(e){return {};}}
+  function writeLocal(i,o){try{localStorage.setItem(lkey(i),JSON.stringify(o));}catch(e){}}
+
+  /* ---------- Firebase ---------- */
+  var db=null,auth=null,fbReady=null;
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+  fbReady=new Promise(function(resolve){
+    if(!FB_CONFIG){resolve(false);return;}
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    loadScript(base+'firebase-app-compat.js')
+      .then(function(){return loadScript(base+'firebase-auth-compat.js');})
+      .then(function(){return loadScript(base+'firebase-firestore-compat.js');})
+      .then(function(){if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);db=firebase.firestore();auth=firebase.auth();resolve(true);})
+      .catch(function(e){console.warn('Firebase 載入失敗，改成只存在這台電腦',e);resolve(false);});
+  });
+  window.cardFirebase = function(){return fbReady.then(function(ok){return ok?{db:db,auth:auth}:null;});};
+  function ensureAuth(){return (auth.currentUser)?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user;});}
+
+  /* ---------- 載入 ---------- */
+  var loadedFor='',loadP=Promise.resolve(),dirty=false;
+  function load(force){loadP=doLoad(force)||Promise.resolve();return loadP;}
+  function doLoad(force){
+    var i=getId();
+    if(!idValid(i)){stat('warn','先填年級、班級、座號');return;}
+    var id=docId(i);
+    var changed=(loadedFor&&loadedFor!==id)||!!force;
+    loadedFor=id;
+    ALL=readLocal(i);
+    fill(ALL[LESSON],changed);
+    renderRefs();
+    stat('', '讀取中…');
+    return fbReady.then(function(ok){
+      if(!ok){stat('warn','只存在這台電腦');return;}
+      return ensureAuth().then(function(){return db.collection(COLL).doc(id).get();}).then(function(doc){
+        if(loadedFor!==id)return;
+        var cloud=doc.exists?doc.data():{};
+        ['L1','L2','L3','L4','L5'].forEach(function(L){
+          var c=cloud[L],l=ALL[L];
+          if(c&&(!l||(c._ms||0)>=(l._ms||0)))ALL[L]=c;
+        });
+        writeLocal(i,ALL);
+        fill(ALL[LESSON],changed);
+        renderRefs();
+        var got=['L1','L2','L3','L4','L5'].map(function(L,k){var d=ALL[L];return d&&Object.keys(d).some(function(x){return x!=='_ms'&&x!=='_sub';})?String(k+1):'';}).filter(Boolean);
+        stat('ok',got.length?'已讀回第 '+got.join('、')+' 節的紀錄':(doc.exists?'已連線，還沒有紀錄':'已連線，還沒有紀錄'));
+        if(force)toast(got.length?'已讀回你之前的紀錄（第 '+got.join('、')+' 節）':'雲端還沒有你的紀錄');
+      });
+    }).catch(function(e){console.warn('讀取失敗',e);stat('bad','雲端讀不到，先存在這台電腦');});
+  }
+
+  /* ---------- 存檔（打字後自動存）---------- */
+  var saveT=null,subTime=0;
+  function save(){return loadP.then(doSave);}
+  function doSave(){
+    var i=getId();
+    if(!idValid(i)){stat('warn','先填年級、班級、座號');return Promise.resolve(false);}
+    if(!LESSON)return Promise.resolve(false);
+    var data=collect();data._ms=Date.now();
+    if(subTime)data._sub=subTime;else if(ALL[LESSON]&&ALL[LESSON]._sub)data._sub=ALL[LESSON]._sub;
+    ALL[LESSON]=data;
+    writeLocal(i,ALL);
+    renderRefs();
+    return fbReady.then(function(ok){
+      if(!ok){stat('warn','已存在這台電腦');return 'local';}
+      stat('','存檔中…');
+      var payload={grade:i.grade,className:i.className,studentId:i.studentId,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+      payload[LESSON]=data;
+      return ensureAuth().then(function(){return db.collection(COLL).doc(docId(i)).set(payload,{merge:true});})
+        .then(function(){var d=new Date();stat('ok','已存到雲端 '+d.getHours()+':'+('0'+d.getMinutes()).slice(-2));return 'cloud';})
+        .catch(function(e){console.warn('雲端存檔失敗',e);stat('bad','雲端沒存到，先存在這台電腦');return false;});
+    });
+  }
+  window.cardSave = save;
+  function queueSave(){dirty=true;clearTimeout(saveT);saveT=setTimeout(save,1200);}
+
+  /* ---------- 初始化識別列 ---------- */
+  (function(){
+    if(!$('idG'))return;
+    var s={};try{s=JSON.parse(localStorage.getItem(ID_KEY)||'{}')||{};}catch(e){}
+    if(s.grade)$('idG').value=s.grade;if(s.className)$('idC').value=s.className;if(s.studentId)$('idS').value=s.studentId;
+    ['idG','idC','idS'].forEach(function(id){
+      $(id).addEventListener('input',function(){
+        var d=digits(this.value);if(d!==this.value)this.value=d;
+        var i=getId();
+        if(idValid(i)){try{localStorage.setItem(ID_KEY,JSON.stringify(i));}catch(e){}load();}
+        else stat('warn','先填年級、班級、座號');
+      });
+    });
+    load();
+  })();
+  window.cardReload=function(){
+    var i=getId();
+    if(!idValid(i)){toast('先填好年級、班級、座號');var g=$('idG');if(g)g.focus();return Promise.resolve();}
+    var filled=fieldEls().some(function(el){return (el.type==='checkbox'||el.type==='radio')?el.checked:!!(el.value||'').trim();});
+    if(filled&&!confirm('會用雲端上次存的內容，蓋掉這一頁現在填的內容，可以嗎？'))return Promise.resolve();
+    return load(true);
+  };
+  if($('loadBtn'))$('loadBtn').addEventListener('click',function(){window.cardReload();});
+  $$('[data-reload]').forEach(function(b){b.addEventListener('click',function(){window.cardReload();});});
+  document.addEventListener('input',function(e){
+    if(e.target.closest&&e.target.closest('[data-key]')){window.cardRefresh();queueSave();}
+  });
+  document.addEventListener('change',function(e){
+    if(e.target.matches&&e.target.matches('[data-key]')){window.cardRefresh();queueSave();}
+  });
+
+  /* ---------- 字數 ---------- */
+  $$('textarea[data-count]').forEach(function(t){
+    var c=document.createElement('div');c.className='count';t.after(c);
+    function u(){c.textContent=t.value.replace(/\s/g,'').length+' 字';}
+    t.addEventListener('input',u);u();
+    setTimeout(u,1500);
+  });
+
+  /* ---------- 提問框架：複製 ---------- */
+  $$('.frame').forEach(function(f){
+    $$('.fbox',f).forEach(function(box){
+      var t=box.querySelector('.ftext'),b=box.querySelector('.copy');
+      if(t&&b)b.addEventListener('click',function(){copyText(t.innerText.replace(/\s+\n/g,'\n').trim(),b);});
+    });
+  });
+  $$('[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){var src=$(b.dataset.copy);if(src)copyText((src.value!=null&&src.tagName!=='DIV'&&src.tagName!=='PRE')?src.value:src.innerText,b,b.dataset.done||'已複製！');});
+  });
+
+  /* ---------- 圖片縮放：滾輪多段放大、拖曳移動、雙擊還原（放大看圖與手冊閱讀器共用）---------- */
+  function makeZoom(stage,img,label){
+    var sc=1,tx=0,ty=0,drag=null,moved=false,MAX=8;
+    img.style.transformOrigin='0 0';img.style.transition='none';img.draggable=false;
+    function apply(){img.style.transform='translate('+tx+'px,'+ty+'px) scale('+sc+')';img.style.cursor=sc>1?(drag?'grabbing':'grab'):'zoom-in';if(label)label.textContent=Math.round(sc*100)+'%';}
+    function zoomAt(f,cx,cy){
+      var r=img.getBoundingClientRect(),bl=r.left-tx,bt=r.top-ty;
+      if(cx==null){cx=r.left+r.width/2;cy=r.top+r.height/2;}
+      var x=(cx-bl-tx)/sc,y=(cy-bt-ty)/sc,s2=Math.max(1,Math.min(MAX,sc*f));
+      if(s2===1){tx=ty=0;}else{tx=cx-bl-x*s2;ty=cy-bt-y*s2;}
+      sc=s2;apply();
+    }
+    function reset(){sc=1;tx=ty=0;apply();}
+    stage.addEventListener('wheel',function(e){e.preventDefault();zoomAt(e.deltaY<0?1.25:0.8,e.clientX,e.clientY);},{passive:false});
+    img.addEventListener('dblclick',function(e){e.preventDefault();if(sc>1)reset();else zoomAt(2.5,e.clientX,e.clientY);});
+    img.addEventListener('pointerdown',function(e){if(sc<=1)return;e.preventDefault();drag={x:e.clientX-tx,y:e.clientY-ty};moved=false;img.setPointerCapture(e.pointerId);apply();});
+    img.addEventListener('pointermove',function(e){if(!drag)return;tx=e.clientX-drag.x;ty=e.clientY-drag.y;moved=true;apply();});
+    img.addEventListener('pointerup',function(){drag=null;apply();});
+    img.addEventListener('click',function(e){e.stopPropagation();if(!moved&&sc===1)zoomAt(2,e.clientX,e.clientY);moved=false;});
+    img.addEventListener('load',reset);
+    apply();
+    return {reset:reset,zoom:function(f){zoomAt(f);},get scale(){return sc;}};
+  }
+  window.makeZoom=makeZoom;
+  function zoomBar(){return '<span class="zbar"><button type="button" class="zo" aria-label="縮小"><svg class="ico"><use href="#i-minus"/></svg></button><span class="zl">100%</span><button type="button" class="zi" aria-label="放大"><svg class="ico"><use href="#i-plus"/></svg></button><button type="button" class="zr">還原</button></span>';}
+  window.cardZoomBar=zoomBar;
+  function wireBar(root,z){root.querySelector('.zi').onclick=function(){z.zoom(1.25);};root.querySelector('.zo').onclick=function(){z.zoom(0.8);};root.querySelector('.zr').onclick=function(){z.reset();};}
+  window.cardWireBar=wireBar;
+
+  /* ---------- 放大看圖 ---------- */
+  var lb=document.createElement('div');lb.id='lightbox';
+  lb.innerHTML='<div class="lbtop"><span class="tip">滾輪放大縮小・拖曳移動・雙擊還原</span>'+zoomBar()+'<button class="x" type="button"><svg class="ico"><use href="#i-x"/></svg>關閉</button></div><div class="lbstage"><img alt=""></div>';
+  document.body.appendChild(lb);
+  var lbImg=lb.querySelector('img'),lbZ=makeZoom(lb.querySelector('.lbstage'),lbImg,lb.querySelector('.zl'));wireBar(lb,lbZ);
+  function lbClose(){lb.classList.remove('on');document.body.style.overflow='';}
+  lb.querySelector('.x').onclick=lbClose;
+  lb.querySelector('.lbstage').addEventListener('click',function(e){if(e.target===this)lbClose();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('on'))lbClose();});
+  document.addEventListener('click',function(e){
+    if(lb.contains(e.target))return;
+    var t=e.target.closest&&e.target.closest('[data-zoom],img.shot,img.thumb');
+    if(!t)return;
+    var src=t.dataset.zoom||t.getAttribute('src');if(!src)return;
+    e.preventDefault();lbImg.src=src;lbZ.reset();lb.classList.add('on');document.body.style.overflow='hidden';
+  });
+  var tst=document.createElement('div');tst.id='toast';document.body.appendChild(tst);
+
+  /* ---------- 步驟：一次看一步 ---------- */
+  var steps=$$('section.step');
+  if(steps.length){
+    var bar=$('stepbar'),flow=$('flow'),cur=1,visited={1:true};
+    function reqDone(sec){
+      var req=$$('[data-req]',sec);
+      if(!req.length)return null;
+      return req.every(function(el){
+        if(el.type==='checkbox'||el.type==='radio')return $$('[data-key="'+el.dataset.key+'"]',sec).some(function(x){return x.checked;});
+        if(el.dataset.req==='all')return $$('[data-key="'+el.dataset.key+'"]',sec).every(function(x){return x.checked;});
+        return !!(el.value||'').trim();
+      });
+    }
+    function isDone(n){var sec=steps[n-1],r=reqDone(sec);if(r!==null)return r;return visited[n]&&n!==cur;}
+    function render(){
+      if(bar)bar.innerHTML='';
+      steps.forEach(function(sec,idx){
+        var n=idx+1,b=document.createElement('button');
+        b.type='button';b.className=isDone(n)&&n!==cur?'done':'';
+        b.innerHTML='<span class="d">'+(isDone(n)&&n!==cur?'<svg class="ico"><use href="#i-check"/></svg>':n)+'</span><span class="t">'+esc(sec.dataset.title)+'</span>';
+        b.setAttribute('aria-label','第 '+n+' 步：'+sec.dataset.title);
+        if(n===cur)b.setAttribute('aria-current','step');
+        b.onclick=function(){show(n);};
+        if(bar)bar.appendChild(b);
+      });
+    }
+    window.__refreshSteps=render;
+    function show(n,noScroll){
+      cur=n;visited[n]=true;
+      steps.forEach(function(s,i){s.hidden=(i+1)!==n;});
+      render();
+      if(!noScroll){var top=(bar?bar.parentNode.offsetTop:0);window.scrollTo({top:Math.max(0,top-2),behavior:'smooth'});}
+      if(LESSON&&dirty)save();
+      try{history.replaceState(null,'','#s'+n);}catch(e){}
+    }
+    window.cardShowStep=show;
+    steps.forEach(function(sec,idx){
+      var n=idx+1,nav=sec.querySelector('.stepnav');if(!nav)return;
+      if(n>1){var p=document.createElement('button');p.type='button';p.className='btn ghost';p.innerHTML='<svg class="ico"><use href="#i-prev"/></svg>上一步';p.onclick=function(){show(n-1);};nav.appendChild(p);}else nav.appendChild(document.createElement('span'));
+      if(n<steps.length){var x=document.createElement('button');x.type='button';x.className='btn';x.innerHTML='下一步：'+esc(steps[n].dataset.title)+'<svg class="ico"><use href="#i-next"/></svg>';x.onclick=function(){show(n+1);};nav.appendChild(x);}
+    });
+    if(flow)steps.forEach(function(sec,idx){
+      var b=document.createElement('button');b.type='button';
+      b.innerHTML='<span class="n">'+(idx+1)+'</span>'+esc(sec.dataset.title)+(sec.dataset.min?' <span class="m">'+sec.dataset.min+' 分鐘</span>':'');
+      b.onclick=function(){show(idx+1);};flow.appendChild(b);
+    });
+    if(LESSON){
+      var last=steps[steps.length-1],nv=last.querySelector('.stepnav'),box=document.createElement('div');
+      box.className='submitbox';
+      box.innerHTML='<div><b>繳交這一節的成果</b><span class="ss" id="subStat"></span></div><button type="button" class="btn" id="subBtn"></button>';
+      last.insertBefore(box,nv);
+      updSub();
+      $('subBtn').onclick=function(){
+        var i=getId();
+        if(!idValid(i)){alert('請先在最上面填好年級、班級、座號。');var g=$('idG');if(g)g.focus();window.scrollTo({top:0,behavior:'smooth'});return;}
+        window.cardRefresh();
+        var miss=[];steps.forEach(function(sec){if(reqDone(sec)===false)miss.push(sec.dataset.title);});
+        var msg='確定要繳交這一節的成果嗎？'+(miss.length?'\n\n還沒完成的步驟：'+miss.join('、')+'\n（可以先繳交，之後補完會自動更新）':'')+'\n\n繳交後老師會看到。';
+        if(!confirm(msg))return;
+        subTime=Date.now();var btn=this;btn.disabled=true;
+        save().then(function(r){
+          btn.disabled=false;
+          if(r==='cloud'){updSub();toast('已繳交！');}
+          else{subTime=0;var e=$('subStat');e.className='ss bad';e.textContent=r==='local'?'沒有連上雲端，還沒交出去。請檢查網路再按一次，或告訴老師。':'繳交失敗，請再按一次；還是不行就告訴老師。';}
+        });
+      };
+    }
+    var m=/^#s(\d)$/.exec(location.hash);
+    show(m&&Number(m[1])<=steps.length?Number(m[1]):1,true);
+  }
+})();
+
+/* ---------- 頁面之間的連結：本機（materials 資料夾）和發布後（pcclass/contest/）路徑不同 ---------- */
+(function(){
+  var F={C00:'C00_賀卡創作營',C01:'C01_認識e度與主題',C02:'C02_文字創作與提問',C03:'C03_AI繪圖',C04:'C04_檢查標記與排版',C05:'C05_說明書與交件'};
+  var here=(window.PAGE&&window.PAGE.code)||'C00';
+  var local=/\/materials\//.test(decodeURIComponent(location.pathname));
+  function href(to){
+    if(local)return (here==='C00'?'../':'../')+F[to]+'/競賽_'+F[to]+'.html';
+    if(to==='C00')return here==='C00'?'./':'../';
+    return here==='C00'?to+'/':'../'+to+'/';
+  }
+  window.cardHref=href;
+  Array.prototype.forEach.call(document.querySelectorAll('[data-go]'),function(a){a.setAttribute('href',href(a.dataset.go));});
+})();
+
+/* ---------- 單元手冊閱讀器：PAGE.hb＝[[PDF頁碼,'章 p.頁','說明'],…]；圖在 assets/hb/pdf{N}.jpg（縮圖 _s）---------- */
+(function(){
+  var P=window.PAGE||{},list=P.hb,host=document.getElementById('hbBook');
+  if(!list||!list.length||!host)return;
+  function big(i){return 'assets/hb/pdf'+list[i][0]+'.jpg';}
+  function sm(i){return 'assets/hb/pdf'+list[i][0]+'_s.jpg';}
+  var pick=[Math.min(2,list.length-1),Math.min(1,list.length-1),0];
+  host.innerHTML=pick.map(function(i){return '<img src="'+sm(i)+'" alt="">';}).join('')+'<span class="lb"><svg class="ico"><use href="#i-book"/></svg>手冊 '+list.length+' 頁</span>';
+  host.title='打開這一節要讀的手冊頁面';
+  var ov=document.createElement('div');ov.id='hbr';ov.setAttribute('role','dialog');ov.setAttribute('aria-label','手冊頁面');
+  ov.innerHTML='<div class="top"><svg class="ico"><use href="#i-book"/></svg><b>'+esc(P.hbTitle||'這一節要讀的手冊頁面')+'</b><span class="cap"></span><span class="cnt"></span>'+
+    '<button class="x" type="button"><svg class="ico"><use href="#i-x"/></svg>關閉</button></div>'+
+    '<div class="stage"><button class="nav p" type="button" aria-label="上一頁"><svg class="ico"><use href="#i-prev"/></svg></button><img alt=""><button class="nav n" type="button" aria-label="下一頁"><svg class="ico"><use href="#i-next"/></svg></button></div>'+
+    '<div class="strip"></div>';
+  ov.querySelector('.top .x').insertAdjacentHTML('beforebegin',window.cardZoomBar());
+  document.body.appendChild(ov);
+  var img=ov.querySelector('.stage img'),strip=ov.querySelector('.strip'),cur=0;
+  var z=window.makeZoom(ov.querySelector('.stage'),img,ov.querySelector('.zl'));window.cardWireBar(ov,z);
+  list.forEach(function(p,i){var b=document.createElement('button');b.type='button';b.innerHTML='<img src="'+sm(i)+'" alt="" loading="lazy">'+esc(p[1]);b.onclick=function(){go(i);};strip.appendChild(b);});
+  function go(i){
+    cur=Math.max(0,Math.min(list.length-1,i));
+    img.src=big(cur);img.alt='手冊 '+list[cur][1];
+    ov.querySelector('.cap').textContent=list[cur][1]+'　'+(list[cur][2]||'');
+    ov.querySelector('.cnt').textContent=(cur+1)+'／'+list.length;
+    ov.querySelector('.nav.p').disabled=cur===0;ov.querySelector('.nav.n').disabled=cur===list.length-1;
+    Array.prototype.forEach.call(strip.children,function(b,k){b.classList.toggle('on',k===cur);if(k===cur)b.scrollIntoView({block:'nearest',inline:'center'});});
+    if(cur+1<list.length){var pre=new Image();pre.src=big(cur+1);}
+  }
+  function open(i){ov.classList.add('on');document.body.style.overflow='hidden';go(i||0);}
+  function close(){ov.classList.remove('on');document.body.style.overflow='';}
+  window.openHandbook=open;
+  host.addEventListener('click',function(){open(0);});
+  ov.querySelector('.x').onclick=close;
+  ov.querySelector('.nav.p').onclick=function(){go(cur-1);};
+  ov.querySelector('.nav.n').onclick=function(){go(cur+1);};
+  ov.addEventListener('click',function(e){if(e.target===ov||e.target.classList.contains('stage'))close();});
+  img.addEventListener('touchstart',function(){},{passive:true});
+  document.addEventListener('keydown',function(e){if(!ov.classList.contains('on'))return;if(e.key==='Escape')close();else if(e.key==='ArrowRight')go(cur+1);else if(e.key==='ArrowLeft')go(cur-1);});
+  var sx=null;img.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+  img.addEventListener('touchend',function(e){if(sx==null||z.scale>1){sx=null;return;}var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1));sx=null;});
+})();
+
+</script>
+<script>
+(function(){
+  var Q=[
+    {t:'我想畫我和阿嬤在廚房包水餃。',ok:true,w:'只有稱謂和發生的事，很安全。'},
+    {t:'我叫林小安，住在東區崇學路。',ok:false,w:'有全名和住址，不能說。'},
+    {t:'我們全家去年暑假去海邊看夕陽。',ok:true,w:'「海邊」是地方的種類，沒有透露你家在哪裡。'},
+    {t:'我讀勝利國小五年三班。',ok:false,w:'學校和班級是個人資料，不能說。'},
+    {t:'我家的狗叫小黑，牠很愛撿球。',ok:true,w:'寵物的名字可以說，它不會讓人找到你。'},
+    {t:'（上傳一張媽媽的照片）請照這張照片畫。',ok:false,w:'家人的照片是肖像，不能上傳。'}
+  ];
+  var host=document.getElementById('safeQuiz'),right=0,done=0;
+  Q.forEach(function(q){
+    var r=document.createElement('div');r.className='qrow';
+    r.innerHTML='<div>'+esc(q.t)+'</div><div class="bt"><button type="button" class="yes">可以</button><button type="button" class="no">不行</button></div><div class="why"></div>';
+    var answered=false;
+    function pick(v){
+      if(answered)return;
+      if(v!==q.ok){r.classList.add('shake');setTimeout(function(){r.classList.remove('shake');},300);r.classList.add('wrong');r.querySelector('.why').textContent='再想一想：'+q.w;return;}
+      answered=true;done++;right++;r.classList.remove('wrong');r.classList.add('right');r.querySelector('.why').textContent=(q.ok?'可以。':'不行。')+q.w;
+      document.getElementById('safeScore').textContent='已完成 '+done+'／'+Q.length+(done===Q.length?'　全部答對了！':'');
+    }
+    r.querySelector('.yes').onclick=function(){pick(true);};
+    r.querySelector('.no').onclick=function(){pick(false);};
+    host.appendChild(r);
+  });
+})();
+</script>
+</body>
+</html>

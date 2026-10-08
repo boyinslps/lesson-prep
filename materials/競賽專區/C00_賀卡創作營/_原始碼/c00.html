@@ -1,0 +1,190 @@
+<!--@title-->AI 繪家賀卡創作營
+<!--@accent-->#d4952a #fdf1d8 #8a5a0c
+<!--@css-->
+.hub-hero{background:radial-gradient(circle at 85% 20%,#fff2c4 0,transparent 45%),linear-gradient(180deg,var(--paper),var(--cream));border-bottom:1px solid var(--line)}
+.hub-hero .wrap{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:center;padding-top:34px;padding-bottom:30px}
+.hub-hero h1{font-size:40px;line-height:1.2;margin:12px 0 10px;font-weight:900}
+.hub-hero h1 small{display:block;font-size:20px;color:var(--sub);font-weight:700;margin-top:6px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.facts span{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14.5px;font-weight:700}
+.facts .ico{color:var(--ac)}
+.hub-art{width:290px;height:240px;justify-self:end}
+@media(max-width:780px){.hub-hero .wrap{grid-template-columns:1fr}.hub-art{display:none}.hub-hero h1{font-size:30px}}
+.lessons{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:6px 0 26px}
+@media(max-width:1000px){.lessons{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.lessons{grid-template-columns:1fr}}
+.lesson{position:relative;display:flex;flex-direction:column;background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:16px;text-decoration:none;transition:.15s;overflow:hidden}
+.lesson:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(31,42,68,.10);border-color:var(--c)}
+.lesson::before{content:"";position:absolute;left:0;top:0;right:0;height:6px;background:var(--c)}
+.lesson .top{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.lesson .n{width:40px;height:40px;border-radius:12px;background:var(--c);color:#fff;font-weight:900;font-size:20px;display:grid;place-items:center}
+.lesson .date{font-size:13.5px;font-weight:700;color:var(--sub)}
+.lesson h3{margin:10px 0 4px;font-size:18.5px;line-height:1.35;font-weight:900}
+.lesson p{margin:0 0 10px;font-size:14px;color:var(--sub);flex:1}
+.lesson .out{font-size:13.5px;background:#f6f4ef;border-radius:10px;padding:6px 10px;margin-bottom:10px}
+.lesson .out b{color:var(--ink)}
+.lesson .st{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:900;border-radius:999px;padding:2px 10px;align-self:flex-start;background:#eef0f4;color:var(--mute)}
+.lesson .st.done{background:var(--green-soft);color:var(--green)}
+.lesson .st.doing{background:#fff1d6;color:#a86b00}
+.sect{font-size:24px;font-weight:900;margin:30px 0 12px;display:flex;align-items:center;gap:10px}
+.sect .ico{color:var(--ac)}
+.motto4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.motto4 div{border-radius:16px;padding:14px;color:#fff}
+.motto4 b{display:block;font-size:22px;font-weight:900}
+.motto4 span{font-size:14px;opacity:.95}
+@media(max-width:700px){.motto4{grid-template-columns:1fr 1fr}}
+#admin{display:none}
+#admin.on{display:block}
+table.adm{width:100%;border-collapse:collapse;background:#fff;font-size:14.5px}
+table.adm th,table.adm td{border:1px solid var(--line);padding:6px 8px;text-align:center}
+table.adm th{background:#f4f6fb}
+table.adm td.l{text-align:left}
+table.adm .y{color:var(--green);font-weight:900}.adm .n{color:#c0c4cf}
+.adm-detail{white-space:pre-wrap;text-align:left;font-size:13.5px;background:#fafafa}
+<!--@body-->
+<header class="topbar"><div class="wrap">
+  <span style="font-weight:900;display:flex;align-items:center;gap:8px"><svg class="ico"><use href="#i-gift"/></svg>AI 繪家賀卡創作營</span>
+  <div class="who"><span style="color:#cfd6ea">填好就看得到你的進度</span><label>年級<input id="idG" inputmode="numeric" maxlength="1" aria-label="年級"></label><label>班級<input id="idC" inputmode="numeric" maxlength="2" aria-label="班級"></label><label>座號<input id="idS" inputmode="numeric" maxlength="2" aria-label="座號"></label><button id="loadBtn" class="loadbtn" type="button" title="把之前存在雲端的紀錄讀回來"><svg class="ico"><use href="#i-download"/></svg>讀取學習單</button><span id="saveStat" class="pill">…</span></div>
+</div></header>
+
+<section class="hub-hero"><div class="wrap">
+  <div>
+    <span class="kicker"><svg class="ico"><use href="#i-trophy"/></svg>115 年度小學生教育型 AI 學習夥伴應用競賽・午休培訓</span>
+    <h1>家的年度記憶<small>AI 繪家、感謝有你：做一張給家人的賀年感恩卡</small></h1>
+    <p class="goal" style="font-size:17px">五節課，每節做完一樣東西。照著每一節的步驟做，10/22 就能交出完整的作品。</p>
+    <div class="facts">
+      <span><svg class="ico"><use href="#i-users"/></svg>中年級組・高年級組</span>
+      <span><svg class="ico"><use href="#i-clock"/></svg>週二、四午休・電腦教室2</span>
+      <span><svg class="ico"><use href="#i-flag"/></svg>比賽 10/23（五）截止</span>
+      <span><svg class="ico"><use href="#i-shield"/></svg>只能用因材網 e度＋Canva／PowerPoint／Word</span>
+    </div>
+    <div style="margin-top:14px"><a class="btn navy" href="https://sites.google.com/view/gailearn/%E7%AB%B6%E8%B3%BD%E6%B4%BB%E5%8B%95/%E5%88%86%E5%8D%80%E7%AB%B6%E8%B3%BD/115%E5%B9%B4%E5%BA%A6%E5%B0%8F%E5%AD%B8%E7%94%9F%E6%95%99%E8%82%B2%E5%9E%8B-ai-%E5%AD%B8%E7%BF%92%E5%A4%A5%E4%BC%B4%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD" target="_blank" rel="noopener"><svg class="ico"><use href="#i-flag"/></svg>前往競賽報名網站<svg class="ico"><use href="#i-ext"/></svg></a></div>
+  </div>
+  <svg class="hub-art" viewBox="0 0 300 240" aria-hidden="true">
+    <circle cx="214" cy="70" r="52" fill="#fdf1d8"/>
+    <g transform="rotate(-8 210 120)">
+      <rect x="160" y="54" width="110" height="140" rx="14" fill="#fff" stroke="#24305e" stroke-width="5"/>
+      <rect x="174" y="70" width="82" height="60" rx="8" fill="#e8eefa"/>
+      <path d="M180 124l20-22 14 14 12-10 24 18" fill="none" stroke="#6d5bd0" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="238" cy="86" r="7" fill="#e2a63b"/>
+      <path d="M178 146h74M178 160h60M178 174h44" stroke="#c9cfdd" stroke-width="5" stroke-linecap="round"/>
+    </g>
+    <path d="M150 40l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#e2a63b"/>
+    <path d="M280 186l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#e0664f"/>
+    <use href="#bot" x="0" y="60" width="180" height="180"/>
+  </svg>
+</div></section>
+
+<main><div class="wrap">
+  <div class="sect"><svg class="ico"><use href="#i-list"/></svg>五節課</div>
+  <div class="lessons" id="lessons">
+    <a class="lesson" data-go="C01" href="#" style="--c:#1f9e8f"><div class="top"><span class="n">1</span><span class="date">10/8（四）</span></div>
+      <h3>認識 e度與主題</h3><p>看懂比賽、學會對話安全，找到只有你家才有的那一刻。</p>
+      <div class="out">成果：<b>我的主題卡</b></div><span class="st" data-l="L1">未開始</span></a>
+    <a class="lesson" data-go="C02" href="#" style="--c:#e0664f"><div class="top"><span class="n">2</span><span class="date">10/13（二）</span></div>
+      <h3>文字創作與提問</h3><p>手冊提問六招，請文思精靈、寫作精靈幫忙想、給建議。</p>
+      <div class="out">成果：<b>感謝文字草稿</b></div><span class="st" data-l="L2">未開始</span></a>
+    <a class="lesson" data-go="C03" href="#" style="--c:#6d5bd0"><div class="top"><span class="n">3</span><span class="date">10/15（四）</span></div>
+      <h3>AI 繪圖與 Canva 排版</h3><p>和繪圖精靈先聊再畫，再用 Canva 把卡片排出來。</p>
+      <div class="out">成果：<b>AI 圖＋排好的卡片</b></div><span class="st" data-l="L3">未開始</span></a>
+    <a class="lesson" data-go="C04" href="#" style="--c:#3f9b52"><div class="top"><span class="n">4</span><span class="date">10/20（二）</span></div>
+      <h3>檢查、歷程紀錄與說明書</h3><p>當 AI 偵探找錯，寫 AI 協作歷程紀錄和作品說明書。</p>
+      <div class="out">成果：<b>歷程紀錄＋作品說明書</b></div><span class="st" data-l="L4">未開始</span></a>
+    <a class="lesson" data-go="C05" href="#" style="--c:#2f5aa8"><div class="top"><span class="n">5</span><span class="date">10/22（四）</span></div>
+      <h3>檢查與交件</h3><p>檢查 4 份文件是否備齊，交出作品。</p>
+      <div class="out">成果：<b>4 份文件備齊</b></div><span class="st" data-l="L5">未開始</span></a>
+  </div>
+
+  <div class="sect"><svg class="ico"><use href="#i-book"/></svg>手冊的四個口訣，就是評審看的四件事</div>
+  <div class="motto4">
+    <div style="background:#1f9e8f"><b>先想想</b><span>創意、原創、真的生活 30%</span></div>
+    <div style="background:#e0664f"><b>再問問</b><span>會提問、會用工具 20%</span></div>
+    <div style="background:#6d5bd0"><b>檢查看</b><span>會發現錯、會追問、會改 30%</span></div>
+    <div style="background:#2f5aa8"><b>要標記</b><span>安全、誠實、標清楚 20%</span></div>
+  </div>
+  <p class="tiny" style="margin-top:6px">口訣出自《中小學 AI 之學習應用手冊—國小生聰明用 AI》序章 p.VI、參 p.33；配分出自競賽簡章第五點。</p>
+
+  <div class="sect"><svg class="ico"><use href="#i-pen"/></svg>你的「作品紀錄」Google 文件</div>
+  <div class="note" id="docCard"><svg class="ico"><use href="#i-file"/></svg><p><b>五節課做的東西，都記在同一份 Google 文件裡</b>（第 1 節教你開）。最後交件會用到，每一節都要好好寫。以後到電腦教室2，自己開電腦、用 OpenID 登入，打開<b>因材網（e度）</b>和<b>你的文件</b>，就可以開始。</p></div>
+
+  <div class="sect"><svg class="ico"><use href="#i-file"/></svg>最後要交的 4 份</div>
+  <div class="grid4">
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-image"/></svg>賀卡</h3><p class="small">Canva 排版、存成 PDF（第 3 節）</p></div>
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-pen"/></svg>作品說明書</h3><p class="small">第 4 節寫</p></div>
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-chat"/></svg>AI 協作歷程紀錄</h3><p class="small">最多 2 頁 PDF（第 4 節寫）</p></div>
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-users"/></svg>授權同意書</h3><p class="small">第 3 節回家請家長簽名，下次上課帶來</p></div>
+  </div>
+
+  <div class="sect"><svg class="ico"><use href="#i-layers"/></svg>報名網站、資料與多練習</div>
+  <div class="grid2">
+    <a class="link-card" href="https://sites.google.com/view/gailearn/%E7%AB%B6%E8%B3%BD%E6%B4%BB%E5%8B%95/%E5%88%86%E5%8D%80%E7%AB%B6%E8%B3%BD/115%E5%B9%B4%E5%BA%A6%E5%B0%8F%E5%AD%B8%E7%94%9F%E6%95%99%E8%82%B2%E5%9E%8B-ai-%E5%AD%B8%E7%BF%92%E5%A4%A5%E4%BC%B4%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD" target="_blank" rel="noopener"><span class="li"><svg class="ico"><use href="#i-flag"/></svg></span><span><b>競賽報名網站</b><span>比賽介紹、簡章下載、報名網頁（GAILearn 競賽活動）</span></span><svg class="ico go"><use href="#i-ext"/></svg></a>
+    <a class="link-card" href="assets/競賽簡章_115.pdf" target="_blank" rel="noopener"><span class="li"><svg class="ico"><use href="#i-file"/></svg></span><span><b>競賽簡章</b><span>115 年度小學生教育型 AI 學習夥伴應用競賽（PDF）</span></span><svg class="ico go"><use href="#i-ext"/></svg></a>
+    <a class="link-card" href="assets/作品說明書_115.odt" download><span class="li"><svg class="ico"><use href="#i-download"/></svg></span><span><b>作品說明書（原始檔）</b><span>第 5 節要填的表格</span></span><svg class="ico go"><use href="#i-download"/></svg></a>
+    <a class="link-card" href="https://adl.edu.tw/" target="_blank" rel="noopener"><span class="li"><svg class="ico"><use href="#i-chat"/></svg></span><span><b>因材網（e度）</b><span>用教育雲端帳號登入</span></span><svg class="ico go"><use href="#i-ext"/></svg></a>
+    <a class="link-card" href="https://sites.google.com/view/gailearn/%E4%BA%92%E5%8B%95%E5%BC%8F%E6%95%99%E6%9D%90/%E5%9C%8B%E5%B0%8F%E4%BA%92%E5%8B%95%E5%BC%8F%E6%95%99%E6%9D%90" target="_blank" rel="noopener"><span class="li"><svg class="ico"><use href="#i-game"/></svg></span><span><b>國小互動式教材（GAILearn）</b><span>手冊附錄的互動練習：提問魔法師、真相大搜查、三色燈挑戰…</span></span><svg class="ico go"><use href="#i-ext"/></svg></a>
+  </div>
+
+  <!-- 教師檢視：網址後面加 #admin 才會出現 -->
+  <section id="admin">
+    <div class="sect"><svg class="ico"><use href="#i-lock"/></svg>教師檢視</div>
+    <div class="card">
+      <p class="small muted">用老師的 Google 帳號登入，才看得到全部學生的進度（規則只開放給老師帳號）。</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button class="btn navy" type="button" id="admLogin">老師登入並讀取</button>
+        <button class="btn ghost" type="button" id="admReload">重新整理</button>
+        <span id="admStat" class="small muted"></span>
+      </div>
+      <div style="overflow-x:auto;margin-top:12px"><table class="adm" id="admTable"></table></div>
+    </div>
+  </section>
+</div></main>
+<!--@foot-->本頁為勝利國小「115 年度小學生教育型 AI 學習夥伴應用競賽」午休培訓用。課程內容引用《中小學 AI 之學習應用手冊—國小生聰明用 AI》（教育部，2026）與 GAILearn 國小互動式教材；競賽規定以簡章為準。
+<!--@pre-->
+window.PAGE={code:'C00',lesson:'',onData:function(all){
+  var need={L1:['who','moment','title'],L2:['draft2'],L3:['pick_why'],L4:['found','black'],L5:['idea','log']};
+  document.querySelectorAll('.st[data-l]').forEach(function(s){
+    var L=s.dataset.l,d=all[L]||{},keys=Object.keys(d).filter(function(k){return k!=='_ms'&&k!=='_sub';});
+    var any=keys.some(function(k){var v=d[k];return Array.isArray(v)?v.length:!!(v&&String(v).trim());});
+    var done=!!d._sub;
+    s.className='st'+(done?' done':any?' doing':'');
+    s.textContent=done?'已繳交':any?'進行中（還沒繳交）':'未開始';
+  });
+}};
+<!--@post-->
+(function(){
+  var box=document.getElementById('admin');
+  function chk(){box.classList.toggle('on',location.hash==='#admin');}
+  window.addEventListener('hashchange',chk);chk();
+  var TEACHER='boyin0304@slps.tn.edu.tw';
+  var stat=document.getElementById('admStat'),table=document.getElementById('admTable');
+  var need={L1:['who','moment','title'],L2:['draft2'],L3:['pick_why'],L4:['found','black'],L5:['idea','log']};
+  function fmt(d){if(!d)return '';var o=[];Object.keys(d).forEach(function(k){if(k==='_ms'||k==='_sub')return;var v=d[k];if(Array.isArray(v))v=v.join('、');if(v)o.push(k+'：'+v);});return o.join('\n');}
+  function render(docs){
+    docs.sort(function(a,b){return a.grade-b.grade||a.className-b.className||a.studentId-b.studentId;});
+    var h='<tr><th>年-班-座</th><th>作品名稱</th><th>L1</th><th>L2</th><th>L3</th><th>L4</th><th>L5</th><th>最後更新</th><th></th></tr>';
+    docs.forEach(function(d,i){
+      h+='<tr><td>'+d.grade+'-'+d.className+'-'+d.studentId+'</td><td class="l">'+esc((d.L1&&d.L1.title)||'')+'</td>';
+      ['L1','L2','L3','L4','L5'].forEach(function(L){var x=d[L]||{};var ok=!!x._sub;h+='<td class="'+(ok?'y':'n')+'">'+(ok?'<svg class="ico"><use href="#i-check"/></svg>':(d[L]?'…':'—'))+'</td>';});
+      var t=d.updatedAt&&d.updatedAt.toDate?d.updatedAt.toDate():null;
+      h+='<td>'+(t?(t.getMonth()+1)+'/'+t.getDate()+' '+t.getHours()+':'+('0'+t.getMinutes()).slice(-2):'')+'</td><td><button class="btn ghost" style="padding:2px 10px;font-size:13px" data-i="'+i+'" type="button">內容</button></td></tr>';
+      h+='<tr hidden id="det'+i+'"><td colspan="9" class="adm-detail">'+['L1','L2','L3','L4','L5'].map(function(L){return '【'+L+'】\n'+esc(fmt(d[L])||'（無）');}).join('\n\n')+'</td></tr>';
+    });
+    table.innerHTML=h;
+    table.querySelectorAll('button[data-i]').forEach(function(b){b.onclick=function(){var r=document.getElementById('det'+b.dataset.i);r.hidden=!r.hidden;};});
+    stat.textContent='共 '+docs.length+' 位學生';
+  }
+  function loadAll(){
+    cardFirebase().then(function(fb){
+      if(!fb){stat.textContent='還沒設定 Firebase（FB_CONFIG 是 null）。';return;}
+      var u=fb.auth.currentUser;
+      var p=(u&&u.email===TEACHER)?Promise.resolve(u):fb.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function(c){return c.user;});
+      p.then(function(user){
+        if(user.email!==TEACHER){stat.textContent='這個帳號（'+user.email+'）不是老師帳號。';return;}
+        stat.textContent='讀取中…';
+        return fb.db.collection(COLL).get().then(function(snap){render(snap.docs.map(function(d){return d.data();}));});
+      }).catch(function(e){console.warn(e);stat.textContent='讀取失敗：'+(e.code||e.message);});
+    });
+  }
+  document.getElementById('admLogin').onclick=loadAll;
+  document.getElementById('admReload').onclick=loadAll;
+})();

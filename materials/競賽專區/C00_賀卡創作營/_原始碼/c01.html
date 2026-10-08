@@ -1,0 +1,416 @@
+<!--@title-->第 1 節 認識 e度與主題｜AI 繪家賀卡創作營
+<!--@accent-->#1f9e8f #e2f4f1 #12675d
+<!--@label-->第 1 節／共 5 節　10/8（四）
+<!--@css-->
+.score{display:grid;gap:10px}
+.score .row{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center}
+.score .bar{height:30px;border-radius:9px;background:#eef1f5;overflow:hidden}
+.score .bar i{display:flex;align-items:center;height:100%;padding-left:10px;color:#fff;font-style:normal;font-weight:900;font-size:15px;border-radius:9px}
+.score .row p{grid-column:2;margin:-4px 0 0;font-size:14.5px;color:var(--sub)}
+@media(max-width:560px){.score .row{grid-template-columns:1fr}.score .row p{grid-column:1}}
+.files{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.files div{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px;text-align:center;font-weight:700;font-size:15px}
+.files .ico{width:30px;height:30px;color:var(--ac);display:block;margin:0 auto 6px}
+.files small{display:block;font-weight:500;color:var(--sub);font-size:13px}
+@media(max-width:680px){.files{grid-template-columns:1fr 1fr}}
+.motto{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:8px 0 0}
+.motto div{border-radius:14px;padding:10px 12px;color:#fff;font-weight:900;font-size:18px}
+.motto small{display:block;font-weight:500;font-size:13.5px;opacity:.95}
+@media(max-width:680px){.motto{grid-template-columns:1fr 1fr}}
+.win{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.win figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.win figcaption{padding:10px 14px;font-size:15px}
+.win figcaption b{color:var(--ac-ink)}
+@media(max-width:680px){.win{grid-template-columns:1fr}}
+.lights{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.lights>div{border-radius:14px;padding:12px 14px}
+.lights .g{background:var(--green-soft);border:1.5px solid #a8dcbe}
+.lights .r{background:var(--red-soft);border:1.5px solid #f1b3ae}
+.lights h4{margin:0 0 4px;display:flex;align-items:center;gap:6px;font-size:17px}
+.lights ul{margin:0;padding-left:20px}
+@media(max-width:560px){.lights{grid-template-columns:1fr}}
+.months{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
+.months span{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:2px 10px;font-size:14px}
+.promise{background:linear-gradient(135deg,#f2fbf9,#fff);border:2px dashed #8fcfc4;border-radius:20px;padding:16px 18px}
+<!--@body-->
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="kicker"><svg class="ico"><use href="#i-flag"/></svg>第 1 節・10/8（四）・40 分鐘</span>
+    <div class="h1row"><h1>認識比賽、認識 e度，<br>找到你家的那一刻</h1><button class="hbbook" id="hbBook" type="button" aria-label="打開這一節的手冊頁面"></button></div>
+    <p class="goal">今天做完：<b>勾好我的聲明</b>、<b>會打開 e度</b>、<b>開好作品紀錄文件</b>、<b>寫好「我的主題卡」</b>。</p>
+    <div class="flow" id="flow"></div>
+  </div>
+  <svg class="art" viewBox="0 0 200 170" aria-hidden="true">
+    <rect x="112" y="40" width="74" height="96" rx="10" fill="#fff" stroke="#24305e" stroke-width="4" transform="rotate(8 149 88)"/>
+    <path d="M149 78s-12-8-12-16a7 7 0 0 1 12-4 7 7 0 0 1 12 4c0 8-12 16-12 16z" fill="var(--ac)" transform="rotate(8 149 88)"/>
+    <path d="M128 104h42M128 116h30" stroke="#c9cfdd" stroke-width="4" stroke-linecap="round" transform="rotate(8 149 88)"/>
+    <use href="#bot" x="6" y="36" width="124" height="124"/>
+  </svg>
+</div></section>
+
+<nav class="stepbar"><div class="wrap" id="stepbar"></div></nav>
+
+<main><div class="wrap">
+
+<!-- ========== 步驟 1 ========== -->
+<section class="step" data-title="看懂比賽" data-min="8">
+  <div class="step-head"><div class="num">1</div><div>
+    <h2>這個比賽要做什麼？</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>8 分鐘</span><span class="chip">簡章 第四、五點</span></div>
+  </div></div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-gift"/></svg>比賽主題：家的年度記憶－AI 繪家、感謝有你</h3>
+    <p>做一張<b>給家人的賀年感恩卡</b>。卡片要有 <b>e度 畫的圖</b>，加上<b>你自己寫的感謝的話</b>，再用 Canva 或 PowerPoint 排版。</p>
+    <p class="muted small">作品要<b>自己訂題目</b>。工具只能用<b>因材網 e度</b>和數位工具（Canva、PowerPoint、Word）。</p>
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-file"/></svg>最後要交 4 份東西（10/23 截止）</h3>
+    <div class="files">
+      <div><svg class="ico"><use href="#i-image"/></svg>賀卡<small>存成 PDF</small></div>
+      <div><svg class="ico"><use href="#i-pen"/></svg>作品說明書<small>第 5 節寫</small></div>
+      <div><svg class="ico"><use href="#i-chat"/></svg>AI 協作歷程紀錄<small>最多 2 頁</small></div>
+      <div><svg class="ico"><use href="#i-users"/></svg>授權同意書<small>家長簽名</small></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-target"/></svg>評審看什麼？</h3>
+    <div class="score">
+      <div class="row"><b>會發現錯、會追問、會自己改</b><div class="bar"><i style="width:100%;background:#1f9e8f">30%</i></div><p>同分時先比這一項。只問一次就交，會很吃虧。</p></div>
+      <div class="row"><b>創意、原創、真的生活</b><div class="bar"><i style="width:100%;background:#e0664f">30%</i></div><p>是不是只有你家才寫得出來的故事？</p></div>
+      <div class="row"><b>AI 和數位工具用得好</b><div class="bar"><i style="width:67%;background:#6d5bd0">20%</i></div><p>e度 畫圖、給建議；Canva 排版；字自己寫。</p></div>
+      <div class="row"><b>安全、誠實、標清楚</b><div class="bar"><i style="width:67%;background:#2f5aa8">20%</i></div><p>沒打個人資料；哪些是 AI 做的，寫得清清楚楚。</p></div>
+    </div>
+  </div>
+
+  <div class="hb">
+    <div>
+      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+      <q>先想想、再問問、檢查看、要標記</q>
+      <div class="src">《國小生聰明用 AI》序章 p.VI、參 p.33</div>
+      <div class="motto">
+        <div style="background:#1f9e8f">先想想<small>第 1 節 找主題</small></div>
+        <div style="background:#e0664f">再問問<small>第 2、3 節 寫字、畫圖</small></div>
+        <div style="background:#6d5bd0">檢查看<small>第 4 節 找錯</small></div>
+        <div style="background:#2f5aa8">要標記<small>第 4、5 節 標清楚</small></div>
+      </div>
+    </div>
+    <img class="thumb" src="assets/hb_pVI.jpg" alt="手冊序章 p.VI">
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-trophy"/></svg>看看上一屆得獎的卡片</h3>
+    <div class="win">
+      <figure><img class="shot" style="margin:0;border-radius:0;box-shadow:none;border:0" src="assets/winner1.jpg" alt="上屆特優作品：寫給朋友的信">
+        <figcaption><b>特優（六年級）</b>寫「大隊接力跌倒，朋友陪我去健康中心」這<b>一件事</b>，還寫出朋友說的那句話：「輸了沒關係」。</figcaption></figure>
+      <figure><img class="shot" style="margin:0;border-radius:0;box-shadow:none;border:0" src="assets/winner2.jpg" alt="上屆優等作品：給媽媽的童詩">
+        <figcaption><b>優等（四年級）</b>寫媽媽煮的「那一碗軟綿綿的蒸蛋」這<b>一個東西</b>，有香味、有畫面。</figcaption></figure>
+    </div>
+    <p style="margin-top:10px"><span class="hl">它們都寫「只有自己經歷過的那一刻」</span>，不是「謝謝你一直照顧我」這種誰都能寫的話。</p>
+    <p class="tiny">圖片：上屆【AI 創意領航員】得獎作品，學生姓名已遮住。這一屆主題不同，圖一定要用 e度 畫。</p>
+  </div>
+
+  <div class="card" style="border:2px solid var(--ac)">
+    <h3><svg class="ico"><use href="#i-bulb"/></svg>這五節課要學的是「原理」，不是背提示詞</h3>
+    <p>比賽時，評審會看到<b>每一個人</b>和 e度 的完整對話。如果全班都貼上同一段句子，每個人的紀錄都長得一樣，評審就看不出<b>你</b>是怎麼想的，「提問策略」那 30% 也拿不到分。</p>
+    <div class="grid2" style="margin:10px 0">
+      <div class="note safe" style="margin:0"><svg class="ico"><use href="#i-x"/></svg><p><b>只會照抄</b><br>把學習單的句子整句貼給 e度。換一個題目，就不知道怎麼問了。</p></div>
+      <div class="note good" style="margin:0"><svg class="ico"><use href="#i-check"/></svg><p><b>懂得原理</b><br>知道「為什麼這樣問會比較好」，用<b>自己的話</b>問<b>自己的事</b>。換什麼題目都會問。</p></div>
+    </div>
+    <p>〔例〕同一個原理「說清楚我是誰、要做什麼」，兩個人可以這樣問，句子完全不一樣（手冊 貳 p.19 的恐龍報告）：</p>
+    <div class="grid2" style="margin:6px 0 10px">
+      <div class="demo" style="margin:0"><span class="s">小安</span>我要做一份給三年級同學看的恐龍小報告，請幫我整理暴龍的 3 個重點。</div>
+      <div class="demo" style="margin:0"><span class="s">小宇</span>我想讓三年級的弟弟妹妹看懂暴龍，可以先告訴我最重要的三件事嗎？</div>
+    </div>
+    <p>所以接下來每一個「提問框架」旁邊，都有一行<b>「為什麼這樣問」</b>。<span class="hl">先讀懂為什麼，再用自己的話問。</span>框架只是骨架，就像數學公式：懂了原理，才會用在自己的題目上。</p>
+    <div class="hb" style="margin:10px 0 0">
+      <div><div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+        <q>我知道不能直接「複製貼上」AI 的答案來交作業，因為這樣會讓我的「思考肌肉」變無力。</q>
+        <div class="src">貳 p.20「我學到了嗎」。提問也一樣：自己想過的問題，才是你的。</div></div>
+    </div>
+  </div>
+
+  <div class="note">
+    <svg class="ico"><use href="#i-users"/></svg>
+    <p><b>老師可以幫你什麼？</b>簡章規定：老師只能帶方向、陪你討論，<b>不能幫你寫提示詞，也不能幫你改圖和文字</b>。所以這份學習單只給你「方法」和「框架」，內容要你自己想。</p>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 2 ========== -->
+<section class="step" data-title="e度與安全" data-min="10" hidden>
+  <div class="step-head"><div class="num">2</div><div>
+    <h2>打開 e度，先學會保護自己</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>10 分鐘</span><span class="chip book" data-zoom="assets/hb_p17.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 貳 p.10–12、p.17</span></div>
+  </div></div>
+
+  <div class="hb">
+    <div>
+      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+      <q>教育部因材網的 e度即是人工智慧代理人搭配生成式 AI 的工具，能根據學生寫下的內容生成新的回答。</q>
+      <div class="src">壹 p.3</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-list"/></svg>照著做：打開 e度</h3>
+    <ol class="do">
+      <li><b class="t">登入因材網</b>用<b>教育雲端帳號</b>登入（選「老師／學生」那一格）。
+        <div><a class="btn navy" style="margin-top:8px" href="https://adl.edu.tw/" target="_blank" rel="noopener">開啟因材網<svg class="ico"><use href="#i-ext"/></svg></a></div>
+        <img class="shot" src="assets/edu_login.jpg" alt="因材網登入畫面，選老師／學生的教育雲端帳號登入" style="width:100%;max-width:560px"></li>
+      <li><b class="t">點右下角的 e度</b>登入後，畫面右下角有一隻綠色的 e度，點它。
+        <img class="shot" src="assets/edu_open.jpg" alt="因材網首頁右下角的 e度 圖示" style="width:100%;max-width:560px"></li>
+      <li><b class="t">選模式，開始聊天</b>左下角可以換模式：<b>一般模式、文思精靈、寫作精靈、繪圖精靈</b>。注意：<span class="hl">換模式會重新開始對話</span>。
+        <img class="shot" src="assets/edu_chat.jpg" alt="e度 通用型學習夥伴的對話視窗，左下角是模式選單" style="width:100%;max-width:420px"></li>
+    </ol>
+    <p class="tiny" style="margin-top:8px">截圖：手冊 貳 p.10–11。</p>
+  </div>
+
+  <div class="frame">
+    <div class="lab"><span class="k">試試看</span>跟 e度 打聲招呼（用一般模式）</div>
+    <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>先認識它會做什麼、不會做什麼，之後才知道該請它幫哪些忙。</span></div>
+    <div class="fbox"><div class="ftext">你好，請用三句話介紹你自己，並告訴我你可以幫我做哪些事。</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div>
+  </div>
+  <div class="bot-note" style="margin-top:12px"><svg class="bot" viewBox="0 0 120 120"><use href="#bot"/></svg>
+    <div class="bubble">e度 自己也說：「我並非全能，有時也會有犯錯的情況喔！」所以它的回答，<b>都要檢查</b>。</div></div>
+
+  <div class="card" style="border-color:#f1b3ae">
+    <h3 style="color:var(--red)"><svg class="ico" style="color:var(--red)"><use href="#i-shield"/></svg>最重要：跟 e度 說話，只給「剛剛好的資料」</h3>
+    <p>比賽時，老師會把<b>你和 e度 的全部對話</b>匯出給評審看。<span class="hl">打過的字都會留下來，改不掉。</span>只要打過一次家人的全名，就會被扣分。</p>
+    <div class="lights" style="margin-top:10px">
+      <div class="g"><h4><svg class="ico" style="color:var(--green)"><use href="#i-check"/></svg>可以說</h4>
+        <ul><li>稱謂：阿嬤、哥哥、爸爸</li><li>發生的事：一起去看海、一起包水餃</li><li>地方的種類：海邊、夜市、台南</li><li>心情、季節、寵物的名字</li></ul></div>
+      <div class="r"><h4><svg class="ico" style="color:var(--red)"><use href="#i-x"/></svg>不能說</h4>
+        <ul><li>任何人的全名（自己、家人、同學）</li><li>學校、班級、住址、電話</li><li>帳號、密碼</li><li>上傳家人的照片、別人的作品、卡通人物圖</li></ul></div>
+    </div>
+  </div>
+
+  <div class="hb">
+    <div>
+      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+      <q>就是你的姓名、住址、學校、電話和密碼這些秘密資訊！因為在網路上傳送訊息時，可能會被壞人偷偷記下來！</q>
+      <div class="src">貳 p.17「怎麼保護自己？」；陸 p.55 原則四：只給「剛剛好的資料」</div>
+    </div>
+    <img class="thumb" src="assets/hb_p17.jpg" alt="手冊貳 p.17 漫畫：怎麼保護自己">
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-search"/></svg>判斷看看：這句話可以跟 e度 說嗎？</h3>
+    <div class="quiz" id="safeQuiz"></div>
+    <p id="safeScore" class="muted small" style="margin-top:8px"></p>
+  </div>
+
+  <div class="promise">
+    <h3 style="margin:0 0 6px;display:flex;gap:8px;align-items:center;font-size:20px"><svg class="ico" style="color:var(--ac)"><use href="#i-heart"/></svg>我的聲明</h3>
+    <p class="small muted" style="margin:0 0 10px">讀完每一句，真的做得到再打勾。<b>六項都勾</b>，才能開始用 e度 創作。（依手冊 陸 p.58「AI 使用承諾卡」改寫）</p>
+    <div class="checks">
+      <label><input type="checkbox" data-key="promise" value="不給隱私" data-req="all"><span><b>我不會告訴 AI 隱私資訊。</b>不打任何人的姓名、學校、班級、住址、電話、帳號密碼，也不上傳家人的照片。</span></label>
+      <label><input type="checkbox" data-key="promise" value="自己動腦"><span><b>我會自己動腦思考。</b>先想好自己的故事再問 AI，不讓 AI 整篇幫我寫、整張幫我決定。</span></label>
+      <label><input type="checkbox" data-key="promise" value="學原理"><span><b>我會學原理，用自己的話問。</b>先讀懂「為什麼這樣問」，不整句照抄學習單或別人的提示詞。</span></label>
+      <label><input type="checkbox" data-key="promise" value="檢查追問"><span><b>我會檢查 AI 的回答。</b>覺得不對、不像我家，就追問、自己修正，不直接照用。</span></label>
+      <label><input type="checkbox" data-key="promise" value="清楚標記"><span><b>我會誠實標記。</b>分清楚哪些是我自己做的、哪些是 AI 幫忙的，並清楚寫出來。</span></label>
+      <label><input type="checkbox" data-key="promise" value="負責求助"><span><b>我會為自己的作品負責。</b>遇到不確定的事，會問老師、家長或可信的資料。</span></label>
+    </div>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 3：作品紀錄文件 ========== -->
+<section class="step" data-title="我的文件" data-min="7" hidden>
+  <div class="step-head"><div class="num">3</div><div>
+    <h2>開好你的「作品紀錄」文件</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>7 分鐘</span><span class="chip">Google 文件</span></div>
+  </div></div>
+
+  <div class="note"><svg class="ico"><use href="#i-file"/></svg><p><b>這份 Google 文件，就是你的作品紀錄。</b>五節課做出來的東西，都要記在這裡；最後交件時會用到。所以<b>每一節都要好好寫</b>，寫完存好，不要弄丟。</p></div>
+
+  <div class="grid2">
+    <div>
+      <video class="shot" style="width:100%;margin:0;background:#111" src="assets/教學_打開文件.mp4" poster="assets/教學_打開文件_封面.jpg" controls playsinline preload="none"></video>
+      <p class="vcap">影片：怎麼打開老師給你的文件（示範用的是四年級的作業，打開的方法一樣）</p>
+    </div>
+    <div class="card" style="margin:0">
+      <h3><svg class="ico"><use href="#i-list"/></svg>照著做</h3>
+      <ol class="do">
+        <li><b class="t">打開 Google Classroom</b>找到老師的作業，點進去。</li>
+        <li><b class="t">點「你的作業」裡老師給你的文件</b>文件就會打開。</li>
+        <li><b class="t">改檔名</b>點左上角的名字，改成下面這一行。</li>
+        <li><b class="t">貼上標題格式</b>下面按「複製」，貼到文件最上面。</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="docbox">
+    <h3><svg class="ico"><use href="#i-pen"/></svg>檔名（會依你填的年級、班級、座號自動變）</h3>
+    <div class="fname" id="docName" style="font-size:18px">賀卡作品紀錄＿（先填最上面的年級、班級、座號）</div>
+    <button class="copy" type="button" data-copy="docName" data-done="已複製檔名" style="margin-top:8px"><svg class="ico"><use href="#i-copy"/></svg>複製檔名</button>
+  </div>
+
+  <div class="docbox">
+    <h3><svg class="ico"><use href="#i-file"/></svg>文件的標題格式（貼在文件最上面）</h3>
+    <pre class="skel" id="docSkel">賀卡作品紀錄
+
+一、主題卡（第 1 節）
+
+二、感謝文字（第 2 節）
+
+三、畫面規劃與繪圖（第 3 節）
+
+四、AI 協作歷程紀錄（第 4 節）
+
+五、作品說明書（第 4 節）
+</pre>
+    <button class="copy" type="button" data-copy="docSkel" data-done="已複製！貼到你的文件最上面"><svg class="ico"><use href="#i-copy"/></svg>複製標題格式</button>
+    <div style="margin-top:12px">
+      <video class="shot" style="width:100%;max-width:520px;margin:0;background:#111" src="assets/教學_複製資料.mp4" poster="assets/教學_複製資料_封面.jpg" controls playsinline preload="none"></video>
+      <p class="vcap">影片：複製、貼上到文件（示範的內容不同，做法一樣；加上 <kbd>Shift</kbd> 是只貼文字）</p>
+    </div>
+  </div>
+
+  <div class="card" style="border:2px solid var(--ac)">
+    <h3><svg class="ico"><use href="#i-home"/></svg>以後每次來上課</h3>
+    <ol class="do">
+      <li><b class="t">到電腦教室2，自己開電腦</b>坐在自己的位子。</li>
+      <li><b class="t">用 OpenID 登入</b>用你的教育雲端帳號。</li>
+      <li><b class="t">打開兩樣東西</b>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><a class="btn navy" href="https://adl.edu.tw/" target="_blank" rel="noopener">因材網（e度）<svg class="ico"><use href="#i-ext"/></svg></a><a class="btn navy" href="https://classroom.google.com/" target="_blank" rel="noopener">Google Classroom（打開你的文件）<svg class="ico"><use href="#i-ext"/></svg></a></div></li>
+      <li><b class="t">打開這份學習單</b>填好年級、班級、座號，就可以接著做。</li>
+    </ol>
+  </div>
+
+  <div class="checks">
+    <label><input type="checkbox" data-key="doc1" value="已開文件" data-req>我已經打開文件、改好檔名、貼上標題格式了。</label>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 4 ========== -->
+<section class="step" data-title="我的主題卡" data-min="13" hidden>
+  <div class="step-head"><div class="num">4</div><div>
+    <h2>先想想：你最想留下哪一個回憶？</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>13 分鐘</span><span class="chip">手冊 參 p.22、p.33</span></div>
+  </div></div>
+
+  <a class="link-card" href="assets/第1節回家學習單_先想想.docx" download>
+    <span class="li"><svg class="ico"><use href="#i-download"/></svg></span>
+    <span><b>下載 Word 學習單（A4 一頁，黑白列印回家寫）</b><span>6 個問題，和下面的主題卡一樣。寫好帶回來，照著打進下面。</span></span>
+    <svg class="ico go"><use href="#i-download"/></svg></a>
+
+  <div class="hb">
+    <div>
+      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+      <q>先想想：自己得要先思考，AI 才能幫助我們學習。</q>
+      <div class="src">參 p.33。手冊裡的思思寫詩，也是先自己決定「主題」和「氛圍」，才去問 e度（參 p.22）。</div>
+    </div>
+  </div>
+
+  <div class="card" style="background:#fffdf0;border:2px solid var(--gold)">
+    <h3><svg class="ico"><use href="#i-heart"/></svg>今年，你最想把哪一個家的回憶留下來？</h3>
+    <p>一頓全家一起吃的晚餐、一趟難忘的旅行、最好笑的一件事、最感動的一天、家人說過的一句話，或是一個你很想謝謝的人……</p>
+    <p><b>生活裡的大小事，都可以成為最棒的創意來源！</b></p>
+    <p>找 e 度當你的學習夥伴，從一個想法開始，試著提問、追問、查證、修改，一步一步把屬於你的生活故事變成一張獨一無二的年度賀年感恩卡。</p>
+    <p class="small muted" style="margin-top:6px">年度記憶不一定是被誰幫助了，也可以是<b>度過一段快樂的時光</b>：旅行、和家人團聚、一起笑的那一天。重點是你的<b>回憶、感想，和想說的謝謝</b>。</p>
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-search"/></svg>什麼叫「只有你家寫得出來」？</h3>
+    <div class="grid2">
+      <div class="note safe" style="margin:0"><svg class="ico"><use href="#i-x"/></svg><p><b>太空泛</b><br>我們全家出去玩，很開心。<br>謝謝媽媽一直照顧我。</p></div>
+      <div class="note good" style="margin:0"><svg class="ico"><use href="#i-check"/></svg><p><b>有畫面</b><br>夜市裡，爸爸為了搶最後一碗豆花被擠得滿頭大汗，全家笑成一團。<br>颱風停電那晚，媽媽用手電筒照著，幫我綁頭髮。</p></div>
+    </div>
+    <p class="tiny" style="margin-top:6px">只是說明「具體」是什麼意思，不要照抄，要寫你自己家的事。</p>
+  </div>
+
+  <div class="card" style="border:2px solid var(--ac)">
+    <h3><svg class="ico"><use href="#i-pen"/></svg>我的主題卡</h3>
+    <p class="small muted">和紙本學習單一樣的 6 題。寫在這裡就好，<b>不要整段貼給 e度</b>，跟 e度 說的時候只說稱謂和發生的事。</p>
+    <div class="field"><label for="f_moment">1. 這是哪一個回憶？什麼時候、在哪裡、和誰一起？</label><textarea id="f_moment" data-key="moment" data-req rows="3" data-count></textarea></div>
+    <div class="field"><label for="f_detail">2. 那一刻發生了什麼事？有沒有一句話、一個畫面或一樣東西，讓你一直記得？</label><textarea id="f_detail" data-key="detail" data-req rows="3" data-count></textarea></div>
+    <div class="field"><label for="f_why">3. 我的感想：那時候我覺得……　現在想起來……</label><textarea id="f_why" data-key="why" rows="3" data-count></textarea></div>
+    <div class="field"><label for="f_who">4. 我想感謝誰？我想對他說什麼？<span class="hint">用稱謂就好，例如阿嬤、哥哥</span></label><textarea id="f_who" data-key="who" data-req rows="2" data-count></textarea></div>
+    <div class="field"><label for="f_reason">5. 為什麼我想寫這個回憶？<span class="hint">這就是作品的「創作理念」</span></label><textarea id="f_reason" data-key="reason" rows="3" data-count></textarea></div>
+    <div class="field"><label for="f_title">6. 作品名稱（先暫定）<span class="hint">會用在檔名，之後可以改</span></label><input type="text" id="f_title" data-key="title" data-req maxlength="20"></div>
+  </div>
+
+  <div class="bot-note"><svg class="bot" viewBox="0 0 120 120"><use href="#bot"/></svg>
+    <div class="bubble">想不出細節也沒關係！下一節會教你用「文思精靈」，讓 e度 問你問題，幫你想起更多。</div></div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 4 ========== -->
+<section class="step" data-title="今天的成果" data-min="2" hidden>
+  <div class="step-head"><div class="num">5</div><div>
+    <h2>今天的成果</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>2 分鐘</span></div>
+  </div></div>
+
+  <div class="result">
+    <h3><svg class="ico" style="color:var(--ac)"><use href="#i-star"/></svg>我的主題卡</h3>
+    <dl>
+      <dt>回憶</dt><dd data-ref="L1.moment"></dd>
+      <dt>那一刻</dt><dd data-ref="L1.detail"></dd>
+      <dt>我的感想</dt><dd data-ref="L1.why"></dd>
+      <dt>想感謝</dt><dd data-ref="L1.who"></dd>
+      <dt>創作理念</dt><dd data-ref="L1.reason"></dd>
+      <dt>作品名稱</dt><dd data-ref="L1.title"></dd>
+    </dl>
+    <svg class="bot" viewBox="0 0 120 120"><use href="#bot"/></svg>
+  </div>
+  <div class="docbox" style="margin-top:16px">
+    <h3><svg class="ico"><use href="#i-copy"/></svg>把主題卡複製到你的文件</h3>
+    <p class="small muted" style="margin:0 0 6px">按下複製，打開你的文件，貼在「一、主題卡（第 1 節）」下面。</p>
+    <pre class="skel" id="themeTxt"></pre>
+    <button class="copy" type="button" data-copy="themeTxt" data-done="已複製！貼到文件的「一、主題卡」下面"><svg class="ico"><use href="#i-copy"/></svg>複製我的主題卡</button>
+    <div class="checks" style="margin-top:10px"><label><input type="checkbox" data-key="doc1b" value="已貼主題卡" data-req>我已經貼到文件裡了。</label></div>
+  </div>
+  <div class="checks" id="doneList" style="margin-top:12px"></div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-home"/></svg>回家任務</h3>
+      <p>問問你要感謝的人：「你還記得那一天嗎？」聽聽他記得什麼，<b>補一個細節</b>到主題卡。</p></div>
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-next"/></svg>下一節（10/13）</h3>
+      <p>用<b>手冊的提問六招</b>，請文思精靈、寫作精靈幫忙，寫出<b>你自己的感謝文字</b>。</p>
+      <a class="btn" data-go="C02" href="#">先看第 2 節<svg class="ico"><use href="#i-next"/></svg></a></div>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+</div></main>
+<!--@pre-->
+window.PAGE={code:'C01',lesson:'L1',hbTitle:"第 1 節要讀的手冊頁面",hb:[[12, "序章 p.VI", "四個口訣：先想想、再問問、檢查看、要標記"], [16, "壹 p.3", "AI 是什麼？e度 是 AI 代理人"], [23, "貳 p.10", "認識 e度、登入因材網"], [24, "貳 p.11", "打開 e度、開始輸入"], [25, "貳 p.12", "語音輸入、三個技巧"], [30, "貳 p.17", "怎麼保護自己？"], [68, "陸 p.55", "只給剛剛好的資料"], [71, "陸 p.58", "AI 使用承諾卡"]],onData:function(all){
+  var d=all.L1||{},list=document.getElementById('doneList'),g=(window.cardIdentity&&cardIdentity())||null;
+  var dn=document.getElementById('docName');if(dn)dn.textContent='賀卡作品紀錄＿'+(g?g.grade+'年'+g.className+'班'+g.studentId+'號':'（先填最上面的年級、班級、座號）');
+  var t=document.getElementById('themeTxt');
+  if(t)t.textContent='一、主題卡（第 1 節）\n這是哪一個回憶：'+(d.moment||'')+'\n那一刻發生了什麼事：'+(d.detail||'')+'\n我的感想：'+(d.why||'')+'\n我想感謝誰、想說什麼：'+(d.who||'')+'\n為什麼我想寫這個回憶（創作理念）：'+(d.reason||'')+'\n作品名稱（暫定）：'+(d.title||'');
+  if(!list)return;
+  var items=[['勾好我的聲明（6 項）',(d.promise||[]).length>=6],['開好作品紀錄文件',(d.doc1||[]).length>0],['主題卡：回憶、那一刻、想感謝誰',!!(d.who&&d.moment&&d.detail)],['作品名稱',!!d.title],['主題卡貼進文件',(d.doc1b||[]).length>0]];
+  list.innerHTML=items.map(function(x){return '<label style="cursor:default"><input type="checkbox" disabled '+(x[1]?'checked':'')+'>'+x[0]+(x[1]?'':'　<span class="muted small">（還沒完成）</span>')+'</label>';}).join('');
+}};
+<!--@post-->
+(function(){
+  var Q=[
+    {t:'我想畫我和阿嬤在廚房包水餃。',ok:true,w:'只有稱謂和發生的事，很安全。'},
+    {t:'我叫林小安，住在東區崇學路。',ok:false,w:'有全名和住址，不能說。'},
+    {t:'我們全家去年暑假去海邊看夕陽。',ok:true,w:'「海邊」是地方的種類，沒有透露你家在哪裡。'},
+    {t:'我讀勝利國小五年三班。',ok:false,w:'學校和班級是個人資料，不能說。'},
+    {t:'我家的狗叫小黑，牠很愛撿球。',ok:true,w:'寵物的名字可以說，它不會讓人找到你。'},
+    {t:'（上傳一張媽媽的照片）請照這張照片畫。',ok:false,w:'家人的照片是肖像，不能上傳。'}
+  ];
+  var host=document.getElementById('safeQuiz'),right=0,done=0;
+  Q.forEach(function(q){
+    var r=document.createElement('div');r.className='qrow';
+    r.innerHTML='<div>'+esc(q.t)+'</div><div class="bt"><button type="button" class="yes">可以</button><button type="button" class="no">不行</button></div><div class="why"></div>';
+    var answered=false;
+    function pick(v){
+      if(answered)return;
+      if(v!==q.ok){r.classList.add('shake');setTimeout(function(){r.classList.remove('shake');},300);r.classList.add('wrong');r.querySelector('.why').textContent='再想一想：'+q.w;return;}
+      answered=true;done++;right++;r.classList.remove('wrong');r.classList.add('right');r.querySelector('.why').textContent=(q.ok?'可以。':'不行。')+q.w;
+      document.getElementById('safeScore').textContent='已完成 '+done+'／'+Q.length+(done===Q.length?'　全部答對了！':'');
+    }
+    r.querySelector('.yes').onclick=function(){pick(true);};
+    r.querySelector('.no').onclick=function(){pick(false);};
+    host.appendChild(r);
+  });
+})();

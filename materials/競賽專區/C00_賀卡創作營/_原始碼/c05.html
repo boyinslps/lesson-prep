@@ -1,0 +1,102 @@
+<!--@title-->第 5 節 檢查與交件｜AI 繪家賀卡創作營
+<!--@accent-->#2f5aa8 #e8eefa #22427e
+<!--@label-->第 5 節／共 5 節　10/22（四）
+<!--@css-->
+.sec{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin:0 0 16px}
+.sec>h3{margin:0 0 10px;font-size:20px;font-weight:900;display:flex;gap:10px;align-items:center}
+.sec>h3 .no{width:30px;height:30px;border-radius:9px;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:16px;flex:none}
+.judge{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 10px}
+.judge>div{border-radius:12px;padding:8px 12px;font-size:15px}
+.judge .j{background:#f4f6fb}.judge .a{background:#fff8e8}
+.judge b{display:flex;gap:6px;align-items:center;font-size:14px}
+.judge ul{margin:2px 0 0;padding-left:20px}
+@media(max-width:680px){.judge{grid-template-columns:1fr}}
+.chaps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.chaps label{display:flex;gap:8px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:8px 10px;cursor:pointer;font-size:14.5px}
+.chaps label:has(input:checked){border-color:var(--ac);background:var(--ac-soft)}
+.chaps input{width:18px;height:18px;margin-top:3px;accent-color:var(--ac);flex:none}
+.chaps b{display:block;font-size:15.5px}
+@media(max-width:760px){.chaps{grid-template-columns:1fr}}
+table.log{width:100%;border-collapse:collapse;font-size:15px;background:#fff}
+table.log th,table.log td{border:1.5px solid var(--line);padding:8px 10px;vertical-align:top;text-align:left}
+table.log th{background:var(--ac-soft);color:var(--ac-ink)}
+.fname{font-size:20px;font-weight:900;background:#fff;border:2px dashed var(--ac);border-radius:14px;padding:12px 14px;word-break:break-all}
+.cele{text-align:center;padding:26px 18px}
+.cele svg.big{width:150px;height:150px;margin:0 auto}
+<!--@body-->
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="kicker"><svg class="ico"><use href="#i-file"/></svg>第 5 節・10/22（四）・40 分鐘</span>
+    <div class="h1row"><h1>檢查 4 份文件，<br>交出你的作品</h1><button class="hbbook" id="hbBook" type="button" aria-label="打開這一節的手冊頁面"></button></div>
+    <p class="goal">今天做完：<b>4 份文件</b>檢查完、全部備齊、交件。</p>
+    <div class="flow" id="flow"></div>
+  </div>
+  <svg class="art" viewBox="0 0 200 170" aria-hidden="true">
+    <rect x="120" y="28" width="66" height="86" rx="10" fill="#fff" stroke="#24305e" stroke-width="4"/>
+    <path d="M132 50h42M132 64h42M132 78h28" stroke="#c9cfdd" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="176" cy="108" r="16" fill="var(--ac)" stroke="#24305e" stroke-width="3"/>
+    <path d="M169 108l5 5 9-10" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#bot" x="2" y="40" width="120" height="120"/>
+  </svg>
+</div></section>
+
+<nav class="stepbar"><div class="wrap" id="stepbar"></div></nav>
+
+<main><div class="wrap">
+
+<!-- ========== 步驟 1 ========== -->
+<section class="step" data-title="交件檢查" data-min="35">
+  <div class="step-head"><div class="num">1</div><div>
+    <h2>交件檢查</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>35 分鐘</span><span class="chip">簡章 一、四</span></div>
+  </div></div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-file"/></svg>檔名這樣取</h3>
+    <p class="small muted">簡章規定：【參賽組別-參賽者姓名-作品名稱】。組別和作品名稱已經幫你帶入，〔你的姓名〕自己改。</p>
+    <div class="fname" id="fname">【組別-〔你的姓名〕-作品名稱】</div>
+    <button class="copy" type="button" data-copy="fname" data-done="已複製檔名" style="margin-top:8px"><svg class="ico"><use href="#i-copy"/></svg>複製檔名</button>
+  </div>
+
+  <div class="card" style="border:2px solid var(--ac)">
+    <h3><svg class="ico"><use href="#i-check"/></svg>4 份文件都備齊了嗎？</h3>
+    <div class="checks">
+      <label><input type="checkbox" data-key="files" value="卡片PDF" data-req="all">賀卡（PDF）</label>
+      <label><input type="checkbox" data-key="files" value="說明書">作品說明書（從文件整理好，照原本表格填好、存檔）</label>
+      <label><input type="checkbox" data-key="files" value="歷程紀錄">AI 協作歷程紀錄（從文件下載成 PDF，最多 2 頁）</label>
+      <label><input type="checkbox" data-key="files" value="同意書">作品授權同意書（家長已簽名）</label>
+      <label><input type="checkbox" data-key="files" value="檔名">每個檔案都照規定取名</label>
+      <label><input type="checkbox" data-key="files" value="標示">卡片上有「由 AI 協作生成」的標示，裝飾素材都有授權（Canva 元素或免費素材庫）</label>
+      <label><input type="checkbox" data-key="files" value="無個資">卡片、歷程紀錄、說明書裡，沒有出現姓名、學校、地址</label>
+    </div>
+    <p class="small muted" style="margin-top:10px">全部交給老師。老師會在 10/22 檢查後上傳，比賽 10/23（五）截止。</p>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 2 ========== -->
+<section class="step" data-title="完成！" data-min="5" hidden>
+  <div class="result cele">
+    <svg class="big" viewBox="0 0 120 120" aria-hidden="true"><use href="#bot"/></svg>
+    <h3 style="justify-content:center;font-size:26px">恭喜完成你的作品！</h3>
+    <p style="font-size:18px;margin:0">你學會了：<b>先想想</b>自己的故事、<b>再問問</b> e度、<b>檢查看</b>它的錯、<b>要標記</b>誰做了什麼。</p>
+    <p class="muted" style="margin:6px 0 0">這四件事，以後用任何 AI 都用得上。</p>
+  </div>
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-list"/></svg>五節課的完成狀況</h3>
+    <div class="checks" id="allDone"></div>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+</div></main>
+<!--@pre-->
+window.PAGE={code:'C05',lesson:'L5',hbTitle:"手冊六章（寫說明書「手冊對應章節」用）",hb:[[6, "目錄", "手冊的六章"], [14, "壹 p.1", "AI 是什麼？我也能懂！"], [22, "貳 p.9", "怎麼和 AI 溝通？"], [34, "參 p.21", "AI 小任務"], [47, "肆 p.34", "AI 說的一定對嗎？"], [52, "伍 p.39", "AI 幫助我學習"], [65, "陸 p.52", "AI 時代的好公民"], [71, "陸 p.58", "AI 使用承諾卡"]],onData:function(all){
+  var g=(window.cardIdentity&&cardIdentity())||{},t=(all.L1&&all.L1.title)||'〔作品名稱〕';
+  var grp=g.grade?(g.grade<=4?'中年級組':'高年級組'):'〔組別〕';
+  var f=document.getElementById('fname');if(f)f.textContent='【'+grp+'-〔你的姓名〕-'+t+'】';
+  var box=document.getElementById('allDone');if(!box)return;
+  var names=['第 1 節 認識 e度與主題','第 2 節 文字創作與提問','第 3 節 AI 繪圖','第 4 節 檢查、歷程紀錄與排版','第 5 節 說明書與交件'];
+  box.innerHTML=names.map(function(n,k){var ok=!!(all['L'+(k+1)]&&all['L'+(k+1)]._sub);return '<label style="cursor:default"><input type="checkbox" disabled '+(ok?'checked':'')+'>'+n+(ok?'　已繳交':'　<span class="muted small">（還沒繳交）</span>')+'</label>';}).join('');
+}};
+<!--@post-->

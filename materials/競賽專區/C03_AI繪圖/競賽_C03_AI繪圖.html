@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 3 節 AI 繪圖與 Canva 排版｜AI 繪家賀卡創作營</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1f2a44; --sub:#5b6478; --mute:#8a91a3; --line:#e0cf93; --cream:#fbefc2; --paper:#fffbea;
+  --navy:#24305e; --gold:#e2a63b; --gold-soft:#fdf1d8; --red:#d9534f; --red-soft:#fdecea; --green:#2f9e62; --green-soft:#e6f6ec;
+  --ac:#e2a63b; --ac-soft:#fdf1d8; --ac-ink:#8a5a0c;
+  --r:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Noto Sans TC',system-ui,sans-serif;background:var(--cream);color:var(--ink);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+button,input,textarea,select{font:inherit;color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px}
+.ico{width:1.15em;height:1.15em;flex:none;display:inline-block;vertical-align:-.2em}
+svg.ico{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ===== 頂端列 ===== */
+.topbar{background:var(--navy);color:#fff}
+.topbar .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;font-size:15px;padding:4px 12px 4px 8px;border-radius:999px;background:rgba(255,255,255,.12)}
+.back:hover{background:rgba(255,255,255,.22)}
+.who{display:flex;align-items:center;gap:8px;margin-left:auto;font-size:14px;flex-wrap:wrap}
+.who label{display:flex;align-items:center;gap:4px;color:#cfd6ea}
+.who input{width:46px;text-align:center;border:0;border-radius:8px;padding:3px 4px;font-weight:700;color:var(--navy);background:#fff}
+.who input:focus{outline:3px solid var(--gold)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;white-space:nowrap}
+.pill.ok{background:#2f9e62}.pill.warn{background:#d9822b}.pill.bad{background:#c0392b}
+
+/* ===== 首頁大標 ===== */
+.hero{background:linear-gradient(180deg,var(--paper),var(--cream));border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:1fr 210px;gap:20px;align-items:center;padding-top:26px;padding-bottom:22px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--ac-ink);background:var(--ac-soft);padding:3px 12px;border-radius:999px}
+.hero h1{font-size:34px;line-height:1.25;margin:10px 0 6px;font-weight:900;letter-spacing:.5px}
+.hero .goal{font-size:18px;color:var(--sub);margin:0}
+.hero .goal b{color:var(--ink)}
+.hero .art{width:200px;height:170px;justify-self:end}
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.flow button{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px 5px 6px;font-weight:700;font-size:15px;cursor:pointer}
+.flow button:hover{border-color:var(--ac)}
+.flow .n{width:26px;height:26px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:14px}
+.flow .m{color:var(--mute);font-weight:500;font-size:13px}
+@media(max-width:720px){.hero .wrap{grid-template-columns:1fr}.hero .art{display:none}.hero h1{font-size:27px}}
+
+/* ===== 步驟列 ===== */
+.stepbar{position:sticky;top:0;z-index:20;background:rgba(251,239,194,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.stepbar .wrap{display:flex;gap:6px;padding-top:8px;padding-bottom:8px;overflow-x:auto;scrollbar-width:none}
+.stepbar button{flex:1 0 auto;display:flex;align-items:center;gap:8px;border:0;background:transparent;border-radius:12px;padding:6px 12px;font-weight:700;font-size:15px;color:var(--mute);cursor:pointer;white-space:nowrap}
+.stepbar button .d{width:28px;height:28px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center;font-size:14px;flex:none}
+.stepbar button[aria-current=step]{background:var(--ac);color:#fff}
+.stepbar button[aria-current=step] .d{border-color:#fff}
+.stepbar button.done{color:var(--green)}
+.stepbar button.done .d{background:var(--green);border-color:var(--green);color:#fff}
+@media(max-width:640px){.stepbar button .t{display:none}.stepbar button[aria-current=step] .t{display:inline}}
+
+/* ===== 步驟內容 ===== */
+main{padding:24px 0 60px}
+.step-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+.step-head .num{width:52px;height:52px;border-radius:16px;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:26px;font-weight:900;flex:none}
+.step-head h2{font-size:27px;line-height:1.3;margin:2px 0 4px;font-weight:900}
+.step-head .meta{display:flex;flex-wrap:wrap;gap:8px;font-size:14px;color:var(--sub)}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:13.5px;font-weight:700;padding:2px 10px;border-radius:999px;background:#fff;border:1.5px solid var(--line);color:var(--sub)}
+.chip.book{border-color:#e9cf98;background:var(--gold-soft);color:#8a5a0c;cursor:pointer}
+.chip.book:hover{background:#fae3b3}
+.lead{font-size:18px;margin:0 0 16px}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:0 0 16px}
+.card h3{font-size:20px;margin:0 0 8px;display:flex;align-items:center;gap:8px;font-weight:900}
+.card h3 .ico{color:var(--ac)}
+.card p{margin:0 0 8px}.card p:last-child{margin-bottom:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:820px){.grid4{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr}}
+@media(max-width:680px){.grid2,.grid4{grid-template-columns:1fr}}
+.muted{color:var(--sub)}.small{font-size:14px}.tiny{font-size:12px;color:var(--mute);line-height:1.5}
+.hl{background:linear-gradient(transparent 58%,var(--gold-soft) 58%);font-weight:700}
+
+/* 手冊這樣說 */
+.hb{position:relative;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;background:#fffaf0;border:1px solid #efdcb4;border-left:6px solid var(--gold);border-radius:14px;padding:14px 16px;margin:0 0 16px}
+.hb .tag{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:900;color:#8a5a0c;margin-bottom:4px}
+.hb q,.hb .q{display:block;font-size:17.5px;font-weight:500;quotes:"「" "」"}
+.hb q::before{content:open-quote}.hb q::after{content:close-quote}
+.hb .src{font-size:13px;color:#a07a3a;margin-top:4px}
+.hb .thumb{width:92px;border-radius:8px;border:1px solid #e9cf98;box-shadow:0 3px 10px rgba(120,80,0,.12);cursor:zoom-in;background:#fff}
+@media(max-width:560px){.hb{grid-template-columns:1fr}.hb .thumb{width:120px}}
+
+/* 照著做 */
+.do{list-style:none;counter-reset:d;margin:0;padding:0}
+.do>li{counter-increment:d;position:relative;padding:0 0 14px 46px}
+.do>li:last-child{padding-bottom:0}
+.do>li::before{content:counter(d);position:absolute;left:0;top:0;width:32px;height:32px;border-radius:10px;background:var(--ac-soft);color:var(--ac-ink);font-weight:900;display:grid;place-items:center}
+.do>li b.t{display:block;font-size:18px}
+.shot{border-radius:12px;border:1px solid var(--line);box-shadow:0 6px 18px rgba(31,42,68,.10);margin-top:8px;cursor:zoom-in;background:#fff}
+kbd{font-family:inherit;font-size:.9em;font-weight:700;background:#f3f1ec;border:1px solid #d9d3c4;border-bottom-width:3px;border-radius:6px;padding:0 6px}
+
+/* 提醒 */
+.note{display:flex;gap:12px;align-items:flex-start;border-radius:14px;padding:12px 16px;margin:0 0 16px;background:var(--ac-soft)}
+.note .ico{width:26px;height:26px;color:var(--ac-ink);margin-top:2px}
+.note.safe{background:var(--red-soft)}.note.safe .ico{color:var(--red)}
+.note.good{background:var(--green-soft)}.note.good .ico{color:var(--green)}
+.note p{margin:0}
+.bot-note{display:flex;gap:12px;align-items:center;margin:0 0 16px}
+.bot-note svg.bot{width:58px;height:58px;flex:none}
+.bubble{position:relative;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:10px 14px;font-weight:500}
+.bubble::before{content:"";position:absolute;left:-8px;top:50%;width:14px;height:14px;background:#fff;border-left:1.5px solid var(--line);border-bottom:1.5px solid var(--line);transform:translateY(-50%) rotate(45deg)}
+
+/* 提問框架 */
+.frames{display:grid;gap:12px;margin:0 0 16px}
+.frame{background:#fff;border:1.5px solid #ecd9ad;border-radius:14px;padding:12px 14px}
+.frame .lab{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;font-weight:900;color:#8a5a0c;margin-bottom:6px}
+.frame .lab .k{background:var(--gold);color:#fff;border-radius:6px;padding:0 7px;font-size:13px}
+.demo{font-size:15px;color:var(--sub);background:#f6f4ef;border-radius:10px;padding:8px 12px;margin:0 0 8px;user-select:none}
+.demo .s{display:block;font-size:12px;color:var(--mute)}
+.demo q{quotes:"「" "」"}.demo q::before{content:open-quote}.demo q::after{content:close-quote}
+.arrow{font-size:13px;color:#a07a3a;font-weight:700;margin:0 0 4px}
+.fbox{display:flex;gap:10px;align-items:flex-start}
+.ftext{flex:1;font-size:17px;font-weight:500;background:#fffdf7;border:1.5px dashed #e2c27e;border-radius:10px;padding:8px 12px}
+.blank{background:#fde6b0;border-radius:6px;padding:0 4px;color:#7a4d00;font-weight:700}
+.copy{flex:none;display:inline-flex;align-items:center;gap:6px;border:0;border-radius:10px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;padding:8px 12px;cursor:pointer}
+.copy:hover{background:#1a2347}.copy.done{background:var(--green)}
+.frame .safe-line{font-size:13px;color:var(--red);font-weight:700;margin-top:6px;display:flex;gap:6px;align-items:center}
+.frame .ev{font-size:13px;color:#2f6f9e;font-weight:700;margin-top:4px;display:flex;gap:6px;align-items:center}
+details.more{background:#fff;border:1.5px solid var(--line);border-radius:14px;margin:0 0 16px}
+details.more>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;padding:12px 16px;font-weight:900;font-size:18px}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary .ico{color:var(--ac)}
+details.more>summary .chev{margin-left:auto;transition:.2s}
+details.more[open]>summary .chev{transform:rotate(180deg)}
+details.more>.in{padding:0 16px 16px}
+
+/* 我的紀錄（輸入）*/
+.field{margin:0 0 14px}
+.field>label,.field>.lbl{display:flex;align-items:baseline;gap:8px;font-weight:900;font-size:17px;margin-bottom:4px}
+.field .hint{font-weight:500;font-size:14px;color:var(--sub)}
+.field input[type=text],.field textarea{width:100%;border:2.5px solid #9a8650;border-radius:12px;padding:9px 12px;background:#fff;font-size:17px;line-height:1.7;box-shadow:inset 0 1px 3px rgba(80,60,0,.12)}
+.field input[type=text]:hover,.field textarea:hover{border-color:#7d6a36}
+.field textarea{resize:vertical;min-height:84px}
+.field input[type=text]:focus,.field textarea:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 4px var(--ac-soft),inset 0 1px 3px rgba(80,60,0,.1)}
+.count{font-size:13px;color:var(--mute);text-align:right}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--line);background:#fff;border-radius:12px;padding:6px 12px;font-weight:700;cursor:pointer}
+.opt input{width:18px;height:18px;accent-color:var(--ac)}
+.opt:has(input:checked){border-color:var(--ac);background:var(--ac-soft)}
+.checks{display:grid;gap:8px}
+.checks label{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer}
+.checks input{width:20px;height:20px;margin-top:4px;accent-color:var(--green);flex:none}
+.checks label:has(input:checked){border-color:#9fd6b6;background:var(--green-soft)}
+.ref{background:#f4f6fb;border:1.5px solid #d9dff0;border-radius:12px;padding:10px 14px;font-size:15.5px;margin:0 0 10px}
+.ref .rt{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:900;color:#4a5a8a;margin-bottom:2px}
+.ref .rv{white-space:pre-wrap}
+.ref .rv.empty{color:var(--mute)}
+
+/* 成果卡 */
+.result{background:linear-gradient(135deg,#fff,var(--ac-soft));border:2px solid var(--ac);border-radius:22px;padding:20px 22px;margin:0 0 16px;position:relative;overflow:hidden}
+.result h3{margin:0 0 10px;font-size:22px;font-weight:900;display:flex;gap:8px;align-items:center}
+.result dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
+.result dt{font-weight:900;color:var(--ac-ink);white-space:nowrap}
+.result dd{margin:0;white-space:pre-wrap}
+.result .bot{position:absolute;right:-6px;bottom:-8px;width:96px;height:96px;opacity:.95}
+@media(max-width:560px){.result dl{grid-template-columns:1fr}.result .bot{display:none}}
+
+/* 互動小題 */
+.quiz{display:grid;gap:10px}
+.qrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px}
+.qrow .bt{display:flex;gap:6px}
+.qrow button{border:2px solid var(--line);background:#fff;border-radius:10px;padding:4px 12px;font-weight:700;cursor:pointer}
+.qrow button.yes:hover{border-color:var(--green)}.qrow button.no:hover{border-color:var(--red)}
+.qrow.right{border-color:#9fd6b6;background:var(--green-soft)}
+.qrow.wrong{border-color:#f1b3ae;background:var(--red-soft)}
+.qrow .why{grid-column:1/-1;font-size:14.5px;color:var(--sub);display:none}
+.qrow.right .why,.qrow.wrong .why{display:block}
+.shake{animation:sk .3s}@keyframes sk{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* 影片、外連 */
+.vid{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#111}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vcap{font-size:13px;color:var(--mute);margin-top:4px}
+.link-card{display:flex;align-items:center;gap:12px;text-decoration:none;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 12px}
+.link-card:hover{border-color:var(--ac)}
+.link-card .li{width:44px;height:44px;border-radius:12px;background:var(--ac-soft);color:var(--ac-ink);display:grid;place-items:center;flex:none}
+.link-card .li .ico{width:24px;height:24px}
+.link-card b{display:block}
+.link-card span{font-size:14px;color:var(--sub)}
+.link-card .go{margin-left:auto;color:var(--mute)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;background:var(--ac);color:#fff;font-weight:900;font-size:16px;padding:10px 18px;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(.95)}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line)}
+.btn.navy{background:var(--navy)}
+
+/* 步驟導覽 */
+.stepnav{display:flex;justify-content:space-between;gap:12px;margin-top:22px;padding-top:16px;border-top:1px dashed var(--line)}
+.stepnav .btn{font-size:17px}
+
+/* 放大圖 */
+#lightbox{position:fixed;inset:0;z-index:50;background:rgba(15,20,35,.9);display:none;flex-direction:column}
+#lightbox.on{display:flex}
+.lbtop{display:flex;align-items:center;gap:12px;padding:10px 16px;color:#cfd6ea;font-size:14px;flex-wrap:wrap}
+.lbtop .x,#hbr .x{margin-left:auto;border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:10px;padding:6px 12px;font-weight:700;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.lbstage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 16px 16px}
+.lbstage img{max-height:100%;max-width:100%;border-radius:10px;background:#fff;object-fit:contain;touch-action:none;user-select:none}
+#hbr .stage{overflow:hidden}
+#hbr .stage img{touch-action:none;user-select:none}
+.zbar{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.1);border-radius:10px;padding:3px}
+.zbar button{border:0;background:transparent;color:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;font-weight:700;display:inline-flex;align-items:center}
+.zbar button:hover{background:rgba(255,255,255,.18)}
+.zbar .zl{min-width:48px;text-align:center;font-weight:700;color:#fff;font-size:13px}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);opacity:0;z-index:60;background:var(--navy);color:#fff;font-weight:700;padding:10px 18px;border-radius:999px;transition:.25s;pointer-events:none}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+footer{border-top:1px solid var(--line);padding:18px 0 30px;font-size:12.5px;color:var(--mute);line-height:1.6}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{.topbar,.stepbar,.stepnav,.copy{display:none!important}.step{display:block!important}}
+
+/* ===== 單元手冊：標題旁的小縮圖＋翻頁閱讀器（不用 FlipHTML5）===== */
+.h1row{display:flex;align-items:center;gap:22px}
+.h1row h1{flex:0 1 auto}
+.hbbook{flex:none;position:relative;width:96px;height:132px;border:0;background:none;cursor:pointer;padding:0;margin:4px 6px 18px 0}
+.hbbook img{position:absolute;left:8px;top:4px;width:78px;border-radius:6px;border:1px solid #e3cf9f;box-shadow:0 4px 12px rgba(80,55,0,.18);background:#fff;transition:.2s}
+.hbbook img:nth-child(1){transform:rotate(-9deg) translate(-6px,4px)}
+.hbbook img:nth-child(2){transform:rotate(6deg) translate(6px,2px)}
+.hbbook:hover img:nth-child(1){transform:rotate(-14deg) translate(-12px,4px)}
+.hbbook:hover img:nth-child(2){transform:rotate(11deg) translate(12px,2px)}
+.hbbook:hover img:nth-child(3){transform:translateY(-4px)}
+.hbbook .lb{position:absolute;left:-4px;right:-4px;bottom:-14px;display:flex;align-items:center;justify-content:center;gap:4px;font-size:12.5px;font-weight:900;color:#8a5a0c;background:var(--gold-soft);border:1.5px solid #e9cf98;border-radius:999px;padding:1px 6px;white-space:nowrap}
+.hbbook .lb .ico{width:14px;height:14px}
+@media(max-width:560px){.h1row{gap:12px}.hbbook{width:76px;height:106px}.hbbook img{width:62px}}
+#hbr{position:fixed;inset:0;z-index:55;background:rgba(15,20,35,.92);display:none;flex-direction:column;color:#fff}
+#hbr.on{display:flex}
+#hbr .top{display:flex;align-items:center;gap:12px;padding:10px 16px;flex-wrap:wrap}
+#hbr .top b{font-size:16px}
+#hbr .top .cap{color:#f6d79b;font-weight:700}
+#hbr .top .cnt{color:#aab3c8;font-size:14px}
+#hbr .x{margin-left:auto;border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:10px;padding:6px 12px;font-weight:700;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+#hbr .stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 10px}
+#hbr .stage img{max-height:100%;max-width:min(860px,100%);border-radius:8px;background:#fff;object-fit:contain;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+#hbr .nav{flex:none;width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;cursor:pointer;display:grid;place-items:center}
+#hbr .nav:hover{background:rgba(255,255,255,.3)}
+#hbr .nav:disabled{opacity:.25;cursor:default}
+#hbr .nav .ico{width:26px;height:26px}
+#hbr .strip{display:flex;gap:8px;overflow-x:auto;padding:10px 16px 14px;justify-content:safe center}
+#hbr .strip button{flex:none;border:2px solid transparent;border-radius:6px;padding:0;background:none;cursor:pointer;text-align:center;color:#cfd6ea;font-size:11.5px;font-weight:700}
+#hbr .strip img{width:54px;border-radius:4px;display:block;margin-bottom:2px}
+#hbr .strip button.on{border-color:var(--gold);color:#fff}
+@media(max-width:560px){#hbr .nav{position:absolute;bottom:96px;width:44px;height:44px}#hbr .nav.p{left:10px}#hbr .nav.n{right:10px}}
+
+.frame .why{display:flex;gap:6px;align-items:flex-start;font-size:14.5px;color:#2f5a4f;background:#eef8f4;border-radius:10px;padding:6px 10px;margin:0 0 8px}
+.frame .why .ico{color:#2f9e62;margin-top:3px}
+
+/* 讀取學習單按鈕、繳交區、主題卡、換句話說 */
+.loadbtn{display:inline-flex;align-items:center;gap:5px;border:0;border-radius:999px;background:var(--gold);color:#3b2a00;font-weight:900;font-size:13.5px;padding:3px 12px;cursor:pointer;white-space:nowrap}
+.loadbtn:hover{filter:brightness(1.07)}
+.loadbtn .ico{width:15px;height:15px}
+.submitbox{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:2.5px solid var(--ac);border-radius:18px;padding:14px 18px;margin:18px 0 0}
+.submitbox>div{flex:1;min-width:200px;display:flex;flex-direction:column}
+.submitbox b{font-size:19px}
+.submitbox .ss{font-size:14.5px;color:var(--sub)}
+.submitbox .ss.ok{color:var(--green);font-weight:700}
+.submitbox .ss.bad{color:var(--red);font-weight:700}
+.tc{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px}
+.tc dt{font-weight:900;color:var(--ac-ink);white-space:nowrap}
+.tc dd{margin:0;white-space:pre-wrap}
+.tc dd:empty::before{content:"（還沒寫）";color:var(--mute)}
+.rp{display:grid;gap:12px}
+.rp .it{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:10px 14px}
+.rp .it .o{font-size:17.5px;font-weight:700}
+.rp .it .t{font-size:13.5px;font-weight:900;color:var(--ac-ink);margin-bottom:2px}
+.rp .it .k{font-size:14.5px;color:var(--sub);margin:2px 0 0}
+.rp details{margin-top:6px}
+.rp details>summary{cursor:pointer;font-weight:700;color:#2f6f9e;font-size:14.5px}
+.rp details .vs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.rp details .vs div{background:#f6f4ef;border-radius:10px;padding:6px 10px;font-size:15px}
+@media(max-width:620px){.rp details .vs{grid-template-columns:1fr}}
+
+.docq{display:flex;gap:10px;align-items:flex-start;background:#eef4ff;border:1.5px solid #bcd0f5;border-radius:12px;padding:8px 12px;margin:0 0 10px;font-size:16px}
+.docq .ico{color:#2f5aa8;margin-top:4px}
+.docbox{background:#fff;border:2.5px solid #2f5aa8;border-radius:18px;padding:14px 18px;margin:0 0 16px}
+.docbox h3{margin:0 0 8px;font-size:19px;display:flex;gap:8px;align-items:center;color:#22427e}
+pre.skel{white-space:pre-wrap;font-family:inherit;font-size:16px;background:#f6f8fd;border:1.5px dashed #9db6e6;border-radius:12px;padding:10px 14px;margin:8px 0}
+.eg{background:#fff;border:1.5px solid var(--line);border-left:6px solid #2f5aa8;border-radius:12px;padding:10px 14px;margin:0 0 10px;font-size:16px}
+.eg .egt{font-size:13px;font-weight:900;color:#22427e;margin-bottom:2px}
+.eg .blu{color:#2f5aa8;font-weight:700}.eg .rd{color:#d9534f;font-weight:700}
+
+/* Canva 步驟：左文右圖 */
+.cs{display:grid;grid-template-columns:1fr 1.2fr;gap:18px;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;margin:0 0 14px}
+.cs:nth-of-type(even){grid-template-columns:1.2fr 1fr}
+.cs:nth-of-type(even) .ct{order:2}
+@media(max-width:760px){.cs,.cs:nth-of-type(even){grid-template-columns:1fr}.cs:nth-of-type(even) .ct{order:0}}
+.cs h3{margin:0 0 6px;font-size:20px;font-weight:900;display:flex;gap:10px;align-items:center}
+.cs h3 .no{width:32px;height:32px;border-radius:10px;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:17px;flex:none}
+.cs p{margin:0 0 6px}
+.cs ul{margin:4px 0 6px;padding-left:20px}
+svg.cv{width:100%;height:auto;border-radius:12px;display:block;font-family:inherit;cursor:zoom-in}
+.cs .vwrap{margin-top:10px}
+.vwrap{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#111}
+.vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lib{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.lib{grid-template-columns:1fr}}
+.lib a{display:block;text-decoration:none;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:10px 14px}
+.lib a:hover{border-color:var(--ac)}
+.lib b{display:flex;gap:6px;align-items:center;font-size:17px}
+.lib span{display:block;font-size:14px;color:var(--sub);margin-top:2px}
+.lib .tag{display:inline-block;font-size:12.5px;font-weight:900;border-radius:999px;padding:0 9px;margin:4px 4px 0 0}
+.lib .ok{background:var(--green-soft);color:var(--green)}.lib .wa{background:#fff1d6;color:#a86b00}
+
+:root{--ac:#6d5bd0;--ac-soft:#eeebfb;--ac-ink:#4a3aa6}
+.qk{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.qk button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:3px 12px;font-size:14.5px;font-weight:700;cursor:pointer;color:var(--ink)}
+.qk button:hover{border-color:var(--ac);background:var(--ac-soft)}
+.qk button.on{border-color:var(--ac);background:var(--ac);color:#fff}
+.qkrow{display:flex;align-items:flex-start;gap:8px}
+.qkrow .qkl{flex:none;font-size:13px;font-weight:900;color:var(--ac-ink);margin-top:10px;width:34px}
+.pick{display:grid;gap:10px;margin-top:8px}
+.pick.views{grid-template-columns:repeat(6,1fr)}
+.pick.styles{grid-template-columns:repeat(5,1fr)}
+@media(max-width:760px){.pick.views,.pick.styles{grid-template-columns:repeat(3,1fr)}}
+.pick button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:4px;cursor:pointer;text-align:center;font-weight:900;font-size:14.5px;color:var(--ink)}
+.pick button:hover{border-color:var(--ac)}
+.pick button.on{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-soft)}
+.pick svg,.pick img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:8px;margin-bottom:3px}
+.five{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.five div{background:#fff;border:1.5px solid var(--line);border-top:5px solid var(--ac);border-radius:14px;padding:10px 12px}
+.five b{display:block;font-size:17px;color:var(--ac-ink)}
+.five p{margin:2px 0 0;font-size:14px;color:var(--sub)}
+.five .ex{margin-top:6px;font-size:13.5px;background:#f6f4ef;border-radius:8px;padding:4px 8px;color:var(--ink)}
+@media(max-width:860px){.five{grid-template-columns:1fr 1fr}}
+.flowcards{display:grid;gap:12px;counter-reset:fc}
+.flowcards .frame{position:relative;padding-left:56px}
+.flowcards .frame::before{counter-increment:fc;content:counter(fc);position:absolute;left:14px;top:14px;width:30px;height:30px;border-radius:50%;background:var(--ac);color:#fff;font-weight:900;display:grid;place-items:center}
+.round{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 12px}
+.round h4{margin:0 0 8px;font-size:17px;display:flex;gap:8px;align-items:center;color:var(--ac-ink)}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <!-- 線條小圖示（24×24，跟著文字顏色） -->
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M8 7h8M8 10.5h6"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.5l8 3v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10v-6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M16.5 3.5l4 4L8 20H4v-4z"/><path d="M14 6l4 4"/></symbol>
+  <symbol id="i-brush" viewBox="0 0 24 24"><path d="M14.5 4.5l5 5-7.5 7.5-5-5z"/><path d="M7 12l-2.5 2.5c-1.5 1.5-.5 3-2 4.5 2.5 1 5 .5 6.5-1L11.5 16"/><path d="M17 2l5 5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L19.5 7"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 8.5V6a2.5 2.5 0 0 0-2.5-2.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18.5a4.5 4.5 0 0 1-.6-9A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 10z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-5 4.5V16h0a2.5 2.5 0 0 1-1-2z"/><path d="M8.5 8.5h7M8.5 12h4.5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="9.5" r="1.8"/><path d="M21 16l-5-5-9 9"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2.5 2.5 0 0 0-2.5 2.5v13A2.5 2.5 0 0 0 7 21h10a2.5 2.5 0 0 0 2.5-2.5V8.5z"/><path d="M14 3v5.5h5.5M8.5 13h7M8.5 16.5h5"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v11M7 10l5 5 5-5M4.5 20.5h15"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7 8.5l5-5 5 5M4.5 20.5h15"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5.5 3.5-5.5 3.5z"/></symbol>
+  <symbol id="i-game" viewBox="0 0 24 24"><path d="M7 7h10a5 5 0 0 1 4.8 6.4l-.9 3.2a2.5 2.5 0 0 1-4.3 1L14.5 15h-5l-2.1 2.6a2.5 2.5 0 0 1-4.3-1l-.9-3.2A5 5 0 0 1 7 7z"/><path d="M8 10v3M6.5 11.5h3"/><circle cx="16" cy="10.5" r=".6"/><circle cx="17.5" cy="12.5" r=".6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17.3v.2"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 17.5h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.4 1.1 2.2v1.5h5V16c0-.8.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7.5 4h9v5a4.5 4.5 0 0 1-9 0z"/><path d="M7.5 6H4.5a3 3 0 0 0 3 4M16.5 6h3a3 3 0 0 1-3 4M12 13.5V17M8.5 20.5h7M9.5 17h5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0 0 18c1.2 0 1.8-.9 1.8-1.8 0-1.4-1.3-1.6-1.3-2.9 0-.9.7-1.5 1.6-1.5H16a5 5 0 0 0 5-5C21 6.3 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="9.5" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v4.5A1.5 1.5 0 0 1 16.5 20h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M5 12.5v8h14v-8M12 8.5v12"/><path d="M12 8.5C10.5 5 7 4.5 7 6.5S10 8.5 12 8.5zM12 8.5c1.5-3.5 5-4 5-2s-3 2-5 2z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.3A6.5 6.5 0 0 1 21.5 20"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 11L12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5.5h4V20"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></symbol>
+  <symbol id="i-unlock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.8"/></symbol>
+
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+
+  <!-- 小機器人：配色跟著每一節的主色 --ac -->
+  <symbol id="bot" viewBox="0 0 120 120">
+    <line x1="60" y1="10" x2="60" y2="24" stroke="#24305e" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="60" cy="9" r="6" fill="var(--ac,#e2a63b)" stroke="#24305e" stroke-width="3"/>
+    <rect x="24" y="22" width="72" height="56" rx="20" fill="#fff" stroke="#24305e" stroke-width="4"/>
+    <rect x="34" y="32" width="52" height="34" rx="12" fill="#24305e"/>
+    <circle cx="49" cy="47" r="5" fill="#9ef0e1"/><circle cx="71" cy="47" r="5" fill="#9ef0e1"/>
+    <path d="M51 56q9 7 18 0" fill="none" stroke="#9ef0e1" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="30" cy="62" r="4" fill="var(--ac,#e2a63b)" opacity=".55"/><circle cx="90" cy="62" r="4" fill="var(--ac,#e2a63b)" opacity=".55"/>
+    <rect x="18" y="44" width="8" height="16" rx="4" fill="var(--ac,#e2a63b)" stroke="#24305e" stroke-width="3"/>
+    <rect x="94" y="44" width="8" height="16" rx="4" fill="var(--ac,#e2a63b)" stroke="#24305e" stroke-width="3"/>
+    <rect x="36" y="82" width="48" height="30" rx="12" fill="var(--ac,#e2a63b)" stroke="#24305e" stroke-width="4"/>
+    <path d="M60 103s-8-5-8-10a4.5 4.5 0 0 1 8-2.6 4.5 4.5 0 0 1 8 2.6c0 5-8 10-8 10z" fill="#fff"/>
+    <path d="M36 92q-12 2-14 -10" fill="none" stroke="#24305e" stroke-width="4" stroke-linecap="round"/>
+    <path d="M84 92q12 2 16 -12" fill="none" stroke="#24305e" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="22" cy="80" r="5" fill="#fff" stroke="#24305e" stroke-width="3"/><circle cx="100" cy="78" r="5" fill="#fff" stroke="#24305e" stroke-width="3"/>
+  </symbol>
+</svg>
+
+<header class="topbar"><div class="wrap">
+  <a class="back" data-go="C00" href="#"><svg class="ico"><use href="#i-back"/></svg>目錄</a>
+  <span style="font-weight:700;font-size:15px">第 3 節／共 5 節　10/15（四）</span>
+  <div class="who"><label>年級<input id="idG" inputmode="numeric" maxlength="1" aria-label="年級"></label><label>班級<input id="idC" inputmode="numeric" maxlength="2" aria-label="班級"></label><label>座號<input id="idS" inputmode="numeric" maxlength="2" aria-label="座號"></label><button id="loadBtn" class="loadbtn" type="button" title="把之前存在雲端的紀錄讀回來"><svg class="ico"><use href="#i-download"/></svg>讀取學習單</button><span id="saveStat" class="pill">…</span></div>
+</div></header>
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="kicker"><svg class="ico"><use href="#i-brush"/></svg>第 3 節・10/15（四）・40 分鐘</span>
+    <div class="h1row"><h1>和繪圖精靈一起畫，<br>再用 Canva 排成卡片</h1><button class="hbbook" id="hbBook" type="button" aria-label="打開這一節的手冊頁面"></button></div>
+    <p class="goal">今天做完：<b>AI 圖</b>（至少一次「發現問題 → 追問修正」）、<b>用 Canva 排好的卡片</b>，並把畫面規劃記進文件。</p>
+    <div class="flow" id="flow"></div>
+  </div>
+  <svg class="art" viewBox="0 0 200 170" aria-hidden="true">
+    <rect x="114" y="30" width="76" height="70" rx="10" fill="#fff" stroke="#24305e" stroke-width="4"/>
+    <path d="M118 92l20-22 14 14 10-9 24 17" fill="none" stroke="var(--ac)" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="170" cy="50" r="7" fill="#e2a63b"/>
+    <path d="M150 112v22M138 134h24" stroke="#24305e" stroke-width="4" stroke-linecap="round"/>
+    <use href="#bot" x="2" y="40" width="120" height="120"/>
+  </svg>
+</div></section>
+
+<div class="wrap" style="padding-top:14px"><div class="note safe" style="margin:0;border:2px solid #f1b3ae"><svg class="ico"><use href="#i-file"/></svg><p><b>今天回家，請家長簽「作品授權同意書」。</b>簡章規定要有這份同意書才能參賽。簽好後，<b>下一次上課（10/20）帶來交給老師</b>。還沒拿到同意書的，今天跟老師領。</p></div></div>
+<nav class="stepbar"><div class="wrap" id="stepbar"></div></nav>
+
+<main><div class="wrap">
+
+<!-- ========== 步驟 1 ========== -->
+<section class="step" data-title="畫圖五要素" data-min="5">
+  <div class="step-head"><div class="num">1</div><div>
+    <h2>畫圖五要素，先聊再畫</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>5 分鐘</span><span class="chip book" data-zoom="assets/hb_p27.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 參 p.26–28</span></div>
+  </div></div>
+
+  <div class="hb">
+    <div>
+      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+      <q>跟 AI 一起繪圖要清楚說明畫面中的主要元素、背景、視角、風格以及強調的重點。</q>
+      <div class="src">參 p.33「我學到了嗎」</div>
+    </div>
+    <img class="thumb" src="assets/hb_p27.jpg" alt="手冊參 p.27">
+  </div>
+
+  <div class="five">
+    <div><b>主要元素</b><p>畫面裡有誰、有什麼</p><div class="ex">飛天書桌、穿黃色制服的學生</div></div>
+    <div><b>背景</b><p>在哪裡、什麼時候</p><div class="ex">紅磚牆學校、中庭草皮</div></div>
+    <div><b>視角</b><p>從哪裡看過去</p><div class="ex">從側面平視</div></div>
+    <div><b>風格</b><p>畫風、顏色感覺</p><div class="ex">卡通可愛風、色調柔和清新</div></div>
+    <div><b>強調重點</b><p>最想讓人看到什麼</p><div class="ex">學生飛行的姿態、大大的笑容</div></div>
+  </div>
+  <p class="tiny" style="margin-top:6px">灰色小格是手冊「飛天書桌班服」的例子（參 p.27–28），只是讓你看懂五要素，不要照抄。</p>
+
+  <div class="grid2" style="margin-top:16px">
+    <figure style="margin:0" class="card">
+      <img class="shot" src="assets/hb_desk_art.jpg" alt="手冊中思思和繪圖精靈畫出的飛天書桌班服圖" style="max-height:330px;margin:0 auto">
+      <figcaption class="small muted" style="margin-top:8px;text-align:center">手冊 參 p.28：思思和繪圖精靈來回修改，畫出的班服圖（由 AI 協作生成）</figcaption>
+    </figure>
+    <div>
+      <div class="hb" style="grid-template-columns:1fr">
+        <div><div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+          <q>我們要先與 AI 進行對談，而不是直接生成圖片，這樣還可以激發更多創意，圖片也會更符合想像。</q>
+          <div class="src">參 p.27</div></div>
+      </div>
+      <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/c11VK6rap94?rel=0" title="通用型學習夥伴－繪圖精靈" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <p class="vcap">影片：因材網 e度 官方「通用型學習夥伴－繪圖精靈」（36 秒）。看它怎麼先討論人物、背景、顏色，最後才生圖。</p>
+    </div>
+  </div>
+
+  <a class="link-card" href="https://boyauc.github.io/gailearn/CH3-imaggesprompt/" target="_blank" rel="noopener">
+    <span class="li"><svg class="ico"><use href="#i-game"/></svg></span>
+    <span><b>想先暖身？AI 共創工作坊</b><span>手冊附錄的互動教材：挑 4 個關鍵字讓 AI 畫圖，再蓋上「本圖由 AI 生成」。玩的時候想：這 4 個關鍵字是五要素的哪幾個？</span></span>
+    <svg class="ico go"><use href="#i-ext"/></svg></a>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 2 ========== -->
+<section class="step" data-title="規劃畫面" data-min="4" hidden>
+  <div class="step-head"><div class="num">2</div><div>
+    <h2>先想想：規劃你的畫面</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>4 分鐘</span><span class="chip">手冊 參 p.26、肆 p.36</span></div>
+  </div></div>
+
+  <div class="ref"><div class="rt"><svg class="ico"><use href="#i-file"/></svg>你的主題卡</div>
+    <div class="rv"><b>回憶：</b><span data-ref="L1.moment"></span>　<b>想感謝：</b><span data-ref="L1.who"></span></div></div>
+
+  <div class="note"><svg class="ico"><use href="#i-users"/></svg><p><b>畫的是「你家」，不是「標準的家」。</b>手冊說 AI <q>學到的是刻板印象，不是真實的多元樣貌</q>（肆 p.36）。先想清楚：那一刻有<b>幾個人</b>？<b>誰在做什麼</b>？穿什麼、在哪裡？</p></div>
+
+  <div class="card" style="border:2px solid var(--ac)">
+    <h3><svg class="ico"><use href="#i-palette"/></svg>我的畫面規劃</h3>
+    <p class="small muted">每一格下面都有<b>可以直接點的選項</b>，點一下就會填進格子，再點一次會拿掉；也可以自己打字、自己改。</p>
+
+    <div class="field"><label for="f_main">主要元素<span class="hint">有誰（用稱謂）、幾個人、在做什麼</span></label><textarea id="f_main" data-key="main" data-req rows="2"></textarea>
+      <div class="qk" data-for="f_main"><button type="button">畫面裡有 2 個人</button><button type="button">畫面裡有 3 個人</button><button type="button">畫面裡有 4 個人</button><button type="button">畫面裡有 5 個人以上</button><button type="button">還有一隻寵物</button></div>
+      <p class="tiny" style="margin-top:4px">點完人數，再自己寫「誰」和「在做什麼」，這是只有你家才有的部分。</p></div>
+
+    <div class="field"><label for="f_bg">背景<span class="hint">在哪裡、什麼時候</span></label><textarea id="f_bg" data-key="bg" data-req rows="2"></textarea>
+      <div class="qkrow"><span class="qkl">地點</span><div class="qk" data-for="f_bg"><button type="button">客廳</button><button type="button">廚房</button><button type="button">餐桌旁</button><button type="button">房間</button><button type="button">陽台</button><button type="button">公園</button><button type="button">海邊</button><button type="button">夜市</button><button type="button">廟口</button><button type="button">車上</button></div></div>
+      <div class="qkrow"><span class="qkl">時間</span><div class="qk" data-for="f_bg"><button type="button">白天</button><button type="button">傍晚</button><button type="button">晚上</button></div></div>
+      <div class="qkrow"><span class="qkl">季節</span><div class="qk" data-for="f_bg"><button type="button">春天</button><button type="button">夏天</button><button type="button">秋天</button><button type="button">冬天</button><button type="button">過年</button></div></div></div>
+
+    <div class="field"><label for="f_view">視角<span class="hint">從哪裡看過去？點圖選一個</span></label><input type="text" id="f_view" data-key="view" maxlength="40">
+      <div class="pick views" data-for="f_view"><button type="button" data-val="正面平視"><svg viewBox="0 0 120 80" aria-hidden="true"><rect x="0" y="48" width="120" height="32" fill="#eee9dc"/><circle cx="48" cy="34" r="11" fill="#ffd7b0" stroke="#24305e" stroke-width="2"/><circle cx="44.5" cy="33" r="1.6" fill="#24305e"/><circle cx="51.5" cy="33" r="1.6" fill="#24305e"/><path d="M45 38q3 2.5 6 0" stroke="#24305e" stroke-width="1.6" fill="none"/><rect x="38" y="46" width="20" height="22" rx="7" fill="var(--ac)"/><circle cx="76" cy="38" r="9" fill="#ffd7b0" stroke="#24305e" stroke-width="2"/><circle cx="73.5" cy="37" r="1.4" fill="#24305e"/><circle cx="78.5" cy="37" r="1.4" fill="#24305e"/><rect x="68" y="48" width="16" height="20" rx="6" fill="#e2a63b"/></svg><span>正面平視</span></button><button type="button" data-val="從側面看"><svg viewBox="0 0 120 80" aria-hidden="true"><rect x="0" y="52" width="120" height="28" fill="#eee9dc"/><circle cx="44" cy="34" r="11" fill="#ffd7b0" stroke="#24305e" stroke-width="2"/><path d="M54.5 33l4 2-4 1.5" fill="#ffd7b0" stroke="#24305e" stroke-width="1.6"/><circle cx="49" cy="32" r="1.6" fill="#24305e"/><rect x="34" y="46" width="20" height="24" rx="7" fill="var(--ac)"/><circle cx="80" cy="36" r="10" fill="#ffd7b0" stroke="#24305e" stroke-width="2"/><path d="M70.5 35l-4 2 4 1.5" fill="#ffd7b0" stroke="#24305e" stroke-width="1.6"/><circle cx="75" cy="34" r="1.5" fill="#24305e"/><rect x="71" y="48" width="18" height="22" rx="6" fill="#e2a63b"/></svg><span>側面</span></button><button type="button" data-val="由上往下看（俯視）"><svg viewBox="0 0 120 80" aria-hidden="true"><rect width="120" height="80" fill="#eee9dc"/><circle cx="60" cy="40" r="18" fill="#c9a77c" stroke="#24305e" stroke-width="2"/><circle cx="60" cy="40" r="6" fill="#fff" stroke="#24305e" stroke-width="1.5"/><circle cx="60" cy="13" r="7" fill="#3b2f2f"/><circle cx="60" cy="67" r="7" fill="#3b2f2f"/><circle cx="33" cy="40" r="7" fill="#3b2f2f"/><circle cx="87" cy="40" r="7" fill="#3b2f2f"/></svg><span>由上往下看</span></button><button type="button" data-val="由下往上看（仰視）"><svg viewBox="0 0 120 80" aria-hidden="true"><rect width="120" height="80" fill="#dff0fb"/><path d="M40 80l10-46h20l10 46z" fill="var(--ac)"/><circle cx="60" cy="26" r="12" fill="#ffd7b0" stroke="#24305e" stroke-width="2"/><circle cx="56" cy="27" r="1.6" fill="#24305e"/><circle cx="64" cy="27" r="1.6" fill="#24305e"/><path d="M56 32q4 2 8 0" stroke="#24305e" stroke-width="1.6" fill="none"/><circle cx="98" cy="14" r="7" fill="#f6c34a"/></svg><span>由下往上看</span></button><button type="button" data-val="遠遠的全景"><svg viewBox="0 0 120 80" aria-hidden="true"><rect width="120" height="80" fill="#dff0fb"/><rect x="0" y="54" width="120" height="26" fill="#bfe3b4"/><path d="M14 54V36l14-11 14 11v18z" fill="#fff" stroke="#24305e" stroke-width="2"/><circle cx="96" cy="40" r="10" fill="#6fbf73"/><rect x="94" y="48" width="4" height="8" fill="#8b5e3c"/><circle cx="60" cy="56" r="3" fill="#ffd7b0" stroke="#24305e" stroke-width="1.2"/><rect x="57.5" y="59" width="5" height="7" rx="2" fill="var(--ac)"/><circle cx="70" cy="56" r="3" fill="#ffd7b0" stroke="#24305e" stroke-width="1.2"/><rect x="67.5" y="59" width="5" height="7" rx="2" fill="#e2a63b"/></svg><span>遠遠的全景</span></button><button type="button" data-val="近距離特寫"><svg viewBox="0 0 120 80" aria-hidden="true"><rect width="120" height="80" fill="#fff4e6"/><circle cx="60" cy="54" r="40" fill="#ffd7b0" stroke="#24305e" stroke-width="2.5"/><circle cx="46" cy="46" r="3.5" fill="#24305e"/><circle cx="74" cy="46" r="3.5" fill="#24305e"/><path d="M48 62q12 9 24 0" stroke="#24305e" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="38" cy="58" r="5" fill="#f4a6a0" opacity=".6"/><circle cx="82" cy="58" r="5" fill="#f4a6a0" opacity=".6"/></svg><span>近距離特寫</span></button></div></div>
+
+    <div class="field"><label for="f_style">風格和色調<span class="hint">點圖選一個風格</span></label><input type="text" id="f_style" data-key="style" data-req maxlength="80">
+      <div class="pick styles" data-for="f_style"><button type="button" data-val="水彩風格，顏色柔和、有暈開的感覺"><img src="assets/style/watercolor.jpg" alt="水彩風格示意圖" loading="lazy"><span>水彩</span></button><button type="button" data-val="蠟筆畫風格，筆觸粗粗的、顏色鮮豔"><img src="assets/style/crayon.jpg" alt="蠟筆風格示意圖" loading="lazy"><span>蠟筆</span></button><button type="button" data-val="色鉛筆風格，線條細細的、顏色淡淡的"><img src="assets/style/pencil.jpg" alt="色鉛筆風格示意圖" loading="lazy"><span>色鉛筆</span></button><button type="button" data-val="可愛的卡通風格，線條清楚、顏色明亮"><img src="assets/style/cartoon.jpg" alt="卡通風格示意圖" loading="lazy"><span>卡通</span></button><button type="button" data-val="紅色剪紙風格，有過年的感覺"><img src="assets/style/papercut.jpg" alt="剪紙風格示意圖" loading="lazy"><span>剪紙</span></button></div>
+      <p class="tiny">示意圖都是同一個畫面（窗邊的貓），只換風格，方便比較；由 AI 協作生成（Canva）。</p>
+      <div class="qkrow"><span class="qkl">色調</span><div class="qk" data-for="f_style"><button type="button">色調溫暖</button><button type="button">色調柔和</button><button type="button">色調明亮</button><button type="button">懷舊的感覺</button><button type="button">晚上暖暖的燈光</button></div></div></div>
+
+    <div class="field"><label for="f_focus">強調重點<span class="hint">最想讓人一眼看到什麼</span></label><input type="text" id="f_focus" data-key="focus" data-req maxlength="60">
+      <div class="qk" data-for="f_focus"><button type="button">大家的笑容</button><button type="button">牽著的手</button><button type="button">手上的東西</button><button type="button">兩個人的眼神</button><button type="button">正在做的動作</button></div></div>
+
+    <p class="small muted">卡片上的字，之後自己在 Canva 打，不用請 e度 畫在圖裡。</p>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 3 ========== -->
+<section class="step" data-title="和繪圖精靈畫" data-min="11" hidden>
+  <div class="step-head"><div class="num">3</div><div>
+    <h2>再問問：和繪圖精靈一起畫</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>11 分鐘</span><span class="chip">手冊 參 p.26–28</span></div>
+  </div></div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-list"/></svg>照著做：四張步驟卡，一張一張問</h3>
+    <p class="small muted">e度 換成「<b>繪圖精靈</b>」模式。每一步複製框架，把〔 〕換成你在上一步規劃的內容，送出後<b>等 e度 回答完</b>再做下一張。</p>
+    <div class="note safe"><svg class="ico"><use href="#i-alert"/></svg><p><b>不要整句照抄！</b>全班的 e度 對話紀錄都會被評審看到。如果每個人都打一模一樣的句子，評審會看不出是<b>你</b>在想。先看懂「為什麼這樣問」，〔 〕填你自己的內容，句子也可以照你說話的習慣改。</p></div>
+    <div class="flowcards">
+      <div class="frame"><div class="lab">開頭：先討論，不要馬上畫</div>
+      <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>先聊，AI 才知道你心裡的畫面；直接畫，常常畫成「別人家」的樣子。</span></div>
+        <div class="demo"><span class="s">手冊例子　參 p.26</span><q>請跟我一起畫一張可以印製在班服上的圖，主題是有飛天書桌的學校！</q></div>
+        <div class="fbox"><div class="ftext">請跟我一起畫一張<span class="blank">〔用途〕</span>的圖，主題是<span class="blank">〔主題〕</span>。先不要畫，我們先討論。</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div></div>
+      <div class="frame"><div class="lab">說主要元素和風格</div>
+      <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>主角和風格先講好，AI 才不會自己決定要畫什麼。</span></div>
+        <div class="demo"><span class="s">手冊例子　參 p.27</span><q>我希望是卡通可愛風格，飛天書桌具有像鳥一樣的白色翅膀，穿著黃色制服的學生駕馭著飛天書桌……</q></div>
+        <div class="fbox"><div class="ftext">我希望是<span class="blank">〔風格〕</span>，畫面主角是<span class="blank">〔主要元素〕</span>，他們正在<span class="blank">〔做什麼〕</span>。</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div>
+        <div class="safe-line"><svg class="ico"><use href="#i-shield"/></svg>只寫稱謂，不寫名字</div></div>
+      <div class="frame"><div class="lab">說背景、視角、重點</div>
+      <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>背景、視角、重點，決定這張圖像不像「那一刻」。</span></div>
+        <div class="demo"><span class="s">手冊例子　參 p.28</span><q>學校建築是紅磚牆……強調學生飛行的姿態，請從側面平視……</q></div>
+        <div class="fbox"><div class="ftext">背景是<span class="blank">〔背景〕</span>，色調<span class="blank">〔色調〕</span>，請從<span class="blank">〔視角〕</span>畫，特別強調<span class="blank">〔重點〕</span>。</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div></div>
+      <div class="frame"><div class="lab">確認後才生圖</div>
+      <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>讓它先說打算怎麼畫，你就能在生圖前抓出它理解錯的地方。</span></div>
+        <div class="demo"><span class="s">手冊例子　參 p.28</span><q>請幫我生圖。</q>　生好後點【開啟圖片】看大圖。</div>
+        <div class="fbox"><div class="ftext">你先用幾句話說說你打算怎麼畫，我確認後再請你生圖。</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div></div>
+    </div>
+  </div>
+
+  <div class="hb">
+    <div>
+      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+      <q>請 AI 跟我們一起畫圖時，通常不會一次就能成功畫出心中想要的圖畫，需要不斷的跟 AI 溝通，過程中持續修正提示詞，才能畫出接近自己想像中的圖像。</q>
+      <div class="src">參 p.28。來回修改，正是評審最看重的「追問與人工修正」。</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card" style="margin:0">
+      <h3><svg class="ico"><use href="#i-eye"/></svg>圖出來後，檢查 4 件事</h3>
+      <div class="checks">
+        <label><input type="checkbox" data-key="look" value="人數">人數對嗎？誰在做什麼，對嗎？</label>
+        <label><input type="checkbox" data-key="look" value="手臉">手指、臉、五官有沒有怪怪的？</label>
+        <label><input type="checkbox" data-key="look" value="多出來">有沒有多出奇怪的東西或字？</label>
+        <label><input type="checkbox" data-key="look" value="像我家">像不像<b>你家</b>的那一刻？</label>
+      </div>
+    </div>
+    <div class="frames" style="margin:0">
+      <div class="frame"><div class="lab"><span class="k">一次改一處</span>不要只說「重畫」</div>
+      <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>一次只改一處，才知道是哪一句讓圖變好；整張重畫常常越改越遠。</span></div>
+        <div class="fbox"><div class="ftext">只改<span class="blank">〔一個地方〕</span>，改成<span class="blank">〔怎樣〕</span>，其他都不要動。</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div></div>
+      <div class="frame"><div class="lab"><span class="k">E</span>請它自己對照</div>
+      <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>讓 AI 自己對照你的要求，再由你確認，比較快找出畫錯的地方。</span></div>
+        <div class="fbox"><div class="ftext">這張圖和我說的有哪裡不一樣？請一項一項列出來。</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3><svg class="ico"><use href="#i-download"/></svg>把圖存下來</h3>
+    <ol class="do">
+      <li>點【開啟圖片】，在大圖上按<b>滑鼠右鍵</b>，選「<b>另存圖片</b>」。</li>
+      <li>檔名寫「<b>賀卡圖_第1版</b>」、「賀卡圖_第2版」……每一版都留著，第 5 節寫歷程紀錄時，可以放「修改前、修改後」的圖。</li>
+    </ol>
+    <p class="small muted">如果按鈕和這裡寫的不一樣，舉手問老師。</p>
+  </div>
+
+  <div class="note good"><svg class="ico"><use href="#i-chat"/></svg><p>你和 e度 的每一句對話都會留在紀錄裡，第 5 節老師會匯出 Excel 給你。所以這裡<b>不用抄</b>，專心追問、修正就好；每一版的圖記得存下來。</p></div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 4：Canva 排版 ========== -->
+<section class="step" data-title="Canva 排版" data-min="16" hidden>
+  <div class="step-head"><div class="num">4</div><div>
+    <h2>用 Canva 把卡片排出來</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>16 分鐘</span><span class="chip">圖都是示意圖，你的畫面可能長得有一點不同</span></div>
+  </div></div>
+
+  <div class="note"><svg class="ico"><use href="#i-brush"/></svg><p><b>這一節就要開始排版</b>，這樣後面才來得及。一張卡片只需要三樣東西：<b>你和 e度 畫的圖</b>、<b>你自己打的感謝文字</b>、<b>一點裝飾</b>。照下面 7 步做，一步一步來，圖裡紅色的圈和數字就是要按的地方。</p></div>
+
+  <div class="cs"><div class="ct">
+    <h3><span class="no">1</span>建立一張空白卡片</h3>
+    <p>打開 <a href="https://www.canva.com/" target="_blank" rel="noopener"><b>canva.com</b></a>，用<b>老師說的帳號</b>登入。</p>
+    <ul><li>按右上角「<b>建立設計</b>」</li><li>選「<b>明信片</b>」（橫式、空白的）</li></ul>
+    <p class="small muted">找不到？在最上面的搜尋框打「明信片」。</p>
+  </div><svg class="cv" viewBox="0 0 640 340" role="img" aria-label="示意圖：先按建立設計，再選明信片" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#d9534f"/></marker><linearGradient id="pic" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6d6a8"/></linearGradient></defs><rect x="1" y="1" width="638" height="338" rx="12" fill="#f1f3f7" stroke="#cfd4dc" stroke-width="1.5" /><rect x="1" y="1" width="638" height="38" rx="12" fill="#fff" stroke="none" stroke-width="1.5" /><rect x="1" y="20" width="638" height="19" rx="0" fill="#fff" stroke="none" stroke-width="1.5" /><text x="16" y="26" font-size="13" fill="#4b5bd6" text-anchor="start" font-weight="700">Canva（示意圖）</text><rect x="180" y="8" width="250" height="24" rx="12" fill="#eef0f5" stroke="#cfd4dc" stroke-width="1.5" /><text x="196" y="25" font-size="12" fill="#8a91a3" text-anchor="start" font-weight="500">搜尋範本、設計…</text><rect x="500" y="6" width="120" height="28" rx="8" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><text x="560" y="25" font-size="14" fill="#fff" text-anchor="middle" font-weight="700">建立設計</text><rect x="430" y="44" width="190" height="170" rx="10" fill="#fff" stroke="#cfd4dc" stroke-width="1.5" /><rect x="440" y="56" width="170" height="32" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="456" y="77" font-size="14" fill="#1f2a44" text-anchor="start" font-weight="700">簡報</text><rect x="440" y="94" width="170" height="32" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="456" y="115" font-size="14" fill="#1f2a44" text-anchor="start" font-weight="700">文件</text><rect x="440" y="132" width="170" height="32" rx="8" fill="#fff3d6" stroke="#e2a63b" stroke-width="2" /><text x="456" y="153" font-size="14" fill="#1f2a44" text-anchor="start" font-weight="700">明信片</text><rect x="440" y="170" width="170" height="32" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="456" y="191" font-size="14" fill="#1f2a44" text-anchor="start" font-weight="700">自訂尺寸</text><text x="40" y="120" font-size="22" fill="#1f2a44" text-anchor="start" font-weight="900">首頁</text><text x="40" y="150" font-size="14" fill="#44506a" text-anchor="start" font-weight="500">先按右上角「建立設計」，</text><text x="40" y="172" font-size="14" fill="#44506a" text-anchor="start" font-weight="500">再選「明信片」（橫式、空白的）。</text><rect x="496" y="3" width="128" height="34" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="626" cy="8" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="626" y="12.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">1</text><rect x="437" y="134" width="176" height="40" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="432" cy="134" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="432" y="138.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">2</text></svg></div>
+
+  <div class="cs"><div class="ct">
+    <h3><span class="no">2</span>先認識畫面的 4 個地方</h3>
+    <ul><li><b>① 左邊工具列</b>：放東西都從這裡開始（元素、文字、上傳）</li><li><b>② 上方工具列</b>：點到哪個東西，這裡就出現它的設定（字型、大小、顏色）</li><li><b>③ 中間畫布</b>：你的卡片就在這裡</li><li><b>④ 右上角分享</b>：做好以後從這裡下載</li></ul>
+    <p class="small muted">左上的「未命名設計」可以改名，例如「賀卡_作品名稱」。Canva 會<b>自動存檔</b>。</p>
+  </div><svg class="cv" viewBox="0 0 640 340" role="img" aria-label="示意圖：Canva 畫面有四個地方，左邊工具列、上方工具列、中間畫布、右上角分享" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#d9534f"/></marker><linearGradient id="pic" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6d6a8"/></linearGradient></defs><rect x="1" y="1" width="638" height="338" rx="12" fill="#f1f3f7" stroke="#cfd4dc" stroke-width="1.5" /><rect x="1" y="1" width="638" height="34" rx="12" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><rect x="1" y="20" width="638" height="15" rx="0" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><text x="16" y="24" font-size="13" fill="#fff" text-anchor="start" font-weight="700">Canva（示意圖）</text><text x="150" y="24" font-size="12" fill="#e6e9ff" text-anchor="start" font-weight="500">賀卡_作品名稱</text><rect x="1" y="35" width="84" height="304" rx="0" fill="#fff" stroke="none" stroke-width="1.5" /><rect x="14" y="46" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="71" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">範本</text><rect x="14" y="94" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="119" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">元素</text><rect x="14" y="142" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="167" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">文字</text><rect x="14" y="190" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="215" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">品牌</text><rect x="14" y="238" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="263" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">上傳</text><rect x="14" y="286" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="311" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">工具</text><rect x="86" y="36" width="553" height="34" rx="0" fill="#fff" stroke="none" stroke-width="1.5" /><rect x="100" y="42" width="70" height="22" rx="6" fill="#eef0f5" stroke="none" stroke-width="1.5" /><text x="135" y="58" font-size="12" fill="#44506a" text-anchor="middle" font-weight="700">字型 ▾</text><rect x="180" y="42" width="40" height="22" rx="6" fill="#eef0f5" stroke="none" stroke-width="1.5" /><text x="200" y="58" font-size="12" fill="#44506a" text-anchor="middle" font-weight="700">24</text><rect x="230" y="42" width="28" height="22" rx="6" fill="#eef0f5" stroke="none" stroke-width="1.5" /><text x="244" y="58" font-size="13" fill="#d9534f" text-anchor="middle" font-weight="700">A</text><rect x="86" y="70" width="553" height="269" rx="0" fill="#e4e7ee" stroke="none" stroke-width="1.5" /><rect x="180" y="92" width="380" height="214" rx="4" fill="#fff" stroke="#cfd4dc" stroke-width="1.5" /><rect x="192" y="104" width="174.8" height="190" rx="6" fill="url(#pic)" stroke="none" stroke-width="1.5" /><rect x="377.6" y="120" width="152.0" height="9" rx="4" fill="#c9cfdd"/><rect x="377.6" y="144" width="112.0" height="9" rx="4" fill="#c9cfdd"/><rect x="377.6" y="168" width="152.0" height="9" rx="4" fill="#c9cfdd"/><rect x="377.6" y="192" width="112.0" height="9" rx="4" fill="#c9cfdd"/><rect x="377.6" y="216" width="152.0" height="9" rx="4" fill="#c9cfdd"/><rect x="540" y="5" width="86" height="26" rx="8" fill="#fff" stroke="none" stroke-width="1.5" /><text x="583" y="23" font-size="14" fill="#4b5bd6" text-anchor="middle" font-weight="700">分享</text><circle cx="100" cy="52" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="100" y="56.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">1</text><circle cx="330" cy="46" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="330" y="50.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">2</text><circle cx="570" cy="96" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="570" y="100.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">3</text><circle cx="628" cy="12" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="632" y="16.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">4</text></svg></div>
+
+  <div class="cs"><div class="ct">
+    <h3><span class="no">3</span>放進 e度 畫的圖</h3>
+    <p>先把 e度 的圖<b>另存到電腦</b>（第 3 節上面教過）。</p>
+    <ul><li>左邊按「<b>上傳</b>」→「<b>上傳檔案</b>」，選你的圖</li><li>點一下縮圖，圖就放進卡片</li><li>拉<b>四個角落</b>的小方塊調整大小（拉角落才不會變形）</li><li>按住圖，可以移動位置</li></ul>
+    <p class="small muted">也可以直接把圖檔<b>拖</b>到網頁上。</p>
+    <div class="vwrap"><iframe src="https://www.youtube-nocookie.com/embed/Afmr2tRVrYU?rel=0" title="Canva 如何導入圖片" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <p class="vcap">影片：怎麼把圖片放進 Canva（1 分 16 秒，軟體應用實戰）</p>
+  </div><svg class="cv" viewBox="0 0 640 340" role="img" aria-label="示意圖：左邊按上傳檔案，點縮圖把圖放進畫布，再拉角落調整大小" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#d9534f"/></marker><linearGradient id="pic" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6d6a8"/></linearGradient></defs><rect x="1" y="1" width="638" height="338" rx="12" fill="#f1f3f7" stroke="#cfd4dc" stroke-width="1.5" /><rect x="1" y="1" width="638" height="34" rx="12" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><rect x="1" y="20" width="638" height="15" rx="0" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><text x="16" y="24" font-size="13" fill="#fff" text-anchor="start" font-weight="700">Canva（示意圖）</text><text x="150" y="24" font-size="12" fill="#e6e9ff" text-anchor="start" font-weight="500">未命名設計</text><rect x="1" y="35" width="84" height="304" rx="0" fill="#fff" stroke="none" stroke-width="1.5" /><rect x="14" y="46" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="71" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">範本</text><rect x="14" y="94" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="119" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">元素</text><rect x="14" y="142" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="167" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">文字</text><rect x="14" y="190" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="215" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">品牌</text><rect x="14" y="238" width="56" height="40" rx="8" fill="#e8ebff" stroke="#4b5bd6" stroke-width="2" /><text x="42" y="263" font-size="13" fill="#4b5bd6" text-anchor="middle" font-weight="700">上傳</text><rect x="14" y="286" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="311" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">工具</text><rect x="90" y="36" width="190" height="303" rx="0" fill="#fff" stroke="#dfe3ea" stroke-width="1.5" /><text x="104" y="62" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="700">上傳</text><rect x="104" y="74" width="162" height="34" rx="8" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><text x="185" y="96" font-size="14" fill="#fff" text-anchor="middle" font-weight="700">上傳檔案</text><rect x="104" y="124" width="76" height="56" rx="6" fill="url(#pic)" stroke="#e2a63b" stroke-width="3" /><rect x="190" y="124" width="76" height="56" rx="6" fill="#e6e9f0" stroke="none" stroke-width="1.5" /><rect x="104" y="190" width="76" height="56" rx="6" fill="#e6e9f0" stroke="none" stroke-width="1.5" /><rect x="280" y="36" width="359" height="303" rx="0" fill="#e4e7ee" stroke="none" stroke-width="1.5" /><rect x="310" y="92" width="310" height="214" rx="4" fill="#fff" stroke="#cfd4dc" stroke-width="1.5" /><rect x="322" y="104" width="150" height="190" rx="4" fill="url(#pic)" stroke="#4b5bd6" stroke-width="2" /><rect x="317" y="99" width="10" height="10" fill="#fff" stroke="#4b5bd6" stroke-width="2"/><rect x="467" y="99" width="10" height="10" fill="#fff" stroke="#4b5bd6" stroke-width="2"/><rect x="317" y="289" width="10" height="10" fill="#fff" stroke="#4b5bd6" stroke-width="2"/><rect x="467" y="289" width="10" height="10" fill="#fff" stroke="#4b5bd6" stroke-width="2"/><path d="M172 160L308 190" stroke="#d9534f" stroke-width="3" stroke-linecap="round" marker-end="url(#ah)"/><rect x="100" y="70" width="170" height="42" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="104" cy="70" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="104" y="74.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">1</text><rect x="100" y="120" width="84" height="64" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="100" cy="120" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="100" y="124.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">2</text><circle cx="478" cy="98" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="478" y="102.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">3</text></svg></div>
+
+  <div class="cs"><div class="ct">
+    <h3><span class="no">4</span>打上你自己的感謝文字</h3>
+    <p>文字要<b>自己打</b>，不要請 AI 畫在圖裡（AI 畫的中文常常會變亂碼）。</p>
+    <ul><li>左邊按「<b>文字</b>」→「<b>新增文字方塊</b>」</li><li>到你的<b>文件</b>「二、感謝文字」，複製<b>第 2 版</b>，貼進方塊（<kbd>Ctrl</kbd> + <kbd>V</kbd>）</li><li>點一下文字，用<b>上方工具列</b>改<b>字型</b>、<b>大小</b>、<b>顏色</b></li></ul>
+    <p class="small muted">字要大到離一步遠也看得清楚；顏色要和背景<b>差很多</b>（淺底用深字）。</p>
+    <div class="vwrap"><iframe src="https://www.youtube-nocookie.com/embed/mjn02Zn3TGA?rel=0" title="Canva 免費內建中文字型" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <p class="vcap">影片：Canva 內建的免費中文字型（56 秒）</p>
+  </div><svg class="cv" viewBox="0 0 640 340" role="img" aria-label="示意圖：按新增文字方塊，貼上文字，用上方工具列改字型、大小、顏色" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#d9534f"/></marker><linearGradient id="pic" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6d6a8"/></linearGradient></defs><rect x="1" y="1" width="638" height="338" rx="12" fill="#f1f3f7" stroke="#cfd4dc" stroke-width="1.5" /><rect x="1" y="1" width="638" height="34" rx="12" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><rect x="1" y="20" width="638" height="15" rx="0" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><text x="16" y="24" font-size="13" fill="#fff" text-anchor="start" font-weight="700">Canva（示意圖）</text><text x="150" y="24" font-size="12" fill="#e6e9ff" text-anchor="start" font-weight="500">未命名設計</text><rect x="1" y="35" width="84" height="304" rx="0" fill="#fff" stroke="none" stroke-width="1.5" /><rect x="14" y="46" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="71" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">範本</text><rect x="14" y="94" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="119" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">元素</text><rect x="14" y="142" width="56" height="40" rx="8" fill="#e8ebff" stroke="#4b5bd6" stroke-width="2" /><text x="42" y="167" font-size="13" fill="#4b5bd6" text-anchor="middle" font-weight="700">文字</text><rect x="14" y="190" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="215" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">品牌</text><rect x="14" y="238" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="263" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">上傳</text><rect x="14" y="286" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="311" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">工具</text><rect x="90" y="36" width="190" height="303" rx="0" fill="#fff" stroke="#dfe3ea" stroke-width="1.5" /><text x="104" y="62" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="700">文字</text><rect x="104" y="74" width="162" height="34" rx="8" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><text x="185" y="96" font-size="14" fill="#fff" text-anchor="middle" font-weight="700">新增文字方塊</text><rect x="104" y="124" width="162" height="30" rx="6" fill="#f1f3f7" stroke="none" stroke-width="1.5" /><text x="116" y="144" font-size="13" fill="#44506a" text-anchor="start" font-weight="700">標題字</text><rect x="104" y="162" width="162" height="30" rx="6" fill="#f1f3f7" stroke="none" stroke-width="1.5" /><text x="116" y="182" font-size="13" fill="#44506a" text-anchor="start" font-weight="700">內文字</text><rect x="280" y="36" width="359" height="34" rx="0" fill="#fff" stroke="none" stroke-width="1.5" /><rect x="292" y="42" width="74" height="22" rx="6" fill="#eef0f5" stroke="none" stroke-width="1.5" /><text x="329" y="58" font-size="12" fill="#44506a" text-anchor="middle" font-weight="700">字型 ▾</text><rect x="376" y="42" width="56" height="22" rx="6" fill="#eef0f5" stroke="none" stroke-width="1.5" /><text x="404" y="58" font-size="12" fill="#44506a" text-anchor="middle" font-weight="700">－ 24 ＋</text><rect x="442" y="42" width="28" height="22" rx="6" fill="#eef0f5" stroke="none" stroke-width="1.5" /><text x="456" y="58" font-size="13" fill="#d9534f" text-anchor="middle" font-weight="700">A</text><rect x="280" y="70" width="359" height="269" rx="0" fill="#e4e7ee" stroke="none" stroke-width="1.5" /><rect x="310" y="98" width="310" height="200" rx="4" fill="#fff" stroke="#cfd4dc" stroke-width="1.5" /><rect x="322" y="110" width="142.6" height="176" rx="6" fill="url(#pic)" stroke="none" stroke-width="1.5" /><rect x="468" y="118" width="140" height="80" rx="2" fill="#fff" stroke="#4b5bd6" stroke-width="2" /><text x="478" y="142" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="700">謝謝你……</text><text x="478" y="166" font-size="13" fill="#44506a" text-anchor="start" font-weight="500">（貼上你自己</text><text x="478" y="184" font-size="13" fill="#44506a" text-anchor="start" font-weight="500">寫的感謝文字）</text><rect x="100" y="70" width="170" height="42" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="104" cy="70" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="104" y="74.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">1</text><rect x="288" y="38" width="190" height="30" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="484" cy="36" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="484" y="40.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">2</text><rect x="464" y="114" width="148" height="88" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="616" cy="112" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="616" y="116.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">3</text></svg></div>
+
+  <div class="cs"><div class="ct">
+    <h3><span class="no">5</span>放一點裝飾素材</h3>
+    <ul><li>左邊按「<b>元素</b>」，上面的搜尋框打關鍵字，例如「<b>愛心</b>」「<b>燈籠</b>」「<b>花</b>」</li><li>點一下喜歡的，就放進卡片</li><li>有<b>皇冠</b>小圖示的要付費，<b>先挑沒有皇冠的</b></li></ul>
+    <p class="small muted">素材<b>少一點</b>更好看，不要把畫面塞滿。想要更多？看下面的「免費素材庫」。</p>
+  </div><svg class="cv" viewBox="0 0 640 340" role="img" aria-label="示意圖：左邊按元素，搜尋關鍵字，點選沒有皇冠的素材" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#d9534f"/></marker><linearGradient id="pic" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6d6a8"/></linearGradient></defs><rect x="1" y="1" width="638" height="338" rx="12" fill="#f1f3f7" stroke="#cfd4dc" stroke-width="1.5" /><rect x="1" y="1" width="638" height="34" rx="12" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><rect x="1" y="20" width="638" height="15" rx="0" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><text x="16" y="24" font-size="13" fill="#fff" text-anchor="start" font-weight="700">Canva（示意圖）</text><text x="150" y="24" font-size="12" fill="#e6e9ff" text-anchor="start" font-weight="500">未命名設計</text><rect x="1" y="35" width="84" height="304" rx="0" fill="#fff" stroke="none" stroke-width="1.5" /><rect x="14" y="46" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="71" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">範本</text><rect x="14" y="94" width="56" height="40" rx="8" fill="#e8ebff" stroke="#4b5bd6" stroke-width="2" /><text x="42" y="119" font-size="13" fill="#4b5bd6" text-anchor="middle" font-weight="700">元素</text><rect x="14" y="142" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="167" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">文字</text><rect x="14" y="190" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="215" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">品牌</text><rect x="14" y="238" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="263" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">上傳</text><rect x="14" y="286" width="56" height="40" rx="8" fill="#f5f6f9" stroke="none" stroke-width="2" /><text x="42" y="311" font-size="13" fill="#44506a" text-anchor="middle" font-weight="700">工具</text><rect x="90" y="36" width="280" height="303" rx="0" fill="#fff" stroke="#dfe3ea" stroke-width="1.5" /><rect x="102" y="48" width="256" height="28" rx="14" fill="#eef0f5" stroke="#cfd4dc" stroke-width="1.5" /><text x="120" y="67" font-size="13" fill="#44506a" text-anchor="start" font-weight="500">愛心</text><rect x="102" y="90" width="66" height="66" rx="8" fill="#f6f7fb" stroke="#e4e7ee" stroke-width="1.5" /><path d="M135 138s-18-11-18-24a9 9 0 0 1 18-5 9 9 0 0 1 18 5c0 13-18 24-18 24z" fill="#e0664f"/><rect x="176" y="90" width="66" height="66" rx="8" fill="#f6f7fb" stroke="#e4e7ee" stroke-width="1.5" /><path d="M209 138s-18-11-18-24a9 9 0 0 1 18-5 9 9 0 0 1 18 5c0 13-18 24-18 24z" fill="#f08a9e"/><rect x="250" y="90" width="66" height="66" rx="8" fill="#f6f7fb" stroke="#e4e7ee" stroke-width="1.5" /><path d="M283 138s-18-11-18-24a9 9 0 0 1 18-5 9 9 0 0 1 18 5c0 13-18 24-18 24z" fill="#d9534f"/><rect x="102" y="164" width="66" height="66" rx="8" fill="#f6f7fb" stroke="#e4e7ee" stroke-width="1.5" /><path d="M135 212s-18-11-18-24a9 9 0 0 1 18-5 9 9 0 0 1 18 5c0 13-18 24-18 24z" fill="#e2a63b"/><rect x="176" y="164" width="66" height="66" rx="8" fill="#f6f7fb" stroke="#e4e7ee" stroke-width="1.5" /><path d="M209 212s-18-11-18-24a9 9 0 0 1 18-5 9 9 0 0 1 18 5c0 13-18 24-18 24z" fill="#7b6ee0"/><rect x="250" y="164" width="66" height="66" rx="8" fill="#f6f7fb" stroke="#e4e7ee" stroke-width="1.5" /><path d="M283 212s-18-11-18-24a9 9 0 0 1 18-5 9 9 0 0 1 18 5c0 13-18 24-18 24z" fill="#2f9e62"/><rect x="102" y="238" width="66" height="66" rx="8" fill="#f6f7fb" stroke="#e4e7ee" stroke-width="1.5" /><path d="M135 286s-18-11-18-24a9 9 0 0 1 18-5 9 9 0 0 1 18 5c0 13-18 24-18 24z" fill="#e0664f"/><rect x="176" y="238" width="66" height="66" rx="8" fill="#f6f7fb" stroke="#e4e7ee" stroke-width="1.5" /><path d="M209 286s-18-11-18-24a9 9 0 0 1 18-5 9 9 0 0 1 18 5c0 13-18 24-18 24z" fill="#f4a6a0"/><rect x="250" y="238" width="66" height="66" rx="8" fill="#f6f7fb" stroke="#e4e7ee" stroke-width="1.5" /><path d="M283 286s-18-11-18-24a9 9 0 0 1 18-5 9 9 0 0 1 18 5c0 13-18 24-18 24z" fill="#c0392b"/><rect x="224" y="94" width="18" height="14" rx="3" fill="#e2a63b" stroke="none" stroke-width="1.5" /><text x="233" y="105" font-size="10" fill="#fff" text-anchor="middle" font-weight="900">王</text><rect x="370" y="36" width="269" height="303" rx="0" fill="#e4e7ee" stroke="none" stroke-width="1.5" /><rect x="392" y="92" width="226" height="214" rx="4" fill="#fff" stroke="#cfd4dc" stroke-width="1.5" /><rect x="404" y="104" width="103.96000000000001" height="190" rx="6" fill="url(#pic)" stroke="none" stroke-width="1.5" /><rect x="509.52" y="120" width="90.4" height="9" rx="4" fill="#c9cfdd"/><rect x="509.52" y="144" width="50.400000000000006" height="9" rx="4" fill="#c9cfdd"/><rect x="509.52" y="168" width="90.4" height="9" rx="4" fill="#c9cfdd"/><rect x="509.52" y="192" width="50.400000000000006" height="9" rx="4" fill="#c9cfdd"/><rect x="509.52" y="216" width="90.4" height="9" rx="4" fill="#c9cfdd"/><rect x="98" y="44" width="264" height="36" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="102" cy="44" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="102" y="48.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">1</text><rect x="98" y="86" width="76" height="74" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="98" cy="86" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="98" y="90.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">2</text><text x="248" y="128" font-size="11" fill="#d9534f" text-anchor="start" font-weight="900">有皇冠＝要付費</text></svg></div>
+
+  <div class="card" style="border:2px solid var(--ac)">
+    <h3><svg class="ico"><use href="#i-image"/></svg>免費、可以在學校使用的素材庫</h3>
+    <p class="small muted" style="margin:0 0 10px">簡章規定：<b>使用別人的素材，要有授權或符合合理使用</b>。下面這些可以放心用；用了哪個，要寫進說明書的「查證揭露」。</p>
+    <div class="lib">
+      <a href="https://www.irasutoya.com/" target="_blank" rel="noopener"><b><svg class="ico"><use href="#i-image"/></svg>いらすとや（日本）<svg class="ico" style="margin-left:auto"><use href="#i-ext"/></svg></b>
+        <span>日本最有名的免費插畫網站，圖很可愛。網站在<b>學校、學生作品</b>可以免費使用，也可以修改。</span>
+        <span class="tag ok">學校免費</span><span class="tag ok">可修改</span><span class="tag wa">著作權仍屬作者</span><span class="tag wa">網站是日文</span>
+        <span>搜尋小字典：<b>ありがとう</b>＝謝謝、<b>お正月</b>＝新年、<b>家族</b>＝家人、<b>ハート</b>＝愛心、<b>お餅</b>＝年糕</span></a>
+      <a href="https://pixabay.com/zh/" target="_blank" rel="noopener"><b><svg class="ico"><use href="#i-image"/></svg>Pixabay（有中文）<svg class="ico" style="margin-left:auto"><use href="#i-ext"/></svg></b>
+        <span>免費的照片和插圖，<b>不用標示作者</b>，可以修改。選「插圖」或「向量圖」比較適合賀卡。</span>
+        <span class="tag ok">免費</span><span class="tag ok">免標示</span><span class="tag wa">不能單獨拿去賣</span></a>
+      <a href="https://openclipart.org/" target="_blank" rel="noopener"><b><svg class="ico"><use href="#i-image"/></svg>Openclipart<svg class="ico" style="margin-left:auto"><use href="#i-ext"/></svg></b>
+        <span>網站說明<b>全部是公共財（Public Domain）</b>，沒有版權，簡單的小圖案和貼圖很多。</span>
+        <span class="tag ok">公共財</span><span class="tag ok">免標示</span><span class="tag wa">英文搜尋</span></a>
+      <div style="background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:10px 14px"><b style="display:flex;gap:6px;align-items:center;font-size:17px"><svg class="ico"><use href="#i-palette"/></svg>Canva 內建「元素」</b>
+        <span style="display:block;font-size:14px;color:var(--sub);margin-top:2px">最方便，不用下載。沒有皇冠的就是免費的。</span>
+        <span class="tag ok" style="display:inline-block;font-size:12.5px;font-weight:900;border-radius:999px;padding:0 9px;margin-top:4px;background:var(--green-soft);color:var(--green)">免費</span></div>
+    </div>
+    <div class="note safe" style="margin:12px 0 0"><svg class="ico"><use href="#i-alert"/></svg><p><b>不可以用：</b>卡通人物（皮卡丘、Hello Kitty……）、從網路搜尋隨便抓的圖、家人的照片、別人的作品。簡章規定這些會侵害著作權或肖像權。</p></div>
+    <p class="small muted" style="margin:8px 0 0">圖片放進 Canva 的方法跟第 3 步一樣：<b>圖片另存到電腦 → 上傳 → 放進卡片</b>。</p>
+  </div>
+
+  <div class="cs"><div class="ct">
+    <h3><span class="no">6</span>排整齊、標示 AI</h3>
+    <ul><li><b>字不要壓在很雜的圖上</b>：字的後面放一塊淺色方塊（元素 → 形狀 → 方形，再把顏色調淺）</li><li><b>對齊</b>：選好東西，按上方「位置」，選「置中」</li><li><b>圖被蓋住了</b>：點那個東西，「位置」→「移到最上層」</li><li><b>留一點空白</b>，不要每個地方都塞東西</li></ul>
+    <div class="note" style="margin:8px 0 0"><svg class="ico"><use href="#i-shield"/></svg><p>角落加一行小字：<b>「圖片由因材網 e度 協助生成」</b>。手冊說作品要註明<q>由 AI 協作生成</q>（參 p.28）。署名只寫稱謂（例：「愛你的孫子 敬上」），<b>不要寫姓名、學校</b>。</p></div>
+  </div>
+  <div style="background:#f6f7fb;border-radius:12px;padding:10px 14px;font-size:15px"><b>排好以後，對照看看：</b>
+    <ol style="margin:6px 0 0;padding-left:20px"><li>圖、文字、裝飾，三樣都有嗎？</li><li>文字清楚好讀嗎？</li><li>有沒有「圖片由因材網 e度 協助生成」？</li><li>有沒有姓名、學校、住址？（不可以有）</li></ol></div></div>
+
+  <div class="cs"><div class="ct">
+    <h3><span class="no">7</span>存成 PDF</h3>
+    <ul><li>按右上角「<b>分享</b>」</li><li>按「<b>下載</b>」</li><li>檔案類型選「<b>PDF 標準</b>」</li><li>按「<b>下載</b>」，檔案會出現在電腦的「下載」資料夾</li></ul>
+    <p class="small muted">先存成「賀卡」就好，交件時老師會教你用正式檔名。<b>存好後打開 PDF 看一次</b>，確認字和圖都正常。</p>
+    <div class="vwrap"><iframe src="https://www.youtube-nocookie.com/embed/YV47owh2gzg?rel=0" title="Canva 下載 PDF" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <p class="vcap">影片：Canva 下載成 PDF（49 秒，英文旁白，看畫面操作）</p>
+  </div><svg class="cv" viewBox="0 0 640 340" role="img" aria-label="示意圖：右上角分享，按下載，檔案類型選 PDF 標準，再按下載" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#d9534f"/></marker><linearGradient id="pic" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#f6d6a8"/></linearGradient></defs><rect x="1" y="1" width="638" height="338" rx="12" fill="#f1f3f7" stroke="#cfd4dc" stroke-width="1.5" /><rect x="1" y="1" width="638" height="34" rx="12" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><rect x="1" y="20" width="638" height="15" rx="0" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><text x="16" y="24" font-size="13" fill="#fff" text-anchor="start" font-weight="700">Canva（示意圖）</text><text x="150" y="24" font-size="12" fill="#e6e9ff" text-anchor="start" font-weight="500">賀卡_作品名稱</text><rect x="86" y="36" width="553" height="303" rx="0" fill="#e4e7ee" stroke="none" stroke-width="1.5" /><rect x="120" y="92" width="300" height="190" rx="4" fill="#fff" stroke="#cfd4dc" stroke-width="1.5" /><rect x="132" y="104" width="138.0" height="166" rx="6" fill="url(#pic)" stroke="none" stroke-width="1.5" /><rect x="276.0" y="120" width="120.0" height="9" rx="4" fill="#c9cfdd"/><rect x="276.0" y="144" width="80.0" height="9" rx="4" fill="#c9cfdd"/><rect x="276.0" y="168" width="120.0" height="9" rx="4" fill="#c9cfdd"/><rect x="276.0" y="192" width="80.0" height="9" rx="4" fill="#c9cfdd"/><rect x="276.0" y="216" width="120.0" height="9" rx="4" fill="#c9cfdd"/><rect x="540" y="5" width="86" height="26" rx="8" fill="#fff" stroke="none" stroke-width="1.5" /><text x="583" y="23" font-size="14" fill="#4b5bd6" text-anchor="middle" font-weight="700">分享</text><rect x="430" y="40" width="200" height="290" rx="12" fill="#fff" stroke="#cfd4dc" stroke-width="1.5" /><text x="446" y="66" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="700">分享</text><rect x="442" y="76" width="176" height="34" rx="8" fill="#f5f6f9" stroke="none" stroke-width="1.5" /><text x="458" y="98" font-size="14" fill="#1f2a44" text-anchor="start" font-weight="700">下載</text><rect x="442" y="118" width="176" height="4" rx="2" fill="#eef0f5" stroke="none" stroke-width="1.5" /><text x="446" y="146" font-size="12" fill="#44506a" text-anchor="start" font-weight="500">檔案類型</text><rect x="442" y="152" width="176" height="32" rx="8" fill="#fff3d6" stroke="#e2a63b" stroke-width="2" /><text x="456" y="173" font-size="14" fill="#1f2a44" text-anchor="start" font-weight="700">PDF 標準 ▾</text><rect x="442" y="276" width="176" height="36" rx="8" fill="#4b5bd6" stroke="none" stroke-width="1.5" /><text x="530" y="300" font-size="15" fill="#fff" text-anchor="middle" font-weight="700">下載</text><rect x="536" y="2" width="94" height="32" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="536" cy="6" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="536" y="10.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">1</text><rect x="438" y="74" width="184" height="40" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="436" cy="74" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="436" y="78.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">2</text><rect x="438" y="150" width="184" height="38" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="436" cy="150" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="436" y="154.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">3</text><rect x="438" y="272" width="184" height="44" rx="8" fill="none" stroke="#d9534f" stroke-width="3" stroke-dasharray="7 4"/><circle cx="436" cy="272" r="11" fill="#d9534f" stroke="#fff" stroke-width="2"/><text x="436" y="276.5" font-size="13" fill="#fff" text-anchor="middle" font-weight="900">4</text></svg></div>
+
+  <a class="link-card" href="https://www.youtube.com/watch?v=6EBTY2WnINM" target="_blank" rel="noopener">
+    <span class="li"><svg class="ico"><use href="#i-play"/></svg></span>
+    <span><b>想從頭看一遍？「超簡單製作賀卡」（7 分 26 秒）</b><span>YouTube 上的繁體中文示範，從建立到加元素、加文字。</span></span>
+    <svg class="ico go"><use href="#i-ext"/></svg></a>
+  <a class="link-card" href="https://steam.oxxostudio.tw/category/canva/design/download.html" target="_blank" rel="noopener">
+    <span class="li"><svg class="ico"><use href="#i-download"/></svg></span>
+    <span><b>看文字圖解：Canva 怎麼下載檔案</b><span>STEAM 教育學習網的教學（有截圖）</span></span>
+    <svg class="ico go"><use href="#i-ext"/></svg></a>
+
+  <div class="checks">
+    <label><input type="checkbox" data-key="canva1" value="已排版" data-req>我已經用 Canva 排出卡片（至少有圖和文字），也存成 PDF 看過了。</label>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 5 ========== -->
+<section class="step" data-title="記進文件" data-min="4" hidden>
+  <div class="step-head"><div class="num">5</div><div>
+    <h2>把成果記進文件</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>4 分鐘</span></div>
+  </div></div>
+
+  <div class="docbox">
+    <h3><svg class="ico"><use href="#i-copy"/></svg>1. 複製「我的畫面規劃」</h3>
+    <p class="small muted" style="margin:0 0 6px">貼在文件的「三、畫面規劃與繪圖（第 3 節）」下面。</p>
+    <pre class="skel" id="planTxt"></pre>
+    <button class="copy" type="button" data-copy="planTxt" data-done="已複製！貼到文件的「三、畫面規劃與繪圖」"><svg class="ico"><use href="#i-copy"/></svg>複製畫面規劃</button>
+  </div>
+
+  <div class="docbox">
+    <h3><svg class="ico"><use href="#i-pen"/></svg>2. 在文件裡寫「我採用哪一張圖？為什麼？」</h3>
+    <p class="small muted" style="margin:0">寫在「三」的下面：<b>我最後採用哪一張</b>，還有<b>為什麼最後採用它</b>（它比其他版本好在哪裡、哪裡最像你家）。這句話就是歷程紀錄的「最終採用理由」。每一版的圖檔都留著，第 4 節可以放「修改前、修改後」。</p>
+    <div class="checks" style="margin-top:10px"><label><input type="checkbox" data-key="doc3" value="已記進文件" data-req>我已經把畫面規劃和採用理由記進文件了。</label></div>
+  </div>
+
+
+  <div class="grid2">
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-home"/></svg>回家任務</h3>
+      <p>1. 請家長簽<b>作品授權同意書</b>，下次上課帶來。<br>2. 確定圖檔和卡片 PDF 都有存好。<br>3. 再看一次你的卡片：<b>有沒有哪裡不像你家？</b></p></div>
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-next"/></svg>下一節（10/20）</h3>
+      <p>檢查 AI 的錯，寫<b>歷程紀錄</b>和<b>作品說明書</b>。</p>
+      <a class="btn" data-go="C04" href="#">先看第 4 節<svg class="ico"><use href="#i-next"/></svg></a></div>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+</div></main>
+<footer><div class="wrap">本頁引用《中小學 AI 之學習應用手冊—國小生聰明用 AI》（教育部，2026）的內容與頁面，僅供本校競賽指導使用；頁碼為手冊印刷頁碼。競賽規定以「115 年度小學生教育型 AI 學習夥伴應用競賽」簡章為準。</div></footer>
+<script>
+window.PAGE={code:'C03',lesson:'L3',onData:function(all){var d=all.L3||{},t=document.getElementById('planTxt');if(t)t.textContent='三、畫面規劃與繪圖（第 3 節）\n主要元素：'+(d.main||'')+'\n背景：'+(d.bg||'')+'\n視角：'+(d.view||'')+'\n風格和色調：'+(d.style||'')+'\n強調重點：'+(d.focus||'')+'\n\n我最後採用的圖：\n為什麼採用它：';},hbTitle:"第 3 節要讀的手冊頁面",hb:[[38, "參 p.25", "任務二：和 AI 一起畫圖"], [39, "參 p.26", "自己先構思主題和風格"], [40, "參 p.27", "主要元素、調整細節"], [41, "參 p.28", "生圖、標記 AI 生成"], [46, "參 p.33", "我學到了嗎"], [49, "肆 p.36", "刻板印象"]]};
+</script>
+<script>
+/* ============================================================
+   賀卡創作營｜共用程式（六個頁面都一樣）
+   ------------------------------------------------------------
+   ◆ Firebase：老師建好新專案後，把 firebaseConfig 整段貼到 FB_CONFIG（六個頁面都要換）。
+     維持 null＝只存在這台電腦的瀏覽器（換電腦就看不到），頁面其他功能照常。
+   ◆ 資料放在 cardWork/{年級-班級-座號}，每一節一個欄位 L1～L5（見 firestore.rules）。
+   ============================================================ */
+var FB_CONFIG = {
+  apiKey: "AIzaSyDxAPNchjR37VsBPO4QltbuNIJ98F3mwtw",
+  authDomain: "worksheet-f47f3.firebaseapp.com",
+  projectId: "worksheet-f47f3",
+  storageBucket: "worksheet-f47f3.firebasestorage.app",
+  messagingSenderId: "42265052892",
+  appId: "1:42265052892:web:415d41d37b96fd24e61619"
+};
+var COLL = 'cardWork';
+
+(function(){
+  var P = window.PAGE || {};
+  var LESSON = P.lesson || '';
+  function $(id){return document.getElementById(id);}
+  function $$(sel,root){return Array.prototype.slice.call((root||document).querySelectorAll(sel));}
+  window.$ = $; window.$$ = $$;
+
+  /* ---------- 小工具 ---------- */
+  var toastT;
+  function toast(t){var e=$('toast');if(!e)return;e.textContent=t;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){e.classList.remove('on');},2200);}
+  window.toast = toast;
+  function copyText(text,btn,doneLabel){
+    function ok(){
+      if(btn){var old=btn.innerHTML;btn.classList.add('done');btn.innerHTML='<svg class="ico"><use href="#i-check"/></svg>已複製';setTimeout(function(){btn.classList.remove('done');btn.innerHTML=old;},1800);}
+      toast(doneLabel||'已複製！〔 〕換成你的內容，句子用你自己的話改一改');
+    }
+    function fb(){var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px;top:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){toast('請按 Ctrl＋C 複製');}document.body.removeChild(ta);}
+    try{navigator.clipboard.writeText(text).then(ok,fb);}catch(e){fb();}
+  }
+  window.copyText = copyText;
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  window.esc = esc;
+
+  /* ---------- 我是誰：年級／班級／座號 ---------- */
+  var ID_KEY='card_identity';
+  function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
+  function getId(){
+    var g=digits($('idG')&&$('idG').value),c=digits($('idC')&&$('idC').value),s=digits($('idS')&&$('idS').value);
+    return {grade:g?Number(g):null,className:c?Number(c):null,studentId:s?Number(s):null};
+  }
+  function idValid(i){return i.grade>=3&&i.grade<=6&&i.className>=1&&i.className<=20&&i.studentId>=1&&i.studentId<=40;}
+  function docId(i){return i.grade+'-'+i.className+'-'+i.studentId;}
+  window.cardIdentity = function(){var i=getId();return idValid(i)?i:null;};
+
+  /* ---------- 存檔狀態 ---------- */
+  function stat(kind,text){var e=$('saveStat');if(!e)return;e.className='pill'+(kind?' '+kind:'');e.innerHTML='<svg class="ico"><use href="#i-cloud"/></svg>'+esc(text);}
+
+  /* ---------- 讀寫頁面上的欄位（data-key） ---------- */
+  function fieldEls(){return $$('[data-key]');}
+  function collect(){
+    var o={};
+    fieldEls().forEach(function(el){
+      var k=el.dataset.key;
+      if(el.type==='checkbox'){if(!o[k])o[k]=[];if(el.checked)o[k].push(el.value);}
+      else if(el.type==='radio'){if(el.checked)o[k]=el.value;else if(!(k in o))o[k]='';}
+      else o[k]=(el.value||'').slice(0,3000);
+    });
+    return o;
+  }
+  function isEmptyVal(v){return v==null||v===''||(Array.isArray(v)&&!v.length);}
+  function fill(obj,force){
+    if(!obj)return;
+    fieldEls().forEach(function(el){
+      var k=el.dataset.key;if(!(k in obj))return;var v=obj[k];
+      if(el.type==='checkbox'){var cur=el.checked;if(force||!$$('[data-key="'+k+'"]').some(function(x){return x.checked;}))el.checked=Array.isArray(v)&&v.indexOf(el.value)>=0;else el.checked=cur;}
+      else if(el.type==='radio'){if(force||!$$('[data-key="'+k+'"]').some(function(x){return x.checked;}))el.checked=(v===el.value);}
+      else if(force||!el.value.trim())el.value=v||'';
+    });
+  }
+
+  /* ---------- 全部資料（五節）---------- */
+  var ALL={};
+  window.cardData = function(){return ALL;};
+  function getPath(path){var p=path.split('.'),o=ALL[p[0]]||{};var v=o[p[1]];return Array.isArray(v)?v.join('、'):(v||'');}
+  window.cardGet = getPath;
+  function updSub(){var e=$('subStat'),b=$('subBtn');if(!e||!LESSON)return;var t=(ALL[LESSON]||{})._sub;if(t){var d=new Date(t);e.className='ss ok';e.textContent='已繳交（'+(d.getMonth()+1)+'/'+d.getDate()+' '+d.getHours()+':'+('0'+d.getMinutes()).slice(-2)+'）。之後再改內容會自動更新。';if(b)b.innerHTML='<svg class="ico"><use href="#i-upload"/></svg>重新繳交';}else{e.className='ss';e.textContent='還沒繳交。這一節做完，按右邊的按鈕交給老師。';if(b)b.innerHTML='<svg class="ico"><use href="#i-upload"/></svg>繳交這一節';}}
+  function renderRefs(){
+    $$('[data-ref]').forEach(function(el){
+      var v=getPath(el.dataset.ref);
+      el.textContent=v||(el.dataset.empty||'（還沒寫）');
+      el.classList.toggle('empty',!v);
+    });
+    $$('[data-need]').forEach(function(el){el.hidden=!!getPath(el.dataset.need);});
+    if(typeof P.onSub==='function'||true)updSub();
+    if(typeof P.onData==='function')try{P.onData(ALL);}catch(e){console.warn(e);}
+    if(window.__refreshSteps)window.__refreshSteps();
+  }
+  window.cardRefresh = function(){ if(LESSON)ALL[LESSON]=Object.assign({},ALL[LESSON]||{},collect());renderRefs(); };
+
+  /* ---------- 本機暫存 ---------- */
+  function lkey(i){return 'card_work_'+docId(i);}
+  function readLocal(i){try{return JSON.parse(localStorage.getItem(lkey(i))||'{}')||{};}catch(e){return {};}}
+  function writeLocal(i,o){try{localStorage.setItem(lkey(i),JSON.stringify(o));}catch(e){}}
+
+  /* ---------- Firebase ---------- */
+  var db=null,auth=null,fbReady=null;
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+  fbReady=new Promise(function(resolve){
+    if(!FB_CONFIG){resolve(false);return;}
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    loadScript(base+'firebase-app-compat.js')
+      .then(function(){return loadScript(base+'firebase-auth-compat.js');})
+      .then(function(){return loadScript(base+'firebase-firestore-compat.js');})
+      .then(function(){if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);db=firebase.firestore();auth=firebase.auth();resolve(true);})
+      .catch(function(e){console.warn('Firebase 載入失敗，改成只存在這台電腦',e);resolve(false);});
+  });
+  window.cardFirebase = function(){return fbReady.then(function(ok){return ok?{db:db,auth:auth}:null;});};
+  function ensureAuth(){return (auth.currentUser)?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user;});}
+
+  /* ---------- 載入 ---------- */
+  var loadedFor='',loadP=Promise.resolve(),dirty=false;
+  function load(force){loadP=doLoad(force)||Promise.resolve();return loadP;}
+  function doLoad(force){
+    var i=getId();
+    if(!idValid(i)){stat('warn','先填年級、班級、座號');return;}
+    var id=docId(i);
+    var changed=(loadedFor&&loadedFor!==id)||!!force;
+    loadedFor=id;
+    ALL=readLocal(i);
+    fill(ALL[LESSON],changed);
+    renderRefs();
+    stat('', '讀取中…');
+    return fbReady.then(function(ok){
+      if(!ok){stat('warn','只存在這台電腦');return;}
+      return ensureAuth().then(function(){return db.collection(COLL).doc(id).get();}).then(function(doc){
+        if(loadedFor!==id)return;
+        var cloud=doc.exists?doc.data():{};
+        ['L1','L2','L3','L4','L5'].forEach(function(L){
+          var c=cloud[L],l=ALL[L];
+          if(c&&(!l||(c._ms||0)>=(l._ms||0)))ALL[L]=c;
+        });
+        writeLocal(i,ALL);
+        fill(ALL[LESSON],changed);
+        renderRefs();
+        var got=['L1','L2','L3','L4','L5'].map(function(L,k){var d=ALL[L];return d&&Object.keys(d).some(function(x){return x!=='_ms'&&x!=='_sub';})?String(k+1):'';}).filter(Boolean);
+        stat('ok',got.length?'已讀回第 '+got.join('、')+' 節的紀錄':(doc.exists?'已連線，還沒有紀錄':'已連線，還沒有紀錄'));
+        if(force)toast(got.length?'已讀回你之前的紀錄（第 '+got.join('、')+' 節）':'雲端還沒有你的紀錄');
+      });
+    }).catch(function(e){console.warn('讀取失敗',e);stat('bad','雲端讀不到，先存在這台電腦');});
+  }
+
+  /* ---------- 存檔（打字後自動存）---------- */
+  var saveT=null,subTime=0;
+  function save(){return loadP.then(doSave);}
+  function doSave(){
+    var i=getId();
+    if(!idValid(i)){stat('warn','先填年級、班級、座號');return Promise.resolve(false);}
+    if(!LESSON)return Promise.resolve(false);
+    var data=collect();data._ms=Date.now();
+    if(subTime)data._sub=subTime;else if(ALL[LESSON]&&ALL[LESSON]._sub)data._sub=ALL[LESSON]._sub;
+    ALL[LESSON]=data;
+    writeLocal(i,ALL);
+    renderRefs();
+    return fbReady.then(function(ok){
+      if(!ok){stat('warn','已存在這台電腦');return 'local';}
+      stat('','存檔中…');
+      var payload={grade:i.grade,className:i.className,studentId:i.studentId,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+      payload[LESSON]=data;
+      return ensureAuth().then(function(){return db.collection(COLL).doc(docId(i)).set(payload,{merge:true});})
+        .then(function(){var d=new Date();stat('ok','已存到雲端 '+d.getHours()+':'+('0'+d.getMinutes()).slice(-2));return 'cloud';})
+        .catch(function(e){console.warn('雲端存檔失敗',e);stat('bad','雲端沒存到，先存在這台電腦');return false;});
+    });
+  }
+  window.cardSave = save;
+  function queueSave(){dirty=true;clearTimeout(saveT);saveT=setTimeout(save,1200);}
+
+  /* ---------- 初始化識別列 ---------- */
+  (function(){
+    if(!$('idG'))return;
+    var s={};try{s=JSON.parse(localStorage.getItem(ID_KEY)||'{}')||{};}catch(e){}
+    if(s.grade)$('idG').value=s.grade;if(s.className)$('idC').value=s.className;if(s.studentId)$('idS').value=s.studentId;
+    ['idG','idC','idS'].forEach(function(id){
+      $(id).addEventListener('input',function(){
+        var d=digits(this.value);if(d!==this.value)this.value=d;
+        var i=getId();
+        if(idValid(i)){try{localStorage.setItem(ID_KEY,JSON.stringify(i));}catch(e){}load();}
+        else stat('warn','先填年級、班級、座號');
+      });
+    });
+    load();
+  })();
+  window.cardReload=function(){
+    var i=getId();
+    if(!idValid(i)){toast('先填好年級、班級、座號');var g=$('idG');if(g)g.focus();return Promise.resolve();}
+    var filled=fieldEls().some(function(el){return (el.type==='checkbox'||el.type==='radio')?el.checked:!!(el.value||'').trim();});
+    if(filled&&!confirm('會用雲端上次存的內容，蓋掉這一頁現在填的內容，可以嗎？'))return Promise.resolve();
+    return load(true);
+  };
+  if($('loadBtn'))$('loadBtn').addEventListener('click',function(){window.cardReload();});
+  $$('[data-reload]').forEach(function(b){b.addEventListener('click',function(){window.cardReload();});});
+  document.addEventListener('input',function(e){
+    if(e.target.closest&&e.target.closest('[data-key]')){window.cardRefresh();queueSave();}
+  });
+  document.addEventListener('change',function(e){
+    if(e.target.matches&&e.target.matches('[data-key]')){window.cardRefresh();queueSave();}
+  });
+
+  /* ---------- 字數 ---------- */
+  $$('textarea[data-count]').forEach(function(t){
+    var c=document.createElement('div');c.className='count';t.after(c);
+    function u(){c.textContent=t.value.replace(/\s/g,'').length+' 字';}
+    t.addEventListener('input',u);u();
+    setTimeout(u,1500);
+  });
+
+  /* ---------- 提問框架：複製 ---------- */
+  $$('.frame').forEach(function(f){
+    $$('.fbox',f).forEach(function(box){
+      var t=box.querySelector('.ftext'),b=box.querySelector('.copy');
+      if(t&&b)b.addEventListener('click',function(){copyText(t.innerText.replace(/\s+\n/g,'\n').trim(),b);});
+    });
+  });
+  $$('[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){var src=$(b.dataset.copy);if(src)copyText((src.value!=null&&src.tagName!=='DIV'&&src.tagName!=='PRE')?src.value:src.innerText,b,b.dataset.done||'已複製！');});
+  });
+
+  /* ---------- 圖片縮放：滾輪多段放大、拖曳移動、雙擊還原（放大看圖與手冊閱讀器共用）---------- */
+  function makeZoom(stage,img,label){
+    var sc=1,tx=0,ty=0,drag=null,moved=false,MAX=8;
+    img.style.transformOrigin='0 0';img.style.transition='none';img.draggable=false;
+    function apply(){img.style.transform='translate('+tx+'px,'+ty+'px) scale('+sc+')';img.style.cursor=sc>1?(drag?'grabbing':'grab'):'zoom-in';if(label)label.textContent=Math.round(sc*100)+'%';}
+    function zoomAt(f,cx,cy){
+      var r=img.getBoundingClientRect(),bl=r.left-tx,bt=r.top-ty;
+      if(cx==null){cx=r.left+r.width/2;cy=r.top+r.height/2;}
+      var x=(cx-bl-tx)/sc,y=(cy-bt-ty)/sc,s2=Math.max(1,Math.min(MAX,sc*f));
+      if(s2===1){tx=ty=0;}else{tx=cx-bl-x*s2;ty=cy-bt-y*s2;}
+      sc=s2;apply();
+    }
+    function reset(){sc=1;tx=ty=0;apply();}
+    stage.addEventListener('wheel',function(e){e.preventDefault();zoomAt(e.deltaY<0?1.25:0.8,e.clientX,e.clientY);},{passive:false});
+    img.addEventListener('dblclick',function(e){e.preventDefault();if(sc>1)reset();else zoomAt(2.5,e.clientX,e.clientY);});
+    img.addEventListener('pointerdown',function(e){if(sc<=1)return;e.preventDefault();drag={x:e.clientX-tx,y:e.clientY-ty};moved=false;img.setPointerCapture(e.pointerId);apply();});
+    img.addEventListener('pointermove',function(e){if(!drag)return;tx=e.clientX-drag.x;ty=e.clientY-drag.y;moved=true;apply();});
+    img.addEventListener('pointerup',function(){drag=null;apply();});
+    img.addEventListener('click',function(e){e.stopPropagation();if(!moved&&sc===1)zoomAt(2,e.clientX,e.clientY);moved=false;});
+    img.addEventListener('load',reset);
+    apply();
+    return {reset:reset,zoom:function(f){zoomAt(f);},get scale(){return sc;}};
+  }
+  window.makeZoom=makeZoom;
+  function zoomBar(){return '<span class="zbar"><button type="button" class="zo" aria-label="縮小"><svg class="ico"><use href="#i-minus"/></svg></button><span class="zl">100%</span><button type="button" class="zi" aria-label="放大"><svg class="ico"><use href="#i-plus"/></svg></button><button type="button" class="zr">還原</button></span>';}
+  window.cardZoomBar=zoomBar;
+  function wireBar(root,z){root.querySelector('.zi').onclick=function(){z.zoom(1.25);};root.querySelector('.zo').onclick=function(){z.zoom(0.8);};root.querySelector('.zr').onclick=function(){z.reset();};}
+  window.cardWireBar=wireBar;
+
+  /* ---------- 放大看圖 ---------- */
+  var lb=document.createElement('div');lb.id='lightbox';
+  lb.innerHTML='<div class="lbtop"><span class="tip">滾輪放大縮小・拖曳移動・雙擊還原</span>'+zoomBar()+'<button class="x" type="button"><svg class="ico"><use href="#i-x"/></svg>關閉</button></div><div class="lbstage"><img alt=""></div>';
+  document.body.appendChild(lb);
+  var lbImg=lb.querySelector('img'),lbZ=makeZoom(lb.querySelector('.lbstage'),lbImg,lb.querySelector('.zl'));wireBar(lb,lbZ);
+  function lbClose(){lb.classList.remove('on');document.body.style.overflow='';}
+  lb.querySelector('.x').onclick=lbClose;
+  lb.querySelector('.lbstage').addEventListener('click',function(e){if(e.target===this)lbClose();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('on'))lbClose();});
+  document.addEventListener('click',function(e){
+    if(lb.contains(e.target))return;
+    var t=e.target.closest&&e.target.closest('[data-zoom],img.shot,img.thumb');
+    if(!t)return;
+    var src=t.dataset.zoom||t.getAttribute('src');if(!src)return;
+    e.preventDefault();lbImg.src=src;lbZ.reset();lb.classList.add('on');document.body.style.overflow='hidden';
+  });
+  var tst=document.createElement('div');tst.id='toast';document.body.appendChild(tst);
+
+  /* ---------- 步驟：一次看一步 ---------- */
+  var steps=$$('section.step');
+  if(steps.length){
+    var bar=$('stepbar'),flow=$('flow'),cur=1,visited={1:true};
+    function reqDone(sec){
+      var req=$$('[data-req]',sec);
+      if(!req.length)return null;
+      return req.every(function(el){
+        if(el.type==='checkbox'||el.type==='radio')return $$('[data-key="'+el.dataset.key+'"]',sec).some(function(x){return x.checked;});
+        if(el.dataset.req==='all')return $$('[data-key="'+el.dataset.key+'"]',sec).every(function(x){return x.checked;});
+        return !!(el.value||'').trim();
+      });
+    }
+    function isDone(n){var sec=steps[n-1],r=reqDone(sec);if(r!==null)return r;return visited[n]&&n!==cur;}
+    function render(){
+      if(bar)bar.innerHTML='';
+      steps.forEach(function(sec,idx){
+        var n=idx+1,b=document.createElement('button');
+        b.type='button';b.className=isDone(n)&&n!==cur?'done':'';
+        b.innerHTML='<span class="d">'+(isDone(n)&&n!==cur?'<svg class="ico"><use href="#i-check"/></svg>':n)+'</span><span class="t">'+esc(sec.dataset.title)+'</span>';
+        b.setAttribute('aria-label','第 '+n+' 步：'+sec.dataset.title);
+        if(n===cur)b.setAttribute('aria-current','step');
+        b.onclick=function(){show(n);};
+        if(bar)bar.appendChild(b);
+      });
+    }
+    window.__refreshSteps=render;
+    function show(n,noScroll){
+      cur=n;visited[n]=true;
+      steps.forEach(function(s,i){s.hidden=(i+1)!==n;});
+      render();
+      if(!noScroll){var top=(bar?bar.parentNode.offsetTop:0);window.scrollTo({top:Math.max(0,top-2),behavior:'smooth'});}
+      if(LESSON&&dirty)save();
+      try{history.replaceState(null,'','#s'+n);}catch(e){}
+    }
+    window.cardShowStep=show;
+    steps.forEach(function(sec,idx){
+      var n=idx+1,nav=sec.querySelector('.stepnav');if(!nav)return;
+      if(n>1){var p=document.createElement('button');p.type='button';p.className='btn ghost';p.innerHTML='<svg class="ico"><use href="#i-prev"/></svg>上一步';p.onclick=function(){show(n-1);};nav.appendChild(p);}else nav.appendChild(document.createElement('span'));
+      if(n<steps.length){var x=document.createElement('button');x.type='button';x.className='btn';x.innerHTML='下一步：'+esc(steps[n].dataset.title)+'<svg class="ico"><use href="#i-next"/></svg>';x.onclick=function(){show(n+1);};nav.appendChild(x);}
+    });
+    if(flow)steps.forEach(function(sec,idx){
+      var b=document.createElement('button');b.type='button';
+      b.innerHTML='<span class="n">'+(idx+1)+'</span>'+esc(sec.dataset.title)+(sec.dataset.min?' <span class="m">'+sec.dataset.min+' 分鐘</span>':'');
+      b.onclick=function(){show(idx+1);};flow.appendChild(b);
+    });
+    if(LESSON){
+      var last=steps[steps.length-1],nv=last.querySelector('.stepnav'),box=document.createElement('div');
+      box.className='submitbox';
+      box.innerHTML='<div><b>繳交這一節的成果</b><span class="ss" id="subStat"></span></div><button type="button" class="btn" id="subBtn"></button>';
+      last.insertBefore(box,nv);
+      updSub();
+      $('subBtn').onclick=function(){
+        var i=getId();
+        if(!idValid(i)){alert('請先在最上面填好年級、班級、座號。');var g=$('idG');if(g)g.focus();window.scrollTo({top:0,behavior:'smooth'});return;}
+        window.cardRefresh();
+        var miss=[];steps.forEach(function(sec){if(reqDone(sec)===false)miss.push(sec.dataset.title);});
+        var msg='確定要繳交這一節的成果嗎？'+(miss.length?'\n\n還沒完成的步驟：'+miss.join('、')+'\n（可以先繳交，之後補完會自動更新）':'')+'\n\n繳交後老師會看到。';
+        if(!confirm(msg))return;
+        subTime=Date.now();var btn=this;btn.disabled=true;
+        save().then(function(r){
+          btn.disabled=false;
+          if(r==='cloud'){updSub();toast('已繳交！');}
+          else{subTime=0;var e=$('subStat');e.className='ss bad';e.textContent=r==='local'?'沒有連上雲端，還沒交出去。請檢查網路再按一次，或告訴老師。':'繳交失敗，請再按一次；還是不行就告訴老師。';}
+        });
+      };
+    }
+    var m=/^#s(\d)$/.exec(location.hash);
+    show(m&&Number(m[1])<=steps.length?Number(m[1]):1,true);
+  }
+})();
+
+/* ---------- 頁面之間的連結：本機（materials 資料夾）和發布後（pcclass/contest/）路徑不同 ---------- */
+(function(){
+  var F={C00:'C00_賀卡創作營',C01:'C01_認識e度與主題',C02:'C02_文字創作與提問',C03:'C03_AI繪圖',C04:'C04_檢查標記與排版',C05:'C05_說明書與交件'};
+  var here=(window.PAGE&&window.PAGE.code)||'C00';
+  var local=/\/materials\//.test(decodeURIComponent(location.pathname));
+  function href(to){
+    if(local)return (here==='C00'?'../':'../')+F[to]+'/競賽_'+F[to]+'.html';
+    if(to==='C00')return here==='C00'?'./':'../';
+    return here==='C00'?to+'/':'../'+to+'/';
+  }
+  window.cardHref=href;
+  Array.prototype.forEach.call(document.querySelectorAll('[data-go]'),function(a){a.setAttribute('href',href(a.dataset.go));});
+})();
+
+/* ---------- 單元手冊閱讀器：PAGE.hb＝[[PDF頁碼,'章 p.頁','說明'],…]；圖在 assets/hb/pdf{N}.jpg（縮圖 _s）---------- */
+(function(){
+  var P=window.PAGE||{},list=P.hb,host=document.getElementById('hbBook');
+  if(!list||!list.length||!host)return;
+  function big(i){return 'assets/hb/pdf'+list[i][0]+'.jpg';}
+  function sm(i){return 'assets/hb/pdf'+list[i][0]+'_s.jpg';}
+  var pick=[Math.min(2,list.length-1),Math.min(1,list.length-1),0];
+  host.innerHTML=pick.map(function(i){return '<img src="'+sm(i)+'" alt="">';}).join('')+'<span class="lb"><svg class="ico"><use href="#i-book"/></svg>手冊 '+list.length+' 頁</span>';
+  host.title='打開這一節要讀的手冊頁面';
+  var ov=document.createElement('div');ov.id='hbr';ov.setAttribute('role','dialog');ov.setAttribute('aria-label','手冊頁面');
+  ov.innerHTML='<div class="top"><svg class="ico"><use href="#i-book"/></svg><b>'+esc(P.hbTitle||'這一節要讀的手冊頁面')+'</b><span class="cap"></span><span class="cnt"></span>'+
+    '<button class="x" type="button"><svg class="ico"><use href="#i-x"/></svg>關閉</button></div>'+
+    '<div class="stage"><button class="nav p" type="button" aria-label="上一頁"><svg class="ico"><use href="#i-prev"/></svg></button><img alt=""><button class="nav n" type="button" aria-label="下一頁"><svg class="ico"><use href="#i-next"/></svg></button></div>'+
+    '<div class="strip"></div>';
+  ov.querySelector('.top .x').insertAdjacentHTML('beforebegin',window.cardZoomBar());
+  document.body.appendChild(ov);
+  var img=ov.querySelector('.stage img'),strip=ov.querySelector('.strip'),cur=0;
+  var z=window.makeZoom(ov.querySelector('.stage'),img,ov.querySelector('.zl'));window.cardWireBar(ov,z);
+  list.forEach(function(p,i){var b=document.createElement('button');b.type='button';b.innerHTML='<img src="'+sm(i)+'" alt="" loading="lazy">'+esc(p[1]);b.onclick=function(){go(i);};strip.appendChild(b);});
+  function go(i){
+    cur=Math.max(0,Math.min(list.length-1,i));
+    img.src=big(cur);img.alt='手冊 '+list[cur][1];
+    ov.querySelector('.cap').textContent=list[cur][1]+'　'+(list[cur][2]||'');
+    ov.querySelector('.cnt').textContent=(cur+1)+'／'+list.length;
+    ov.querySelector('.nav.p').disabled=cur===0;ov.querySelector('.nav.n').disabled=cur===list.length-1;
+    Array.prototype.forEach.call(strip.children,function(b,k){b.classList.toggle('on',k===cur);if(k===cur)b.scrollIntoView({block:'nearest',inline:'center'});});
+    if(cur+1<list.length){var pre=new Image();pre.src=big(cur+1);}
+  }
+  function open(i){ov.classList.add('on');document.body.style.overflow='hidden';go(i||0);}
+  function close(){ov.classList.remove('on');document.body.style.overflow='';}
+  window.openHandbook=open;
+  host.addEventListener('click',function(){open(0);});
+  ov.querySelector('.x').onclick=close;
+  ov.querySelector('.nav.p').onclick=function(){go(cur-1);};
+  ov.querySelector('.nav.n').onclick=function(){go(cur+1);};
+  ov.addEventListener('click',function(e){if(e.target===ov||e.target.classList.contains('stage'))close();});
+  img.addEventListener('touchstart',function(){},{passive:true});
+  document.addEventListener('keydown',function(e){if(!ov.classList.contains('on'))return;if(e.key==='Escape')close();else if(e.key==='ArrowRight')go(cur+1);else if(e.key==='ArrowLeft')go(cur-1);});
+  var sx=null;img.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+  img.addEventListener('touchend',function(e){if(sx==null||z.scale>1){sx=null;return;}var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1));sx=null;});
+})();
+
+</script>
+<script>
+(function(){
+  // 快速選項：點一下填進對應的格子（已經有字就用「、」接在後面；再點一次會拿掉）。視角只能選一個。
+  function split(v){return v.split(/[、，,]\s*/).map(function(x){return x.trim();}).filter(Boolean);}
+  function put(id,val,single){
+    var el=document.getElementById(id);if(!el)return;
+    var parts=split(el.value),i=parts.indexOf(val);
+    if(single)parts=i>=0?[]:[val];else if(i>=0)parts.splice(i,1);else parts.push(val);
+    el.value=parts.join('、');el.dispatchEvent(new Event('input',{bubbles:true}));mark();
+  }
+  function mark(){
+    $$('[data-for]').forEach(function(g){var el=document.getElementById(g.dataset.for);if(!el)return;
+      var parts=split(el.value);
+      $$('button',g).forEach(function(b){b.classList.toggle('on',parts.indexOf(b.dataset.val||b.textContent)>=0);});});
+  }
+  $$('[data-for]').forEach(function(g){
+    var single=g.classList.contains('views');
+    $$('button',g).forEach(function(b){b.addEventListener('click',function(){put(g.dataset.for,b.dataset.val||b.textContent,single);});});
+  });
+  document.addEventListener('input',function(e){if(e.target.closest&&e.target.closest('.field'))mark();});
+  setTimeout(mark,800);setTimeout(mark,3000);
+})();
+</script>
+</body>
+</html>

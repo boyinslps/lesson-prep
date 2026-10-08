@@ -1,0 +1,328 @@
+<!--@title-->第 4 節 檢查、歷程紀錄與說明書｜AI 繪家賀卡創作營
+<!--@accent-->#3f9b52 #e6f5ea #2a6e39
+<!--@label-->第 4 節／共 5 節　10/20（二）
+<!--@css-->
+.err5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.err5 label{display:flex;flex-direction:column;gap:4px;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer}
+.err5 label:has(input:checked){border-color:#9fd6b6;background:var(--green-soft)}
+.err5 b{font-size:16px}
+.err5 span{font-size:13.5px;color:var(--sub)}
+.err5 input{width:18px;height:18px;accent-color:var(--green)}
+@media(max-width:860px){.err5{grid-template-columns:1fr 1fr}}
+.poem{font-size:24px;font-weight:900;line-height:2.1;text-align:center;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px}
+.poem .w{cursor:pointer;border-bottom:3px dotted #c9cfdd;padding:0 1px;border-radius:4px}
+.poem .w:hover{background:#f3f1ec}
+.poem .w.k{color:#1f2a44}.poem .w.r{color:#d9534f}.poem .w.b{color:#2f5aa8}
+.poem .w.ok{border-bottom:3px solid var(--green)}.poem .w.no{border-bottom:3px solid var(--red);background:var(--red-soft)}
+.legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-weight:700;margin:8px 0}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
+.kbr .field label{gap:6px}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none}
+.lamp{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.lamp div{border-radius:14px;padding:10px 12px;font-size:14.5px}
+.lamp b{display:flex;align-items:center;gap:6px;font-size:16px}
+@media(max-width:680px){.lamp{grid-template-columns:1fr}}
+<!--@body-->
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="kicker"><svg class="ico"><use href="#i-search"/></svg>第 4 節・10/20（二）・40 分鐘</span>
+    <div class="h1row"><h1>檢查看、要標記，<br>寫歷程紀錄和說明書</h1><button class="hbbook" id="hbBook" type="button" aria-label="打開這一節的手冊頁面"></button></div>
+    <p class="goal">今天做完：<b>AI 協作歷程紀錄</b>和<b>作品說明書</b>（都寫在文件裡）。</p>
+    <div class="flow" id="flow"></div>
+  </div>
+  <svg class="art" viewBox="0 0 200 170" aria-hidden="true">
+    <circle cx="150" cy="70" r="30" fill="#fff" stroke="#24305e" stroke-width="5"/>
+    <path d="M172 92l20 20" stroke="#24305e" stroke-width="8" stroke-linecap="round"/>
+    <path d="M138 70l9 9 16-18" fill="none" stroke="var(--ac)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#bot" x="2" y="40" width="120" height="120"/>
+  </svg>
+</div></section>
+
+<nav class="stepbar"><div class="wrap" id="stepbar"></div></nav>
+
+<main><div class="wrap">
+
+<!-- ========== 步驟 1 ========== -->
+<section class="step" data-title="檢查看" data-min="8">
+  <div class="step-head"><div class="num">1</div><div>
+    <h2>檢查看：當個 AI 偵探</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>8 分鐘</span><span class="chip book" data-zoom="assets/hb_p36.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 肆 p.36</span><span class="chip book" data-zoom="assets/hb_p37.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 肆 p.37</span></div>
+  </div></div>
+
+  <div class="grid2">
+    <div class="hb" style="margin:0">
+      <div><div class="tag"><svg class="ico"><use href="#i-book"/></svg>刻板印象</div>
+        <q>請 AI 畫「游泳選手」可能畫很壯、很高的人……AI 學到的是刻板印象，不是真實的多元樣貌。</q>
+        <div class="src">肆 p.36</div></div>
+      <img class="thumb" src="assets/hb_p36.jpg" alt="手冊肆 p.36">
+    </div>
+    <div class="hb" style="margin:0">
+      <div><div class="tag"><svg class="ico"><use href="#i-book"/></svg>幻覺</div>
+        <q>當 AI 給我們的答案，跟我們學過的不一樣時，要相信自己知道的，而不是盲目相信 AI！</q>
+        <div class="src">肆 p.36。AI 會編出聽起來很厲害、卻是錯的答案，這叫「幻覺」。</div></div>
+      <img class="thumb" src="assets/hb_p37.jpg" alt="手冊肆 p.37">
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3><svg class="ico"><use href="#i-search"/></svg>拿出你的圖和文字，一項一項檢查（檢查過就勾）</h3>
+    <div class="err5">
+      <label><input type="checkbox" data-key="checks" value="圖裡的字"><b>圖裡的字</b><span>有沒有錯字、缺字、看不懂的字？</span></label>
+      <label><input type="checkbox" data-key="checks" value="人和東西"><b>人和東西</b><span>人數、手指、五官、多出來的東西</span></label>
+      <label><input type="checkbox" data-key="checks" value="刻板印象"><b>刻板印象</b><span>像真的你家嗎？還是「標準的家」？</span></label>
+      <label><input type="checkbox" data-key="checks" value="事實"><b>事實</b><span>生肖、節日日期、吉祥話的意思對嗎？</span></label>
+      <label><input type="checkbox" data-key="checks" value="空泛"><b>太空泛</b><span>祝福的話，換成別人家也能用嗎？</span></label>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div>
+      <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/9e16UAFVImM?rel=0" title="通用型學習夥伴－一般模式" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <p class="vcap">影片：因材網 e度 官方「通用型學習夥伴－一般模式」（19 秒）。查事實用一般模式。</p>
+    </div>
+    <div class="frames" style="margin:0">
+      <div class="frame"><div class="lab"><span class="k">③</span>追問理由和查證方法（手冊 貳 p.20）</div>
+      <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>問理由和查證方法，你就能自己去確認，不是只聽 AI 說。</span></div>
+        <div class="fbox"><div class="ftext">你確定<span class="blank">〔哪一點〕</span>嗎？可以說明理由嗎？我要怎麼查證？</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div></div>
+      <div class="frame"><div class="lab"><span class="k">G</span>可以說不知道</div>
+      <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>生肖、節日這種事實，AI 不確定時會亂猜。先講好可以說不知道。</span></div>
+        <div class="fbox"><div class="ftext"><span class="blank">〔你的問題〕</span>？如果你不確定，請直接說不確定，不要猜。</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div></div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:16px"><svg class="ico"><use href="#i-shield"/></svg><p><b>手冊的偵探工具箱（肆 p.37）：</b>停一停，先別急著相信；查一查，看課本或可信的網站；問一問，問老師或家人。〔例〕卡片寫「明年是羊年」，就去查：2027 年（民國 116 年）是丁未羊年，農曆新年在 2027 年 2 月 6 日。</p></div>
+
+  <div class="docq"><svg class="ico"><use href="#i-file"/></svg><div><b>發現的問題，寫在下一步的歷程紀錄裡。</b>先檢查，把找到的問題記在心裡（或在文件裡隨手記一行）。都沒發現錯？也要記下你<b>怎麼檢查的</b>。</div></div>
+
+<a class="link-card" href="https://boyauc.github.io/gailearn/CH4-factchecking/" target="_blank" rel="noopener">
+    <span class="li"><svg class="ico"><use href="#i-game"/></svg></span>
+    <span><b>多練習：真相大搜查－校園主播危機</b><span>手冊附錄的互動教材，練「停、查、問」，還要在圖上找破綻。證書上的名字不用填。</span></span>
+    <svg class="ico go"><use href="#i-ext"/></svg></a>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 2 ========== -->
+<section class="step" data-title="黑紅藍標記" data-min="6" hidden>
+  <div class="step-head"><div class="num">2</div><div>
+    <h2>要標記：黑色、紅色、藍色</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>6 分鐘</span><span class="chip book" data-zoom="assets/hb_p25.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 參 p.25</span><span class="chip book" data-zoom="assets/hb_p54.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 陸 p.54</span></div>
+  </div></div>
+
+    <div class="hb">
+    <div>
+      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
+      <q>必須要在作品上註明哪些是我自己想的部分？（標記黑色）哪些是 AI 幫忙的部分？（標記紅色）哪些是自己修改的部分？（標記藍色）</q>
+      <div class="src">參 p.25；陸 p.54 原則二：使用 AI 協助完成的部分要標記</div>
+    </div>
+    <img class="thumb" src="assets/hb_p25.jpg" alt="手冊參 p.25">
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-pen"/></svg>練習：幫思思的詩標顏色</h3>
+    <p class="small muted">思思寫了詩，請 e度 給建議，再自己修改（手冊 參 p.23–25）。點字詞可以換顏色：黑 → 紅 → 藍。標好後按「對答案」。</p>
+    <div class="legend"><span><i style="background:#1f2a44"></i>黑：自己想的</span><span><i style="background:#d9534f"></i>紅：AI 幫忙的</span><span><i style="background:#2f5aa8"></i>藍：自己修改的</span></div>
+    <div class="poem" id="poem"></div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap"><button class="btn" type="button" id="poemCheck"><svg class="ico"><use href="#i-check"/></svg>對答案</button><button class="btn ghost" type="button" id="poemShow">看手冊的標法</button></div>
+    <p id="poemMsg" style="text-align:center;font-weight:700;margin-top:8px"></p>
+  </div>
+
+  <div class="note"><svg class="ico"><use href="#i-pen"/></svg><p><b>你的卡片，哪些是誰做的？</b>這一步不用在學習單寫。老師會帶你<b>在 Word 裡</b>用黑、紅、藍標出來：黑是你自己想的、紅是 AI 幫忙的、藍是你自己修改的。先把上面的詩標對，就會了。</p></div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 3：AI 協作歷程紀錄 ========== -->
+<section class="step" data-title="歷程紀錄" data-min="10" hidden>
+  <div class="step-head"><div class="num">3</div><div>
+    <h2>寫「AI 協作歷程紀錄」</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>10 分鐘</span><span class="chip">簡章 四-2-4</span></div>
+  </div></div>
+
+  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p>評審最看重這份紀錄（最多 <b>2 頁</b>）。挑 <b>2～3 輪</b>「有發現問題、有追問、改完更像你家」的對話，不是挑最漂亮的圖。你和 e度 的對話，老師會匯出 Excel 給你，從裡面挑，<b>寫在文件的「四」下面</b>。</p></div>
+
+  <div class="docbox">
+    <h3><svg class="ico"><use href="#i-list"/></svg>每一輪寫這 4 件事</h3>
+    <pre class="skel" id="skel4">四、AI 協作歷程紀錄（第 4 節）
+【第 1 輪】
+我的原始提問：
+AI 的回答摘要，和我發現的問題：
+我的追問或修正：
+最終採用的理由：
+
+【第 2 輪】
+我的原始提問：
+AI 的回答摘要，和我發現的問題：
+我的追問或修正：
+最終採用的理由：
+</pre>
+    <button class="copy" type="button" data-copy="skel4" data-done="已複製！貼到文件的「四、AI 協作歷程紀錄」"><svg class="ico"><use href="#i-copy"/></svg>複製格式</button>
+  </div>
+
+  <div class="eg">
+    <div class="egt">範例（不是你的題目，只看寫法）</div>
+    <b>我的原始提問：</b>我想寫書法比賽的心得，開頭想不出來，可以先給我提示嗎？<br>
+    <b>AI 的回答摘要，和我發現的問題：</b>AI 給了三個開頭。第二個寫「大家都很緊張」，但我那天其實很期待，<span class="rd">不像我</span>。<br>
+    <b>我的追問或修正：</b>我告訴它「我那天很期待，不緊張」，請它只給開頭的方向，不要幫我寫。<br>
+    <b>最終採用的理由：</b>第三個方向「先寫墨汁的味道」很像我的感覺，所以我用它，其他的我自己寫。
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-chat"/></svg>怎麼把「我和 AI 一起改」寫清楚？（句型範例）</h3>
+    <div class="eg" style="margin-bottom:8px"><div class="egt">我提點子，AI 改，我挑好的加進我的句子</div>我一開始寫「比賽很緊張」，AI 建議改成<span class="rd">「握筆的手一直發抖」</span>。我覺得它講的<span class="rd">「手發抖」</span>很有畫面，<b>所以我把它加進我的句子</b>，再自己改成<span class="blu">「我握筆的手微微發抖」</span>。</div>
+    <div class="eg" style="margin-bottom:8px"><div class="egt">我不採用 AI 的，並說原因</div>AI 建議加上「全場都在為我鼓掌」，但<b>那天沒有發生</b>，我<b>沒有採用</b>，因為不是真的。</div>
+    <div class="eg" style="margin-bottom:0"><div class="egt">我發現 AI 的錯</div>AI 說某個節日是農曆 8 月 1 日，我<b>去查</b>日曆，發現是 8 月 15 日，<b>所以我追問並修正</b>。</div>
+    <p class="small muted" style="margin:8px 0 0">紅色是 AI 給的，藍色是你自己改的，黑色是你自己想的（Word 裡會帶你標）。<b>把〔 〕和內容換成你自己的事</b>，不要整句照抄。</p>
+  </div>
+
+  <div class="checks">
+    <label><input type="checkbox" data-key="doc4" value="已寫歷程" data-req>我已經在文件裡寫好 2～3 輪歷程紀錄。</label>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 4：作品說明書 ========== -->
+<section class="step" data-title="作品說明書" data-min="14" hidden>
+  <div class="step-head"><div class="num">4</div><div>
+    <h2>作品說明書：在文件裡寫</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>14 分鐘</span><span class="chip">說明書欄位照原本順序</span></div>
+  </div></div>
+
+  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>說明書直接寫在你的文件「五、作品說明書」下面。</b>這一頁只告訴你每一欄要寫什麼、評審看什麼；<b>前四節的紀錄都在你的文件裡</b>，邊看邊寫。先按最下面的「複製說明書格式」貼進文件，再一欄一欄填。</p></div>
+  <a class="link-card" href="assets/作品說明書_115.odt" download>
+    <span class="li"><svg class="ico"><use href="#i-download"/></svg></span><span><b>下載作品說明書（原始檔）</b><span>小學－作品說明書（115.9.19），用 Word 或 LibreOffice 開啟</span></span><svg class="ico go"><use href="#i-download"/></svg></a>
+
+  <div class="sec">
+    <h3><span class="no">1</span>創作理念</h3>
+    <div class="judge">
+      <div class="j"><b><svg class="ico"><use href="#i-eye"/></svg>評審看什麼</b>想告訴大家什麼？結合了你什麼<b>真實的生活經驗</b>？</div>
+      <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>問自己</b><ul><li>為什麼選這一刻？</li><li>這件事改變了我什麼？</li></ul></div>
+    </div>
+    <div class="ref"><div class="rt">第 1 節 主題卡</div><div class="rv"><span data-ref="L1.reason"></span>　／　<span data-ref="L1.moment"></span>　／　<span data-ref="L1.why"></span></div></div>
+    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在文件裡寫：<b>創作理念：想告訴大家什麼？結合了你什麼真實的生活經驗？</b></div></div>
+  </div>
+
+  <div class="sec">
+    <h3><span class="no">2</span>手冊對應章節（可以複選）</h3>
+    <p class="small muted" style="margin-top:0">勾你真的用到的章節，再說明用在哪裡。這幾節課用到的地方：</p>
+    <div class="chaps">
+      <label><input type="checkbox" data-key="chapters" value="第一章"><span><b>壹 AI 是什麼？</b>認識 e度 是 AI 代理人</span></label>
+      <label><input type="checkbox" data-key="chapters" value="第二章"><span><b>貳 怎麼和 AI 溝通？</b>說清楚、追問、保護個資</span></label>
+      <label><input type="checkbox" data-key="chapters" value="第三章"><span><b>參 AI 小任務</b>和 AI 寫詩、畫圖、黑紅藍標記</span></label>
+      <label><input type="checkbox" data-key="chapters" value="第四章"><span><b>肆 AI 說的一定對嗎？</b>刻板印象、幻覺、查證</span></label>
+      <label><input type="checkbox" data-key="chapters" value="第五章"><span><b>伍 AI 幫助我學習</b>寫作精靈給修改建議</span></label>
+      <label><input type="checkbox" data-key="chapters" value="第六章"><span><b>陸 AI 時代的好公民</b>三色燈、標記、剛剛好的資料</span></label>
+    </div>
+    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在文件裡寫：<b>對應部分說明：你用到手冊哪一章的什麼方法？</b></div></div>
+  </div>
+
+  <div class="sec">
+    <h3><span class="no">3</span>使用教育型 AI 過程</h3>
+    <div class="field"><div class="lbl">教育型 AI 有出現錯誤嗎？</div>
+      <div class="opts"><label class="opt"><input type="radio" name="err" data-key="err" value="有" data-req>有</label><label class="opt"><input type="radio" name="err" data-key="err" value="沒有">沒有</label></div>
+      <p class="small muted" style="margin:6px 0 0">勾「沒有」通常代表沒有仔細檢查。回去看看文件裡的歷程紀錄。</p></div>
+    <div class="judge"><div class="j"><b><svg class="ico"><use href="#i-eye"/></svg>評審看什麼</b>你<b>怎麼發現</b>的？<b>怎麼追問、怎麼改</b>？改完有沒有更好？</div>
+      <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>寫法</b>發現了什麼 → 我怎麼問 → 結果變成怎樣</div></div>
+    <div class="eg"><div class="egt">範例句型（不是你的題目，換成你自己的事）</div>
+      我一開始提了一個點子：<b>「比賽很緊張」</b>，AI 把它改成<span class="rd">「握筆的手一直發抖」</span>，我覺得它講的<span class="rd">「手發抖」</span>很有畫面，<b>所以我把它加進我的句子裡</b>，再自己改成<span class="blu">「我握筆的手微微發抖」</span>。AI 還建議加「全場鼓掌」，但那天沒有發生，<b>我沒有採用</b>。</div>
+    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在文件裡寫：<b>你是怎麼發現跟修正的？</b></div></div>
+    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在文件裡寫：<b>你在哪些地方使用到 e度？（文思精靈想細節、寫作精靈給建議、繪圖精靈畫圖、一般模式查事實……）</b></div></div>
+  </div>
+
+  <div class="sec">
+    <h3><span class="no">4</span>查證揭露</h3>
+    <div class="judge"><div class="j"><b><svg class="ico"><use href="#i-eye"/></svg>評審看什麼</b>哪些部分是 AI 協助、哪些是自己創作？有沒有完整標示？</div>
+      <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>寫法</b>分三句寫：我自己想的、AI 幫忙的、我自己改的（和 Word 裡標的黑、紅、藍一樣）</div></div>
+    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在文件裡寫：<b>查證揭露：哪些是 AI 協助、哪些是你自己創作的？</b></div></div>
+  </div>
+
+  <div class="sec">
+    <h3><span class="no">5</span>學習反思</h3>
+    <div class="field"><div class="lbl">用到哪些工具</div>
+      <div class="opts"><label class="opt"><input type="checkbox" data-key="tools" value="因材網 e度" data-req>因材網 e度</label><label class="opt"><input type="checkbox" data-key="tools" value="Canva">Canva</label><label class="opt"><input type="checkbox" data-key="tools" value="PowerPoint">PowerPoint</label><label class="opt"><input type="checkbox" data-key="tools" value="Word">Word</label><label class="opt"><input type="checkbox" data-key="tools" value="其他">其他</label></div></div>
+    <div class="ref"><div class="rt">第 2 節 我用過的招式</div><div class="rv" data-ref="L2.moves"></div></div>
+    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在文件裡寫：<b>透過這次實作，你學到了什麼？（寫一個具體的改變，不要只寫「學到很多」）</b></div></div>
+  </div>
+
+  <div class="docbox">
+    <h3><svg class="ico"><use href="#i-copy"/></svg>複製說明書格式，貼進文件</h3>
+    <p class="small muted" style="margin:0 0 6px">按下複製，貼在文件的「五、作品說明書」下面；上面勾的選項會一起帶進去。</p>
+    <button class="btn" type="button" id="copyAll"><svg class="ico"><use href="#i-copy"/></svg>複製說明書格式</button>
+    <div class="checks" style="margin-top:10px"><label><input type="checkbox" data-key="doc5" value="說明書寫好" data-req>我已經在文件裡寫好說明書的 5 欄。</label></div>
+  </div>
+  <div class="frames" style="margin-top:16px">
+    <div class="frame"><div class="lab"><span class="k">⑥</span>寫好後，可以請 e度 檢查（不能請它幫你寫）</div>
+      <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>請它只指出問題，內容自己改，說明書才是你寫的。</span></div>
+      <div class="fbox"><div class="ftext">這是我寫的說明書<span class="blank">〔哪一欄〕</span>：<span class="blank">〔貼上你寫的內容〕</span>。寫得如何？請只指出問題，不要幫我寫。</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div>
+      <div class="safe-line"><svg class="ico"><use href="#i-shield"/></svg>貼之前先確認裡面沒有名字；用了 e度 檢查，也要寫進揭露</div></div>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 5 ========== -->
+<section class="step" data-title="今天的成果" data-min="2" hidden>
+  <div class="step-head"><div class="num">5</div><div>
+    <h2>今天的成果</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>2 分鐘</span></div>
+  </div></div>
+
+  <div class="result">
+    <h3><svg class="ico" style="color:var(--ac)"><use href="#i-star"/></svg>今天完成的</h3>
+    <dl>
+      <dt>檢查了</dt><dd data-ref="L4.checks"></dd>
+      <dt>文件</dt><dd>「四、AI 協作歷程紀錄」寫好 2～3 輪</dd>
+      <dt>說明書</dt><dd>「五、作品說明書」的 5 欄寫好</dd>
+    </dl>
+    <svg class="bot" viewBox="0 0 120 120"><use href="#bot"/></svg>
+  </div>
+
+  <div class="grid2">
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-home"/></svg>回家任務</h3>
+      <p>1. 確定卡片 PDF 存好、能打開。<br>2. <b>作品授權同意書</b>（第 3 節請你回家簽的）還沒交的，10/22 一定要帶來。</p></div>
+    <div class="card" style="margin:0"><h3><svg class="ico"><use href="#i-next"/></svg>下一節（10/22）</h3>
+      <p>檢查 <b>4 份文件</b>是不是都備齊，交件！</p>
+      <a class="btn" data-go="C05" href="#">先看第 5 節<svg class="ico"><use href="#i-next"/></svg></a></div>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+</div></main>
+<!--@pre-->
+window.PAGE={code:'C04',lesson:'L4',hbTitle:"第 4 節要讀的手冊頁面（含說明書要用的六章）",hb:[[47, "肆 p.34", "AI 說的一定對嗎？"], [48, "肆 p.35", "AI 偵探"], [49, "肆 p.36", "刻板印象、幻覺"], [50, "肆 p.37", "AI 偵探工具箱"], [51, "肆 p.38", "我學到了嗎"], [38, "參 p.25", "黑紅藍標記"], [66, "陸 p.53", "AI 三色燈"], [67, "陸 p.54", "負責任的使用原則"], [6, "目錄", "手冊的六章"], [14, "壹 p.1", "AI 是什麼？"], [22, "貳 p.9", "怎麼和 AI 溝通？"], [34, "參 p.21", "AI 小任務"], [52, "伍 p.39", "AI 幫助我學習"], [65, "陸 p.52", "AI 時代的好公民"]]};
+<!--@post-->
+(function(){
+  // 手冊 參 p.25：思思修改後的詩與標色（k 黑／r 紅／b 藍）
+  var P=[[['OLI','k'],['好奇','r'],['望半月','k'],['，','k'],['蹬腳','k'],['飛向','r'],['外太空','k'],['，','k']],
+         [['漆黑宇宙','k'],['一圓','b'],['球','k'],['，','k'],['陽光','k'],['照耀','b'],['半邊','k'],['紅','r'],['。','k']],
+         [['發現真相','k'],['返地球','b'],['，','k'],['急告','k'],['人類','r'],['汪不停','b'],['。','k']]];
+  var host=document.getElementById('poem'),ws=[],ORDER=['k','r','b'];
+  P.forEach(function(line,li){
+    line.forEach(function(seg){
+      if(/^[，。]$/.test(seg[0])){host.appendChild(document.createTextNode(seg[0]));return;}
+      var s=document.createElement('span');s.className='w k';s.textContent=seg[0];s.dataset.ans=seg[1];s.dataset.c='k';
+      s.setAttribute('role','button');s.tabIndex=0;
+      function cyc(){var i=(ORDER.indexOf(s.dataset.c)+1)%3;s.dataset.c=ORDER[i];s.className='w '+ORDER[i];document.getElementById('poemMsg').textContent='';}
+      s.onclick=cyc;s.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();cyc();}};
+      host.appendChild(s);ws.push(s);
+    });
+    if(li<P.length-1)host.appendChild(document.createElement('br'));
+  });
+  document.getElementById('poemCheck').onclick=function(){
+    var ok=0;ws.forEach(function(s){var r=s.dataset.c===s.dataset.ans;s.classList.toggle('ok',r);s.classList.toggle('no',!r);if(r)ok++;});
+    var m=document.getElementById('poemMsg');
+    m.textContent=ok===ws.length?'全部正確！紅色是 e度 建議的字，藍色是思思看了建議後自己改的。':'對了 '+ok+'／'+ws.length+' 個。紅底線的再想想：這個詞是誰想出來的？';
+    m.style.color=ok===ws.length?'var(--green)':'var(--red)';
+  };
+  document.getElementById('poemShow').onclick=function(){
+    ws.forEach(function(s){s.dataset.c=s.dataset.ans;s.className='w '+s.dataset.ans+' ok';});
+    var m=document.getElementById('poemMsg');m.style.color='var(--sub)';m.textContent='這是手冊 參 p.25 的標法。';
+  };
+})();
+
+(function(){
+  function checked(k){return $$('[data-key="'+k+'"]').filter(function(x){return x.checked;}).map(function(x){return x.value;});}
+  var b=document.getElementById('copyAll');if(!b)return;
+  b.onclick=function(){
+    var t='五、作品說明書（第 4 節）\n\n1. 創作理念\n（想告訴大家什麼？結合了我什麼真實的生活經驗？）\n\n2. 手冊對應章節\n勾選：'+(checked('chapters').join('、')||'（還沒勾）')+'\n對應部分說明：\n\n3. 使用教育型 AI 過程\n教育型 AI 有出現錯誤嗎？'+(checked('err')[0]||'（還沒勾）')+'\n你是怎麼發現跟修正的？\n你在哪些地方使用到 e度？\n\n4. 查證揭露\n我自己想的：\nAI 幫忙的：\n我自己改的：\n\n5. 學習反思\n用到的工具：'+(checked('tools').join('、')||'（還沒勾）')+'\n透過這次實作，我學到了：\n';
+    copyText(t,this,'已複製！貼到文件的「五、作品說明書」下面');
+  };
+})();
