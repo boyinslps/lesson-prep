@@ -1,0 +1,221 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "type": "title",
+   "dur": 2.5,
+   "title": "多了空白？多了一行？",
+   "subtitle": "用 Backspace 和 Delete"
+  },
+  {
+   "dur": 5,
+   "img": "shots/keyboard.png",
+   "step": "鍵",
+   "caption": "Backspace 刪游標「前面」",
+   "sub": "Delete 刪游標「後面」",
+   "circles": [
+    {
+     "t": 0.3,
+     "dur": 99,
+     "x": 802,
+     "y": 190,
+     "w": 110,
+     "h": 52,
+     "pad": 10
+    },
+    {
+     "t": 1.4,
+     "dur": 99,
+     "x": 954,
+     "y": 248,
+     "w": 52,
+     "h": 52,
+     "pad": 10
+    }
+   ]
+  },
+  {
+   "dur": 6,
+   "img": "shots/doc_indent.png",
+   "imgs": [
+    {
+     "t": 3.0,
+     "img": "shots/doc0.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "41230 王小明 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 1
+   },
+   "step": "1",
+   "caption": "前面多了空白？",
+   "sub": "游標點在字前面 → 按 Backspace",
+   "circles": [
+    {
+     "t": 0.4,
+     "dur": 1.8,
+     "x": 185,
+     "y": 414,
+     "w": 46,
+     "h": 28,
+     "pad": 8
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.6,
+     "x": 233,
+     "y": 428
+    }
+   ],
+   "keys": [
+    {
+     "t": 2.2,
+     "dur": 1.6,
+     "keys": [
+      "Backspace"
+     ],
+     "y": 580
+    }
+   ],
+   "labels": [
+    {
+     "t": 3.2,
+     "dur": 99,
+     "x": 480,
+     "y": 412,
+     "text": "對齊了！",
+     "color": "green"
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 700,
+     "y": 560
+    },
+    {
+     "t": 1.4,
+     "x": 233,
+     "y": 428,
+     "mode": "ibeam"
+    },
+    {
+     "t": 3.0,
+     "x": 233,
+     "y": 428,
+     "mode": "ibeam"
+    },
+    {
+     "t": 3.1,
+     "x": 185,
+     "y": 428,
+     "mode": "ibeam"
+    },
+    {
+     "t": 6,
+     "x": 185,
+     "y": 428,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 6,
+   "img": "shots/doc_blank.png",
+   "imgs": [
+    {
+     "t": 3.0,
+     "img": "shots/doc0.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "41230 王小明 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 1
+   },
+   "step": "2",
+   "caption": "中間多了一行？",
+   "sub": "游標點在上一行最後面 → 按 Delete",
+   "circles": [
+    {
+     "t": 0.4,
+     "dur": 1.8,
+     "x": 185,
+     "y": 414,
+     "w": 420,
+     "h": 28,
+     "pad": 6
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.6,
+     "x": 490,
+     "y": 390
+    }
+   ],
+   "keys": [
+    {
+     "t": 2.2,
+     "dur": 1.6,
+     "keys": [
+      "Delete"
+     ],
+     "y": 580
+    }
+   ],
+   "labels": [
+    {
+     "t": 3.2,
+     "dur": 99,
+     "x": 520,
+     "y": 412,
+     "text": "空行不見了！",
+     "color": "green"
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 700,
+     "y": 560
+    },
+    {
+     "t": 1.4,
+     "x": 490,
+     "y": 390,
+     "mode": "ibeam"
+    },
+    {
+     "t": 6,
+     "x": 490,
+     "y": 390,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "type": "title",
+   "dur": 3,
+   "title": "Backspace 刪前面，Delete 刪後面",
+   "subtitle": "刪錯了？按 Ctrl＋Z 回到上一步"
+  }
+ ]
+}

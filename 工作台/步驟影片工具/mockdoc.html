@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="UTF-8"><title>台南行程規劃＿4年1班7號 - Google 文件</title>
+<html lang="zh-Hant"><head><meta charset="UTF-8"><title>41230 王小明 - Google 文件</title>
 <style>
   *{box-sizing:border-box}
   body{margin:0;font-family:Arial,'Microsoft JhengHei',sans-serif;background:#f9fbfd;color:#1f1f1f;height:640px;overflow:hidden}
@@ -20,7 +20,7 @@
   .url{color:#1155cc;text-decoration:underline}
 </style></head>
 <body>
-  <div class="top"><div class="logo"></div><div class="title">台南行程規劃＿4年1班7號</div><div class="share">共用</div></div>
+  <div class="top"><div class="logo"></div><div class="title">41230 王小明</div><div class="share">共用</div></div>
   <div class="menu"><span>檔案</span><span>編輯</span><span>查看</span><span>插入</span><span>格式</span><span>工具</span><span>擴充功能</span><span>說明</span></div>
   <div class="bar"><b>↶ ↷ 🖨</b><b>100%</b><b>內文</b><b>Arial</b><span>－ 11 ＋</span><span><u>B</u></span><span><i>I</i></span><span>U</span></div>
   <div class="ruler"></div>
@@ -29,8 +29,9 @@
     <p>我的宣言：我要規劃一趟「安平區」一日遊，和家人一起去，吃當地小吃、看古蹟。</p>
     <p></p>
     <p>第 1 站：安平古堡</p>
-    <p>在哪一區：安平區</p>
-    <p>開放時間：10:00～17:10</p>
+    <p id="addr">地址：臺南市安平區國勝路82號</p>
+    <p id="blank" style="display:none"></p>
+    <p id="open">開放時間：10:00～17:10</p>
     <p id="ticket">門票：</p>
     <p>停留多久：1 小時</p>
     <p id="url">景點網址：</p>
@@ -38,6 +39,10 @@
 <script>
   var q=new URLSearchParams(location.search);
   if(q.get('ticket'))document.getElementById('ticket').innerHTML='門票：<span class="pasted">全票70、半票35（台南市市民憑身分證免費）</span>';
+  if(q.get('addr')==='empty')document.getElementById('addr').textContent='地址：';
+  if(q.get('blank')){var b=document.getElementById('blank');b.style.display='block';b.innerHTML='&nbsp;';}
+  if(q.get('indent'))document.getElementById('open').innerHTML='<span style="white-space:pre">        </span>開放時間：10:00～17:10';
   if(q.get('url'))document.getElementById('url').innerHTML='景點網址：<span class="url">https://www.twtainan.net/zh-tw/attractions/detail/671/</span>';
 </script>
 </body></html>
+

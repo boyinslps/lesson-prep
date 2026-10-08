@@ -7,7 +7,7 @@
   {
    "type": "title",
    "dur": 3,
-   "title": "從網站複製資料，貼到 Google 文件",
+   "title": "從網站複製，貼到文件",
    "subtitle": "選字 → Ctrl＋C → 切到文件分頁 → Ctrl＋Shift＋V"
   },
   {
@@ -16,7 +16,7 @@
    "chrome": {
     "tabs": [
      "安平古堡 - 台南旅遊網",
-     "台南行程規劃＿4年1班7號 - Google 文件"
+     "41230 王小明 - Google 文件"
     ],
     "urls": [
      "twtainan.net/zh-tw/attractions/detail/671/",
@@ -77,7 +77,7 @@
    "chrome": {
     "tabs": [
      "安平古堡 - 台南旅遊網",
-     "台南行程規劃＿4年1班7號 - Google 文件"
+     "41230 王小明 - Google 文件"
     ],
     "urls": [
      "twtainan.net/zh-tw/attractions/detail/671/",
@@ -138,7 +138,7 @@
    "chrome": {
     "tabs": [
      "安平古堡 - 台南旅遊網",
-     "台南行程規劃＿4年1班7號 - Google 文件"
+     "41230 王小明 - Google 文件"
     ],
     "urls": [
      "twtainan.net/zh-tw/attractions/detail/671/",
@@ -237,7 +237,7 @@
    "chrome": {
     "tabs": [
      "安平古堡 - 台南旅遊網",
-     "台南行程規劃＿4年1班7號 - Google 文件"
+     "41230 王小明 - Google 文件"
     ],
     "urls": [
      "twtainan.net/zh-tw/attractions/detail/671/",
@@ -247,7 +247,7 @@
    },
    "step": "4",
    "caption": "按 Ctrl＋Shift＋V 貼上",
-   "sub": "加 Shift＝只貼文字，字型、顏色跟文件一樣",
+   "sub": "＝「貼上但不套用格式設定」，字跟文件一樣",
    "keys": [
     {
      "t": 0.4,
@@ -306,7 +306,7 @@
    "type": "title",
    "dur": 3.5,
    "title": "選字 → Ctrl＋C → 切分頁 → Ctrl＋Shift＋V",
-   "subtitle": "開放時間、門票、停留多久，都用同一招"
+   "subtitle": "開放時間、門票，都用同一招"
   }
  ]
 }

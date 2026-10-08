@@ -1,0 +1,324 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "type": "title",
+   "dur": 2.5,
+   "title": "地址一點就跳走？",
+   "subtitle": "從旁邊白色地方按住，往左拖"
+  },
+  {
+   "dur": 4.5,
+   "img": "shots/ta_info.png",
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "41230 王小明 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "step": "✗",
+   "caption": "直接點地址 → 會跳到地圖",
+   "sub": "所以不要直接點",
+   "clicks": [
+    {
+     "t": 1.2,
+     "x": 390,
+     "y": 571
+    }
+   ],
+   "boxes": [
+    {
+     "t": 1.5,
+     "dur": 99,
+     "x": 279,
+     "y": 551,
+     "w": 232,
+     "h": 43,
+     "style": "gray-x"
+    }
+   ],
+   "labels": [
+    {
+     "t": 1.6,
+     "dur": 99,
+     "x": 530,
+     "y": 550,
+     "text": "會跳走！"
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 700,
+     "y": 300
+    },
+    {
+     "t": 1.1,
+     "x": 390,
+     "y": 571
+    },
+    {
+     "t": 4.5,
+     "x": 390,
+     "y": 571
+    }
+   ]
+  },
+  {
+   "dur": 6,
+   "img": "shots/ta_info.png",
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "41230 王小明 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "step": "1",
+   "caption": "在地址右邊的白色地方按住",
+   "sub": "往左拖到「臺」，字變藍色",
+   "circles": [
+    {
+     "t": 0.3,
+     "dur": 1.3,
+     "x": 530,
+     "y": 560,
+     "w": 30,
+     "h": 24,
+     "pad": 10
+    }
+   ],
+   "boxes": [
+    {
+     "t": 1.9,
+     "dur": 99,
+     "x": 286,
+     "y": 557,
+     "w": 206,
+     "h": 28,
+     "style": "select",
+     "grow": 1.6,
+     "dir": "left"
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 700,
+     "y": 400
+    },
+    {
+     "t": 1.0,
+     "x": 545,
+     "y": 571,
+     "mode": "ibeam"
+    },
+    {
+     "t": 1.9,
+     "x": 545,
+     "y": 571,
+     "mode": "ibeam"
+    },
+    {
+     "t": 3.5,
+     "x": 286,
+     "y": 571,
+     "mode": "ibeam"
+    },
+    {
+     "t": 6,
+     "x": 286,
+     "y": 571,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 3.5,
+   "img": "shots/ta_info.png",
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "41230 王小明 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "step": "2",
+   "caption": "按 Ctrl＋C 複製",
+   "boxes": [
+    {
+     "t": 0,
+     "dur": 99,
+     "x": 286,
+     "y": 557,
+     "w": 206,
+     "h": 28,
+     "style": "select"
+    }
+   ],
+   "keys": [
+    {
+     "t": 0.3,
+     "dur": 2.6,
+     "keys": [
+      "Ctrl",
+      "C"
+     ],
+     "x": 900,
+     "y": 330
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 286,
+     "y": 571,
+     "mode": "ibeam"
+    },
+    {
+     "t": 3.5,
+     "x": 286,
+     "y": 571,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 7,
+   "img": "shots/ta_info.png",
+   "imgs": [
+    {
+     "t": 1.6,
+     "img": "shots/doc_addr0.png"
+    },
+    {
+     "t": 4.3,
+     "img": "shots/doc_addr1.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "安平古堡 - 台南旅遊網",
+     "41230 王小明 - Google 文件"
+    ],
+    "urls": [
+     "twtainan.net/zh-tw/attractions/detail/671/",
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "activeAt": [
+     {
+      "t": 1.6,
+      "active": 1
+     }
+    ]
+   },
+   "step": "3",
+   "caption": "切到文件，點「地址：」後面",
+   "captions": [
+    {
+     "t": 3.4,
+     "caption": "按 Ctrl＋Shift＋V 貼上",
+     "sub": "貼好了！"
+    }
+   ],
+   "circles": [
+    {
+     "t": 0.3,
+     "dur": 1.3,
+     "x": 272,
+     "y": 6,
+     "w": 256,
+     "h": 36,
+     "pad": 6
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.5,
+     "x": 400,
+     "y": 24
+    },
+    {
+     "t": 3.0,
+     "x": 250,
+     "y": 390
+    }
+   ],
+   "keys": [
+    {
+     "t": 3.5,
+     "dur": 2.0,
+     "keys": [
+      "Ctrl",
+      "Shift",
+      "V"
+     ],
+     "y": 560
+    }
+   ],
+   "boxes": [
+    {
+     "t": 4.4,
+     "dur": 99,
+     "x": 178,
+     "y": 374,
+     "w": 320,
+     "h": 32,
+     "style": "highlight"
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 286,
+     "y": 571
+    },
+    {
+     "t": 1.3,
+     "x": 400,
+     "y": 24
+    },
+    {
+     "t": 1.9,
+     "x": 400,
+     "y": 24
+    },
+    {
+     "t": 2.8,
+     "x": 250,
+     "y": 390,
+     "mode": "ibeam"
+    },
+    {
+     "t": 7,
+     "x": 250,
+     "y": 390,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "type": "title",
+   "dur": 3,
+   "title": "白色地方按住 → 往左拖",
+   "subtitle": "Ctrl＋C → 切文件 → Ctrl＋Shift＋V"
+  }
+ ]
+}

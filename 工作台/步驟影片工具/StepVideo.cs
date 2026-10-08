@@ -245,7 +245,9 @@ public static class StepVideo
         {
             float grow = (float)G(b, "grow", 0);
             float p = grow > 0 ? (float)Clamp01(lt / grow) : 1f;
-            using (var br = new SolidBrush(Color.FromArgb(110, 66, 133, 244))) g.FillRectangle(br, r.X, r.Y, r.Width * p, r.Height);
+            bool fromRight = S(b, "dir") == "left";   // 從右往左拖的選取
+            using (var br = new SolidBrush(Color.FromArgb(110, 66, 133, 244)))
+                g.FillRectangle(br, fromRight ? r.Right - r.Width * p : r.X, r.Y, r.Width * p, r.Height);
         }
         else if (style == "highlight")
         {
