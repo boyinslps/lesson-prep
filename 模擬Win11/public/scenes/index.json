@@ -1,0 +1,7 @@
+{
+  "scenes": [
+    { "id": "basic", "title": "基本桌面（預設示範）" },
+    { "id": "empty", "title": "乾淨桌面" },
+    { "id": "practice-rename", "title": "練習：檔案重新命名" }
+  ]
+}
