@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="資訊老師黃博胤">
+<title>訊息查證小偵探｜五上 L05 教學活動</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Noto Sans TC',sans-serif;background:#F4F6FB;color:#1f2430}
+  .cute{font-family:'Baloo 2','Noto Sans TC',cursive}
+  .pop{animation:pp .35s}@keyframes pp{0%{transform:scale(.9)}60%{transform:scale(1.05)}100%{transform:scale(1)}}
+  .flip{animation:fl .5s}@keyframes fl{0%{transform:rotateX(90deg);opacity:0}100%{transform:rotateX(0);opacity:1}}
+  .idnum{width:52px;text-align:center}
+  .shotimg{width:100%;border-radius:1rem;border:3px solid #cbd5e1;display:block;background:#fff;cursor:zoom-in}
+  .imgph{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;text-align:center;background:repeating-linear-gradient(45deg,#f1f5f9,#f1f5f9 10px,#e2e8f0 10px,#e2e8f0 20px);border:3px dashed #94a3b8;border-radius:1rem;color:#64748b;font-weight:700;padding:1rem;width:100%}
+  .vidbox{position:relative;width:100%;padding-top:56.25%}.vidbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vidtall{position:relative;width:100%;max-width:340px;margin:0 auto;padding-top:min(177%,600px)}.vidtall iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:1rem}
+  .opt{transition:.15s}
+  .fld{width:100%;border:2px solid #cbd5e1;border-radius:12px;padding:6px 10px;background:#fff;outline:none}
+  .fld:focus{border-color:#6366f1}
+  kbd{background:#f1f5f9;border:1px solid #cbd5e1;border-bottom-width:3px;border-radius:6px;padding:0 6px;font-family:inherit;font-weight:700}
+  .locked .ans{pointer-events:none}
+  details>summary{cursor:pointer;list-style:none}details>summary::-webkit-details-marker{display:none}
+  /* 學習路徑（《HTML互動教材設計規範》§5.8） */
+  .stepnav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:24px;padding-top:16px;border-top:2px solid #e2e8f0}
+  .stepdot{width:32px;height:32px}
+  @media(max-width:420px){.stepdot{width:28px;height:28px;font-size:12px}}
+  /* ⑥ 拖曳排序 */
+  .skill{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #c7d2fe;border-radius:14px;padding:8px 10px;cursor:grab;user-select:none}
+  .skill.dragging{opacity:.45;border-style:dashed}
+  .skill.bad{border-color:#fb7185;background:#fff1f2}
+  .skill.good{border-color:#34d399;background:#ecfdf5}
+  .skill .num{flex:none;width:30px;height:30px;border-radius:999px;background:#6366f1;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+  .skill .mv{flex:none;border:2px solid #e2e8f0;border-radius:8px;width:30px;height:30px;font-weight:800;color:#64748b;background:#fff}
+  .skill .mv:hover{border-color:#818cf8;color:#4f46e5}
+  .skill .mv:disabled{opacity:.3}
+  /* 點圖放大：滾輪縮放、拖曳移動、雙擊還原 */
+  #lightbox{position:fixed;inset:0;z-index:60;background:rgba(15,20,35,.92);display:none;flex-direction:column}
+  #lightbox.on{display:flex}
+  .lbtop{display:flex;align-items:center;gap:10px;padding:10px 16px;color:#cbd5e1;font-size:14px;flex-wrap:wrap}
+  .lbstage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 16px 16px}
+  .lbstage img{max-height:100%;max-width:100%;border-radius:10px;background:#fff;object-fit:contain;touch-action:none;user-select:none}
+  .zbtn{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:8px;padding:4px 10px;font-weight:700;cursor:pointer}
+  .zbtn:hover{background:rgba(255,255,255,.26)}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+  .pickcard{transition:.15s}
+  .pickcard.on{border-color:#6366f1;background:#eef2ff;box-shadow:0 0 0 4px #c7d2fe}
+  .bubble{background:#e8f0fe;border-radius:16px;padding:10px 14px;font-size:1.05rem;line-height:1.7}
+  .playov{position:relative}
+  .playov:after{content:'▶';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;line-height:64px;text-align:center;border-radius:999px;background:rgba(0,0,0,.62);color:#fff;font-size:28px;pointer-events:none}
+  .dur{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.75);color:#fff;font-size:13px;font-weight:700;border-radius:6px;padding:1px 6px;z-index:2}
+  .src{font-size:.9rem;margin-top:.5rem}
+</style>
+</head>
+<body class="text-slate-800">
+
+<!-- 教師檢視模式橫幅（?review= 時顯示，見《學習單資料與提交規範》§5-7） -->
+<div id="reviewBanner" class="hidden bg-amber-400 text-amber-950 text-sm font-bold">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap">
+    <span id="reviewText">🔍 檢視模式（唯讀）</span>
+    <a id="reviewExit" href="#" class="ml-auto underline">✕ 離開檢視</a>
+  </div>
+</div>
+
+<!-- 老師工具列（僅 #admin 時顯示；公布鈕放在各段落旁邊，見《學習單資料與提交規範》§5-8） -->
+<div id="teacherbar" class="hidden bg-slate-900 text-white text-sm">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-2 flex-wrap">
+    <span class="cute font-bold text-amber-300">👩‍🏫 教師模式</span>
+    <span id="tStatus" class="text-slate-300 text-xs"></span>
+    <div class="ml-auto flex gap-2 flex-wrap">
+      <button id="showAnsBtn" class="hidden bg-emerald-600 hover:bg-emerald-700 rounded-lg px-3 py-1" title="把標準答案填進學習單的作答欄">👁 檢視答案</button>
+      <button id="uploadAnsBtn" class="hidden bg-sky-600 hover:bg-sky-700 rounded-lg px-3 py-1" title="把④⑤文字題作答框裡的內容存成標準答案（可用 | 分隔多個答案）">⬆ 上傳答案</button>
+      <button id="lockBtn" class="hidden bg-slate-700 hover:bg-slate-600 rounded-lg px-3 py-1" title="收回所有公布，清掉「檢視答案」填進去的內容">↩ 還原</button>
+      <button id="previewModeBtn" class="bg-indigo-600 hover:bg-indigo-700 font-bold rounded-lg px-3 py-1">👀 預覽學生模式</button>
+    </div>
+  </div>
+</div>
+<button id="backToTeacher" class="hidden fixed bottom-4 right-4 z-30 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full px-4 py-2 shadow-lg">↩ 返回教師模式</button>
+
+<!-- 識別列：年級/班級/座號（數字），頁面最上方、不固定（見《學習單資料與提交規範》§1、《HTML互動教材設計規範》§5.8-6） -->
+<div class="bg-white border-b-2 border-indigo-200">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap text-sm">
+    <span class="cute font-bold text-indigo-700">我是誰</span>
+    <label class="flex items-center gap-1 text-slate-500">年級<input id="idGrade" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-indigo-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">班級<input id="idClass" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-indigo-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">座號<input id="idStudent" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-indigo-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <span id="idOk" class="hidden text-emerald-600 font-bold text-xs">✓ 已記住</span>
+  </div>
+</div>
+
+<!-- 學習路徑進度列（固定在畫面上方，可點圓點跳步） -->
+<div class="sticky top-0 z-20 bg-white/95 backdrop-blur border-b-2 border-indigo-100">
+  <div class="max-w-5xl mx-auto px-4 py-2">
+    <div id="stepper" class="flex items-start"></div>
+    <p id="stepLabel" class="sm:hidden text-xs font-bold text-indigo-700 text-center mt-1"></p>
+  </div>
+</div>
+
+<div id="main" class="max-w-5xl mx-auto px-4 py-6">
+
+  <header class="text-center mb-6">
+    <h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600">🔎 訊息查證小偵探</h1>
+    <p class="text-sm text-slate-500 mt-2">五年級上學期 · L05 Docs 查證文件（一）· 教學活動流程（40 分鐘）</p>
+    <p id="syncBadge" class="hidden mt-2 text-xs text-emerald-600 font-bold">🔗 已連線：老師公布答案時，這台會自動同步</p>
+  </header>
+
+
+  <!-- ===== 步驟 1：看成品 ===== -->
+  <section class="step" data-step="1">
+    <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-6 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">📄 這兩節，你要做出這樣一份查證文件</h2>
+      <p class="text-slate-600 mt-2 text-lg">老師先帶大家看一份成品：把一則網傳訊息查清楚，整理成 Google 文件。文件有 <b>7 欄</b>，<b>今天先做前 4 欄</b>，下一節做後 3 欄。</p>
+      <a href="https://docs.google.com/document/d/1e4-lD9lyZJgRPma8_7A3e3fn0y1M8M9Z1oqZF1gI0n4/edit" target="_blank" rel="noopener" class="flex items-center gap-3 bg-white border-4 border-dashed border-sky-300 rounded-2xl p-4 mt-4 hover:bg-sky-50">
+        <div class="text-3xl">📄</div>
+        <div class="flex-1"><div class="font-bold text-sky-700">成品範例：幫陌生人操作手機，會被盜走指紋嗎？</div><div class="text-xs text-slate-400">Google 文件・開新分頁</div></div>
+        <div class="text-sky-600 font-bold text-sm">開啟 ↗</div>
+      </a>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-5 text-base">
+        <div class="bg-indigo-100 border-2 border-indigo-200 rounded-2xl p-3"><p class="font-bold">1 ‧ 我選的訊息</p><p class="text-sm text-slate-600 mt-0.5">用自己的話說：這則訊息在講什麼</p></div>
+        <div class="bg-indigo-100 border-2 border-indigo-200 rounded-2xl p-3"><p class="font-bold">2 ‧ 我怎麼找到查核文章的</p><p class="text-sm text-slate-600 mt-0.5">用了哪個關鍵詞、哪張圖</p></div>
+        <div class="bg-indigo-100 border-2 border-indigo-200 rounded-2xl p-3"><p class="font-bold">3 ‧ 查核結果</p><p class="text-sm text-slate-600 mt-0.5">查核機構標了什麼？是哪一家？</p></div>
+        <div class="bg-indigo-100 border-2 border-indigo-200 rounded-2xl p-3"><p class="font-bold">4 ‧ 查核網址</p><p class="text-sm text-slate-600 mt-0.5">查核文章的標題，做成可以點的連結</p></div>
+        <div class="bg-slate-100 border-2 border-slate-200 rounded-2xl p-3"><p class="font-bold">5 ‧ 為什麼這則訊息會被廣傳？</p><p class="text-sm text-slate-600 mt-0.5">它讓人怕？好奇？還是關心家人？</p></div>
+        <div class="bg-slate-100 border-2 border-slate-200 rounded-2xl p-3"><p class="font-bold">6 ‧ 正確資訊</p><p class="text-sm text-slate-600 mt-0.5">查核文章說的事實，用自己的話整理</p></div>
+        <div class="bg-slate-100 border-2 border-slate-200 rounded-2xl p-3"><p class="font-bold">7 ‧ 如果相信的話，會有什麼後果？</p><p class="text-sm text-slate-600 mt-0.5">誰會怎樣？</p></div>
+      </div>
+      <p class="mt-4 text-sm text-slate-500"><span class="inline-block w-3 h-3 rounded bg-indigo-200 align-middle"></span> 今天（L05）　<span class="inline-block w-3 h-3 rounded bg-slate-200 align-middle ml-2"></span> 下一節（L06）</p>
+    </div>
+    <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 shadow-sm">
+      <h2 class="cute text-2xl font-extrabold text-rose-700">🤔 想一想</h2>
+      <p class="text-slate-700 mt-2 text-lg">這份文件的 7 欄，你覺得<b>哪一欄最難寫</b>？為什麼？</p>
+      <p class="text-slate-700 mt-3 text-lg">💡 不用從零查證：今天要學的是<b>找到別人已經查好的那一篇</b>，再讀懂它。</p>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 2：標題設定 ===== -->
+  <section class="step hidden" data-step="2">
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-indigo-700">🧰 複習：用「標題 1」「標題 2」做出層次</h2>
+      <p class="text-slate-600 mt-2 text-lg">Google 文件左上角那個「內文」按鈕裡，藏著各種<b>樣式</b>。這份文件用兩種：整份文件的題目用<b>標題 1</b>，每一欄的名字用<b>標題 2</b>。用樣式設定，左邊的「大綱」才找得到每一段。</p>
+      <div class="mt-4"><video class="w-full max-w-[560px] mx-auto rounded-2xl bg-slate-900" src="assets/教學_貼上欄位設標題.mp4" poster="assets/教學_貼上欄位設標題_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1 text-center">操作影片：貼上欄位、設定標題 1 與標題 2（約 40 秒）</p></div>
+    </div>
+    <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 shadow-sm">
+      <h3 class="cute text-2xl font-extrabold text-violet-700 m-0">✋ 先猜猜看</h3>
+      <div class="flex items-center gap-2 flex-wrap mt-3"><p class="font-bold text-violet-800 text-lg">如果我只把「我選的訊息」這幾個字改成 16 號大字，它會變成「標題 2」嗎？</p><span class="qtypeSlot" data-qid="c1"></span><span id="c1Fb" class="text-sm font-bold"></span></div>
+      <div id="c1Opts" class="flex flex-wrap gap-2 mt-2"></div>
+      <div id="c1Expl" class="hidden mt-4 flip bg-rose-50 border-2 border-rose-200 rounded-2xl p-4 text-lg text-slate-700">
+        <p>🎉 答案是<b>不會</b>。只是字變大，左邊的「大綱」裡找不到它。<b>用「樣式」選了標題 2，才算標題 2</b>，文件才有層次。</p>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 3：示範 ===== -->
+  <section class="step hidden" data-step="3">
+    <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-amber-700">👩‍🏫 老師示範：從訊息找到查核文章</h2>
+      <p class="text-slate-600 mt-2 text-lg">還記得 L03 的<b>橫向閱讀</b>、L04 的<b>查證網站</b>和<b>以圖搜圖</b>嗎？把它們組合起來，就能找到別人<b>已經查好</b>的那一篇。看老師怎麼做：</p>
+      <div class="grid md:grid-cols-2 gap-5 mt-4 items-start">
+        <div>
+          <img class="shotimg" src="assets/M2_B示範_陌生人手機_網傳訊息.png" alt="示範訊息：兩則臉書貼文，標題寫「人工智能生物信息詐騙，要的不是你的錢而是你這個人」，帳號已遮蔽" loading="lazy">
+          <p class="text-[11px] text-slate-400 mt-1">網傳貼文擷圖（帳號已遮蔽）・點圖可放大</p>
+        </div>
+        <div class="text-lg text-slate-700">
+          <p class="font-bold text-amber-700">示範訊息：幫陌生人操作手機，會被盜走指紋？</p>
+          <p class="mt-2">訊息說：只要你摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子會拿去貸款，<b>30 分鐘傾家蕩產</b>。</p>
+          <p class="mt-2 text-slate-500 text-base">你會信嗎？會轉傳嗎？先別急，我們來查。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-amber-200 rounded-3xl p-6 mb-5">
+      <h3 class="cute text-2xl font-extrabold text-amber-700">① 圈出 2～3 個關鍵詞</h3>
+      <p class="text-slate-700 text-lg mt-1">不要整句貼去搜。挑<b>人、事、物</b>最重要的幾個詞。換你選選看（<b>挑 2～3 個</b>）：</p>
+      <div class="flex items-center gap-2 flex-wrap mt-2"><span class="qtypeSlot" data-qid="kwd"></span><span id="kwdFb" class="text-sm font-bold text-slate-500"></span></div>
+      <div id="kwdOpts" class="flex flex-wrap gap-2 mt-2"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4 mb-5">
+      <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
+        <h3 class="cute text-xl font-extrabold text-amber-700">② 加上「查核」去搜</h3>
+        <p class="text-slate-700 mt-1">關鍵詞＋<b>查核</b>。例：<span class="bg-amber-50 border border-amber-300 rounded-lg px-2 py-0.5 font-bold">陌生人 操作手機 生物特徵 查核</span></p>
+      </div>
+      <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
+        <h3 class="cute text-xl font-extrabold text-amber-700">③ 認出查核機構</h3>
+        <p class="text-slate-700 mt-1">網址是 <b>tfc-taiwan.org.tw</b>、<b>mygopen.com</b>，才是專門查謠言的。新聞、臉書貼文只是<b>轉載</b>。</p>
+      </div>
+      <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
+        <h3 class="cute text-xl font-extrabold text-amber-700">④ 只讀兩個地方</h3>
+        <p class="text-slate-700 mt-1">標題前的<b>標籤</b>（錯誤、誤導…），和文章最上面的「<b>你可以先知道</b>」。</p>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-teal-300 rounded-3xl p-6 mb-5">
+      <h3 class="cute text-2xl font-extrabold text-teal-700">⚠️ 三條界線</h3>
+      <ul class="list-disc pl-5 mt-2 space-y-2 text-lg text-slate-700">
+        <li>搜尋結果最上面的 <b>AI 摘要先跳過</b>。它也會講結論，但你要讀的是<b>查核機構寫的原始文章</b>。</li>
+        <li>點到<b>轉載站</b>（新聞網站、貼文）時，要再點到<b>原始的查核機構</b>。</li>
+        <li>找不到時，<b>換關鍵詞</b>，或改用<b>以圖搜圖</b>，不要放棄，也不要自己亂猜結論。</li>
+      </ul>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-5 mb-5">
+      <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
+        <h3 class="cute text-xl font-extrabold text-amber-700">🎬 找到查核文章（約 1 分鐘）</h3>
+        <div class="mt-3"><video class="w-full max-w-[560px] mx-auto rounded-2xl bg-slate-900" src="assets/教學_找到查核文章.mp4" poster="assets/教學_找到查核文章_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1 text-center">操作影片：從訊息找到查核文章（約 1 分鐘）</p></div>
+      </div>
+      <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
+        <h3 class="cute text-xl font-extrabold text-amber-700">🎬 以圖搜圖的兩種方法</h3>
+        <div class="mt-3"><video class="w-full max-w-[560px] mx-auto rounded-2xl bg-slate-900" src="assets/教學_以圖搜圖兩種方法.mp4" poster="assets/教學_以圖搜圖兩種方法_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1 text-center">操作影片：以圖搜圖兩種方法（約 1 分 15 秒）</p></div>
+      </div>
+      <div class="bg-white border-4 border-amber-200 rounded-3xl p-5 md:col-span-2">
+        <h3 class="cute text-xl font-extrabold text-amber-700">🎬 影片不能右鍵？用「截圖」再搜（L04 學過）</h3>
+        <p class="text-slate-600 mt-1">影片、訊息裡的圖，用 <kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd> 截圖，貼到 Google 圖片，再加關鍵字。</p>
+        <div class="mt-3"><video class="w-full max-w-[560px] mx-auto rounded-2xl bg-slate-900" src="assets/截圖google圖片搜尋_字卡.mp4" poster="assets/截圖google圖片搜尋_字卡_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1 text-center">操作影片：截圖再以圖搜圖（L04，約 22 秒）</p></div>
+      </div>
+    </div>
+
+    <details class="bg-white border-4 border-dashed border-amber-300 rounded-3xl p-5">
+      <summary class="cute text-xl font-extrabold text-amber-700">👀 老師展開：示範的結果</summary>
+      <div class="text-lg text-slate-700 mt-3 space-y-2">
+        <p>🔎 MyGoPen：<b>【誤導】</b>幫陌生人操作手機會被盜取生物特徵去貸款？誇大 AI 技術！</p>
+        <p>🔎 台灣事實查核中心：<b>錯誤</b>。刑事局與 165 都說，台灣查不到這種案件。</p>
+        <p>💡 發現了嗎？<b>兩個查核機構的結論一致</b>，這樣更可信。</p>
+      </div>
+    </details>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 4：選訊息 ===== -->
+  <section class="step hidden" data-step="4">
+    <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-rose-700">✋ 選一則你要查的訊息</h2>
+      <p class="text-slate-600 mt-2 text-lg">下面 6 則都是真的在網路上流傳過的：有<b>圖片</b>、有<b>影片</b>。選<b>一則</b>，用今天學的方法查它。</p>
+      <div class="mt-3 bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 text-base text-slate-700">
+        <p class="font-bold text-amber-800">查證難易度：星星越多越難查</p>
+        <div class="grid sm:grid-cols-3 gap-2 mt-2">
+          <p><span class="text-amber-500 font-extrabold tracking-wider">★☆☆</span> <b>簡單</b>：搜尋第一頁就找得到，結果很明確</p>
+          <p><span class="text-amber-500 font-extrabold tracking-wider">★★☆</span> <b>中等</b>：要多讀一點，或多換幾個關鍵詞</p>
+          <p><span class="text-amber-500 font-extrabold tracking-wider">★★★</span> <b>較難</b>：結果很細微，或要分辨轉載與原始查核機構</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 flex-wrap mt-1"><span class="qtypeSlot" data-qid="sel"></span></div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="pickcard border-4 border-slate-200 bg-white rounded-3xl p-5 flex flex-col" data-card="C">
+        <p class="cute text-xl font-extrabold text-indigo-700">C ‧ 幫忙投票給繪畫比賽的小朋友</p>
+        <div class="mt-2"><span class="inline-block bg-amber-50 border-2 border-amber-300 text-amber-600 font-extrabold rounded-lg px-2 py-0.5 tracking-wider" title="查證難易度：星星越多越難">★☆☆</span></div>
+        <img class="shotimg mt-3" src="assets/M2_C_繪畫比賽投票_LINE訊息重製.png" alt="LINE 訊息：親戚家小孩繪畫比賽，麻煩幫我投下 7 號小朋友，謝謝，後面附一個網址和比賽縮圖卡" loading="lazy"><p class="text-[11px] text-slate-400 mt-1">依網傳訊息重製（網址已隱藏）・點圖可放大</p>
+        <button type="button" data-pick="C" class="mt-3 w-full cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl py-2">選這則</button>
+      </div>
+      <div class="pickcard border-4 border-slate-200 bg-white rounded-3xl p-5 flex flex-col" data-card="D">
+        <p class="cute text-xl font-extrabold text-indigo-700">D ‧ 微波爐加熱的食物有輻射</p>
+        <div class="mt-2"><span class="inline-block bg-amber-50 border-2 border-amber-300 text-amber-600 font-extrabold rounded-lg px-2 py-0.5 tracking-wider" title="查證難易度：星星越多越難">★★☆</span></div>
+        <img class="shotimg mt-3" src="assets/M2_D_微波爐輻射_網傳訊息.jpg" alt="LINE 轉傳訊息：日本政府決定年底前處理所有微波爐，因為廣島大學研究發現微波爐加熱的食物含有輻射，韓國、中國也跟進" loading="lazy"><p class="text-[11px] text-slate-400 mt-1">網傳訊息擷圖・點圖可放大</p>
+        <button type="button" data-pick="D" class="mt-3 w-full cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl py-2">選這則</button>
+      </div>
+      <div class="pickcard border-4 border-slate-200 bg-white rounded-3xl p-5 flex flex-col" data-card="E">
+        <p class="cute text-xl font-extrabold text-indigo-700">E ‧ 打雷戴藍芽耳機會被雷擊</p>
+        <div class="mt-2"><span class="inline-block bg-amber-50 border-2 border-amber-300 text-amber-600 font-extrabold rounded-lg px-2 py-0.5 tracking-wider" title="查證難易度：星星越多越難">★★★</span></div>
+        <img class="shotimg mt-3" src="assets/M2_E_打雷藍芽耳機_網傳訊息1.png" alt="LINE 轉傳訊息：在戶外遇到打雷時，絕對不用手機接聽電話或上網，苗栗健身教練打雷時在慢跑，疑似使用藍芽耳機，不幸遭雷擊而亡" loading="lazy"><p class="text-[11px] text-slate-400 mt-1">網傳訊息擷圖・點圖可放大</p><video class="w-full max-h-[440px] rounded-2xl bg-slate-900 mt-3" src="assets/M2_E_打雷藍芽耳機_新聞影片.mp4" poster="assets/M2_E_打雷藍芽耳機_新聞影片_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1">訊息提到的新聞影片（中視新聞）</p>
+        <button type="button" data-pick="E" class="mt-3 w-full cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl py-2">選這則</button>
+      </div>
+      <div class="pickcard border-4 border-slate-200 bg-white rounded-3xl p-5 flex flex-col" data-card="G">
+        <p class="cute text-xl font-extrabold text-indigo-700">G ‧ 印度街頭小吃加了水溝水</p>
+        <div class="mt-2"><span class="inline-block bg-amber-50 border-2 border-amber-300 text-amber-600 font-extrabold rounded-lg px-2 py-0.5 tracking-wider" title="查證難易度：星星越多越難">★★☆</span></div>
+        <video class="w-full max-h-[440px] rounded-2xl bg-slate-900 mt-3" src="assets/M2_G_印度街頭小吃_原始影片.mp4" poster="assets/M2_G_印度街頭小吃_原始影片_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1">網傳的影片（原始版本）</p>
+        <button type="button" data-pick="G" class="mt-3 w-full cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl py-2">選這則</button>
+      </div>
+      <div class="pickcard border-4 border-slate-200 bg-white rounded-3xl p-5 flex flex-col" data-card="H">
+        <p class="cute text-xl font-extrabold text-indigo-700">H ‧ 充電時講電話不能喝水</p>
+        <div class="mt-2"><span class="inline-block bg-amber-50 border-2 border-amber-300 text-amber-600 font-extrabold rounded-lg px-2 py-0.5 tracking-wider" title="查證難易度：星星越多越難">★☆☆</span></div>
+        <video class="w-full max-h-[440px] rounded-2xl bg-slate-900 mt-3" src="assets/M2_H_充電講電話喝水_原始影片.mp4" poster="assets/M2_H_充電講電話喝水_原始影片_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1">網傳的影片（原始版本）。這支影片可以用「以圖搜圖」查</p>
+        <button type="button" data-pick="H" class="mt-3 w-full cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl py-2">選這則</button>
+      </div>
+      <div class="pickcard border-4 border-slate-200 bg-white rounded-3xl p-5 flex flex-col" data-card="K">
+        <p class="cute text-xl font-extrabold text-indigo-700">K ‧ 地震要躲在「生命三角」</p>
+        <div class="mt-2"><span class="inline-block bg-amber-50 border-2 border-amber-300 text-amber-600 font-extrabold rounded-lg px-2 py-0.5 tracking-wider" title="查證難易度：星星越多越難">★★☆</span></div>
+        <img class="shotimg mt-3" src="assets/M2_K_地震逃生_網傳訊息1.jpg" alt="臉書貼文：我哥傳 Line 給我，如果遇到強地震，帶著手機、一瓶水，往大樓的電梯樓梯牆角下，抱頭蹲著，那處是住宅結構最強的金三角位置" loading="lazy"><p class="text-[11px] text-slate-400 mt-1">網傳貼文擷圖（發文者已遮蔽）・點圖可放大</p>
+        <button type="button" data-pick="K" class="mt-3 w-full cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl py-2">選這則</button>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 5：我來查 ===== -->
+  <section class="step hidden" data-step="5">
+    <div class="bg-white border-4 border-teal-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-teal-700">🔎 換你查：找到查核文章</h2>
+      <div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-4 mt-3 text-lg">
+        <p>你選的是：<b id="selName" class="text-teal-800">（還沒選，請回上一步）</b></p>
+        <p id="hintBox" class="text-slate-600 mt-1"></p>
+      </div>
+      <div class="flex flex-wrap items-center gap-3 mt-4">
+        <span class="font-bold text-teal-800">🔎 去哪裡查：</span>
+        <a href="https://www.google.com/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2">Google 搜尋 ↗</a>
+        <a href="https://tfc-taiwan.org.tw/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2"><img src="https://www.google.com/s2/favicons?domain=tfc-taiwan.org.tw&sz=64" class="w-5 h-5 bg-white rounded" alt="">台灣事實查核中心 ↗</a>
+          <a href="https://www.mygopen.com/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2"><img src="https://www.google.com/s2/favicons?domain=mygopen.com&sz=64" class="w-5 h-5 bg-white rounded" alt="">MyGoPen 麥擱騙 ↗</a>
+      </div>
+      <details class="mt-4 bg-slate-50 border-2 border-slate-200 rounded-2xl p-4">
+        <summary class="font-bold text-slate-700">🎬 卡住了？看影片</summary>
+        <div class="grid md:grid-cols-2 gap-4 mt-3">
+          <div><video class="w-full max-w-[560px] mx-auto rounded-2xl bg-slate-900" src="assets/教學_找到查核文章.mp4" poster="assets/教學_找到查核文章_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1 text-center">操作影片：從訊息找到查核文章（約 1 分鐘）</p></div>
+          <div><video class="w-full max-w-[560px] mx-auto rounded-2xl bg-slate-900" src="assets/教學_以圖搜圖兩種方法.mp4" poster="assets/教學_以圖搜圖兩種方法_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1 text-center">操作影片：以圖搜圖兩種方法（約 1 分 15 秒）</p></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="bg-white border-4 border-teal-200 rounded-3xl p-6 mb-5">
+      <div class="space-y-5">
+        <label class="block"><span class="font-bold text-teal-800 text-lg">1. 我圈的關鍵詞</span><span class="qtypeSlot ml-2" data-qid="kw"></span><input data-k="kw" class="fld ans mt-1"></label>
+        <div>
+          <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800 text-lg">2. 我是怎麼找到的？（可複選）</p><span class="qtypeSlot" data-qid="how"></span></div>
+          <div id="howOpts" class="flex flex-wrap gap-2 mt-2"></div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800 text-lg">3. 查核機構標的結果是？</p><span class="qtypeSlot" data-qid="label"></span><span id="labelFb" class="text-sm font-bold"></span></div>
+          <div id="labelOpts" class="flex flex-wrap gap-2 mt-2"></div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 flex-wrap"><label for="url" class="font-bold text-teal-800 text-lg">4. 查核文章的網址（貼上，要是查核機構自己的網站）</label><span class="qtypeSlot" data-qid="url"></span><span id="urlFb" class="text-sm font-bold"></span></div>
+          <input id="url" data-k="url" class="fld ans mt-1">
+          <p class="text-sm text-slate-500 mt-1">在文章頁點網址列、Ctrl＋C，再回來 Ctrl＋V。</p>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 flex-wrap"><label for="url2" class="font-bold text-slate-600 text-lg">⭐ 加分：再找另一個機構的文章來比對</label><span class="qtypeSlot" data-qid="url2"></span></div>
+          <input id="url2" data-k="url2" class="fld ans mt-1">
+          <p class="text-sm text-slate-500 mt-1">兩個機構結論一致，更可信。</p>
+        </div>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 6：寫文件 ===== -->
+  <section class="step hidden" data-step="6">
+    <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-amber-700">✍️ 寫進你的 Google 文件</h2>
+      <p class="text-slate-600 mt-1 text-lg">先把<b>格式排好</b>，再寫前 <b>3 欄</b>。</p>
+    </div>
+
+    <div class="bg-blue-50 border-4 border-blue-200 rounded-3xl p-5 mb-5">
+      <p class="cute text-2xl font-extrabold text-blue-700 mb-2">① 打開老師給的文件</p>
+      <div class="grid md:grid-cols-5 gap-4 items-center">
+        <div class="md:col-span-3"><video class="w-full rounded-xl border-2 border-blue-200 bg-slate-900" src="assets/教學_打開文件.mp4" poster="assets/教學_打開文件_封面.jpg" controls playsinline preload="none"></video></div>
+        <ol class="md:col-span-2 list-decimal pl-6 text-xl font-bold space-y-2">
+          <li>作業裡點<span class="text-blue-700">老師給的文件</span></li>
+          <li>改檔名：<span class="text-blue-700">年班座號＋名字</span><br><span class="text-lg text-slate-500">例：41230 王小明</span></li>
+        </ol>
+      </div>
+      <p class="mt-3 text-lg text-rose-700 font-bold">⚠️ 一定要從 Classroom 作業裡開，老師才讀得到。</p>
+    </div>
+
+    <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-5 mb-5">
+      <p class="cute text-2xl font-extrabold text-emerald-700 mb-2">② 複製七個欄位 → 貼進文件</p>
+      <div class="grid md:grid-cols-2 gap-4 items-start">
+        <div>
+          <button id="tplCopy" type="button" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xl font-extrabold rounded-2xl px-4 py-3">📋 複製七個欄位</button>
+          <p class="text-xl font-bold mt-3">文件第一行 → <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></p>
+          <p class="text-base text-slate-500">＝「貼上但不套用格式設定」</p>
+          <p class="text-lg text-slate-600 mt-3">💡 不用按儲存　按錯了？<kbd>Ctrl</kbd> + <kbd>Z</kbd></p>
+        </div>
+        <pre id="tplText" class="text-lg leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-emerald-100"></pre>
+      </div>
+    </div>
+
+    <div class="bg-indigo-50 border-4 border-indigo-200 rounded-3xl p-5 mb-5">
+      <p class="cute text-2xl font-extrabold text-indigo-700 mb-2">③ 把標題和欄位名稱改好</p>
+      <div class="grid md:grid-cols-2 gap-4 items-center">
+        <div><video class="w-full max-w-[560px] mx-auto rounded-2xl bg-slate-900" src="assets/教學_貼上欄位設標題.mp4" poster="assets/教學_貼上欄位設標題_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1 text-center">操作影片：貼上欄位、設定標題 1 與標題 2（約 40 秒）</p></div>
+        <ul class="list-disc pl-6 text-xl space-y-2">
+          <li><b>第一行</b>（題目）→ <span class="text-indigo-700 font-bold">標題 1</span></li>
+          <li><b>第二行</b>（年班座號＋名字）→ 改成<span class="text-indigo-700 font-bold">你自己的</span>，不用設樣式</li>
+          <li><b>7 個欄位名稱</b> → 都改成 <span class="text-indigo-700 font-bold">標題 2</span></li>
+          <li>快速鍵：選取後 <kbd>Ctrl</kbd>＋<kbd>Alt</kbd>＋<kbd>1</kbd> 或 <kbd>2</kbd></li>
+        </ul>
+      </div>
+      <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4 mt-4">
+        <p class="cute text-2xl font-extrabold text-rose-600">多了空白、多一行？</p>
+        <p class="text-xl font-bold text-slate-800 mb-2">👉 <kbd>Backspace</kbd> 刪前面　<kbd>Delete</kbd> 刪後面</p>
+        <video class="w-full max-w-[560px] rounded-xl border-2 border-rose-200 bg-slate-900" src="assets/教學_排版刪除.mp4" poster="assets/教學_排版刪除_封面.jpg" controls playsinline preload="none"></video>
+        <p class="text-[11px] text-slate-400 mt-1">複習影片（四上 L04）</p>
+      </div>
+    </div>
+
+    <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-5">
+      <p class="cute text-2xl font-extrabold text-amber-700 mb-2">④ 完成前 4 欄</p>
+      <div class="grid md:grid-cols-2 gap-4 text-lg text-slate-700">
+        <div class="bg-white border-2 border-amber-200 rounded-2xl p-4"><p class="font-bold text-amber-800">我選的訊息</p><p class="mt-1">用<b>自己的話</b>說：這則訊息在講什麼？一兩句就好。</p></div>
+        <div class="bg-white border-2 border-amber-200 rounded-2xl p-4"><p class="font-bold text-amber-800">我怎麼找到查核文章的</p><p class="mt-1">寫出你用的<b>關鍵詞</b>，或是哪一種以圖搜圖。</p></div>
+        <div class="bg-white border-2 border-amber-200 rounded-2xl p-4"><p class="font-bold text-amber-800">查核結果</p><p class="mt-1">查核機構標了<b>什麼結果</b>？是<b>哪一家</b>？</p></div>
+        <div class="bg-white border-2 border-amber-200 rounded-2xl p-4"><p class="font-bold text-amber-800">查核網址</p><p class="mt-1">放上<b>查核文章的標題</b>，做成<b>可以點的連結</b>：複製網址 → 選取標題 → <kbd>Ctrl</kbd>＋<kbd>K</kbd> → 貼上 → 套用。</p></div>
+      </div>
+      <p class="mt-4 text-slate-600 text-lg">〔例〕<span class="bg-white border border-amber-300 rounded-lg px-2 py-0.5">我圈出關鍵詞「陌生人」「操作手機」「生物特徵」，在 Google 搜尋「幫陌生人操作手機 生物特徵 查核」，找到 MyGoPen 和台灣事實查核中心兩篇文章。</span></p>
+      <p class="mt-2 text-slate-600 text-lg">〔查核網址例〕<span class="bg-white border border-amber-300 rounded-lg px-2 py-0.5 text-indigo-700 underline">MyGoPen：幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制</span></p>
+      <a href="https://docs.google.com/document/d/1e4-lD9lyZJgRPma8_7A3e3fn0y1M8M9Z1oqZF1gI0n4/edit" target="_blank" rel="noopener" class="inline-block mt-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl px-5 py-2">📄 看成品範例怎麼寫 ↗</a>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 7：繳交 ===== -->
+  <section class="step hidden" data-step="7">
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-indigo-700">✅ 繳交前自己檢查</h2>
+      <div class="flex items-center gap-2 flex-wrap mt-1"><span class="qtypeSlot" data-qid="chk"></span></div>
+      <div id="chkOpts" class="space-y-2 mt-3"></div>
+      <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 mt-4 text-lg">
+        <p class="font-bold text-amber-800">⚠️ Classroom 的作業先<span class="text-rose-600">不要按「繳交」</span>，下一節還要繼續寫完。</p>
+        <p class="mt-1">今天只要按下面的<span class="text-indigo-700 font-bold">「繳交學習單」</span>。</p>
+      </div>
+    </div>
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 shadow-sm text-center mt-6">
+      <h2 class="cute text-xl font-extrabold text-indigo-700 mb-1">📮 繳交學習單</h2>
+      <p class="text-sm text-slate-500 mb-3">確定都填好了嗎？按下面按鈕交給老師（可以重交，會覆蓋前一次）。</p>
+      <button id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white cute text-xl font-extrabold rounded-2xl py-3">繳交學習單</button>
+      <p id="submitStat" class="text-sm font-bold mt-3 min-h-[20px]"></p>
+    </div>
+
+    <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-7 mt-6">
+      <div class="text-6xl mb-2 pop">🎉</div>
+      <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
+      <div class="flex flex-wrap gap-3 justify-center mt-4">
+        <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-xl font-extrabold rounded-2xl px-8 py-3">🎮 打字英雄</a>
+        <a href="https://gemini.google.com/share/0adbaeae6c16?skid=751ce4ac-860d-4160-8a1a-12a1ebcf6f1d" target="_blank" rel="noopener" class="cute inline-block bg-white border-4 border-indigo-300 hover:bg-indigo-50 text-indigo-700 text-xl font-extrabold rounded-2xl px-8 py-3">🕹️ 更多遊戲</a>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+
+  <footer class="text-center text-xs text-slate-400 mt-8 pb-2">教師公布答案：在網址列加上 <code class="bg-slate-200 rounded px-1">#admin</code> 後重新整理。查核文章與網傳擷圖取自台灣事實查核中心、MyGoPen 查核報告。</footer>
+  <p class="text-right text-xs text-slate-400 pb-4">made by 資訊老師黃博胤</p>
+</div>
+
+<!-- 點圖放大 -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="放大看圖">
+  <div class="lbtop">
+    <span>滾輪放大縮小・放大後拖曳移動・雙擊還原</span>
+    <button type="button" class="zbtn" id="lbOut" aria-label="縮小">－</button>
+    <span id="lbPct" class="font-bold text-white w-12 text-center">100%</span>
+    <button type="button" class="zbtn" id="lbIn" aria-label="放大">＋</button>
+    <button type="button" class="zbtn" id="lbReset">還原</button>
+    <button type="button" class="zbtn ml-auto" id="lbClose">✕ 關閉</button>
+  </div>
+  <div class="lbstage" id="lbStage"><img id="lbImg" alt=""></div>
+</div>
+
+<script>
+/* Firebase（沿用 pcclass-94300 專案）。設為 null＝單機模式（可作答，不會繳交出去）。 */
+var firebaseConfig = {
+  apiKey:"AIzaSyAaodBvsP-BSovON14izt22DOXeH40TTGM",
+  authDomain:"pcclass-94300.firebaseapp.com",
+  projectId:"pcclass-94300",
+  storageBucket:"pcclass-94300.firebasestorage.app",
+  messagingSenderId:"1034787516465",
+  appId:"1:1034787516465:web:73c334b2ddad152c472510",
+  measurementId:"G-37P75R7TZ7"
+};
+
+/* ===== 共用引擎：識別列／Firebase／作答狀態／繳交／教師模式／檢視／步驟分頁（依《學習單資料與提交規範》） ===== */
+(function(){
+  var C={"ws": "g5-L05", "lessonPath": "g5/L05", "title": "Docs 查證文件（一）：找到查核文章", "stateKey": "g5L05flow", "steps": ["看成品", "標題設定", "示範", "選訊息", "我來查", "寫文件", "繳交"], "reveals": [], "revealOf": {}, "autoFb": ["c1"], "qtypes": {"sel": "experience", "c1": "experience", "kwd": "experience", "kw": "experience", "how": "experience", "label": "score", "url": "score", "url2": "experience", "chk": "experience"}, "bonus": ["url2"], "choices": {"sel": {"opts": ["C", "D", "E", "G", "H", "K"], "card": true}, "c1": {"opts": ["會", "不會"], "correct": "不會"}, "kwd": {"opts": ["人工智能", "陌生人", "操作手機", "指紋", "30 分鐘", "生物特徵", "傾家蕩產", "轉傳給家人"], "multi": true}, "how": {"opts": ["關鍵詞搜尋", "以圖搜圖：智慧鏡頭", "以圖搜圖：相機圖示", "直接上查核網站"], "multi": true}, "label": {"opts": ["錯誤", "誤導", "易誤解", "事實釐清", "詐騙", "部分錯誤", "正確"]}, "chk": {"opts": ["標題用「標題 1」、欄位名稱用「標題 2」", "前 4 欄都寫好了", "「查核網址」的標題是連結，而且點得開", "連結是查核機構自己的網站，不是轉載"], "multi": true, "block": true}}, "texts": ["kw", "url", "url2"], "patterns": {"url": "tfc-taiwan\\.org\\.tw|mygopen\\.com"}, "openQtexts": {}};
+  var WS=C.ws,QUIZ_ID=C.ws,LESSON_PATH=C.lessonPath,TITLE=C.title;
+  var TEACHER_EMAIL='boyin0304@slps.tn.edu.tw';
+  var IS_ADMIN=location.hash==='#admin';
+  var REVIEW_ID=IS_ADMIN?new URLSearchParams(location.search).get('review'):null;   // 沒有 #admin 不給看別人的作答
+  function $(id){return document.getElementById(id);}
+  function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function filled(v){return !!String(v==null?'':v).trim();}
+  var state={},REV={},H={};
+    // 圖片載不到 → 明確的佔位框（《HTML互動教材設計規範》§4.5）
+  function phImg(img){var d=el('div','imgph','🖼️ '+esc(img.getAttribute('src')));img.replaceWith(d);}
+  document.querySelectorAll('img.shotimg').forEach(function(img){if(img.complete&&img.naturalWidth===0)phImg(img);else img.addEventListener('error',function(){phImg(img);});});
+
+  // ===== 點圖放大：滾輪多段放大、拖曳移動、雙擊還原 =====
+  (function(){
+    var lb=$('lightbox'),stage=$('lbStage'),img=$('lbImg'),pct=$('lbPct');
+    var sc=1,tx=0,ty=0,drag=null,moved=false,MAX=8;
+    img.style.transformOrigin='0 0';img.draggable=false;
+    function apply(){img.style.transform='translate('+tx+'px,'+ty+'px) scale('+sc+')';img.style.cursor=sc>1?(drag?'grabbing':'grab'):'zoom-in';pct.textContent=Math.round(sc*100)+'%';}
+    function zoomAt(f,cx,cy){
+      var r=img.getBoundingClientRect(),bl=r.left-tx,bt=r.top-ty;
+      if(cx==null){cx=r.left+r.width/2;cy=r.top+r.height/2;}
+      var x=(cx-bl-tx)/sc,y=(cy-bt-ty)/sc,s2=Math.max(1,Math.min(MAX,sc*f));
+      if(s2===1){tx=ty=0;}else{tx=cx-bl-x*s2;ty=cy-bt-y*s2;}
+      sc=s2;apply();
+    }
+    function reset(){sc=1;tx=ty=0;apply();}
+    stage.addEventListener('wheel',function(e){e.preventDefault();zoomAt(e.deltaY<0?1.25:0.8,e.clientX,e.clientY);},{passive:false});
+    img.addEventListener('dblclick',function(e){e.preventDefault();if(sc>1)reset();else zoomAt(2.5,e.clientX,e.clientY);});
+    img.addEventListener('pointerdown',function(e){if(sc<=1)return;e.preventDefault();drag={x:e.clientX-tx,y:e.clientY-ty};moved=false;img.setPointerCapture(e.pointerId);apply();});
+    img.addEventListener('pointermove',function(e){if(!drag)return;tx=e.clientX-drag.x;ty=e.clientY-drag.y;moved=true;apply();});
+    img.addEventListener('pointerup',function(){drag=null;apply();});
+    img.addEventListener('click',function(e){e.stopPropagation();if(!moved&&sc===1)zoomAt(2,e.clientX,e.clientY);moved=false;});
+    $('lbIn').onclick=function(){zoomAt(1.25);};$('lbOut').onclick=function(){zoomAt(0.8);};$('lbReset').onclick=reset;
+    function close(){lb.classList.remove('on');document.body.style.overflow='';}
+    $('lbClose').onclick=close;
+    stage.addEventListener('click',function(e){if(e.target===stage)close();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('on'))close();});
+    document.addEventListener('click',function(e){
+      var t=e.target.closest&&e.target.closest('img.shotimg');
+      if(!t||lb.contains(t))return;
+      e.preventDefault();img.src=t.getAttribute('src');img.alt=t.alt||'';reset();lb.classList.add('on');document.body.style.overflow='hidden';
+    });
+  })();
+    // ===== 識別列 =====
+  var ID_KEY='wk_identity',ID_FIELDS=['idGrade','idClass','idStudent'];
+  function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
+  function loadIdentity(){try{return JSON.parse(localStorage.getItem(ID_KEY)||'{}');}catch(e){return {};}}
+  function saveIdentity(o){try{localStorage.setItem(ID_KEY,JSON.stringify(o));}catch(e){}}
+  function getIdentity(){
+    var g=digits($('idGrade').value),c=digits($('idClass').value),s=digits($('idStudent').value);
+    return {grade:g?Number(g):null,className:c?Number(c):null,studentId:s?Number(s):null};
+  }
+  function identityValid(id){return id.grade!=null&&id.className!=null&&id.className>=1&&id.className<=14&&id.studentId!=null;}
+  function clampClass(v){while(v!==''&&Number(v)>14)v=v.slice(0,-1);return v;}
+  function markIdentity(on){ID_FIELDS.forEach(function(id){var e=$(id),bad=on&&!digits(e.value);e.classList.toggle('border-rose-400',bad);e.classList.toggle('bg-rose-50',bad);e.classList.toggle('border-slate-200',!bad);});}
+  (function(){
+    var saved=loadIdentity();
+    if(saved.grade)$('idGrade').value=saved.grade;
+    if(saved.className)$('idClass').value=saved.className;
+    if(saved.studentId)$('idStudent').value=saved.studentId;
+    if(identityValid(saved))$('idOk').classList.remove('hidden');
+    ID_FIELDS.forEach(function(id){
+      var e=$(id);
+      e.addEventListener('input',function(){
+        var d=digits(e.value);if(id==='idClass')d=clampClass(d);if(d!==e.value)e.value=d;
+        if(d){e.classList.remove('border-rose-400','bg-rose-50');e.classList.add('border-slate-200');}
+        var idn=getIdentity();
+        if(identityValid(idn)){saveIdentity(idn);$('idOk').classList.remove('hidden');}else $('idOk').classList.add('hidden');
+      });
+    });
+  })();
+    // ===== Firebase =====
+  var db=null,auth=null,quizRef=null;
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+  var fbReady=(function(){
+    if(!firebaseConfig)return Promise.resolve();
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    return loadScript(base+'firebase-app-compat.js')
+      .then(function(){return loadScript(base+'firebase-auth-compat.js');})
+      .then(function(){return loadScript(base+'firebase-firestore-compat.js');})
+      .then(function(){firebase.initializeApp(firebaseConfig);db=firebase.firestore();auth=firebase.auth();quizRef=db.collection('quizzes').doc(QUIZ_ID);$('syncBadge').classList.remove('hidden');})
+      .catch(function(e){console.warn('Firebase 啟用失敗，改用單機模式',e);});
+  })();
+  // 等 Firebase 還原持久化登入狀態；學生分支確認沒人登入才匿名登入（§5-2，避免洗掉老師的 session）
+  var authResolved=fbReady.then(function(){
+    if(!auth)return null;
+    return new Promise(function(resolve){var unsub=auth.onAuthStateChanged(function(u){if(unsub){unsub();unsub=null;}resolve(u);});});
+  });
+  function ensureAuth(){return (auth&&auth.currentUser)?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user;});}
+
+  // ===== 題目資料（唯一來源＝這份學習單；文字題的標準答案用正則，§2-d）=====
+  var PATTERNS=Object.assign({},C.patterns||{});
+  function testPattern(qid,val){
+    val=String(val||'').trim();if(!val)return false;
+    var p=PATTERNS[qid];if(!p)return true;
+    try{return new RegExp(p,'i').test(val);}catch(e){console.warn('答案格式有誤，改成有填就算',qid,e);return true;}
+  }
+  
+  // ===== 複製七個欄位（先用剪貼簿 API，被拒絕就退回選取＋execCommand）=====
+  var TPL=['我的查證文件','（年班座號＋名字）','我選的訊息','我怎麼找到查核文章的','查核結果','查核網址','為什麼這則訊息會被廣傳？','正確資訊','如果相信的話，會有什麼後果？'].join('\n');
+  function copyText(text,btn){
+    var old=btn.textContent;
+    function done(){btn.textContent='✓ 已複製';setTimeout(function(){btn.textContent=old;},2000);}
+    function fallback(){
+      var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px;top:0';
+      document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');done();}catch(e){btn.textContent='請按 Ctrl+C 複製';}
+      document.body.removeChild(ta);
+    }
+    try{navigator.clipboard.writeText(text).then(done,fallback);}catch(e){fallback();}
+  }
+  $('tplText').textContent=TPL;
+  $('tplCopy').onclick=function(){copyText(TPL,this);};
+  // ===== L05 專屬：6 則訊息、選題卡、提示 =====
+  var CARDS={
+    C:{name:'C ‧ 繪畫比賽投票（LINE 訊息）',label:'詐騙',url:'https://www.mygopen.com/2026/08/vote-scam.html',hint:'想想：這則訊息要你「做什麼」？連結要你「輸入什麼」？再加上「查核」。'},
+    D:{name:'D ‧ 微波爐加熱食物有輻射（訊息）',label:'錯誤',url:'https://tfc-taiwan.org.tw/?p=109294',hint:'想想：哪一種家電？哪個國家要禁用？再加上「查核」。也可以點原始文章，看它是什麼樣的網站。'},
+    E:{name:'E ‧ 打雷時用手機、藍芽耳機（訊息）',label:'事實釐清',url:'https://tfc-taiwan.org.tw/fact-check-reports/migration-7854',hint:'想想：什麼東西、遇到什麼天氣、會怎樣？再加上「查核」。'},
+    G:{name:'G ‧ 印度街頭小吃影片（貼文）',label:'錯誤',url:'https://www.mygopen.com/2026/09/india-ai.html',hint:'想想：哪個國家？在做什麼食物？影片裡的人做了什麼事？再加上「查核」。'},
+    H:{name:'H ‧ 手機充電時喝水（影片）',label:'錯誤',url:'https://www.mygopen.com/2022/01/Charging-Phone.html',hint:'想想：充電時做了什麼事？這支影片也可以用「以圖搜圖」找。'},
+    K:{name:'K ‧ 地震時躲哪裡（訊息）',label:'錯誤',url:'https://tfc-taiwan.org.tw/fact-check-reports/migration-4806',hint:'想想：地震時要「去哪裡」躲？也試試找消防局、氣象署的官方說明。'}
+  };
+  H.corr=function(q){
+    if(q==='label')return state.sel&&CARDS[state.sel]?CARDS[state.sel].label:'（還沒選訊息）';
+  };
+  H.stepDone=function(n){
+    if(n===2)return answered('c1');
+    if(n===3)return (state.kwd||[]).length>0;
+    if(n===4)return !!state.sel;
+    if(n===5)return filled(state.label)&&filled(state.url);
+    return null;
+  };
+  H.report=function(){
+    return ['選的訊息：'+(state.sel&&CARDS[state.sel]?CARDS[state.sel].name:'還沒選'),
+      '查核結果：'+(filled(state.label)?'已選':'還沒選')+'；查核文章網址：'+(filled(state.url)?'已貼':'還沒貼'),
+      '怎麼找到的：'+(((state.how||[]).length)?'已勾':'還沒勾')];
+  };
+  H.showAnswers=function(){
+    if(!state.sel)state.sel='C';
+    var c=CARDS[state.sel];
+    state.c1='不會';state.kwd=['陌生人','操作手機','生物特徵'];state.kw='陌生人 操作手機 生物特徵 查核';
+    state.how=['關鍵詞搜尋'];state.label=c.label;state.url=c.url;
+  };
+  H.clear=function(){
+    state.sel=null;state.c1=null;state.kwd=[];state.how=[];state.label=null;state.chk=[];
+    state.kw='';state.url='';state.url2='';
+  };
+  var STARS={C:1,D:2,E:3,G:2,H:1,K:2};
+  H.changed=function(q){
+    if(q==='c1')showC1();
+    if(q==='kwd'){var n=(state.kwd||[]).length,e=$('kwdFb');
+      e.textContent=n===0?'':(n>=2&&n<=3?'✔ '+n+' 個，剛剛好。老師選的是「陌生人・操作手機・生物特徵」':'挑 2～3 個最重要的就好');}
+  };
+  function showC1(){var e=$('c1Expl');if(e)e.classList.toggle('hidden',!answered('c1'));}
+  H.render=function(){
+    showC1();
+    document.querySelectorAll('[data-card]').forEach(function(c){
+      var on=state.sel===c.dataset.card;c.classList.toggle('on',on);
+      var b=c.querySelector('[data-pick]');b.textContent=on?'✔ 我選這則':'選這則';
+    });
+    var s=state.sel&&CARDS[state.sel];
+    $('selName').textContent=s?s.name+'　難度 '+'★'.repeat(STARS[state.sel])+'☆'.repeat(3-STARS[state.sel]):'（還沒選，請回上一步）';
+    $('hintBox').textContent=s?s.hint:'';
+    if($('kwdFb'))H.changed('kwd');
+  };
+  document.querySelectorAll('[data-pick]').forEach(function(b){
+    b.onclick=function(){state.sel=b.dataset.pick;save();H.render();renderStepper();};
+  });
+
+
+  // ===== 作答狀態（localStorage 暫存）=====
+  var STATE_KEY=C.stateKey;
+  Object.keys(C.choices).forEach(function(q){state[q]=C.choices[q].multi?[]:null;});
+  (C.texts||[]).forEach(function(k){state[k]='';});
+  (C.reveals||[]).forEach(function(r){REV[r]=false;});
+  if(!REVIEW_ID){try{var sv=localStorage.getItem(STATE_KEY);if(sv)state=Object.assign(state,JSON.parse(sv));}catch(e){}}
+  function save(){if(REVIEW_ID)return;try{localStorage.setItem(STATE_KEY,JSON.stringify(state));}catch(e){}}
+
+  // ===== 題型（預設＋老師即時切換，§5-6）=====
+  var DEFAULT_QTYPE=C.qtypes,QTYPE_OVERRIDES={};
+  function qtypeOf(qid){return QTYPE_OVERRIDES[qid]||DEFAULT_QTYPE[qid]||'experience';}
+
+  // ===== 畫面 =====
+  var chipCls='opt ans border-2 border-slate-200 bg-white rounded-full px-4 py-1.5 font-bold hover:border-indigo-400';
+  var chipOn='opt ans border-2 border-indigo-500 bg-indigo-50 text-indigo-800 rounded-full px-4 py-1.5 font-bold';
+  var blkCls='opt ans text-left w-full border-2 border-slate-200 bg-white rounded-2xl px-4 py-2 hover:border-indigo-400';
+  var blkOn='opt ans text-left w-full border-2 border-indigo-500 bg-indigo-50 text-indigo-900 rounded-2xl px-4 py-2 font-bold';
+  function renderChoice(q){
+    var cfg=C.choices[q];if(cfg.card)return;
+    var host=$(q+'Opts');if(!host)return;host.innerHTML='';
+    cfg.opts.forEach(function(o){
+      var on=cfg.multi?(state[q]||[]).indexOf(o)>=0:state[q]===o;
+      var b=el('button',cfg.block?(on?blkOn:blkCls):(on?chipOn:chipCls),(cfg.block&&cfg.multi?'<span class="inline-block w-6 text-xl align-middle">'+(on?'☑':'☐')+'</span> ':(cfg.multi&&on?'✔ ':''))+esc(o));b.type='button';
+      b.onclick=function(){
+        if(cfg.multi){var i=state[q].indexOf(o);if(i>=0)state[q].splice(i,1);else state[q].push(o);}
+        else state[q]=o;
+        save();renderChoice(q);renderFeedback();if(H.changed)H.changed(q);
+      };
+      host.appendChild(b);
+    });
+  }
+  function bindFields(){
+    document.querySelectorAll('[data-k]').forEach(function(f){
+      f.value=state[f.dataset.k]||'';
+      f.addEventListener('input',function(){state[f.dataset.k]=f.value;save();renderFeedback();if(H.changed)H.changed(f.dataset.k);});
+    });
+  }
+  function fillFields(){document.querySelectorAll('[data-k]').forEach(function(f){f.value=state[f.dataset.k]||'';});}
+  function corrOf(q){var cfg=C.choices[q];if(!cfg)return null;var h=H.corr?H.corr(q):undefined;if(h!==undefined)return h;return cfg.correct==null?null:cfg.correct;}
+  function answered(q){var v=state[q];return Array.isArray(v)?v.length>0:filled(v);}
+  function isRight(q){
+    var cfg=C.choices[q];
+    if(cfg){
+      var c=corrOf(q);
+      if(c==null)return answered(q);
+      if(cfg.multi){return (state[q]||[]).slice().sort().join('|')===c.slice().sort().join('|');}
+      return state[q]===c;
+    }
+    return testPattern(q,state[q]);
+  }
+  function renderFeedback(){
+    var auto=C.autoFb||[];   // autoFb：不用等老師公布，選完立刻顯示對錯
+    Object.keys(C.revealOf||{}).concat(auto).forEach(function(q){
+      var e=$(q+'Fb');if(!e)return;
+      var hasKey=C.choices[q]?corrOf(q)!=null:!!PATTERNS[q];
+      var show=hasKey&&(auto.indexOf(q)>=0||REV[C.revealOf[q]])&&answered(q);
+      if(!show){e.textContent='';return;}
+      var ok=isRight(q);e.className='text-sm font-bold '+(ok?'text-emerald-600':'text-rose-600');e.textContent=ok?'✔ 正確':'✘ 再想想看';
+    });
+  }
+  function applyReveal(){
+    document.querySelectorAll('[data-r]').forEach(function(e){e.classList.toggle('hidden',!REV[e.dataset.r]);});
+    document.querySelectorAll('[data-wait]').forEach(function(e){e.classList.toggle('hidden',!!REV[e.dataset.wait]);});
+    renderFeedback();
+  }
+  function renderAll(){Object.keys(C.choices).forEach(renderChoice);fillFields();renderFeedback();if(H.render)H.render();}
+  bindFields();renderAll();
+
+  // ===== 每題判斷（繳交與檢視共用）=====
+  function judge(){
+    var r={};
+    Object.keys(C.qtypes).forEach(function(q){
+      var cfg=C.choices[q];
+      if(cfg){
+        var c=corrOf(q),v=state[q];
+        r[q]={given:cfg.multi?((v&&v.length)?v.join('、'):null):(v||null),correct:c==null?null:(cfg.multi?c.join('、'):c),isCorrect:isRight(q)};
+      }else{
+        r[q]={given:String(state[q]||'').trim()||null,correct:PATTERNS[q]||null,isCorrect:isRight(q)};
+      }
+    });
+    return r;
+  }
+
+  // ===== 繳交（§2-b、§3、§3-b）=====
+  function buildPayload(idn){
+    var j=judge(),answers={},qtypes={},scoreAnswers={},experienceAnswers={},openAnswers={},bonusAnswers={};
+    var sT=0,sC=0,eT=0,eA=0,bonus=C.bonus||[];
+    Object.keys(C.qtypes).forEach(function(qid){
+      var t=qtypeOf(qid),item=j[qid];
+      qtypes[qid]=t;answers[qid]=item.given;
+      if(bonus.indexOf(qid)>=0){bonusAnswers[qid]={given:item.given,completed:filled(item.given)};}
+      if(t==='open'){openAnswers[qid]=String(item.given||'');}
+      else if(t==='experience'){experienceAnswers[qid]=item;if(bonus.indexOf(qid)<0){eT++;if(filled(item.given))eA++;}}
+      else{scoreAnswers[qid]=item;sT++;if(item.isCorrect)sC++;}
+    });
+    var p={worksheetId:WS,worksheetTitle:TITLE,lessonPath:LESSON_PATH,
+      grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      answers:answers,qtypes:qtypes,qtexts:C.openQtexts||{},
+      scoreAnswers:scoreAnswers,experienceAnswers:experienceAnswers,openAnswers:openAnswers,
+      accuracyRate:sT?Math.round(sC/sT*100):null,experienceCompletion:eT?Math.round(eA/eT*100):null,
+      parts:JSON.parse(JSON.stringify(state)),status:'submitted'};
+    if(bonus.length){p.bonusQids=bonus.slice();p.bonusAnswers=bonusAnswers;}
+    return p;
+  }
+  var submittedOnce=false;
+  $('submitBtn').onclick=function(){
+    var idn=getIdentity(),stat=$('submitStat');
+    if(!identityValid(idn)){   // 不捲到頂端，只在按鈕下提示、把空格標紅
+      markIdentity(true);
+      stat.className='text-sm font-bold mt-3 min-h-[20px] text-rose-600';stat.textContent='⚠️ 還沒填好身分：請到頁面最上面填年級、班級（1-14）、座號，再按一次繳交。';
+      return;
+    }
+    markIdentity(false);
+    if(!db){alert('現在連不上，請稍後再試或重新整理頁面。');return;}
+    if(!confirm('確定要繳交嗎？\n\n'+H.report().join('\n')+'\n\n送出後老師會看到，確定要交嗎？'))return;
+    var payload=buildPayload(idn);payload.submittedAt=firebase.firestore.FieldValue.serverTimestamp();
+    var btn=this;
+    btn.disabled=true;stat.className='text-sm font-bold mt-3 min-h-[20px] text-indigo-600';stat.textContent='繳交中…';
+    authResolved.then(function(){return ensureAuth();})
+      .then(function(){return db.collection('submissions').doc(WS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId).set(payload,{merge:true});})
+      .then(function(){
+        btn.disabled=false;btn.textContent='重新繳交（覆蓋）';submittedOnce=true;renderStepper();
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-emerald-600';stat.textContent='✓ 已繳交。可再按一次覆蓋更新。';
+        var rb=$('rewardBox');rb.classList.remove('hidden');rb.scrollIntoView({behavior:'smooth'});
+      }).catch(function(e){
+        console.warn('繳交失敗',e);btn.disabled=false;
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-amber-600';stat.textContent='繳交失敗，請檢查網路後再按一次；還是不行就告訴老師。';
+      });
+  };
+
+  // ===== 教師模式（§5）=====
+  var PREVIEW_KEY='wk_previewMode',teacherAuthed=false;
+  if(!IS_ADMIN){try{if(sessionStorage.getItem(PREVIEW_KEY)==='1')$('backToTeacher').classList.remove('hidden');}catch(e){}}
+  $('previewModeBtn').onclick=function(){
+    if(!confirm('會清空這台裝置上的身分（年級/班級/座號）與作答，變回全新學生的畫面，確定要預覽嗎？'))return;
+    try{localStorage.removeItem(ID_KEY);localStorage.removeItem(STATE_KEY);sessionStorage.setItem(PREVIEW_KEY,'1');}catch(e){}
+    location.href=location.pathname;
+  };
+  $('backToTeacher').onclick=function(){
+    try{sessionStorage.removeItem(PREVIEW_KEY);}catch(e){}
+    location.href=location.pathname+location.search+'#admin';location.reload();
+  };
+  var QTYPE_CYCLE=['experience','score','open'];
+  var QTYPE_LABEL={score:'檢測',experience:'體驗',open:'開放'};
+  var QTYPE_STYLE={score:'bg-rose-100 text-rose-700 border-rose-300',experience:'bg-sky-100 text-sky-700 border-sky-300',open:'bg-emerald-100 text-emerald-700 border-emerald-300'};
+  function renderQtypeSlots(){
+    document.querySelectorAll('.qtypeSlot').forEach(function(slot){
+      var qid=slot.dataset.qid,t=qtypeOf(qid);
+      if(!IS_ADMIN||!teacherAuthed||REVIEW_ID){slot.innerHTML='';return;}
+      slot.innerHTML='<button type="button" class="border rounded-full px-2 py-0.5 text-xs font-bold '+QTYPE_STYLE[t]+'" title="點一下切換題型">'+QTYPE_LABEL[t]+'</button>';
+      slot.firstChild.onclick=function(){
+        QTYPE_OVERRIDES[qid]=QTYPE_CYCLE[(QTYPE_CYCLE.indexOf(qtypeOf(qid))+1)%QTYPE_CYCLE.length];renderQtypeSlots();
+        if(quizRef)quizRef.set({qtypeOverrides:QTYPE_OVERRIDES},{merge:true}).catch(function(e){alert('題型存不進去：'+e.message);});
+      };
+    });
+  }
+  function resetReveals(){var o={};(C.reveals||[]).forEach(function(r){o[r]=false;REV[r]=false;});return o;}
+  function wireTeacher(label){
+    $('teacherbar').classList.remove('hidden');$('tStatus').textContent=label;teacherAuthed=true;renderQtypeSlots();
+    if(REVIEW_ID){loadReview();return;}
+    ['showAnsBtn','lockBtn'].forEach(function(id){$(id).classList.remove('hidden');});
+    document.querySelectorAll('[data-reveal-btn]').forEach(function(b){
+      b.classList.remove('hidden');
+      b.onclick=function(){
+        var r=b.dataset.revealBtn,o={};o[r]=true;
+        if(quizRef)quizRef.set(o,{merge:true}).catch(function(e){alert('公布失敗：'+e.message);});
+        else{REV[r]=true;applyReveal();}
+      };
+    });
+    $('showAnsBtn').onclick=function(){if(H.showAnswers)H.showAnswers();renderAll();};
+    $('lockBtn').onclick=function(){
+      if(!confirm('確定要還原嗎？\n全班畫面會收回所有公布，「檢視答案」填進去的內容也會清掉。\n學生已經繳交的學習單不受影響。'))return;
+      if(H.clear)H.clear();save();renderAll();
+      var o=resetReveals();
+      if(quizRef)quizRef.set(o,{merge:true}).catch(function(e){alert('還原失敗：'+e.message);});
+      else applyReveal();
+    };
+  }
+  function teacherOnline(){
+    authResolved.then(function(u){
+      if(u&&!u.isAnonymous&&u.email){wireTeacher('已登入 '+u.email);return;}
+      var email=prompt('教師 Email：',TEACHER_EMAIL);if(email===null)return;
+      var pw=prompt('密碼：');if(pw===null)return;
+      auth.signInWithEmailAndPassword(email,pw).then(function(c){wireTeacher('已登入 '+c.user.email);})
+        .catch(function(e){alert('登入失敗：'+e.message);});
+    });
+  }
+  function teacherOffline(){
+    var pw=prompt('教師密碼：');if(pw!=='1234'){if(pw!==null)alert('密碼錯誤');return;}
+    wireTeacher('單機模式（公布、題型只影響這台）');
+  }
+  // 檢視學生繳交（唯讀重現，§5-7）
+  function loadReview(){
+    $('reviewBanner').classList.remove('hidden');$('reviewExit').href=location.pathname+'#admin';
+    $('submitBtn').classList.add('hidden');$('rewardBox').remove();
+    (C.reveals||[]).forEach(function(r){REV[r]=true;});
+    if(!db){$('reviewText').textContent='🔍 檢視模式：現在連不上資料庫';return;}
+    db.collection('submissions').doc(REVIEW_ID).get().then(function(doc){
+      if(!doc.exists){$('reviewText').textContent='🔍 檢視模式：找不到這份繳交';return;}
+      var d=doc.data()||{};
+      $('reviewText').textContent='🔍 檢視模式（唯讀）：'+d.grade+'年'+d.className+'班'+d.studentId+'號 的作答';
+      $('idGrade').value=d.grade||'';$('idClass').value=d.className||'';$('idStudent').value=d.studentId||'';
+      if(d.qtypes)QTYPE_OVERRIDES=d.qtypes;
+      Object.assign(state,d.parts||{});
+      applyReveal();renderAll();
+      $('main').classList.add('locked');
+      document.querySelectorAll('#main input,#main textarea,#idGrade,#idClass,#idStudent').forEach(function(f){f.disabled=true;});
+    }).catch(function(e){console.warn('讀取繳交失敗',e);$('reviewText').textContent='🔍 檢視模式：讀取失敗';});
+  }
+
+  // ===== 學習路徑：一次只顯示一步，頂端進度列可以跳步（《HTML互動教材設計規範》§5.8）=====
+  var STEP_NAMES=C.steps;
+  var stepEls=[].slice.call(document.querySelectorAll('.step'));
+  var curStep=1,visited={1:true};
+  function stepDone(n){
+    var h=H.stepDone?H.stepDone(n):null;
+    if(h!=null)return h;
+    if(n===STEP_NAMES.length)return submittedOnce;
+    return !!visited[n]&&n!==curStep;
+  }
+  function renderStepper(){
+    var host=$('stepper');host.innerHTML='';
+    STEP_NAMES.forEach(function(name,idx){
+      var n=idx+1,cur=n===curStep,done=stepDone(n);
+      var cell=el('div','flex flex-col items-center');
+      var b=el('button','stepdot cute rounded-full border-2 font-extrabold text-sm flex items-center justify-center transition '+
+        (cur?'bg-indigo-600 border-indigo-600 text-white':(done?'bg-emerald-500 border-emerald-500 text-white':'bg-white border-slate-300 text-slate-400 hover:border-indigo-300')));
+      b.type='button';b.textContent=done&&!cur?'✓':String(n);
+      b.setAttribute('aria-label','第 '+n+' 步：'+name);
+      if(cur)b.setAttribute('aria-current','step');
+      b.onclick=function(){showStep(n);};
+      cell.appendChild(b);
+      cell.appendChild(el('span','hidden sm:block text-xs font-bold mt-0.5 '+(cur?'text-indigo-700':'text-slate-400'),name));
+      host.appendChild(cell);
+      if(n<STEP_NAMES.length)host.appendChild(el('div','flex-1 h-0.5 mt-3.5 sm:mt-4 mx-0.5 sm:mx-1 rounded '+(done&&!cur?'bg-emerald-300':'bg-slate-200')));
+    });
+    $('stepLabel').textContent='第 '+curStep+' 步／共 '+STEP_NAMES.length+' 步 · '+STEP_NAMES[curStep-1];
+  }
+  function showStep(n){
+    curStep=n;visited[n]=true;
+    stepEls.forEach(function(s){s.classList.toggle('hidden',Number(s.dataset.step)!==n);});
+    renderStepper();if(H.render)H.render();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  stepEls.forEach(function(s){
+    var n=Number(s.dataset.step),nav=s.querySelector('.stepnav');
+    if(n>1){var p=el('button','bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-2xl px-5 py-2','← 上一步');p.type='button';p.onclick=function(){showStep(n-1);};nav.appendChild(p);}
+    else nav.appendChild(el('span',''));
+    if(n<STEP_NAMES.length){var x=el('button','cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl px-6 py-2','下一步：'+STEP_NAMES[n]+' →');x.type='button';x.onclick=function(){showStep(n+1);};nav.appendChild(x);}
+  });
+  document.addEventListener('click',function(){setTimeout(renderStepper,0);});
+  document.addEventListener('input',function(){setTimeout(renderStepper,0);});
+  renderStepper();
+
+  fbReady.then(function(){
+    if(!quizRef){if(IS_ADMIN)teacherOffline();return;}
+    var first=true;
+    quizRef.onSnapshot(function(doc){
+      var d=(doc&&doc.data())||{};
+      if(d.qtypeOverrides&&!REVIEW_ID){QTYPE_OVERRIDES=d.qtypeOverrides;renderQtypeSlots();}
+      if(REVIEW_ID)return;
+      var next={};(C.reveals||[]).forEach(function(r){next[r]=!!d[r];});
+      var undone=Object.keys(next).some(function(k){return REV[k]&&!next[k];});
+      if(undone&&!first&&!IS_ADMIN){location.reload();return;}   // 老師按還原：全部收回
+      REV=next;first=false;applyReveal();
+    },function(e){console.warn('讀取公布狀態失敗',e);});
+    if(IS_ADMIN)teacherOnline();
+  });
+})();
+
+</script>
+
+<script type="application/json" id="grading-spec">
+{
+  "summary": "用「關鍵詞＋查核」或以圖搜圖，從 6 則真實網傳訊息中選一則，找到台灣事實查核中心或 MyGoPen 已發布的查核文章，看懂結果標籤，並在 Google 文件寫好標題與前四欄（我選的訊息、我怎麼找到查核文章的、查核結果、查核網址）。",
+  "questions": [
+    {
+      "qid": "doc",
+      "prompt": "你的 Google 文件（老師從 Classroom 作業讀取文件內容）：標題與前四欄「我選的訊息」「我怎麼找到查核文章的」「查核結果」「查核網址」。",
+      "mode": "checklist",
+      "checks": [
+        {
+          "desc": "有標題，並用自己的話說明選的是哪一則訊息、在講什麼",
+          "pts": 3
+        },
+        {
+          "desc": "說出自己用了哪個關鍵詞，或用了哪一種以圖搜圖找到查核文章",
+          "pts": 3
+        },
+        {
+          "desc": "寫出查核機構標的結果（例如錯誤、誤導）和是哪一家機構",
+          "pts": 2
+        },
+        {
+          "desc": "「查核網址」放了查核文章的標題，並做成可以點的連結",
+          "pts": 2
+        }
+      ]
+    }
+  ],
+  "scoring": {
+    "base": 100,
+    "floor": 80,
+    "deduction": 1,
+    "itemPoints": {
+      "label": 5,
+      "url": 5
+    }
+  }
+}
+</script>
+<!--CHAIR-GATE-START-->
+<script>
+/* ============================================================
+   chair-gate.js — 繳交前「靠椅子」提醒＋等待關卡（學習單通用，無相依、不改學習單原本的繳交程式）
+   規格權威來源：引導規範/學習單資料與提交規範.md §3-e
+
+   原理：在 document 捕獲階段攔截 #submitBtn 的點擊。
+     1. 沒填好身分（localStorage wk_identity）→ 直接放行，讓學習單自己提醒。
+     2. 查 Firestore：chairSettings/main（總開關、等待秒數階梯、下課前免罰分鐘、節次時間）與 chairLog/{年級-班級-座號}。
+     3. 該生有待處理紀錄（pending）且總開關開著 → 蓋一層全螢幕提醒（😠 ＋ 累計次數 ＋ 倒數），倒數完才放行。
+        下課前 graceMin 分鐘內：不用等，但紀錄照樣累計（次數不變）；處理後 pending 清掉。
+     4. 任何一步失敗／逾時 → 放行。這個關卡絕不可以擋住學生交作業。
+   放行＝把 passed 設 true 後再 btn.click() 一次，原本學習單的 onclick 完全不知道被攔過。
+
+   由 引導規範/chair-gate/inject.py 用 CHAIR-GATE-START/END 兩個 HTML 註解標記包起來，內嵌進每份學習單；
+   要改邏輯就改這個檔再重跑 inject.py（idempotent，會整段取代）。
+   ============================================================ */
+(function () {
+  if (window.__chairGate) return;
+  window.__chairGate = true;
+
+  var BTN_ID = 'submitBtn';
+  var TIMEOUT_MS = 4500;            // 查資料超過這麼久就放行
+  var DEFAULT_STEPS = [3, 10, 20, 30, 60];
+  var passed = false, busy = false;
+
+  function digits(v) { return String(v == null ? '' : v).replace(/[^0-9]/g, ''); }
+  function identity() {
+    try {
+      var o = JSON.parse(localStorage.getItem('wk_identity') || '{}');
+      var g = digits(o.grade), c = digits(o.className), s = digits(o.studentId);
+      if (!g || !c || !s) return null;
+      return { grade: Number(g), className: Number(c), studentId: Number(s) };
+    } catch (e) { return null; }
+  }
+
+  function withTimeout(p, ms) {
+    return new Promise(function (resolve, reject) {
+      var t = setTimeout(function () { reject(new Error('timeout')); }, ms);
+      p.then(function (v) { clearTimeout(t); resolve(v); }, function (e) { clearTimeout(t); reject(e); });
+    });
+  }
+
+  // 有登入就沿用；確定沒有任何登入狀態才匿名登入（不能蓋掉老師的 session，見規範 §5-2）
+  function ensureUser(auth) {
+    return new Promise(function (resolve, reject) {
+      var unsub = auth.onAuthStateChanged(function (u) {
+        if (unsub) { unsub(); unsub = null; }
+        if (u) resolve(u);
+        else auth.signInAnonymously().then(function (c) { resolve(c.user); }, reject);
+      });
+    });
+  }
+
+  function steps(cfg) {
+    var a = (cfg && cfg.steps || []).map(Number).filter(function (n) { return n > 0 && isFinite(n); });
+    return a.length ? a : DEFAULT_STEPS;
+  }
+  function waitSeconds(cfg, count) {
+    var a = steps(cfg);
+    return a[Math.min(Math.max(count, 1), a.length) - 1];
+  }
+  // 現在是不是某一節「下課前 graceMin 分鐘」以內
+  function inGrace(cfg) {
+    var g = Number(cfg && cfg.graceMin);
+    if (!isFinite(g) || g < 0) g = 2;      // 沒設才用預設 2 分鐘；老師設 0＝不免罰
+    var now = new Date(), nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    return (cfg && cfg.periods || []).some(function (p) {
+      var m = /^(\d{1,2}):(\d{2})$/.exec(String(p && p.end || ''));
+      if (!m) return false;
+      var endSec = (+m[1]) * 3600 + (+m[2]) * 60, left = endSec - nowSec;
+      return left > 0 && left <= g * 60;
+    });
+  }
+
+  function overlay(count, waitSec, waived) {
+    return new Promise(function (resolve) {
+      var css = document.createElement('style');
+      css.textContent =
+        '#chairGate{position:fixed;inset:0;z-index:2147483000;background:rgba(15,23,42,.72);display:grid;place-items:center;padding:20px;font-family:inherit}' +
+        '#chairGate .cg{background:#fff;border-radius:22px;max-width:420px;width:100%;padding:26px 22px 22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);border:4px solid #f87171}' +
+        '#chairGate .em{font-size:78px;line-height:1;animation:cgShake .5s ease-in-out 2}' +
+        '#chairGate h2{margin:10px 0 6px;font-size:24px;color:#b91c1c;font-weight:900}' +
+        '#chairGate .cnt{display:inline-block;margin:6px 0 10px;padding:4px 14px;border-radius:999px;background:#fee2e2;color:#991b1b;font-weight:800;font-size:16px}' +
+        '#chairGate .msg{font-size:17px;font-weight:700;color:#334155;margin:6px 0 14px;min-height:26px}' +
+        '#chairGate .msg b{font-size:30px;color:#dc2626}' +
+        '#chairGate button{font:inherit;font-weight:800;font-size:17px;width:100%;padding:12px;border:0;border-radius:12px;cursor:pointer}' +
+        '#chairGate .go{background:#dc2626;color:#fff}#chairGate .go:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed}' +
+        '#chairGate .back{margin-top:8px;background:transparent;color:#64748b;font-size:14px;font-weight:600}' +
+        '@keyframes cgShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}';
+      document.head.appendChild(css);
+      var box = document.createElement('div');
+      box.id = 'chairGate';
+      box.innerHTML =
+        '<div class="cg" role="alertdialog" aria-live="polite">' +
+        '<div class="em">😠</div>' +
+        '<h2>上次下課四步驟沒有做確實</h2>' +
+        '<div class="cnt">已累計 ' + count + ' 次紀錄</div>' +
+        '<div class="msg" id="cgMsg"></div>' +
+        '<button class="go" id="cgGo" disabled></button>' +
+        '<button class="back" id="cgBack">先回去檢查，等一下再交</button>' +
+        '</div>';
+      document.body.appendChild(box);
+      var msg = box.querySelector('#cgMsg'), go = box.querySelector('#cgGo');
+      function close(ok) {
+        clearInterval(timer);
+        box.remove(); css.remove();
+        resolve(ok);
+      }
+      var endAt = Date.now() + waitSec * 1000, timer = null;
+      function tick() {
+        var left = Math.ceil((endAt - Date.now()) / 1000);
+        if (left > 0) {
+          msg.innerHTML = '請等待 <b>' + left + '</b> 秒才可以繳交';
+          go.disabled = true; go.textContent = '等待中…';
+        } else {
+          clearInterval(timer);
+          msg.textContent = '時間到了，下次記得做確實喔！';
+          go.disabled = false; go.textContent = '我知道了，繳交';
+        }
+      }
+      if (waived) {
+        msg.textContent = '快下課了，這次不用等待；但這筆紀錄還是會累計。';
+        go.disabled = false; go.textContent = '我知道了，繳交';
+      } else {
+        tick(); timer = setInterval(tick, 250);
+      }
+      go.onclick = function () { if (!go.disabled) close(true); };
+      box.querySelector('#cgBack').onclick = function () { close(false); };
+    });
+  }
+
+  // 回傳 Promise<boolean>：true＝放行繳交
+  function check(idn) {
+    if (!window.firebase || !firebase.apps || !firebase.apps.length) return Promise.resolve(true);
+    var id = idn.grade + '-' + idn.className + '-' + idn.studentId;
+    var db = firebase.firestore();
+    return withTimeout(ensureUser(firebase.auth()).then(function () {
+      return Promise.all([
+        db.collection('chairSettings').doc('main').get(),
+        db.collection('chairLog').doc(id).get()
+      ]);
+    }), TIMEOUT_MS).then(function (r) {
+      var cfg = r[0].exists ? r[0].data() : null, log = r[1].exists ? r[1].data() : null;
+      if (!cfg || !cfg.enabled || !log || !log.pending) return true;
+      var count = Number(log.count) || 1, waived = inGrace(cfg);
+      return overlay(count, waitSeconds(cfg, count), waived).then(function (ok) {
+        if (ok) {   // 處理完（等完或免罰）就把待處理清掉；累計次數不動。失敗不影響繳交。
+          db.collection('chairLog').doc(id)
+            .update({ pending: false, servedAt: firebase.firestore.FieldValue.serverTimestamp() })
+            .catch(function (e) { console.warn('chairGate 更新狀態失敗', e); });
+        }
+        return ok;
+      });
+    }).catch(function (e) {
+      console.warn('chairGate 檢查失敗，直接放行', e);
+      return true;
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest && e.target.closest('#' + BTN_ID);
+    if (!btn || passed) return;
+    var idn = identity();
+    if (!idn) return;                       // 沒填身分：交給學習單自己提醒
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    if (busy) return;
+    busy = true;
+    check(idn).then(function (ok) {
+      busy = false;
+      if (!ok) return;
+      passed = true;
+      try { btn.click(); } finally { passed = false; }
+    });
+  }, true);
+})();
+</script>
+<!--CHAIR-GATE-END-->
+</body>
+</html>
