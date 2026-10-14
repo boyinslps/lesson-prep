@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import "./styles/sim.css";
+import "./styles/gdocs.css";
 import "./apps";
 import Shell from "./shell/Shell";
 import api, { installBridge } from "./kernel/api";

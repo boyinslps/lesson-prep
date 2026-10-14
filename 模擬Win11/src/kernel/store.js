@@ -81,6 +81,7 @@ export const sys = createStore({
   volume: 60,
   fsButton: false,
   hideSig: false, // 網址 ?nosig=1 可隱藏右下角署名（外層網頁已有署名時）
+  docs: {}, // 線上文件 {id: {title, html, share}}
   sites: {}, // 瀏覽器的模擬網站 {url: {title, html}}
   cursor: { x: 640, y: 360, visible: false, pressed: false, mode: "arrow", ms: 0 }, // 示範游標
   caption: null, // 錄影用字卡 {text, sub}

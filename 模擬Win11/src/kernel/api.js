@@ -12,6 +12,7 @@ import { registerSite } from "./sites";
 import { setClock, simNow } from "./clock";
 import { appStateOf } from "./appstate";
 import { toast } from "./ui";
+import { getDocInfo, createDoc, patchDoc, docUrl } from "./docs";
 
 export const VERSION = "1.0.0";
 
@@ -75,6 +76,7 @@ const api = {
     fullscreen() { return document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); },
     state: () => sys.get(),
   },
+  docs: { get: getDocInfo, create: createDoc, patch: patchDoc, url: docUrl, list: () => Object.keys(sys.get().docs) },
   ops: fileops,
   registerSite,
   registerApp,

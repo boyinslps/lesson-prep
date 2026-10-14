@@ -2,7 +2,7 @@
 // 網頁內容來自 scene.sites 或 registerSite()（見 kernel/sites.js），用 sandbox iframe 顯示。
 import React, { useEffect, useRef, useState } from "react";
 import { FiArrowLeft, FiArrowRight, FiRefreshCw, FiHome, FiStar, FiMoreHorizontal, FiX, FiPlus, FiDownload, FiSearch, FiLock } from "react-icons/fi";
-import { sys } from "../kernel/store";
+import { sys, useSys } from "../kernel/store";
 import * as vfs from "../kernel/vfs";
 import { known } from "../kernel/paths";
 import { openApp, openPath } from "../kernel/wm";
@@ -36,6 +36,7 @@ function NewTabPage({ go }) {
 
 export default function Browser() {
   const w = useWin();
+  useSys((s) => s.docs); // 線上文件改名時分頁標題要跟著變
   const [tabs, setTabs] = useState(() => [newTab(w.args.url ? normalizeUrl(w.args.url) : "edge://newtab")]);
   const [cur, setCur] = useState(tabs[0].id);
   const [closed, setClosed] = useState([]);

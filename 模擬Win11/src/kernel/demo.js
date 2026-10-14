@@ -68,13 +68,14 @@ const at = (x, y) => document.elementFromPoint(x, y) || document.body;
 async function press(x, y, button = 0, mods = {}) {
   setCursor({ pressed: true });
   const el = at(x, y);
-  if (button === 0) { // 假事件不會自動移動焦點：自己模擬「按下滑鼠時，焦點移到最近的可聚焦元素」
+  const b = { button, buttons: button === 0 ? 1 : 2, ...mods };
+  fire(el, "pointerdown", x, y, b);
+  const proceed = fire(el, "mousedown", x, y, b); // 網頁對 mousedown 呼叫 preventDefault（例如工具列按鈕）→ 不改變焦點，跟真滑鼠一樣
+  if (button === 0 && proceed) { // 假事件不會自動移動焦點：自己模擬「按下滑鼠時，焦點移到最近的可聚焦元素」
     const f = el.closest && el.closest("input,textarea,select,[tabindex],[contenteditable]");
     if (f) { const was = document.activeElement === f; f.focus(); if (!was && "value" in f && f.setSelectionRange && f.type !== "range" && f.type !== "checkbox") { try { f.setSelectionRange(f.value.length, f.value.length); } catch (e) { /* ignore */ } } }
     else if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
   }
-  const b = { button, buttons: button === 0 ? 1 : 2, ...mods };
-  fire(el, "pointerdown", x, y, b); fire(el, "mousedown", x, y, b);
   return el;
 }
 async function release(x, y, button = 0, mods = {}) {
@@ -161,6 +162,17 @@ export async function key(combo, o = {}) {
 // 輸入文字到目前焦點的輸入框／textarea（逐字，模擬打字）
 export async function type(text, { delay = 60, after = 250 } = {}) {
   const el = document.activeElement;
+  if (el && el.isContentEditable) { // 文件編輯區：用 execCommand 逐字插入（產生真的 input 事件）
+    for (const ch of text) {
+      const nl = ch === String.fromCharCode(10);
+      el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, cancelable: true, key: nl ? "Enter" : ch }));
+      document.execCommand(nl ? "insertParagraph" : "insertText", false, ch);
+      el.dispatchEvent(new KeyboardEvent("keyup", { bubbles: true, key: ch }));
+      await sleep(delay);
+    }
+    await sleep(after);
+    return;
+  }
   if (!el || !("value" in el)) throw new Error("demo.type: 目前焦點不在輸入框");
   const proto = el.tagName === "TEXTAREA" ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
   const setter = Object.getOwnPropertyDescriptor(proto, "value").set;
@@ -174,6 +186,36 @@ export async function type(text, { delay = 60, after = 250 } = {}) {
     el.dispatchEvent(new KeyboardEvent("keyup", { bubbles: true, key: ch }));
     await sleep(delay);
   }
+  await sleep(after);
+}
+
+// 選取文字（假事件選不到字，所以直接設定選取範圍；游標會從頭拖到尾做給人看）
+// select("gdoc:page", {text:"自我介紹"})：選取該元素內第一個符合的文字；select("gdoc:page", {all:true})：全選；{caret:"end"}：只放游標
+export async function select(target, { text, all, caret, ms = 500, after = 300 } = {}) {
+  const p = locate(target);
+  if (!p) throw new Error("demo.select: 找不到目標 " + target);
+  const root = p.el;
+  const editable = root.closest("[contenteditable]") || root;
+  editable.focus && editable.focus();
+  const sel = window.getSelection();
+  const range = document.createRange();
+  let startRect = null, endRect = null;
+  if (all) range.selectNodeContents(root);
+  else if (caret) { range.selectNodeContents(root); range.collapse(caret !== "start"); }
+  else {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    let n, found = false;
+    while ((n = walker.nextNode())) { const i = n.nodeValue.indexOf(text); if (i >= 0) { range.setStart(n, i); range.setEnd(n, i + text.length); found = true; break; } }
+    if (!found) throw new Error("demo.select: 找不到文字 " + text);
+  }
+  const rects = range.getClientRects();
+  if (rects.length) { startRect = rects[0]; endRect = rects[rects.length - 1]; }
+  if (startRect) {
+    await cursor.moveTo({ x: startRect.left + 1, y: startRect.top + startRect.height / 2 }, { ms });
+    if (!caret) { setCursor({ pressed: true }); await cursor.moveTo({ x: endRect.right, y: endRect.top + endRect.height / 2 }, { ms: Math.min(700, 250 + (text ? text.length * 40 : 300)) }); setCursor({ pressed: false }); }
+  }
+  sel.removeAllRanges(); sel.addRange(range);
+  emit("demo:select", { text: text || (all ? "(all)" : "(caret)") });
   await sleep(after);
 }
 
@@ -191,6 +233,7 @@ export async function run(steps, { cursorVisible = true } = {}) {
     else if (t === "rightclick") await rightclick(s.target, s);
     else if (t === "move") await cursor.moveTo(s.target, s);
     else if (t === "drag") await drag(s.from, s.to, s);
+    else if (t === "select") await select(s.target, s);
     else if (t === "key") await key(s.key, s);
     else if (t === "type") await type(s.text, s);
     else if (t === "wait") await sleep(s.ms ?? 500);

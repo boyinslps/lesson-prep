@@ -49,7 +49,7 @@
 │   └─ examples/embed-demo.html ← ★嵌入關卡的最小範例（含判定）
 ├─ scripts/             ← ★錄影劇本 JSON（示範_重新命名.json…）
 ├─ examples/            ← 範例輸出（錄好的 mp4、封面）
-├─ tests/smoke.js       ← 冒煙測試（21 項，用示範游標真的操作 UI）
+├─ tests/smoke.js       ← 冒煙測試（31 項，用示範游標真的操作 UI）
 ├─ tools/
 │   ├─ build.ps1        ← 建置（用 工作台\runtime\node 的可攜版 Node）
 │   ├─ record.mjs       ← 錄影成 MP4
@@ -156,6 +156,9 @@
     { "app": "explorer", "args": { "path": "~/文件" }, "rect": [100, 60, 900, 560], "state": "normal" }
     // rect = [x, y, 寬, 高]；state: normal | max | min；args 依 App 而定（explorer/notepad/photos 吃 path，edge 吃 url）
   ],
+  "docs": {                              // 線上文件（仿 Google 文件）：網址 https://docs.google.com/document/d/<id>/edit
+    "practice1": { "title": "我的自我介紹", "html": "<p>大家好…</p>" }   // html 只用 <p> <h1-3> <b> <ul> 等簡單標籤
+  },
   "sites": {                             // 瀏覽器可以「連上」的網站
     "https://school.example/": { "title": "示範學校", "description": "搜尋用的描述", "html": "<html>…</html>" }
   }
@@ -206,6 +209,7 @@
 | `click` / `dblclick` / `rightclick` | `target` | 游標滑過去（`ms` 移動時間，預設 600）並點擊；也會模擬「按下滑鼠時焦點移到輸入框」 |
 | `move` | `target` | 只移動游標（用來「指」某個東西） |
 | `drag` | `from`, `to` | 拖放（走 pointer 事件，真的會觸發拖放判定） |
+| `select` | `target`, `text` / `all:true` / `caret:"end"` | 選取文件／文字區裡的某段字（假事件選不到字，所以直接設定選取範圍，游標會從頭拖到尾做給人看） |
 | `key` | `key` | `"F2"` `"Delete"` `"Enter"` `"Ctrl+C"` `"Ctrl+Shift+T"` `"Alt+F4"` `"Ctrl++"`（加號本身） |
 | `type` | `text`, `delay` | 逐字打進**目前焦點**的輸入框／文字區（先 click 它或讓它自動取得焦點）；支援中文 |
 | `wait` | `ms` | 停一下 |
@@ -229,6 +233,7 @@
 | 檔案總管 | `explorer:<id>:item:<檔名>`、`:nav:<名稱>`（導覽窗格：桌面／下載／文件／圖片／音樂／影片／資源回收筒／本機）、`:cmd:<新增|剪下|複製|貼上|重新命名|刪除|排序|檢視|更多|還原|清空資源回收筒>`、`:address`、`:address:input`、`:crumb:<名>`、`:back|forward|up`、`:search`、`:content`、`:status`、`:sort:<欄名>` |
 | 記事本 | `notepad:<id>:text`、`:menu:<檔案|編輯|檢視>`、`:item:<選項名>` |
 | 瀏覽器 | `edge:<id>:address`、`:back|forward|reload|home|newtab|downloads|page`、`:tab:<標題>`、`:find:input`、`:dl:open|folder` |
+| 線上文件 | `gdoc:page`（編輯區）、`gdoc:title`、`gdoc:title:input`、`gdoc:star`、`gdoc:status`、`gdoc:menu:<檔案|編輯|檢視|插入|格式|工具|說明>`＋`:<選項>`（如 `gdoc:menu:檔案:下載：純文字 (.txt)`）、`gdoc:tb:<復原|重做|粗體|斜體|底線|連結|靠左對齊|置中對齊|靠右對齊|項目符號清單|編號清單|清除格式|縮小字級|放大字級|字級>`、下拉：`gdoc:tb:樣式`＋`:<一般文字|標題 1|標題 2|標題 3>`、`gdoc:tb:字型`＋`:<微軟正黑體|標楷體>`、`gdoc:tb:文字顏色`＋`:<黑色|紅色|藍色>`；連結：`gdoc:link:input|apply|cancel`；分享：`gdoc:share`、`gdoc:share:email|add|access|copy|done`、`gdoc:share:access:<受限|知道連結的任何人>` |
 | 選單 | `ctx:menu`、`ctx:<選項文字>`（例：`ctx:新增`、`ctx:資料夾`、`ctx:重新命名`） |
 | 對話框 | `dialog:btn:<按鈕文字>`（`確定` `是` `否` `儲存` `不要儲存` `取消` `取代目的地中的檔案` `略過這個檔案` `兩個檔案都保留`）、`dialog:close`；開／存檔：`fdlg:nav:<名>` `fdlg:filename` `fdlg:item:<檔名>` `fdlg:type` `fdlg:up` |
 | 開始功能表 | `start`、`start:search`、`start:app:<名>`、`start:result:<名>`、`start:all`、`start:user`、`start:power`、`start:shutdown|restart|sleep|lock|signout` |
@@ -258,6 +263,7 @@
 | `app:explorer:navigate|new|refresh` | `id, path` | 檔案總管 |
 | `app:notepad:edit|save|undo|redo|overwrite` | `id, path/length/on` | 記事本 |
 | `app:edge:navigate|newtab|closetab|reopentab|switchtab|zoom|find|download` | `id, url / zoom / term,count / name,path` | 瀏覽器 |
+| `app:gdocs:format|edit|title|link|paste|star|download|create|share-add|share-access|copylink|share-done` | `cmd,value`（`style` `font` `color` `fontSize` `bold`…）／`email`／`access`／`url`… | 線上文件 |
 | `sys:login|loginFailed|lock|signout|sleep|wake|shutdown|boot|restart|setting` | — | 登入、電源、設定 |
 | `scene:loaded` / `sim:ready` / `demo:start|end|key` | — | 生命週期（`ui:*`、`demo:*` 判定時通常要忽略） |
 
@@ -354,6 +360,14 @@ registerSite({
 ```
 元件收到 `{url, nav}`（`nav("https://…")` 導覽）。這樣 Chrome／Edge 視窗、分頁、網址列、縮放、尋找、下載都現成可用。
 
+### 已內建：線上文件（仿 Google 文件的練習前端）
+- 版面像 Google 文件，但**刻意精簡成單一操作**：字型 2 種（微軟正黑體、標楷體）、文字顏色 3 種（黑／紅／藍）、字級 4 級（11／14／18／24，用 −＋ 調）、樣式 4 種（一般文字、標題 1～3）、粗體／斜體／底線、連結、對齊（左／中／右）、項目符號／編號清單、清除格式、復原／重做；選單（檔案／編輯／格式…）只有少數項目可用，其餘灰掉；分享對話框（新增人員、一般存取權 受限／知道連結的任何人、複製連結、完成）；檔案→下載 `.docx`／`.txt`（存進 `~/下載`）；標題可改名；「已儲存至雲端硬碟」狀態。
+- 開啟：`https://docs.google.com/document/d/<id>/edit`（瀏覽器網址，或場景 `windows` 開 edge 並帶 `args.url`）；`…/document/create` 會新建一份。內容放在場景 `docs`，執行中用 `Win11Sim.docs.get(id)` 讀。
+- **判定**：`Win11Sim.docs.get("practice1")` 回傳 `{title, html, text, bold, italic, underline, colors[], fonts[], sizes[], align[], headings[{level,text}], links[{href,text}], bullets, numbered, share:{people[], access}}`——關卡直接檢查這些欄位（例：標題 1 → `headings` 有 level 1；紅字 → `colors` 含 `#d93025`）。其他方法：`docs.create/patch/url/list`。
+- 要**選取文字再套格式**請用示範步驟 `select`；關卡裡學生自己用滑鼠拖選即可。
+- 範例場景 `docs-practice`、測試見 `tests/smoke.js`「線上文件」段。想加功能（更多顏色、字型…）改 `src/apps/GDoc.jsx` 最上面的 `FONTS` `COLORS` `SIZES` `STYLES` 常數即可。
+- 版面概念參考 deeproop/google-doc-clone（只參考視覺，程式為自寫，見 UPSTREAM.md）。
+
 **其他可擴充點**：新的開始功能表／桌面系統圖示（`desktopSystemIcons` 填 App id 即成捷徑）、新的右鍵選單（用 `showContextMenu()`）、新的對話框（`openDialog({render})`）、新的場景欄位（改 `kernel/scene.js`）。
 
 ---
@@ -363,7 +377,7 @@ registerSite({
 - 剪貼簿：**檔案**的剪下／複製／貼上是模擬器自己的剪貼簿，不會碰到真實系統剪貼簿。記事本的**文字**複製貼上：真人操作時走瀏覽器原生（可從外面貼進來）；自動操作（demo）時走模擬器內部剪貼簿。
 - 瀏覽器只能顯示 `sites` 與已註冊網站，不會連真實網路。尋找（Ctrl+F）只算次數、不畫螢光標示。
 - 瀏覽器分頁內無法用外部自動化工具點 iframe 內容（瀏覽器的安全限制）；請用 `demo`（不受影響，但同樣點不進 iframe）或讓網頁用 `postMessage` 觸發。需要自動點網頁內容時，改用 `registerSite` 的 `component`（React 元件，不在 iframe 裡）。
-- 還沒有：Word／Excel／PPT／Google 內容（只有佔位）、小畫家、計算機、設定 App、截圖工具（Win+Shift+S）、工作管理員、多使用者切換、全螢幕 F11 模擬、桌面圖示自由位置（目前自動排列）、檔案總管分頁、拖曳選取文字以外的 IME 輸入法模擬（中英切換、全形半形需另做，見技能闖關 A3）。
+- 還沒有：Word／Excel／PPT（只有佔位）、Google 搜尋、Google 試算表／簡報、小畫家、計算機、設定 App、截圖工具（Win+Shift+S）、工作管理員、多使用者切換、全螢幕 F11 模擬、桌面圖示自由位置（目前自動排列）、檔案總管分頁、拖曳選取文字以外的 IME 輸入法模擬（中英切換、全形半形需另做，見技能闖關 A3）。
 - 真實鍵盤的 Win 鍵、Alt+Tab、Ctrl+T/W/N（瀏覽器保留鍵）攔不到；這些情境請改用畫面上的按鈕，或在關卡裡用 demo 示範。
 - `desktop:refresh`／`app:explorer:refresh` 目前只 emit 事件、不做事（檔案系統本來就即時更新）。
 
@@ -382,7 +396,7 @@ registerSite({
 ### 建置環境（只有改 `src/` 才需要）
 - Node：`工作台\runtime\node\`（可攜版 v22 LTS win-x64，**不在 git 裡**；`.gitignore` 排除了 `工作台/runtime/`）。別台電腦沒有時：從 https://nodejs.org/dist/v22.23.3/node-v22.23.3-win-x64.zip 下載，驗證 SHA256（見同目錄 `SHASUMS256.txt`），解壓縮成 `工作台\runtime\node\node.exe`。
 - 建置：`powershell -NoProfile -ExecutionPolicy Bypass -File 模擬Win11\tools\build.ps1`（第一次會自動 `npm install`，`node_modules/` 不進 git）。
-- 測試：`工作台\runtime\node\node.exe 模擬Win11\tools\smoke.mjs`（無頭 Chrome，約 20 秒，預期 `通過 21／21`）。
+- 測試：`工作台\runtime\node\node.exe 模擬Win11\tools\smoke.mjs`（無頭 Chrome，約 20 秒，預期 `通過 31／31`）。
 - 開發時想即時預覽：`工作台\runtime\node\npm.cmd start`（port 3011）。
 - Windows 注意：寫 `.ps1` 若含中文要存成 UTF-8 **帶 BOM**，否則 PowerShell 5.1 會亂碼。
 

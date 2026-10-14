@@ -60,6 +60,29 @@
   ok("Ctrl++ 縮放到 125%", winOf("edge").state_app.tabs.find((t) => t.active).zoom === 125);
   S.wm.closeAll();
 
+  // --- 線上文件（仿 Google 文件）---
+  await S.loadScene("docs-practice"); await S.demo.wait(600);
+  const G = (x) => "gdoc:" + x, info = () => S.docs.get("practice1");
+  await run([
+    { do: "select", target: G("page"), text: "大家好，我是小明。" }, { do: "click", target: G("tb:粗體") },
+    { do: "click", target: G("tb:文字顏色") }, { do: "click", target: G("tb:文字顏色:紅色") },
+    { do: "click", target: G("tb:樣式") }, { do: "click", target: G("tb:樣式:標題 1") },
+    { do: "select", target: G("page"), text: "資訊課" }, { do: "click", target: G("tb:字型") }, { do: "click", target: G("tb:字型:標楷體") }, { do: "click", target: G("tb:放大字級") },
+    { do: "select", target: G("page"), text: "請幫我把這份文件整理得漂亮一點。" }, { do: "click", target: G("tb:置中對齊") },
+    { do: "click", target: G("tb:連結") }, { do: "type", text: "example.com" }, { do: "click", target: G("link:apply") },
+  ]);
+  let di = info();
+  ok("文件：粗體", di.bold); ok("文件：紅色字", di.colors.includes("#d93025")); ok("文件：標題 1", di.headings.some((h) => h.level === 1));
+  ok("文件：標楷體", di.fonts.includes("標楷體")); ok("文件：字級放大到 14", di.sizes.includes(14)); ok("文件：置中", di.align.includes("center"));
+  ok("文件：插入連結", di.links.some((l) => l.href.includes("example.com")));
+  await run([{ do: "select", target: G("page"), caret: "end" }, { do: "type", text: "謝謝！" }, { do: "key", key: "Ctrl+Z" }]);
+  ok("文件：Ctrl+Z 復原打字", !info().text.includes("謝謝"));
+  await run([{ do: "click", target: G("share") }, { do: "click", target: G("share:email") }, { do: "type", text: "teacher@example.com" }, { do: "key", key: "Enter" }, { do: "click", target: G("share:access") }, { do: "click", target: G("share:access:知道連結的任何人") }, { do: "click", target: G("share:done") }]);
+  ok("文件：分享給人並設為知道連結的任何人", info().share.people.length === 1 && info().share.access === "anyone");
+  await run([{ do: "click", target: G("menu:檔案") }, { do: "click", target: G("menu:檔案:下載：純文字 (.txt)") }]);
+  ok("文件：下載 .txt 到下載資料夾", S.fs.list(H + "/下載").some((n) => n.endsWith(".txt")));
+  S.wm.closeAll();
+
   // --- 電源 ---
   S.sys.setSetting("fastBoot", true);
   await run([{ do: "click", target: "taskbar:start" }, { do: "wait", ms: 300 }, { do: "click", target: "start:power" }, { do: "wait", ms: 200 }, { do: "click", target: "start:shutdown" }, { do: "wait", ms: 300 }]);

@@ -15,3 +15,6 @@
 - 上游 repo **沒有 LICENSE 檔**。老師表示該作者的個人頁面說明可以分享，因此決定直接使用素材；**這點我（AI）無法從 repo 內容驗證**。
 - 因此：保留這份致謝；若日後要把含上游素材的網站**公開發布**（例如 pcclass），建議先取得作者書面同意（GitHub issue 或 email），或把 `public/images/` 與 `public/audio/` 換成自繪／自有素材（`shell/icons.jsx` 的圖示已是自繪 SVG，只有少數 App 圖示仍用上游 png）。
 - 本資料包新寫的程式碼與場景／劇本，著作權屬資訊老師黃博胤。
+
+## 第二個參考：google-doc-clone
+- <https://github.com/deeproop/google-doc-clone>（commit `ec92e5b`），無 LICENSE。只參考「標題列＋選單列＋圓角工具列＋灰底白紙」的**版面概念**；該專案的選單不可用、工具列與編輯器是第三方套件（react-draft-wysiwyg／draft-js），所以 `src/apps/GDoc.jsx` 是自寫的 contentEditable 版本，沒有使用它的程式碼或圖片。

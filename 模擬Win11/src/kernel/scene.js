@@ -7,6 +7,7 @@ import { setClock } from "./clock";
 import { closeAll, openApp } from "./wm";
 import { FOLDER_NAMES } from "./paths";
 import { asset } from "../shell/icons";
+import { setDocs } from "./docs";
 
 const DEFAULT_SETTINGS = { theme: "dark", showExtensions: false, showHidden: false, wallpaper: "wallpapers/roki.jpg", sound: true, desktopIcons: true, fastBoot: false };
 
@@ -36,6 +37,7 @@ export async function loadScene(input, { keepLog = false } = {}) {
     scene: { id: spec.id || (typeof input === "string" ? input : "custom"), title: spec.title || "" },
   });
 
+  setDocs(spec.docs);
   // ---- 檔案系統 ----
   vfs.reset(spec.drives || ["C"]);
   const home = `C:\\Users\\${user.name}`;
