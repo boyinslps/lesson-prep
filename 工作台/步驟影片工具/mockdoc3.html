@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8"><title>示意畫面 - 調整景點順序</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,'Microsoft JhengHei',sans-serif;background:#f9fbfd;color:#1f1f1f;height:720px;overflow:hidden;position:relative}
+.top{display:flex;align-items:center;gap:10px;padding:8px 14px 2px}
+.logo{width:24px;height:32px;background:#4285f4;border-radius:3px;position:relative}
+.logo:after{content:'';position:absolute;left:5px;right:5px;top:10px;height:2px;background:#fff;box-shadow:0 5px 0 #fff,0 10px 0 #fff,0 15px 0 #fff}
+.title{font-size:17px}
+.menu{display:flex;gap:16px;font-size:13px;color:#444;padding:0 0 0 48px;margin-top:-6px}
+.share{margin-left:auto;background:#c2e7ff;border-radius:18px;padding:6px 16px;font-size:13px;font-weight:bold}
+.page{width:980px;margin:6px auto 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);height:640px;padding:10px 70px;font-size:16px;line-height:24px;position:relative;overflow:hidden}
+.page p{margin:0;min-height:24px;white-space:nowrap}
+.sel{background:#b3d4fc}
+.caret{display:inline-block;width:2px;height:18px;background:#1f1f1f;vertical-align:middle}
+.tag{position:absolute;right:14px;top:56px;font-size:12px;color:#888;background:#fff;border:1px solid #ddd;border-radius:10px;padding:2px 8px;z-index:9}
+.url{color:#1155cc;text-decoration:underline}
+</style></head><body>
+<span class="tag">示意畫面</span>
+<div class="top"><div class="logo"></div><div class="title">41230 王小明　我的景點清單</div><div class="share">共用</div></div>
+<div class="menu"><span>檔案</span><span>編輯</span><span>查看</span><span>插入</span><span>格式</span><span>工具</span><span>擴充功能</span><span>說明</span></div>
+<div class="page" id="page"></div>
+<script>
+var s=new URLSearchParams(location.search).get('s')||'a';
+var D={
+ ch:{name:'赤崁樓',addr:'臺南市中西區民族路二段212號',open:'08:30～21:00',fee:'全票 70 元，半票 35 元',stay:'1 小時',url:'https://www.twtainan.net/…'},
+ ap:{name:'安平古堡',addr:'臺南市安平區國勝路82號',open:'10:00～17:10',fee:'全票 70 元，半票 35 元',stay:'1 小時',url:'https://www.twtainan.net/…'},
+ lin:{name:'林百貨',addr:'臺南市中西區忠義路二段63號',open:'11:00～21:00',fee:'免費',stay:'1 小時',url:'https://www.twtainan.net/…'}
+};
+var lines=[];
+function block(key,n,sel){['a','b','c','d','e','f'].forEach(function(k){lines.push({k:k,key:key,n:n,sel:sel});});}
+function blank(c){lines.push({k:c?'caret':'blank'});}
+if(s==='a'||s==='b'){var q=s==='b';block('ch',1);blank();block('ap',2,q);blank();block('lin',3);}
+if(s==='c'){block('ch',1);blank();block('lin',3);blank();}
+if(s==='d'){block('ch',1);blank();block('lin',3);blank(true);}
+if(s==='e'){block('ch',1);blank();block('lin',3);blank();block('ap',2);}
+if(s==='g'){block('ch',1);blank();block('lin',2);blank();block('ap',2);}
+if(s==='f'){block('ch',1);blank();block('lin',2);blank();block('ap',3);}
+var h='';
+lines.forEach(function(L,i){
+  var id='l'+i,x='',d=D[L.key];
+  if(L.k==='a')x='第 <span id="n'+i+'">'+L.n+'</span> 站：'+d.name;
+  else if(L.k==='b')x='地址：'+d.addr;
+  else if(L.k==='c')x='開放時間：'+d.open;
+  else if(L.k==='d')x='門票：'+d.fee;
+  else if(L.k==='e')x='停留多久：'+d.stay;
+  else if(L.k==='f')x='景點網址：<span class="url">'+d.url+'</span>';
+  else if(L.k==='caret')x='<span class="caret"></span>';
+  h+='<p id="'+id+'"><span id="t'+i+'"'+(L.sel?' class="sel"':'')+'>'+x+'</span></p>';
+});
+document.getElementById('page').innerHTML=h;
+function R(e){var b=e.getBoundingClientRect();return {x:Math.round(b.left),y:Math.round(b.top),w:Math.round(b.width),h:Math.round(b.height)}}
+var rects={};
+document.querySelectorAll('[id]').forEach(function(e){if(/^[ltn]\d+$/.test(e.id))rects[e.id]=R(e);});
+window.RECTS=JSON.stringify(rects);
+if(new URLSearchParams(location.search).get('dump'))document.body.innerHTML='<pre id="rects">'+window.RECTS+'</pre>';
+</script></body></html>

@@ -1,0 +1,326 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "type": "title",
+   "dur": 3,
+   "title": "設定超連結，並寫查閱日期",
+   "subtitle": "複製網址 → 選取文字 → Ctrl＋K → 寫日期"
+  },
+  {
+   "dur": 7,
+   "img": "shots/v1_mgp2.png",
+   "chrome": {
+    "tabs": [
+     "MyGoPen"
+    ],
+    "urls": [
+     "mygopen.com/2026/02/ai-fraud.html"
+    ],
+    "active": 0,
+    "urlSel": [
+     {
+      "t": 2.2,
+      "dur": 99
+     }
+    ]
+   },
+   "step": "1",
+   "caption": "在查核文章頁，點一下上面的網址列",
+   "sub": "整條網址變藍色 → 按 Ctrl＋C 複製",
+   "boxes": [
+    {
+     "t": 0.3,
+     "dur": 99,
+     "x": 116,
+     "y": 43,
+     "w": 1088,
+     "h": 36
+    }
+   ],
+   "clicks": [
+    {
+     "t": 2.0,
+     "x": 420,
+     "y": 61
+    }
+   ],
+   "keys": [
+    {
+     "t": 3.4,
+     "dur": 2.4,
+     "keys": [
+      "Ctrl",
+      "C"
+     ],
+     "x": 760,
+     "y": 300
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 600,
+     "y": 400
+    },
+    {
+     "t": 1.8,
+     "x": 420,
+     "y": 61
+    },
+    {
+     "t": 7,
+     "x": 420,
+     "y": 61
+    }
+   ]
+  },
+  {
+   "dur": 6,
+   "img": "shots/doc2_v4a.png",
+   "imgs": [
+    {
+     "t": 2.4,
+     "img": "shots/doc2_v4b.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "step": "2",
+   "caption": "切回文件，選取來源那一行文字",
+   "sub": "從句首拖到句尾，整行變藍色",
+   "boxes": [
+    {
+     "t": 0.8,
+     "dur": 99,
+     "x": 220,
+     "y": 282,
+     "w": 560,
+     "h": 25,
+     "style": "select",
+     "grow": 1.4
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 760,
+     "y": 400
+    },
+    {
+     "t": 0.8,
+     "x": 221,
+     "y": 294,
+     "mode": "ibeam"
+    },
+    {
+     "t": 2.2,
+     "x": 778,
+     "y": 294,
+     "mode": "ibeam"
+    },
+    {
+     "t": 6,
+     "x": 778,
+     "y": 294,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 9,
+   "img": "shots/doc2_v4b.png",
+   "imgs": [
+    {
+     "t": 1.6,
+     "img": "shots/doc2_v4c.png"
+    },
+    {
+     "t": 6.0,
+     "img": "shots/doc2_v4d.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "step": "3",
+   "caption": "按 Ctrl＋K，貼上網址，按「套用」",
+   "sub": "Ctrl＋K 是「插入連結」。網址用 Ctrl＋V 貼上",
+   "keys": [
+    {
+     "t": 0.4,
+     "dur": 1.5,
+     "keys": [
+      "Ctrl",
+      "K"
+     ],
+     "x": 640,
+     "y": 560
+    },
+    {
+     "t": 2.6,
+     "dur": 1.8,
+     "keys": [
+      "Ctrl",
+      "V"
+     ],
+     "x": 640,
+     "y": 560
+    }
+   ],
+   "boxes": [
+    {
+     "t": 3.0,
+     "dur": 99,
+     "x": 316,
+     "y": 460,
+     "w": 528,
+     "h": 48,
+     "style": "highlight"
+    }
+   ],
+   "clicks": [
+    {
+     "t": 5.6,
+     "x": 355,
+     "y": 542
+    }
+   ],
+   "labels": [
+    {
+     "t": 6.4,
+     "dur": 99,
+     "x": 800,
+     "y": 285,
+     "text": "藍色底線＝連結成功",
+     "color": "green",
+     "size": 26
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 700,
+     "y": 300
+    },
+    {
+     "t": 4.6,
+     "x": 355,
+     "y": 542
+    },
+    {
+     "t": 5.6,
+     "x": 355,
+     "y": 542
+    },
+    {
+     "t": 9,
+     "x": 355,
+     "y": 542
+    }
+   ]
+  },
+  {
+   "dur": 8,
+   "img": "shots/doc2_v4d.png",
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "step": "4",
+   "caption": "在連結後面，打上「查閱日期」",
+   "sub": "網頁可能改版或被刪掉，寫上哪一天看的，別人才知道版本",
+   "typing": [
+    {
+     "t": 1.2,
+     "dur": 99,
+     "x": 784,
+     "y": 282,
+     "text": "（2026/10/12 查閱）",
+     "size": 22,
+     "cps": 7,
+     "bgw": 240,
+     "bgh": 28
+    }
+   ],
+   "boxes": [
+    {
+     "t": 4.6,
+     "dur": 99,
+     "x": 780,
+     "y": 278,
+     "w": 230,
+     "h": 32,
+     "style": "highlight"
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 700,
+     "y": 300
+    },
+    {
+     "t": 1.2,
+     "x": 790,
+     "y": 294,
+     "mode": "ibeam"
+    },
+    {
+     "t": 8,
+     "x": 790,
+     "y": 294,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 5,
+   "img": "shots/doc2_v4e.png",
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "step": "✓",
+   "caption": "來源清單：機構名稱＋文章標題（連結）＋查閱日期",
+   "sub": "每一筆來源都要這樣寫",
+   "boxes": [
+    {
+     "t": 0.4,
+     "dur": 99,
+     "x": 218,
+     "y": 278,
+     "w": 780,
+     "h": 34,
+     "style": "highlight"
+    }
+   ]
+  }
+ ]
+}
