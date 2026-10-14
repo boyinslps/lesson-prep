@@ -61,41 +61,63 @@
     </div>
   </header>
 
-  <!-- 步驟 1：景點順序，不繞路（互動 1） -->
+  <!-- 步驟 1：景點順序，不繞路（互動 1、進階題） -->
   <section class="step bg-white border-4 border-amber-300 rounded-3xl p-5 shadow-sm" data-step="1">
     <h2 class="cute text-3xl font-extrabold text-amber-700 mb-1">景點順序，不繞路</h2>
-    <p class="text-xl mb-3">同樣 3 個景點，<b>順序不同</b>，路上的時間<b>就不同</b>。</p>
+    <p class="text-xl mb-3">看地圖：怎麼排，<b>線不交叉</b>、<b>不走回頭路</b>？</p>
 
-    <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-4" data-qid="q1" data-qtype="experience">
+    <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-4 mb-4" data-qid="q1" data-qtype="experience">
       <p class="cute text-2xl font-extrabold text-amber-700">🎯 你從<span class="text-rose-600">臺南火車站</span>出發，會怎麼排？</p>
       <p class="text-xl font-bold mb-2">照你想去的順序，<b>一個一個點</b>景點 👇</p>
       <div class="grid md:grid-cols-5 gap-4 items-start">
         <div class="md:col-span-3">
-          <svg id="mapSvg" viewBox="0 0 600 360" class="w-full bg-sky-50 border-2 border-sky-200 rounded-2xl" role="img" aria-label="臺南火車站、赤崁樓、安平古堡、奇美博物館的位置示意圖">
-            <rect x="0" y="0" width="600" height="360" fill="#f0f9ff"/>
-            <path d="M0 0 H120 C110 60 90 110 60 160 C40 200 30 260 0 300 Z" fill="#bae6fd" opacity=".7"/>
-            <text x="12" y="24" font-size="15" fill="#0369a1" font-weight="700">海邊</text>
-            <g id="routeLines"></g>
-            <g id="pts"></g>
+          <svg id="map1Svg" viewBox="0 0 640 480" class="w-full bg-sky-50 border-2 border-sky-200 rounded-2xl" role="img" aria-label="地圖">
+            <image href="assets/osm_map1.jpg" x="0" y="0" width="640" height="480"/>
+            <g id="map1Lines"></g>
+            <g id="map1Pts"></g>
           </svg>
-          <p class="text-sm text-slate-500 mt-1">地圖是示意（位置大概），分鐘是開車，<b>2026/10/13 用 Google 地圖查</b>，時間會變。</p>
+          <p class="text-sm text-slate-500 mt-1">地圖是示意的路線，不是真的路。地圖：© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" class="underline">OpenStreetMap</a> 貢獻者。</p>
         </div>
         <div class="md:col-span-2">
-          <div id="spotBtns" class="flex flex-wrap gap-2 mb-3"></div>
-          <ol id="segList" class="text-xl space-y-1 min-h-[96px]"></ol>
-          <p id="segTotal" class="cute text-2xl font-extrabold text-orange-700 mt-1 min-h-[36px]"></p>
-          <button id="p1Reset" class="mt-2 bg-white border-2 border-slate-300 hover:border-amber-400 font-bold rounded-xl px-4 py-1.5">🧹 重排</button>
+          <div id="map1Btns" class="flex flex-wrap gap-2 mb-3"></div>
+          <ol id="map1Seg" class="text-xl space-y-1 min-h-[96px]"></ol>
+          <button id="map1Reset" class="mt-2 bg-white border-2 border-slate-300 hover:border-amber-400 font-bold rounded-xl px-4 py-1.5">🧹 重排</button>
         </div>
       </div>
-      <div id="p1Result" class="hidden mt-4 bg-white border-4 border-emerald-200 rounded-2xl p-3">
-        <p id="p1Msg" class="text-xl font-extrabold"></p>
-        <button id="p1All" class="mt-2 bg-amber-500 hover:bg-amber-600 text-white font-extrabold rounded-xl px-5 py-2">👀 看全部 6 種順序</button>
-        <div id="p1Table" class="hidden mt-3 overflow-x-auto"></div>
+      <div id="map1Result" class="hidden mt-4 bg-white border-4 border-emerald-200 rounded-2xl p-3">
+        <p id="map1Msg" class="text-xl font-extrabold"></p>
+        <button id="map1More" class="mt-2 bg-amber-500 hover:bg-amber-600 text-white font-extrabold rounded-xl px-5 py-2">👀 看全部 6 種排法</button>
+        <div id="map1Info" class="hidden mt-3 overflow-x-auto"></div>
+      </div>
+    </div>
+
+    <p class="cute text-2xl font-extrabold text-rose-600 mt-5 mb-2">🏆 進階挑戰：赤崁樓周邊，用走的</p>
+    <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-4 mb-4" data-qid="q2" data-qtype="experience">
+      <p class="cute text-2xl font-extrabold text-amber-700">🚶 你從<span class="text-rose-600">祀典武廟</span>出發，要逛 5 個景點，最順的路線是？</p>
+      <p class="text-xl font-bold mb-2">這一區都能<b>走路</b>到。一個一個點 👇</p>
+      <div class="grid md:grid-cols-5 gap-4 items-start">
+        <div class="md:col-span-3">
+          <svg id="map2Svg" viewBox="0 0 720 480" class="w-full bg-sky-50 border-2 border-sky-200 rounded-2xl" role="img" aria-label="地圖">
+            <image href="assets/osm_map2.jpg" x="0" y="0" width="720" height="480"/>
+            <g id="map2Lines"></g>
+            <g id="map2Pts"></g>
+          </svg>
+          <p class="text-sm text-slate-500 mt-1">地圖：© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" class="underline">OpenStreetMap</a> 貢獻者。</p>
+        </div>
+        <div class="md:col-span-2">
+          <div id="map2Btns" class="flex flex-wrap gap-2 mb-3"></div>
+          <ol id="map2Seg" class="text-xl space-y-1 min-h-[96px]"></ol>
+          <button id="map2Reset" class="mt-2 bg-white border-2 border-slate-300 hover:border-amber-400 font-bold rounded-xl px-4 py-1.5">🧹 重排</button>
+        </div>
+      </div>
+      <div id="map2Result" class="hidden mt-4 bg-white border-4 border-emerald-200 rounded-2xl p-3">
+        <p id="map2Msg" class="text-xl font-extrabold"></p>
+        <button id="map2More" class="mt-2 bg-amber-500 hover:bg-amber-600 text-white font-extrabold rounded-xl px-5 py-2">🧭 看台南旅遊網的建議路線</button>
+        <div id="map2Info" class="hidden mt-3 overflow-x-auto"></div>
       </div>
     </div>
     <div class="stepnav"></div>
   </section>
-
 
   <!-- 步驟 2：怎麼排？ -->
   <section class="step hidden bg-white border-4 border-emerald-300 rounded-3xl p-5 shadow-sm" data-step="2">
@@ -311,80 +333,97 @@ var firebaseConfig = {
     try{navigator.clipboard.writeText(text).then(done,fallback);}catch(e){fallback();}
   }
 
-  // ===== 互動 1：景點順序不繞路 =====
-  var PLACES={'臺南火車站':{x:390,y:73,start:1},'赤崁樓':{x:337,y:71},'安平古堡':{x:130,y:60},'奇美博物館':{x:454,y:285}};
-  // 開車分鐘（2026/10/13 Google 地圖）
-  var DRIVE={'臺南火車站|赤崁樓':6,'臺南火車站|安平古堡':21,'臺南火車站|奇美博物館':21,'赤崁樓|安平古堡':16,'赤崁樓|奇美博物館':22,'安平古堡|奇美博物館':30};
-  function drive(a,b){return DRIVE[a+'|'+b]||DRIVE[b+'|'+a];}
-  var SPOTS=['赤崁樓','安平古堡','奇美博物館'];
-  var order=[];
-  function perms(arr){if(arr.length<2)return [arr];var out=[];arr.forEach(function(x,i){perms(arr.slice(0,i).concat(arr.slice(i+1))).forEach(function(p){out.push([x].concat(p));});});return out;}
-  function total(ord){var t=0,prev='臺南火車站';ord.forEach(function(s){t+=drive(prev,s);prev=s;});return t;}
-  var ALL=perms(SPOTS).map(function(o){return {o:o,t:total(o)};}).sort(function(a,b){return a.t-b.t;});
-  var BEST=ALL[0].t,WORST=ALL[ALL.length-1].t;
-  var p1Done=false,p1All=false,p1Final=null;
-  function drawMap(){
-    var lines=$('routeLines'),pts=$('pts');lines.innerHTML='';pts.innerHTML='';
-    var prev='臺南火車站';
-    order.forEach(function(s){
-      var a=PLACES[prev],b=PLACES[s];
-      var l=document.createElementNS('http://www.w3.org/2000/svg','line');
-      l.setAttribute('x1',a.x);l.setAttribute('y1',a.y);l.setAttribute('x2',b.x);l.setAttribute('y2',b.y);
-      l.setAttribute('stroke','#f97316');l.setAttribute('stroke-width','5');l.setAttribute('stroke-linecap','round');l.setAttribute('stroke-dasharray','10 6');
-      lines.appendChild(l);prev=s;
-    });
-    Object.keys(PLACES).forEach(function(n){
-      var p=PLACES[n],idx=order.indexOf(n),picked=idx>=0;
-      var g=document.createElementNS('http://www.w3.org/2000/svg','g');g.setAttribute('class','pt');
-      var c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-      c.setAttribute('cx',p.x);c.setAttribute('cy',p.y);c.setAttribute('r',p.start?15:13);
-      c.setAttribute('fill',p.start?'#ef4444':(picked?'#f97316':'#14b8a6'));c.setAttribute('stroke','#fff');c.setAttribute('stroke-width','3');
-      g.appendChild(c);
-      var t=document.createElementNS('http://www.w3.org/2000/svg','text');
-      t.setAttribute('x',p.x);t.setAttribute('y',p.y+5);t.setAttribute('text-anchor','middle');t.setAttribute('font-size','14');t.setAttribute('font-weight','800');t.setAttribute('fill','#fff');
-      t.textContent=p.start?'起':(picked?String(idx+1):'');g.appendChild(t);
-      var lb=document.createElementNS('http://www.w3.org/2000/svg','text');
-      lb.setAttribute('x',p.x);lb.setAttribute('y',p.y+((n==='安平古堡'||n==='赤崁樓')?-20:30));lb.setAttribute('text-anchor','middle');lb.setAttribute('font-size','17');lb.setAttribute('font-weight','800');lb.setAttribute('fill','#0f172a');lb.setAttribute('stroke','#fff');lb.setAttribute('stroke-width','4');lb.setAttribute('paint-order','stroke');
-      lb.textContent=n;g.appendChild(lb);
-      if(!p.start)g.addEventListener('click',function(){pickSpot(n);});
-      pts.appendChild(g);
-    });
-  }
-  function renderSpotBtns(){
-    var h=$('spotBtns');h.innerHTML='';
-    SPOTS.forEach(function(n){
-      var on=order.indexOf(n)>=0;
-      var b=el('button','opt border-2 rounded-xl px-4 py-2 text-xl font-extrabold '+(on?'border-slate-200 bg-slate-100 text-slate-400':'border-amber-400 bg-white hover:bg-amber-100'),n);
-      b.disabled=on;b.onclick=function(){pickSpot(n);};h.appendChild(b);
-    });
-  }
-  function renderSeg(){
-    var l=$('segList');l.innerHTML='';var prev='臺南火車站';
-    order.forEach(function(s,i){l.appendChild(el('li','',esc(prev)+' → <b>'+esc(s)+'</b>　<span class="font-extrabold text-orange-700">'+drive(prev,s)+' 分</span>'));prev=s;});
-    $('segTotal').textContent=order.length?('路上共 '+total(order)+' 分'+(order.length<3?'…':'')):'';
-  }
-  function pickSpot(n){
-    if(order.indexOf(n)>=0||order.length>=3)return;
-    order.push(n);drawMap();renderSpotBtns();renderSeg();
-    if(order.length===3){
-      p1Done=true;var t=total(order);p1Final={order:order.slice(),total:t,isShortest:t===BEST};
-      var r=$('p1Result');r.classList.remove('hidden');r.classList.add('pop');
-      var m=$('p1Msg');
-      if(t===BEST){m.className='text-xl font-extrabold text-emerald-700';m.textContent='🎉 '+t+' 分，是最短的！不繞路！';}
-      else{m.className='text-xl font-extrabold text-amber-700';m.textContent='你排的是 '+t+' 分。最短是 '+BEST+' 分，看看有沒有走回頭路？';}
-      renderStepper();
+  // ===== 互動 1、進階題：看地圖排順序（OpenStreetMap 底圖）=====
+  function mkProj(c){var n=Math.pow(2,c.z)*256;
+    function gx(l){return (l+180)/360*n;}
+    function gy(l){var r=l*Math.PI/180;return (1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*n;}
+    return function(lat,lng){return {x:Math.round(c.W/2+gx(lng)-gx(c.lng)),y:Math.round(c.H/2+gy(lat)-gy(c.lat))};};}
+  function segX(p,q,r,t){function o(a,b,c){return (b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);}
+    return o(p,q,r)*o(p,q,t)<0&&o(r,t,p)*o(r,t,q)<0;}
+  function distSeg(pt,a,b){var dx=b.x-a.x,dy=b.y-a.y,u=((pt.x-a.x)*dx+(pt.y-a.y)*dy)/(dx*dx+dy*dy);u=Math.max(0,Math.min(1,u));
+    return Math.hypot(pt.x-(a.x+u*dx),pt.y-(a.y+u*dy));}
+  var SVGNS='http://www.w3.org/2000/svg';
+  function svgEl(tag,at){var e=document.createElementNS(SVGNS,tag);Object.keys(at).forEach(function(k){e.setAttribute(k,at[k]);});return e;}
+  function MapQ(cfg){
+    var proj=mkProj(cfg.view),P={},names=Object.keys(cfg.places);
+    names.forEach(function(n){var q=cfg.places[n],pt=proj(q.lat,q.lng);P[n]={x:pt.x,y:pt.y,start:!!q.start,dx:q.dx||0,dy:q.dy||-20,anchor:q.anchor||'middle'};});
+    var self={order:[],done:false,viewed:false,final:null,P:P};
+    var start=names.filter(function(n){return P[n].start;})[0],spots=names.filter(function(n){return !P[n].start;});
+    function judge(ord){
+      var path=[start].concat(ord),why=[],i,j;
+      for(i=0;i<path.length-1;i++){
+        for(j=i+2;j<path.length-1;j++){if(segX(P[path[i]],P[path[i+1]],P[path[j]],P[path[j+1]]))why.push('線交叉了');}
+        names.forEach(function(n){if(n!==path[i]&&n!==path[i+1]&&distSeg(P[n],P[path[i]],P[path[i+1]])<cfg.near)why.push('路過「'+n+'」卻沒有停');});
+      }
+      return {ok:why.length===0,why:why.filter(function(x,k,arr){return arr.indexOf(x)===k;})};
     }
+    self.judge=judge;
+    function lenM(ord){var path=[start].concat(ord),t=0,i;for(i=0;i<path.length-1;i++)t+=Math.hypot(P[path[i]].x-P[path[i+1]].x,P[path[i]].y-P[path[i+1]].y);return Math.round(t*cfg.mpp/10)*10;}
+    self.lenM=lenM;
+    function line(a,b,color,dash){return svgEl('line',{x1:P[a].x,y1:P[a].y,x2:P[b].x,y2:P[b].y,stroke:color,'stroke-width':5,'stroke-linecap':'round','stroke-dasharray':dash||'10 6'});}
+    function draw(extra){
+      var L=$(cfg.id+'Lines'),G=$(cfg.id+'Pts');L.innerHTML='';G.innerHTML='';
+      if(extra){var pv=start;extra.forEach(function(n){L.appendChild(line(pv,n,'#2563eb','2 8'));pv=n;});}
+      var prev=start;self.order.forEach(function(n){L.appendChild(line(prev,n,'#f97316'));prev=n;});
+      names.forEach(function(n){
+        var p=P[n],idx=self.order.indexOf(n),picked=idx>=0;
+        var g=svgEl('g',{'class':'pt'});
+        g.appendChild(svgEl('circle',{cx:p.x,cy:p.y,r:p.start?15:13,fill:p.start?'#ef4444':(picked?'#f97316':'#14b8a6'),stroke:'#fff','stroke-width':3}));
+        var t=svgEl('text',{x:p.x,y:p.y+5,'text-anchor':'middle','font-size':14,'font-weight':800,fill:'#fff'});t.textContent=p.start?'起':(picked?String(idx+1):'');g.appendChild(t);
+        var lb=svgEl('text',{x:p.x+p.dx,y:p.y+p.dy,'text-anchor':p.anchor,'font-size':cfg.font||16,'font-weight':800,fill:'#0f172a',stroke:'#fff','stroke-width':4,'paint-order':'stroke'});lb.textContent=n;g.appendChild(lb);
+        if(!p.start)g.addEventListener('click',function(){pick(n);});
+        G.appendChild(g);
+      });
+    }
+    function btns(){
+      var h=$(cfg.id+'Btns');h.innerHTML='';
+      spots.forEach(function(n){var on=self.order.indexOf(n)>=0;
+        var b=el('button','opt border-2 rounded-xl px-4 py-2 text-xl font-extrabold '+(on?'border-slate-200 bg-slate-100 text-slate-400':'border-amber-400 bg-white hover:bg-amber-100'),n);
+        b.disabled=on;b.onclick=function(){pick(n);};h.appendChild(b);});
+    }
+    function seg(){var l=$(cfg.id+'Seg');l.innerHTML='';var prev=start;self.order.forEach(function(n){l.appendChild(el('li','',esc(prev)+' → <b>'+esc(n)+'</b>'));prev=n;});}
+    function pick(n){
+      if(self.order.indexOf(n)>=0||self.order.length>=spots.length)return;
+      self.order.push(n);draw();btns();seg();
+      if(self.order.length===spots.length){
+        self.done=true;var j=judge(self.order);self.final={order:self.order.slice(),smooth:j.ok,why:j.why};
+        var r=$(cfg.id+'Result');r.classList.remove('hidden');r.classList.add('pop');
+        var m=$(cfg.id+'Msg');
+        if(j.ok){m.className='text-xl font-extrabold text-emerald-700';m.textContent='🎉 線沒有交叉，也沒有路過不停，看起來不繞路！';}
+        else{m.className='text-xl font-extrabold text-amber-700';m.textContent='看地圖：'+j.why.join('、')+'。換個順序試試？';}
+        renderStepper();
+      }
+    }
+    $(cfg.id+'Reset').onclick=function(){self.order=[];draw();btns();seg();$(cfg.id+'Result').classList.add('hidden');$(cfg.id+'Info').classList.add('hidden');};
+    $(cfg.id+'More').onclick=function(){self.viewed=true;cfg.more(self);};
+    self.draw=draw;self.start=start;self.spots=spots;draw();btns();seg();return self;
   }
-  $('p1Reset').onclick=function(){order=[];drawMap();renderSpotBtns();renderSeg();$('p1Result').classList.add('hidden');$('p1Table').classList.add('hidden');};
-  $('p1All').onclick=function(){
-    p1All=true;var t=$('p1Table');
-    var h='<table class="cmp text-lg bg-white"><thead><tr><th>順序（從臺南火車站出發）</th><th>路上共</th></tr></thead><tbody>';
-    ALL.forEach(function(x){var mine=p1Final&&p1Final.order.join()===x.o.join();
-      h+='<tr'+(x.t===BEST?' style="background:#d1fae5"':(x.t===WORST?' style="background:#ffe4e6"':''))+'><td>'+x.o.map(esc).join(' → ')+(mine?' 👈 你排的':'')+'</td><td class="font-extrabold">'+x.t+' 分'+(x.t===BEST?' ✓ 最短':(x.t===WORST?' 最長':''))+'</td></tr>';});
-    h+='</tbody></table><p class="text-lg font-bold mt-2">最短 '+BEST+' 分、最長 '+WORST+' 分，<span class="text-rose-600">差 '+(WORST-BEST)+' 分鐘</span>！</p>';
-    t.innerHTML=h;t.classList.remove('hidden');
-  };
-  drawMap();renderSpotBtns();renderSeg();
+  // 地圖一：臺南火車站＋3 個景點（座標：維基百科、台南旅遊網）
+  var M1=MapQ({id:'map1',near:12,mpp:17.6,font:17,view:{lat:22.9678,lng:120.1933,z:13,W:640,H:480},
+    places:{'臺南火車站':{lat:22.9971,lng:120.2130,start:1,dy:32},'赤崁樓':{lat:22.99722,lng:120.20242,dy:-20,dx:-8,anchor:'end'},'安平古堡':{lat:23.00092,lng:120.16062,dy:-20},'奇美博物館':{lat:22.93459,lng:120.2259,dy:32}},
+    more:function(m){
+      var spots=m.spots,rows=[];
+      (function perms(arr,pre){if(!arr.length){rows.push(pre);return;}arr.forEach(function(x,i){perms(arr.slice(0,i).concat(arr.slice(i+1)),pre.concat([x]));});})(spots,[]);
+      rows=rows.map(function(o){var j=m.judge(o);return {o:o,ok:j.ok,why:j.why};}).sort(function(a,b){return (b.ok?1:0)-(a.ok?1:0);});
+      var h='<table class="cmp text-lg bg-white"><thead><tr><th>順序（從臺南火車站出發）</th><th>看地圖</th></tr></thead><tbody>';
+      rows.forEach(function(x){var mine=m.final&&m.final.order.join()===x.o.join();
+        h+='<tr style="background:'+(x.ok?'#d1fae5':'#ffe4e6')+'"><td>'+x.o.map(esc).join(' → ')+(mine?' 👈 你排的':'')+'</td><td class="font-extrabold">'+(x.ok?'✓ 不繞路':'✗ '+esc(x.why.join('、')))+'</td></tr>';});
+      h+='</tbody></table><p class="text-lg font-bold mt-2">不繞路的排法<b>不只一種</b>。路上要花幾分鐘，<span class="text-rose-600">下一節再查</span>。</p>';
+      $('map1Info').innerHTML=h;$('map1Info').classList.remove('hidden');
+    }});
+  // 地圖二：赤崁樓周邊步行景點（座標：台南旅遊網景點頁；建議路線：台南旅遊網「府城歷史散步—赤崁線」）
+  var OFFICIAL=['大天后宮','開基武廟','赤崁樓','開基靈祐宮','萬福庵照牆'];
+  var M2=MapQ({id:'map2',near:12,mpp:0.55,font:15,view:{lat:22.99718,lng:120.20226,z:18,W:720,H:480},
+    places:{'祀典武廟':{lat:22.99635,lng:120.20213,start:1,dy:32},'大天后宮':{lat:22.9966,lng:120.20149,dy:-20},'開基武廟':{lat:22.99639,lng:120.20079,dy:-20,dx:-30,anchor:'start'},'赤崁樓':{lat:22.99722,lng:120.20242,dy:-20},'開基靈祐宮':{lat:22.99805,lng:120.20372,dy:32,anchor:'end'},'萬福庵照牆':{lat:22.99631,lng:120.20287,dy:32}},
+    more:function(m){
+      m.draw(OFFICIAL);
+      var j=m.judge(OFFICIAL),mine=m.final?m.final.order:null;
+      var h='<p class="text-xl font-extrabold text-blue-700">藍色點線：台南旅遊網「府城歷史散步—赤崁線」</p>'
+        +'<p class="text-xl font-bold mt-1">祀典武廟 → 大天后宮 → 開基武廟 → <span class="text-blue-700">新美街</span> → 赤崁樓 → 開基靈祐宮 → 萬福庵照牆</p>'
+        +'<p class="text-lg mt-2">線不交叉、不路過不停：<b>'+(j.ok?'✓':'✗')+'</b>　直線距離：官方約 <b>'+m.lenM(OFFICIAL)+'</b> 公尺'+(mine?'，你排的約 <b>'+m.lenM(mine)+'</b> 公尺':'')+'</p>'
+        +'<p class="text-base text-slate-500 mt-1">景點之間都在幾百公尺內。座標與路線來源：台南旅遊網。</p>';
+      $('map2Info').innerHTML=h;$('map2Info').classList.remove('hidden');
+    }});
 
   // ===== 範本：景點格子 =====
   var TPL_SPOT='第 　 站：\n地址：\n開放時間：\n門票：\n停留多久：\n景點網址：\n';
@@ -392,25 +431,27 @@ var firebaseConfig = {
   $('spotText').textContent=TPL_SPOT;
 
   // ===== 繳交學習單 =====
-  // 定位：q1 是小互動（experience，只算完成度、不計分）；q2 是寫在 Google 文件的主要產出，老師用評分平台「匯入 Classroom 文件」寫進 q2。
+  // 定位：q1、q2 是小互動（experience，只算完成度、不計分）；q3 是寫在 Google 文件的主要產出，老師用評分平台「匯入 Classroom 文件」寫進 q3。
   var WS='g4-L05';
   function workDocId(idn){return WS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;}
   $('submitBtn').onclick=function(){
     var idn=getIdentity();
     if(!identityValid(idn)){alert('請先在最上方填好年級、班級、座號（都是數字，班級是 1 到 14）。');window.scrollTo({top:0,behavior:'smooth'});return;}
     if(!db){alert('系統尚未連線，請稍後再試或重新整理頁面。');return;}
-    var g1=p1Final?{order:p1Final.order,total:p1Final.total,isShortest:p1Final.isShortest,viewedAll:p1All}:null;
-    var experienceAnswers={q1:{given:g1,correct:null,isCorrect:!!g1}};
-    var answers={q1:g1},qtypes={q1:'experience'};
-    var experienceCompletion=g1?100:0;
-    var msg='確定要繳交學習單嗎？\n順序不繞路：'+(g1?(g1.isShortest?'找到最短':'已排'):'還沒玩')
+    var g1=M1.final?{order:M1.final.order,smooth:M1.final.smooth,viewedAll:M1.viewed}:null;
+    var g2=M2.final?{order:M2.final.order,smooth:M2.final.smooth,viewedOfficial:M2.viewed}:null;
+    var experienceAnswers={q1:{given:g1,correct:null,isCorrect:!!g1},q2:{given:g2,correct:null,isCorrect:!!g2}};
+    var answers={q1:g1,q2:g2},qtypes={q1:'experience',q2:'experience'};
+    var experienceCompletion=Math.round(((g1?1:0)+(g2?1:0))/2*100);
+    var msg='確定要繳交學習單嗎？\n順序不繞路：'+(g1?(g1.smooth?'不繞路':'已排'):'還沒玩')
+      +'\n進階挑戰：'+(g2?(g2.smooth?'不繞路':'已排'):'還沒玩')
       +'\n\n景點順序調好、每站貼了照片了嗎？';
     if(!confirm(msg))return;
     var payload={worksheetId:WS,worksheetTitle:'台南小導遊養成記：景點順序與找照片',lessonPath:'g4/L05',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
       qtexts:{
-        q2:'Google 文件：3 個以上景點，每一站有站號、地址、開放時間、門票、停留多久、景點網址，景點順序已調整（近的放一起、不走回頭路），站號依序（老師從 Classroom 作業讀取文件內容；照片看不出來，要開文件才知道）。',
+        q3:'Google 文件：3 個以上景點，每一站有站號、地址、開放時間、門票、停留多久、景點網址，景點順序已調整（近的放一起、不走回頭路），站號依序（老師從 Classroom 作業讀取文件內容；照片看不出來，要開文件才知道）。',
       },
       bonusQids:[],
       scoreAnswers:{},experienceAnswers:experienceAnswers,openAnswers:{},bonusAnswers:{},
@@ -436,7 +477,7 @@ var firebaseConfig = {
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true},submittedOnce=false;
   function stepDone(n){
-    if(n===1)return p1Done;
+    if(n===1)return M1.done;
     if(n===4)return submittedOnce;
     return !!visited[n]&&n!==curStep;
   }
@@ -475,12 +516,12 @@ var firebaseConfig = {
 </script>
 
 <!-- 評分設定（見《學習單資料與提交規範》§2-e、§3-d）：評分平台「學習單設定 → 從學習單讀取」一鍵帶入。
-     q1 是小互動（experience，不計分）；q2（Google 文件，老師「匯入 Classroom 文件」寫入）是唯一主要開放題 20 分＝base 100 − floor 80（檢核 6+4+10）。照片是圖片，匯入文字看不到，需老師開文件目視。 -->
+     q1、q2 是看地圖排順序的小互動與進階題（experience，不計分）；q3（Google 文件，老師「匯入 Classroom 文件」寫入）是唯一主要開放題 20 分＝base 100 − floor 80（檢核 6+4+10）。照片是圖片，匯入文字看不到，需老師開文件目視。 -->
 <script type="application/json" id="grading-spec">
 {
   "summary": "調整 L04 文件中景點站點的順序（近的放一起、不走回頭路）、站號改對，每一站貼一張照片",
   "questions": [
-    { "qid": "q2", "prompt": "Google 文件：3 個以上景點，每一站有站號、地址、開放時間、門票、停留多久、景點網址，景點順序已調整（近的放一起、不走回頭路），站號依序（老師從 Classroom 作業讀取文件內容；照片看不出來，要開文件才知道）。", "mode": "checklist",
+    { "qid": "q3", "prompt": "Google 文件：3 個以上景點，每一站有站號、地址、開放時間、門票、停留多久、景點網址，景點順序已調整（近的放一起、不走回頭路），站號依序（老師從 Classroom 作業讀取文件內容；照片看不出來，要開文件才知道）。", "mode": "checklist",
       "checks": [
         { "desc": "文件有 3 個以上景點站點（完成進度較快者 4 個以上），每一站都有地址、開放時間、門票、停留多久、景點網址（少一兩格空白只扣 1 分）", "pts": 6 },
         { "desc": "站號依序（第 1 站、第 2 站…），沒有重複或跳號", "pts": 4 },
