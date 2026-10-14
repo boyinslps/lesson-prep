@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="資訊老師黃博胤">
+<title>台南小導遊養成記｜四上 L06</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Noto Sans TC',sans-serif;background:#FFFBF3;color:#243b53;font-size:18px;line-height:1.7}
+  .cute{font-family:'Baloo 2','Noto Sans TC',cursive}
+  .shot{border-radius:14px;border:3px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.14);width:100%;display:block}
+  .pop{animation:pp .35s}@keyframes pp{0%{transform:scale(.94)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
+  .idnum{width:52px;text-align:center}
+  .opt{transition:.15s}
+  .stepnav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;padding-top:14px;border-top:2px solid #f1f5f9}
+  .stepdot{width:32px;height:32px}
+  @media(max-width:420px){.stepdot{width:28px;height:28px;font-size:12px}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  .stepno{display:inline-flex;align-items:center;justify-content:center;width:1.7em;height:1.7em;margin-right:.5em;border-radius:9999px;background:#0ea5e9;color:#fff;font-size:.8em}
+  .stepno.bg-orange{background:#ea580c}.stepno.bg-violet{background:#7c3aed}.stepno.bg-yellow{background:#ca8a04}.stepno.bg-emerald{background:#059669}
+  kbd{background:#f1f5f9;border:1px solid #cbd5e1;border-bottom-width:3px;border-radius:6px;padding:0 6px;font-family:inherit;font-weight:700}
+  .pt{cursor:pointer}
+  .pt circle{transition:.15s}
+  .pt:hover circle{stroke:#f97316;stroke-width:4}
+  table.cmp{border-collapse:collapse;width:100%}
+  table.cmp th,table.cmp td{border:2px solid #e2e8f0;padding:8px 10px;text-align:left;vertical-align:top}
+  table.cmp th{background:#f0f9ff}
+</style>
+</head>
+<body>
+
+<!-- 識別列 -->
+<div class="bg-white border-b-2 border-orange-200">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap text-sm">
+    <span class="cute font-bold text-orange-700">我是誰</span>
+    <label class="flex items-center gap-1 text-slate-500">年級<input id="idGrade" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-orange-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">班級<input id="idClass" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-orange-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">座號<input id="idStudent" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-orange-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <span id="idOk" class="hidden text-emerald-600 font-bold text-xs">✓ 已記住</span>
+  </div>
+</div>
+
+<!-- 學習路徑進度列 -->
+<div class="sticky top-0 z-20 bg-white/95 backdrop-blur border-b-2 border-orange-100">
+  <div class="max-w-5xl mx-auto px-4 py-2">
+    <div id="stepper" class="flex items-start"></div>
+    <p id="stepLabel" class="sm:hidden text-xs font-bold text-orange-700 text-center mt-1"></p>
+  </div>
+</div>
+
+<div class="max-w-5xl mx-auto px-4 py-5">
+
+  <header class="flex items-center justify-center gap-3 text-center mb-4">
+    <div class="text-4xl">🧭</div>
+    <div>
+      <h1 class="cute text-3xl md:text-4xl font-extrabold text-orange-600 leading-tight">台南小導遊養成記</h1>
+      <p class="text-sm text-slate-500">四年級上學期 · 第 6 課：交通方式與路程時間</p>
+    </div>
+  </header>
+
+  <!-- 步驟 1：怎麼去？比一比（互動 2） -->
+  <section class="step bg-white border-4 border-sky-300 rounded-3xl p-5 shadow-sm" data-step="1">
+    <h2 class="cute text-3xl font-extrabold text-sky-700 mb-2">怎麼去？比一比</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-4">
+      <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 text-center"><p class="text-4xl">🚗</p><p class="cute text-xl font-extrabold text-rose-700">開車／機車</p><p class="text-base">要有人載<br>要停車</p></div>
+      <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl overflow-hidden text-center"><img src="assets/mode_train.jpg" alt="臺南火車站" class="w-full h-20 object-cover" loading="lazy"><div class="p-2"><p class="cute text-xl font-extrabold text-sky-700">🚆 火車</p><p class="text-base">照時刻表<br>去很遠才用</p></div></div>
+      <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl overflow-hidden text-center"><img src="assets/mode_bus.jpg" alt="大台南公車" class="w-full h-20 object-cover" loading="lazy"><div class="p-2"><p class="cute text-xl font-extrabold text-emerald-700">🚌 公車</p><p class="text-base">要找站牌<br>要等車</p></div></div>
+      <div class="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-3 text-center"><p class="text-4xl">🚲</p><p class="cute text-xl font-extrabold text-yellow-700">YouBike</p><p class="text-base">30 分鐘 10 元<br>要有車、有位</p></div>
+      <div class="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 text-center"><p class="text-4xl">🚶</p><p class="cute text-xl font-extrabold text-violet-700">走路</p><p class="text-base">0 元<br>靠自己的腳</p></div>
+    </div>
+
+    <div class="bg-sky-50 border-4 border-sky-200 rounded-3xl p-4" data-qid="q1" data-qtype="experience">
+      <p class="cute text-2xl font-extrabold text-sky-700 mb-2">🔎 模擬搜尋：走路、YouBike、公車，哪個好？</p>
+      <div class="bg-white border-2 border-slate-300 rounded-2xl p-3">
+        <div class="grid sm:grid-cols-5 gap-2 items-center">
+          <label class="sm:col-span-2 flex items-center gap-2 text-lg font-bold">🟢 出發地<select id="sFrom" class="flex-1 border-2 border-slate-300 rounded-xl px-2 py-1 text-lg font-bold bg-white"></select></label>
+          <button id="sSwap" class="text-2xl font-bold text-slate-500 hover:text-sky-600" aria-label="對調出發地與目的地">⇄</button>
+          <label class="sm:col-span-2 flex items-center gap-2 text-lg font-bold">🔴 目的地<select id="sTo" class="flex-1 border-2 border-slate-300 rounded-xl px-2 py-1 text-lg font-bold bg-white"></select></label>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-3 items-center">
+          <span class="text-base font-bold text-slate-500">快速選：</span>
+          <button class="quick bg-slate-100 hover:bg-sky-100 border-2 border-slate-200 rounded-full px-3 py-0.5 font-bold" data-f="赤崁樓" data-t="林百貨">近</button>
+          <button class="quick bg-slate-100 hover:bg-sky-100 border-2 border-slate-200 rounded-full px-3 py-0.5 font-bold" data-f="臺南火車站" data-t="赤崁樓">中</button>
+          <button class="quick bg-slate-100 hover:bg-sky-100 border-2 border-slate-200 rounded-full px-3 py-0.5 font-bold" data-f="赤崁樓" data-t="安平古堡">遠</button>
+          <button id="sGo" class="ml-auto bg-sky-500 hover:bg-sky-600 text-white cute text-xl font-extrabold rounded-2xl px-6 py-1.5">🔍 規劃路線</button>
+        </div>
+      </div>
+      <p id="sMsg" class="text-lg font-bold text-amber-700 mt-2 min-h-[28px]"></p>
+
+      <div id="sResult" class="hidden mt-3">
+        <p id="sDist" class="cute text-xl font-extrabold text-slate-700 mb-1"></p>
+        <div class="overflow-x-auto"><table class="cmp bg-white text-lg" id="sTable"></table></div>
+        <div class="flex flex-wrap items-center gap-2 mt-3">
+          <span class="font-bold">天氣：</span>
+          <button id="wNoon" class="wbtn opt border-2 border-orange-300 bg-orange-100 rounded-full px-4 py-1 font-bold">☀ 中午（體感約 33°C）</button>
+          <button id="wEve" class="wbtn opt border-2 border-slate-200 bg-white rounded-full px-4 py-1 font-bold">🌇 傍晚（約 28°C）</button>
+        </div>
+
+        <div class="bg-white border-2 border-sky-200 rounded-2xl p-3 mt-3">
+          <p class="cute text-xl font-extrabold text-sky-700">🤔 這樣的距離，你會怎麼去？</p>
+          <div class="flex flex-wrap gap-2 my-2" id="choiceBtns"></div>
+          <p class="font-bold text-lg">考慮了：</p>
+          <div class="flex flex-wrap gap-3 text-lg" id="reasonBtns"></div>
+          <button id="sDecide" class="mt-3 bg-orange-500 hover:bg-orange-600 text-white cute text-xl font-extrabold rounded-2xl px-6 py-1.5">我決定了</button>
+          <p id="sHint" class="text-lg font-bold text-emerald-700 mt-2 min-h-[28px]"></p>
+        </div>
+      </div>
+    </div>
+    <p class="text-sm text-slate-500 mt-2">資料：Google 地圖（2026/10/14 早上查，時間會變）；YouBike 臺南 2.0 每 30 分鐘 10 元；公車費用依路線，以大台南公車網站票價頁為準。</p>
+    <div class="stepnav"></div>
+  </section>
+
+
+  <!-- 步驟 2：怎麼查？ -->
+  <section class="step hidden bg-white border-4 border-violet-300 rounded-3xl p-5 shadow-sm" data-step="2">
+    <h2 class="cute text-3xl font-extrabold text-violet-700 mb-3">怎麼查時間？</h2>
+
+    <div class="bg-violet-50 border-4 border-violet-200 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-violet-700 mb-2">① 開新瀏覽器，選「訪客模式」</p>
+      <div class="grid md:grid-cols-5 gap-4 items-center">
+        <div class="md:col-span-3"><video class="w-full rounded-xl border-2 border-violet-200 bg-slate-900" src="assets/教學_開新瀏覽器.mp4" poster="assets/教學_開新瀏覽器_封面.jpg" controls playsinline preload="none"></video></div>
+        <ol class="md:col-span-2 list-decimal pl-6 text-xl font-bold space-y-2">
+          <li>開<span class="text-violet-700">新的瀏覽器</span></li>
+          <li>選「<span class="text-violet-700">訪客模式</span>」</li>
+          <li>搜尋「Google 地圖」</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4 mb-4">
+      <div class="bg-white border-4 border-rose-200 rounded-3xl p-3">
+        <p class="cute text-2xl font-extrabold text-rose-600">② Google 地圖</p>
+        <a href="assets/gm_route.jpg" target="_blank" rel="noopener" title="點圖放大"><img src="assets/gm_route.jpg" alt="Google 地圖規劃路線：赤崁樓到安平古堡，上方有開車、機車、公車、走路、腳踏車的分鐘" class="shot my-2" loading="lazy"></a>
+        <ol class="list-decimal pl-6 text-xl font-bold space-y-1">
+          <li>搜尋景點 →「<span class="text-rose-600">規劃路線</span>」</li>
+          <li>填<span class="text-rose-600">出發地、目的地</span></li>
+          <li>看上面 5 個圖示的<span class="text-rose-600">分鐘</span></li>
+        </ol>
+        <p class="text-lg font-bold text-slate-700 mt-1">🚗 開車　🛵 機車　🚌 公車　🚶 走路　🚲 腳踏車</p>
+        <p class="text-base text-slate-500">點圖可以放大。時間會變，以你查到的為準。</p>
+      </div>
+      <div class="bg-white border-4 border-emerald-200 rounded-3xl p-3">
+        <p class="cute text-2xl font-extrabold text-emerald-700">③ 公車</p>
+        <a href="assets/bus_route98.jpg" target="_blank" rel="noopener" title="點圖放大"><img src="assets/bus_route98.jpg" alt="大台南公車網站：98 府城台江線的站牌與預估到站時間" class="shot my-2" loading="lazy"></a>
+        <ol class="list-decimal pl-6 text-xl font-bold space-y-1">
+          <li>選<span class="text-emerald-700">路線</span>，找到你的<span class="text-emerald-700">站牌</span></li>
+          <li>「預估時間」＝<span class="text-emerald-700">還要幾分鐘到站</span></li>
+          <li>🚲 綠色圖示＝旁邊有 YouBike</li>
+        </ol>
+        <p class="text-lg font-bold text-slate-700 mt-1">📱 手機也可以裝「大台南公車」App</p>
+        <a href="https://2384.tainan.gov.tw/newtnbusweb/ebusInfo.html?Lang=cht" target="_blank" rel="noopener" class="inline-block mt-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl px-4 py-1.5">大台南公車網站 ↗</a>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-white border-4 border-yellow-300 rounded-3xl p-3">
+        <p class="cute text-2xl font-extrabold text-yellow-700">④ YouBike</p>
+        <a href="assets/yb_station.jpg" target="_blank" rel="noopener" title="點圖放大"><img src="assets/yb_station.jpg" alt="YouBike 站點地圖搜尋赤崁樓，顯示可借車輛與可停空位" class="shot my-2" loading="lazy"></a>
+        <ol class="list-decimal pl-6 text-xl font-bold space-y-1">
+          <li>「站點搜尋」打景點名字</li>
+          <li>看「<span class="text-yellow-700">可借車輛</span>」和「<span class="text-yellow-700">可停空位</span>」</li>
+        </ol>
+        <a href="https://www.youbike.com.tw/region/tainan/stations/" target="_blank" rel="noopener" class="inline-block mt-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-xl px-4 py-1.5">YouBike 站點地圖 ↗</a>
+      </div>
+      <div class="bg-white border-4 border-sky-200 rounded-3xl p-3">
+        <p class="cute text-2xl font-extrabold text-sky-700">⑤ 火車</p>
+        <p class="text-xl font-bold my-2">只有<span class="text-sky-700">去很遠</span>才會用到</p>
+        <p class="text-xl">例：去高雄、嘉義</p>
+        <p class="text-xl">查「<b>起站 → 迄站</b>」的發車時間</p>
+        <a href="https://tip.railway.gov.tw/tra-tip-web/tip" target="_blank" rel="noopener" class="inline-block mt-3 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl px-4 py-1.5">臺鐵時刻查詢 ↗</a>
+        <p class="text-base text-slate-500 mt-2">Google 地圖的路線結果，也會出現火車選項。</p>
+      </div>
+    </div>
+    <p class="text-sm text-slate-500 mt-2">畫面：Google 地圖、大台南公車、YouBike（2026/10/13～14 擷取）。照片：臺南火車站 CEphoto, Uwe Aranas（CC BY-SA 3.0）、大台南公車 顏嘉佑（CC BY-SA 4.0），Wikimedia Commons。</p>
+    <div class="stepnav"></div>
+  </section>
+
+
+  <!-- 步驟 3：寫交通格子＋繳交 -->
+  <section class="step hidden bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm" data-step="3">
+    <h2 class="cute text-3xl font-extrabold text-orange-700 mb-3">寫進文件</h2>
+
+    <a href="https://boyinslps.github.io/pcclass/g4/L05/" target="_blank" rel="noopener" class="inline-block mb-4 bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">📖 回去看 L05 學習單（複習用）↗</a>
+
+    <div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-orange-700 mb-2">🎯 今日任務：3 個步驟</p>
+      <ol class="text-2xl font-extrabold space-y-2">
+        <li><span class="stepno bg-orange">1</span>看<span class="text-orange-700">比一比</span>，知道怎麼去</li>
+        <li><span class="stepno bg-orange">2</span><span class="text-orange-700">查</span>景點之間的<span class="text-orange-700">交通方式</span>和時間</li>
+        <li><span class="stepno bg-orange">3</span>站與站中間<span class="text-orange-700">插入交通格子</span>，填資料</li>
+      </ol>
+    </div>
+
+    <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-4">
+      <p class="cute text-2xl font-extrabold text-emerald-700 mb-2"><span class="stepno bg-emerald">3</span>站與站中間：插入交通格子</p>
+      <div class="grid md:grid-cols-2 gap-4 items-start">
+        <div>
+          <button id="tplCopy" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xl font-extrabold rounded-2xl px-4 py-3">📋 複製交通格子</button>
+          <ol class="text-xl font-bold space-y-2 mt-3">
+            <li><span class="stepno">1</span>點在<span class="text-emerald-700">兩站中間</span>的空白行</li>
+            <li><span class="stepno">2</span><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd>　貼上</li>
+            <li><span class="stepno">3</span>填三欄；要幾個，<span class="text-emerald-700">就再貼幾次</span></li>
+          </ol>
+          <ul class="text-lg mt-3 space-y-1">
+            <li><b>出發與目的地</b>：A → B</li>
+            <li><b>交通方式</b>：開車／機車／火車／公車／YouBike／走路</li>
+            <li><b>路程時間</b>：查到的分鐘（1 小時 5 分＝65 分）</li>
+          </ul>
+        </div>
+        <div>
+          <pre id="tplText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-emerald-100"></pre>
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-2 mt-3 text-center text-base font-bold">
+            <div class="bg-amber-100 rounded-lg py-0.5">第 1 站</div>
+            <div class="text-emerald-700 py-0.5">⬇ <span class="bg-emerald-100 border-2 border-dashed border-emerald-500 rounded-lg px-3">交通格子</span> ⬇</div>
+            <div class="bg-amber-100 rounded-lg py-0.5">第 2 站</div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 pt-3 border-t-2 border-emerald-100">
+        <button id="tplBus" class="bg-indigo-500 hover:bg-indigo-600 text-white text-lg font-extrabold rounded-xl px-4 py-2">🚌 交通型：複製班次格子</button>
+        <pre id="busText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-indigo-100 mt-2 max-w-md"></pre>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
+      <p class="cute text-2xl font-extrabold text-teal-700 mb-2">✅ 交之前檢查</p>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="w-6 h-6"> <b>站與站中間</b>都有交通格子：<b>交通方式</b>和<b>路程時間</b>（交通型：有<b>班次</b>）</label>
+      <label class="flex items-center gap-3"><input type="checkbox" class="w-6 h-6"> 路程時間是<b>我自己查的</b></label>
+    </div>
+
+    <div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mt-4">
+      <p class="cute text-2xl font-extrabold text-orange-700 mb-2">📮 交出去</p>
+      <p class="text-xl font-bold">檢查完，按下面的「<span class="text-orange-700">繳交學習單</span>」</p>
+      <button id="submitBtn" class="mt-4 w-full bg-orange-600 hover:bg-orange-700 text-white cute text-2xl font-extrabold rounded-2xl py-3">繳交學習單</button>
+      <p id="submitStat" class="text-sm font-bold mt-2 min-h-[20px] text-center"></p>
+    </div>
+
+    <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-amber-100 to-orange-100 border-4 border-amber-300 rounded-3xl p-6 mt-4">
+      <div class="text-5xl mb-2 pop">🎉</div>
+      <h3 class="cute text-2xl font-extrabold text-orange-700">恭喜你已經做完今日的作業，可以遊玩！</h3>
+      <div class="flex flex-wrap gap-3 justify-center mt-3">
+        <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener"
+           class="cute inline-block bg-orange-600 hover:bg-orange-700 text-white text-lg font-extrabold rounded-2xl px-6 py-2">🎮 打字英雄</a>
+        <a href="https://gemini.google.com/share/0adbaeae6c16?skid=751ce4ac-860d-4160-8a1a-12a1ebcf6f1d" target="_blank" rel="noopener"
+           class="cute inline-block bg-white border-4 border-orange-300 hover:bg-orange-50 text-orange-700 text-lg font-extrabold rounded-2xl px-6 py-2">🕹️ 更多遊戲</a>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+
+</div>
+
+<footer class="max-w-5xl mx-auto px-4 pb-6 text-right text-xs text-slate-400">made by 資訊老師黃博胤</footer>
+
+<script>
+var firebaseConfig = {
+  apiKey:"AIzaSyAaodBvsP-BSovON14izt22DOXeH40TTGM",
+  authDomain:"pcclass-94300.firebaseapp.com",
+  projectId:"pcclass-94300",
+  storageBucket:"pcclass-94300.firebasestorage.app",
+  messagingSenderId:"1034787516465",
+  appId:"1:1034787516465:web:73c334b2ddad152c472510",
+  measurementId:"G-37P75R7TZ7"
+};
+
+(function(){
+  function $(id){return document.getElementById(id);}
+  function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  // ===== 識別列 =====
+  var ID_KEY='wk_identity';
+  function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
+  function loadIdentity(){try{return JSON.parse(localStorage.getItem(ID_KEY)||'{}')}catch(e){return {}}}
+  function saveIdentity(o){try{localStorage.setItem(ID_KEY,JSON.stringify(o))}catch(e){}}
+  function getIdentity(){
+    var g=digits($('idGrade').value),c=digits($('idClass').value),s=digits($('idStudent').value);
+    return {grade:g?Number(g):null,className:c?Number(c):null,studentId:s?Number(s):null};
+  }
+  function identityValid(id){return id.grade!=null&&id.className!=null&&id.className>=1&&id.className<=14&&id.studentId!=null;}
+  (function initIdentity(){
+    var saved=loadIdentity();
+    if(saved.grade)$('idGrade').value=saved.grade;
+    if(saved.className)$('idClass').value=saved.className;
+    if(saved.studentId)$('idStudent').value=saved.studentId;
+    if(identityValid(saved))$('idOk').classList.remove('hidden');
+    ['idGrade','idClass','idStudent'].forEach(function(id){
+      var e=$(id);
+      e.addEventListener('input',function(){
+        var d=digits(e.value);if(d!==e.value)e.value=d;
+        var idn=getIdentity();
+        if(identityValid(idn)){saveIdentity(idn);$('idOk').classList.remove('hidden');}
+        else $('idOk').classList.add('hidden');
+      });
+    });
+  })();
+
+  // ===== Firebase：只用來寫入繳交 =====
+  var db=null,auth=null;
+  function ensureAuth(){return (auth&&auth.currentUser)?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user});}
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+  (function boot(){
+    if(!firebaseConfig)return;
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    loadScript(base+'firebase-app-compat.js')
+      .then(function(){return loadScript(base+'firebase-auth-compat.js')})
+      .then(function(){return loadScript(base+'firebase-firestore-compat.js')})
+      .then(function(){firebase.initializeApp(firebaseConfig);db=firebase.firestore();auth=firebase.auth();})
+      .catch(function(e){console.warn('Firebase 啟用失敗，改用單機模式',e);});
+  })();
+
+  function copyText(text,btn){
+    var old=btn.textContent;
+    function done(){btn.textContent='✓ 已複製';setTimeout(function(){btn.textContent=old;},2000);}
+    function fallback(){
+      var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px;top:0';
+      document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');done();}catch(e){btn.textContent='請按 Ctrl+C 複製';}
+      document.body.removeChild(ta);
+    }
+    try{navigator.clipboard.writeText(text).then(done,fallback);}catch(e){fallback();}
+  }
+
+  // ===== 互動 2：交通方式比一比（模擬搜尋）=====
+  // 2026/10/14 早上 Google 地圖實查：走路、腳踏車（YouBike）、公車（分鐘）
+  var PLACE_LIST=['赤崁樓','林百貨','臺南火車站','安平古堡'];
+  var PAIRS=[
+    {a:'赤崁樓',b:'林百貨',km:'0.8',walk:11,bike:5,bus:10,busNote:'19 路'},
+    {a:'臺南火車站',b:'赤崁樓',km:'1.2',walk:17,bike:6,bus:8,busNote:'105 路，每 20 分鐘一班'},
+    {a:'赤崁樓',b:'安平古堡',km:'4.7',walk:66,bike:21,bus:29,busNote:'102 路'}
+  ];
+
+  function findPair(a,b){for(var i=0;i<PAIRS.length;i++){var p=PAIRS[i];if((p.a===a&&p.b===b)||(p.a===b&&p.b===a))return p;}return null;}
+  var curPair=null,weather='中午',choice=null,reasons={},p2Searched=[],p2Final=null;
+  function fillSel(sel,v){sel.innerHTML=PLACE_LIST.map(function(n){return '<option>'+n+'</option>';}).join('');if(v)sel.value=v;}
+  fillSel($('sFrom'),'赤崁樓');fillSel($('sTo'),'林百貨');
+  document.querySelectorAll('.quick').forEach(function(b){b.onclick=function(){$('sFrom').value=b.dataset.f;$('sTo').value=b.dataset.t;doSearch();};});
+  $('sSwap').onclick=function(){var f=$('sFrom').value;$('sFrom').value=$('sTo').value;$('sTo').value=f;};
+  $('sGo').onclick=doSearch;
+  function doSearch(){
+    var a=$('sFrom').value,b=$('sTo').value,msg=$('sMsg');
+    if(a===b){msg.textContent='出發地和目的地不能一樣喔！';$('sResult').classList.add('hidden');return;}
+    var p=findPair(a,b);
+    if(!p){msg.textContent='這一組我沒有準備，請到真的 Google 地圖查查看！或按上面的「快速選」。';$('sResult').classList.add('hidden');return;}
+    msg.textContent='';curPair=p;choice=null;reasons={};$('sHint').textContent='';
+    if(p2Searched.indexOf(a+'→'+b)<0)p2Searched.push(a+'→'+b);
+    $('sDist').textContent='🔎 '+a+' → '+b+'　距離約 '+p.km+' 公里';
+    $('sTable').innerHTML='<thead><tr><th>方式</th><th>時間</th><th>費用</th><th>要做的事</th></tr></thead><tbody>'
+      +'<tr><td class="font-extrabold">🚶 走路</td><td class="font-extrabold text-violet-700">'+p.walk+' 分</td><td>0 元</td><td>不用等車</td></tr>'
+      +'<tr><td class="font-extrabold">🚲 YouBike</td><td class="font-extrabold text-yellow-700">'+p.bike+' 分</td><td>10 元<br><span class="text-sm text-slate-500">（30 分鐘內）</span></td><td>找站、借車、還車</td></tr>'
+      +'<tr><td class="font-extrabold">🚌 公車</td><td class="font-extrabold text-emerald-700">'+p.bus+' 分</td><td>約 18 元<br><span class="text-sm text-slate-500">（依路線，有些免費）</span></td><td>找站牌、等車<br><span class="text-sm text-slate-500">'+esc(p.busNote)+'</span></td></tr></tbody>';
+    $('sResult').classList.remove('hidden');
+    renderChoice();setWeather(weather);
+    renderStepper();
+  }
+  function setWeather(w){
+    weather=w;
+    $('wNoon').className='wbtn opt border-2 rounded-full px-4 py-1 font-bold '+(w==='中午'?'border-orange-300 bg-orange-100':'border-slate-200 bg-white');
+    $('wEve').className='wbtn opt border-2 rounded-full px-4 py-1 font-bold '+(w==='傍晚'?'border-orange-300 bg-orange-100':'border-slate-200 bg-white');
+  }
+  $('wNoon').onclick=function(){setWeather('中午');};
+  $('wEve').onclick=function(){setWeather('傍晚');};
+  var CH=['走路','YouBike','公車'],RS=['時間','費用','方便性','天氣'];
+  function renderChoice(){
+    var h=$('choiceBtns');h.innerHTML='';
+    CH.forEach(function(c){var on=choice===c;var b=el('button','opt border-2 rounded-xl px-5 py-2 text-xl font-extrabold '+(on?'border-orange-500 bg-orange-100':'border-slate-300 bg-white hover:border-orange-300'),c);b.onclick=function(){choice=c;renderChoice();};h.appendChild(b);});
+    var r=$('reasonBtns');r.innerHTML='';
+    RS.forEach(function(x){var l=el('label','flex items-center gap-2','<input type="checkbox" class="w-6 h-6"'+(reasons[x]?' checked':'')+'> '+x);l.querySelector('input').onchange=function(){reasons[x]=this.checked;};r.appendChild(l);});
+  }
+  $('sDecide').onclick=function(){
+    var h=$('sHint');
+    if(!curPair){h.className='text-lg font-bold text-amber-700 mt-2';h.textContent='先按「規劃路線」找出比較表喔！';return;}
+    var rs=RS.filter(function(x){return reasons[x];});
+    if(!choice){h.className='text-lg font-bold text-amber-700 mt-2';h.textContent='先選一種方式。';return;}
+    if(!rs.length){h.className='text-lg font-bold text-amber-700 mt-2';h.textContent='再勾幾個你考慮的事（時間、費用、方便性、天氣）。';return;}
+    p2Final={pair:curPair.a+'→'+curPair.b,weather:weather,choice:choice,reasons:rs};
+    var t3=[['走路',curPair.walk],['YouBike',curPair.bike],['公車',curPair.bus]],mn=t3.slice().sort(function(x,y){return x[1]-y[1];})[0];
+    h.className='text-lg font-bold text-emerald-700 mt-2';h.textContent='✓ 你選「'+choice+'」，考慮了'+rs.join('、')+'。時間：'+t3.map(function(x){return x[0]+' '+x[1]+' 分';}).join('、')+'；最短是 '+mn[0]+'。';
+    renderStepper();
+  };
+
+  // ===== 範本：交通格子（只留一個，學生自己多次複製貼上）=====
+  var TPL_MAIN='【交通】\n出發與目的地：　　 → \n交通方式：\n路程時間：　分\n';
+  var TPL_BUS='【交通】\n搭乘路線：\n上車站 → 下車站：\n搭乘班次（幾點發車）：\n路程時間：　分\n';
+  $('tplText').textContent=TPL_MAIN;
+  $('tplCopy').onclick=function(){copyText(TPL_MAIN,this);};
+  $('tplBus').onclick=function(){copyText(TPL_BUS,this);};
+  $('busText').textContent=TPL_BUS;
+
+  // ===== 繳交學習單 =====
+  // 定位：q1 是小互動（experience，只算完成度、不計分）；q2 是寫在 Google 文件的主要產出，老師用評分平台「匯入 Classroom 文件」寫進 q2。
+  var WS='g4-L06';
+  function workDocId(idn){return WS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;}
+  $('submitBtn').onclick=function(){
+    var idn=getIdentity();
+    if(!identityValid(idn)){alert('請先在最上方填好年級、班級、座號（都是數字，班級是 1 到 14）。');window.scrollTo({top:0,behavior:'smooth'});return;}
+    if(!db){alert('系統尚未連線，請稍後再試或重新整理頁面。');return;}
+    var g2=p2Final?{searched:p2Searched,final:p2Final}:(p2Searched.length?{searched:p2Searched,final:null}:null);
+    var experienceAnswers={q1:{given:g2,correct:null,isCorrect:!!(g2&&g2.final)}};
+    var answers={q1:g2},qtypes={q1:'experience'};
+    var experienceCompletion=(g2&&g2.final)?100:0;
+    var msg='確定要繳交學習單嗎？\n交通方式比一比：'+((g2&&g2.final)?'完成':'還沒完成')
+      +'\n\n站與站中間都有交通格子了嗎？';
+    if(!confirm(msg))return;
+    var payload={worksheetId:WS,worksheetTitle:'台南小導遊養成記：交通方式與路程時間',lessonPath:'g4/L06',
+      grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      answers:answers,qtypes:qtypes,
+      qtexts:{
+        q2:'Google 文件：站與站中間的「交通」格子——出發與目的地、交通方式、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間）（老師從 Classroom 作業讀取文件內容）。',
+      },
+      bonusQids:[],
+      scoreAnswers:{},experienceAnswers:experienceAnswers,openAnswers:{},bonusAnswers:{},
+      accuracyRate:null,experienceCompletion:experienceCompletion,
+      status:'submitted',submittedAt:firebase.firestore.FieldValue.serverTimestamp()};
+    var btn=this,stat=$('submitStat');
+    btn.disabled=true;stat.className='text-sm font-bold mt-2 min-h-[20px] text-center text-orange-600';stat.textContent='繳交中…';
+    ensureAuth().then(function(){return db.collection('submissions').doc(workDocId(idn)).set(payload,{merge:true});})
+      .then(function(){
+        btn.disabled=false;btn.textContent='重新繳交（覆蓋）';
+        stat.className='text-sm font-bold mt-2 min-h-[20px] text-center text-emerald-600';
+        stat.textContent='✓ 已繳交！';submittedOnce=true;renderStepper();
+        var rb=$('rewardBox');rb.classList.remove('hidden');rb.scrollIntoView({behavior:'smooth'});
+      }).catch(function(e){
+        console.warn('繳交失敗',e);btn.disabled=false;
+        stat.className='text-sm font-bold mt-2 min-h-[20px] text-center text-amber-600';
+        stat.textContent='繳交失敗，請檢查網路後再按一次；還是不行就告訴老師。';
+      });
+  };
+
+  // ===== 學習路徑 =====
+  var STEP_NAMES=['比一比','查時間','寫交通格子'];
+  var stepEls=[].slice.call(document.querySelectorAll('.step'));
+  var curStep=1,visited={1:true},submittedOnce=false;
+  function stepDone(n){
+    if(n===1)return !!p2Final;
+    if(n===3)return submittedOnce;
+    return !!visited[n]&&n!==curStep;
+  }
+  function renderStepper(){
+    var host=$('stepper');host.innerHTML='';
+    STEP_NAMES.forEach(function(name,idx){
+      var n=idx+1,cur=n===curStep,done=stepDone(n);
+      var cell=el('div','flex flex-col items-center');
+      var b=el('button','stepdot cute rounded-full border-2 font-extrabold text-sm flex items-center justify-center transition '+
+        (cur?'bg-orange-500 border-orange-500 text-white':(done?'bg-emerald-500 border-emerald-500 text-white':'bg-white border-slate-300 text-slate-400 hover:border-orange-300')));
+      b.textContent=done&&!cur?'✓':String(n);
+      b.setAttribute('aria-label','第 '+n+' 步：'+name);
+      if(cur)b.setAttribute('aria-current','step');
+      b.onclick=function(){showStep(n);};
+      cell.appendChild(b);
+      cell.appendChild(el('span','hidden sm:block text-xs font-bold mt-0.5 '+(cur?'text-orange-600':'text-slate-400'),name));
+      host.appendChild(cell);
+      if(n<STEP_NAMES.length)host.appendChild(el('div','flex-1 h-0.5 mt-3.5 sm:mt-4 mx-0.5 sm:mx-1 rounded '+(done&&!cur?'bg-emerald-300':'bg-slate-200')));
+    });
+    $('stepLabel').textContent='第 '+curStep+' 步／共 '+STEP_NAMES.length+' 步 · '+STEP_NAMES[curStep-1];
+  }
+  function showStep(n){
+    curStep=n;visited[n]=true;
+    stepEls.forEach(function(s){s.classList.toggle('hidden',Number(s.dataset.step)!==n);});
+    renderStepper();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  stepEls.forEach(function(s){
+    var n=Number(s.dataset.step),nav=s.querySelector('.stepnav');
+    if(n>1){var p=el('button','bg-white border-2 border-slate-300 hover:border-orange-400 text-slate-600 font-bold rounded-2xl px-5 py-2','← 上一步');p.onclick=function(){showStep(n-1);};nav.appendChild(p);}
+    else nav.appendChild(el('span',''));
+    if(n<STEP_NAMES.length){var x=el('button','cute bg-orange-500 hover:bg-orange-600 text-white text-lg font-extrabold rounded-2xl px-6 py-2','下一步：'+STEP_NAMES[n]+' →');x.onclick=function(){showStep(n+1);};nav.appendChild(x);}
+  });
+  renderStepper();
+})();
+</script>
+
+<!-- 評分設定（見《學習單資料與提交規範》§2-e、§3-d）：評分平台「學習單設定 → 從學習單讀取」一鍵帶入。
+     q1 是小互動（experience，不計分）；q2（Google 文件，老師「匯入 Classroom 文件」寫入）是唯一主要開放題 20 分＝base 100 − floor 80（檢核 4+6+6+4）。 -->
+<script type="application/json" id="grading-spec">
+{
+  "summary": "在站與站中間插入「交通」格子，查出並寫下交通方式與路程時間；交通型改寫搭乘路線、上下車站與搭乘班次",
+  "questions": [
+    { "qid": "q2", "prompt": "Google 文件：站與站中間的「交通」格子——出發與目的地、交通方式、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間）（老師從 Classroom 作業讀取文件內容）。", "mode": "checklist",
+      "checks": [
+        { "desc": "站與站中間有「交通」格子，至少 2 個（景點 3 個以上）", "pts": 4 },
+        { "desc": "每個交通格子都填了三欄：出發與目的地、交通方式、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間；少一兩格空白只扣 1 分）", "pts": 6 },
+        { "desc": "路程時間是數字加「分」且大致合理（同區短、跨區長；1 小時 5 分寫成 65 分）；交通方式寫的是開車、機車、火車、公車、YouBike、走路其中之一（交通型不看這項，改看班次是時間格式）", "pts": 6 },
+        { "desc": "交通格子放在「站與站中間」（不是全堆在文件最後），且「出發與目的地」的站名與前後站接得上", "pts": 4 }
+      ] }
+  ],
+  "scoring": { "base": 100, "floor": 80, "deduction": 1,
+    "itemPoints": {} }
+}
+</script>
+</body>
+</html>

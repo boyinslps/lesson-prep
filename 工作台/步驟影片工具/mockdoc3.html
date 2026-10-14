@@ -34,6 +34,7 @@ if(s==='a'||s==='b'){var q=s==='b';block('ch',1);blank();block('ap',2,q);blank()
 if(s==='c'){block('ch',1);blank();block('lin',3);blank();}
 if(s==='d'){block('ch',1);blank();block('lin',3);blank(true);}
 if(s==='e'){block('ch',1);blank();block('lin',3);blank();block('ap',2);}
+if(s==='h'||s==='i'){block('ap',1);if(s==='h')blank(true);}
 if(s==='g'){block('ch',1);blank();block('lin',2);blank();block('ap',2);}
 if(s==='f'){block('ch',1);blank();block('lin',2);blank();block('ap',3);}
 var h='';
@@ -48,6 +49,7 @@ lines.forEach(function(L,i){
   else if(L.k==='caret')x='<span class="caret"></span>';
   h+='<p id="'+id+'"><span id="t'+i+'"'+(L.sel?' class="sel"':'')+'>'+x+'</span></p>';
 });
+if(s==='i')h+='<p id="pic"><img src="shots/l5p_photo_small.png" style="display:block;border:1px solid #ccc"></p>';
 document.getElementById('page').innerHTML=h;
 function R(e){var b=e.getBoundingClientRect();return {x:Math.round(b.left),y:Math.round(b.top),w:Math.round(b.width),h:Math.round(b.height)}}
 var rects={};

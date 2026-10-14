@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8"><title>示意畫面 - 景點頁複製圖片</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,'Microsoft JhengHei',sans-serif;height:640px;overflow:hidden;position:relative;background:url(shots/l5p_ta_photo.png) no-repeat}
+.menu{position:absolute;left:560px;top:250px;width:330px;background:#fff;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.4);padding:6px 0;font-size:18px;z-index:8}
+.menu div{padding:9px 20px}
+.menu .hl{background:#e8f0fe}
+.menu hr{border:0;border-top:1px solid #ddd;margin:4px 0}
+</style></head><body>
+<div id="menu" class="menu" style="display:none">
+ <div>在新分頁中開啟圖片</div><div>另存圖片為…</div><div id="copy" class="hl">複製圖片</div><div>複製圖片位址</div><hr><div>透過 Google 智慧鏡頭搜尋圖片</div>
+</div>
+<script>
+var s=new URLSearchParams(location.search).get('s')||'base';
+if(s==='menu')document.getElementById('menu').style.display='block';
+function R(id){var e=document.getElementById(id);var b=e.getBoundingClientRect();return {x:Math.round(b.left),y:Math.round(b.top),w:Math.round(b.width),h:Math.round(b.height)}}
+window.RECTS=JSON.stringify({copy:R('copy'),menu:R('menu')});
+if(new URLSearchParams(location.search).get('dump'))document.body.innerHTML='<pre id="rects">'+window.RECTS+'</pre>';
+</script></body></html>
