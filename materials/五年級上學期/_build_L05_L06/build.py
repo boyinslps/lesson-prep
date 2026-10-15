@@ -162,7 +162,26 @@ CARDS = '\n'.join([
 
 # =====================================================================
 # L05
+# 步驟照「實際操作的順序」排（規範 §5.11）：示範 → 選訊息 → 在搜尋頁與查核文章裡查完、答案記在學習單
+# → 開文件、貼欄位、設標題 → 由上往下寫前 4 欄。標題樣式等文件打開、欄位貼好才教；影片放在操作旁邊。
 # =====================================================================
+def no(n, bg='bg-indigo-600'):
+    return '<span class="inline-flex items-center justify-center w-9 h-9 rounded-full %s text-white text-xl font-extrabold mr-2 align-middle">%s</span>' % (bg, n)
+
+TASKS = [('1', '搜尋：<b>關鍵詞＋查核</b>，或以圖搜圖'),
+         ('2', '讀懂查核文章，在學習單記下<b>結果</b>和<b>網址</b>'),
+         ('3', '打開<b>老師給的文件</b>，貼上七個欄位'),
+         ('4', '設好<b>標題 1</b>、<b>標題 2</b>'),
+         ('5', '由上往下，寫好<b>前 4 欄</b>')]
+def tasks(active):
+    rows = []
+    for n, t in TASKS:
+        on = n in active
+        rows.append('<li class="%s">%s%s</li>' % ('text-slate-800' if on else 'text-slate-400', no(n, 'bg-orange-500' if on else 'bg-slate-300'), t))
+    return ('<div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mt-4">'
+            '<p class="cute text-2xl font-extrabold text-orange-700 mb-2">🎯 今日任務：5 件事</p>'
+            '<ol class="text-xl font-bold space-y-2">%s</ol></div>') % ''.join(rows)
+
 L05_BODY = '''
   <!-- ===== 步驟 1：看成品 ===== -->
   <section class="step" data-step="1">
@@ -187,26 +206,8 @@ L05_BODY = '''
     <div class="stepnav"></div>
   </section>
 
-  <!-- ===== 步驟 2：標題設定 ===== -->
+  <!-- ===== 步驟 2：示範（老師現場操作；操作影片放在第 4 步學生真正動手的地方）===== -->
   <section class="step hidden" data-step="2">
-    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-indigo-700">🧰 複習：用「標題 1」「標題 2」做出層次</h2>
-      <p class="text-slate-600 mt-2 text-lg">Google 文件左上角那個「內文」按鈕裡，藏著各種<b>樣式</b>。這份文件用兩種：整份文件的題目用<b>標題 1</b>，每一欄的名字用<b>標題 2</b>。用樣式設定，左邊的「大綱」才找得到每一段。</p>
-      <div class="mt-4">%(V2)s</div>
-    </div>
-    <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 shadow-sm">
-      <h3 class="cute text-2xl font-extrabold text-violet-700 m-0">✋ 先猜猜看</h3>
-      <div class="flex items-center gap-2 flex-wrap mt-3"><p class="font-bold text-violet-800 text-lg">如果我只把「我選的訊息」這幾個字改成 16 號大字，它會變成「標題 2」嗎？</p><span class="qtypeSlot" data-qid="c1"></span><span id="c1Fb" class="text-sm font-bold"></span></div>
-      <div id="c1Opts" class="flex flex-wrap gap-2 mt-2"></div>
-      <div id="c1Expl" class="hidden mt-4 flip bg-rose-50 border-2 border-rose-200 rounded-2xl p-4 text-lg text-slate-700">
-        <p>🎉 答案是<b>不會</b>。只是字變大，左邊的「大綱」裡找不到它。<b>用「樣式」選了標題 2，才算標題 2</b>，文件才有層次。</p>
-      </div>
-    </div>
-    <div class="stepnav"></div>
-  </section>
-
-  <!-- ===== 步驟 3：示範 ===== -->
-  <section class="step hidden" data-step="3">
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-amber-700">👩‍🏫 老師示範：從訊息找到查核文章</h2>
       <p class="text-slate-600 mt-2 text-lg">還記得 L03 的<b>橫向閱讀</b>、L04 的<b>查證網站</b>和<b>以圖搜圖</b>嗎？把它們組合起來，就能找到別人<b>已經查好</b>的那一篇。看老師怎麼做：</p>
@@ -245,6 +246,11 @@ L05_BODY = '''
       </div>
     </div>
 
+    <div class="bg-white border-4 border-amber-200 rounded-3xl p-5 mb-5">
+      <h3 class="cute text-xl font-extrabold text-amber-700">🖼️ 沒有好關鍵詞？改用以圖搜圖</h3>
+      <p class="text-slate-700 text-lg mt-1">訊息有圖片時，用<b>智慧鏡頭</b>或 Google 圖片的<b>相機圖示</b>；影片不能按右鍵，就先用 <kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd> 截圖再搜（L04 學過）。</p>
+    </div>
+
     <div class="bg-white border-4 border-teal-300 rounded-3xl p-6 mb-5">
       <h3 class="cute text-2xl font-extrabold text-teal-700">⚠️ 三條界線</h3>
       <ul class="list-disc pl-5 mt-2 space-y-2 text-lg text-slate-700">
@@ -252,22 +258,6 @@ L05_BODY = '''
         <li>點到<b>轉載站</b>（新聞網站、貼文）時，要再點到<b>原始的查核機構</b>。</li>
         <li>找不到時，<b>換關鍵詞</b>，或改用<b>以圖搜圖</b>，不要放棄，也不要自己亂猜結論。</li>
       </ul>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-5 mb-5">
-      <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
-        <h3 class="cute text-xl font-extrabold text-amber-700">🎬 找到查核文章（約 1 分鐘）</h3>
-        <div class="mt-3">%(V1)s</div>
-      </div>
-      <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
-        <h3 class="cute text-xl font-extrabold text-amber-700">🎬 以圖搜圖的兩種方法</h3>
-        <div class="mt-3">%(V5)s</div>
-      </div>
-      <div class="bg-white border-4 border-amber-200 rounded-3xl p-5 md:col-span-2">
-        <h3 class="cute text-xl font-extrabold text-amber-700">🎬 影片不能右鍵？用「截圖」再搜（L04 學過）</h3>
-        <p class="text-slate-600 mt-1">影片、訊息裡的圖，用 <kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd> 截圖，貼到 Google 圖片，再加關鍵字。</p>
-        <div class="mt-3">%(V6)s</div>
-      </div>
     </div>
 
     <details class="bg-white border-4 border-dashed border-amber-300 rounded-3xl p-5">
@@ -281,8 +271,8 @@ L05_BODY = '''
     <div class="stepnav"></div>
   </section>
 
-  <!-- ===== 步驟 4：選訊息 ===== -->
-  <section class="step hidden" data-step="4">
+  <!-- ===== 步驟 3：選訊息 ===== -->
+  <section class="step hidden" data-step="3">
     <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-rose-700">✋ 選一則你要查的訊息</h2>
       <p class="text-slate-600 mt-2 text-lg">下面 6 則都是真的在網路上流傳過的：有<b>圖片</b>、有<b>影片</b>。選<b>一則</b>，用今天學的方法查它。</p>
@@ -302,43 +292,69 @@ L05_BODY = '''
     <div class="stepnav"></div>
   </section>
 
-  <!-- ===== 步驟 5：我來查 ===== -->
-  <section class="step hidden" data-step="5">
+  <!-- ===== 步驟 4：我來查（在搜尋頁與查核文章裡做完，答案記在學習單）===== -->
+  <section class="step hidden" data-step="4">
     <div class="bg-white border-4 border-teal-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-teal-700">🔎 換你查：找到查核文章</h2>
       <div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-4 mt-3 text-lg">
         <p>你選的是：<b id="selName" class="text-teal-800">（還沒選，請回上一步）</b></p>
         <p id="hintBox" class="text-slate-600 mt-1"></p>
       </div>
-      <div class="flex flex-wrap items-center gap-3 mt-4">
-        <span class="font-bold text-teal-800">🔎 去哪裡查：</span>
-        <a href="https://www.google.com/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2">Google 搜尋 ↗</a>
-        %(LINKS)s
-      </div>
-      <details class="mt-4 bg-slate-50 border-2 border-slate-200 rounded-2xl p-4">
-        <summary class="font-bold text-slate-700">🎬 卡住了？看影片</summary>
-        <div class="grid md:grid-cols-2 gap-4 mt-3">
-          <div>%(V1)s</div>
-          <div>%(V5)s</div>
-        </div>
-      </details>
+      %(TASKS_A)s
     </div>
 
-    <div class="bg-white border-4 border-teal-200 rounded-3xl p-6 mb-5">
-      <div class="space-y-5">
-        <label class="block"><span class="font-bold text-teal-800 text-lg">1. 我圈的關鍵詞</span><span class="qtypeSlot ml-2" data-qid="kw"></span><input data-k="kw" class="fld ans mt-1"></label>
+    <div class="bg-teal-50 border-4 border-teal-200 rounded-3xl p-5 mb-5">
+      <p class="cute text-2xl font-extrabold text-teal-700 mb-3">%(N1)s搜尋：關鍵詞＋查核</p>
+      <div class="grid md:grid-cols-5 gap-4 items-start">
+        <div class="md:col-span-3">%(V1)s</div>
+        <div class="md:col-span-2">
+          <ol class="list-decimal pl-6 text-xl font-bold space-y-2">
+            <li>圈 2～3 個<span class="text-teal-700">關鍵詞</span></li>
+            <li>Google 打「關鍵詞＋<span class="text-teal-700">查核</span>」</li>
+            <li>點網址是 <span class="text-teal-700">tfc-taiwan</span> 或 <span class="text-teal-700">mygopen</span> 的文章</li>
+          </ol>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://www.google.com/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2">Google 搜尋 ↗</a>
+            %(LINKS)s
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white border-2 border-sky-200 rounded-2xl p-4 mt-4">
+        <p class="cute text-xl font-extrabold text-sky-700">🖼️ 搜不到？換以圖搜圖</p>
+        <div class="grid md:grid-cols-2 gap-4 mt-2">
+          <div><p class="font-bold text-slate-700 mb-2">圖片：智慧鏡頭，或相機圖示貼上圖片</p>%(V5)s</div>
+          <div><p class="font-bold text-slate-700 mb-2">影片：<kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd> 截圖，再搜</p>%(V6)s</div>
+        </div>
+      </div>
+
+      <div class="bg-white border-2 border-teal-200 rounded-2xl p-4 mt-4 space-y-4">
+        <label class="block"><span class="font-bold text-teal-800 text-lg">✏️ 我圈的關鍵詞</span><span class="qtypeSlot ml-2" data-qid="kw"></span><input data-k="kw" class="fld ans mt-1"></label>
         <div>
-          <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800 text-lg">2. 我是怎麼找到的？（可複選）</p><span class="qtypeSlot" data-qid="how"></span></div>
+          <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800 text-lg">✏️ 我是怎麼找到的？（可複選）</p><span class="qtypeSlot" data-qid="how"></span></div>
           <div id="howOpts" class="flex flex-wrap gap-2 mt-2"></div>
         </div>
+      </div>
+    </div>
+
+    <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-5 mb-5">
+      <p class="cute text-2xl font-extrabold text-emerald-700 mb-3">%(N2)s讀懂查核文章，記下結果和網址</p>
+      <div class="grid md:grid-cols-2 gap-4 items-start">
+        <ol class="list-decimal pl-6 text-xl font-bold space-y-2">
+          <li>看標題前的<span class="text-emerald-700">標籤</span>（錯誤、誤導…）</li>
+          <li>讀最上面的「<span class="text-emerald-700">你可以先知道</span>」</li>
+          <li>點<span class="text-emerald-700">網址列</span>，<kbd>Ctrl</kbd>＋<kbd>C</kbd>，回來貼在下面</li>
+        </ol>
+        <div class="bg-white border-2 border-rose-200 rounded-2xl p-3 text-lg text-slate-700">⚠️ AI 摘要先跳過。新聞、貼文是<b>轉載</b>，要點到<b>原始的查核機構</b>。</div>
+      </div>
+      <div class="bg-white border-2 border-emerald-200 rounded-2xl p-4 mt-4 space-y-5">
         <div>
-          <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800 text-lg">3. 查核機構標的結果是？</p><span class="qtypeSlot" data-qid="label"></span><span id="labelFb" class="text-sm font-bold"></span></div>
+          <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-emerald-800 text-lg">✏️ 查核機構標的結果是？</p><span class="qtypeSlot" data-qid="label"></span><span id="labelFb" class="text-sm font-bold"></span></div>
           <div id="labelOpts" class="flex flex-wrap gap-2 mt-2"></div>
         </div>
         <div>
-          <div class="flex items-center gap-2 flex-wrap"><label for="url" class="font-bold text-teal-800 text-lg">4. 查核文章的網址（貼上，要是查核機構自己的網站）</label><span class="qtypeSlot" data-qid="url"></span><span id="urlFb" class="text-sm font-bold"></span></div>
+          <div class="flex items-center gap-2 flex-wrap"><label for="url" class="font-bold text-emerald-800 text-lg">✏️ 查核文章的網址（要是查核機構自己的網站）</label><span class="qtypeSlot" data-qid="url"></span><span id="urlFb" class="text-sm font-bold"></span></div>
           <input id="url" data-k="url" class="fld ans mt-1">
-          <p class="text-sm text-slate-500 mt-1">在文章頁點網址列、Ctrl＋C，再回來 Ctrl＋V。</p>
         </div>
         <div>
           <div class="flex items-center gap-2 flex-wrap"><label for="url2" class="font-bold text-slate-600 text-lg">⭐ 加分：再找另一個機構的文章來比對</label><span class="qtypeSlot" data-qid="url2"></span></div>
@@ -346,45 +362,51 @@ L05_BODY = '''
           <p class="text-sm text-slate-500 mt-1">兩個機構結論一致，更可信。</p>
         </div>
       </div>
+      <p class="mt-4 text-lg font-bold text-rose-700">📌 查核文章的分頁<b>先不要關</b>：下一步要從它複製圖片和標題。</p>
     </div>
     <div class="stepnav"></div>
   </section>
 
-  <!-- ===== 步驟 6：寫文件 ===== -->
-  <section class="step hidden" data-step="6">
+  <!-- ===== 步驟 5：寫文件（開文件 → 貼欄位 → 設標題 → 由上往下寫前 4 欄）===== -->
+  <section class="step hidden" data-step="5">
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-amber-700">✍️ 寫進你的 Google 文件</h2>
-      <p class="text-slate-600 mt-1 text-lg">先把<b>格式排好</b>，再寫前 <b>3 欄</b>。</p>
+      <p class="text-slate-600 mt-1 text-lg">開文件、貼欄位、設標題，接著<b>由上往下</b>把前 4 欄寫完。你在上一步記下的答案，下面都幫你帶過來了。</p>
+      %(TASKS_B)s
     </div>
 
     <div class="bg-blue-50 border-4 border-blue-200 rounded-3xl p-5 mb-5">
-      <p class="cute text-2xl font-extrabold text-blue-700 mb-2">① 打開老師給的文件</p>
+      <p class="cute text-2xl font-extrabold text-blue-700 mb-3">%(N3)s打開老師給的文件，貼上七個欄位</p>
       <div class="grid md:grid-cols-5 gap-4 items-center">
         <div class="md:col-span-3"><video class="w-full rounded-xl border-2 border-blue-200 bg-slate-900" src="assets/教學_打開文件.mp4" poster="assets/教學_打開文件_封面.jpg" controls playsinline preload="none"></video></div>
         <ol class="md:col-span-2 list-decimal pl-6 text-xl font-bold space-y-2">
-          <li>作業裡點<span class="text-blue-700">老師給的文件</span></li>
-          <li>改檔名：<span class="text-blue-700">年班座號＋名字</span><br><span class="text-lg text-slate-500">例：41230 王小明</span></li>
+          <li>Classroom 作業裡點<span class="text-blue-700">老師給的文件</span></li>
+          <li>改檔名：<span class="text-blue-700">年班座號＋名字</span><br><span class="text-lg text-slate-500">例：51230 王小明</span></li>
         </ol>
       </div>
       <p class="mt-3 text-lg text-rose-700 font-bold">⚠️ 一定要從 Classroom 作業裡開，老師才讀得到。</p>
-    </div>
-
-    <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-5 mb-5">
-      <p class="cute text-2xl font-extrabold text-emerald-700 mb-2">② 複製七個欄位 → 貼進文件</p>
-      <div class="grid md:grid-cols-2 gap-4 items-start">
+      <div class="grid md:grid-cols-2 gap-4 items-start mt-4">
         <div>
-          <button id="tplCopy" type="button" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xl font-extrabold rounded-2xl px-4 py-3">📋 複製七個欄位</button>
+          <button id="tplCopy" type="button" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xl font-extrabold rounded-2xl px-4 py-3">📋 複製七個欄位</button>
           <p class="text-xl font-bold mt-3">文件第一行 → <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></p>
           <p class="text-base text-slate-500">＝「貼上但不套用格式設定」</p>
           <p class="text-lg text-slate-600 mt-3">💡 不用按儲存　按錯了？<kbd>Ctrl</kbd> + <kbd>Z</kbd></p>
         </div>
-        <pre id="tplText" class="text-lg leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-emerald-100"></pre>
+        <pre id="tplText" class="text-lg leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-blue-100"></pre>
       </div>
     </div>
 
     <div class="bg-indigo-50 border-4 border-indigo-200 rounded-3xl p-5 mb-5">
-      <p class="cute text-2xl font-extrabold text-indigo-700 mb-2">③ 把標題和欄位名稱改好</p>
-      <div class="grid md:grid-cols-2 gap-4 items-center">
+      <p class="cute text-2xl font-extrabold text-indigo-700 mb-2">%(N4)s設好「標題 1」「標題 2」</p>
+      <p class="text-lg text-slate-700">左上角「內文」按鈕裡藏著<b>樣式</b>。用樣式設定，左邊的「大綱」才找得到每一段。</p>
+      <div class="bg-white border-2 border-violet-200 rounded-2xl p-4 mt-3">
+        <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-violet-800 text-lg">✋ 先猜猜看：只把「我選的訊息」改成 16 號大字，它會變成「標題 2」嗎？</p><span class="qtypeSlot" data-qid="c1"></span><span id="c1Fb" class="text-sm font-bold"></span></div>
+        <div id="c1Opts" class="flex flex-wrap gap-2 mt-2"></div>
+        <div id="c1Expl" class="hidden mt-3 flip bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 text-lg text-slate-700">
+          <p>🎉 答案是<b>不會</b>。只是字變大，「大綱」裡找不到它。<b>用「樣式」選了標題 2，才算標題 2</b>。</p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 items-center mt-4">
         <div>%(V2)s</div>
         <ul class="list-disc pl-6 text-xl space-y-2">
           <li><b>第一行</b>（題目）→ <span class="text-indigo-700 font-bold">標題 1</span></li>
@@ -401,36 +423,68 @@ L05_BODY = '''
       </div>
     </div>
 
-    <div class="bg-sky-50 border-4 border-sky-200 rounded-3xl p-5 mb-5">
-      <p class="cute text-2xl font-extrabold text-sky-700 mb-2">④ 「我選的訊息」下面，貼上原始訊息的圖</p>
-      <div class="grid md:grid-cols-5 gap-4 items-center">
-        <div class="md:col-span-3">%(V7)s</div>
-        <ol class="md:col-span-2 list-decimal pl-6 text-xl font-bold space-y-2">
-          <li>到查核文章，找到<span class="text-sky-700">原始訊息的圖</span></li>
-          <li>圖上按右鍵 → <span class="text-sky-700">複製圖片</span></li>
-          <li>回文件空白行，右鍵 → <span class="text-sky-700">貼上</span>（或 <kbd>Ctrl</kbd>＋<kbd>V</kbd>）</li>
-        </ol>
-      </div>
-      <p class="mt-3 text-lg text-slate-700">💡 你選的是<b>影片</b>？用 <kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd> 截一張影片畫面，再 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上。</p>
-    </div>
+    <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-5 mb-5">
+      <p class="cute text-2xl font-extrabold text-amber-700 mb-3">%(N5)s由上往下，寫好前 4 欄</p>
 
-    <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-5">
-      <p class="cute text-2xl font-extrabold text-amber-700 mb-2">⑤ 完成前 4 欄</p>
-      <div class="grid md:grid-cols-2 gap-4 text-lg text-slate-700">
-        <div class="bg-white border-2 border-amber-200 rounded-2xl p-4"><p class="font-bold text-amber-800">我選的訊息</p><p class="mt-1">用<b>自己的話</b>說：這則訊息在講什麼？一兩句就好。下面貼上<b>原始訊息的圖片</b>（影片就貼影片截圖）。</p></div>
-        <div class="bg-white border-2 border-amber-200 rounded-2xl p-4"><p class="font-bold text-amber-800">我怎麼找到查核文章的</p><p class="mt-1">寫出你用的<b>關鍵詞</b>，或是哪一種以圖搜圖。</p></div>
-        <div class="bg-white border-2 border-amber-200 rounded-2xl p-4"><p class="font-bold text-amber-800">查核結果</p><p class="mt-1">查核機構標了<b>什麼結果</b>？是<b>哪一家</b>？</p></div>
-        <div class="bg-white border-2 border-amber-200 rounded-2xl p-4"><p class="font-bold text-amber-800">查核網址</p><p class="mt-1">放上<b>查核文章的標題</b>，做成<b>可以點的連結</b>：複製網址 → 選取標題 → <kbd>Ctrl</kbd>＋<kbd>K</kbd> → 貼上 → 套用。</p></div>
+      <div class="bg-white border-2 border-amber-200 rounded-2xl p-4 mb-4">
+        <p class="cute text-xl font-extrabold text-amber-800">① 我選的訊息</p>
+        <p class="text-lg text-slate-700 mt-1">不要只抄標題。用<b>自己的話</b>寫一兩句，要說清楚<b>人、事、時、地、物</b>；下面貼上<b>原始訊息的圖</b>。</p>
+        <div class="grid sm:grid-cols-5 gap-2 mt-2 text-base">
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2"><b>👤 人</b><br>誰說的？說誰會怎樣？</div>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2"><b>📌 事</b><br>發生什麼事？叫大家做什麼？</div>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2"><b>🕒 時</b><br>什麼時候？</div>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2"><b>📍 地</b><br>在哪裡？</div>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2"><b>🎒 物</b><br>提到什麼東西？</div>
+        </div>
+        <p class="mt-2 text-base text-slate-500">訊息裡沒寫的，就寫「沒說」。</p>
+        <p class="mt-2 text-slate-600 text-lg">〔例〕<span class="bg-white border border-amber-300 rounded-lg px-2 py-0.5">網傳訊息說：<b>路上</b>（地）有<b>陌生人</b>（人）假裝不會用<b>手機</b>（物），請你幫忙操作（事）。只要你摸螢幕、對著鏡頭說話，你的指紋、聲音和臉就會被偷走，騙子會拿去貸款，<b>30 分鐘</b>（時）就讓你傾家蕩產。</span></p>
+        <div class="grid md:grid-cols-5 gap-4 items-center mt-3">
+          <div class="md:col-span-3">%(V7)s</div>
+          <ol class="md:col-span-2 list-decimal pl-6 text-xl font-bold space-y-2">
+            <li>到<span class="text-amber-700">查核文章</span>分頁，找到原始訊息的圖</li>
+            <li>圖上按右鍵 → <span class="text-amber-700">複製圖片</span></li>
+            <li>回文件，那一兩句下面 → <kbd>Ctrl</kbd>＋<kbd>V</kbd></li>
+          </ol>
+        </div>
+        <p class="mt-3 text-lg text-slate-700">💡 你選的是<b>影片</b>？用 <kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd> 截一張影片畫面，再 <kbd>Ctrl</kbd>＋<kbd>V</kbd>。</p>
       </div>
-      <p class="mt-4 text-slate-600 text-lg">〔例〕<span class="bg-white border border-amber-300 rounded-lg px-2 py-0.5">我圈出關鍵詞「陌生人」「操作手機」「生物特徵」，在 Google 搜尋「幫陌生人操作手機 生物特徵 查核」，找到 MyGoPen 和台灣事實查核中心兩篇文章。</span></p>
-      <p class="mt-2 text-slate-600 text-lg">〔查核網址例〕<span class="bg-white border border-amber-300 rounded-lg px-2 py-0.5 text-indigo-700 underline">MyGoPen：幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制</span></p>
-      <a href="%(DOC)s" target="_blank" rel="noopener" class="inline-block mt-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl px-5 py-2">📄 看成品範例怎麼寫 ↗</a>
+
+      <div class="bg-white border-2 border-amber-200 rounded-2xl p-4 mb-4">
+        <p class="cute text-xl font-extrabold text-amber-800">② 我怎麼找到查核文章的</p>
+        <p class="text-lg text-slate-700 mt-1">不要只寫「關鍵字」或「搜圖」。照<b>順序</b>寫出你做了什麼：</p>
+        <ol class="list-decimal pl-6 mt-1 text-lg text-slate-700 space-y-0.5"><li>我圈出哪幾個<b>關鍵詞</b>？（或用哪張圖搜圖）</li><li>我在 Google 搜了<b>哪些字</b>？有加「查核」嗎？</li><li>我點進<b>哪一個網站</b>的哪一篇？</li><li>我怎麼知道它是<b>查核機構</b>，不是轉載？</li></ol>
+        <p class="mt-2 text-lg bg-teal-50 border-2 border-teal-200 rounded-xl px-3 py-2">你在第 4 步記的：關鍵詞「<b id="myKw" class="text-teal-800"></b>」；方法「<b id="myHow" class="text-teal-800"></b>」</p>
+        <p class="mt-2 text-slate-600 text-lg">〔例〕<span class="bg-white border border-amber-300 rounded-lg px-2 py-0.5">我圈出關鍵詞「陌生人」「操作手機」「生物特徵」，在 Google 搜尋「幫陌生人操作手機 生物特徵 查核」，結果第 1 筆是 MyGoPen、第 3 筆是台灣事實查核中心，網址是 mygopen.com 和 tfc-taiwan.org.tw，是專門查謠言的機構，不是轉載，所以我點進這兩篇。</span></p>
+      </div>
+
+      <div class="bg-white border-2 border-amber-200 rounded-2xl p-4 mb-4">
+        <p class="cute text-xl font-extrabold text-amber-800">③ 查核結果</p>
+        <p class="text-lg text-slate-700 mt-1">查核機構標了<b>什麼結果</b>？是<b>哪一家</b>？</p>
+        <p class="mt-2 text-lg bg-teal-50 border-2 border-teal-200 rounded-xl px-3 py-2">你在第 4 步選的：<b id="myLabel" class="text-teal-800"></b></p>
+      </div>
+
+      <div class="bg-white border-2 border-amber-200 rounded-2xl p-4">
+        <p class="cute text-xl font-extrabold text-amber-800">④ 查核網址</p>
+        <p class="text-lg text-slate-700 mt-1">放上<b>查核文章的標題</b>，做成<b>可以點的連結</b>。</p>
+        <ol class="list-decimal pl-6 text-xl font-bold space-y-2 mt-2">
+          <li>到<span class="text-amber-700">查核文章</span>分頁，選取標題，<kbd>Ctrl</kbd>＋<kbd>C</kbd></li>
+          <li>回文件，貼在「查核網址」下面</li>
+          <li>按下面的「<span class="text-amber-700">複製網址</span>」</li>
+          <li>文件裡選取標題 → <kbd>Ctrl</kbd>＋<kbd>K</kbd> → <kbd>Ctrl</kbd>＋<kbd>V</kbd> → 套用</li>
+        </ol>
+        <div class="flex flex-wrap items-center gap-3 mt-3 bg-teal-50 border-2 border-teal-200 rounded-xl px-3 py-2">
+          <span class="text-lg">你在第 4 步貼的網址：</span><b id="myUrl" class="text-teal-800 break-all"></b>
+          <button id="urlCopy" type="button" class="bg-teal-600 hover:bg-teal-700 text-white font-extrabold rounded-xl px-4 py-1.5">📋 複製網址</button>
+        </div>
+        <p class="mt-3 text-slate-600 text-lg">〔例〕<span class="bg-white border border-amber-300 rounded-lg px-2 py-0.5 text-indigo-700 underline">MyGoPen：幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制</span></p>
+      </div>
+      <a href="%(DOC)s" target="_blank" rel="noopener" class="inline-block mt-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl px-5 py-2">📄 看成品範例怎麼寫 ↗</a>
     </div>
     <div class="stepnav"></div>
   </section>
 
-  <!-- ===== 步驟 7：繳交 ===== -->
-  <section class="step hidden" data-step="7">
+  <!-- ===== 步驟 6：繳交 ===== -->
+  <section class="step hidden" data-step="6">
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-indigo-700">✅ 繳交前自己檢查</h2>
       <div class="flex items-center gap-2 flex-wrap mt-1"><span class="qtypeSlot" data-qid="chk"></span></div>
@@ -442,7 +496,10 @@ L05_BODY = '''
     </div>%(REWARD)s
     <div class="stepnav"></div>
   </section>
-''' % {'DOC': DOC, 'CHIPS': chips7('bg-indigo-100 border-2 border-indigo-200', 'bg-slate-100 border-2 border-slate-200'),
+''' % {'TASKS_A': tasks('12'), 'TASKS_B': tasks('345'),
+       'N1': no('1', 'bg-teal-600'), 'N2': no('2', 'bg-emerald-600'), 'N3': no('3', 'bg-blue-600'),
+       'N4': no('4', 'bg-indigo-600'), 'N5': no('5', 'bg-amber-500'),
+       'DOC': DOC, 'CHIPS': chips7('bg-indigo-100 border-2 border-indigo-200', 'bg-slate-100 border-2 border-slate-200'),
        'V7': vid('教學_複製傳言圖片貼入文件.mp4', '教學_複製傳言圖片貼入文件_封面.jpg', '操作影片：複製原始訊息的圖，貼進文件（約 15 秒）'),
        'V2': vid('教學_貼上欄位設標題.mp4', '教學_貼上欄位設標題_封面.jpg', '操作影片：貼上欄位、設定標題 1 與標題 2（約 40 秒）'),
        'CARDS': CARDS,
@@ -453,7 +510,7 @@ L05_BODY = '''
 
 L05_CFG = {
     'ws': 'g5-L05', 'lessonPath': 'g5/L05', 'title': 'Docs 查證文件（一）：找到查核文章', 'stateKey': 'g5L05flow',
-    'steps': ['看成品', '標題設定', '示範', '選訊息', '我來查', '寫文件', '繳交'],
+    'steps': ['看成品', '示範', '選訊息', '我來查', '寫文件', '繳交'],
     'reveals': [], 'revealOf': {}, 'autoFb': ['c1'],
     'qtypes': {'sel': 'experience', 'c1': 'experience', 'kwd': 'experience', 'kw': 'experience', 'how': 'experience',
                'label': 'score', 'url': 'score', 'url2': 'experience', 'chk': 'experience'},
@@ -464,7 +521,7 @@ L05_CFG = {
         'kwd': {'opts': ['人工智能', '陌生人', '操作手機', '指紋', '30 分鐘', '生物特徵', '傾家蕩產', '轉傳給家人'], 'multi': True},
         'how': {'opts': ['關鍵詞搜尋', '以圖搜圖：智慧鏡頭', '以圖搜圖：相機圖示', '直接上查核網站'], 'multi': True},
         'label': {'opts': ['錯誤', '誤導', '易誤解', '事實釐清', '詐騙', '部分錯誤', '正確']},
-        'chk': {'opts': ['標題用「標題 1」、欄位名稱用「標題 2」', '前 4 欄都寫好了', '「我選的訊息」下面貼了原始訊息的圖片或影片截圖', '「查核網址」的標題是連結，而且點得開', '連結是查核機構自己的網站，不是轉載'], 'multi': True, 'block': True},
+        'chk': {'opts': ['查核文章是查核機構自己的網站，不是轉載', '標題用「標題 1」、欄位名稱用「標題 2」', '「我選的訊息」下面貼了原始訊息的圖片或影片截圖', '前 4 欄都寫好了', '「查核網址」的標題是連結，而且點得開'], 'multi': True, 'block': True},
     },
     'texts': ['kw', 'url', 'url2'],
     'patterns': {'url': 'tfc-taiwan\\.org\\.tw|mygopen\\.com'},
@@ -500,10 +557,10 @@ L05_HOOKS = r'''
     if(q==='label')return state.sel&&CARDS[state.sel]?CARDS[state.sel].label:'（還沒選訊息）';
   };
   H.stepDone=function(n){
-    if(n===2)return answered('c1');
-    if(n===3)return (state.kwd||[]).length>0;
-    if(n===4)return !!state.sel;
-    if(n===5)return filled(state.label)&&filled(state.url);
+    if(n===2)return (state.kwd||[]).length>0;
+    if(n===3)return !!state.sel;
+    if(n===4)return filled(state.label)&&filled(state.url);
+    if(n===5)return answered('c1');
     return null;
   };
   H.report=function(){
@@ -538,7 +595,13 @@ L05_HOOKS = r'''
     $('selName').textContent=s?s.name+'　難度 '+'★'.repeat(STARS[state.sel])+'☆'.repeat(3-STARS[state.sel]):'（還沒選，請回上一步）';
     $('hintBox').textContent=s?s.hint:'';
     if($('kwdFb'))H.changed('kwd');
+    // 第 5 步：把第 4 步記下的答案帶過來，寫文件時不用翻回去
+    function show(id,v){$(id).textContent=v||'（還沒填，回第 4 步）';}
+    show('myKw',state.kw);show('myHow',(state.how||[]).join('、'));
+    show('myLabel',state.label);show('myUrl',state.url);
+    $('urlCopy').disabled=!filled(state.url);
   };
+  $('urlCopy').onclick=function(){if(filled(state.url))copyText(state.url,this);};
   document.querySelectorAll('[data-pick]').forEach(function(b){
     b.onclick=function(){state.sel=b.dataset.pick;save();H.render();renderStepper();};
   });
@@ -550,8 +613,8 @@ L05_SPEC = {
         {'qid': 'doc', 'prompt': '你的 Google 文件（老師從 Classroom 作業讀取文件內容）：標題與前四欄「我選的訊息（含原始訊息圖片）」「我怎麼找到查核文章的」「查核結果」「查核網址」。',
          'mode': 'checklist',
          'checks': [
-             {'desc': '有標題，並用自己的話說明選的是哪一則訊息、在講什麼，下面貼了原始訊息的圖片或影片截圖', 'pts': 3},
-             {'desc': '說出自己用了哪個關鍵詞，或用了哪一種以圖搜圖找到查核文章', 'pts': 3},
+             {'desc': '有標題，並用自己的話說明選的是哪一則訊息，有寫出人、事、時、地、物（沒寫的標「沒說」），下面貼了原始訊息的圖片或影片截圖', 'pts': 3},
+             {'desc': '依序說出圈了哪些關鍵詞（或哪張圖）、在 Google 搜了什麼、點進哪個網站，並說明為什麼認定它是查核機構', 'pts': 3},
              {'desc': '寫出查核機構標的結果（例如錯誤、誤導）和是哪一家機構', 'pts': 2},
              {'desc': '「查核網址」放了查核文章的標題，並做成可以點的連結', 'pts': 2}]}],
     'scoring': {'base': 100, 'floor': 80, 'deduction': 1, 'itemPoints': {'label': 5, 'url': 5}},
