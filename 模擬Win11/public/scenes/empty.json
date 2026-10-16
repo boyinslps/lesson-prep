@@ -1,9 +1,0 @@
-{
-  "id": "empty",
-  "title": "乾淨桌面（只有資源回收筒）",
-  "user": { "name": "學生" },
-  "clock": "2026-10-12T09:30:00",
-  "taskbarPins": ["start", "explorer", "edge"],
-  "desktopSystemIcons": ["recycle"],
-  "files": []
-}

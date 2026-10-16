@@ -1,5 +1,0 @@
-node_modules/
-.env.local
-# 根目錄 .gitignore 會擋 .env，這裡明確放行（內容只有建置設定，沒有金鑰）
-!.env
-# dist/ 要提交（讓沒裝 Node 的 session 也能直接用）
