@@ -73,21 +73,21 @@
 <!-- 教師檢視模式橫幅（?review= 時顯示，見《學習單資料與提交規範》§5-7） -->
 <div id="reviewBanner" class="hidden bg-amber-400 text-amber-950 text-sm font-bold">
   <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap">
-    <span id="reviewText">🔍 檢視模式（唯讀）</span>
-    <a id="reviewExit" href="#" class="ml-auto underline">✕ 離開檢視</a>
+    <span id="reviewText"> 檢視模式（唯讀）</span>
+    <a id="reviewExit" href="#" class="ml-auto underline"> 離開檢視</a>
   </div>
 </div>
 
 <!-- 老師工具列（僅 #admin 時顯示；公布鈕放在各段落旁邊，見《學習單資料與提交規範》§5-8） -->
 <div id="teacherbar" class="hidden bg-slate-900 text-white text-sm">
   <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-2 flex-wrap">
-    <span class="cute font-bold text-amber-300">👩‍🏫 教師模式</span>
+    <span class="cute font-bold text-amber-300"> 教師模式</span>
     <span id="tStatus" class="text-slate-300 text-xs"></span>
     <div class="ml-auto flex gap-2 flex-wrap">
-      <button id="showAnsBtn" class="hidden bg-emerald-600 hover:bg-emerald-700 rounded-lg px-3 py-1" title="把標準答案填進學習單的作答欄">👁 檢視答案</button>
-      <button id="uploadAnsBtn" class="hidden bg-sky-600 hover:bg-sky-700 rounded-lg px-3 py-1" title="把④⑤文字題作答框裡的內容存成標準答案（可用 | 分隔多個答案）">⬆ 上傳答案</button>
+      <button id="showAnsBtn" class="hidden bg-emerald-600 hover:bg-emerald-700 rounded-lg px-3 py-1" title="把標準答案填進學習單的作答欄"> 檢視答案</button>
+      <button id="uploadAnsBtn" class="hidden bg-sky-600 hover:bg-sky-700 rounded-lg px-3 py-1" title="把④⑤文字題作答框裡的內容存成標準答案（可用 | 分隔多個答案）"> 上傳答案</button>
       <button id="lockBtn" class="hidden bg-slate-700 hover:bg-slate-600 rounded-lg px-3 py-1" title="收回所有公布，清掉「檢視答案」填進去的內容">↩ 還原</button>
-      <button id="previewModeBtn" class="bg-indigo-600 hover:bg-indigo-700 font-bold rounded-lg px-3 py-1">👀 預覽學生模式</button>
+      <button id="previewModeBtn" class="bg-indigo-600 hover:bg-indigo-700 font-bold rounded-lg px-3 py-1"> 預覽學生模式</button>
     </div>
   </div>
 </div>
@@ -115,9 +115,9 @@
 <div id="main" class="max-w-5xl mx-auto px-4 py-6">
 
   <header class="text-center mb-6">
-    <h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600">📝 把查核文章整理成自己的報告</h1>
+    <h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600"> 把查核文章整理成自己的報告</h1>
     <p class="text-sm text-slate-500 mt-2">五年級上學期 · L06 Docs 查證文件（二）· 教學活動流程（40 分鐘）</p>
-    <p id="syncBadge" class="hidden mt-2 text-xs text-emerald-600 font-bold">🔗 已連線：老師公布答案時，這台會自動同步</p>
+    <p id="syncBadge" class="hidden mt-2 text-xs text-emerald-600 font-bold"> 已連線：老師公布答案時，這台會自動同步</p>
   </header>
 
 
@@ -125,9 +125,9 @@
   <!-- ===== 步驟 1：回顧、找回上次的資料 ===== -->
   <section class="step" data-step="1">
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-6 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">📂 先找回你上次的資料</h2>
+      <h2 class="cute text-3xl font-extrabold text-sky-700 m-0"> 先找回你上次的資料</h2>
       <p class="text-slate-600 mt-2 text-lg">上一節選了一則訊息、找到查核文章。<b>沒做完也沒關係</b>，這一節會一步一步補，再做後 3 欄。先把<b>查核網址</b>找回來。</p>
-      <details open class="urlfix mt-4 bg-violet-50 border-2 border-violet-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-violet-800 text-xl">🔍 沒有網址？找回上次的網址</summary><div class="mt-3 text-lg text-slate-700 space-y-3"><div class="bg-white border-2 border-violet-200 rounded-xl p-3"><button type="button" data-loadwork class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold rounded-xl px-4 py-2">📂 用我的班級座號，拿回上次的網址</button><p class="text-base text-slate-500 mt-1">先在最上面填好年級、班級、座號。</p><p data-ufmsg class="text-base font-bold mt-1 min-h-[22px]"></p></div><div data-ufpick class="hidden"><label class="block font-bold">上次你選的是哪一則？<select class="urlfixSel mt-1 w-full border-2 border-slate-300 rounded-xl px-3 py-2 text-lg"><option value="">請選</option><option value="C">C ‧ 繪畫比賽投票</option><option value="D">D ‧ 微波爐有輻射</option><option value="E">E ‧ 打雷戴藍芽耳機</option><option value="G">G ‧ 印度街頭小吃</option><option value="H">H ‧ 充電時講電話喝水</option><option value="K">K ‧ 地震躲生命三角</option></select></label></div><div data-ufbox class="hidden bg-white border-2 border-violet-200 rounded-xl p-3"><p class="font-bold" data-ufname></p><p class="break-all font-mono text-base mt-1" data-ufurl></p><div class="flex gap-2 flex-wrap mt-2"><a data-ufopen href="#" target="_blank" rel="noopener" class="bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl px-4 py-2">開啟查核文章 ↗</a><button type="button" data-copyurl class="bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl px-4 py-2">📋 複製網址</button></div></div><p class="text-base text-slate-500">這是老師準備的那一篇，你上次找到別篇也可以。想自己找：瀏覽器按 <kbd>Ctrl</kbd>＋<kbd>H</kbd> 看「歷史記錄」，找 tfc-taiwan 或 mygopen 開頭的。</p><label class="block font-bold">找到你的網址了？貼在這裡，下次就找得回來<input class="urlKeep mt-1 w-full border-2 border-slate-300 rounded-xl px-3 py-2 text-base" autocomplete="off"></label></div></details>
+      <details open class="urlfix mt-4 bg-violet-50 border-2 border-violet-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-violet-800 text-xl"> 沒有網址？找回上次的網址</summary><div class="mt-3 text-lg text-slate-700 space-y-3"><div class="bg-white border-2 border-violet-200 rounded-xl p-3"><button type="button" data-loadwork class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold rounded-xl px-4 py-2"> 用我的班級座號，拿回上次的網址</button><p class="text-base text-slate-500 mt-1">先在最上面填好年級、班級、座號。</p><p data-ufmsg class="text-base font-bold mt-1 min-h-[22px]"></p></div><div data-ufpick class="hidden"><label class="block font-bold">上次你選的是哪一則？<select class="urlfixSel mt-1 w-full border-2 border-slate-300 rounded-xl px-3 py-2 text-lg"><option value="">請選</option><option value="C">C ‧ 繪畫比賽投票</option><option value="D">D ‧ 微波爐有輻射</option><option value="E">E ‧ 打雷戴藍芽耳機</option><option value="G">G ‧ 印度街頭小吃</option><option value="H">H ‧ 充電時講電話喝水</option><option value="K">K ‧ 地震躲生命三角</option></select></label></div><div data-ufbox class="hidden bg-white border-2 border-violet-200 rounded-xl p-3"><p class="font-bold" data-ufname></p><p class="break-all font-mono text-base mt-1" data-ufurl></p><div class="flex gap-2 flex-wrap mt-2"><a data-ufopen href="#" target="_blank" rel="noopener" class="bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl px-4 py-2">開啟查核文章 ↗</a><button type="button" data-copyurl class="bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl px-4 py-2"> 複製網址</button></div></div><p class="text-base text-slate-500">這是老師準備的那一篇，你上次找到別篇也可以。想自己找：瀏覽器按 <kbd>Ctrl</kbd>＋<kbd>H</kbd> 看「歷史記錄」，找 tfc-taiwan 或 mygopen 開頭的。</p><label class="block font-bold">找到你的網址了？貼在這裡，下次就找得回來<input class="urlKeep mt-1 w-full border-2 border-slate-300 rounded-xl px-3 py-2 text-base" autocomplete="off"></label></div></details>
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-5 text-base">
         <div class="bg-slate-100 border-2 border-slate-200 rounded-2xl p-3"><p class="font-bold">1 ‧ 查核網址</p><p class="text-sm text-slate-600 mt-0.5">查核文章的網址（整條貼在標題下面）</p></div>
         <div class="bg-slate-100 border-2 border-slate-200 rounded-2xl p-3"><p class="font-bold">2 ‧ 我選的訊息</p><p class="text-sm text-slate-600 mt-0.5">用自己的話說：這則訊息在講什麼</p></div>
@@ -138,10 +138,10 @@
         <div class="bg-indigo-100 border-2 border-indigo-200 rounded-2xl p-3"><p class="font-bold">7 ‧ 如果相信的話，會有什麼後果？</p><p class="text-sm text-slate-600 mt-0.5">誰會怎樣？</p></div>
       </div>
       <p class="mt-4 text-sm text-slate-500"><span class="inline-block w-3 h-3 rounded bg-slate-200 align-middle"></span> 前面的欄位（上一節）　<span class="inline-block w-3 h-3 rounded bg-indigo-200 align-middle ml-2"></span> 今天要做的後 3 欄</p>
-      <a href="https://docs.google.com/document/d/1e4-lD9lyZJgRPma8_7A3e3fn0y1M8M9Z1oqZF1gI0n4/edit" target="_blank" rel="noopener" class="inline-block mt-3 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl px-5 py-2">📄 成品範例：看 7 欄寫好的樣子 ↗</a>
+      <a href="https://docs.google.com/document/d/1e4-lD9lyZJgRPma8_7A3e3fn0y1M8M9Z1oqZF1gI0n4/edit" target="_blank" rel="noopener" class="inline-block mt-3 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl px-5 py-2"> 成品範例：看 7 欄寫好的樣子 ↗</a>
     </div>
     <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 shadow-sm">
-      <h2 class="cute text-2xl font-extrabold text-rose-700">🤔 想一想</h2>
+      <h2 class="cute text-2xl font-extrabold text-rose-700"> 想一想</h2>
       <p class="text-slate-700 mt-2 text-lg">你找到的那一篇查核文章，如果<b>整篇貼進文件</b>，算不算你查證完成？為什麼？</p>
     </div>
     <div class="stepnav"></div>
@@ -151,7 +151,7 @@
   <!-- ===== 步驟 2：選訊息（上一節選過的，這裡會顯示 ✔）===== -->
   <section class="step hidden" data-step="2">
     <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-rose-700 m-0">✋ 你查的是哪一則訊息？</h2>
+      <h2 class="cute text-3xl font-extrabold text-rose-700 m-0"> 你查的是哪一則訊息？</h2>
       <p class="text-slate-600 mt-2 text-lg">上一節選過的，這裡已經打勾。還沒選的，現在選<b>一則</b>。圖片、影片都在卡片裡。</p>
       <div class="flex items-center gap-2 flex-wrap mt-1"><span class="qtypeSlot" data-qid="sel"></span></div>
     </div>
@@ -200,10 +200,10 @@
   <!-- ===== 步驟 3：準備文件 ===== -->
   <section class="step hidden" data-step="3">
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">📄 準備好你的 Google 文件</h2>
+      <h2 class="cute text-3xl font-extrabold text-amber-700 m-0"> 準備好你的 Google 文件</h2>
       <p class="text-lg text-slate-600 mt-1">一小步一小步來。上一節做過的，直接按「下一步」跳過；還沒做的，一步一步補。</p>
     </div>
-    <div class="sc" data-sc><div class="sc-slide"><p class="sc-t">從 Classroom 打開<b>老師給的文件</b>，改檔名</p><div class="sc-media" data-src="assets/步_文件1_打開文件.mp4" data-poster="assets/步_文件1_打開文件_封面.jpg"></div><p class="text-xl font-bold mt-2">檔名：<b class="text-blue-700">年班座號＋名字</b>　<span class="text-base text-slate-500">例：51230 王小明</span></p><p class="text-lg text-rose-700 font-bold mt-1">⚠️ 一定要從 Classroom 作業裡開，老師才讀得到。</p></div><div class="sc-slide"><p class="sc-t">按 <b>📋 複製欄位</b></p><button id="tplCopy" type="button" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-2xl font-extrabold rounded-2xl px-4 py-4">📋 複製欄位</button><details class="mt-3 bg-white border-2 border-blue-100 rounded-2xl p-3"><summary class="cursor-pointer font-bold text-blue-800 text-lg">看會貼上什麼</summary><pre id="tplText" class="text-lg leading-relaxed whitespace-pre-wrap font-[inherit] mt-2"></pre></details></div><div class="sc-slide"><p class="sc-t">文件第一行，按 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> 貼上</p><div class="sc-media" data-src="assets/步_文件2_貼上七欄位.mp4" data-poster="assets/步_文件2_貼上七欄位_封面.jpg"></div><ol class="text-xl font-bold mt-3 space-y-1"><li>第 1 行「（文件標題）」→ 改成<b class="text-indigo-700">你的標題</b></li><li>第 2 行「（年班座號＋名字）」→ 改成<b class="text-indigo-700">你的</b></li></ol><p class="text-base text-slate-500 mt-2">貼錯了？<kbd>Ctrl</kbd> + <kbd>Z</kbd>。多了空白？<kbd>Backspace</kbd> 刪前面、<kbd>Delete</kbd> 刪後面。不用按儲存。</p></div><div class="sc-slide"><p class="sc-t">題目選起來，設成<b>標題 1</b></p><div class="sc-media" data-src="assets/步_文件3_設標題1.mp4" data-poster="assets/步_文件3_設標題1_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">左上角「內文」按鈕 → 標題 1。快速鍵 <kbd>Ctrl</kbd>＋<kbd>Alt</kbd>＋<kbd>1</kbd>。</p></div><div class="sc-slide"><p class="sc-t">✋ 先猜猜看</p><div class="bg-white border-2 border-violet-200 rounded-2xl p-4"><div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-violet-800 text-xl">只把「我選的訊息」改成 16 號大字，它會變成「標題 2」嗎？</p><span class="qtypeSlot" data-qid="c1"></span><span id="c1Fb" class="text-sm font-bold"></span></div><div id="c1Opts" class="flex flex-wrap gap-2 mt-3"></div><div id="c1Expl" class="hidden mt-3 flip bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 text-lg text-slate-700"><p>🎉 答案是<b>不會</b>。只是字變大，「大綱」裡找不到它。<b>用「樣式」選了標題 2，才算標題 2</b>。</p></div></div></div><div class="sc-slide"><p class="sc-t"><b>欄位名稱</b>，都設成<b>標題 2</b></p><div class="sc-media" data-src="assets/步_文件4_設標題2.mp4" data-poster="assets/步_文件4_設標題2_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">選取一行 → 「內文」→ 標題 2。快速鍵 <kbd>Ctrl</kbd>＋<kbd>Alt</kbd>＋<kbd>2</kbd>。</p></div></div>
+    <div class="sc" data-sc><div class="sc-slide"><p class="sc-t">從 Classroom 打開<b>老師給的文件</b>，改檔名</p><div class="sc-media" data-src="assets/步_文件1_打開文件.mp4" data-poster="assets/步_文件1_打開文件_封面.jpg"></div><p class="text-xl font-bold mt-2">檔名：<b class="text-blue-700">年班座號＋名字</b>　<span class="text-base text-slate-500">例：51230 王小明</span></p><p class="text-lg text-rose-700 font-bold mt-1"> 一定要從 Classroom 作業裡開，老師才讀得到。</p></div><div class="sc-slide"><p class="sc-t">按 <b> 複製欄位</b></p><button id="tplCopy" type="button" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-2xl font-extrabold rounded-2xl px-4 py-4"> 複製欄位</button><details class="mt-3 bg-white border-2 border-blue-100 rounded-2xl p-3"><summary class="cursor-pointer font-bold text-blue-800 text-lg">看會貼上什麼</summary><pre id="tplText" class="text-lg leading-relaxed whitespace-pre-wrap font-[inherit] mt-2"></pre></details></div><div class="sc-slide"><p class="sc-t">文件第一行，按 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> 貼上</p><div class="sc-media" data-src="assets/步_文件2_貼上七欄位.mp4" data-poster="assets/步_文件2_貼上七欄位_封面.jpg"></div><ol class="text-xl font-bold mt-3 space-y-1"><li>第 1 行「（文件標題）」→ 改成<b class="text-indigo-700">你的標題</b></li><li>第 2 行「（年班座號＋名字）」→ 改成<b class="text-indigo-700">你的</b></li></ol><p class="text-base text-slate-500 mt-2">貼錯了？<kbd>Ctrl</kbd> + <kbd>Z</kbd>。多了空白？<kbd>Backspace</kbd> 刪前面、<kbd>Delete</kbd> 刪後面。不用按儲存。</p></div><div class="sc-slide"><p class="sc-t">題目選起來，設成<b>標題 1</b></p><div class="sc-media" data-src="assets/步_文件3_設標題1.mp4" data-poster="assets/步_文件3_設標題1_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">左上角「內文」按鈕 → 標題 1。快速鍵 <kbd>Ctrl</kbd>＋<kbd>Alt</kbd>＋<kbd>1</kbd>。</p></div><div class="sc-slide"><p class="sc-t"> 先猜猜看</p><div class="bg-white border-2 border-violet-200 rounded-2xl p-4"><div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-violet-800 text-xl">只把「我選的訊息」改成 16 號大字，它會變成「標題 2」嗎？</p><span class="qtypeSlot" data-qid="c1"></span><span id="c1Fb" class="text-sm font-bold"></span></div><div id="c1Opts" class="flex flex-wrap gap-2 mt-3"></div><div id="c1Expl" class="hidden mt-3 flip bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 text-lg text-slate-700"><p> 答案是<b>不會</b>。只是字變大，「大綱」裡找不到它。<b>用「樣式」選了標題 2，才算標題 2</b>。</p></div></div></div><div class="sc-slide"><p class="sc-t"><b>欄位名稱</b>，都設成<b>標題 2</b></p><div class="sc-media" data-src="assets/步_文件4_設標題2.mp4" data-poster="assets/步_文件4_設標題2_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">選取一行 → 「內文」→ 標題 2。快速鍵 <kbd>Ctrl</kbd>＋<kbd>Alt</kbd>＋<kbd>2</kbd>。</p></div></div>
     <div class="stepnav"></div>
   </section>
 
@@ -211,23 +211,23 @@
   <!-- ===== 步驟 4：檢查前四欄（含標題）===== -->
   <section class="step hidden" data-step="4">
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">🔎 檢查自己寫的：標題＋前四欄</h2>
-      <p class="text-lg text-slate-600 mt-1">每一欄都有<b>範例、為什麼這樣寫、檢查方法</b>。範例用「打雷戴藍芽耳機」，你的內容要換成<b>你自己選的那一則</b>。慢慢來，一欄一欄對。</p>
+      <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">檢查自己寫的：標題＋前四欄</h2>
+      <p class="text-lg text-slate-600 mt-1">對照範例，換成<b>你自己選的那一則</b>。</p>
     </div>
-    <div class="bg-white border-4 border-sky-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-sky-700 m-0">標題<span class="text-base font-bold text-slate-500 ml-2">把「我的查證文件」換成你查的那一則</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">📝 範例（打雷戴藍芽耳機）</p><div class="mt-1 text-slate-800"><p class="text-slate-500">我的查證文件</p><p class="text-2xl">↓</p><p class="font-extrabold">打雷戴藍芽耳機會被雷擊？</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">💡 為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>標題讓別人<b>一眼看出你查的是哪一則</b>，所以要換掉原本的字。</p><p class="mt-1">用疑問句或短句，10～20 個字。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">✅ 我檢查自己寫的</p><div class="mt-1 text-slate-700"><ul class="space-y-1"><li>☐ 最上面不是「（文件標題）」或「我的查證文件」</li><li>☐ 看標題就知道在查什麼</li><li>☐ 已經設成「標題 1」</li></ul></div></div></div></div><div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-indigo-700 m-0">① 查核網址<span class="text-base font-bold text-slate-500 ml-2">放在標題下面、先貼</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">📝 範例（打雷戴藍芽耳機）</p><div class="mt-1 text-slate-800"><p><span class="break-all">https://tfc-taiwan.org.tw/fact-check-reports/migration-7854</span></p><p class="text-sm text-slate-500 mt-1">（打雷戴藍芽耳機那一篇；你的要換成你自己找到的）</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">💡 為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>讓讀的人<b>自己點進去驗證</b>。要放在<b>標題下面</b>，貼<b>整條網址</b>，不是標題。</p><p class="mt-1">要是<b>查核機構自己</b>的網站（tfc-taiwan、mygopen），轉載的不算。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">✅ 我檢查自己寫的</p><div class="mt-1 text-slate-700"><ul class="space-y-1"><li>☐ 是查核機構自己的網站</li><li>☐ 整條網址（https:// 開頭），不是標題</li><li>☐ 點一下真的開得起來</li><li>☐ 沒有網址？回第 1 步找回</li></ul></div></div></div><details open class="mt-3 bg-white border-2 border-slate-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-slate-700 text-lg">🎬 複製網址、貼上：看動圖</summary><div class="mt-2"><div class="sc" data-sc><div class="sc-slide"><p class="sc-t">到查核文章，點一下<b>網址列</b>，複製<b>網址</b></p><div class="sc-media" data-src="assets/步_網址1_複製網址列.mp4" data-poster="assets/步_網址1_複製網址列_封面.jpg"></div></div><div class="sc-slide"><p class="sc-t">回文件，貼在「查核網址」<b>下面</b></p><div class="sc-media" data-src="assets/步_網址2_貼上網址.mp4" data-poster="assets/步_網址2_貼上網址_封面.jpg"></div></div></div></div></details></div><div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-amber-700 m-0">② 我選的訊息<span class="text-base font-bold text-slate-500 ml-2">人事時地物＋傳播，用自己的話</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">📝 範例（打雷戴藍芽耳機）</p><div class="mt-1 text-slate-800"><p>網傳訊息說：苗栗一位<b>健身教練</b>（人）<b>打雷時在戶外慢跑</b>（事、時、地），疑似戴著<b>藍芽耳機</b>（物）被雷擊身亡，所以呼籲大家打雷時絕對不要用手機接電話或上網。這則訊息在 <b>LINE 和臉書</b>流傳，還附了新聞影片（傳播）。</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">💡 為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>讀的人沒看過原始訊息，要能<b>只看你這段</b>就知道訊息在說什麼、怎麼傳開的。</p><p class="mt-1">缺的就寫「沒說」，不要亂猜。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">✅ 我檢查自己寫的</p><div class="mt-1 text-slate-700"><div class="grid grid-cols-2 gap-1 text-base"><p>👤 <b>人</b>：誰說的？說誰會怎樣？</p><p>📌 <b>事</b>：發生什麼？要大家做什麼？</p><p>🕒 <b>時</b>：什麼時候？</p><p>📍 <b>地</b>：在哪裡？</p><p>🎒 <b>物</b>：提到什麼東西？</p><p>📣 <b>傳播</b>：在哪看到、怎麼傳？</p></div><ul class="space-y-1"><li>☐ 是自己的話，不是整段貼</li><li>☐ 六個都想過了</li><li>☐ 下面貼了原始訊息的圖</li></ul></div></div></div><details class="mt-3 bg-white border-2 border-slate-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-slate-700 text-lg">🎬 不會做？看動圖</summary><div class="mt-2"><div class="sc" data-sc><div class="sc-slide"><p class="sc-t">找到<b>原始訊息的圖</b></p><div class="sc-media" data-src="assets/步_圖1_找圖.mp4" data-poster="assets/步_圖1_找圖_封面.jpg"></div></div><div class="sc-slide"><p class="sc-t">在圖上按右鍵，<b>複製圖片</b></p><div class="sc-media" data-src="assets/步_圖2_複製圖片.mp4" data-poster="assets/步_圖2_複製圖片_封面.jpg"></div></div><div class="sc-slide"><p class="sc-t">回文件，<b>貼在句子下面</b></p><div class="sc-media" data-src="assets/步_圖3_貼上.mp4" data-poster="assets/步_圖3_貼上_封面.jpg"></div></div></div></div></details></div><div class="bg-white border-4 border-teal-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-teal-700 m-0">③ 我怎麼找到查核文章的<span class="text-base font-bold text-slate-500 ml-2">照順序寫 4 件事</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">📝 範例（打雷戴藍芽耳機）</p><div class="mt-1 text-slate-800"><p>我圈出「打雷」「藍芽耳機」「雷擊」，在 Google 搜「打雷 藍芽耳機 雷擊 查核」，第一個就是台灣事實查核中心的文章。tfc-taiwan.org.tw 是專門查謠言的機構，不是轉載，所以我點進去。</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">💡 為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>讓別人<b>照你的步驟也找得到</b>，也說明你點的是<b>查核機構</b>，不是轉載或 AI 摘要。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">✅ 我檢查自己寫的</p><div class="mt-1 text-slate-700"><ol class="list-decimal pl-5"><li>圈了哪些<b>關鍵詞</b>（2～3 個）</li><li>Google 搜了<b>什麼字</b>（有加「查核」）</li><li>點進<b>哪個網站</b></li><li><b>為什麼</b>它是查核機構</li></ol><ul class="space-y-1"><li>☐ 四件事都寫了</li></ul></div></div></div></div><div class="bg-white border-4 border-rose-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-rose-700 m-0">④ 查核結果<span class="text-base font-bold text-slate-500 ml-2">哪一家、標了什麼、重點一句</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">📝 範例（打雷戴藍芽耳機）</p><div class="mt-1 text-slate-800"><p>台灣事實查核中心查核後，標為「<b>事實釐清</b>」：重點是<b>空曠處才是關鍵</b>，不是手機或藍芽耳機本身。</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">💡 為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>只寫「是假的」不夠。要寫<b>哪一家</b>＋<b>標了什麼</b>＋<b>一句重點</b>（看「你可以先知道」）。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">✅ 我檢查自己寫的</p><div class="mt-1 text-slate-700"><p class="text-base">標籤有這些：</p><div class="flex flex-wrap gap-1.5 mt-2"><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">錯誤</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">誤導</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">易誤解</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">事實釐清</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">詐騙</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">部分錯誤</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">正確</span></div><ul class="space-y-1"><li>☐ 寫了機構名</li><li>☐ 標籤照查核文章寫</li><li>☐ 加了一句重點</li><li>☐ ⭐ 加分：另一家機構也一樣嗎？</li></ul></div></div></div></div>
+    <div class="bg-white border-4 border-sky-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-sky-700 m-0">標題<span class="text-base font-bold text-slate-500 ml-2">換掉「我的查證文件」</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">範例（老師的示範）</p><div class="mt-1 text-slate-800"><p class="text-slate-500">我的查證文件</p><p class="text-2xl">↓</p><p class="font-extrabold">幫陌生人操作手機，會被盜走指紋嗎？</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>看標題就知道你查哪一則。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">我檢查</p><div class="mt-1 text-slate-700"><ul class="space-y-1"><li>☐ 不是「我的查證文件」</li><li>☐ 已設成「標題 1」</li></ul></div></div></div></div><div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-indigo-700 m-0">① 查核網址<span class="text-base font-bold text-slate-500 ml-2">標題下面，整條網址</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">範例（老師的示範）</p><div class="mt-1 text-slate-800"><p><span class="text-indigo-700 underline break-all">https://www.mygopen.com/2026/02/ai-fraud.html</span></p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>讓人點進去驗證。貼<b>整條網址</b>，不是標題。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">我檢查</p><div class="mt-1 text-slate-700"><ul class="space-y-1"><li>☐ 查核機構自己的網站</li><li>☐ https:// 開頭、藍色有底線</li><li>☐ 點得開</li><li>☐ 沒有網址？回第 1 步找回</li></ul></div></div></div><details open class="mt-3 bg-white border-2 border-slate-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-slate-700 text-lg">複製網址、貼上、加超連結：看動圖</summary><div class="mt-2"><div class="sc" data-sc><div class="sc-slide"><p class="sc-t">到查核文章，點<b>網址列</b>，複製<b>網址</b></p><div class="sc-media" data-src="assets/步_網址1_複製網址列.mp4" data-poster="assets/步_網址1_複製網址列_封面.jpg"></div></div><div class="sc-slide"><p class="sc-t">回文件，貼在「查核網址」<b>下面</b></p><div class="sc-media" data-src="assets/步_網址2_貼上網址.mp4" data-poster="assets/步_網址2_貼上網址_封面.jpg"></div></div><div class="sc-slide"><p class="sc-t">圈選網址，點<b>鎖鏈符號</b>，按「套用」</p><div class="sc-media" data-src="assets/步_網址3_加超連結.mp4" data-poster="assets/步_網址3_加超連結_封面.jpg"></div></div></div></div></details></div><div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-amber-700 m-0">② 我選的訊息<span class="text-base font-bold text-slate-500 ml-2">人事時地物＋傳播</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">範例（老師的示範）</p><div class="mt-1 text-slate-800"><p>網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。這則訊息在臉書流傳。</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>沒看過的人，只看這段就懂。缺的寫「沒說」。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">我檢查</p><div class="mt-1 text-slate-700"><p class="text-base">人：誰　事：做什麼　時：何時　地：哪裡　物：什麼東西　傳播：在哪傳</p><ul class="space-y-1"><li>☐ 是自己的話</li><li>☐ 貼了原始訊息的圖</li></ul></div></div></div><details class="mt-3 bg-white border-2 border-slate-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-slate-700 text-lg">找圖、複製、貼到文件：看動圖</summary><div class="mt-2"><div class="sc" data-sc><div class="sc-slide"><p class="sc-t">找到<b>原始訊息的圖</b>，右鍵<b>複製圖片</b></p><div class="sc-media" data-src="assets/步_圖A_找圖複製.mp4" data-poster="assets/步_圖A_找圖複製_封面.jpg"></div></div><div class="sc-slide"><p class="sc-t">回文件，<b>貼在句子下面</b></p><div class="sc-media" data-src="assets/步_圖3_貼上.mp4" data-poster="assets/步_圖3_貼上_封面.jpg"></div></div></div></div></details></div><div class="bg-white border-4 border-teal-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-teal-700 m-0">③ 我怎麼找到查核文章的<span class="text-base font-bold text-slate-500 ml-2">照順序寫</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">範例（老師的示範）</p><div class="mt-1 text-slate-800"><p>我圈出「陌生人」「操作手機」「生物特徵」，搜「陌生人 操作手機 生物特徵 查核」，點進 mygopen.com，它是專門查謠言的機構，不是轉載。</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>別人照著做也找得到。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">我檢查</p><div class="mt-1 text-slate-700"><p class="text-base">關鍵詞、搜什麼字、點哪個網站、為什麼是查核機構</p><ul class="space-y-1"><li>☐ 四件事都寫了</li></ul></div></div></div></div><div class="bg-white border-4 border-rose-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-rose-700 m-0">④ 查核結果<span class="text-base font-bold text-slate-500 ml-2">哪一家、標什麼、一句重點</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">範例（老師的示範）</p><div class="mt-1 text-slate-800"><p>MyGoPen 查核後標為「誤導」，重點是這個說法在技術和金融上都不合理。</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>不能只寫「是假的」。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">我檢查</p><div class="mt-1 text-slate-700"><div class="flex flex-wrap gap-1.5 mt-2"><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">錯誤</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">誤導</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">易誤解</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">事實釐清</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">詐騙</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">部分錯誤</span><span class="bg-amber-100 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-0.5 text-base font-bold">正確</span></div><ul class="space-y-1"><li>☐ 寫了機構名</li><li>☐ 標籤照文章寫</li><li>☐ 有一句重點</li></ul></div></div></div></div>
     <div class="stepnav"></div>
   </section>
 
   <!-- ===== 步驟 5：抄與整理 ===== -->
   <section class="step hidden" data-step="5">
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-amber-700">📝 「整理」不是「複製」</h2>
+      <h2 class="cute text-3xl font-extrabold text-amber-700"> 「整理」不是「複製」</h2>
       <p class="text-slate-700 mt-2 text-lg">把<b>整理</b>想成「向朋友轉述」：朋友沒看過那篇文章，你用一兩句話告訴他「這則訊息是真的嗎？為什麼？」。把整本書遞給他，他還是不知道重點。</p>
     </div>
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
       <div class="flex items-center gap-2 flex-wrap">
-        <h3 class="cute text-2xl font-extrabold text-violet-700 m-0">✋ 先猜猜看</h3>
-        <button data-reveal-btn="r1" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-lg px-3 py-1.5">🎉 公布</button>
+        <h3 class="cute text-2xl font-extrabold text-violet-700 m-0"> 先猜猜看</h3>
+        <button data-reveal-btn="r1" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-lg px-3 py-1.5"> 公布</button>
       </div>
       <p class="text-slate-600 mt-2 text-lg">兩種寫法說的是同一件事：警方說，台灣沒有這種案件。哪一種是「<b>整理成自己的話</b>」？</p>
       <div class="grid md:grid-cols-2 gap-4 mt-3 text-lg">
@@ -236,21 +236,21 @@
       </div>
       <div class="flex items-center gap-2 flex-wrap mt-3"><p class="font-bold text-violet-800">我覺得是</p><span class="qtypeSlot" data-qid="s1"></span><span id="s1Fb" class="text-sm font-bold"></span></div>
       <div id="s1Opts" class="flex flex-wrap gap-2 mt-1"></div>
-      <p data-wait="r1" class="text-center text-slate-400 mt-4">🔒 答案等老師公布</p>
+      <p data-wait="r1" class="text-center text-slate-400 mt-4"> 答案等老師公布</p>
       <div data-r="r1" class="hidden mt-4 flip bg-rose-50 border-2 border-rose-200 rounded-2xl p-4 text-lg text-slate-700 space-y-2">
-        <p>🎉 <b>B 是整理。</b>A 像是把文章整段貼來，句子長又難懂；B 一句話就把重點說完，而且是你自己說得出口的話。</p>
-        <p>💡 發現了嗎？整理＝<b>只留重點、用自己的話、標出是誰說的</b>。</p>
+        <p> <b>B 是整理。</b>A 像是把文章整段貼來，句子長又難懂；B 一句話就把重點說完，而且是你自己說得出口的話。</p>
+        <p> 發現了嗎？整理＝<b>只留重點、用自己的話、標出是誰說的</b>。</p>
       </div>
     </div>
     <div class="bg-white border-4 border-amber-200 rounded-3xl p-6">
-      <h3 class="cute text-2xl font-extrabold text-amber-700">👩‍🏫 示範：寫「正確資訊」</h3>
+      <h3 class="cute text-2xl font-extrabold text-amber-700"> 示範：寫「正確資訊」</h3>
       <p class="text-slate-600 mt-1">成品範例的「正確資訊」，每點一句、用自己的話：</p>
       <ol class="list-decimal pl-6 mt-3 space-y-2 text-lg text-slate-700">
         <li>只有指紋、臉或聲音，不能直接拿去貸款。銀行貸款還要看身分證、手機簡訊驗證碼等好幾道檢查。</li>
         <li>警方和 165 反詐騙專線說，台灣目前查不到這種手法的案件。</li>
         <li>不過，有人被騙去做「臉部認證」，結果存款被轉走。所以遇到陌生人要你做驗證，還是要小心。</li>
       </ol>
-      <p class="mt-3 text-slate-600 text-lg">✍️ 句型：<b>「根據○○，……」「○○說，……」「不過，……」</b>。順序：先講<b>最重要的結論</b> → 再講<b>證據</b> → 最後講<b>還是要小心什麼</b>。</p>
+      <p class="mt-3 text-slate-600 text-lg"> 句型：<b>「根據○○，……」「○○說，……」「不過，……」</b>。順序：先講<b>最重要的結論</b> → 再講<b>證據</b> → 最後講<b>還是要小心什麼</b>。</p>
     </div>
     <div class="stepnav"></div>
   </section>
@@ -258,20 +258,20 @@
   <!-- ===== 步驟 6：廣傳後果 ===== -->
   <section class="step hidden" data-step="6">
     <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-rose-700">📣 為什麼會被廣傳？相信的話會怎樣？</h2>
+      <h2 class="cute text-3xl font-extrabold text-rose-700"> 為什麼會被廣傳？相信的話會怎樣？</h2>
       <p class="text-slate-700 mt-2 text-lg">假訊息不只是「是假的」。要說得出：<b>大家為什麼會轉傳它</b>，和<b>相信它的後果</b>。</p>
       <div class="grid md:grid-cols-2 gap-4 mt-4">
         <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4"><p class="cute text-xl font-extrabold text-rose-700">為什麼會轉傳（5 類）</p>
-          <ul class="mt-2 space-y-1 text-lg text-slate-700"><li>😨 <b>怕</b>：講得很可怕</li><li>🤩 <b>好奇／驚奇</b>：聽起來很厲害</li><li>👨‍👩‍👧 <b>關心家人</b>：「轉傳等於救人」</li><li>🎁 <b>好康</b>：免費、搶先</li><li>🤝 <b>親友傳來的</b>：因為信任</li></ul></div>
+          <ul class="mt-2 space-y-1 text-lg text-slate-700"><li> <b>怕</b>：講得很可怕</li><li> <b>好奇／驚奇</b>：聽起來很厲害</li><li> <b>關心家人</b>：「轉傳等於救人」</li><li> <b>好康</b>：免費、搶先</li><li> <b>親友傳來的</b>：因為信任</li></ul></div>
         <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4"><p class="cute text-xl font-extrabold text-amber-700">相信的後果（4 類）</p>
-          <ul class="mt-2 space-y-1 text-lg text-slate-700"><li>🩺 <b>身體</b>：吃錯、做錯</li><li>💰 <b>錢</b>：被騙</li><li>🤝 <b>人際</b>：誤會、吵架</li><li>😱 <b>恐慌</b>：嚇到更多人、再轉傳</li></ul></div>
+          <ul class="mt-2 space-y-1 text-lg text-slate-700"><li> <b>身體</b>：吃錯、做錯</li><li> <b>錢</b>：被騙</li><li> <b>人際</b>：誤會、吵架</li><li> <b>恐慌</b>：嚇到更多人、再轉傳</li></ul></div>
       </div>
     </div>
 
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
       <div class="flex items-center gap-2 flex-wrap">
-        <h3 class="cute text-2xl font-extrabold text-violet-700 m-0">✋ 先猜猜看：示範訊息為什麼會被轉傳？</h3>
-        <button data-reveal-btn="r2" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-lg px-3 py-1.5">🎉 公布</button>
+        <h3 class="cute text-2xl font-extrabold text-violet-700 m-0"> 先猜猜看：示範訊息為什麼會被轉傳？</h3>
+        <button data-reveal-btn="r2" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-lg px-3 py-1.5"> 公布</button>
       </div>
       <p class="text-slate-600 mt-2 text-lg">「<b>幫陌生人操作手機，會被盜走指紋、聲音和臉，30 分鐘傾家蕩產。轉傳給家人朋友！</b>」大家轉傳它的原因有哪些？（可複選）</p>
       <div class="flex items-center gap-2 flex-wrap mt-3"><span class="qtypeSlot" data-qid="s2"></span><span id="s2Fb" class="text-sm font-bold"></span></div>
@@ -280,10 +280,10 @@
       <p class="font-bold text-violet-800 text-lg mt-6">下面哪一句「相信的後果」寫得最好？</p>
       <div class="flex items-center gap-2 flex-wrap mt-1"><span class="qtypeSlot" data-qid="s3"></span><span id="s3Fb" class="text-sm font-bold"></span></div>
       <div id="s3Opts" class="space-y-2 mt-1"></div>
-      <p data-wait="r2" class="text-center text-slate-400 mt-4">🔒 答案等老師公布</p>
+      <p data-wait="r2" class="text-center text-slate-400 mt-4"> 答案等老師公布</p>
       <div data-r="r2" class="hidden mt-4 flip bg-rose-50 border-2 border-rose-200 rounded-2xl p-4 text-lg text-slate-700 space-y-2">
-        <p>🎉 <b>原因</b>：它說「30 分鐘傾家蕩產」，讓人<b>怕</b>；又寫「轉傳給家人朋友」，大家覺得轉出去是在<b>關心家人</b>；還提到 AI 和手機，聽起來很厲害，帶點<b>好奇</b>。</p>
-        <p>🎉 <b>後果寫得最好的是 C</b>：它說出<b>誰</b>會<b>怎樣</b>（不敢幫人、嚇到更多人）。「會被騙」沒說誰、也沒說怎麼被騙；「這則是假的」是結果，不是後果。</p>
+        <p> <b>原因</b>：它說「30 分鐘傾家蕩產」，讓人<b>怕</b>；又寫「轉傳給家人朋友」，大家覺得轉出去是在<b>關心家人</b>；還提到 AI 和手機，聽起來很厲害，帶點<b>好奇</b>。</p>
+        <p> <b>後果寫得最好的是 C</b>：它說出<b>誰</b>會<b>怎樣</b>（不敢幫人、嚇到更多人）。「會被騙」沒說誰、也沒說怎麼被騙；「這則是假的」是結果，不是後果。</p>
       </div>
     </div>
     <div class="stepnav"></div>
@@ -294,17 +294,17 @@
   <!-- ===== 步驟 7：檢查後三欄 ===== -->
   <section class="step hidden" data-step="7">
     <div class="bg-white border-4 border-teal-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-teal-700 m-0">🔎 檢查自己寫的：後 3 欄</h2>
-      <p class="text-lg text-slate-600 mt-1">一樣用「打雷戴藍芽耳機」當範例。時間不夠時，照這個順序寫：<b>正確資訊 → 為什麼廣傳 → 後果</b>。</p>
+      <h2 class="cute text-3xl font-extrabold text-teal-700 m-0">檢查自己寫的：後 3 欄</h2>
+      <p class="text-lg text-slate-600 mt-1">時間不夠，先寫：正確資訊、廣傳、後果。</p>
     </div>
-    <div class="bg-white border-4 border-violet-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-violet-700 m-0">⑤ 為什麼這則訊息會被廣傳？<span class="text-base font-bold text-slate-500 ml-2">至少一類，要有理由</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">📝 範例（打雷戴藍芽耳機）</p><div class="mt-1 text-slate-800"><p>因為<b>真的有人遭雷擊、新聞也報過</b>，很多人覺得可信（<b>親友傳來</b>）；又和人人都有的手機有關，家人看了會<b>怕</b>，覺得轉傳是<b>關心家人</b>。</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">💡 為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>說得出<b>人們為什麼轉傳</b>，下次看到才知道先停一下。只寫「因為很多人信」不夠，要說<b>哪裡讓人這樣想</b>。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">✅ 我檢查自己寫的</p><div class="mt-1 text-slate-700"><p class="text-base">五類原因：</p><div class="flex flex-wrap gap-1.5 mt-2"><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">😨 怕</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">🤩 好奇／驚奇</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">👨‍👩‍👧 關心家人</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">🎁 好康</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">🤝 親友傳來</span></div><ul class="space-y-1"><li>☐ 選了至少一類</li><li>☐ 寫了「哪裡讓人這樣想」</li></ul></div></div></div></div><div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-emerald-700 m-0">⑥ 正確資訊<span class="text-base font-bold text-slate-500 ml-2">1～3 點，每點一句、自己的話、標機構</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">📝 範例（打雷戴藍芽耳機）</p><div class="mt-1 text-slate-800"><ol class="list-decimal pl-5 space-y-1"><li><b>根據台灣事實查核中心</b>，遭雷擊的關鍵是人在<b>空曠處</b>，不是手機或藍芽耳機。</li><li>所以打雷時，要先<b>離開空曠的地方</b>。</li><li><b>不過</b>，也不是「不碰手機就安全」，留在空曠處才是重點。</li></ol></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">💡 為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>讀的人要知道<b>事實是什麼</b>。用自己的話、標出<b>是誰說的</b>，才不是把別人的文章搬過來。</p><p class="mt-1">先講最重要的結論，最後講「還要小心什麼」。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">✅ 我檢查自己寫的</p><div class="mt-1 text-slate-700"><p class="text-base">句型：<b>根據○○，……</b>／<b>○○說，……</b>／<b>不過，……</b></p><ul class="space-y-1"><li>☐ 1～3 點，每點一句</li><li>☐ 每點標了機構</li><li>☐ 沒有整段複製</li><li>☐ 最重要的結論放第一點</li></ul></div></div></div></div><div class="bg-white border-4 border-rose-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-rose-700 m-0">⑦ 如果相信的話，會有什麼後果？<span class="text-base font-bold text-slate-500 ml-2">寫「誰」會「怎樣」</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">📝 範例（打雷戴藍芽耳機）</p><div class="mt-1 text-slate-800"><p>有人會<b>嚇得連手機都不敢用</b>；也有人以為<b>只要不碰手機就安全</b>，反而留在空曠處慢跑或逗留，<b>更危險</b>。</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">💡 為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>後果要寫<b>誰會怎樣</b>。「是假的」是查核結果，不是後果；「會被騙」沒說誰、怎麼被騙。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">✅ 我檢查自己寫的</p><div class="mt-1 text-slate-700"><p class="text-base">四類後果：</p><div class="flex flex-wrap gap-1.5 mt-2"><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">🩺 身體</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">💰 錢</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">🤝 人際</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">😱 恐慌</span></div><ul class="space-y-1"><li>☐ 寫了「誰」</li><li>☐ 寫了「會怎樣」</li><li>☐ 是具體的事，不是「不好」</li></ul></div></div></div></div>
+    <div class="bg-white border-4 border-violet-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-violet-700 m-0">⑤ 為什麼這則訊息會被廣傳？<span class="text-base font-bold text-slate-500 ml-2">至少一類，要有理由</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">範例（老師的示範）</p><div class="mt-1 text-slate-800"><p>訊息說「30 分鐘傾家蕩產」，讓人<b>怕</b>；又說「轉傳給家人朋友」，大家覺得轉傳是<b>關心家人</b>。</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>說出哪裡讓人想轉傳。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">我檢查</p><div class="mt-1 text-slate-700"><div class="flex flex-wrap gap-1.5 mt-2"><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">怕</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">好奇</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">關心家人</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">好康</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">親友傳來</span></div><ul class="space-y-1"><li>☐ 選一類</li><li>☐ 寫了理由</li></ul></div></div></div></div><div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-emerald-700 m-0">⑥ 正確資訊<span class="text-base font-bold text-slate-500 ml-2">1～3 點，標機構</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">範例（老師的示範）</p><div class="mt-1 text-slate-800"><ol class="list-decimal pl-5 space-y-1"><li><b>根據 MyGoPen</b>，只有指紋或臉，不能直接拿去貸款，銀行還要看很多檢查。</li><li><b>警方和 165 說</b>，台灣查不到這種案件。</li><li><b>不過</b>，陌生人要你做驗證時，還是要小心。</li></ol></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>讓人知道事實，並標出是誰說的。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">我檢查</p><div class="mt-1 text-slate-700"><p class="text-base">句型：根據○○，……／○○說，……／不過，……</p><ul class="space-y-1"><li>☐ 每點一句</li><li>☐ 標了機構</li><li>☐ 不整段複製</li></ul></div></div></div></div><div class="bg-white border-4 border-rose-300 rounded-3xl p-5 mb-5 shadow-sm"><h3 class="cute text-2xl font-extrabold text-rose-700 m-0">⑦ 如果相信的話，會有什麼後果？<span class="text-base font-bold text-slate-500 ml-2">誰會怎樣</span></h3><div class="grid md:grid-cols-3 gap-3 mt-3 text-lg"><div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">範例（老師的示範）</p><div class="mt-1 text-slate-800"><p>有人怕到不敢幫真的需要幫忙的人；也有人把嚇人的訊息再轉給更多人。</p></div></div><div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">為什麼這樣寫</p><div class="mt-1 text-slate-700"><p>要寫誰會怎樣，不是「是假的」。</p></div></div><div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">我檢查</p><div class="mt-1 text-slate-700"><div class="flex flex-wrap gap-1.5 mt-2"><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">身體</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">錢</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">人際</span><span class="bg-white border-2 border-slate-300 text-slate-700 rounded-full px-3 py-0.5 text-base font-bold">恐慌</span></div><ul class="space-y-1"><li>☐ 寫了誰</li><li>☐ 寫了怎樣</li></ul></div></div></div></div>
     <div class="stepnav"></div>
   </section>
 
   <!-- ===== 步驟 8：繳交 ===== -->
   <section class="step hidden" data-step="8">
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-indigo-700">✅ 繳交前自己檢查</h2>
+      <h2 class="cute text-3xl font-extrabold text-indigo-700"> 繳交前自己檢查</h2>
       <div class="flex items-center gap-2 flex-wrap mt-1"><span class="qtypeSlot" data-qid="chk"></span></div>
       <div id="chkOpts" class="space-y-2 mt-3"></div>
       <div class="bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-4 mt-4 text-lg text-slate-700">
@@ -314,18 +314,18 @@
       </div>
     </div>
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 shadow-sm text-center mt-6">
-      <h2 class="cute text-xl font-extrabold text-indigo-700 mb-1">📮 繳交學習單</h2>
+      <h2 class="cute text-xl font-extrabold text-indigo-700 mb-1"> 繳交學習單</h2>
       <p class="text-sm text-slate-500 mb-3">確定都填好了嗎？按下面按鈕交給老師（可以重交，會覆蓋前一次）。</p>
       <button id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white cute text-xl font-extrabold rounded-2xl py-3">繳交學習單</button>
       <p id="submitStat" class="text-sm font-bold mt-3 min-h-[20px]"></p>
     </div>
 
     <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-7 mt-6">
-      <div class="text-6xl mb-2 pop">🎉</div>
+      <div class="text-6xl mb-2 pop"></div>
       <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
       <div class="flex flex-wrap gap-3 justify-center mt-4">
-        <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-xl font-extrabold rounded-2xl px-8 py-3">🎮 打字英雄</a>
-        <a href="https://gemini.google.com/share/0adbaeae6c16?skid=751ce4ac-860d-4160-8a1a-12a1ebcf6f1d" target="_blank" rel="noopener" class="cute inline-block bg-white border-4 border-indigo-300 hover:bg-indigo-50 text-indigo-700 text-xl font-extrabold rounded-2xl px-8 py-3">🕹️ 更多遊戲</a>
+        <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-xl font-extrabold rounded-2xl px-8 py-3"> 打字英雄</a>
+        <a href="https://gemini.google.com/share/0adbaeae6c16?skid=751ce4ac-860d-4160-8a1a-12a1ebcf6f1d" target="_blank" rel="noopener" class="cute inline-block bg-white border-4 border-indigo-300 hover:bg-indigo-50 text-indigo-700 text-xl font-extrabold rounded-2xl px-8 py-3"> 更多遊戲</a>
       </div>
     </div>
     <div class="stepnav"></div>
@@ -345,7 +345,7 @@
     <span id="lbPct" class="font-bold text-white w-12 text-center">100%</span>
     <button type="button" class="zbtn" id="lbIn" aria-label="放大">＋</button>
     <button type="button" class="zbtn" id="lbReset">還原</button>
-    <button type="button" class="zbtn ml-auto" id="lbClose">✕ 關閉</button>
+    <button type="button" class="zbtn ml-auto" id="lbClose"> 關閉</button>
   </div>
   <div class="lbstage" id="lbStage"><img id="lbImg" alt=""></div>
 </div>
@@ -375,7 +375,7 @@ var firebaseConfig = {
   function filled(v){return !!String(v==null?'':v).trim();}
   var state={},REV={},H={};
     // 圖片載不到 → 明確的佔位框（《HTML互動教材設計規範》§4.5）
-  function phImg(img){var d=el('div','imgph','🖼️ '+esc(img.getAttribute('src')));img.replaceWith(d);}
+  function phImg(img){var d=el('div','imgph',' '+esc(img.getAttribute('src')));img.replaceWith(d);}
   document.querySelectorAll('img.shotimg').forEach(function(img){if(img.complete&&img.naturalWidth===0)phImg(img);else img.addEventListener('error',function(){phImg(img);});});
 
   // ===== 點圖放大：滾輪多段放大、拖曳移動、雙擊還原 =====
@@ -647,7 +647,7 @@ var firebaseConfig = {
       var hasKey=C.choices[q]?corrOf(q)!=null:!!PATTERNS[q];
       var show=hasKey&&(auto.indexOf(q)>=0||REV[C.revealOf[q]])&&answered(q);
       if(!show){e.textContent='';return;}
-      var ok=isRight(q);e.className='text-sm font-bold '+(ok?'text-emerald-600':'text-rose-600');e.textContent=ok?'✔ 正確':'✘ 再想想看';
+      var ok=isRight(q);e.className='text-sm font-bold '+(ok?'text-emerald-600':'text-rose-600');e.textContent=ok?'✔ 正確':' 再想想看';
     });
   }
   function applyReveal(){
@@ -699,7 +699,7 @@ var firebaseConfig = {
     var idn=getIdentity(),stat=$('submitStat');
     if(!identityValid(idn)){   // 不捲到頂端，只在按鈕下提示、把空格標紅
       markIdentity(true);
-      stat.className='text-sm font-bold mt-3 min-h-[20px] text-rose-600';stat.textContent='⚠️ 還沒填好身分：請到頁面最上面填年級、班級（1-14）、座號，再按一次繳交。';
+      stat.className='text-sm font-bold mt-3 min-h-[20px] text-rose-600';stat.textContent=' 還沒填好身分：請到頁面最上面填年級、班級（1-14）、座號，再按一次繳交。';
       return;
     }
     markIdentity(false);
@@ -787,18 +787,18 @@ var firebaseConfig = {
     $('reviewBanner').classList.remove('hidden');$('reviewExit').href=location.pathname+'#admin';
     $('submitBtn').classList.add('hidden');$('rewardBox').remove();
     (C.reveals||[]).forEach(function(r){REV[r]=true;});
-    if(!db){$('reviewText').textContent='🔍 檢視模式：現在連不上資料庫';return;}
+    if(!db){$('reviewText').textContent=' 檢視模式：現在連不上資料庫';return;}
     db.collection('submissions').doc(REVIEW_ID).get().then(function(doc){
-      if(!doc.exists){$('reviewText').textContent='🔍 檢視模式：找不到這份繳交';return;}
+      if(!doc.exists){$('reviewText').textContent=' 檢視模式：找不到這份繳交';return;}
       var d=doc.data()||{};
-      $('reviewText').textContent='🔍 檢視模式（唯讀）：'+d.grade+'年'+d.className+'班'+d.studentId+'號 的作答';
+      $('reviewText').textContent=' 檢視模式（唯讀）：'+d.grade+'年'+d.className+'班'+d.studentId+'號 的作答';
       $('idGrade').value=d.grade||'';$('idClass').value=d.className||'';$('idStudent').value=d.studentId||'';
       if(d.qtypes)QTYPE_OVERRIDES=d.qtypes;
       Object.assign(state,d.parts||{});
       applyReveal();renderAll();
       $('main').classList.add('locked');
       document.querySelectorAll('#main input,#main textarea,#idGrade,#idClass,#idStudent').forEach(function(f){f.disabled=true;});
-    }).catch(function(e){console.warn('讀取繳交失敗',e);$('reviewText').textContent='🔍 檢視模式：讀取失敗';});
+    }).catch(function(e){console.warn('讀取繳交失敗',e);$('reviewText').textContent=' 檢視模式：讀取失敗';});
   }
 
   // ===== 學習路徑：一次只顯示一步，頂端進度列可以跳步（《HTML互動教材設計規範》§5.8）=====

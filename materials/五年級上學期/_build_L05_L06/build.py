@@ -428,9 +428,9 @@ def _tone_block(tone, title, hint, ex_html, why_html, guide_html, extra=''):
     return ('<div class="bg-white border-4 border-%(t)s-300 rounded-3xl p-5 mb-5 shadow-sm">'
             '<h3 class="cute text-2xl font-extrabold text-%(t)s-700 m-0">%(title)s<span class="text-base font-bold text-slate-500 ml-2">%(hint)s</span></h3>'
             '<div class="grid md:grid-cols-3 gap-3 mt-3 text-lg">'
-            '<div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">📝 範例（打雷戴藍芽耳機）</p><div class="mt-1 text-slate-800">%(ex)s</div></div>'
-            '<div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">💡 為什麼這樣寫</p><div class="mt-1 text-slate-700">%(why)s</div></div>'
-            '<div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">✅ 我檢查自己寫的</p><div class="mt-1 text-slate-700">%(guide)s</div></div>'
+            '<div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="font-extrabold text-amber-800">範例（老師的示範）</p><div class="mt-1 text-slate-800">%(ex)s</div></div>'
+            '<div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800">為什麼這樣寫</p><div class="mt-1 text-slate-700">%(why)s</div></div>'
+            '<div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="font-extrabold text-emerald-800">我檢查</p><div class="mt-1 text-slate-700">%(guide)s</div></div>'
             '</div>%(extra)s</div>') % {'t': tone, 'title': title, 'hint': hint, 'ex': ex_html, 'why': why_html, 'guide': guide_html, 'extra': extra}
 
 
@@ -442,7 +442,7 @@ def _chips(items, cls='bg-white border-2 border-slate-300 text-slate-700'):
     return '<div class="flex flex-wrap gap-1.5 mt-2">' + ''.join('<span class="%s rounded-full px-3 py-0.5 text-base font-bold">%s</span>' % (cls, t) for t in items) + '</div>'
 
 
-def _clips(slides, opened=False, label="🎬 不會做？看動圖"):
+def _clips(slides, opened=False, label="不會做？看動圖"):
     return ('<details%s class="mt-3 bg-white border-2 border-slate-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-slate-700 text-lg">%s</summary>'
             '<div class="mt-2">' + L5S.sc(slides) + '</div></details>') % (' open' if opened else '', label)
 
@@ -485,72 +485,71 @@ STEP_L06_2 = '''
   </section>
 '''
 
-_E_LINK = '<span class="break-all">https://tfc-taiwan.org.tw/fact-check-reports/migration-7854</span>'
-_BLK_TITLE = _tone_block('sky', '標題', '把「我的查證文件」換成你查的那一則',
-    '<p class="text-slate-500">我的查證文件</p><p class="text-2xl">↓</p><p class="font-extrabold">打雷戴藍芽耳機會被雷擊？</p>',
-    '<p>標題讓別人<b>一眼看出你查的是哪一則</b>，所以要換掉原本的字。</p><p class="mt-1">用疑問句或短句，10～20 個字。</p>',
-    _checks('最上面不是「（文件標題）」或「我的查證文件」', '看標題就知道在查什麼', '已經設成「標題 1」'))
-_BLK_URL = _tone_block('indigo', '① 查核網址', '放在標題下面、先貼',
-    '<p>' + _E_LINK + '</p><p class="text-sm text-slate-500 mt-1">（打雷戴藍芽耳機那一篇；你的要換成你自己找到的）</p>',
-    '<p>讓讀的人<b>自己點進去驗證</b>。要放在<b>標題下面</b>，貼<b>整條網址</b>，不是標題。</p><p class="mt-1">要是<b>查核機構自己</b>的網站（tfc-taiwan、mygopen），轉載的不算。</p>',
-    _checks('是查核機構自己的網站', '整條網址（https:// 開頭），不是標題', '點一下真的開得起來', '沒有網址？回第 1 步找回'),
+_LINK = '<span class="text-indigo-700 underline break-all">https://www.mygopen.com/2026/02/ai-fraud.html</span>'
+_BLK_TITLE = _tone_block('sky', '標題', '換掉「我的查證文件」',
+    '<p class="text-slate-500">我的查證文件</p><p class="text-2xl">↓</p><p class="font-extrabold">幫陌生人操作手機，會被盜走指紋嗎？</p>',
+    '<p>看標題就知道你查哪一則。</p>',
+    _checks('不是「我的查證文件」', '已設成「標題 1」'))
+_BLK_URL = _tone_block('indigo', '① 查核網址', '標題下面，整條網址',
+    '<p>' + _LINK + '</p>',
+    '<p>讓人點進去驗證。貼<b>整條網址</b>，不是標題。</p>',
+    _checks('查核機構自己的網站', 'https:// 開頭、藍色有底線', '點得開', '沒有網址？回第 1 步找回'),
     _clips([
-        L5S.slide('到查核文章，點一下<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列'),
-        L5S.slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址2_貼上網址')], True, '🎬 複製網址、貼上：看動圖'))
-_BLK_MSG = _tone_block('amber', '② 我選的訊息', '人事時地物＋傳播，用自己的話',
-    '<p>網傳訊息說：苗栗一位<b>健身教練</b>（人）<b>打雷時在戶外慢跑</b>（事、時、地），疑似戴著<b>藍芽耳機</b>（物）被雷擊身亡，所以呼籲大家打雷時絕對不要用手機接電話或上網。這則訊息在 <b>LINE 和臉書</b>流傳，還附了新聞影片（傳播）。</p>',
-    '<p>讀的人沒看過原始訊息，要能<b>只看你這段</b>就知道訊息在說什麼、怎麼傳開的。</p><p class="mt-1">缺的就寫「沒說」，不要亂猜。</p>',
-    '<div class="grid grid-cols-2 gap-1 text-base"><p>👤 <b>人</b>：誰說的？說誰會怎樣？</p><p>📌 <b>事</b>：發生什麼？要大家做什麼？</p><p>🕒 <b>時</b>：什麼時候？</p><p>📍 <b>地</b>：在哪裡？</p><p>🎒 <b>物</b>：提到什麼東西？</p><p>📣 <b>傳播</b>：在哪看到、怎麼傳？</p></div>'
-    + _checks('是自己的話，不是整段貼', '六個都想過了', '下面貼了原始訊息的圖'),
+        L5S.slide('到查核文章，點<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列'),
+        L5S.slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址2_貼上網址'),
+        L5S.slide('圈選網址，點<b>鎖鏈符號</b>，按「套用」', '步_網址3_加超連結')], True, '複製網址、貼上、加超連結：看動圖'))
+_BLK_MSG = _tone_block('amber', '② 我選的訊息', '人事時地物＋傳播',
+    '<p>網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。這則訊息在臉書流傳。</p>',
+    '<p>沒看過的人，只看這段就懂。缺的寫「沒說」。</p>',
+    '<p class="text-base">人：誰　事：做什麼　時：何時　地：哪裡　物：什麼東西　傳播：在哪傳</p>' + _checks('是自己的話', '貼了原始訊息的圖'),
     _clips([
-        L5S.slide('找到<b>原始訊息的圖</b>', '步_圖1_找圖'),
-        L5S.slide('在圖上按右鍵，<b>複製圖片</b>', '步_圖2_複製圖片'),
-        L5S.slide('回文件，<b>貼在句子下面</b>', '步_圖3_貼上')]))
-_BLK_HOW = _tone_block('teal', '③ 我怎麼找到查核文章的', '照順序寫 4 件事',
-    '<p>我圈出「打雷」「藍芽耳機」「雷擊」，在 Google 搜「打雷 藍芽耳機 雷擊 查核」，第一個就是台灣事實查核中心的文章。tfc-taiwan.org.tw 是專門查謠言的機構，不是轉載，所以我點進去。</p>',
-    '<p>讓別人<b>照你的步驟也找得到</b>，也說明你點的是<b>查核機構</b>，不是轉載或 AI 摘要。</p>',
-    '<ol class="list-decimal pl-5"><li>圈了哪些<b>關鍵詞</b>（2～3 個）</li><li>Google 搜了<b>什麼字</b>（有加「查核」）</li><li>點進<b>哪個網站</b></li><li><b>為什麼</b>它是查核機構</li></ol>' + _checks('四件事都寫了'))
-_BLK_RES = _tone_block('rose', '④ 查核結果', '哪一家、標了什麼、重點一句',
-    '<p>台灣事實查核中心查核後，標為「<b>事實釐清</b>」：重點是<b>空曠處才是關鍵</b>，不是手機或藍芽耳機本身。</p>',
-    '<p>只寫「是假的」不夠。要寫<b>哪一家</b>＋<b>標了什麼</b>＋<b>一句重點</b>（看「你可以先知道」）。</p>',
-    '<p class="text-base">標籤有這些：</p>' + _chips(_LABELS, 'bg-amber-100 border-2 border-amber-300 text-amber-900') + _checks('寫了機構名', '標籤照查核文章寫', '加了一句重點', '⭐ 加分：另一家機構也一樣嗎？'))
+        L5S.slide('找到<b>原始訊息的圖</b>，右鍵<b>複製圖片</b>', '步_圖A_找圖複製'),
+        L5S.slide('回文件，<b>貼在句子下面</b>', '步_圖3_貼上')], False, '找圖、複製、貼到文件：看動圖'))
+_BLK_HOW = _tone_block('teal', '③ 我怎麼找到查核文章的', '照順序寫',
+    '<p>我圈出「陌生人」「操作手機」「生物特徵」，搜「陌生人 操作手機 生物特徵 查核」，點進 mygopen.com，它是專門查謠言的機構，不是轉載。</p>',
+    '<p>別人照著做也找得到。</p>',
+    '<p class="text-base">關鍵詞、搜什麼字、點哪個網站、為什麼是查核機構</p>' + _checks('四件事都寫了'))
+_BLK_RES = _tone_block('rose', '④ 查核結果', '哪一家、標什麼、一句重點',
+    '<p>MyGoPen 查核後標為「誤導」，重點是這個說法在技術和金融上都不合理。</p>',
+    '<p>不能只寫「是假的」。</p>',
+    _chips(_LABELS, 'bg-amber-100 border-2 border-amber-300 text-amber-900') + _checks('寫了機構名', '標籤照文章寫', '有一句重點'))
 
-STEP_L06_4 = '''
+STEP_L06_4 = """
   <!-- ===== 步驟 4：檢查前四欄（含標題）===== -->
   <section class="step hidden" data-step="4">
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">🔎 檢查自己寫的：標題＋前四欄</h2>
-      <p class="text-lg text-slate-600 mt-1">每一欄都有<b>範例、為什麼這樣寫、檢查方法</b>。範例用「打雷戴藍芽耳機」，你的內容要換成<b>你自己選的那一則</b>。慢慢來，一欄一欄對。</p>
+      <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">檢查自己寫的：標題＋前四欄</h2>
+      <p class="text-lg text-slate-600 mt-1">對照範例，換成<b>你自己選的那一則</b>。</p>
     </div>
     @@BLOCKS@@
     <div class="stepnav"></div>
   </section>
-'''.replace('@@BLOCKS@@', _BLK_TITLE + _BLK_URL + _BLK_MSG + _BLK_HOW + _BLK_RES)
+""".replace('@@BLOCKS@@', _BLK_TITLE + _BLK_URL + _BLK_MSG + _BLK_HOW + _BLK_RES)
 
 _BLK_WHY = _tone_block('violet', '⑤ 為什麼這則訊息會被廣傳？', '至少一類，要有理由',
-    '<p>因為<b>真的有人遭雷擊、新聞也報過</b>，很多人覺得可信（<b>親友傳來</b>）；又和人人都有的手機有關，家人看了會<b>怕</b>，覺得轉傳是<b>關心家人</b>。</p>',
-    '<p>說得出<b>人們為什麼轉傳</b>，下次看到才知道先停一下。只寫「因為很多人信」不夠，要說<b>哪裡讓人這樣想</b>。</p>',
-    '<p class="text-base">五類原因：</p>' + _chips(['😨 怕', '🤩 好奇／驚奇', '👨‍👩‍👧 關心家人', '🎁 好康', '🤝 親友傳來']) + _checks('選了至少一類', '寫了「哪裡讓人這樣想」'))
-_BLK_FACT = _tone_block('emerald', '⑥ 正確資訊', '1～3 點，每點一句、自己的話、標機構',
-    '<ol class="list-decimal pl-5 space-y-1"><li><b>根據台灣事實查核中心</b>，遭雷擊的關鍵是人在<b>空曠處</b>，不是手機或藍芽耳機。</li><li>所以打雷時，要先<b>離開空曠的地方</b>。</li><li><b>不過</b>，也不是「不碰手機就安全」，留在空曠處才是重點。</li></ol>',
-    '<p>讀的人要知道<b>事實是什麼</b>。用自己的話、標出<b>是誰說的</b>，才不是把別人的文章搬過來。</p><p class="mt-1">先講最重要的結論，最後講「還要小心什麼」。</p>',
-    '<p class="text-base">句型：<b>根據○○，……</b>／<b>○○說，……</b>／<b>不過，……</b></p>' + _checks('1～3 點，每點一句', '每點標了機構', '沒有整段複製', '最重要的結論放第一點'))
-_BLK_RISK = _tone_block('rose', '⑦ 如果相信的話，會有什麼後果？', '寫「誰」會「怎樣」',
-    '<p>有人會<b>嚇得連手機都不敢用</b>；也有人以為<b>只要不碰手機就安全</b>，反而留在空曠處慢跑或逗留，<b>更危險</b>。</p>',
-    '<p>後果要寫<b>誰會怎樣</b>。「是假的」是查核結果，不是後果；「會被騙」沒說誰、怎麼被騙。</p>',
-    '<p class="text-base">四類後果：</p>' + _chips(['🩺 身體', '💰 錢', '🤝 人際', '😱 恐慌']) + _checks('寫了「誰」', '寫了「會怎樣」', '是具體的事，不是「不好」'))
+    '<p>訊息說「30 分鐘傾家蕩產」，讓人<b>怕</b>；又說「轉傳給家人朋友」，大家覺得轉傳是<b>關心家人</b>。</p>',
+    '<p>說出哪裡讓人想轉傳。</p>',
+    _chips(['怕', '好奇', '關心家人', '好康', '親友傳來']) + _checks('選一類', '寫了理由'))
+_BLK_FACT = _tone_block('emerald', '⑥ 正確資訊', '1～3 點，標機構',
+    '<ol class="list-decimal pl-5 space-y-1"><li><b>根據 MyGoPen</b>，只有指紋或臉，不能直接拿去貸款，銀行還要看很多檢查。</li><li><b>警方和 165 說</b>，台灣查不到這種案件。</li><li><b>不過</b>，陌生人要你做驗證時，還是要小心。</li></ol>',
+    '<p>讓人知道事實，並標出是誰說的。</p>',
+    '<p class="text-base">句型：根據○○，……／○○說，……／不過，……</p>' + _checks('每點一句', '標了機構', '不整段複製'))
+_BLK_RISK = _tone_block('rose', '⑦ 如果相信的話，會有什麼後果？', '誰會怎樣',
+    '<p>有人怕到不敢幫真的需要幫忙的人；也有人把嚇人的訊息再轉給更多人。</p>',
+    '<p>要寫誰會怎樣，不是「是假的」。</p>',
+    _chips(['身體', '錢', '人際', '恐慌']) + _checks('寫了誰', '寫了怎樣'))
 
-STEP_L06_7 = '''
+STEP_L06_7 = """
   <!-- ===== 步驟 7：檢查後三欄 ===== -->
   <section class="step hidden" data-step="7">
     <div class="bg-white border-4 border-teal-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-teal-700 m-0">🔎 檢查自己寫的：後 3 欄</h2>
-      <p class="text-lg text-slate-600 mt-1">一樣用「打雷戴藍芽耳機」當範例。時間不夠時，照這個順序寫：<b>正確資訊 → 為什麼廣傳 → 後果</b>。</p>
+      <h2 class="cute text-3xl font-extrabold text-teal-700 m-0">檢查自己寫的：後 3 欄</h2>
+      <p class="text-lg text-slate-600 mt-1">時間不夠，先寫：正確資訊、廣傳、後果。</p>
     </div>
     @@BLOCKS@@
     <div class="stepnav"></div>
   </section>
-'''.replace('@@BLOCKS@@', _BLK_WHY + _BLK_FACT + _BLK_RISK)
+""".replace('@@BLOCKS@@', _BLK_WHY + _BLK_FACT + _BLK_RISK)
 
 L06_BODY = ('\n' + STEP_L06_1 + '\n' + STEP_L06_2 + '\n' + L5S.step_prep(3, '上一節做過的，直接按「下一步」跳過；還沒做的，一步一步補。').replace('<!-- ===== 準備文件（步驟卡）===== -->', '<!-- ===== 步驟 3：準備文件 ===== -->')
             + '\n' + STEP_L06_4 + '\n' + OLD_S23 + '\n' + STEP_L06_7 + '\n' + OLD_S8 + '\n')
@@ -623,7 +622,21 @@ L06_SPEC = {
     'scoring': {'base': 100, 'floor': 80, 'deduction': 1, 'itemPoints': {}},
 }
 
+_EMOJI = re.compile('[\U0001F000-\U0001FAFF\u2600-\u26FF\u2700-\u27BF\u2B00-\u2BFF\uFE0F\u200D]')
+_KEEP = '✓✔☐☑★☆✏'.replace('✏', '')
+
+
+def strip_emoji(html):
+    out = []
+    for ch in html:
+        if _EMOJI.match(ch) and ch not in _KEEP:
+            continue
+        out.append(ch)
+    return ''.join(out)
+
+
 def write(name, folder, html):
+    html = strip_emoji(html)
     p = os.path.join(ROOT, folder, name)
     io.open(p, 'w', encoding='utf8', newline='\n').write(html)
     print('wrote', p, len(html) // 1024, 'KB')

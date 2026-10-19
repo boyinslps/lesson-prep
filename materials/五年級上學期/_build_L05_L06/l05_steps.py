@@ -39,10 +39,10 @@ def nextcol(label='✔ 這欄寫好了，下一欄 →', to=None):
 
 
 # ---------- 第 1 步下半：四欄示範（原本第 2 步的示範合併進來）----------
-DEMO_LINK = '<span class="break-all">https://www.mygopen.com/2026/02/ai-fraud.html</span>'
+DEMO_LINK = '<span class="text-indigo-700 underline break-all">https://www.mygopen.com/2026/02/ai-fraud.html</span>'
 DEMO_SC = sc([
     slide('示範　<b>① 查核網址</b>', None,
-          '<p class="text-lg text-slate-500">貼上查核文章的<b>網址</b>（整條，https:// 開頭）：</p><p class="text-xl bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mt-1">' + DEMO_LINK + '</p>'
+          '<p class="text-lg text-slate-500">貼上查核文章的<b>網址</b>（整條，藍色有底線＝連結）：</p><p class="text-xl bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mt-1">' + DEMO_LINK + '</p>'
           '<p class="text-lg mt-2">要是<b>查核機構自己</b>的網站（tfc-taiwan、mygopen），不是轉載。</p>'),
     slide('示範　<b>② 我選的訊息</b>', None,
           '<div class="grid md:grid-cols-2 gap-4 items-start"><div><img class="shotimg" src="assets/M2_B示範_陌生人手機_網傳訊息.png" alt="示範訊息：兩則臉書貼文，標題寫「人工智能生物信息詐騙，要的不是你的錢而是你這個人」，帳號已遮蔽" loading="lazy"><p class="text-[11px] text-slate-400 mt-1">原始訊息的圖・點圖可放大</p></div>'
@@ -167,13 +167,14 @@ STEP_RECALL = '''
 # ---------- 第 6 步：寫文件，一個欄位一個環節（順序＝文件裡由上往下）----------
 # ① 查核網址（標題下面，要先貼）
 COL1 = sc([
-    slide('到查核文章，點一下<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列',
-          '<p class="text-xl mt-3 bg-rose-50 border-2 border-rose-200 rounded-2xl p-3">✏️ 要是<b>查核機構自己</b>的網站（tfc-taiwan、mygopen…），不是轉載。</p>'),
+    slide('到查核文章，點<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列',
+          '<p class="text-xl mt-3 bg-rose-50 border-2 border-rose-200 rounded-2xl p-3">要是<b>查核機構自己</b>的網站（tfc-taiwan、mygopen），不是轉載。</p>'),
     slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址2_貼上網址',
-          '<p class="text-2xl font-bold mt-2">' + kbd('Ctrl', 'V') + '　<span class="text-lg font-bold text-slate-500">貼上的是整條網址，不是標題</span></p>'),
+          '<p class="text-2xl font-bold mt-2">' + kbd('Ctrl', 'V') + '</p>'),
+    slide('圈選網址，點<b>鎖鏈符號</b>，按「套用」', '步_網址3_加超連結',
+          '<p class="text-lg text-slate-500 mt-2">網址變藍色、有底線，點得開，就成功了。</p>'),
 ])
-COL1_HELP = (help_box('⭐ 看範例', '<p class="bg-white border-2 border-amber-200 rounded-xl px-3 py-2 break-all">https://www.mygopen.com/2026/02/ai-fraud.html</p>'
-                      '<p class="text-base text-slate-500 mt-2">https:// 開頭的整條網址。貼上後，Google 文件會自動變成可以點的藍色連結。</p>', 'amber')
+COL1_HELP = (help_box('看範例（老師的示範）', '<p class="bg-white border-2 border-amber-200 rounded-xl px-3 py-2">' + DEMO_LINK + '</p>', 'amber')
              + RESCUE)
 
 # ② 我選的訊息
@@ -186,19 +187,18 @@ CHIPS5 = ('<div class="grid grid-cols-5 gap-2 mt-3 text-center text-base">'
           '<p class="text-base text-slate-500 mt-2">沒寫的，就寫「沒說」。</p>')
 COL2 = sc([
     slide('先寫一兩句：這則訊息<b>在講什麼</b>', None, CHIPS5),
-    slide('找到<b>原始訊息的圖</b>', '步_圖1_找圖', '<p class="text-base text-slate-500 mt-2">選的是影片？按 <kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd> 截一張畫面。</p>'),
-    slide('在圖上按右鍵，<b>複製圖片</b>', '步_圖2_複製圖片'),
-    slide('回文件，<b>貼在句子下面</b>', '步_圖3_貼上'),
+    slide('找到<b>原始訊息的圖</b>，右鍵<b>複製圖片</b>', '步_圖A_找圖複製', '<p class="text-base text-slate-500 mt-2">選的是影片？按 <kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd> 截一張畫面。</p>'),
+    slide('回文件，<b>貼在句子下面</b>', '步_圖3_貼上', '<p class="text-2xl font-bold mt-2">' + kbd('Ctrl', 'V') + '</p>'),
 ])
 COL2_HELP = (help_box('🧩 給我句型', '<p>網傳訊息說：<b>＿＿</b>（人）在<b>＿＿</b>（地），<b>＿＿</b>（事）……</p>')
              + help_box('⭐ 看範例', ex('路上（地）有陌生人（人）請你幫忙操作手機（事、物），30 分鐘（時）就傾家蕩產。'), 'amber'))
 
 # ③ 我怎麼找到查核文章的
 COL3_STRIP = ('<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">'
-              '<div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3"><div class="text-3xl">🔤</div><b>圈了哪些<br>關鍵詞？</b></div>'
-              '<div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3"><div class="text-3xl">🔎</div><b>Google<br>搜了什麼？</b></div>'
-              '<div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3"><div class="text-3xl">🌐</div><b>點進<br>哪個網站？</b></div>'
-              '<div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3"><div class="text-3xl">✅</div><b>為什麼是<br>查核機構？</b></div></div>')
+              '<div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3"><div class="text-3xl font-extrabold text-teal-600">1</div><b>圈了哪些<br>關鍵詞？</b></div>'
+              '<div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3"><div class="text-3xl font-extrabold text-teal-600">2</div><b>Google<br>搜了什麼？</b></div>'
+              '<div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3"><div class="text-3xl font-extrabold text-teal-600">3</div><b>點進<br>哪個網站？</b></div>'
+              '<div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3"><div class="text-3xl font-extrabold text-teal-600">4</div><b>為什麼是<br>查核機構？</b></div></div>')
 BUILD3 = '''
 <div class="grid sm:grid-cols-3 gap-3">
   <label class="block font-bold">我怎麼找的？

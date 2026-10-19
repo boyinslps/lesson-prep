@@ -30,7 +30,7 @@ a.lnk{color:#1155cc;text-decoration:underline}
 <span class="tag">示意畫面</span>
 <div class="top"><div class="logo"></div><div class="title">41230 王小明 查證文件</div><div class="share">共用</div></div>
 <div class="menu"><span>檔案</span><span>編輯</span><span>查看</span><span>插入</span><span>格式</span><span>工具</span><span>擴充功能</span><span>說明</span></div>
-<div class="bar"><b>↶ ↷ 🖨</b><b>100%</b><b id="stylebtn">內文 ▾</b><b>Arial</b><span>－ 11 ＋</span><span><u>B</u></span><span><i>I</i></span><span>U</span></div>
+<div class="bar"><b>↶ ↷ 🖨</b><b>100%</b><b id="stylebtn">內文 ▾</b><b>Arial</b><span>－ 11 ＋</span><span><u>B</u></span><span><i>I</i></span><span>U</span><span id="linkbtn" style="font-size:20px">🔗</span></div>
 <div class="page" id="page"></div>
 <div id="dd" class="menu-dd" style="display:none">
  <div id="dd0">內文</div><div class="t0" style="font-size:26px">標題</div><div style="font-size:19px;color:#5f6368">副標題</div><div id="dd1" class="h1">標題 1</div><div id="dd2" class="h2">標題 2</div><div class="h3">標題 3</div>
@@ -70,6 +70,9 @@ var h={
  v3d:el('l1','h-title',T1)+el('l2','h-sub',T2)+pic(380,false)+el('cap','','圖：網傳訊息（來源：臉書）'),
  u0:el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+'<p id="cur">&nbsp;</p>'+el('l5','h-sub','我選的訊息'),
  u1:el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+el('src','',SRC2)+el('l5','h-sub','我選的訊息'),
+ u2:el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+el('src','','<span id="selt" class="sel">'+SRC2+'</span>')+el('l5','h-sub','我選的訊息'),
+ u3:el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+el('src','','<span id="selt" class="sel">'+SRC2+'</span>')+el('l5','h-sub','我選的訊息'),
+ u4:el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+el('src','','<a class="lnk" id="lnk">'+SRC2+'</a>')+el('l5','h-sub','我選的訊息'),
  v4a:el('l1','h-sub','來源清單')+el('src','',SRC),
  v4b:el('l1','h-sub','來源清單')+el('src','','<span id="selt" class="sel">'+SRC+'</span>'),
  v4c:el('l1','h-sub','來源清單')+el('src','','<span id="selt" class="sel">'+SRC+'</span>'),
@@ -81,6 +84,7 @@ var lbl={v2d:'標題',v2e:'內文',v2f:'內文',v2g:'副標題'}; if(lbl[s])btn.
 if(s==='v2c'||s==='v2f'||s==='p3'||s==='p6'){dd.style.display='block';document.getElementById((s==='v2c'||s==='p3')?'dd1':'dd2').className+=' hl';}
 var lbl2={p4:'標題 1',p5:'內文',p6:'內文',p7:'標題 2',p8:'標題 2'};if(lbl2[s])btn.innerHTML=lbl2[s]+' ▾';
 if(s==='v4c'){P.insertAdjacentHTML('beforeend','<div class="dlg" id="dlg"><div>連結</div><div class="in" id="urlin">https://www.mygopen.com/2026/02/ai-fraud.html</div><span class="btn" id="apply">套用</span></div>');}
+if(s==='u3'){P.insertAdjacentHTML('beforeend','<div class="dlg" id="dlg"><div>連結</div><div class="in" id="urlin">https://www.mygopen.com/2026/02/ai-fraud.html</div><span class="btn" id="apply">套用</span></div>');}
 function R(id){var e=document.getElementById(id);if(!e)return null;var b=e.getBoundingClientRect();return {x:Math.round(b.left),y:Math.round(b.top),w:Math.round(b.width),h:Math.round(b.height)}}
 window.RECTS=JSON.stringify({l1:R('l1'),l2:R('l2'),l3:R('l3'),l4:R('l4'),l5:R('l5'),l6:R('l6'),l7:R('l7'),l8:R('l8'),stylebtn:R('stylebtn'),dd1:R('dd1'),dd2:R('dd2'),pic:R('pic'),cap:R('cap'),src:R('src'),selt:R('selt'),lnk:R('lnk'),dt:R('dt'),urlin:R('urlin'),apply:R('apply'),cur:R('cur')});
 </script></body></html>
