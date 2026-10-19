@@ -35,7 +35,7 @@ def targets(args):
 
 
 def eligible(text):
-    return "data-sc" in text and "class=\"sc\"" in text
+    return "data-sc" in text and "class=\"sc" in text
 
 
 def main():

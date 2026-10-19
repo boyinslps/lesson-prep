@@ -8,7 +8,7 @@
          …其他想放的 HTML…
        </div> …
      </div>
-   導覽列（上一小步／下一小步／點點）由這支程式自己補。
+   導覽列（上一小步／下一小步／點點）由這支程式自己補；class 加 sc-flat 則全部攤開、沒有導覽列（目前的標準做法）。
    影片＝靜音、循環、自動播放的短片（等同 GIF，但檔案小十倍）；點一下可暫停。
    由 引導規範/stepcards/inject.py 用 STEPCARDS-START/END 兩個 HTML 註解標記包起來，內嵌進學習單。
    ============================================================ */
@@ -40,6 +40,7 @@
 
   function init(sc) {
     if (sc.__scReady) return; sc.__scReady = true;
+    if (sc.classList.contains('sc-flat')) return;   // 平鋪：不做導覽列
     var slides = [].slice.call(sc.querySelectorAll(':scope > .sc-slide')), cur = 0, seen = {};
     var nav = document.createElement('div'); nav.className = 'sc-nav';
     nav.innerHTML = '<button type="button" class="sc-prev">← 上一小步</button><div class="sc-dots"></div><button type="button" class="sc-next">下一小步 →</button>';
