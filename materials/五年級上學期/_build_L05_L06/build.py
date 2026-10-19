@@ -442,9 +442,9 @@ def _chips(items, cls='bg-white border-2 border-slate-300 text-slate-700'):
     return '<div class="flex flex-wrap gap-1.5 mt-2">' + ''.join('<span class="%s rounded-full px-3 py-0.5 text-base font-bold">%s</span>' % (cls, t) for t in items) + '</div>'
 
 
-def _clips(slides):
-    return ('<details class="mt-3 bg-white border-2 border-slate-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-slate-700 text-lg">🎬 不會做？看動圖</summary>'
-            '<div class="mt-2">' + L5S.sc(slides) + '</div></details>')
+def _clips(slides, opened=False, label="🎬 不會做？看動圖"):
+    return ('<details%s class="mt-3 bg-white border-2 border-slate-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-slate-700 text-lg">%s</summary>'
+            '<div class="mt-2">' + L5S.sc(slides) + '</div></details>') % (' open' if opened else '', label)
 
 
 _LABELS = ['錯誤', '誤導', '易誤解', '事實釐清', '詐騙', '部分錯誤', '正確']
@@ -497,7 +497,7 @@ _BLK_URL = _tone_block('indigo', '① 查核網址', '放在標題下面、先�
     _clips([
         L5S.slide('點一下<b>網址列</b>，複製網址', '步_網址1_複製網址列'),
         L5S.slide('回文件，<b>選取標題</b>', '步_網址2_選取標題'),
-        L5S.slide('<b>Ctrl＋K</b>，貼上網址，按「套用」', '步_網址3_插入連結')]))
+        L5S.slide('<b>Ctrl＋K</b>，貼上網址，按「套用」', '步_網址3_插入連結')], True, '🎬 複製網址、做成連結：看動圖'))
 _BLK_MSG = _tone_block('amber', '② 我選的訊息', '人事時地物＋傳播，用自己的話',
     '<p>網傳訊息說：苗栗一位<b>健身教練</b>（人）<b>打雷時在戶外慢跑</b>（事、時、地），疑似戴著<b>藍芽耳機</b>（物）被雷擊身亡，所以呼籲大家打雷時絕對不要用手機接電話或上網。這則訊息在 <b>LINE 和臉書</b>流傳，還附了新聞影片（傳播）。</p>',
     '<p>讀的人沒看過原始訊息，要能<b>只看你這段</b>就知道訊息在說什麼、怎麼傳開的。</p><p class="mt-1">缺的就寫「沒說」，不要亂猜。</p>',
