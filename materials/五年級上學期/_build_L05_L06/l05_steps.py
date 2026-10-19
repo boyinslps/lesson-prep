@@ -63,6 +63,8 @@ def rescue():
         '<details class="urlfix mt-4 bg-violet-50 border-2 border-violet-300 rounded-2xl p-3">'
         '<summary class="cursor-pointer font-extrabold text-violet-800 text-xl">🔍 沒有網址？找回上次的網址</summary>'
         '<div class="mt-3 text-lg text-slate-700 space-y-3">'
+        '<div class="bg-white border-2 border-violet-200 rounded-xl p-3"><button type="button" data-loadwork class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold rounded-xl px-4 py-2">📂 用我的班級座號，拿回上次的網址</button>'
+        '<p class="text-base text-slate-500 mt-1">先在最上面填好年級、班級、座號。</p><p data-ufmsg class="text-base font-bold mt-1 min-h-[22px]"></p></div>'
         '<div data-ufpick class="hidden"><label class="block font-bold">上次你選的是哪一則？'
         '<select class="urlfixSel mt-1 w-full border-2 border-slate-300 rounded-xl px-3 py-2 text-lg"><option value="">請選</option>' + opts + '</select></label></div>'
         '<div data-ufbox class="hidden bg-white border-2 border-violet-200 rounded-xl p-3">'
@@ -80,12 +82,12 @@ def rescue():
 RESCUE = rescue()
 
 # ---------- 第 4 步：準備文件（開文件、複製貼上欄位、設標題）----------
-STEP_PREP = """
-  <!-- ===== 步驟 4：準備文件（步驟卡）===== -->
+_PREP_T = """
+  <!-- ===== 準備文件（步驟卡）===== -->
   <section class="step hidden" data-step="%(N)d">
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">📄 準備好你的 Google 文件</h2>
-      <p class="text-lg text-slate-600 mt-1">一小步一小步來。上週<b>已經做完</b>的，直接按「下一步」跳過。</p>
+      <p class="text-lg text-slate-600 mt-1">一小步一小步來。%(LEAD)s</p>
     </div>
     %(SC)s
     <div class="stepnav"></div>
@@ -112,7 +114,11 @@ SC_PREP = sc([
     slide('<b>欄位名稱</b>，都設成<b>標題 2</b>', '步_文件4_設標題2',
           '<p class="text-lg text-slate-500 mt-2">選取一行 → 「內文」→ 標題 2。快速鍵 <kbd>Ctrl</kbd>＋<kbd>Alt</kbd>＋<kbd>2</kbd>。</p>'),
 ])
-STEP_PREP = STEP_PREP % {'N': S_PREP, 'SC': SC_PREP}
+def step_prep(n, lead='上週<b>已經做完</b>的，直接按「下一步」跳過。'):
+    return _PREP_T % {'N': n, 'SC': SC_PREP, 'LEAD': lead}
+
+
+STEP_PREP = step_prep(S_PREP)
 
 # ---------- 第 5 步：回想＋我的文件做到哪 ----------
 RV = [
@@ -342,15 +348,34 @@ HOOKS = r'''
       var e=$(k);if(!e)return;e.value=state[k]||(k==='b2how'?'字':'');
       e.addEventListener('input',function(){state[k]=e.value;save();renderSent();});
     });
-    document.querySelectorAll('.urlfixSel').forEach(function(e){e.addEventListener('change',function(){if(e.value){state.sel=e.value;save();if(H.render)H.render();renderStepper();}});});
-    document.querySelectorAll('.urlKeep').forEach(function(e){e.addEventListener('input',function(){state.url=e.value;save();renderRescue();});});
+    bindRescue();
     var jb=$('resumeBtn');
     if(jb){jb.onclick=function(){showStep(S_RECALL);};if(state.sel)$('resumeBox').classList.remove('hidden');}
   }
-  // ===== 找回上次的網址：優先用自己記下的，沒有就用上次選的那一則的查核文章 =====
+  function renderL5b(){initL5b();renderCols();renderSent();renderRescue();}
+  document.addEventListener('click',function(ev){
+    var t=ev.target.closest&&ev.target.closest('[data-rv],[data-prog],[data-colbtn],[data-coldone],[data-goto],[data-copy]');
+    if(!t)return;
+    if(t.hasAttribute('data-rv')){t.classList.toggle('open');return;}
+    if(t.hasAttribute('data-prog')){state.prog=t.dataset.prog;if(t.dataset.prog==='C')state.col=5;else if(!state.col||state.col===5)state.col=1;save();renderCols();renderStepper();return;}
+    if(t.hasAttribute('data-colbtn')){state.col=Number(t.dataset.colbtn);save();renderCols();window.scrollTo({top:0,behavior:'smooth'});return;}
+    if(t.hasAttribute('data-coldone')){var n=state.col||1;state.colDone[n]=true;state.col=n+1;save();renderCols();renderStepper();window.scrollTo({top:0,behavior:'smooth'});return;}
+    if(t.hasAttribute('data-goto')){var g=Number(t.dataset.goto);if(g===S_WRITE&&state.prog==='C')state.col=5;else if(g===S_WRITE&&(!state.col||state.col===5)&&colCount()<4)state.col=1;save();renderCols();showStep(g);return;}
+    if(t.hasAttribute('data-copy')){var s=$(t.dataset.copy);if(s)copyText(s.textContent,t);return;}
+  });
+'''.replace('__PREP__', str(S_PREP)).replace('__RECALL__', str(S_RECALL)).replace('__WRITE__', str(S_WRITE)).replace('__SUBMIT__', str(S_SUBMIT))
+
+RESCUE_JS = r'''
+  // ===== 找回上次的查核網址（L05、L06 共用）=====
+  // 順序：①自己記下的網址 ②上次繳交時存進「學生暫存區 studentWork」的（輸入年級班級座號拿回）③上次選的那一則訊息對應的查核文章
+  var WORKWS='g5-L05',WORKKIND='factcheck';
+  function workId(idn){return WORKWS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId+'__'+WORKKIND;}
   function rescueUrl(){
     if(filled(state.url))return String(state.url).trim();
     return state.sel&&CARDS[state.sel]?CARDS[state.sel].url:'';
+  }
+  function ufMsg(t,kind){
+    document.querySelectorAll('[data-ufmsg]').forEach(function(p){p.textContent=t;p.className='text-base font-bold mt-1 min-h-[22px] '+(kind==='ok'?'text-emerald-700':kind==='warn'?'text-amber-600':'text-violet-700');});
   }
   function renderRescue(){
     var u=rescueUrl(),own=filled(state.url);
@@ -358,7 +383,7 @@ HOOKS = r'''
       box.querySelector('[data-ufpick]').classList.toggle('hidden',!!state.sel||own);
       var b=box.querySelector('[data-ufbox]');b.classList.toggle('hidden',!u);
       if(u){
-        box.querySelector('[data-ufname]').textContent=own?'你上次記下的網址':'你上次選的是：'+CARDS[state.sel].name;
+        box.querySelector('[data-ufname]').textContent=own?'你記下的網址':'你上次選的是：'+CARDS[state.sel].name;
         box.querySelector('[data-ufurl]').textContent=u;
         box.querySelector('[data-ufopen]').href=u;
       }
@@ -366,16 +391,43 @@ HOOKS = r'''
     });
     document.querySelectorAll('.urlKeep').forEach(function(k){if(document.activeElement!==k)k.value=state.url||'';});
   }
-  function renderL5b(){initL5b();renderCols();renderSent();renderRescue();}
+  function loadWork(){
+    var idn=getIdentity();
+    if(!identityValid(idn)){ufMsg('先在最上面填好年級、班級、座號。','warn');return;}
+    if(!db||!auth){ufMsg('現在拿不到，用下面的方法找。','warn');return;}
+    ufMsg('找找看…');
+    authResolved.then(function(){return ensureAuth();})
+      .then(function(){return db.collection('studentWork').doc(workId(idn)).get();})
+      .then(function(doc){
+        if(!doc.exists){ufMsg('還沒找到你上次存的網址。用下面的方法找。','warn');return;}
+        var d=(doc.data()||{}).data||{};
+        if(d.sel&&CARDS[d.sel])state.sel=d.sel;
+        if(d.own&&d.url)state.url=d.url;
+        save();if(H.render)H.render();renderStepper();
+        ufMsg('✓ 找到了！下面是你上次的查核文章網址，可以開啟、複製。','ok');
+      })
+      .catch(function(e){console.warn('讀取暫存失敗',e);ufMsg('現在拿不到，用下面的方法找。','warn');});
+  }
+  // L05 繳交成功後，把選的訊息與網址存進暫存區，之後（L06）填班級座號就能拿回
+  function saveWork(idn){
+    if(!db||!(state.sel||filled(state.url)))return;
+    var u=rescueUrl();
+    db.collection('studentWork').doc(workId(idn)).set({
+      worksheetId:WORKWS,kind:WORKKIND,grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      data:{sel:state.sel||'',url:filled(state.url)?String(state.url).trim():'',own:filled(state.url)},
+      text:String(u||'').slice(0,1900),updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})
+      .catch(function(e){console.warn('暫存失敗',e);});
+  }
+  if(C.ws===WORKWS)H.afterSubmit=saveWork;
+  var rescueBound=false;
+  function bindRescue(){
+    if(rescueBound)return;rescueBound=true;
+    document.querySelectorAll('.urlfixSel').forEach(function(e){e.addEventListener('change',function(){if(e.value){state.sel=e.value;save();if(H.render)H.render();renderStepper();}});});
+    document.querySelectorAll('.urlKeep').forEach(function(e){e.addEventListener('input',function(){state.url=e.value;save();renderRescue();});});
+  }
   document.addEventListener('click',function(ev){
-    var t=ev.target.closest&&ev.target.closest('[data-rv],[data-prog],[data-colbtn],[data-coldone],[data-goto],[data-copy],[data-copyurl]');
-    if(!t)return;
-    if(t.hasAttribute('data-rv')){t.classList.toggle('open');return;}
-    if(t.hasAttribute('data-prog')){state.prog=t.dataset.prog;if(t.dataset.prog==='C')state.col=5;else if(!state.col||state.col===5)state.col=1;save();renderCols();renderStepper();return;}
-    if(t.hasAttribute('data-colbtn')){state.col=Number(t.dataset.colbtn);save();renderCols();window.scrollTo({top:0,behavior:'smooth'});return;}
-    if(t.hasAttribute('data-coldone')){var n=state.col||1;state.colDone[n]=true;state.col=n+1;save();renderCols();renderStepper();window.scrollTo({top:0,behavior:'smooth'});return;}
-    if(t.hasAttribute('data-goto')){var g=Number(t.dataset.goto);if(g===S_WRITE&&state.prog==='C')state.col=5;else if(g===S_WRITE&&(!state.col||state.col===5)&&colCount()<4)state.col=1;save();renderCols();showStep(g);return;}
-    if(t.hasAttribute('data-copyurl')){var u=rescueUrl();if(u)copyText(u,t);return;}
-    if(t.hasAttribute('data-copy')){var s=$(t.dataset.copy);if(s)copyText(s.textContent,t);return;}
+    var t=ev.target.closest&&ev.target.closest('[data-copyurl],[data-loadwork]');if(!t)return;
+    if(t.hasAttribute('data-loadwork')){loadWork();return;}
+    var u=rescueUrl();if(u)copyText(u,t);
   });
-'''.replace('__PREP__', str(S_PREP)).replace('__RECALL__', str(S_RECALL)).replace('__WRITE__', str(S_WRITE)).replace('__SUBMIT__', str(S_SUBMIT))
+'''
