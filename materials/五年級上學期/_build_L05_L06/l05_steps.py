@@ -147,7 +147,10 @@ STEP_URL = step(7, '貼網址', 'rose', '查核網址要先貼，放在標題下
 STEP_MSG = step(8, '我選的訊息', 'amber', '往下寫第一欄。', SC_MSG)
 STEP_HOW = step(9, '我怎麼找到查核文章的', 'teal', '往下寫第二欄。', SC_HOW)
 STEP_RES = step(10, '查核結果', 'rose', '往下寫第三欄。', SC_RES)
-STEP_DEMO = step(2, '老師示範：從訊息找到查核文章', 'amber', '看老師怎麼做。示範訊息：幫陌生人操作手機，會被盜走指紋？', DEMO_FIND)
+DEMO_MSG = ('<div class="bg-white border-4 border-amber-200 rounded-3xl p-5 mb-5"><div class="grid md:grid-cols-2 gap-4 items-start">'
+            '<div><img class="shotimg" src="assets/M2_B示範_陌生人手機_網傳訊息.png" alt="示範訊息：兩則臉書貼文，標題寫「人工智能生物信息詐騙，要的不是你的錢而是你這個人」，帳號已遮蔽" loading="lazy"><p class="text-[11px] text-slate-400 mt-1">示範訊息（帳號已遮蔽）・點圖可放大</p></div>'
+            '<p class="text-xl text-slate-800 m-0">網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。</p></div></div>')
+STEP_DEMO = step(2, '老師示範：從訊息找到查核文章', 'amber', '看老師怎麼做。示範訊息：幫陌生人操作手機，會被盜走指紋？', DEMO_MSG + DEMO_FIND)
 
 
 # ---------- L06 用：準備文件（開文件、貼格式；一頁固定）----------

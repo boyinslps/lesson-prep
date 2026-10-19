@@ -200,11 +200,6 @@ _STEP1 = '''
       </div>
       <p class="mt-4 text-sm text-slate-500"><span class="inline-block w-3 h-3 rounded bg-indigo-200 align-middle"></span> 這一節　<span class="inline-block w-3 h-3 rounded bg-slate-200 align-middle ml-2"></span> 下一節</p>
     </div>
-    <div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <h2 class="cute text-2xl font-extrabold text-amber-700 m-0">範例：一欄一欄看，成品怎麼寫</h2>
-      <p class="text-slate-600 text-lg mt-1">示範訊息：<b>幫陌生人操作手機，會被盜走指紋？</b>　不用從零查證：找到別人<b>已經查好的那一篇</b>，再讀懂它。</p>
-    </div>
-    %(DEMO)s
     <div class="stepnav"></div>
   </section>
 '''
@@ -226,7 +221,7 @@ _STEP11 = '''
 _FMT = {'TASKS_S': tasks('1'), 'TASKS_A': tasks('2'),
         'N1': no('2', 'bg-teal-600'), 'N2': '接著：',
         'DOC': DOC, 'CHIPS': chips7('bg-indigo-100 border-2 border-indigo-200', 'bg-slate-100 border-2 border-slate-200'),
-        'DEMO': L5S.DEMO_SC, 'CARDS': CARDS, 'LINKS': LINKS, 'REWARD': REWARD,
+        'CARDS': CARDS, 'LINKS': LINKS, 'REWARD': REWARD,
         'V1': vid('教學_找到查核文章.mp4', '教學_找到查核文章_封面.jpg', '操作影片：從訊息找到查核文章（約 1 分鐘）'),
         'V5': vid('教學_以圖搜圖兩種方法.mp4', '教學_以圖搜圖兩種方法_封面.jpg', '操作影片：以圖搜圖兩種方法（約 1 分 15 秒）'),
         'V6': vid('截圖google圖片搜尋_字卡.mp4', '截圖google圖片搜尋_字卡_封面.jpg', '操作影片：截圖再以圖搜圖（L04，約 22 秒）')}
