@@ -528,7 +528,7 @@ L06_BODY = '''
       </div>
       <div class="bg-white border-4 border-teal-200 rounded-3xl p-5">
         <p class="cute text-xl font-extrabold text-teal-700">② 正確資訊</p>
-        <p class="text-lg text-slate-700 mt-1">1～3 點，每點<b>一句、自己的話、標機構</b>。可以引用一小句（加引號）。</p>
+        <p class="text-lg text-slate-700 mt-1">1～3 點，每點<b>一句、自己的話、標機構</b>。</p>
       </div>
       <div class="bg-white border-4 border-teal-200 rounded-3xl p-5">
         <p class="cute text-xl font-extrabold text-teal-700">③ 如果相信的話，會有什麼後果？</p>
@@ -598,7 +598,7 @@ L06_SPEC = {
          'mode': 'checklist',
          'checks': [
              {'desc': '「正確資訊」用自己的話寫 1～3 點，沒有整段複製查核文章', 'pts': 7},
-             {'desc': '「正確資訊」有標出是哪個機構（警方、165、查核機構、專家等）說的，引用的話有加引號', 'pts': 3},
+             {'desc': '「正確資訊」有標出是哪個機構（警方、165、查核機構、專家等）說的', 'pts': 3},
              {'desc': '「為什麼這則訊息會被廣傳」說出至少一個原因（怕、好奇、關心家人、好康、親友傳來）並說明理由', 'pts': 5},
              {'desc': '「相信的後果」說出誰會怎樣，不只是寫「是假的」或「會被騙」', 'pts': 5}]}],
     'scoring': {'base': 100, 'floor': 80, 'deduction': 1, 'itemPoints': {}},
