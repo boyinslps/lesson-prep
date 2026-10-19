@@ -39,10 +39,10 @@ def nextcol(label='✔ 這欄寫好了，下一欄 →', to=None):
 
 
 # ---------- 第 1 步下半：四欄示範（原本第 2 步的示範合併進來）----------
-DEMO_LINK = '<span class="text-indigo-700 underline">MyGoPen：幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制</span>'
+DEMO_LINK = '<span class="break-all">https://www.mygopen.com/2026/02/ai-fraud.html</span>'
 DEMO_SC = sc([
     slide('示範　<b>① 查核網址</b>', None,
-          '<p class="text-lg text-slate-500">查核文章的標題，做成<b>點得開</b>的連結：</p><p class="text-xl bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mt-1">' + DEMO_LINK + '</p>'
+          '<p class="text-lg text-slate-500">貼上查核文章的<b>網址</b>（整條，https:// 開頭）：</p><p class="text-xl bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mt-1">' + DEMO_LINK + '</p>'
           '<p class="text-lg mt-2">要是<b>查核機構自己</b>的網站（tfc-taiwan、mygopen），不是轉載。</p>'),
     slide('示範　<b>② 我選的訊息</b>', None,
           '<div class="grid md:grid-cols-2 gap-4 items-start"><div><img class="shotimg" src="assets/M2_B示範_陌生人手機_網傳訊息.png" alt="示範訊息：兩則臉書貼文，標題寫「人工智能生物信息詐騙，要的不是你的錢而是你這個人」，帳號已遮蔽" loading="lazy"><p class="text-[11px] text-slate-400 mt-1">原始訊息的圖・點圖可放大</p></div>'
@@ -167,15 +167,13 @@ STEP_RECALL = '''
 # ---------- 第 6 步：寫文件，一個欄位一個環節（順序＝文件裡由上往下）----------
 # ① 查核網址（標題下面，要先貼）
 COL1 = sc([
-    slide('複製查核文章的<b>標題</b>，貼在「查核網址」下面', None,
-          '<p class="text-2xl font-bold mt-1">' + kbd('Ctrl', 'C') + ' → 回文件 → ' + kbd('Ctrl', 'V') + '</p>'
+    slide('到查核文章，點一下<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列',
           '<p class="text-xl mt-3 bg-rose-50 border-2 border-rose-200 rounded-2xl p-3">✏️ 要是<b>查核機構自己</b>的網站（tfc-taiwan、mygopen…），不是轉載。</p>'),
-    slide('點一下<b>網址列</b>，複製網址', '步_網址1_複製網址列'),
-    slide('回文件，<b>選取標題</b>', '步_網址2_選取標題'),
-    slide('<b>Ctrl＋K</b>，貼上網址，按「套用」', '步_網址3_插入連結'),
+    slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址2_貼上網址',
+          '<p class="text-2xl font-bold mt-2">' + kbd('Ctrl', 'V') + '　<span class="text-lg font-bold text-slate-500">貼上的是整條網址，不是標題</span></p>'),
 ])
-COL1_HELP = (help_box('⭐ 看範例', '<p class="bg-white border-2 border-amber-200 rounded-xl px-3 py-2 text-indigo-700 underline">MyGoPen：幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制</p>'
-                      '<p class="text-base text-slate-500 mt-2">藍色有底線，點一下能開啟＝成功了。</p>', 'amber')
+COL1_HELP = (help_box('⭐ 看範例', '<p class="bg-white border-2 border-amber-200 rounded-xl px-3 py-2 break-all">https://www.mygopen.com/2026/02/ai-fraud.html</p>'
+                      '<p class="text-base text-slate-500 mt-2">https:// 開頭的整條網址。貼上後，Google 文件會自動變成可以點的藍色連結。</p>', 'amber')
              + RESCUE)
 
 # ② 我選的訊息
@@ -281,7 +279,7 @@ STEP_WRITE = '''
   </section>
 '''
 
-P1 = col_panel(1, '① 查核網址', '標題下面，先貼', COL1, COL1_HELP, 'indigo')
+P1 = col_panel(1, '① 查核網址', '標題下面，貼上整條網址', COL1, COL1_HELP, 'indigo')
 P2 = col_panel(2, '② 我選的訊息', '一兩句＋原始訊息的圖', COL2, COL2_HELP, 'amber')
 P3 = col_panel(3, '③ 我怎麼找到查核文章的', '照順序寫 4 件事', COL3_STRIP, COL3_HELP, 'teal')
 P4 = col_panel(4, '④ 查核結果', '哪一家、標了什麼', COL4, COL4_HELP, 'rose')

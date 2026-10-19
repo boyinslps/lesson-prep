@@ -44,6 +44,7 @@ function pic(w,border){return '<div id="pwrap"><img id="pic" class="img" src="sh
 var HEADS=['我選的訊息','我怎麼找到的','查核結果','正確資訊','為什麼這則訊息會被廣傳？','如果相信的話，會有什麼後果？','來源清單'];
 function P8(t,hs,sel,styleAll){var o=el('l1',t==='h1'?'h-title':(sel===0?'sel':''),'我的查證文件');
   HEADS.forEach(function(x,i){var c=(styleAll||(hs&&hs.indexOf(i)>=0))?'h-sub':'';if(sel===i+1)c+=' sel';o+=el('l'+(i+2),c,x);});return o;}
+var SRC2='https://www.mygopen.com/2026/02/ai-fraud.html';
 var SRC='MyGoPen：幫陌生人操作手機會被盜取生物特徵去貸款？';
 var h={
  p0:'',
@@ -67,6 +68,8 @@ var h={
  v3c:el('l1','h-title',T1)+el('l2','h-sub',T2)+pic(380,true),
  v3e:el('l1','h-title',T1)+el('l2','h-sub',T2)+pic(380,false),
  v3d:el('l1','h-title',T1)+el('l2','h-sub',T2)+pic(380,false)+el('cap','','圖：網傳訊息（來源：臉書）'),
+ u0:el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+'<p id="cur">&nbsp;</p>'+el('l5','h-sub','我選的訊息'),
+ u1:el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+el('src','',SRC2)+el('l5','h-sub','我選的訊息'),
  v4a:el('l1','h-sub','來源清單')+el('src','',SRC),
  v4b:el('l1','h-sub','來源清單')+el('src','','<span id="selt" class="sel">'+SRC+'</span>'),
  v4c:el('l1','h-sub','來源清單')+el('src','','<span id="selt" class="sel">'+SRC+'</span>'),
