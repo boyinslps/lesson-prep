@@ -63,6 +63,16 @@
 
   <!-- 步驟 1：景點順序，不繞路（互動 1、進階題） -->
   <section class="step bg-white border-4 border-amber-300 rounded-3xl p-5 shadow-sm" data-step="1">
+    <div class="bg-teal-50 border-4 border-teal-300 rounded-3xl p-4 mb-5">
+      <p class="cute text-2xl font-extrabold text-teal-700 mb-2">📍 先選：你現在的進度</p>
+      <div class="grid md:grid-cols-3 gap-3">
+        <button type="button" data-prog="A" class="prog text-left bg-white border-4 border-slate-200 hover:border-teal-400 rounded-2xl p-3"><span class="cute block text-xl font-extrabold text-rose-600">A　景點還沒選完</span><span class="text-lg">先補到 <b>3 個景點＋1 家美食</b></span></button>
+        <button type="button" data-prog="B" class="prog text-left bg-white border-4 border-slate-200 hover:border-teal-400 rounded-2xl p-3"><span class="cute block text-xl font-extrabold text-amber-600">B　已有 3 個景點</span><span class="text-lg">排<b>順序</b>，貼<b>照片</b></span></button>
+        <button type="button" data-prog="C" class="prog text-left bg-white border-4 border-slate-200 hover:border-teal-400 rounded-2xl p-3"><span class="cute block text-xl font-extrabold text-emerald-600">C　都做完了</span><span class="text-lg">再<b>加景點</b>，每站貼照片</span></button>
+      </div>
+      <div id="progBox" class="hidden mt-3 bg-white border-2 border-teal-200 rounded-2xl p-3 text-xl"></div>
+    </div>
+
     <h2 class="cute text-3xl font-extrabold text-amber-700 mb-1">景點順序，不繞路</h2>
     <p class="text-xl mb-3">看地圖：怎麼排，最好<b>一直朝同一個方向</b>走，<b>不來回繞</b>？</p>
 
@@ -140,7 +150,7 @@
   </section>
 
 
-  <!-- 步驟 3：排順序 -->
+  <!-- 步驟 3：排順序（2026-10-16 改成步驟卡：一個畫面一小步） -->
   <section class="step hidden bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm" data-step="3">
     <h2 class="cute text-3xl font-extrabold text-orange-700 mb-3">調整景點順序</h2>
 
@@ -155,62 +165,10 @@
         <li><span class="stepno bg-orange">4</span>找景點<span class="text-orange-700">照片</span>，複製圖片</li>
         <li><span class="stepno bg-orange">5</span><span class="text-orange-700">貼進文件</span>（每一站一張）</li>
       </ol>
+      <p class="text-lg text-slate-600 mt-2">這一頁做 1～3，一小步一小步看；4、5 在下一頁。</p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-3 mb-4">
-      <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3"><p class="cute text-xl font-extrabold text-rose-700">A　景點還沒選完</p><p class="text-lg">先補到 <b>3 個景點＋1 家美食</b></p></div>
-      <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3"><p class="cute text-xl font-extrabold text-amber-700">B　已有 3 個景點</p><p class="text-lg">排<b>順序</b>，貼<b>照片</b></p></div>
-      <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><p class="cute text-xl font-extrabold text-emerald-700">C　都做完了</p><p class="text-lg">再<b>加景點</b>，每站貼照片</p></div>
-    </div>
-
-    <div class="bg-white border-4 border-violet-300 rounded-3xl p-4 mb-4">
-      <p class="cute text-2xl font-extrabold text-violet-700 mb-2">🌐 先開 Google 地圖：新瀏覽器 → 訪客模式</p>
-      <div class="grid md:grid-cols-5 gap-4 items-center">
-        <div class="md:col-span-3"><video class="w-full rounded-xl border-2 border-violet-200 bg-slate-900" src="assets/教學_開新瀏覽器.mp4" poster="assets/教學_開新瀏覽器_封面.jpg" controls playsinline preload="none"></video></div>
-        <ol class="md:col-span-2 list-decimal pl-6 text-xl font-bold space-y-2">
-          <li>開<span class="text-violet-700">新的瀏覽器</span></li>
-          <li>選「<span class="text-violet-700">訪客模式</span>」</li>
-          <li>搜尋「Google 地圖」</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="bg-violet-50 border-4 border-violet-200 rounded-3xl p-4 mb-4">
-      <p class="cute text-2xl font-extrabold text-violet-700 mb-3"><span class="stepno bg-violet">1</span><span class="stepno bg-violet">2</span>多景點路線規劃：看位置，找最順</p>
-      <div class="grid md:grid-cols-5 gap-4 items-center">
-        <div class="md:col-span-3"><video class="w-full rounded-xl border-2 border-violet-200 bg-slate-900" src="assets/教學_多景點規劃路線.mp4" poster="assets/教學_多景點規劃路線_封面.jpg" controls playsinline preload="none"></video></div>
-        <div class="md:col-span-2">
-          <ol class="list-decimal pl-6 text-xl font-bold space-y-2">
-            <li>Google 地圖 →「路線」</li>
-            <li>按「<span class="text-violet-700">新增目的地</span>」，把景點一個一個加進去</li>
-            <li>看地圖上的<span class="text-violet-700">位置</span>：哪些靠近？</li>
-          </ol>
-          <p class="text-lg font-bold mt-3 bg-white border-2 border-violet-200 rounded-xl p-2">ℹ️ 多景點只能選<b>開車</b>。<br>這裡只看<b>位置</b>，交通方式在步驟 4 查。</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-sky-50 border-4 border-sky-200 rounded-3xl p-4 mb-4">
-      <p class="cute text-2xl font-extrabold text-sky-700 mb-3"><span class="stepno">3</span>調整順序：剪下 → 貼上</p>
-      <div class="mb-3"><video class="w-full max-w-2xl mx-auto rounded-xl border-2 border-sky-200 bg-slate-900" src="assets/教學_調整順序.mp4" poster="assets/教學_調整順序_封面.jpg" controls playsinline preload="none"></video></div>
-      <div class="grid md:grid-cols-2 gap-4 items-start">
-        <ol class="text-xl font-bold space-y-2">
-          <li><span class="stepno">1</span>用滑鼠<span class="text-sky-700">拖曳選起</span>整站（從「第 N 站」到網址）</li>
-          <li><span class="stepno">2</span><kbd>Ctrl</kbd> + <kbd>X</kbd>　<span class="text-sky-700">剪下</span></li>
-          <li><span class="stepno">3</span>點到<span class="text-sky-700">想放的位置</span>（空白行）</li>
-          <li><span class="stepno">4</span><kbd>Ctrl</kbd> + <kbd>V</kbd>　<span class="text-sky-700">貼上</span></li>
-          <li><span class="stepno">5</span>把<span class="text-sky-700">站號</span>改對（第 1 站、第 2 站…）</li>
-        </ol>
-        <div class="bg-white border-2 border-sky-200 rounded-2xl p-3 text-lg font-bold">
-          <div class="grid grid-cols-[1fr_auto_1fr] gap-2 items-center text-center">
-            <div class="space-y-1"><p class="text-slate-500 text-base">剪下前</p><div class="bg-amber-100 rounded-lg py-1">第 1 站</div><div class="bg-sky-200 rounded-lg py-1 border-2 border-dashed border-sky-500">第 2 站 ✂</div><div class="bg-amber-100 rounded-lg py-1">第 3 站</div></div>
-            <div class="text-3xl">➜</div>
-            <div class="space-y-1"><p class="text-slate-500 text-base">貼上後</p><div class="bg-amber-100 rounded-lg py-1">第 1 站</div><div class="bg-amber-100 rounded-lg py-1">第 3 站</div><div class="bg-sky-200 rounded-lg py-1 border-2 border-dashed border-sky-500">第 2 站 📌</div></div>
-          </div>
-        </div>
-      </div>
-      <p class="text-lg font-bold mt-2">💡 貼完要改<b>站號</b>。</p>
-    </div>
+    <div class="sc" data-sc><div class="sc-slide"><p class="sc-t">開<b>新瀏覽器</b> → <b>訪客模式</b>，搜尋「Google 地圖」</p><div class="sc-media" data-src="assets/步_新瀏覽器.mp4" data-poster="assets/步_新瀏覽器_封面.jpg"></div></div><div class="sc-slide"><p class="sc-t"><b>路線</b> → 新增目的地，看<b>位置</b></p><div class="sc-media" data-src="assets/步_多景點.mp4" data-poster="assets/步_多景點_封面.jpg"></div><p class="text-lg font-bold mt-3 bg-violet-50 border-2 border-violet-200 rounded-xl p-2">ℹ️ 多景點只能選<b>開車</b>。這裡只看<b>位置</b>，交通方式下一課再查。</p></div><div class="sc-slide"><p class="sc-t">眼睛看一看：<b>怎麼排最順？</b></p><ol class="text-2xl font-extrabold space-y-2 mt-1"><li>① <span class="text-emerald-700">近的</span>放一起</li><li>② <span class="text-emerald-700">不走回頭路</span></li><li>③ 一直朝<span class="text-emerald-700">同一個方向</span>走</li></ol></div><div class="sc-slide"><p class="sc-t">拖曳<b>選起整站</b>，按 <kbd>Ctrl</kbd> + <kbd>X</kbd> 剪下</p><div class="sc-media" data-src="assets/步_順序1_剪下.mp4" data-poster="assets/步_順序1_剪下_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">從「第 N 站」選到「景點網址」。</p></div><div class="sc-slide"><p class="sc-t">點到<b>想放的位置</b>，按 <kbd>Ctrl</kbd> + <kbd>V</kbd> 貼上</p><div class="sc-media" data-src="assets/步_順序2_貼上.mp4" data-poster="assets/步_順序2_貼上_封面.jpg"></div><details class="mt-3 bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-sky-800 text-lg">🧩 看示意圖</summary><div class="mt-2 grid grid-cols-[1fr_auto_1fr] gap-2 items-center text-center text-lg font-bold"><div class="space-y-1"><p class="text-slate-500 text-base">剪下前</p><div class="bg-amber-100 rounded-lg py-1">第 1 站</div><div class="bg-sky-200 rounded-lg py-1 border-2 border-dashed border-sky-500">第 2 站 ✂</div><div class="bg-amber-100 rounded-lg py-1">第 3 站</div></div><div class="text-3xl">➜</div><div class="space-y-1"><p class="text-slate-500 text-base">貼上後</p><div class="bg-amber-100 rounded-lg py-1">第 1 站</div><div class="bg-amber-100 rounded-lg py-1">第 3 站</div><div class="bg-sky-200 rounded-lg py-1 border-2 border-dashed border-sky-500">第 2 站 📌</div></div></div></details></div><div class="sc-slide"><p class="sc-t">貼完，把<b>站號改對</b></p><div class="sc-media" data-src="assets/步_順序3_改站號.mp4" data-poster="assets/步_順序3_改站號_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">第 1 站、第 2 站、第 3 站……不重複、不跳號。</p></div></div>
 
     <div class="stepnav"></div>
   </section>
@@ -219,21 +177,8 @@
   <section class="step hidden bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm" data-step="4">
     <h2 class="cute text-3xl font-extrabold text-orange-700 mb-3">找照片、交出去</h2>
 
-    <div class="bg-yellow-50 border-4 border-yellow-300 rounded-3xl p-4 mb-4">
-      <p class="cute text-2xl font-extrabold text-yellow-700 mb-3"><span class="stepno bg-yellow">4</span><span class="stepno bg-yellow">5</span>找照片，貼進文件</p>
-      <div class="grid md:grid-cols-5 gap-4 items-center">
-        <div class="md:col-span-3"><video class="w-full rounded-xl border-2 border-yellow-300 bg-slate-900" src="assets/教學_複製圖片貼入文件.mp4" poster="assets/教學_複製圖片貼入文件_封面.jpg" controls playsinline preload="none"></video></div>
-        <div class="md:col-span-2">
-          <ol class="text-xl font-bold space-y-2">
-            <li><span class="stepno bg-yellow">1</span>景點頁 →「<span class="text-yellow-700">照片</span>」</li>
-            <li><span class="stepno bg-yellow">2</span>照片上按<span class="text-yellow-700">右鍵</span> →「<span class="text-yellow-700">複製圖片</span>」</li>
-            <li><span class="stepno bg-yellow">3</span>回文件，點<span class="text-yellow-700">「景點網址」下面</span>的空白行</li>
-            <li><span class="stepno bg-yellow">4</span><kbd>Ctrl</kbd> + <kbd>V</kbd>　貼上</li>
-          </ol>
-          <p class="text-lg font-bold mt-3 bg-white border-2 border-yellow-200 rounded-xl p-2">每一站都貼一張。<br>沒有照片？Google 搜尋景點名 →「圖片」。</p>
-        </div>
-      </div>
-    </div>
+    <p class="cute text-2xl font-extrabold text-yellow-700 mb-2"><span class="stepno bg-yellow">4</span><span class="stepno bg-yellow">5</span>找照片，貼進文件</p>
+    <div class="sc" data-sc><div class="sc-slide"><p class="sc-t">景點頁找<b>照片</b>，右鍵 → <b>複製圖片</b></p><div class="sc-media" data-src="assets/步_照片1_複製.mp4" data-poster="assets/步_照片1_複製_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">沒有照片？Google 搜尋景點名 →「圖片」。</p></div><div class="sc-slide"><p class="sc-t">回文件，點「景點網址」下面，按 <kbd>Ctrl</kbd> + <kbd>V</kbd></p><div class="sc-media" data-src="assets/步_照片2_貼上.mp4" data-poster="assets/步_照片2_貼上_封面.jpg"></div><p class="text-lg font-bold mt-2">每一站都貼一張。</p></div></div>
 
     <div class="bg-teal-50 border-4 border-teal-200 rounded-3xl p-4 mb-4">
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">📍 要加景點時：複製景點格子</p>
@@ -527,6 +472,23 @@ var firebaseConfig = {
     else nav.appendChild(el('span',''));
     if(n<STEP_NAMES.length){var x=el('button','cute bg-orange-500 hover:bg-orange-600 text-white text-lg font-extrabold rounded-2xl px-6 py-2','下一步：'+STEP_NAMES[n]+' →');x.onclick=function(){showStep(n+1);};nav.appendChild(x);}
   });
+  // ===== 進度分流（2026-10-16）：A／B／C 選一個，下面給一句話和下一步 =====
+  var PROG_KEY='g4L05prog';
+  var PROG_MSG={
+    A:'👉 這節先<b>補景點</b>（照 L04），補到 3 個景點＋1 家美食。上面的小遊戲，看一遍就好。<div class="mt-3 flex flex-wrap gap-3"><a href="https://boyinslps.github.io/pcclass/g4/L04/" target="_blank" rel="noopener" class="cute bg-rose-500 hover:bg-rose-600 text-white text-lg font-extrabold rounded-2xl px-5 py-2">📖 回 L04 學習單</a><button type="button" data-goto="3" class="cute bg-teal-600 hover:bg-teal-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">補完了，去排順序 →</button></div>',
+    B:'👉 玩完小遊戲，到<b>步驟 3</b> 排順序，再到<b>步驟 4</b> 貼照片。<div class="mt-3"><button type="button" data-goto="3" class="cute bg-teal-600 hover:bg-teal-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">我先去排順序 →</button></div>',
+    C:'👉 照 B 做完後，<b>再加 1～2 個景點</b>（最多 5 個）。步驟 4 有「複製景點格子」。<div class="mt-3"><button type="button" data-goto="3" class="cute bg-teal-600 hover:bg-teal-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">先去排順序 →</button></div>'};
+  var progSel=null;try{progSel=localStorage.getItem(PROG_KEY);}catch(e){}
+  function renderProg(){
+    document.querySelectorAll('[data-prog]').forEach(function(b){var on=progSel===b.dataset.prog;b.classList.toggle('border-teal-500',on);b.classList.toggle('bg-teal-50',on);b.classList.toggle('border-slate-200',!on);});
+    var pb=$('progBox');if(pb){pb.classList.toggle('hidden',!progSel);if(progSel)pb.innerHTML=PROG_MSG[progSel];}
+  }
+  document.addEventListener('click',function(ev){
+    var t=ev.target.closest&&ev.target.closest('[data-prog],[data-goto]');if(!t)return;
+    if(t.hasAttribute('data-prog')){progSel=t.dataset.prog;try{localStorage.setItem(PROG_KEY,progSel);}catch(e){}renderProg();return;}
+    showStep(Number(t.dataset.goto));
+  });
+  renderProg();
   renderStepper();
 })();
 </script>
@@ -548,5 +510,282 @@ var firebaseConfig = {
     "itemPoints": {} }
 }
 </script>
+<!--STEPCARDS-START-->
+<style>
+/* 步驟卡（一個畫面一小步）：規格見 引導規範/HTML互動教材設計規範.md §5.12 */
+.sc{background:#fff;border:4px solid #fde68a;border-radius:24px;padding:16px 16px 12px;margin:0 0 16px}
+.sc-slide{display:none}
+.sc-slide.on{display:block}
+.sc-t{font-size:1.45rem;font-weight:800;line-height:1.4;margin:0 0 10px;color:#334155}
+.sc-t b{color:#c2410c}
+.sc-media{position:relative;border-radius:16px;overflow:hidden;background:#0f172a;min-height:160px}
+.sc-media video{display:block;width:100%;max-height:440px;object-fit:contain;cursor:pointer;background:#0f172a}
+.sc-media .sc-hint{position:absolute;right:8px;top:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;border-radius:8px;padding:1px 8px;pointer-events:none}
+.sc-media.paused:after{content:'▶';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;line-height:64px;text-align:center;border-radius:999px;background:rgba(0,0,0,.62);color:#fff;font-size:28px;pointer-events:none}
+.sc-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.sc-nav button{font-weight:800;border-radius:16px;padding:8px 16px;border:2px solid #cbd5e1;background:#fff;color:#475569}
+.sc-nav button.sc-next{background:#f59e0b;border-color:#f59e0b;color:#fff}
+.sc-nav button:disabled{opacity:.35;cursor:default}
+.sc-dots{display:flex;gap:6px;align-items:center}
+.sc-dots i{display:block;width:12px;height:12px;border-radius:999px;background:#e2e8f0;cursor:pointer}
+.sc-dots i.on{background:#f59e0b;width:26px}
+.sc-dots i.seen{background:#fcd34d}
+@media(prefers-reduced-motion:reduce){.sc-media video{animation:none}}
+</style>
+<script>
+/* ============================================================
+   stepcards.js — 步驟卡：一個畫面一小步（動圖循環播放、只載入目前那一張）
+   規格：引導規範/HTML互動教材設計規範.md §5.12
+   標記：
+     <div class="sc" data-sc>
+       <div class="sc-slide"><p class="sc-t">這一小步做什麼</p>
+         <div class="sc-media" data-src="assets/步_xxx.mp4" data-poster="assets/步_xxx_封面.jpg"></div>  （可省略：純文字小步）
+         …其他想放的 HTML…
+       </div> …
+     </div>
+   導覽列（上一小步／下一小步／點點）由這支程式自己補。
+   影片＝靜音、循環、自動播放的短片（等同 GIF，但檔案小十倍）；點一下可暫停。
+   由 引導規範/stepcards/inject.py 用 STEPCARDS-START/END 兩個 HTML 註解標記包起來，內嵌進學習單。
+   ============================================================ */
+(function () {
+  if (window.__stepCards) return;
+  window.__stepCards = true;
+
+  // 只有「看得到」的那一小步才載入影片（display:none 的不載入）；每半秒檢查一次，換步驟、換分頁都會跟上
+  function visible(m) { return m.offsetParent !== null; }
+  function sweep() { [].forEach.call(document.querySelectorAll('.sc-media'), function (m) { setMedia(m, visible(m)); }); }
+
+  function setMedia(m, on) {
+    var v = m.querySelector('video');
+    if (on && !v) {
+      v = document.createElement('video');
+      v.src = m.dataset.src;
+      if (m.dataset.poster) v.poster = m.dataset.poster;
+      v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.setAttribute('playsinline', '');
+      v.addEventListener('click', function () {
+        if (v.paused) { v.play(); m.classList.remove('paused'); } else { v.pause(); m.classList.add('paused'); }
+      });
+      m.appendChild(v);
+      var h = document.createElement('span'); h.className = 'sc-hint'; h.textContent = '點一下暫停'; m.appendChild(h);
+      var p = v.play(); if (p && p.catch) p.catch(function () { m.classList.add('paused'); });
+    } else if (!on && v) {
+      m.innerHTML = ''; m.classList.remove('paused');
+    }
+  }
+
+  function init(sc) {
+    if (sc.__scReady) return; sc.__scReady = true;
+    var slides = [].slice.call(sc.querySelectorAll(':scope > .sc-slide')), cur = 0, seen = {};
+    var nav = document.createElement('div'); nav.className = 'sc-nav';
+    nav.innerHTML = '<button type="button" class="sc-prev">← 上一小步</button><div class="sc-dots"></div><button type="button" class="sc-next">下一小步 →</button>';
+    sc.appendChild(nav);
+    var prev = nav.querySelector('.sc-prev'), next = nav.querySelector('.sc-next'), dots = nav.querySelector('.sc-dots');
+    slides.forEach(function (s, i) {
+      var d = document.createElement('i'); d.title = '第 ' + (i + 1) + ' 小步';
+      d.onclick = function () { go(i); }; dots.appendChild(d);
+    });
+    function go(i) {
+      cur = Math.max(0, Math.min(slides.length - 1, i)); seen[cur] = true;
+      slides.forEach(function (s, k) {
+        s.classList.toggle('on', k === cur);
+      });
+      sweep();
+      [].forEach.call(dots.children, function (d, k) { d.className = k === cur ? 'on' : (seen[k] ? 'seen' : ''); });
+      prev.disabled = cur === 0; next.disabled = cur === slides.length - 1;
+      next.style.visibility = slides.length > 1 ? 'visible' : 'hidden'; prev.style.visibility = next.style.visibility;
+      sc.dispatchEvent(new CustomEvent('sc:change', { detail: { index: cur, total: slides.length }, bubbles: true }));
+    }
+    prev.onclick = function () { go(cur - 1); };
+    next.onclick = function () { go(cur + 1); };
+    sc.__scGo = go;
+    go(0);
+  }
+
+  function boot() { [].forEach.call(document.querySelectorAll('[data-sc]'), init); sweep(); }
+  setInterval(sweep, 500);
+  window.StepCards = { init: boot, reset: function (sc) { if (sc && sc.__scGo) sc.__scGo(0); } };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+<!--STEPCARDS-END-->
+<!--CHAIR-GATE-START-->
+<script>
+/* ============================================================
+   chair-gate.js — 繳交前「靠椅子」提醒＋等待關卡（學習單通用，無相依、不改學習單原本的繳交程式）
+   規格權威來源：引導規範/學習單資料與提交規範.md §3-e
+
+   原理：在 document 捕獲階段攔截 #submitBtn 的點擊。
+     1. 沒填好身分（localStorage wk_identity）→ 直接放行，讓學習單自己提醒。
+     2. 查 Firestore：chairSettings/main（總開關、等待秒數階梯、下課前免罰分鐘、節次時間）與 chairLog/{年級-班級-座號}。
+     3. 該生有待處理紀錄（pending）且總開關開著 → 蓋一層全螢幕提醒（😠 ＋ 累計次數 ＋ 倒數），倒數完才放行。
+        下課前 graceMin 分鐘內：不用等，但紀錄照樣累計（次數不變）；處理後 pending 清掉。
+     4. 任何一步失敗／逾時 → 放行。這個關卡絕不可以擋住學生交作業。
+   放行＝把 passed 設 true 後再 btn.click() 一次，原本學習單的 onclick 完全不知道被攔過。
+
+   由 引導規範/chair-gate/inject.py 用 CHAIR-GATE-START/END 兩個 HTML 註解標記包起來，內嵌進每份學習單；
+   要改邏輯就改這個檔再重跑 inject.py（idempotent，會整段取代）。
+   ============================================================ */
+(function () {
+  if (window.__chairGate) return;
+  window.__chairGate = true;
+
+  var BTN_ID = 'submitBtn';
+  var TIMEOUT_MS = 4500;            // 查資料超過這麼久就放行
+  var DEFAULT_STEPS = [3, 10, 20, 30, 60];
+  var passed = false, busy = false;
+
+  function digits(v) { return String(v == null ? '' : v).replace(/[^0-9]/g, ''); }
+  function identity() {
+    try {
+      var o = JSON.parse(localStorage.getItem('wk_identity') || '{}');
+      var g = digits(o.grade), c = digits(o.className), s = digits(o.studentId);
+      if (!g || !c || !s) return null;
+      return { grade: Number(g), className: Number(c), studentId: Number(s) };
+    } catch (e) { return null; }
+  }
+
+  function withTimeout(p, ms) {
+    return new Promise(function (resolve, reject) {
+      var t = setTimeout(function () { reject(new Error('timeout')); }, ms);
+      p.then(function (v) { clearTimeout(t); resolve(v); }, function (e) { clearTimeout(t); reject(e); });
+    });
+  }
+
+  // 有登入就沿用；確定沒有任何登入狀態才匿名登入（不能蓋掉老師的 session，見規範 §5-2）
+  function ensureUser(auth) {
+    return new Promise(function (resolve, reject) {
+      var unsub = auth.onAuthStateChanged(function (u) {
+        if (unsub) { unsub(); unsub = null; }
+        if (u) resolve(u);
+        else auth.signInAnonymously().then(function (c) { resolve(c.user); }, reject);
+      });
+    });
+  }
+
+  function steps(cfg) {
+    var a = (cfg && cfg.steps || []).map(Number).filter(function (n) { return n > 0 && isFinite(n); });
+    return a.length ? a : DEFAULT_STEPS;
+  }
+  function waitSeconds(cfg, count) {
+    var a = steps(cfg);
+    return a[Math.min(Math.max(count, 1), a.length) - 1];
+  }
+  // 現在是不是某一節「下課前 graceMin 分鐘」以內
+  function inGrace(cfg) {
+    var g = Number(cfg && cfg.graceMin);
+    if (!isFinite(g) || g < 0) g = 2;      // 沒設才用預設 2 分鐘；老師設 0＝不免罰
+    var now = new Date(), nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    return (cfg && cfg.periods || []).some(function (p) {
+      var m = /^(\d{1,2}):(\d{2})$/.exec(String(p && p.end || ''));
+      if (!m) return false;
+      var endSec = (+m[1]) * 3600 + (+m[2]) * 60, left = endSec - nowSec;
+      return left > 0 && left <= g * 60;
+    });
+  }
+
+  function overlay(count, waitSec, waived) {
+    return new Promise(function (resolve) {
+      var css = document.createElement('style');
+      css.textContent =
+        '#chairGate{position:fixed;inset:0;z-index:2147483000;background:rgba(15,23,42,.72);display:grid;place-items:center;padding:20px;font-family:inherit}' +
+        '#chairGate .cg{background:#fff;border-radius:22px;max-width:420px;width:100%;padding:26px 22px 22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);border:4px solid #f87171}' +
+        '#chairGate .em{font-size:78px;line-height:1;animation:cgShake .5s ease-in-out 2}' +
+        '#chairGate h2{margin:10px 0 6px;font-size:24px;color:#b91c1c;font-weight:900}' +
+        '#chairGate .cnt{display:inline-block;margin:6px 0 10px;padding:4px 14px;border-radius:999px;background:#fee2e2;color:#991b1b;font-weight:800;font-size:16px}' +
+        '#chairGate .msg{font-size:17px;font-weight:700;color:#334155;margin:6px 0 14px;min-height:26px}' +
+        '#chairGate .msg b{font-size:30px;color:#dc2626}' +
+        '#chairGate button{font:inherit;font-weight:800;font-size:17px;width:100%;padding:12px;border:0;border-radius:12px;cursor:pointer}' +
+        '#chairGate .go{background:#dc2626;color:#fff}#chairGate .go:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed}' +
+        '#chairGate .back{margin-top:8px;background:transparent;color:#64748b;font-size:14px;font-weight:600}' +
+        '@keyframes cgShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}';
+      document.head.appendChild(css);
+      var box = document.createElement('div');
+      box.id = 'chairGate';
+      box.innerHTML =
+        '<div class="cg" role="alertdialog" aria-live="polite">' +
+        '<div class="em">😠</div>' +
+        '<h2>上次下課四步驟沒有做確實</h2>' +
+        '<div class="cnt">已累計 ' + count + ' 次紀錄</div>' +
+        '<div class="msg" id="cgMsg"></div>' +
+        '<button class="go" id="cgGo" disabled></button>' +
+        '<button class="back" id="cgBack">先回去檢查，等一下再交</button>' +
+        '</div>';
+      document.body.appendChild(box);
+      var msg = box.querySelector('#cgMsg'), go = box.querySelector('#cgGo');
+      function close(ok) {
+        clearInterval(timer);
+        box.remove(); css.remove();
+        resolve(ok);
+      }
+      var endAt = Date.now() + waitSec * 1000, timer = null;
+      function tick() {
+        var left = Math.ceil((endAt - Date.now()) / 1000);
+        if (left > 0) {
+          msg.innerHTML = '請等待 <b>' + left + '</b> 秒才可以繳交';
+          go.disabled = true; go.textContent = '等待中…';
+        } else {
+          clearInterval(timer);
+          msg.textContent = '時間到了，下次記得做確實喔！';
+          go.disabled = false; go.textContent = '我知道了，繳交';
+        }
+      }
+      if (waived) {
+        msg.textContent = '快下課了，這次不用等待；但這筆紀錄還是會累計。';
+        go.disabled = false; go.textContent = '我知道了，繳交';
+      } else {
+        tick(); timer = setInterval(tick, 250);
+      }
+      go.onclick = function () { if (!go.disabled) close(true); };
+      box.querySelector('#cgBack').onclick = function () { close(false); };
+    });
+  }
+
+  // 回傳 Promise<boolean>：true＝放行繳交
+  function check(idn) {
+    if (!window.firebase || !firebase.apps || !firebase.apps.length) return Promise.resolve(true);
+    var id = idn.grade + '-' + idn.className + '-' + idn.studentId;
+    var db = firebase.firestore();
+    return withTimeout(ensureUser(firebase.auth()).then(function () {
+      return Promise.all([
+        db.collection('chairSettings').doc('main').get(),
+        db.collection('chairLog').doc(id).get()
+      ]);
+    }), TIMEOUT_MS).then(function (r) {
+      var cfg = r[0].exists ? r[0].data() : null, log = r[1].exists ? r[1].data() : null;
+      if (!cfg || !cfg.enabled || !log || !log.pending) return true;
+      var count = Number(log.count) || 1, waived = inGrace(cfg);
+      return overlay(count, waitSeconds(cfg, count), waived).then(function (ok) {
+        if (ok) {   // 處理完（等完或免罰）就把待處理清掉；累計次數不動。失敗不影響繳交。
+          db.collection('chairLog').doc(id)
+            .update({ pending: false, servedAt: firebase.firestore.FieldValue.serverTimestamp() })
+            .catch(function (e) { console.warn('chairGate 更新狀態失敗', e); });
+        }
+        return ok;
+      });
+    }).catch(function (e) {
+      console.warn('chairGate 檢查失敗，直接放行', e);
+      return true;
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest && e.target.closest('#' + BTN_ID);
+    if (!btn || passed) return;
+    var idn = identity();
+    if (!idn) return;                       // 沒填身分：交給學習單自己提醒
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    if (busy) return;
+    busy = true;
+    check(idn).then(function (ok) {
+      busy = false;
+      if (!ok) return;
+      passed = true;
+      try { btn.click(); } finally { passed = false; }
+    });
+  }, true);
+})();
+</script>
+<!--CHAIR-GATE-END-->
 </body>
 </html>
