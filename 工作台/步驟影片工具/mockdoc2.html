@@ -44,6 +44,8 @@ function pic(w,border){return '<div id="pwrap"><img id="pic" class="img" src="sh
 var HEADS=['我選的訊息','我怎麼找到的','查核結果','正確資訊','為什麼這則訊息會被廣傳？','如果相信的話，會有什麼後果？','來源清單'];
 function P8(t,hs,sel,styleAll){var o=el('l1',t==='h1'?'h-title':(sel===0?'sel':''),'我的查證文件');
   HEADS.forEach(function(x,i){var c=(styleAll||(hs&&hs.indexOf(i)>=0))?'h-sub':'';if(sel===i+1)c+=' sel';o+=el('l'+(i+2),c,x);});return o;}
+var TT='【誤導】幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制';
+function H3(x){return el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+x}
 var SRC2='https://www.mygopen.com/2026/02/ai-fraud.html';
 var SRC='MyGoPen：幫陌生人操作手機會被盜取生物特徵去貸款？';
 var h={
@@ -73,6 +75,15 @@ var h={
  u2:el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+el('src','','<span id="selt" class="sel">'+SRC2+'</span>')+el('l5','h-sub','我選的訊息'),
  u3:el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+el('src','','<span id="selt" class="sel">'+SRC2+'</span>')+el('l5','h-sub','我選的訊息'),
  u4:el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+el('src','','<a class="lnk" id="lnk">'+SRC2+'</a>')+el('l5','h-sub','我選的訊息'),
+ w0:H3('<p id="cur">&nbsp;</p>')+el('l5','h-sub','我選的訊息'),
+ w1:H3(el('tt','',TT))+el('l5','h-sub','我選的訊息'),
+ w1b:H3(el('tt','',TT)+'<p id="cur">&nbsp;</p>')+el('l5','h-sub','我選的訊息'),
+ w2:H3(el('tt','',TT)+el('src','',SRC2))+el('l5','h-sub','我選的訊息'),
+ w3:H3(el('tt','',TT)+el('src','','<span id="selt" class="sel">'+SRC2+'</span>'))+el('l5','h-sub','我選的訊息'),
+ w4:H3(el('tt','',TT)+el('src','','<span id="selt" class="sel">'+SRC2+'</span>'))+el('l5','h-sub','我選的訊息'),
+ w5:H3(el('tt','',TT)+el('src','','<a class="lnk" id="lnk">'+SRC2+'</a>'))+el('l5','h-sub','我選的訊息'),
+ m0:H3(el('tt','',TT)+el('src','','<a class="lnk">'+SRC2+'</a>'))+el('l5','h-sub','我選的訊息')+el('msg','','網傳訊息說：陌生人請你幫忙操作手機，30 分鐘就傾家蕩產。')+'<p id="cur">&nbsp;</p>'+el('l6','h-sub','我怎麼找到查核文章的'),
+ m1:H3(el('tt','',TT)+el('src','','<a class="lnk">'+SRC2+'</a>'))+el('l5','h-sub','我選的訊息')+el('msg','','網傳訊息說：陌生人請你幫忙操作手機，30 分鐘就傾家蕩產。')+'<div id="pwrap"><img id="pic" class="img" src="shots/post_crop.png" style="width:420px"></div>'+el('l6','h-sub','我怎麼找到查核文章的'),
  v4a:el('l1','h-sub','來源清單')+el('src','',SRC),
  v4b:el('l1','h-sub','來源清單')+el('src','','<span id="selt" class="sel">'+SRC+'</span>'),
  v4c:el('l1','h-sub','來源清單')+el('src','','<span id="selt" class="sel">'+SRC+'</span>'),
@@ -84,7 +95,7 @@ var lbl={v2d:'標題',v2e:'內文',v2f:'內文',v2g:'副標題'}; if(lbl[s])btn.
 if(s==='v2c'||s==='v2f'||s==='p3'||s==='p6'){dd.style.display='block';document.getElementById((s==='v2c'||s==='p3')?'dd1':'dd2').className+=' hl';}
 var lbl2={p4:'標題 1',p5:'內文',p6:'內文',p7:'標題 2',p8:'標題 2'};if(lbl2[s])btn.innerHTML=lbl2[s]+' ▾';
 if(s==='v4c'){P.insertAdjacentHTML('beforeend','<div class="dlg" id="dlg"><div>連結</div><div class="in" id="urlin">https://www.mygopen.com/2026/02/ai-fraud.html</div><span class="btn" id="apply">套用</span></div>');}
-if(s==='u3'){P.insertAdjacentHTML('beforeend','<div class="dlg" id="dlg"><div>連結</div><div class="in" id="urlin">https://www.mygopen.com/2026/02/ai-fraud.html</div><span class="btn" id="apply">套用</span></div>');}
+if(s==='u3'||s==='w4'){P.insertAdjacentHTML('beforeend','<div class="dlg" id="dlg"><div>連結</div><div class="in" id="urlin">https://www.mygopen.com/2026/02/ai-fraud.html</div><span class="btn" id="apply">套用</span></div>');}
 function R(id){var e=document.getElementById(id);if(!e)return null;var b=e.getBoundingClientRect();return {x:Math.round(b.left),y:Math.round(b.top),w:Math.round(b.width),h:Math.round(b.height)}}
 window.RECTS=JSON.stringify({l1:R('l1'),l2:R('l2'),l3:R('l3'),l4:R('l4'),l5:R('l5'),l6:R('l6'),l7:R('l7'),l8:R('l8'),stylebtn:R('stylebtn'),dd1:R('dd1'),dd2:R('dd2'),pic:R('pic'),cap:R('cap'),src:R('src'),selt:R('selt'),lnk:R('lnk'),dt:R('dt'),urlin:R('urlin'),apply:R('apply'),cur:R('cur')});
 </script></body></html>

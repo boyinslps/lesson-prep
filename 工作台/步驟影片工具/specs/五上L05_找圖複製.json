@@ -1,0 +1,123 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "dur": 6,
+   "img": "shots/art_social.png",
+   "chrome": {
+    "tabs": [
+     "MyGoPen"
+    ],
+    "urls": [
+     "mygopen.com/2026/02/ai-fraud.html"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "到查核文章，往下找「並在社群平台流傳」",
+   "sub": "那裡有原始訊息的圖",
+   "boxes": [
+    {
+     "t": 0.5,
+     "dur": 99,
+     "x": 108,
+     "y": 78,
+     "w": 230,
+     "h": 38,
+     "style": "highlight"
+    }
+   ],
+   "clicks": [],
+   "keys": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 900,
+     "y": 500
+    },
+    {
+     "t": 2.0,
+     "x": 500,
+     "y": 200
+    },
+    {
+     "t": 6,
+     "x": 500,
+     "y": 200
+    }
+   ],
+   "imgs": []
+  },
+  {
+   "dur": 8,
+   "img": "shots/art_social.png",
+   "chrome": {
+    "tabs": [
+     "MyGoPen"
+    ],
+    "urls": [
+     "mygopen.com/2026/02/ai-fraud.html"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "在原始訊息的圖上按右鍵，選「複製圖片」",
+   "sub": "不要選「複製圖片位址」",
+   "boxes": [
+    {
+     "t": 3.0,
+     "dur": 99,
+     "x": 330,
+     "y": 350,
+     "w": 330,
+     "h": 38,
+     "style": "highlight"
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.8,
+     "x": 360,
+     "y": 277
+    },
+    {
+     "t": 5.4,
+     "x": 400,
+     "y": 369
+    }
+   ],
+   "keys": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 500,
+     "y": 200
+    },
+    {
+     "t": 1.7,
+     "x": 360,
+     "y": 277
+    },
+    {
+     "t": 4.8,
+     "x": 400,
+     "y": 369
+    },
+    {
+     "t": 8,
+     "x": 400,
+     "y": 369
+    }
+   ],
+   "imgs": [
+    {
+     "t": 2.4,
+     "img": "shots/art_menu.png"
+    }
+   ]
+  }
+ ]
+}

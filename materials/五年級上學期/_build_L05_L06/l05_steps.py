@@ -46,7 +46,7 @@ def step(n, title, color, lead, body):
 # ---------- 第 1 步下半：看範例（四欄範例，老師的示範）----------
 DEMO_SC = sc([
     slide('查核網址', None,
-          '<p class="text-lg text-slate-500">查核文章的整條網址，貼上後是藍色有底線的連結：</p><p class="text-xl bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mt-1">' + LINK + '</p>'
+          '<p class="text-lg text-slate-500">先貼查核報告的標題，下面一行是整條網址（藍色有底線的連結）：</p><div class="text-xl bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mt-1"><p class="m-0">【誤導】幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制</p><p class="m-0 mt-1">' + LINK + '</p></div>'
           '<p class="text-lg mt-2">要是<b>查核機構自己</b>的網站（tfc-taiwan、mygopen），不是轉載。</p>'),
     slide('我選的訊息', None,
           '<div class="grid md:grid-cols-2 gap-4 items-start"><div><img class="shotimg" src="assets/M2_B示範_陌生人手機_網傳訊息.png" alt="示範訊息：兩則臉書貼文，標題寫「人工智能生物信息詐騙，要的不是你的錢而是你這個人」，帳號已遮蔽" loading="lazy"><p class="text-[11px] text-slate-400 mt-1">原始訊息的圖・點圖可放大</p></div>'
@@ -93,9 +93,13 @@ SC_FORMAT = sc([
 
 # ---------- 第 7 步：貼網址 ----------
 SC_URL = sc([
-    slide('回到查核文章，點<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列',
+    slide('回到查核文章，選取<b>標題</b>，按 <kbd>Ctrl</kbd> + <kbd>C</kbd> 複製', '步_網址A_複製標題',
+          '<p class="text-lg mt-2 text-slate-600">是<b>查核報告</b>的標題，不是網傳訊息的標題。</p>'),
+    slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址B_貼上標題',
+          '<p class="text-2xl font-bold mt-2">' + kbd('Ctrl', 'V') + '</p>'
           '<p class="text-xl mt-3 bg-rose-50 border-2 border-rose-200 rounded-2xl p-3">要是<b>查核機構自己</b>的網站（tfc-taiwan、mygopen），不是轉載。</p>'),
-    slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址2_貼上網址',
+    slide('回到查核文章，點<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列'),
+    slide('點標題最後面，按 <kbd>Enter</kbd> 換行，貼上<b>網址</b>', '步_網址2_貼上網址',
           '<p class="text-2xl font-bold mt-2">' + kbd('Ctrl', 'V') + '</p>'),
     slide('圈選網址，點<b>鎖鏈符號</b>，按「套用」', '步_網址3_加超連結',
           '<p class="text-lg text-slate-500 mt-2">網址變藍色、有底線，點得開，就成功了。</p>'),
@@ -139,7 +143,7 @@ SC_RES = sc([
 
 STEP_OPEN = step(5, '開文件', 'blue', '先把文件準備好。', SC_OPEN)
 STEP_FORMAT = step(6, '貼格式', 'indigo', '貼上欄位，設標題。', SC_FORMAT)
-STEP_URL = step(7, '貼網址', 'rose', '查核網址要先貼，放在標題下面。', SC_URL)
+STEP_URL = step(7, '貼網址', 'rose', '查核網址要先貼，放在標題下面：先貼查核報告的標題，再貼網址。', SC_URL)
 STEP_MSG = step(8, '我選的訊息', 'amber', '往下寫第一欄。', SC_MSG)
 STEP_HOW = step(9, '我怎麼找到查核文章的', 'teal', '往下寫第二欄。', SC_HOW)
 STEP_RES = step(10, '查核結果', 'rose', '往下寫第三欄。', SC_RES)

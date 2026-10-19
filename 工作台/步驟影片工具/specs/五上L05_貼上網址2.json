@@ -1,0 +1,91 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "dur": 8,
+   "img": "shots/doc2_w1.png",
+   "imgs": [
+    {
+     "t": 2.6,
+     "img": "shots/doc2_w1b.png"
+    },
+    {
+     "t": 4.6,
+     "img": "shots/doc2_w2.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0
+   },
+   "caption": "點標題最後面，按 Enter 換行，再按 Ctrl＋V",
+   "sub": "標題下面一行，貼上整條網址",
+   "boxes": [
+    {
+     "t": 0.3,
+     "dur": 2.0,
+     "x": 220,
+     "y": 358,
+     "w": 850,
+     "h": 28,
+     "style": "highlight"
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 760,
+     "y": 460
+    },
+    {
+     "t": 1.5,
+     "x": 1060,
+     "y": 372,
+     "mode": "ibeam"
+    },
+    {
+     "t": 8,
+     "x": 1060,
+     "y": 372,
+     "mode": "ibeam"
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.6,
+     "x": 1060,
+     "y": 372
+    }
+   ],
+   "keys": [
+    {
+     "t": 2.4,
+     "dur": 1.6,
+     "keys": [
+      "Enter"
+     ],
+     "x": 760,
+     "y": 420
+    },
+    {
+     "t": 4.2,
+     "dur": 2.6,
+     "keys": [
+      "Ctrl",
+      "V"
+     ],
+     "x": 760,
+     "y": 420
+    }
+   ]
+  }
+ ]
+}
