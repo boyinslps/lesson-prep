@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><title>示意畫面 - 學習單</title>
+<style>*{box-sizing:border-box}body{margin:0;width:1280px;height:640px;overflow:hidden;background:#f5f7fb;font-family:'Microsoft JhengHei',Arial,sans-serif;color:#243b53}
+.tag{position:absolute;right:14px;top:8px;font-size:12px;color:#888;background:#fff;border:1px solid #ddd;border-radius:10px;padding:2px 8px}
+.wrap{width:980px;margin:34px auto 0}
+h1{font-size:34px;color:#4f46e5;text-align:center;margin:0 0 20px}
+.card{background:#ecfdf5;border:4px solid #a7f3d0;border-radius:24px;padding:22px 26px}
+.card h2{margin:0 0 12px;font-size:26px;color:#047857}
+ol{font-size:22px;font-weight:bold;margin:0 0 6px;padding-left:28px;line-height:1.7}
+label{display:block;margin-top:14px;font-size:22px;font-weight:bold;color:#334155}
+.in{margin-top:8px;width:100%;height:46px;border:2px solid #94a3b8;border-radius:12px;background:#fff;padding:9px 12px;font-size:19px;font-family:Arial,sans-serif;color:#1f1f1f;overflow:hidden;white-space:nowrap}
+.in.f{border-color:#6366f1}
+</style></head><body><span class="tag">示意畫面</span>
+<div class="wrap"><h1>訊息查證小偵探</h1>
+<div class="card"><h2>讀懂查核文章，記下結果和網址</h2>
+<ol><li>看標題前的標籤（錯誤、誤導…）</li><li>讀最上面的「你可以先知道」</li><li>找到網址列，等一下要複製它</li></ol>
+<label>把查核文章的網址貼在這裡，下次就找得回來<div class="in" id="in"></div></label></div></div>
+<script>var s=new URLSearchParams(location.search).get('s')||'s0';var e=document.getElementById('in');
+if(s==='s1'){e.textContent='https://www.mygopen.com/2026/02/ai-fraud.html';e.className='in f'}
+if(s==='s0f'){e.className='in f'}
+</script></body></html>

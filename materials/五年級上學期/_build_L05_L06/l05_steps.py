@@ -47,12 +47,12 @@ def step(n, title, color, lead, body):
 DEMO_SC = sc([
     slide('查核網址', None,
           '<p class="text-lg text-slate-500">先貼查核報告的標題，下面一行是整條網址（藍色有底線的連結）：</p><div class="text-xl bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mt-1"><p class="m-0">【誤導】幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制</p><p class="m-0 mt-1">' + LINK + '</p></div>'
-          '<p class="text-lg mt-2">要是<b>查核機構自己</b>的網站（tfc-taiwan、mygopen），不是轉載。</p>'),
+          '<p class="text-lg mt-2">要是<b>查核機構自己</b>的網站（台灣事實查核中心、MyGoPen），不是轉載。</p>'),
     slide('我選的訊息', None,
           '<div class="grid md:grid-cols-2 gap-4 items-start"><div><img class="shotimg" src="assets/M2_B示範_陌生人手機_網傳訊息.png" alt="示範訊息：兩則臉書貼文，標題寫「人工智能生物信息詐騙，要的不是你的錢而是你這個人」，帳號已遮蔽" loading="lazy"><p class="text-[11px] text-slate-400 mt-1">原始訊息的圖・點圖可放大</p></div>'
           '<p class="text-xl bg-amber-50 border-2 border-amber-200 rounded-2xl p-3">網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。這則訊息在臉書流傳。</p></div>'),
     slide('我怎麼找到查核文章的', None,
-          '<p class="text-xl bg-amber-50 border-2 border-amber-200 rounded-2xl p-3">我圈出「陌生人」「操作手機」「生物特徵」，搜「陌生人 操作手機 生物特徵 查核」，點進 mygopen.com，它是專門查謠言的機構，不是轉載。</p>'),
+          '<p class="text-xl bg-amber-50 border-2 border-amber-200 rounded-2xl p-3">我圈出「陌生人」「操作手機」「生物特徵」，搜「陌生人 操作手機 生物特徵 查核」，點進 MyGoPen 的文章，它是專門查謠言的機構，不是轉載。</p>'),
     slide('查核結果', None,
           '<p class="text-xl bg-amber-50 border-2 border-amber-200 rounded-2xl p-3">MyGoPen 查核後標為「誤導」，重點是這個說法在技術和金融上都不合理。</p>'
           '<p class="text-lg text-slate-700 mt-2">台灣事實查核中心標為「錯誤」。兩家結論一致，更可信。</p>'),
@@ -62,7 +62,7 @@ DEMO_SC = sc([
 DEMO_FIND = sc([
     slide('圈出 2～3 個<b>關鍵詞</b>', None, '<p class="text-lg mt-2">不要整句貼去搜。例：<span class="bg-amber-50 border border-amber-300 rounded-lg px-2 font-bold">陌生人</span> <span class="bg-amber-50 border border-amber-300 rounded-lg px-2 font-bold">操作手機</span> <span class="bg-amber-50 border border-amber-300 rounded-lg px-2 font-bold">生物特徵</span></p>'),
     slide('Google 打「關鍵詞＋<b>查核</b>」', None, '<p class="text-lg mt-2 bg-amber-50 border-2 border-amber-200 rounded-xl px-3 py-2">陌生人 操作手機 生物特徵 查核</p>'),
-    slide('認出<b>查核機構</b>', None, '<p class="text-lg mt-2">網址是 <b>tfc-taiwan.org.tw</b> 或 <b>mygopen.com</b>。新聞、貼文是轉載，要點到原始的查核機構。</p>'),
+    slide('認出<b>查核機構</b>', None, '<p class="text-lg mt-2">看<b>機構名稱</b>：<b>台灣事實查核中心</b>、<b>MyGoPen 麥擱騙</b>，才是專門查謠言的。新聞、貼文是轉載，要點到原始的查核機構。</p>'),
     slide('只讀<b>兩個地方</b>', None, '<p class="text-lg mt-2">標題前的<b>標籤</b>（錯誤、誤導…），和最上面的「<b>你可以先知道</b>」。</p>'),
     slide('結果', None, '<p class="text-lg mt-2">MyGoPen「誤導」、台灣事實查核中心「錯誤」，結論一致。</p>'
                          '<p class="text-lg mt-1 text-rose-700 font-bold">搜尋結果最上面的 AI 摘要先跳過，要讀的是查核機構寫的原始文章。</p>'),
@@ -97,7 +97,7 @@ SC_URL = sc([
           '<p class="text-lg mt-2 text-slate-600">是<b>查核報告</b>的標題，不是網傳訊息的標題。</p>'),
     slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址B_貼上標題',
           '<p class="text-2xl font-bold mt-2">' + kbd('Ctrl', 'V') + '</p>'
-          '<p class="text-xl mt-3 bg-rose-50 border-2 border-rose-200 rounded-2xl p-3">要是<b>查核機構自己</b>的網站（tfc-taiwan、mygopen），不是轉載。</p>'),
+          '<p class="text-xl mt-3 bg-rose-50 border-2 border-rose-200 rounded-2xl p-3">要是<b>查核機構自己</b>的網站（台灣事實查核中心、MyGoPen），不是轉載。</p>'),
     slide('回到查核文章，點<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列'),
     slide('點標題最後面，按 <kbd>Enter</kbd> 換行，貼上<b>網址</b>', '步_網址2_貼上網址',
           '<p class="text-2xl font-bold mt-2">' + kbd('Ctrl', 'V') + '</p>'),
@@ -124,7 +124,7 @@ STRIP9 = ('<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center mt-2">'
                     for i, t in enumerate(['圈了哪些<br>關鍵詞？', 'Google<br>搜了什麼？', '點進<br>哪個網站？', '為什麼是<br>查核機構？'], 1)) + '</div>')
 SC_HOW = sc([
     slide('照順序寫這 4 件事', None,
-          STRIP9 + ex('我圈出「陌生人」「操作手機」「生物特徵」，搜「陌生人 操作手機 生物特徵 查核」，點進 mygopen.com，它是專門查謠言的機構，不是轉載。')
+          STRIP9 + ex('我圈出「陌生人」「操作手機」「生物特徵」，搜「陌生人 操作手機 生物特徵 查核」，點進 MyGoPen 的文章，它是專門查謠言的機構，不是轉載。')
           + plain_box('句型', '我圈出「<b>＿＿</b>」當關鍵詞，在 Google 搜「<b>＿＿ 查核</b>」，點進 <b>＿＿</b> 的文章。它是專門查謠言的查核機構，不是轉載。')),
 ])
 

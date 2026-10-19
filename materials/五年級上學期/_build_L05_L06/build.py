@@ -225,6 +225,19 @@ _FMT = {'TASKS_S': tasks('1'), 'TASKS_A': tasks('2'),
         'V1': vid('教學_找到查核文章.mp4', '教學_找到查核文章_封面.jpg', '操作影片：從訊息找到查核文章（約 1 分鐘）'),
         'V5': vid('教學_以圖搜圖兩種方法.mp4', '教學_以圖搜圖兩種方法_封面.jpg', '操作影片：以圖搜圖兩種方法（約 1 分 15 秒）'),
         'V6': vid('截圖google圖片搜尋_字卡.mp4', '截圖google圖片搜尋_字卡_封面.jpg', '操作影片：截圖再以圖搜圖（L04，約 22 秒）')}
+# 找網址：搜尋整段收合（不會查來源才點開看影片）；認機構看名稱；加「貼到學習單欄位」動圖
+_SEA = _SEA.replace('點網址是 <span class="text-teal-700">tfc-taiwan</span> 或 <span class="text-teal-700">mygopen</span> 的文章',
+                    '點機構名稱是 <span class="text-teal-700">台灣事實查核中心</span> 或 <span class="text-teal-700">MyGoPen</span> 的文章')
+_o1 = '搜尋：關鍵詞＋查核</p>\n      <div class="grid md:grid-cols-5'
+assert _o1 in _SEA
+_SEA = _SEA.replace(_o1, '搜尋：關鍵詞＋查核</p>\n      <details class="mt-1 bg-white border-2 border-teal-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-teal-800 text-xl">不會查來源？點擊看影片</summary>\n      <div class="mt-3 grid md:grid-cols-5', 1)
+_o2 = '      </div>\n    </div>\n\n    <div class="bg-emerald-50'
+assert _o2 in _SEA
+_SEA = _SEA.replace(_o2, '      </div>\n      </details>\n    </div>\n\n    <div class="bg-emerald-50', 1)
+_o3 = 'autocomplete="off"></label>'
+assert _o3 in _SEA
+_SEA = _SEA.replace(_o3, _o3 + '\n      ' + L5S.sc([L5S.slide('找到網址，貼在學習單這個欄位', '步_網址0_貼到學習單')], numbered=False), 1)
+
 L05_BODY = ((_STEP1 % _FMT) + L5S.STEP_DEMO + (_SEL % _FMT) + (_SEA % _FMT)
             + L5S.STEP_OPEN + L5S.STEP_FORMAT + L5S.STEP_URL + L5S.STEP_MSG + L5S.STEP_HOW + L5S.STEP_RES + (_STEP11 % _FMT))
 
@@ -403,7 +416,7 @@ _BLK_MSG = _tone_block('amber', '② 我選的訊息', '人事時地物＋傳播
         L5S.slide('找到<b>原始訊息的圖</b>，右鍵<b>複製圖片</b>', '步_圖A_找圖複製'),
         L5S.slide('回文件，<b>貼在句子下面</b>', '步_圖3_貼上')], False, '找圖、複製、貼到文件：看動圖'))
 _BLK_HOW = _tone_block('teal', '③ 我怎麼找到查核文章的', '照順序寫',
-    '<p>我圈出「陌生人」「操作手機」「生物特徵」，搜「陌生人 操作手機 生物特徵 查核」，點進 mygopen.com，它是專門查謠言的機構，不是轉載。</p>',
+    '<p>我圈出「陌生人」「操作手機」「生物特徵」，搜「陌生人 操作手機 生物特徵 查核」，點進 MyGoPen 的文章，它是專門查謠言的機構，不是轉載。</p>',
     '<p>別人照著做也找得到。</p>',
     '<p class="text-base">關鍵詞、搜什麼字、點哪個網站、為什麼是查核機構</p>' + _checks('四件事都寫了'))
 _BLK_RES = _tone_block('rose', '④ 查核結果', '哪一家、標什麼、一句重點',
