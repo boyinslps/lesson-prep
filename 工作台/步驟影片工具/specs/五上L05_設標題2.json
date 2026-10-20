@@ -1,0 +1,189 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "dur": 5,
+   "img": "shots/doc2_q5.png",
+   "imgs": [
+    {
+     "t": 2.0,
+     "img": "shots/doc2_q6.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "欄位名稱：選取一行，例如「查核網址」",
+   "sub": "連點滑鼠三下",
+   "boxes": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 800,
+     "y": 480
+    },
+    {
+     "t": 1.0,
+     "x": 262,
+     "y": 364,
+     "mode": "ibeam"
+    },
+    {
+     "t": 5,
+     "x": 262,
+     "y": 364,
+     "mode": "ibeam"
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.2,
+     "x": 262,
+     "y": 364
+    }
+   ],
+   "keys": [],
+   "arrows": []
+  },
+  {
+   "dur": 7,
+   "img": "shots/doc2_q6.png",
+   "imgs": [
+    {
+     "t": 3.2,
+     "img": "shots/doc2_q7.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "按「內文」按鈕，選「標題 2」",
+   "sub": "用樣式設定，大綱才找得到",
+   "boxes": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 262,
+     "y": 364
+    },
+    {
+     "t": 1.9,
+     "x": 222,
+     "y": 156
+    },
+    {
+     "t": 4.8,
+     "x": 200,
+     "y": 374
+    },
+    {
+     "t": 7,
+     "x": 200,
+     "y": 374
+    }
+   ],
+   "clicks": [
+    {
+     "t": 2.0,
+     "x": 222,
+     "y": 156
+    },
+    {
+     "t": 5.2,
+     "x": 200,
+     "y": 374
+    }
+   ],
+   "keys": [],
+   "arrows": [
+    {
+     "t": 0.4,
+     "dur": 2.8,
+     "x1": 560,
+     "y1": 330,
+     "x2": 262,
+     "y2": 172
+    },
+    {
+     "t": 3.6,
+     "dur": 3.0,
+     "x1": 600,
+     "y1": 470,
+     "x2": 290,
+     "y2": 378
+    }
+   ]
+  },
+  {
+   "dur": 8,
+   "img": "shots/doc2_q7.png",
+   "imgs": [
+    {
+     "t": 2.0,
+     "img": "shots/doc2_q8.png"
+    },
+    {
+     "t": 4.6,
+     "img": "shots/doc2_q9.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "7 個欄位名稱，都設成「標題 2」",
+   "sub": "快速：選取一行，按 Ctrl＋Alt＋2",
+   "boxes": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 200,
+     "y": 374
+    },
+    {
+     "t": 8,
+     "x": 200,
+     "y": 374
+    }
+   ],
+   "clicks": [],
+   "keys": [
+    {
+     "t": 5.0,
+     "dur": 2.6,
+     "keys": [
+      "Ctrl",
+      "Alt",
+      "2"
+     ],
+     "x": 900,
+     "y": 330
+    }
+   ],
+   "arrows": []
+  }
+ ]
+}

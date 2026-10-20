@@ -47,6 +47,10 @@ function P8(t,hs,sel,styleAll){var o=el('l1',t==='h1'?'h-title':(sel===0?'sel':'
 var TT='【誤導】幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制';
 function H3(x){return el('l1','h-title',T1)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+x}
 function H4(x){return el('l1','h-title',TT)+el('l2','',"41230 王小明")+el('l3','h-sub','查核網址')+x}
+
+var ROWS=['（年班座號＋名字）','查核網址','我選的訊息','我怎麼找到查核文章的','查核結果','為什麼這則訊息會被廣傳？','正確資訊','如果相信的話，會有什麼後果？'];
+function P9(title,tcls,hs,sel){var o=el('l1',tcls||'',title);
+  ROWS.forEach(function(x,i){var c=(hs&&hs.indexOf(i)>=0)?'h-sub':'';if(i===0&&sel==='name')c+=' sel';if(i===1&&sel==='head')c+=' sel';o+=el('r'+i,c,x);});return o;}
 var SRC2='https://www.mygopen.com/2026/02/ai-fraud.html';
 var SRC='MyGoPen：幫陌生人操作手機會被盜取生物特徵去貸款？';
 var h={
@@ -94,6 +98,16 @@ var h={
  n4:H4(el('src','','<a class="lnk" id="lnk">'+SRC2+'</a>'))+el('l5','h-sub','我選的訊息'),
  k0:H4(el('src','','<a class="lnk">'+SRC2+'</a>'))+el('l5','h-sub','我選的訊息')+el('msg','','網傳訊息說：陌生人請你幫忙操作手機，30 分鐘就傾家蕩產。')+'<p id="cur">&nbsp;</p>'+el('l6','h-sub','我怎麼找到查核文章的'),
  k1:H4(el('src','','<a class="lnk">'+SRC2+'</a>'))+el('l5','h-sub','我選的訊息')+el('msg','','網傳訊息說：陌生人請你幫忙操作手機，30 分鐘就傾家蕩產。')+'<div id="pwrap"><img id="pic" class="img" src="shots/post_crop.png" style="width:420px"></div>'+el('l6','h-sub','我怎麼找到查核文章的'),
+ q0:'',
+ q1:P9('（文件標題）','',null,null),
+ q2:P9(TT,'',null,null),
+ q3:P9(TT,'sel',null,null),
+ q4:P9(TT,'sel',null,null),
+ q5:P9(TT,'h-title',null,null),
+ q6:P9(TT,'h-title',null,'head'),
+ q7:P9(TT,'h-title',null,'head'),
+ q8:P9(TT,'h-title',[1],null),
+ q9:P9(TT,'h-title',[1,2,3,4,5,6,7],null),
  v4a:el('l1','h-sub','來源清單')+el('src','',SRC),
  v4b:el('l1','h-sub','來源清單')+el('src','','<span id="selt" class="sel">'+SRC+'</span>'),
  v4c:el('l1','h-sub','來源清單')+el('src','','<span id="selt" class="sel">'+SRC+'</span>'),
@@ -103,6 +117,8 @@ var h={
 P.innerHTML=h[s];
 var lbl={v2d:'標題',v2e:'內文',v2f:'內文',v2g:'副標題'}; if(lbl[s])btn.innerHTML=lbl[s]+' ▾';
 if(s==='v2c'||s==='v2f'||s==='p3'||s==='p6'){dd.style.display='block';document.getElementById((s==='v2c'||s==='p3')?'dd1':'dd2').className+=' hl';}
+if(s==='q4'||s==='q7'){dd.style.display='block';document.getElementById(s==='q4'?'dd1':'dd2').className+=' hl';}
+var lbl3={q5:'標題 1',q6:'內文',q7:'內文',q8:'標題 2',q9:'標題 2'};if(lbl3[s])btn.innerHTML=lbl3[s]+' ▾';
 var lbl2={p4:'標題 1',p5:'內文',p6:'內文',p7:'標題 2',p8:'標題 2'};if(lbl2[s])btn.innerHTML=lbl2[s]+' ▾';
 if(s==='v4c'){P.insertAdjacentHTML('beforeend','<div class="dlg" id="dlg"><div>連結</div><div class="in" id="urlin">https://www.mygopen.com/2026/02/ai-fraud.html</div><span class="btn" id="apply">套用</span></div>');}
 if(s==='u3'||s==='w4'||s==='n3'){P.insertAdjacentHTML('beforeend','<div class="dlg" id="dlg"><div>連結</div><div class="in" id="urlin">https://www.mygopen.com/2026/02/ai-fraud.html</div><span class="btn" id="apply">套用</span></div>');}

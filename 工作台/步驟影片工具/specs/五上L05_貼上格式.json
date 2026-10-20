@@ -1,0 +1,80 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "dur": 7,
+   "img": "shots/doc2_q0.png",
+   "imgs": [
+    {
+     "t": 3.6,
+     "img": "shots/doc2_q1.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "文件第一行，按 Ctrl＋Shift＋V 貼上",
+   "sub": "貼上老師給的格式（不套用格式設定）",
+   "boxes": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 760,
+     "y": 460
+    },
+    {
+     "t": 1.5,
+     "x": 300,
+     "y": 244,
+     "mode": "ibeam"
+    },
+    {
+     "t": 7,
+     "x": 300,
+     "y": 244,
+     "mode": "ibeam"
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.6,
+     "x": 300,
+     "y": 244
+    }
+   ],
+   "keys": [
+    {
+     "t": 2.4,
+     "dur": 2.8,
+     "keys": [
+      "Ctrl",
+      "Shift",
+      "V"
+     ],
+     "x": 760,
+     "y": 420
+    }
+   ],
+   "arrows": [
+    {
+     "t": 0.3,
+     "dur": 2.8,
+     "x1": 700,
+     "y1": 340,
+     "x2": 340,
+     "y2": 252
+    }
+   ]
+  }
+ ]
+}

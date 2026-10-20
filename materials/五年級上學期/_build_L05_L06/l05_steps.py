@@ -10,6 +10,10 @@ DEMO_URL = 'https://www.mygopen.com/2026/02/ai-fraud.html'
 LINK = '<span class="text-indigo-700 underline break-all">' + DEMO_URL + '</span>'
 
 
+# 動圖檔名加版本號：換新動圖時把這個數字加一，學生瀏覽器才不會用舊快取
+VER = '_v2'
+
+
 def kbd(*ks):
     return '＋'.join('<kbd>%s</kbd>' % k for k in ks)
 
@@ -17,7 +21,7 @@ def kbd(*ks):
 def slide(title, clip=None, extra=''):
     media = ''
     if clip:
-        media = ('<div class="sc-media" data-src="assets/%s.mp4" data-poster="assets/%s_封面.jpg"></div>' % (clip, clip))
+        media = ('<div class="sc-media" data-src="assets/%s%s.mp4" data-poster="assets/%s%s_封面.jpg"></div>' % (clip, VER, clip, VER))
     return '<div class="sc-slide"><p class="sc-t">%s</p>%s%s</div>' % (title, media, extra)
 
 

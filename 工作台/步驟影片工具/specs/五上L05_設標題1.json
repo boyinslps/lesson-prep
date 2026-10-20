@@ -1,0 +1,175 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "dur": 5,
+   "img": "shots/doc2_q2.png",
+   "imgs": [
+    {
+     "t": 2.2,
+     "img": "shots/doc2_q3.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "選取第 1 行（連點滑鼠三下）",
+   "sub": "這一行是整份文件的標題",
+   "boxes": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 800,
+     "y": 460
+    },
+    {
+     "t": 1.0,
+     "x": 500,
+     "y": 237,
+     "mode": "ibeam"
+    },
+    {
+     "t": 5,
+     "x": 500,
+     "y": 237,
+     "mode": "ibeam"
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.2,
+     "x": 500,
+     "y": 237
+    }
+   ],
+   "keys": [],
+   "arrows": []
+  },
+  {
+   "dur": 6,
+   "img": "shots/doc2_q3.png",
+   "imgs": [
+    {
+     "t": 2.6,
+     "img": "shots/doc2_q4.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "按左上角「內文」按鈕",
+   "sub": "選單裡有「標題 1」",
+   "boxes": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 500,
+     "y": 237
+    },
+    {
+     "t": 1.9,
+     "x": 222,
+     "y": 156
+    },
+    {
+     "t": 6,
+     "x": 222,
+     "y": 156
+    }
+   ],
+   "clicks": [
+    {
+     "t": 2.0,
+     "x": 222,
+     "y": 156
+    }
+   ],
+   "keys": [],
+   "arrows": [
+    {
+     "t": 0.4,
+     "dur": 2.8,
+     "x1": 520,
+     "y1": 300,
+     "x2": 262,
+     "y2": 172
+    }
+   ]
+  },
+  {
+   "dur": 6,
+   "img": "shots/doc2_q4.png",
+   "imgs": [
+    {
+     "t": 3.0,
+     "img": "shots/doc2_q5.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "選「標題 1」",
+   "sub": "字變大了，按鈕也變成「標題 1」",
+   "boxes": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 222,
+     "y": 156
+    },
+    {
+     "t": 2.0,
+     "x": 200,
+     "y": 330
+    },
+    {
+     "t": 6,
+     "x": 200,
+     "y": 330
+    }
+   ],
+   "clicks": [
+    {
+     "t": 2.2,
+     "x": 200,
+     "y": 330
+    }
+   ],
+   "keys": [],
+   "arrows": [
+    {
+     "t": 0.4,
+     "dur": 2.8,
+     "x1": 560,
+     "y1": 420,
+     "x2": 330,
+     "y2": 336
+    }
+   ]
+  }
+ ]
+}
