@@ -58,6 +58,19 @@ service cloud.firestore {
       allow list, delete: if isTeacher();
     }
 
+    // 資料三：aiHistory/{年級-班級-座號}（C04「我的對話紀錄」）
+    //   老師用 C04 網頁加 ?admin 匯入：grade、className、studentId、sessions（對話）、marks（老師標記）、importedAt、marksEdited。
+    //   學生只能讀自己那一份，而且只能改 picks（挑的 4～5 輪）和 picksAt；不能列出全部、不能改對話與標記。
+    match /aiHistory/{wid} {
+      allow get: if request.auth != null;
+      allow list, create, delete: if isTeacher();
+      allow update: if isTeacher()
+        || (request.auth != null
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['picks', 'picksAt'])
+            && request.resource.data.picks is list && request.resource.data.picks.size() <= 8
+            && request.resource.data.picksAt is number);
+    }
+
     // 其他集合一律不開放
     match /{document=**} {
       allow read, write: if false;

@@ -23,12 +23,13 @@
 .lamp div{border-radius:14px;padding:10px 12px;font-size:14.5px}
 .lamp b{display:flex;align-items:center;gap:6px;font-size:16px}
 @media(max-width:680px){.lamp{grid-template-columns:1fr}}
+/*@include c04_hist.css*/
 <!--@body-->
 <section class="hero"><div class="wrap">
   <div>
     <span class="kicker"><svg class="ico"><use href="#i-search"/></svg>第 4 節・10/20（二）・40 分鐘</span>
     <div class="h1row"><h1>檢查看、要標記，<br>寫歷程紀錄和說明書</h1><button class="hbbook" id="hbBook" type="button" aria-label="打開這一節的手冊頁面"></button></div>
-    <p class="goal">今天做完：<b>AI 協作歷程紀錄</b>和<b>作品說明書</b>（都寫在文件裡）。</p>
+    <p class="goal">今天做完：從你和 e度 的對話挑出 <b>AI 協作歷程紀錄</b>，再寫<b>作品說明書</b>。</p>
     <div class="flow" id="flow"></div>
   </div>
   <svg class="art" viewBox="0 0 200 170" aria-hidden="true">
@@ -43,11 +44,28 @@
 
 <main><div class="wrap">
 
+<!-- ========== 老師管理：網址後面加 ?admin 才會出現 ========== -->
+<section id="hAdmin">
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-lock"/></svg>老師：對話紀錄管理</h3>
+    <p class="small muted">用老師的 Google 帳號登入。① 匯入「整理對話紀錄.py」產生的 aiHistory.json　② 替每位學生標記「值得寫的對話」　③ 檢查學生挑的內容、列印每人的歷程紀錄 PDF（最多 2 頁）。</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="btn navy" type="button" id="hAdLogin">老師登入並讀取</button>
+      <button class="btn ghost" type="button" id="hAdReload">重新整理</button>
+      <label class="btn ghost" style="cursor:pointer"><svg class="ico"><use href="#i-upload"/></svg>匯入 aiHistory.json<input type="file" id="hAdFile" accept=".json,application/json" hidden></label>
+      <label class="small" style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="hAdOver">用檔案的標記覆蓋網頁上改過的</label>
+      <span id="hAdStat" class="small muted"></span>
+    </div>
+    <div style="overflow-x:auto;margin-top:12px"><table class="adm" id="hAdTable"></table></div>
+  </div>
+  <div id="hAdDetail"></div>
+</section>
+
 <!-- ========== 步驟 1 ========== -->
-<section class="step" data-title="檢查看" data-min="8">
+<section class="step" data-title="檢查看" data-min="6">
   <div class="step-head"><div class="num">1</div><div>
     <h2>檢查看：當個 AI 偵探</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>8 分鐘</span><span class="chip book" data-zoom="assets/hb_p36.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 肆 p.36</span><span class="chip book" data-zoom="assets/hb_p37.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 肆 p.37</span></div>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>6 分鐘</span><span class="chip book" data-zoom="assets/hb_p36.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 肆 p.36</span><span class="chip book" data-zoom="assets/hb_p37.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 肆 p.37</span></div>
   </div></div>
 
   <div class="grid2">
@@ -93,7 +111,7 @@
 
   <div class="note" style="margin-top:16px"><svg class="ico"><use href="#i-shield"/></svg><p><b>手冊的偵探工具箱（肆 p.37）：</b>停一停，先別急著相信；查一查，看課本或可信的網站；問一問，問老師或家人。〔例〕卡片寫「明年是羊年」，就去查：2027 年（民國 116 年）是丁未羊年，農曆新年在 2027 年 2 月 6 日。</p></div>
 
-  <div class="docq"><svg class="ico"><use href="#i-file"/></svg><div><b>發現的問題，寫在下一步的歷程紀錄裡。</b>先檢查，把找到的問題記在心裡（或在文件裡隨手記一行）。都沒發現錯？也要記下你<b>怎麼檢查的</b>。</div></div>
+  <div class="docq"><svg class="ico"><use href="#i-file"/></svg><div><b>發現的問題，等一下在「我的對話」那一步選出來。</b>先檢查，把找到的問題記在心裡（或在文件裡隨手記一行）。都沒發現錯？也要記下你<b>怎麼檢查的</b>。</div></div>
 
 <a class="link-card" href="https://boyauc.github.io/gailearn/CH4-factchecking/" target="_blank" rel="noopener">
     <span class="li"><svg class="ico"><use href="#i-game"/></svg></span>
@@ -103,10 +121,10 @@
 </section>
 
 <!-- ========== 步驟 2 ========== -->
-<section class="step" data-title="黑紅藍標記" data-min="6" hidden>
+<section class="step" data-title="黑紅藍標記" data-min="5" hidden>
   <div class="step-head"><div class="num">2</div><div>
     <h2>要標記：黑色、紅色、藍色</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>6 分鐘</span><span class="chip book" data-zoom="assets/hb_p25.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 參 p.25</span><span class="chip book" data-zoom="assets/hb_p54.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 陸 p.54</span></div>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>5 分鐘</span><span class="chip book" data-zoom="assets/hb_p25.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 參 p.25</span><span class="chip book" data-zoom="assets/hb_p54.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 陸 p.54</span></div>
   </div></div>
 
     <div class="hb">
@@ -131,31 +149,37 @@
   <div class="stepnav"></div>
 </section>
 
-<!-- ========== 步驟 3：AI 協作歷程紀錄 ========== -->
-<section class="step" data-title="歷程紀錄" data-min="10" hidden>
+<!-- ========== 步驟 3：歷程紀錄怎麼寫 ========== -->
+<section class="step" data-title="歷程怎麼寫" data-min="3" hidden>
   <div class="step-head"><div class="num">3</div><div>
-    <h2>寫「AI 協作歷程紀錄」</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>10 分鐘</span><span class="chip">簡章 四-2-4</span></div>
+    <h2>「AI 協作歷程紀錄」怎麼寫</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>3 分鐘</span><span class="chip">簡章 四-2-4</span></div>
   </div></div>
 
-  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p>評審最看重這份紀錄（最多 <b>2 頁</b>）。挑 <b>2～3 輪</b>「有發現問題、有追問、改完更像你家」的對話，不是挑最漂亮的圖。你和 e度 的對話，老師會匯出 Excel 給你，從裡面挑，<b>寫在文件的「四」下面</b>。</p></div>
+  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p>評審最看重這份紀錄（最多 <b>2 頁</b>）。老師已經把你和 e度 說過的話整理好，放在下一步。你要從裡面挑 <b>4～5 輪</b>「有發現問題、有追問、改完更像你家」的對話，不是挑最漂亮的圖。</p></div>
 
-  <div class="docbox">
-    <h3><svg class="ico"><use href="#i-list"/></svg>每一輪寫這 4 件事</h3>
-    <pre class="skel" id="skel4">四、AI 協作歷程紀錄（第 4 節）
-【第 1 輪】
-我的原始提問：
-AI 的回答摘要，和我發現的問題：
-我的追問或修正：
-最終採用的理由：
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-list"/></svg>每一輪有 4 件事</h3>
+    <div class="grid2">
+      <div>
+        <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">自動帶入</span> <b>我的原始提問</b><br><span class="small muted">你當時問 e度 的那句話。</span></p>
+        <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">自動帶入＋你選</span> <b>AI 的回答摘要與問題發現</b><br><span class="small muted">e度 的回答會先縮短放好；你再選「我發現哪裡要小心」。</span></p>
+      </div>
+      <div>
+        <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">自動帶入</span> <b>我的追問／修正指令</b><br><span class="small muted">你看完回答後，接著說的那句話。</span></p>
+        <p><span class="chip" style="background:var(--ac-soft);border-color:var(--ac)">你自己寫</span> <b>最終採用的理由</b><br><span class="small muted">先選「我採用／改過／沒採用」和原因，再用自己的話補一句。</span></p>
+      </div>
+    </div>
+  </div>
 
-【第 2 輪】
-我的原始提問：
-AI 的回答摘要，和我發現的問題：
-我的追問或修正：
-最終採用的理由：
-</pre>
-    <button class="copy" type="button" data-copy="skel4" data-done="已複製！貼到文件的「四、AI 協作歷程紀錄」"><svg class="ico"><use href="#i-copy"/></svg>複製格式</button>
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-target"/></svg>怎麼挑？</h3>
+    <ul style="margin:0;padding-left:1.2em">
+      <li><b>挑有故事的：</b>你發現 e度 說錯、太空泛、不像你家，然後追問或自己改的那一輪。</li>
+      <li><b>每一輪都要有「我」：</b>只是照著 e度 的話做，沒有判斷，評審看不到你的想法。</li>
+      <li><b>排優先順序：</b>最能代表你的放第 1。2 頁放不下時，從最後面開始拿掉。</li>
+      <li><b>看看右邊：</b>老師標了幾個「值得寫的對話」，那是提醒，不一定要挑，也可以挑別的。</li>
+    </ul>
   </div>
 
   <div class="eg">
@@ -171,23 +195,52 @@ AI 的回答摘要，和我發現的問題：
     <div class="eg" style="margin-bottom:8px"><div class="egt">我提點子，AI 改，我挑好的加進我的句子</div>我一開始寫「比賽很緊張」，AI 建議改成<span class="rd">「握筆的手一直發抖」</span>。我覺得它講的<span class="rd">「手發抖」</span>很有畫面，<b>所以我把它加進我的句子</b>，再自己改成<span class="blu">「我握筆的手微微發抖」</span>。</div>
     <div class="eg" style="margin-bottom:8px"><div class="egt">我不採用 AI 的，並說原因</div>AI 建議加上「全場都在為我鼓掌」，但<b>那天沒有發生</b>，我<b>沒有採用</b>，因為不是真的。</div>
     <div class="eg" style="margin-bottom:0"><div class="egt">我發現 AI 的錯</div>AI 說某個節日是農曆 8 月 1 日，我<b>去查</b>日曆，發現是 8 月 15 日，<b>所以我追問並修正</b>。</div>
-    <p class="small muted" style="margin:8px 0 0">紅色是 AI 給的，藍色是你自己改的，黑色是你自己想的（Word 裡會帶你標）。<b>把〔 〕和內容換成你自己的事</b>，不要整句照抄。</p>
-  </div>
-
-  <div class="checks">
-    <label><input type="checkbox" data-key="doc4" value="已寫歷程" data-req>我已經在文件裡寫好 2～3 輪歷程紀錄。</label>
+    <p class="small muted" style="margin:8px 0 0">紅色是 AI 給的，藍色是你自己改的，黑色是你自己想的。<b>把內容換成你自己的事</b>，不要整句照抄。</p>
   </div>
   <div class="stepnav"></div>
 </section>
 
-<!-- ========== 步驟 4：作品說明書 ========== -->
-<section class="step" data-title="作品說明書" data-min="14" hidden>
+<!-- ========== 步驟 4：我的對話紀錄 ========== -->
+<section class="step" data-title="我的對話" data-min="14" hidden>
   <div class="step-head"><div class="num">4</div><div>
+    <h2>看自己的對話，挑出 4～5 輪</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>14 分鐘</span><span class="chip">簡章 四-2-4</span><span class="chip" id="hStat"><svg class="ico"><use href="#i-cloud"/></svg>還沒讀取</span></div>
+  </div></div>
+  <input type="hidden" id="hOk" data-key="histOk" data-req>
+  <input type="hidden" id="hCnt" data-key="histPicked">
+
+  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>這是你和 e度 說過的全部話，從上往下看。</b>右邊有老師標的「值得寫的對話」，點一下就跳過去。看到有發現問題、有追問、有自己修改的地方，按那句話下面的「挑這一輪」。挑好後往下捲，前三項會自動帶入，<b>最後的「最終採用的理由」要你自己寫</b>。</p></div>
+
+  <div class="hlock" id="hLock"><svg class="ico"><use href="#i-lock"/></svg><span>先在最上面填好年級、班級、座號，這一步才看得到你自己的對話紀錄。</span></div>
+
+  <div id="hBody" hidden>
+    <div class="hwrap">
+      <div class="hchat" id="hChat"></div>
+      <aside class="hside" aria-label="跳轉與我挑的對話">
+        <div class="hbox"><h4><svg class="ico"><use href="#i-flag"/></svg>老師說值得寫的對話</h4><div class="sub">點一下，左邊會跳到那一句</div><div class="jump" id="hJump"></div></div>
+        <div class="hbox"><h4><svg class="ico"><use href="#i-star"/></svg>我挑的（上面的最優先）</h4><div class="mypk" id="hMy"></div><div class="hprog" id="hProg"></div><div class="hprog" id="hPages"></div></div>
+        <button class="btn ghost" type="button" id="hReload" style="justify-content:center;font-size:14px;padding:6px 12px"><svg class="ico"><use href="#i-download"/></svg>重新讀取對話</button>
+      </aside>
+    </div>
+
+    <div class="hpicks">
+      <h3><svg class="ico"><use href="#i-pen"/></svg>我挑的對話：選一選、寫「最終採用的理由」</h3>
+      <p class="small muted" style="margin:0 0 12px"><span class="chip" style="background:#e8effb;border-color:#8aa6d9">自動帶入</span> 的框框可以自己刪減，太長就留下重點。順序就是優先順序，用「▲ 往前」「▼ 往後」調整；最能代表你的放第 1。</p>
+      <div id="hPicks"></div>
+      <div class="hbar"><button class="btn" type="button" id="hSheetBtn" disabled><svg class="ico"><use href="#i-eye"/></svg>預覽排好的歷程紀錄（最多 2 頁）</button><span class="small muted">理由還沒寫好的輪不會放進預覽。老師會用你挑的內容做成 PDF。</span></div>
+    </div>
+  </div>
+  <div class="stepnav"></div>
+</section>
+
+<!-- ========== 步驟 5：作品說明書 ========== -->
+<section class="step" data-title="作品說明書" data-min="10" hidden>
+  <div class="step-head"><div class="num">5</div><div>
     <h2>作品說明書：在文件裡寫</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>14 分鐘</span><span class="chip">說明書欄位照原本順序</span></div>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>10 分鐘</span><span class="chip">說明書欄位照原本順序</span></div>
   </div></div>
 
-  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>說明書就是你文件最上面的「作品說明書」表格。</b>直接在表格裡填 5 欄。這一頁告訴你每一欄要寫什麼、評審看什麼；前面三節的紀錄都在文件裡，邊看邊填。</p></div>
+  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>說明書就是你文件最上面的「作品說明書」表格。</b>直接在表格裡填 5 欄。這一頁告訴你每一欄要寫什麼、評審看什麼；前面幾節的紀錄都在文件和上一步，邊看邊填。</p></div>
 
   <div class="sec">
     <h3><span class="no">1</span>創作理念</h3>
@@ -217,7 +270,7 @@ AI 的回答摘要，和我發現的問題：
     <h3><span class="no">3</span>使用教育型 AI 過程</h3>
     <div class="field"><div class="lbl">教育型 AI 有出現錯誤嗎？</div>
       <div class="opts"><label class="opt"><input type="radio" name="err" data-key="err" value="有" data-req>有</label><label class="opt"><input type="radio" name="err" data-key="err" value="沒有">沒有</label></div>
-      <p class="small muted" style="margin:6px 0 0">勾「沒有」通常代表沒有仔細檢查。回去看看文件裡的歷程紀錄。</p></div>
+      <p class="small muted" style="margin:6px 0 0">勾「沒有」通常代表沒有仔細檢查。回去看看你挑的歷程紀錄。</p></div>
     <div class="judge"><div class="j"><b><svg class="ico"><use href="#i-eye"/></svg>評審看什麼</b>你<b>怎麼發現</b>的？<b>怎麼追問、怎麼改</b>？改完有沒有更好？</div>
       <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>寫法</b>發現了什麼 → 我怎麼問 → 結果變成怎樣</div></div>
     <div class="eg"><div class="egt">範例句型（不是你的題目，換成你自己的事）</div>
@@ -247,9 +300,9 @@ AI 的回答摘要，和我發現的問題：
   <div class="stepnav"></div>
 </section>
 
-<!-- ========== 步驟 5 ========== -->
+<!-- ========== 步驟 6 ========== -->
 <section class="step" data-title="今天的成果" data-min="2" hidden>
-  <div class="step-head"><div class="num">5</div><div>
+  <div class="step-head"><div class="num">6</div><div>
     <h2>今天的成果</h2>
     <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>2 分鐘</span></div>
   </div></div>
@@ -258,7 +311,7 @@ AI 的回答摘要，和我發現的問題：
     <h3><svg class="ico" style="color:var(--ac)"><use href="#i-star"/></svg>今天完成的</h3>
     <dl>
       <dt>檢查了</dt><dd data-ref="L4.checks"></dd>
-      <dt>文件</dt><dd>「四、AI 協作歷程紀錄」寫好 2～3 輪</dd>
+      <dt>歷程紀錄</dt><dd data-ref="L4.histPicked" data-empty="還沒挑">挑好</dd>
       <dt>說明書</dt><dd>文件最上面的「作品說明書」5 欄填好</dd>
     </dl>
     <svg class="bot" viewBox="0 0 120 120"><use href="#bot"/></svg>
@@ -306,3 +359,4 @@ window.PAGE={code:'C04',lesson:'L4',hbTitle:"第 4 節要讀的手冊頁面（�
     var m=document.getElementById('poemMsg');m.style.color='var(--sub)';m.textContent='這是手冊 參 p.25 的標法。';
   };
 })();
+/*@include c04_hist.js*/
