@@ -1,0 +1,186 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "dur": 5,
+   "img": "shots/doc2_n1.png",
+   "imgs": [
+    {
+     "t": 2.2,
+     "img": "shots/doc2_n2.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "用滑鼠圈選整條網址",
+   "sub": "從網址開頭拖到結尾，整條變藍色",
+   "boxes": [
+    {
+     "t": 2.2,
+     "dur": 99,
+     "x": 220,
+     "y": 394,
+     "w": 472,
+     "h": 28,
+     "style": "select",
+     "grow": 1.4
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 800,
+     "y": 520
+    },
+    {
+     "t": 0.8,
+     "x": 221,
+     "y": 408,
+     "mode": "ibeam"
+    },
+    {
+     "t": 2.2,
+     "x": 692,
+     "y": 408,
+     "mode": "ibeam"
+    },
+    {
+     "t": 5,
+     "x": 692,
+     "y": 408,
+     "mode": "ibeam"
+    }
+   ],
+   "clicks": [],
+   "keys": [],
+   "arrows": []
+  },
+  {
+   "dur": 6,
+   "img": "shots/doc2_n2.png",
+   "imgs": [
+    {
+     "t": 3.0,
+     "img": "shots/doc2_n3.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "點工具列的「鎖鏈」符號",
+   "sub": "（也可以按 Ctrl＋K）會跳出「連結」視窗",
+   "boxes": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 692,
+     "y": 408
+    },
+    {
+     "t": 2.0,
+     "x": 487,
+     "y": 157
+    },
+    {
+     "t": 6,
+     "x": 487,
+     "y": 157
+    }
+   ],
+   "clicks": [
+    {
+     "t": 2.2,
+     "x": 487,
+     "y": 157
+    }
+   ],
+   "keys": [],
+   "arrows": [
+    {
+     "t": 0.4,
+     "dur": 2.8,
+     "x1": 720,
+     "y1": 280,
+     "x2": 510,
+     "y2": 172
+    }
+   ]
+  },
+  {
+   "dur": 5,
+   "img": "shots/doc2_n3.png",
+   "imgs": [
+    {
+     "t": 3.2,
+     "img": "shots/doc2_n4.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "網址已經填好，按「套用」",
+   "sub": "網址變藍色、有底線，就成功了",
+   "boxes": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 487,
+     "y": 157
+    },
+    {
+     "t": 1.8,
+     "x": 355,
+     "y": 525
+    },
+    {
+     "t": 5,
+     "x": 355,
+     "y": 525
+    }
+   ],
+   "clicks": [
+    {
+     "t": 2.0,
+     "x": 355,
+     "y": 525
+    }
+   ],
+   "keys": [],
+   "arrows": [
+    {
+     "t": 0.4,
+     "dur": 2.8,
+     "x1": 600,
+     "y1": 565,
+     "x2": 410,
+     "y2": 535
+    }
+   ]
+  }
+ ]
+}

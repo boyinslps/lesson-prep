@@ -1,0 +1,81 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "dur": 7,
+   "img": "shots/doc2_f0.png",
+   "imgs": [
+    {
+     "t": 3.8,
+     "img": "shots/doc2_f1.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "回文件，選取第 1 行「（文件標題）」，按 Ctrl＋V",
+   "sub": "換成查核報告的標題",
+   "boxes": [
+    {
+     "t": 1.8,
+     "dur": 99,
+     "x": 220,
+     "y": 222,
+     "w": 188,
+     "h": 44,
+     "style": "select",
+     "grow": 1.4
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 760,
+     "y": 460
+    },
+    {
+     "t": 0.9,
+     "x": 221,
+     "y": 244,
+     "mode": "ibeam"
+    },
+    {
+     "t": 1.8,
+     "x": 408,
+     "y": 244,
+     "mode": "ibeam"
+    },
+    {
+     "t": 7,
+     "x": 408,
+     "y": 244,
+     "mode": "ibeam"
+    }
+   ],
+   "clicks": [],
+   "keys": [
+    {
+     "t": 2.8,
+     "dur": 2.6,
+     "keys": [
+      "Ctrl",
+      "V"
+     ],
+     "x": 760,
+     "y": 420
+    }
+   ],
+   "arrows": []
+  }
+ ]
+}

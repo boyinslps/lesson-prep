@@ -87,7 +87,7 @@ LINKS = '''<a href="https://tfc-taiwan.org.tw/" target="_blank" rel="noopener" c
           <a href="https://www.mygopen.com/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2"><img src="https://www.google.com/s2/favicons?domain=mygopen.com&sz=64" class="w-5 h-5 bg-white rounded" alt="">MyGoPen 麥擱騙 ↗</a>'''
 
 FIELDS7 = [
-    ('1', '查核網址', '查核報告的標題＋整條網址（貼在標題下面）', True),
+    ('1', '查核網址', '整條網址（貼在標題下面）', True),
     ('2', '我選的訊息', '用自己的話說：這則訊息在講什麼', True),
     ('3', '我怎麼找到查核文章的', '用了哪個關鍵詞、哪張圖', True),
     ('4', '查核結果', '查核機構標了什麼？是哪一家？', True),
@@ -248,7 +248,7 @@ L05_CFG = {
     'qtypes': {'sel': 'experience', 'chk': 'experience'},
     'choices': {
         'sel': {'opts': ['C', 'D', 'E', 'G', 'H', 'K'], 'card': True},
-        'chk': {'opts': ['查核文章是查核機構自己的網站，不是轉載', '標題用「標題 1」、欄位名稱用「標題 2」', '「查核網址」下面有查核報告的標題，和整條網址（點得開）', '「我選的訊息」下面貼了原始訊息的圖片或影片截圖', '前面的欄位都寫好了'], 'multi': True, 'block': True},
+        'chk': {'opts': ['查核文章是查核機構自己的網站，不是轉載', '標題用「標題 1」、欄位名稱用「標題 2」', '文件最上面是查核報告的標題；「查核網址」下面是整條網址，點得開', '「我選的訊息」下面貼了原始訊息的圖片或影片截圖', '前面的欄位都寫好了'], 'multi': True, 'block': True},
     },
     'texts': [],
     'patterns': {},
@@ -323,7 +323,7 @@ L05_SPEC = {
              {'desc': '有標題，並用自己的話說明選的是哪一則訊息，有寫出人、事、時、地、物（沒寫的標「沒說」），下面貼了原始訊息的圖片或影片截圖', 'pts': 6},
              {'desc': '依序說出圈了哪些關鍵詞（或哪張圖）、在 Google 搜了什麼、點進哪個網站，並說明為什麼認定它是查核機構', 'pts': 6},
              {'desc': '寫出查核機構標的結果（例如錯誤、誤導）和是哪一家機構', 'pts': 4},
-             {'desc': '「查核網址」下面貼了查核報告的標題，和整條網址（https:// 開頭，是查核機構自己的網站）', 'pts': 4}]}],
+             {'desc': '文件標題是查核報告的標題；「查核網址」下面貼了整條網址（https:// 開頭，是查核機構自己的網站）', 'pts': 4}]}],
     'scoring': {'base': 100, 'floor': 80, 'deduction': 1, 'itemPoints': {}},
 }
 
@@ -394,19 +394,20 @@ STEP_L06_2 = '''
 '''
 
 _LINK = '<span class="text-indigo-700 underline break-all">https://www.mygopen.com/2026/02/ai-fraud.html</span>'
-_BLK_TITLE = _tone_block('sky', '標題', '換掉「我的查證文件」',
-    '<p class="text-slate-500">我的查證文件</p><p class="text-2xl">↓</p><p class="font-extrabold">幫陌生人操作手機，會被盜走指紋嗎？</p>',
-    '<p>看標題就知道你查哪一則。</p>',
-    _checks('不是「我的查證文件」', '已設成「標題 1」'))
-_BLK_URL = _tone_block('indigo', '① 查核網址', '標題＋網址',
-    '<p>' + "【誤導】幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制" + '</p><p>' + _LINK + '</p>',
-    '<p>先貼<b>查核報告的標題</b>，下一行貼<b>整條網址</b>，讓人點進去驗證。</p>',
-    _checks('標題是查核報告的，不是網傳訊息的', '查核機構自己的網站', 'https:// 開頭、藍色有底線', '點得開', '沒有網址？回第 1 步找回'),
+_BLK_TITLE = _tone_block('sky', '標題', '換成查核報告的標題',
+    '<p class="text-slate-500">（文件標題）</p><p class="text-2xl">↓</p><p class="font-extrabold">【誤導】幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制</p>',
+    '<p>標題要是<b>查核報告的標題</b>，一看就知道你查的是哪一則。</p>',
+    _checks('不是「（文件標題）」', '是查核文章上的標題', '已設成「標題 1」'),
     _clips([
-        L5S.slide('選取查核報告的<b>標題</b>，複製', '步_網址A_複製標題'),
-        L5S.slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址B_貼上標題'),
-        L5S.slide('點<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列'),
-        L5S.slide('點標題最後面，<b>Enter</b> 換行，貼上<b>網址</b>', '步_網址2_貼上網址'),
+        L5S.slide('到查核文章，選取<b>查核報告的標題</b>，複製', '步_標題A_複製標題'),
+        L5S.slide('回文件，選取第 1 行「（文件標題）」，貼上', '步_標題B_貼上標題')], True, ''))
+_BLK_URL = _tone_block('indigo', '① 查核網址', '標題下面，整條網址',
+    '<p>' + _LINK + '</p>',
+    '<p>讓人點進去驗證。貼<b>整條網址</b>，不要放標題。</p>',
+    _checks('查核機構自己的網站', 'https:// 開頭、藍色有底線', '點得開', '「查核網址」下面只有網址', '沒有網址？回第 1 步找回'),
+    _clips([
+        L5S.slide('到查核文章，點<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列'),
+        L5S.slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址2_貼上網址'),
         L5S.slide('圈選網址，點<b>鎖鏈符號</b>，按「套用」', '步_網址3_加超連結')], True, ''))
 _BLK_MSG = _tone_block('amber', '② 我選的訊息', '人事時地物＋傳播',
     '<p>網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。這則訊息在臉書流傳。</p>',
@@ -474,7 +475,7 @@ L06_CFG = {
     'qtypes': {'sel': 'experience', 'chk': 'experience'},
     'choices': {
         'sel': {'opts': ['C', 'D', 'E', 'G', 'H', 'K'], 'card': True},
-        'chk': {'opts': ['標題和前四欄都對照檢查過了', '「正確資訊」有標出處，沒有整段複製', '「為什麼廣傳」和「後果」都寫了理由', '「查核網址」有報告標題和整條網址，點得開'], 'multi': True, 'block': True},
+        'chk': {'opts': ['標題和前四欄都對照檢查過了', '「正確資訊」有標出處，沒有整段複製', '「為什麼廣傳」和「後果」都寫了理由', '標題是查核報告的標題，「查核網址」是整條網址、點得開'], 'multi': True, 'block': True},
     },
     'texts': [], 'patterns': {}, 'openQtexts': {},
 }

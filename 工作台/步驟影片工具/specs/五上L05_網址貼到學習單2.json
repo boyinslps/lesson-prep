@@ -1,0 +1,149 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "dur": 7,
+   "img": "shots/v1_mgp2.png",
+   "chrome": {
+    "tabs": [
+     "MyGoPen",
+     "訊息查證小偵探"
+    ],
+    "urls": [
+     "mygopen.com/2026/02/ai-fraud.html",
+     "boyinslps.github.io/pcclass/g5/L05/"
+    ],
+    "active": 0,
+    "urlSel": [
+     {
+      "t": 2.2,
+      "dur": 99
+     }
+    ]
+   },
+   "caption": "找到的查核文章，點一下網址列，複製網址",
+   "sub": "整條網址變藍色，按 Ctrl＋C",
+   "boxes": [
+    {
+     "t": 0.3,
+     "dur": 99,
+     "x": 116,
+     "y": 43,
+     "w": 1088,
+     "h": 36
+    }
+   ],
+   "clicks": [
+    {
+     "t": 2.0,
+     "x": 420,
+     "y": 61
+    }
+   ],
+   "keys": [
+    {
+     "t": 3.4,
+     "dur": 2.4,
+     "keys": [
+      "Ctrl",
+      "C"
+     ],
+     "x": 760,
+     "y": 300
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 600,
+     "y": 400
+    },
+    {
+     "t": 1.8,
+     "x": 420,
+     "y": 61
+    },
+    {
+     "t": 7,
+     "x": 420,
+     "y": 61
+    }
+   ]
+  },
+  {
+   "dur": 8,
+   "img": "shots/sheet_s0.png",
+   "chrome": {
+    "tabs": [
+     "MyGoPen",
+     "訊息查證小偵探"
+    ],
+    "urls": [
+     "mygopen.com/2026/02/ai-fraud.html",
+     "boyinslps.github.io/pcclass/g5/L05/"
+    ],
+    "active": 1
+   },
+   "caption": "切回學習單，點一下欄位，按 Ctrl＋V",
+   "sub": "網址貼在學習單的欄位裡，下次就找得回來",
+   "boxes": [],
+   "clicks": [
+    {
+     "t": 1.8,
+     "x": 500,
+     "y": 422
+    }
+   ],
+   "keys": [
+    {
+     "t": 2.6,
+     "dur": 2.6,
+     "keys": [
+      "Ctrl",
+      "V"
+     ],
+     "x": 760,
+     "y": 520
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 760,
+     "y": 520
+    },
+    {
+     "t": 1.7,
+     "x": 500,
+     "y": 422,
+     "mode": "ibeam"
+    },
+    {
+     "t": 8,
+     "x": 500,
+     "y": 422,
+     "mode": "ibeam"
+    }
+   ],
+   "imgs": [
+    {
+     "t": 3.6,
+     "img": "shots/sheet_s1.png"
+    }
+   ],
+   "arrows": [
+    {
+     "t": 0.3,
+     "dur": 2.8,
+     "x1": 1000,
+     "y1": 560,
+     "x2": 880,
+     "y2": 455
+    }
+   ]
+  }
+ ]
+}

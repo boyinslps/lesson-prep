@@ -1,0 +1,79 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "dur": 7,
+   "img": "shots/doc2_k0.png",
+   "imgs": [
+    {
+     "t": 3.8,
+     "img": "shots/doc2_k1.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "41230 王小明 查證文件 - Google 文件"
+    ],
+    "urls": [
+     "docs.google.com/document/d/1x…/edit"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "回文件，點句子下面的空白行，按 Ctrl＋V",
+   "sub": "原始訊息的圖就貼進來了",
+   "boxes": [],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 760,
+     "y": 460
+    },
+    {
+     "t": 1.7,
+     "x": 300,
+     "y": 534,
+     "mode": "ibeam"
+    },
+    {
+     "t": 7,
+     "x": 300,
+     "y": 534,
+     "mode": "ibeam"
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.8,
+     "x": 300,
+     "y": 534
+    }
+   ],
+   "keys": [
+    {
+     "t": 2.6,
+     "dur": 2.6,
+     "keys": [
+      "Ctrl",
+      "V"
+     ],
+     "x": 760,
+     "y": 420
+    }
+   ],
+   "arrows": [
+    {
+     "t": 0.3,
+     "dur": 2.8,
+     "x1": 900,
+     "y1": 560,
+     "x2": 560,
+     "y2": 538
+    }
+   ]
+  }
+ ]
+}

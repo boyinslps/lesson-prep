@@ -82,9 +82,12 @@ SC_FORMAT = sc([
           '<p class="text-lg font-bold mt-3">會貼上這些格式：</p>'
           '<pre id="tplText" class="text-lg leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-blue-100 mt-1"></pre>'),
     slide('文件第一行，按 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> 貼上', '步_文件2_貼上七欄位',
-          '<ol class="text-xl font-bold mt-3 space-y-1"><li>第 1 行「（文件標題）」→ 換成<b class="text-indigo-700">你查的那一則</b>的標題</li>'
-          '<li>第 2 行「（年班座號＋名字）」→ 換成<b class="text-indigo-700">你的</b></li></ol>'
+          '<p class="text-lg mt-3">第 2 行「（年班座號＋名字）」換成<b class="text-indigo-700">你的</b>。第 1 行的標題，下面兩步換。</p>'
           '<p class="text-base text-slate-500 mt-2">貼錯了？<kbd>Ctrl</kbd> + <kbd>Z</kbd>。多了空白？<kbd>Backspace</kbd> 刪前面、<kbd>Delete</kbd> 刪後面。</p>'),
+    slide('到查核文章，選取<b>查核報告的標題</b>，複製', '步_標題A_複製標題',
+          '<p class="text-lg mt-2 text-slate-600">是<b>查核報告</b>的標題，不是網傳訊息的標題。</p>'),
+    slide('回文件，選取第 1 行「（文件標題）」，貼上', '步_標題B_貼上標題',
+          '<p class="text-2xl font-bold mt-2">' + kbd('Ctrl', 'V') + '</p>'),
     slide('題目選起來，設成<b>標題 1</b>', '步_文件3_設標題1',
           '<p class="text-lg text-slate-500 mt-2">左上角「內文」按鈕 → 標題 1。快速鍵 <kbd>Ctrl</kbd>＋<kbd>Alt</kbd>＋<kbd>1</kbd>。</p>'),
     slide('<b>欄位名稱</b>，都設成<b>標題 2</b>', '步_文件4_設標題2',
@@ -93,13 +96,9 @@ SC_FORMAT = sc([
 
 # ---------- 第 7 步：貼網址 ----------
 SC_URL = sc([
-    slide('回到查核文章，選取<b>標題</b>，按 <kbd>Ctrl</kbd> + <kbd>C</kbd> 複製', '步_網址A_複製標題',
-          '<p class="text-lg mt-2 text-slate-600">是<b>查核報告</b>的標題，不是網傳訊息的標題。</p>'),
-    slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址B_貼上標題',
-          '<p class="text-2xl font-bold mt-2">' + kbd('Ctrl', 'V') + '</p>'
+    slide('回到查核文章，點<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列',
           '<p class="text-xl mt-3 bg-rose-50 border-2 border-rose-200 rounded-2xl p-3">要是<b>查核機構自己</b>的網站（台灣事實查核中心、MyGoPen），不是轉載。</p>'),
-    slide('回到查核文章，點<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列'),
-    slide('點標題最後面，按 <kbd>Enter</kbd> 換行，貼上<b>網址</b>', '步_網址2_貼上網址',
+    slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址2_貼上網址',
           '<p class="text-2xl font-bold mt-2">' + kbd('Ctrl', 'V') + '</p>'),
     slide('圈選網址，點<b>鎖鏈符號</b>，按「套用」', '步_網址3_加超連結',
           '<p class="text-lg text-slate-500 mt-2">網址變藍色、有底線，點得開，就成功了。</p>'),
@@ -143,7 +142,7 @@ SC_RES = sc([
 
 STEP_OPEN = step(5, '開文件', 'blue', '先把文件準備好。', SC_OPEN)
 STEP_FORMAT = step(6, '貼格式', 'indigo', '貼上欄位，設標題。', SC_FORMAT)
-STEP_URL = step(7, '貼網址', 'rose', '查核網址要先貼，放在標題下面：先貼查核報告的標題，再貼網址。', SC_URL)
+STEP_URL = step(7, '貼網址', 'rose', '查核網址要先貼，放在標題下面。', SC_URL)
 STEP_MSG = step(8, '我選的訊息', 'amber', '往下寫第一欄。', SC_MSG)
 STEP_HOW = step(9, '我怎麼找到查核文章的', 'teal', '往下寫第二欄。', SC_HOW)
 STEP_RES = step(10, '查核結果', 'rose', '往下寫第三欄。', SC_RES)
