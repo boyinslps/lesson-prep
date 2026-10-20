@@ -10,6 +10,8 @@
     report_{年級}_{班級}_{座號}_{時間}.xlsx   e度 匯出的紀錄（同一個人可以有很多份，會自動合併、去掉重複）
     *學生清單*.xlsx                           欄位：年級、班級、座號、姓名（其他欄位忽略）
     老師標記.json（選用）                     {"5-9-11": [{"id": "20261015130022u", "label": "…", "note": "…"}]}
+    額外遮蔽.json（選用）                     ["蓁蓁", "潔潔"]  名單全名以外也要遮掉的字（暱稱、署名），內文出現就改成 ○
+    說明書提示.json（選用）                   {"5-9-11": {"idea":{...}, "chapters":[...], "found":[...], "disclose":[...]}}  第 5 步依對話給學生的提醒
     名單例外.json（選用）                     {"5-11-14": "劉宜蓁"}  名單上的座號 → 紀錄裡實際的姓名（姓名對不上、但老師確認是同一人時用）
 
 輸出（在資料夾的 _輸出\\ ，含學生姓名與對話，已列入 .gitignore，不要 commit）：
@@ -152,7 +154,18 @@ def main():
         exc = json.load(io.open(ep, encoding='utf-8'))
         P('讀到 名單例外.json：%s' % '、'.join('%s→紀錄裡的「%s」' % kv for kv in exc.items()))
 
-    names_all = sorted(set(roster) | set(exc.values()), key=len, reverse=True)
+    extra_mask = []
+    xp = os.path.join(folder, '額外遮蔽.json')
+    if os.path.exists(xp):
+        extra_mask = json.load(io.open(xp, encoding='utf-8'))
+        P('讀到 額外遮蔽.json：%d 個詞' % len(extra_mask))
+    guide_seed = {}
+    gp = os.path.join(folder, '說明書提示.json')
+    if os.path.exists(gp):
+        guide_seed = {k: v for k, v in json.load(io.open(gp, encoding='utf-8')).items() if not k.startswith('_')}
+        P('讀到 說明書提示.json（%d 位學生）' % len(guide_seed))
+
+    names_all = sorted(set(roster) | set(exc.values()) | set(extra_mask), key=len, reverse=True)
     red_count = collections.Counter()
 
     def redact(txt, who):
@@ -221,10 +234,29 @@ def main():
                 marks.append(dict(id=mid, kind=mk.get('kind', ''), label=mk['label'], note=mk.get('note', '')))
             else:
                 P('  ⚠ %s 的標記 %s 找不到對應的訊息，略過' % (sid, mid))
+        def okids(items):
+            out = []
+            for it in items or []:
+                ids_ok = [i for i in it.get('ids', []) if i in ids]
+                bad = [i for i in it.get('ids', []) if i not in ids]
+                for b in bad:
+                    P('  ⚠ %s 的說明書提示 id %s 找不到對應的訊息，略過' % (sid, b))
+                out.append(dict(it, ids=ids_ok))
+            return out
+        gs = guide_seed.get(sid, {})
+        guide = {}
+        if gs.get('idea'):
+            guide['idea'] = okids([gs['idea']])[0]
+        for k in ('chapters', 'found', 'disclose'):
+            if gs.get(k):
+                guide[k] = okids(gs[k])
+        modes = collections.Counter()
+        for se in sessions:
+            modes[se['mode']] += sum(1 for m in se['msgs'] if m['r'] == 'u')
         nmsg = sum(len(se['msgs']) for se in sessions)
         nu = sum(1 for se in sessions for m in se['msgs'] if m['r'] == 'u')
         P('✓ %s %s：%d 份檔、%d 則訊息（學生 %d 則）、%d 場對話、%d 個老師標記%s' % (sid, nm, len({r['file'] for r in recs}), nmsg, nu, len(sessions), len(marks), note))
-        students[sid] = dict(grade=g, className=c, studentId=s, sessions=sessions, marks=marks)
+        students[sid] = dict(grade=g, className=c, studentId=s, sessions=sessions, marks=marks, guide=guide, modes=dict(modes))
 
     extra = [n for n in by_name if n not in roster and n not in exc.values()]
     if extra:
@@ -241,7 +273,7 @@ def main():
 
     pii = []
     pats = [('疑似帳號密碼／亂碼', re.compile(r'^(?=[A-Za-z0-9]*\d)(?=[A-Za-z0-9]*[A-Za-z])[A-Za-z0-9]{8,}$')),
-            ('電話', re.compile(r'09\d{2}-?\d{3}-?\d{3}')), ('Email', re.compile(r'[\w.+-]+@[\w-]+\.[\w.]+')),
+            ('署名（可能是姓名或暱稱）', re.compile(r'[^\s，。：:、]{1,8}敬上')), ('電話', re.compile(r'09\d{2}-?\d{3}-?\d{3}')), ('Email', re.compile(r'[\w.+-]+@[\w-]+\.[\w.]+')),
             ('身分證字號', re.compile(r'\b[A-Z][12]\d{8}\b'))]
     for sid, st in students.items():
         for se in st['sessions']:

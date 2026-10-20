@@ -492,6 +492,39 @@ details.gd .gdb{padding:0 12px 8px;font-size:14.5px}
 details.gd .gdb p{margin:0 0 4px}
 details.gd .gdb ul{margin:0 0 4px;padding-left:1.2em}
 details.gd .gt{color:#a0332b;font-weight:700}
+
+/* ===== 第 5 步：說明書表單 ===== */
+.sec{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin:0 0 16px}
+.sec>h3{margin:0 0 8px;font-size:20px;font-weight:900;display:flex;gap:10px;align-items:center}
+.sec>h3 .no{width:30px;height:30px;border-radius:9px;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:16px;flex:none}
+.judge{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 10px}
+.judge>div{border-radius:12px;padding:8px 12px;font-size:15px}
+.judge .j{background:#f4f6fb}.judge .a{background:#fff8e8}
+.judge b{display:flex;gap:6px;align-items:center;font-size:14px}
+.judge ul{margin:2px 0 0;padding-left:20px}
+@media(max-width:680px){.judge{grid-template-columns:1fr}}
+.chaps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.chap{border:1.5px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;flex-direction:column;gap:6px;background:#fff}
+.chap:has(input:checked){border-color:var(--ac);background:var(--ac-soft)}
+.chap label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:14.5px}
+.chap input{width:18px;height:18px;margin-top:3px;accent-color:var(--ac);flex:none}
+.chap b{display:block;font-size:15.5px}
+.chap .rec-tag{display:none;font-style:normal;font-size:12px;font-weight:900;color:#fff;background:#d98a1f;border-radius:6px;padding:0 6px;margin-left:6px}
+.chap.rec .rec-tag{display:inline-block}
+.chap.rec{border-color:#e2a63b}
+.hblink{align-self:flex-start;display:inline-flex;align-items:center;gap:5px;border:1.5px solid #e9cf98;background:var(--gold-soft);color:#8a5a0c;border-radius:999px;font-weight:900;font-size:13px;padding:1px 11px;cursor:pointer}
+.hblink:hover{background:#fae3b3}
+.hblink .ico{width:15px;height:15px}
+@media(max-width:760px){.chaps{grid-template-columns:1fr}}
+.gbox{background:#fff8e8;border:1.5px solid #e2c27e;border-left:6px solid #d98a1f;border-radius:12px;padding:7px 12px;margin:0 0 10px;font-size:15px}
+.gbox[hidden]{display:none}
+.gbox .gh{font-weight:900;color:#8a5a0c;font-size:13.5px;margin-bottom:2px}
+.gbox .gi{margin:2px 0}
+.gbox .gl{display:inline-flex;align-items:center;gap:4px;border:1.5px solid #c0922b;background:#fff;color:#7a5600;border-radius:999px;font-weight:900;font-size:12.5px;padding:0 9px;margin-left:6px;cursor:pointer}
+.gbox .gl:hover{background:#fdf1d8}
+.chap .gbox{margin:0;font-size:14px;padding:5px 9px}
+#autoStat.ok{background:var(--green-soft);border-color:#9fd6b6;color:#23814e}
+#autoStat.bad{background:var(--red-soft);border-color:#f1b3ae;color:#c0392b}
 </style>
 </head>
 <body>
@@ -594,6 +627,7 @@ details.gd .gt{color:#a0332b;font-weight:700}
       <button class="btn ghost" type="button" id="hAdReload">重新整理</button>
       <label class="btn ghost" style="cursor:pointer"><svg class="ico"><use href="#i-upload"/></svg>匯入 aiHistory.json<input type="file" id="hAdFile" accept=".json,application/json" hidden></label>
       <label class="small" style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="hAdOver">用檔案的標記覆蓋網頁上改過的</label>
+      <button class="btn ghost" type="button" id="hAdManual"><svg class="ico"><use href="#i-download"/></svg>匯出說明書資料（給 Word 用）</button>
       <span id="hAdStat" class="small muted"></span>
     </div>
     <div style="overflow-x:auto;margin-top:12px"><table class="adm" id="hAdTable"></table></div>
@@ -651,7 +685,7 @@ details.gd .gt{color:#a0332b;font-weight:700}
 
   <div class="note" style="margin-top:16px"><svg class="ico"><use href="#i-shield"/></svg><p><b>手冊的偵探工具箱（肆 p.37）：</b>停一停，先別急著相信；查一查，看課本或可信的網站；問一問，問老師或家人。例：卡片寫「明年是羊年」，就去查：2027 年（民國 116 年）是丁未羊年，農曆新年在 2027 年 2 月 6 日。</p></div>
 
-  <div class="docq"><svg class="ico"><use href="#i-file"/></svg><div><b>發現的問題，等一下在「我的對話」那一步選出來。</b>先檢查，把找到的問題記在心裡（或在文件裡隨手記一行）。都沒發現錯？也要記下你<b>怎麼檢查的</b>。</div></div>
+  <div class="docq"><svg class="ico"><use href="#i-file"/></svg><div><b>發現的問題，等一下在「我的對話」那一步自己寫下來。</b>先檢查，把找到的問題記在心裡（或在文件裡隨手記一行）。都沒發現錯？也要記下你<b>怎麼檢查的</b>。</div></div>
 
 <a class="link-card" href="https://boyauc.github.io/gailearn/CH4-factchecking/" target="_blank" rel="noopener">
     <span class="li"><svg class="ico"><use href="#i-game"/></svg></span>
@@ -661,10 +695,10 @@ details.gd .gt{color:#a0332b;font-weight:700}
 </section>
 
 <!-- ========== 步驟 2 ========== -->
-<section class="step" data-title="黑紅藍標記" data-min="5" hidden>
+<section class="step" data-title="黑紅藍標記" data-min="4" hidden>
   <div class="step-head"><div class="num">2</div><div>
     <h2>要標記：黑色、紅色、藍色</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>5 分鐘</span><span class="chip book" data-zoom="assets/hb_p25.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 參 p.25</span><span class="chip book" data-zoom="assets/hb_p54.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 陸 p.54</span></div>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>4 分鐘</span><span class="chip book" data-zoom="assets/hb_p25.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 參 p.25</span><span class="chip book" data-zoom="assets/hb_p54.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 陸 p.54</span></div>
   </div></div>
 
     <div class="hb">
@@ -704,7 +738,7 @@ details.gd .gt{color:#a0332b;font-weight:700}
       <div>
         <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">自動帶入</span> <b>我的原始提問</b><br><span class="small muted">你當時問 e度 的那句話。</span></p>
         <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">自動帶入</span> <b>AI 的回答摘要</b><br><span class="small muted">e度 的回答會先縮短放好，太長可以自己刪減。</span></p>
-        <p><span class="chip" style="background:var(--ac-soft);border-color:var(--ac)">你自己寫</span> <b>我發現的問題</b><br><span class="small muted">哪一句有問題、為什麼、你怎麼確認的。下面有引導。</span></p>
+        <p><span class="chip" style="background:var(--ac-soft);border-color:var(--ac)">你自己寫</span> <b>我的發現與修正</b><br><span class="small muted">發現問題、修正、追問、補充都可以；寫清楚哪裡、為什麼。下面有引導。</span></p>
       </div>
       <div>
         <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">自動帶入</span> <b>我的追問／修正指令</b><br><span class="small muted">你看完回答後，接著說的那句話。</span></p>
@@ -757,15 +791,15 @@ details.gd .gt{color:#a0332b;font-weight:700}
 </section>
 
 <!-- ========== 步驟 4：我的對話紀錄 ========== -->
-<section class="step" data-title="我的對話" data-min="14" hidden>
+<section class="step" data-title="我的對話" data-min="12" hidden>
   <div class="step-head"><div class="num">4</div><div>
     <h2>看自己的對話，挑出 4～5 輪</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>14 分鐘</span><span class="chip">簡章 四-2-4</span><span class="chip" id="hStat"><svg class="ico"><use href="#i-cloud"/></svg>還沒讀取</span></div>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>12 分鐘</span><span class="chip">簡章 四-2-4</span><span class="chip" id="hStat"><svg class="ico"><use href="#i-cloud"/></svg>還沒讀取</span></div>
   </div></div>
   <input type="hidden" id="hOk" data-key="histOk" data-req>
   <input type="hidden" id="hCnt" data-key="histPicked">
 
-  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>這是你和 e度 說過的全部話，從上往下看。</b>右邊有老師標的「值得寫的對話」，點一下就跳過去。看到有發現問題、有追問、有自己修改的地方，按那句話下面的「挑這一輪」。挑好後往下捲，提問、回答摘要、追問會自動帶入，<b>「我發現的問題」和「最終採用的理由」要你自己寫</b>，每一格下面都有「評審看什麼」的引導。</p></div>
+  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>這是你和 e度 說過的全部話，從上往下看。</b>右邊有老師標的「值得寫的對話」，點一下就跳過去。看到有發現問題、有追問、有自己修改的地方，按那句話下面的「挑這一輪」。挑好後往下捲，提問、回答摘要、追問會自動帶入，<b>「我的發現與修正」和「最終採用的理由」要你自己寫</b>，每一格下面都有「評審看什麼」的引導。</p></div>
 
   <div class="hlock" id="hLock"><svg class="ico"><use href="#i-lock"/></svg><span>先在最上面填好年級、班級、座號，這一步才看得到你自己的對話紀錄。</span></div>
 
@@ -790,36 +824,39 @@ details.gd .gt{color:#a0332b;font-weight:700}
 </section>
 
 <!-- ========== 步驟 5：作品說明書 ========== -->
-<section class="step" data-title="作品說明書" data-min="10" hidden>
+<section class="step" data-title="作品說明書" data-min="13" hidden id="manual">
   <div class="step-head"><div class="num">5</div><div>
-    <h2>作品說明書：在文件裡寫</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>10 分鐘</span><span class="chip">說明書欄位照原本順序</span></div>
+    <h2>作品說明書：直接在這裡打</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>13 分鐘</span><span class="chip">欄位和比賽的說明書表格一樣</span><span class="chip" id="autoStat"><svg class="ico"><use href="#i-cloud"/></svg>每 8 秒自動儲存</span></div>
   </div></div>
 
-  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>說明書就是你文件最上面的「作品說明書」表格。</b>直接在表格裡填 5 欄。這一頁告訴你每一欄要寫什麼、評審看什麼；前面幾節的紀錄都在文件和上一步，邊看邊填。</p></div>
+  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>不用另外開文件了。</b>這一頁的 5 個部分，就是比賽「作品說明書」表格的 5 欄，你打在這裡，系統會<b>每 8 秒自動儲存</b>；老師最後會把你打的內容整理成比賽格式的 Word。每一欄下面有「評審看什麼」，還有老師<b>根據你的對話紀錄</b>給的提醒，可以點「看那段對話」回去看。</p></div>
 
   <div class="sec">
     <h3><span class="no">1</span>創作理念</h3>
+    <p class="small muted" style="margin-top:0">請說明你想透過這個作品告訴大家什麼想法或故事？這個作品結合了你什麼真實的生活經驗？</p>
     <div class="judge">
       <div class="j"><b><svg class="ico"><use href="#i-eye"/></svg>評審看什麼</b>想告訴大家什麼？結合了你什麼<b>真實的生活經驗</b>？</div>
       <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>問自己</b><ul><li>為什麼選這一刻？</li><li>這件事改變了我什麼？</li></ul></div>
     </div>
     <div class="ref"><div class="rt">第 1 節 主題卡</div><div class="rv"><span data-ref="L1.reason"></span>　／　<span data-ref="L1.moment"></span>　／　<span data-ref="L1.why"></span></div></div>
-    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在說明書表格裡寫：<b>創作理念：想告訴大家什麼？結合了你什麼真實的生活經驗？</b></div></div>
+    <div class="gbox" data-guide="idea" hidden></div>
+    <div class="field"><textarea id="m_idea" data-key="idea" data-req rows="5" data-count aria-label="創作理念"></textarea></div>
   </div>
 
   <div class="sec">
     <h3><span class="no">2</span>手冊對應章節（可以複選）</h3>
-    <p class="small muted" style="margin-top:0">勾你真的用到的章節，再說明用在哪裡。這幾節課用到的地方：</p>
+    <p class="small muted" style="margin-top:0">請勾選你的作法可以對應到《中小學生成式 AI 之學習應用手冊—國小生聰明用 AI》的哪一個章節，並說明對應部分。點「看手冊」會打開那一章的手冊頁面，幫你回想。</p>
+    <div class="gbox" id="gChapSum"></div>
     <div class="chaps">
-      <label><input type="checkbox" data-key="chapters" value="第一章"><span><b>壹 AI 是什麼？</b>認識 e度 是 AI 代理人</span></label>
-      <label><input type="checkbox" data-key="chapters" value="第二章"><span><b>貳 怎麼和 AI 溝通？</b>說清楚、追問、保護個資</span></label>
-      <label><input type="checkbox" data-key="chapters" value="第三章"><span><b>參 AI 小任務</b>和 AI 寫詩、畫圖、黑紅藍標記</span></label>
-      <label><input type="checkbox" data-key="chapters" value="第四章"><span><b>肆 AI 說的一定對嗎？</b>刻板印象、幻覺、查證</span></label>
-      <label><input type="checkbox" data-key="chapters" value="第五章"><span><b>伍 AI 幫助我學習</b>寫作精靈給修改建議</span></label>
-      <label><input type="checkbox" data-key="chapters" value="第六章"><span><b>陸 AI 時代的好公民</b>三色燈、標記、剛剛好的資料</span></label>
+      <div class="chap" data-ch="第一章"><label><input type="checkbox" data-key="chapters" value="第一章"><span><b>壹 AI 是什麼？</b>認識 e度 是 AI 代理人<i class="rec-tag">★ 適合你</i></span></label><button class="hblink" type="button" data-hb="第一章"><svg class="ico"><use href="#i-book"/></svg>看手冊</button><div class="gbox" data-guide-ch="第一章" hidden></div></div>
+      <div class="chap" data-ch="第二章"><label><input type="checkbox" data-key="chapters" value="第二章"><span><b>貳 怎麼和 AI 溝通？</b>說清楚、追問、保護個資<i class="rec-tag">★ 適合你</i></span></label><button class="hblink" type="button" data-hb="第二章"><svg class="ico"><use href="#i-book"/></svg>看手冊</button><div class="gbox" data-guide-ch="第二章" hidden></div></div>
+      <div class="chap" data-ch="第三章"><label><input type="checkbox" data-key="chapters" value="第三章"><span><b>參 AI 小任務</b>和 AI 寫詩、畫圖、黑紅藍標記<i class="rec-tag">★ 適合你</i></span></label><button class="hblink" type="button" data-hb="第三章"><svg class="ico"><use href="#i-book"/></svg>看手冊</button><div class="gbox" data-guide-ch="第三章" hidden></div></div>
+      <div class="chap" data-ch="第四章"><label><input type="checkbox" data-key="chapters" value="第四章"><span><b>肆 AI 說的一定對嗎？</b>刻板印象、幻覺、查證<i class="rec-tag">★ 適合你</i></span></label><button class="hblink" type="button" data-hb="第四章"><svg class="ico"><use href="#i-book"/></svg>看手冊</button><div class="gbox" data-guide-ch="第四章" hidden></div></div>
+      <div class="chap" data-ch="第五章"><label><input type="checkbox" data-key="chapters" value="第五章"><span><b>伍 AI 幫助我學習</b>寫作精靈給修改建議<i class="rec-tag">★ 適合你</i></span></label><button class="hblink" type="button" data-hb="第五章"><svg class="ico"><use href="#i-book"/></svg>看手冊</button><div class="gbox" data-guide-ch="第五章" hidden></div></div>
+      <div class="chap" data-ch="第六章"><label><input type="checkbox" data-key="chapters" value="第六章"><span><b>陸 AI 時代的好公民</b>三色燈、標記、剛剛好的資料<i class="rec-tag">★ 適合你</i></span></label><button class="hblink" type="button" data-hb="第六章"><svg class="ico"><use href="#i-book"/></svg>看手冊</button><div class="gbox" data-guide-ch="第六章" hidden></div></div>
     </div>
-    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在說明書表格裡寫：<b>對應部分說明：你用到手冊哪一章的什麼方法？</b></div></div>
+    <div class="field" style="margin-top:10px"><div class="lbl">對應部分說明：你用到手冊哪一章的什麼方法？</div><textarea id="m_chapDesc" data-key="chapDesc" data-req rows="4" data-count aria-label="對應部分說明"></textarea></div>
   </div>
 
   <div class="sec">
@@ -831,28 +868,31 @@ details.gd .gt{color:#a0332b;font-weight:700}
       <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>寫法</b>發現了什麼 → 我怎麼問 → 結果變成怎樣</div></div>
     <div class="eg"><div class="egt">範例句型（不是你的題目，換成你自己的事）</div>
       我一開始提了一個點子：<b>「比賽很緊張」</b>，AI 把它改成<span class="rd">「握筆的手一直發抖」</span>，我覺得它講的<span class="rd">「手發抖」</span>很有畫面，<b>所以我把它加進我的句子裡</b>，再自己改成<span class="blu">「我握筆的手微微發抖」</span>。AI 還建議加「全場鼓掌」，但那天沒有發生，<b>我沒有採用</b>。</div>
-    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在說明書表格裡寫：<b>你是怎麼發現跟修正的？</b></div></div>
-    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在說明書表格裡寫：<b>你在哪些地方使用到 e度？（文思精靈想細節、寫作精靈給建議、繪圖精靈畫圖、一般模式查事實……）</b></div></div>
+    <div class="gbox" data-guide="found" hidden></div>
+    <div class="field"><div class="lbl">你是怎麼發現跟修正的？</div><textarea id="m_found" data-key="found" data-req rows="5" data-count aria-label="你是怎麼發現跟修正的"></textarea></div>
+    <div class="gbox" id="gModes" hidden></div>
+    <div class="field"><div class="lbl">你在哪些地方使用到 e度？</div><textarea id="m_eUse" data-key="eUse" data-req rows="3" data-count aria-label="你在哪些地方使用到 e度" placeholder="例如：用哪一種模式、做了什麼事（問答、想細節、給修改建議、畫圖……）"></textarea></div>
   </div>
 
   <div class="sec">
     <h3><span class="no">4</span>查證揭露</h3>
+    <p class="small muted" style="margin-top:0">請說明並記錄作品的哪些部分使用教育型 AI、哪些部分是自己創作的？是否完整標示作品經教育型 AI 協助生成？</p>
     <div class="judge"><div class="j"><b><svg class="ico"><use href="#i-eye"/></svg>評審看什麼</b>哪些部分是 AI 協助、哪些是自己創作？有沒有完整標示？</div>
-      <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>寫法</b>分三句寫：我自己想的、AI 幫忙的、我自己改的（和 Word 裡標的黑、紅、藍一樣）</div></div>
-    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在說明書表格裡寫：<b>查證揭露：哪些是 AI 協助、哪些是你自己創作的？</b></div></div>
+      <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>寫法</b>分三句寫：我自己想的、AI 幫忙的、我自己改的（和卡片上標的黑、紅、藍一樣）</div></div>
+    <div class="gbox" data-guide="disclose" hidden></div>
+    <div class="field"><textarea id="m_disclose" data-key="disclose" data-req rows="5" data-count aria-label="查證揭露"></textarea></div>
   </div>
 
   <div class="sec">
     <h3><span class="no">5</span>學習反思</h3>
-    <div class="field"><div class="lbl">用到哪些工具</div>
-      <div class="opts"><label class="opt"><input type="checkbox" data-key="tools" value="因材網 e度" data-req>因材網 e度</label><label class="opt"><input type="checkbox" data-key="tools" value="Canva">Canva</label><label class="opt"><input type="checkbox" data-key="tools" value="PowerPoint">PowerPoint</label><label class="opt"><input type="checkbox" data-key="tools" value="Word">Word</label><label class="opt"><input type="checkbox" data-key="tools" value="其他">其他</label></div></div>
+    <div class="field"><div class="lbl">你用到了哪些教育型 AI 及數位工具？</div>
+      <div class="opts"><label class="opt"><input type="checkbox" data-key="tools" value="因材網 e度" data-req>因材網 e度</label><label class="opt"><input type="checkbox" data-key="tools" value="Canva">Canva</label><label class="opt"><input type="checkbox" data-key="tools" value="PowerPoint">PowerPoint</label><label class="opt"><input type="checkbox" data-key="tools" value="Word">Word</label><label class="opt"><input type="checkbox" data-key="tools" value="其他">其他</label></div>
+      <input type="text" data-key="toolsOther" id="m_toolsOther" maxlength="60" placeholder="勾「其他」的話，寫是什麼工具" style="margin-top:6px;width:100%;max-width:420px;border:2.5px solid #9a8650;border-radius:12px;padding:6px 12px;font-size:16px"></div>
     <div class="ref"><div class="rt">第 2 節 我用過的招式</div><div class="rv" data-ref="L2.moves"></div></div>
-    <div class="docq"><svg class="ico"><use href="#i-pen"/></svg><div>在說明書表格裡寫：<b>透過這次實作，你學到了什麼？（寫一個具體的改變，不要只寫「學到很多」）</b></div></div>
+    <div class="field"><div class="lbl">透過這次實作，你學到了什麼？<span class="hint">寫一個具體的改變，不要只寫「學到很多」</span></div><textarea id="m_learned" data-key="learned" data-req rows="5" data-count aria-label="你學到了什麼"></textarea></div>
   </div>
 
-  <div class="docbox">
-    <div class="checks"><label><input type="checkbox" data-key="doc5" value="說明書寫好" data-req>我已經在文件最上面的說明書表格填好 5 欄了。</label></div>
-  </div>
+  <div class="note good"><svg class="ico"><use href="#i-check"/></svg><p><b>寫好之後什麼都不用交。</b>內容已經自動存到雲端；老師會匯出成比賽格式的 Word。想改隨時回來改，到交件前都可以。</p></div>
   <div class="stepnav"></div>
 </section>
 
@@ -868,7 +908,7 @@ details.gd .gt{color:#a0332b;font-weight:700}
     <dl>
       <dt>檢查了</dt><dd data-ref="L4.checks"></dd>
       <dt>歷程紀錄</dt><dd data-ref="L4.histPicked" data-empty="還沒挑">挑好</dd>
-      <dt>說明書</dt><dd>文件最上面的「作品說明書」5 欄填好</dd>
+      <dt>說明書</dt><dd>作品說明書 5 個部分打好，已自動儲存</dd>
     </dl>
     <svg class="bot" viewBox="0 0 120 120"><use href="#bot"/></svg>
   </div>
@@ -1330,6 +1370,8 @@ var COLL = 'cardWork';
   var AIH='aiHistory',MAXP=5,MINP=4,TEACHER='boyin0304@slps.tn.edu.tw';
   var LIM={qt:160,at:120,ft:120,issNote:90,mine:100},MINE_MIN=6,ISS_MIN=6;
   var KIND={ask:'提問策略',check:'發現問題',fix:'追問修正'};
+  var FK=[['find','發現問題'],['fix','我修正了'],['ask','我追問了'],['add','我補充了']];
+  var FKL={find:'發現問題',fix:'我的修正',ask:'我的追問',add:'我的補充'};
   var DEC=[['use','我採用 AI 的意見'],['edit','我改過之後才採用'],['no','我沒有採用']];
   var WHY=['很像我真實的經驗或感覺','我自己查過，確認是對的','我發現 AI 說錯了，所以追問修正','那天沒有發生，所以不用','太空泛，我換成只有我才有的細節','我沒看懂，請 AI 換個方式說','結果比原本更好'];
   var $=window.$,esc=window.esc,toast=window.toast;
@@ -1357,13 +1399,13 @@ var COLL = 'cardWork';
     p.ft=r.f?clip(ix.by[r.f].m.x,LIM.ft):'';
     return p;
   }
-  function newPick(ix,qid){return autoFill(ix,{q:qid,a:'',f:'',qt:'',at:'',ft:'',issNote:'',dec:'',why:[],mine:'',ts:Date.now()});}
-  function isDone(p){return !!(p.qt&&p.qt.trim()&&p.at&&p.at.trim()&&(p.issNote||'').trim().length>=ISS_MIN&&p.dec&&(p.mine||'').trim().length>=MINE_MIN);}
+  function newPick(ix,qid){return autoFill(ix,{q:qid,a:'',f:'',qt:'',at:'',ft:'',fk:'',issNote:'',dec:'',why:[],mine:'',ts:Date.now()});}
+  function isDone(p){return !!(p.qt&&p.qt.trim()&&p.at&&p.at.trim()&&p.fk&&(p.issNote||'').trim().length>=ISS_MIN&&p.dec&&(p.mine||'').trim().length>=MINE_MIN);}
   // 評審會看的 4 個地方（簡章五）：只是提醒，不擋人
   function rubric(p){return [['批判檢視 30%',(p.issNote||'').trim().length>=12],['提問與修正 30%',(p.ft||'').trim().length>=4],['生活連結 30%',(p.mine||'').trim().length>=15],['權責揭露 20%',!!p.dec]];}
   function cleanPick(p){
     return {q:String(p.q),a:String(p.a||''),f:String(p.f||''),qt:nb(p.qt).slice(0,LIM.qt),at:nb(p.at).slice(0,LIM.at),ft:nb(p.ft).slice(0,LIM.ft),
-      issNote:nb(p.issNote).slice(0,LIM.issNote),
+      fk:FKL[p.fk]?p.fk:'',issNote:nb(p.issNote).slice(0,LIM.issNote),
       dec:p.dec==='use'||p.dec==='edit'||p.dec==='no'?p.dec:'',why:(p.why||[]).filter(function(x){return WHY.indexOf(x)>=0;}),mine:nb(p.mine).slice(0,LIM.mine),ts:Number(p.ts)||0};
   }
   function fmtT(t){return String(t||'').replace('-','/');}
@@ -1415,7 +1457,7 @@ var COLL = 'cardWork';
     var a=nb(p.at).trim(),fd=nb(p.issNote).trim();
     var why=(p.dec?'【'+decLabel(p.dec)+'】':'')+(p.why||[]).join('；');
     if(nb(p.mine).trim())why+=(why&&!/】$/.test(why)?'。':'')+nb(p.mine).trim();
-    return {q:nb(p.qt).trim(),a:a,fd:fd,f:nb(p.ft).trim()||'（這一輪沒有追問）',why:why};
+    return {q:nb(p.qt).trim(),a:a,fd:fd,fl:FKL[p.fk]||'發現與修正',f:nb(p.ft).trim()||'（這一輪沒有追問）',why:why};
   }
   function rowH(l,v,extra){return '<div class="rr"><div class="l">'+l+'</div><div class="v">'+v+(extra||'')+'</div></div>';}
   function sheetEl(items,o){
@@ -1426,7 +1468,7 @@ var COLL = 'cardWork';
       var t=roundText(it.p);
       h+='<div class="rd"><div class="rh">第 '+(k+1)+' 輪'+(it.mode?'　（'+esc(it.mode)+'）':'')+'</div>'+
         rowH('我的原始提問（Prompt）',esc(t.q))+
-        rowH('教育型 AI 的回答摘要與問題發現',esc(t.a),t.fd?'<span class="fd"><b>發現的問題：</b>'+esc(t.fd)+'</span>':'')+
+        rowH('教育型 AI 的回答摘要與問題發現',esc(t.a),t.fd?'<span class="fd"><b>'+esc(t.fl)+'：</b>'+esc(t.fd)+'</span>':'')+
         rowH('我的追問／修正指令',esc(t.f))+
         rowH('最終採用的理由',esc(t.why))+'</div>';
     });
@@ -1481,7 +1523,7 @@ var COLL = 'cardWork';
      ============================================================ */
   var S={id:'',doc:null,ix:null,picks:[],loadedFor:'',fb:null,saveT:null};
   var root=$('hBody'),lockEl=$('hLock'),statEl=$('hStat');
-  function lock(msg,kind){root.hidden=true;lockEl.hidden=false;lockEl.innerHTML='<svg class="ico"><use href="#'+(kind==='bad'?'i-alert':'i-lock')+'"/></svg><span>'+esc(msg)+'</span>';}
+  function lock(msg,kind){S.doc=null;S.ix=null;if(typeof renderGuide==='function')renderGuide();root.hidden=true;lockEl.hidden=false;lockEl.innerHTML='<svg class="ico"><use href="#'+(kind==='bad'?'i-alert':'i-lock')+'"/></svg><span>'+esc(msg)+'</span>';}
   function ident(){return window.cardIdentity&&window.cardIdentity();}
   function ensureAuth(fb){return fb.auth.currentUser?Promise.resolve(fb.auth.currentUser):fb.auth.signInAnonymously();}
   function setHidden(id,val){var e=$(id);if(e&&e.value!==val){e.value=val;e.dispatchEvent(new Event('input',{bubbles:true}));}}
@@ -1512,7 +1554,7 @@ var COLL = 'cardWork';
     }).catch(function(e){console.warn('讀取對話紀錄失敗',e);if(S.loadedFor===id)lock('讀取失敗（'+(e.code||e.message||'網路')+'）。再按一次「讀取學習單」，還是不行就告訴老師。','bad');});
   }
 
-  function renderAll(){renderSide();renderChat();renderPicks();refreshMeta();}
+  function renderAll(){renderSide();renderChat();renderPicks();refreshMeta();renderGuide();}
   function renderChat(){
     var c=$('hChat'),y=window.pageYOffset;
     c.innerHTML=chatHTML(S.doc,S.ix,{picks:S.picks});
@@ -1547,14 +1589,15 @@ var COLL = 'cardWork';
     h+=fieldH('qt','我的原始提問（Prompt）',true,p.qt,LIM.qt,'自動帶入你當時說的話。太長就留下重點，可以自己刪減。');
     h+='<div class="pf"><div class="lb"><span>教育型 AI 的回答摘要</span><span class="au">自動帶入</span><span class="ct" data-ct="at"></span></div>'+
       '<textarea class="px auto" data-f="at" maxlength="'+LIM.at+'" rows="3">'+esc(p.at)+'</textarea></div>';
-    h+='<div class="pf"><div class="lb"><span>我發現的問題</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
-      '<textarea class="px" data-f="issNote" maxlength="'+LIM.issNote+'" rows="2" placeholder="哪一句、哪個字或哪個說法有問題？為什麼？我怎麼確認的？（至少 '+ISS_MIN+' 個字）">'+esc(p.issNote)+'</textarea>'+
-      guideH(op,'有沒有真的檢查 e度（批判檢視，佔 30%，同分時先比這項）。',
-        ['寫清楚是<b>哪一句、哪個字、哪個說法</b>有問題，不要只寫「AI 不太好」。','說出<b>為什麼</b>：和我家真實的事不同？查資料不一樣？太空泛，換成別人也能用？AI 直接幫我寫了？','說出<b>我怎麼確認的</b>：查課本或網站、問家人、自己重讀。'],
-        '都沒發現問題也要寫：我是怎麼檢查的、為什麼確定沒問題。只寫「沒有錯誤」，評審看不出你有檢查。')+'</div>';
+    h+='<div class="pf"><div class="lb"><span>我的發現與修正</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
+      '<div class="mini">這一輪我主要是…（發現問題、修正、追問、補充，都可以得分）</div><div class="opts">'+FK.map(function(d){return '<label class="opt"><input type="radio" name="fk'+k+'" data-fk="'+d[0]+'"'+(p.fk===d[0]?' checked':'')+'>'+esc(d[1])+'</label>';}).join('')+'</div>'+
+      '<textarea class="px" data-f="issNote" maxlength="'+LIM.issNote+'" rows="2" style="margin-top:6px" placeholder="是哪一句、哪個字或哪個想法？為什麼這樣做？我怎麼確認或決定的？（至少 '+ISS_MIN+' 個字）">'+esc(p.issNote)+'</textarea>'+
+      guideH(op,'批判檢視、提問策略與人工修正（佔 30%，同分時先比這項）。不一定要「找到錯」，四種都算：',
+        ['<b>發現問題</b>：哪一句、哪個字、哪個說法有問題？為什麼？你怎麼確認的（查課本或網站、問家人、重讀）？','<b>我修正了</b>：改了哪裡？改之前和改之後差在哪？為什麼這樣更像我？','<b>我追問了</b>：你想知道什麼？為什麼追問？追問之後 e度 的回答有什麼不一樣？','<b>我補充了</b>：補了哪個只有你才有的細節？為什麼要補？'],
+        '都沒發現問題也要寫：我是怎麼檢查的、為什麼確定沒問題。只寫「很好」「沒有錯誤」，評審看不出你的想法。')+'</div>';
     h+=fieldH('ft','我的追問／修正指令',true,p.ft,LIM.ft,r.f?'自動帶入你接著說的那句話。':'');
     if(!r.f)h+='<div class="pnote">這一輪後面你沒有再問 e度。評審很看重追問和修正；可以換一輪挑，或在上面寫你後來怎麼改。</div>';
-    h+=guideH(op,'提問策略與人工修正（各佔 30% 的一部分）：你有沒有根據發現的問題，繼續把結果問得更好、改得更像你。',
+    h+=guideH(op,'提問策略與人工修正（各佔 30% 的一部分）：你有沒有根據自己的發現，繼續把結果問得更好、改得更像你。',
       ['有沒有說出<b>哪裡要改</b>、<b>要它怎麼做</b>？','有沒有<b>限制它</b>（只給建議、不要幫我寫、請說明理由）？','追問之後，結果有沒有變得更像我家？'],
       '追問只有「好」「謝謝」，評審看不到策略；可以換一輪挑，或自己補寫你後來怎麼改。');
     h+='<div class="pf final"><div class="lb"><span>最終採用的理由</span><span class="au me">我自己寫</span></div>'+
@@ -1648,10 +1691,64 @@ var COLL = 'cardWork';
     if(!p)return;
     if(f){p[f]=e.target.value;}
     else if(e.target.dataset.dec){p.dec=e.target.dataset.dec;}
+    else if(e.target.dataset.fk){p.fk=e.target.dataset.fk;}
     else if(e.target.dataset.why!=null){var w=WHY[Number(e.target.dataset.why)];p.why=p.why.filter(function(x){return x!==w;});if(e.target.checked)p.why.push(w);}
     else return;
     updCounts();refreshMeta();saveSoon();
   });
+
+  /* ---------- 第 5 步：依對話給的提醒、手冊連結、自動儲存 ---------- */
+  var HBIDX={};
+  (function(){var pdf={'第一章':14,'第二章':22,'第三章':34,'第四章':47,'第五章':52,'第六章':65},list=(window.PAGE&&window.PAGE.hb)||[];
+    Object.keys(pdf).forEach(function(k){for(var i=0;i<list.length;i++)if(list[i][0]===pdf[k])HBIDX[k]=i;});})();
+  var CHN={'第一章':'壹 AI 是什麼？','第二章':'貳 怎麼和 AI 溝通？','第三章':'參 AI 小任務','第四章':'肆 AI 說的一定對嗎？','第五章':'伍 AI 幫助我學習','第六章':'陸 AI 時代的好公民'};
+  var MODEUSE={'一般模式':'一般模式（問答、查事實）','文思精靈':'文思精靈（想細節、帶著寫）','寫作精靈':'寫作精靈（給修改建議）','繪圖精靈':'繪圖精靈（畫圖）'};
+  function links(ids){return (ids||[]).slice(0,3).map(function(id){var o=S.ix&&S.ix.by[id];return o?'<button type="button" class="gl" data-gojump="'+id+'">看那段對話 '+esc(fmtT(o.m.t))+'</button>':'';}).join('');}
+  function gitem(it){return '<div class="gi">'+esc(nb(it.why))+links(it.ids)+'</div>';}
+  function renderGuide(){
+    var g=(S.doc&&S.doc.guide)||{};
+    Array.prototype.forEach.call(document.querySelectorAll('[data-guide]'),function(b){
+      var k=b.dataset.guide,v=g[k],items=!v?[]:(Array.isArray(v)?v:[v]);
+      b.hidden=!items.length;
+      b.innerHTML=items.length?'<div class="gh">★ 老師根據你的對話提醒</div>'+items.map(gitem).join(''):'';
+    });
+    var rec={};(g.chapters||[]).forEach(function(c){rec[c.ch]=c;});
+    Array.prototype.forEach.call(document.querySelectorAll('.chap'),function(el){
+      var c=rec[el.dataset.ch],b=el.querySelector('[data-guide-ch]');
+      el.classList.toggle('rec',!!c);b.hidden=!c;b.innerHTML=c?gitem(c):'';
+    });
+    var sum=$('gChapSum');
+    if(!S.doc){sum.hidden=false;sum.innerHTML='<div class="gh">填好最上面的年級、班級、座號後，這裡會出現依你的對話整理的提醒。</div>';}
+    else if(!(g.chapters||[]).length){sum.hidden=true;}
+    else{sum.hidden=false;sum.innerHTML='<div class="gh">★ 老師看了你的對話，適合寫這幾章（下面有 ★ 標記）</div><div class="gi">'+g.chapters.map(function(c){return esc(CHN[c.ch]||c.ch);}).join('、')+'</div>';}
+    var mo=$('gModes'),m=(S.doc&&S.doc.modes)||{},ks=Object.keys(m).sort(function(a,b){return m[b]-m[a];});
+    if(ks.length){mo.hidden=false;mo.innerHTML='<div class="gh">★ 你的 e度 對話紀錄顯示，你用過這些模式（可寫進「你在哪些地方使用到 e度」）</div><div class="gi">'+ks.map(function(k){return esc(MODEUSE[k]||k)+' '+m[k]+' 次';}).join('、')+'</div>';}
+    else mo.hidden=true;
+  }
+  document.addEventListener('click',function(e){
+    var j=e.target.closest('[data-gojump]'),h=e.target.closest('[data-hb]');
+    if(j){var id=j.dataset.gojump;window.cardShowStep(4);setTimeout(function(){flash($('hChat'),id);},350);}
+    else if(h){var i=HBIDX[h.dataset.hb];if(i!=null&&window.openHandbook)window.openHandbook(i);}
+  });
+  // 每 8 秒自動儲存（打字後 1 秒多也會先存一次）
+  (function(){
+    var man=$('manual'),touched=false,st=$('autoStat');
+    if(!man)return;
+    function mark(){touched=true;}
+    man.addEventListener('input',mark);man.addEventListener('change',mark);
+    function tick(){
+      if(!touched||!window.cardSave)return;
+      touched=false;window.cardRefresh();
+      window.cardSave().then(function(r){
+        var d=new Date(),t=d.getHours()+':'+('0'+d.getMinutes()).slice(-2)+':'+('0'+d.getSeconds()).slice(-2);
+        if(r==='cloud'){st.className='chip ok';st.textContent='已自動儲存 '+t;}
+        else if(r==='local'){st.className='chip bad';st.textContent='只存在這台電腦，請檢查網路';}
+        else{st.className='chip bad';st.textContent='儲存失敗，請填好年級、班級、座號';}
+      });
+    }
+    setInterval(tick,8000);
+    document.addEventListener('visibilitychange',function(){if(document.hidden)tick();});
+  })();
   $('hReload').addEventListener('click',function(){loadStudent(true);});
   $('hSheetBtn').addEventListener('click',function(){
     var items=S.picks.filter(isDone).map(function(p){return {p:p,mode:(S.doc.sessions[S.ix.by[p.q].si]||{}).mode};});
@@ -1770,6 +1867,16 @@ var COLL = 'cardWork';
     });
     aTable.addEventListener('click',function(e){var b=e.target.closest('[data-sel]');if(b)aDetail(b.dataset.sel);});
     $('hAdLogin').onclick=aLoad;$('hAdReload').onclick=aLoad;
+    $('hAdManual').onclick=function(){
+      if(!A.fb){aMsg('請先按「老師登入並讀取」。');return;}
+      A.fb.db.collection('cardWork').get().then(function(snap){
+        var out={};
+        snap.docs.forEach(function(d){var x=d.data();out[d.id]={title:(x.L1&&x.L1.title)||'',manual:x.L4||{}};});
+        var blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(),students:out})],{type:'application/json'});
+        var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='manual.json';document.body.appendChild(a);a.click();a.remove();
+        aMsg('已匯出 '+Object.keys(out).length+' 位的說明書資料（manual.json），拿去跑「產生說明書.py」。');
+      }).catch(function(er){aMsg('匯出失敗：'+(er.code||er.message));});
+    };
     // 匯入
     $('hAdFile').addEventListener('change',function(){
       var f=this.files[0];this.value='';if(!f)return;

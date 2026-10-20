@@ -59,7 +59,7 @@ service cloud.firestore {
     }
 
     // 資料三：aiHistory/{年級-班級-座號}（C04「我的對話紀錄」）
-    //   老師用 C04 網頁加 ?admin 匯入：grade、className、studentId、sessions（對話）、marks（老師標記）、importedAt、marksEdited。
+    //   老師用 C04 網頁加 ?admin 匯入：grade、className、studentId、sessions（對話）、marks（老師標記）、guide（說明書提示）、modes（用過的模式次數）、importedAt、marksEdited。
     //   學生只能讀自己那一份，而且只能改 picks（挑的 4～5 輪）和 picksAt；不能列出全部、不能改對話與標記。
     match /aiHistory/{wid} {
       allow get: if request.auth != null;

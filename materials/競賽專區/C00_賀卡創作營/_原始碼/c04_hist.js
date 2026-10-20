@@ -11,6 +11,8 @@
   var AIH='aiHistory',MAXP=5,MINP=4,TEACHER='boyin0304@slps.tn.edu.tw';
   var LIM={qt:160,at:120,ft:120,issNote:90,mine:100},MINE_MIN=6,ISS_MIN=6;
   var KIND={ask:'提問策略',check:'發現問題',fix:'追問修正'};
+  var FK=[['find','發現問題'],['fix','我修正了'],['ask','我追問了'],['add','我補充了']];
+  var FKL={find:'發現問題',fix:'我的修正',ask:'我的追問',add:'我的補充'};
   var DEC=[['use','我採用 AI 的意見'],['edit','我改過之後才採用'],['no','我沒有採用']];
   var WHY=['很像我真實的經驗或感覺','我自己查過，確認是對的','我發現 AI 說錯了，所以追問修正','那天沒有發生，所以不用','太空泛，我換成只有我才有的細節','我沒看懂，請 AI 換個方式說','結果比原本更好'];
   var $=window.$,esc=window.esc,toast=window.toast;
@@ -38,13 +40,13 @@
     p.ft=r.f?clip(ix.by[r.f].m.x,LIM.ft):'';
     return p;
   }
-  function newPick(ix,qid){return autoFill(ix,{q:qid,a:'',f:'',qt:'',at:'',ft:'',issNote:'',dec:'',why:[],mine:'',ts:Date.now()});}
-  function isDone(p){return !!(p.qt&&p.qt.trim()&&p.at&&p.at.trim()&&(p.issNote||'').trim().length>=ISS_MIN&&p.dec&&(p.mine||'').trim().length>=MINE_MIN);}
+  function newPick(ix,qid){return autoFill(ix,{q:qid,a:'',f:'',qt:'',at:'',ft:'',fk:'',issNote:'',dec:'',why:[],mine:'',ts:Date.now()});}
+  function isDone(p){return !!(p.qt&&p.qt.trim()&&p.at&&p.at.trim()&&p.fk&&(p.issNote||'').trim().length>=ISS_MIN&&p.dec&&(p.mine||'').trim().length>=MINE_MIN);}
   // 評審會看的 4 個地方（簡章五）：只是提醒，不擋人
   function rubric(p){return [['批判檢視 30%',(p.issNote||'').trim().length>=12],['提問與修正 30%',(p.ft||'').trim().length>=4],['生活連結 30%',(p.mine||'').trim().length>=15],['權責揭露 20%',!!p.dec]];}
   function cleanPick(p){
     return {q:String(p.q),a:String(p.a||''),f:String(p.f||''),qt:nb(p.qt).slice(0,LIM.qt),at:nb(p.at).slice(0,LIM.at),ft:nb(p.ft).slice(0,LIM.ft),
-      issNote:nb(p.issNote).slice(0,LIM.issNote),
+      fk:FKL[p.fk]?p.fk:'',issNote:nb(p.issNote).slice(0,LIM.issNote),
       dec:p.dec==='use'||p.dec==='edit'||p.dec==='no'?p.dec:'',why:(p.why||[]).filter(function(x){return WHY.indexOf(x)>=0;}),mine:nb(p.mine).slice(0,LIM.mine),ts:Number(p.ts)||0};
   }
   function fmtT(t){return String(t||'').replace('-','/');}
@@ -96,7 +98,7 @@
     var a=nb(p.at).trim(),fd=nb(p.issNote).trim();
     var why=(p.dec?'【'+decLabel(p.dec)+'】':'')+(p.why||[]).join('；');
     if(nb(p.mine).trim())why+=(why&&!/】$/.test(why)?'。':'')+nb(p.mine).trim();
-    return {q:nb(p.qt).trim(),a:a,fd:fd,f:nb(p.ft).trim()||'（這一輪沒有追問）',why:why};
+    return {q:nb(p.qt).trim(),a:a,fd:fd,fl:FKL[p.fk]||'發現與修正',f:nb(p.ft).trim()||'（這一輪沒有追問）',why:why};
   }
   function rowH(l,v,extra){return '<div class="rr"><div class="l">'+l+'</div><div class="v">'+v+(extra||'')+'</div></div>';}
   function sheetEl(items,o){
@@ -107,7 +109,7 @@
       var t=roundText(it.p);
       h+='<div class="rd"><div class="rh">第 '+(k+1)+' 輪'+(it.mode?'　（'+esc(it.mode)+'）':'')+'</div>'+
         rowH('我的原始提問（Prompt）',esc(t.q))+
-        rowH('教育型 AI 的回答摘要與問題發現',esc(t.a),t.fd?'<span class="fd"><b>發現的問題：</b>'+esc(t.fd)+'</span>':'')+
+        rowH('教育型 AI 的回答摘要與問題發現',esc(t.a),t.fd?'<span class="fd"><b>'+esc(t.fl)+'：</b>'+esc(t.fd)+'</span>':'')+
         rowH('我的追問／修正指令',esc(t.f))+
         rowH('最終採用的理由',esc(t.why))+'</div>';
     });
@@ -162,7 +164,7 @@
      ============================================================ */
   var S={id:'',doc:null,ix:null,picks:[],loadedFor:'',fb:null,saveT:null};
   var root=$('hBody'),lockEl=$('hLock'),statEl=$('hStat');
-  function lock(msg,kind){root.hidden=true;lockEl.hidden=false;lockEl.innerHTML='<svg class="ico"><use href="#'+(kind==='bad'?'i-alert':'i-lock')+'"/></svg><span>'+esc(msg)+'</span>';}
+  function lock(msg,kind){S.doc=null;S.ix=null;if(typeof renderGuide==='function')renderGuide();root.hidden=true;lockEl.hidden=false;lockEl.innerHTML='<svg class="ico"><use href="#'+(kind==='bad'?'i-alert':'i-lock')+'"/></svg><span>'+esc(msg)+'</span>';}
   function ident(){return window.cardIdentity&&window.cardIdentity();}
   function ensureAuth(fb){return fb.auth.currentUser?Promise.resolve(fb.auth.currentUser):fb.auth.signInAnonymously();}
   function setHidden(id,val){var e=$(id);if(e&&e.value!==val){e.value=val;e.dispatchEvent(new Event('input',{bubbles:true}));}}
@@ -193,7 +195,7 @@
     }).catch(function(e){console.warn('讀取對話紀錄失敗',e);if(S.loadedFor===id)lock('讀取失敗（'+(e.code||e.message||'網路')+'）。再按一次「讀取學習單」，還是不行就告訴老師。','bad');});
   }
 
-  function renderAll(){renderSide();renderChat();renderPicks();refreshMeta();}
+  function renderAll(){renderSide();renderChat();renderPicks();refreshMeta();renderGuide();}
   function renderChat(){
     var c=$('hChat'),y=window.pageYOffset;
     c.innerHTML=chatHTML(S.doc,S.ix,{picks:S.picks});
@@ -228,14 +230,15 @@
     h+=fieldH('qt','我的原始提問（Prompt）',true,p.qt,LIM.qt,'自動帶入你當時說的話。太長就留下重點，可以自己刪減。');
     h+='<div class="pf"><div class="lb"><span>教育型 AI 的回答摘要</span><span class="au">自動帶入</span><span class="ct" data-ct="at"></span></div>'+
       '<textarea class="px auto" data-f="at" maxlength="'+LIM.at+'" rows="3">'+esc(p.at)+'</textarea></div>';
-    h+='<div class="pf"><div class="lb"><span>我發現的問題</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
-      '<textarea class="px" data-f="issNote" maxlength="'+LIM.issNote+'" rows="2" placeholder="哪一句、哪個字或哪個說法有問題？為什麼？我怎麼確認的？（至少 '+ISS_MIN+' 個字）">'+esc(p.issNote)+'</textarea>'+
-      guideH(op,'有沒有真的檢查 e度（批判檢視，佔 30%，同分時先比這項）。',
-        ['寫清楚是<b>哪一句、哪個字、哪個說法</b>有問題，不要只寫「AI 不太好」。','說出<b>為什麼</b>：和我家真實的事不同？查資料不一樣？太空泛，換成別人也能用？AI 直接幫我寫了？','說出<b>我怎麼確認的</b>：查課本或網站、問家人、自己重讀。'],
-        '都沒發現問題也要寫：我是怎麼檢查的、為什麼確定沒問題。只寫「沒有錯誤」，評審看不出你有檢查。')+'</div>';
+    h+='<div class="pf"><div class="lb"><span>我的發現與修正</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
+      '<div class="mini">這一輪我主要是…（發現問題、修正、追問、補充，都可以得分）</div><div class="opts">'+FK.map(function(d){return '<label class="opt"><input type="radio" name="fk'+k+'" data-fk="'+d[0]+'"'+(p.fk===d[0]?' checked':'')+'>'+esc(d[1])+'</label>';}).join('')+'</div>'+
+      '<textarea class="px" data-f="issNote" maxlength="'+LIM.issNote+'" rows="2" style="margin-top:6px" placeholder="是哪一句、哪個字或哪個想法？為什麼這樣做？我怎麼確認或決定的？（至少 '+ISS_MIN+' 個字）">'+esc(p.issNote)+'</textarea>'+
+      guideH(op,'批判檢視、提問策略與人工修正（佔 30%，同分時先比這項）。不一定要「找到錯」，四種都算：',
+        ['<b>發現問題</b>：哪一句、哪個字、哪個說法有問題？為什麼？你怎麼確認的（查課本或網站、問家人、重讀）？','<b>我修正了</b>：改了哪裡？改之前和改之後差在哪？為什麼這樣更像我？','<b>我追問了</b>：你想知道什麼？為什麼追問？追問之後 e度 的回答有什麼不一樣？','<b>我補充了</b>：補了哪個只有你才有的細節？為什麼要補？'],
+        '都沒發現問題也要寫：我是怎麼檢查的、為什麼確定沒問題。只寫「很好」「沒有錯誤」，評審看不出你的想法。')+'</div>';
     h+=fieldH('ft','我的追問／修正指令',true,p.ft,LIM.ft,r.f?'自動帶入你接著說的那句話。':'');
     if(!r.f)h+='<div class="pnote">這一輪後面你沒有再問 e度。評審很看重追問和修正；可以換一輪挑，或在上面寫你後來怎麼改。</div>';
-    h+=guideH(op,'提問策略與人工修正（各佔 30% 的一部分）：你有沒有根據發現的問題，繼續把結果問得更好、改得更像你。',
+    h+=guideH(op,'提問策略與人工修正（各佔 30% 的一部分）：你有沒有根據自己的發現，繼續把結果問得更好、改得更像你。',
       ['有沒有說出<b>哪裡要改</b>、<b>要它怎麼做</b>？','有沒有<b>限制它</b>（只給建議、不要幫我寫、請說明理由）？','追問之後，結果有沒有變得更像我家？'],
       '追問只有「好」「謝謝」，評審看不到策略；可以換一輪挑，或自己補寫你後來怎麼改。');
     h+='<div class="pf final"><div class="lb"><span>最終採用的理由</span><span class="au me">我自己寫</span></div>'+
@@ -329,10 +332,64 @@
     if(!p)return;
     if(f){p[f]=e.target.value;}
     else if(e.target.dataset.dec){p.dec=e.target.dataset.dec;}
+    else if(e.target.dataset.fk){p.fk=e.target.dataset.fk;}
     else if(e.target.dataset.why!=null){var w=WHY[Number(e.target.dataset.why)];p.why=p.why.filter(function(x){return x!==w;});if(e.target.checked)p.why.push(w);}
     else return;
     updCounts();refreshMeta();saveSoon();
   });
+
+  /* ---------- 第 5 步：依對話給的提醒、手冊連結、自動儲存 ---------- */
+  var HBIDX={};
+  (function(){var pdf={'第一章':14,'第二章':22,'第三章':34,'第四章':47,'第五章':52,'第六章':65},list=(window.PAGE&&window.PAGE.hb)||[];
+    Object.keys(pdf).forEach(function(k){for(var i=0;i<list.length;i++)if(list[i][0]===pdf[k])HBIDX[k]=i;});})();
+  var CHN={'第一章':'壹 AI 是什麼？','第二章':'貳 怎麼和 AI 溝通？','第三章':'參 AI 小任務','第四章':'肆 AI 說的一定對嗎？','第五章':'伍 AI 幫助我學習','第六章':'陸 AI 時代的好公民'};
+  var MODEUSE={'一般模式':'一般模式（問答、查事實）','文思精靈':'文思精靈（想細節、帶著寫）','寫作精靈':'寫作精靈（給修改建議）','繪圖精靈':'繪圖精靈（畫圖）'};
+  function links(ids){return (ids||[]).slice(0,3).map(function(id){var o=S.ix&&S.ix.by[id];return o?'<button type="button" class="gl" data-gojump="'+id+'">看那段對話 '+esc(fmtT(o.m.t))+'</button>':'';}).join('');}
+  function gitem(it){return '<div class="gi">'+esc(nb(it.why))+links(it.ids)+'</div>';}
+  function renderGuide(){
+    var g=(S.doc&&S.doc.guide)||{};
+    Array.prototype.forEach.call(document.querySelectorAll('[data-guide]'),function(b){
+      var k=b.dataset.guide,v=g[k],items=!v?[]:(Array.isArray(v)?v:[v]);
+      b.hidden=!items.length;
+      b.innerHTML=items.length?'<div class="gh">★ 老師根據你的對話提醒</div>'+items.map(gitem).join(''):'';
+    });
+    var rec={};(g.chapters||[]).forEach(function(c){rec[c.ch]=c;});
+    Array.prototype.forEach.call(document.querySelectorAll('.chap'),function(el){
+      var c=rec[el.dataset.ch],b=el.querySelector('[data-guide-ch]');
+      el.classList.toggle('rec',!!c);b.hidden=!c;b.innerHTML=c?gitem(c):'';
+    });
+    var sum=$('gChapSum');
+    if(!S.doc){sum.hidden=false;sum.innerHTML='<div class="gh">填好最上面的年級、班級、座號後，這裡會出現依你的對話整理的提醒。</div>';}
+    else if(!(g.chapters||[]).length){sum.hidden=true;}
+    else{sum.hidden=false;sum.innerHTML='<div class="gh">★ 老師看了你的對話，適合寫這幾章（下面有 ★ 標記）</div><div class="gi">'+g.chapters.map(function(c){return esc(CHN[c.ch]||c.ch);}).join('、')+'</div>';}
+    var mo=$('gModes'),m=(S.doc&&S.doc.modes)||{},ks=Object.keys(m).sort(function(a,b){return m[b]-m[a];});
+    if(ks.length){mo.hidden=false;mo.innerHTML='<div class="gh">★ 你的 e度 對話紀錄顯示，你用過這些模式（可寫進「你在哪些地方使用到 e度」）</div><div class="gi">'+ks.map(function(k){return esc(MODEUSE[k]||k)+' '+m[k]+' 次';}).join('、')+'</div>';}
+    else mo.hidden=true;
+  }
+  document.addEventListener('click',function(e){
+    var j=e.target.closest('[data-gojump]'),h=e.target.closest('[data-hb]');
+    if(j){var id=j.dataset.gojump;window.cardShowStep(4);setTimeout(function(){flash($('hChat'),id);},350);}
+    else if(h){var i=HBIDX[h.dataset.hb];if(i!=null&&window.openHandbook)window.openHandbook(i);}
+  });
+  // 每 8 秒自動儲存（打字後 1 秒多也會先存一次）
+  (function(){
+    var man=$('manual'),touched=false,st=$('autoStat');
+    if(!man)return;
+    function mark(){touched=true;}
+    man.addEventListener('input',mark);man.addEventListener('change',mark);
+    function tick(){
+      if(!touched||!window.cardSave)return;
+      touched=false;window.cardRefresh();
+      window.cardSave().then(function(r){
+        var d=new Date(),t=d.getHours()+':'+('0'+d.getMinutes()).slice(-2)+':'+('0'+d.getSeconds()).slice(-2);
+        if(r==='cloud'){st.className='chip ok';st.textContent='已自動儲存 '+t;}
+        else if(r==='local'){st.className='chip bad';st.textContent='只存在這台電腦，請檢查網路';}
+        else{st.className='chip bad';st.textContent='儲存失敗，請填好年級、班級、座號';}
+      });
+    }
+    setInterval(tick,8000);
+    document.addEventListener('visibilitychange',function(){if(document.hidden)tick();});
+  })();
   $('hReload').addEventListener('click',function(){loadStudent(true);});
   $('hSheetBtn').addEventListener('click',function(){
     var items=S.picks.filter(isDone).map(function(p){return {p:p,mode:(S.doc.sessions[S.ix.by[p.q].si]||{}).mode};});
@@ -451,6 +508,16 @@
     });
     aTable.addEventListener('click',function(e){var b=e.target.closest('[data-sel]');if(b)aDetail(b.dataset.sel);});
     $('hAdLogin').onclick=aLoad;$('hAdReload').onclick=aLoad;
+    $('hAdManual').onclick=function(){
+      if(!A.fb){aMsg('請先按「老師登入並讀取」。');return;}
+      A.fb.db.collection('cardWork').get().then(function(snap){
+        var out={};
+        snap.docs.forEach(function(d){var x=d.data();out[d.id]={title:(x.L1&&x.L1.title)||'',manual:x.L4||{}};});
+        var blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(),students:out})],{type:'application/json'});
+        var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='manual.json';document.body.appendChild(a);a.click();a.remove();
+        aMsg('已匯出 '+Object.keys(out).length+' 位的說明書資料（manual.json），拿去跑「產生說明書.py」。');
+      }).catch(function(er){aMsg('匯出失敗：'+(er.code||er.message));});
+    };
     // 匯入
     $('hAdFile').addEventListener('change',function(){
       var f=this.files[0];this.value='';if(!f)return;
