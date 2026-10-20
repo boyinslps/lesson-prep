@@ -351,8 +351,9 @@ def _chips(items, cls='bg-white border-2 border-slate-300 text-slate-700'):
     return '<div class="flex flex-wrap gap-1.5 mt-2">' + ''.join('<span class="%s rounded-full px-3 py-0.5 text-base font-bold">%s</span>' % (cls, t) for t in items) + '</div>'
 
 
-def _clips(slides, opened=False, label=''):
-    return '<div class="mt-3">' + L5S.sc(slides) + '</div>'
+def _clips(slides, opened=False, label='查看操作影片'):
+    return ('<details class="mt-3 bg-slate-50 border-2 border-slate-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-slate-700 text-lg">%s</summary>'
+            '<div class="mt-3">' % label) + L5S.sc(slides) + '</div></details>'
 
 
 _LABELS = ['錯誤', '誤導', '易誤解', '事實釐清', '詐騙', '部分錯誤', '正確']
@@ -400,7 +401,7 @@ _BLK_TITLE = _tone_block('sky', '標題', '換成查核報告的標題',
     _checks('不是「（文件標題）」', '是查核文章上的標題', '已設成「標題 1」'),
     _clips([
         L5S.slide('到查核文章，選取<b>查核報告的標題</b>，複製', '步_標題A_複製標題'),
-        L5S.slide('回文件，選取第 1 行「（文件標題）」，貼上', '步_標題B_貼上標題')], True, ''))
+        L5S.slide('回文件，選取第 1 行「（文件標題）」，貼上', '步_標題B_貼上標題')], False, '查看操作影片：標題'))
 _BLK_URL = _tone_block('indigo', '① 查核網址', '標題下面，整條網址',
     '<p>' + _LINK + '</p>',
     '<p>讓人點進去驗證。貼<b>整條網址</b>，不要放標題。</p>',
@@ -408,14 +409,14 @@ _BLK_URL = _tone_block('indigo', '① 查核網址', '標題下面，整條網�
     _clips([
         L5S.slide('到查核文章，點<b>網址列</b>，複製<b>網址</b>', '步_網址1_複製網址列'),
         L5S.slide('回文件，貼在「查核網址」<b>下面</b>', '步_網址2_貼上網址'),
-        L5S.slide('圈選網址，點<b>鎖鏈符號</b>，按「套用」', '步_網址3_加超連結')], True, ''))
+        L5S.slide('圈選網址，點<b>鎖鏈符號</b>，按「套用」', '步_網址3_加超連結')], False, '查看操作影片：查核網址'))
 _BLK_MSG = _tone_block('amber', '② 我選的訊息', '人事時地物＋傳播',
     '<p>網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。這則訊息在臉書流傳。</p>',
     '<p>沒看過的人，只看這段就懂。缺的寫「沒說」。</p>',
     '<p class="text-base">人：誰　事：做什麼　時：何時　地：哪裡　物：什麼東西　傳播：在哪傳</p>' + _checks('是自己的話', '貼了原始訊息的圖'),
     _clips([
         L5S.slide('找到<b>原始訊息的圖</b>，右鍵<b>複製圖片</b>', '步_圖A_找圖複製'),
-        L5S.slide('回文件，<b>貼在句子下面</b>', '步_圖3_貼上')], False, '找圖、複製、貼到文件：看動圖'))
+        L5S.slide('回文件，<b>貼在句子下面</b>', '步_圖3_貼上')], False, '查看操作影片：我選的訊息'))
 _BLK_HOW = _tone_block('teal', '③ 我怎麼找到查核文章的', '照順序寫',
     '<p>我圈出「陌生人」「操作手機」「生物特徵」，搜「陌生人 操作手機 生物特徵 查核」，點進 MyGoPen 的文章，它是專門查謠言的機構，不是轉載。</p>',
     '<p>別人照著做也找得到。</p>',

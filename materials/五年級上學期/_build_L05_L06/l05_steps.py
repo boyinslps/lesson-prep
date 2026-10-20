@@ -156,9 +156,20 @@ DEMO_MSG = ('<div class="bg-white border-4 border-amber-200 rounded-3xl p-5 mb-5
 STEP_DEMO = step(2, '老師示範：從訊息找到查核文章', 'amber', '看老師怎麼做。示範訊息：幫陌生人操作手機，會被盜走指紋？', DEMO_MSG + DEMO_FIND)
 
 
-# ---------- L06 用：準備文件（開文件、貼格式；一頁固定）----------
+# ---------- L06 用：準備文件（複製欄位直接顯示，操作影片全部收合）----------
+def _slides(sc_html):
+    parts = sc_html.split('<div class="sc-slide">')[1:]
+    out = ['<div class="sc-slide">' + p for p in parts]
+    out[-1] = out[-1][:-len('</div>')]          # 最後一段尾巴是整組的外框
+    return out
+
+
 def step_prep(n, lead='做過的，直接按「下一步」跳過。'):
-    return step(n, '準備好你的 Google 文件', 'amber', lead, SC_OPEN + SC_FORMAT)
+    fm, op = _slides(SC_FORMAT), _slides(SC_OPEN)
+    body = ('<div class="sc sc-flat sc-nonum" data-sc>' + fm[0] + '</div>'
+            '<details class="mb-4 bg-white border-4 border-slate-300 rounded-3xl p-4"><summary class="cursor-pointer font-extrabold text-slate-700 text-xl">查看操作影片：開文件、貼格式、設標題</summary>'
+            '<div class="mt-3"><div class="sc sc-flat" data-sc>' + ''.join(op + fm[1:]) + '</div></div></details>')
+    return step(n, '準備好你的 Google 文件', 'amber', lead, body)
 
 
 # ---------- 找回上次的網址（只放在 L06；直接攤開，不用點開）----------
