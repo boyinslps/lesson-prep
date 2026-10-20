@@ -331,7 +331,7 @@ L05_SPEC = {
 # L06
 # =====================================================================
 OLD_S23 = '\n  <!-- ===== 步驟 5：抄與整理 ===== -->\n  <section class="step hidden" data-step="5">\n    <div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">\n      <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">整理不是複製</h2>\n      <p class="text-slate-700 mt-2 text-lg">整理像是<b>向朋友轉述</b>：朋友沒看過那篇文章，你用一兩句話告訴他「這則訊息是真的嗎？為什麼？」。</p>\n    </div>\n    <div class="grid md:grid-cols-2 gap-4 mb-5 text-lg">\n      <div class="bg-slate-50 border-4 border-slate-200 rounded-3xl p-4"><p class="cute text-xl font-extrabold text-slate-600 m-0">整段複製（不要這樣）</p><p class="mt-2">經查，查核中心洽詢刑事警察局後，警方表示目前國內並無查獲與網傳手法相同之案件，且 165 反詐騙專線亦表示，台灣無此類案例。</p></div>\n      <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-4"><p class="cute text-xl font-extrabold text-emerald-700 m-0">整理成自己的話（要這樣）</p><p class="mt-2">警方和 165 反詐騙專線說，台灣目前查不到這種手法的案件。</p></div>\n    </div>\n    <div class="bg-white border-4 border-teal-200 rounded-3xl p-5 mb-5 text-lg">\n      <p class="m-0"><b>整理</b>＝只留重點、用自己的話、標出是誰說的。</p>\n    </div>\n    <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">\n      <h3 class="cute text-2xl font-extrabold text-amber-700 m-0">範例（老師的示範）：正確資訊</h3>\n      <ol class="list-decimal pl-6 mt-3 space-y-2 text-lg text-slate-700">\n        <li><b>根據 MyGoPen</b>，只有指紋或臉，不能直接拿去貸款，銀行還要看很多檢查。</li>\n        <li><b>警方和 165 說</b>，台灣查不到這種案件。</li>\n        <li><b>不過</b>，陌生人要你做驗證時，還是要小心。</li>\n      </ol>\n      <p class="mt-3 text-slate-600 text-lg">句型：根據○○，……／○○說，……／不過，……。先講最重要的結論，最後講還要小心什麼。</p>\n    </div>\n    <div class="stepnav"></div>\n  </section>\n\n  <!-- ===== 步驟 6：廣傳後果 ===== -->\n  <section class="step hidden" data-step="6">\n    <div class="bg-white border-4 border-rose-300 rounded-3xl p-5 mb-5 shadow-sm">\n      <h2 class="cute text-3xl font-extrabold text-rose-700 m-0">為什麼會被廣傳？相信的話會怎樣？</h2>\n      <div class="grid md:grid-cols-2 gap-4 mt-4">\n        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4"><p class="cute text-xl font-extrabold text-rose-700 m-0">為什麼會轉傳（5 類）</p>\n          <ul class="mt-2 space-y-1 text-lg text-slate-700"><li><b>怕</b>：講得很可怕</li><li><b>好奇／驚奇</b>：聽起來很厲害</li><li><b>關心家人</b>：「轉傳等於救人」</li><li><b>好康</b>：免費、搶先</li><li><b>親友傳來的</b>：因為信任</li></ul></div>\n        <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4"><p class="cute text-xl font-extrabold text-amber-700 m-0">相信的後果（4 類）</p>\n          <ul class="mt-2 space-y-1 text-lg text-slate-700"><li><b>身體</b>：吃錯、做錯</li><li><b>錢</b>：被騙</li><li><b>人際</b>：誤會、吵架</li><li><b>恐慌</b>：嚇到更多人、再轉傳</li></ul></div>\n      </div>\n    </div>\n    <div class="bg-white border-4 border-amber-200 rounded-3xl p-5 mb-5 text-lg">\n      <h3 class="cute text-2xl font-extrabold text-amber-700 m-0">範例（老師的示範）</h3>\n      <p class="mt-2"><b>為什麼廣傳：</b>訊息說「30 分鐘傾家蕩產」，讓人怕；又寫「轉傳給家人朋友」，大家覺得轉傳是關心家人；還提到 AI 和手機，聽起來很厲害，帶點好奇。</p>\n      <p class="mt-2"><b>後果：</b>有人怕到不敢幫真的需要幫忙的人；也有人把嚇人的訊息再轉給更多人，讓大家一起害怕。</p>\n    </div>\n    <div class="grid md:grid-cols-2 gap-4 text-lg">\n      <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-4"><p class="font-extrabold text-emerald-700 m-0">後果這樣寫才好</p><p class="mt-1">寫出<b>誰</b>會<b>怎樣</b>。</p></div>\n      <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4"><p class="font-extrabold text-slate-600 m-0">這樣寫不夠</p><p class="mt-1">「會被騙」沒說誰、怎麼被騙；「這則訊息是假的」是查核結果，不是後果。</p></div>\n    </div>\n    <div class="stepnav"></div>\n  </section>\n\n'
-OLD_S8 = '  <!-- ===== 步驟 8：繳交 ===== -->\n  <section class="step hidden" data-step="8">\n    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">\n      <h2 class="cute text-3xl font-extrabold text-indigo-700">✅ 繳交前自己檢查</h2>\n      <div class="flex items-center gap-2 flex-wrap mt-1"><span class="qtypeSlot" data-qid="chk"></span></div>\n      <div id="chkOpts" class="space-y-2 mt-3"></div>\n      <div class="bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-4 mt-4 text-lg text-slate-700">\n        <p class="font-bold text-indigo-800">繳交兩個地方：</p>\n        <ol class="list-decimal pl-6 mt-1 space-y-1"><li>回 <b>Classroom 作業</b>，確認文件<b>附在作業裡</b>，按<b>「繳交」</b>。</li><li>回到這裡，按下面的<b>「繳交學習單」</b>。</li></ol>\n        <p class="text-sm text-slate-500 mt-2">還沒寫完也可以先交，下一節開頭還有時間補。</p>\n      </div>\n    </div>@@REWARD@@\n    <div class="stepnav"></div>\n  </section>\n'
+OLD_S8 = '  <!-- ===== 步驟 7：繳交 ===== -->\n  <section class="step hidden" data-step="7">\n    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">\n      <h2 class="cute text-3xl font-extrabold text-indigo-700">✅ 繳交前自己檢查</h2>\n      <div class="flex items-center gap-2 flex-wrap mt-1"><span class="qtypeSlot" data-qid="chk"></span></div>\n      <div id="chkOpts" class="space-y-2 mt-3"></div>\n      <div class="bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-4 mt-4 text-lg text-slate-700">\n        <p class="font-bold text-indigo-800">繳交兩個地方：</p>\n        <ol class="list-decimal pl-6 mt-1 space-y-1"><li>回 <b>Classroom 作業</b>，確認文件<b>附在作業裡</b>，按<b>「繳交」</b>。</li><li>回到這裡，按下面的<b>「繳交學習單」</b>。</li></ol>\n        <p class="text-sm text-slate-500 mt-2">還沒寫完也可以先交，下一節開頭還有時間補。</p>\n      </div>\n    </div>@@REWARD@@\n    <div class="stepnav"></div>\n  </section>\n'
 
 def _tone_block(tone, title, hint, ex_html, why_html, guide_html, extra=''):
     return ('<div class="bg-white border-4 border-%(t)s-300 rounded-3xl p-5 mb-5 shadow-sm">'
@@ -452,8 +452,8 @@ _BLK_RISK = _tone_block('rose', '⑦ 如果相信的話，會有什麼後果？'
     _chips(['身體', '錢', '人際', '恐慌']) + _checks('寫了誰', '寫了怎樣'))
 
 STEP_L06_7 = """
-  <!-- ===== 步驟 7：檢查後三欄 ===== -->
-  <section class="step hidden" data-step="7">
+  <!-- ===== 步驟 6：檢查後三欄 ===== -->
+  <section class="step hidden" data-step="6">
     <div class="bg-white border-4 border-teal-300 rounded-3xl p-5 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-teal-700 m-0">檢查自己寫的：後 3 欄</h2>
       <p class="text-lg text-slate-600 mt-1">時間不夠，先寫：正確資訊、廣傳、後果。</p>
@@ -463,6 +463,9 @@ STEP_L06_7 = """
   </section>
 """.replace('@@BLOCKS@@', _BLK_WHY + _BLK_FACT + _BLK_RISK)
 
+# L06 不再有「抄與整理」（搬到 L05 第 8 步開頭）：只留「廣傳後果」，編號往前補
+_i = OLD_S23.index('  <!-- ===== 步驟 6：廣傳後果 ===== -->')
+OLD_S23 = OLD_S23[_i:].replace('data-step="6"', 'data-step="5"').replace('步驟 6：廣傳後果', '步驟 5：廣傳後果')
 L06_BODY = ('\n' + STEP_L06_1 + '\n' + STEP_L06_2 + '\n' + L5S.step_prep(3, '上一節做過的，直接按「下一步」跳過；還沒做的，一步一步補。').replace('<!-- ===== 準備文件（步驟卡）===== -->', '<!-- ===== 步驟 3：準備文件 ===== -->')
             + '\n' + STEP_L06_4 + '\n' + OLD_S23 + '\n' + STEP_L06_7 + '\n' + OLD_S8 + '\n')
 L06_BODY = (L06_BODY.replace('@@RESCUE@@', L5S.RESCUE.replace('<details class="urlfix', '<details open class="urlfix', 1))
@@ -471,7 +474,7 @@ L06_BODY = (L06_BODY.replace('@@RESCUE@@', L5S.RESCUE.replace('<details class="u
 
 L06_CFG = {
     'ws': 'g5-L06', 'lessonPath': 'g5/L06', 'title': 'Docs 查證文件（二）：整理成報告', 'stateKey': 'g5L06flow',
-    'steps': ['找回資料', '選訊息', '準備文件', '檢查前四欄', '抄與整理', '廣傳後果', '檢查後三欄', '繳交'],
+    'steps': ['找回資料', '選訊息', '準備文件', '檢查前四欄', '廣傳後果', '檢查後三欄', '繳交'],
     'reveals': [], 'revealOf': {}, 'autoFb': [],
     'qtypes': {'sel': 'experience', 'chk': 'experience'},
     'choices': {

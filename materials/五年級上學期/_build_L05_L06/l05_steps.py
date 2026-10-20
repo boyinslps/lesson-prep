@@ -147,7 +147,15 @@ SC_RES = sc([
 STEP_OPEN = step(5, '開文件', 'blue', '先把文件準備好。', SC_OPEN)
 STEP_FORMAT = step(6, '貼格式', 'indigo', '貼上欄位，設標題。', SC_FORMAT)
 STEP_URL = step(7, '貼網址', 'rose', '查核網址要先貼，放在標題下面。', SC_URL)
-STEP_MSG = step(8, '我選的訊息', 'amber', '往下寫第一欄。', SC_MSG)
+ORG_INTRO = (
+    '<div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">'
+    '<h3 class="cute text-2xl font-extrabold text-amber-700 m-0">整理不是複製</h3>'
+    '<p class="text-lg text-slate-700 mt-2">整理像是<b>向朋友轉述</b>：朋友沒看過那篇文章，你用一兩句話告訴他「這則訊息說什麼？是真的嗎？」。</p>'
+    '<div class="grid md:grid-cols-2 gap-4 mt-3 text-lg">'
+    '<div class="bg-slate-50 border-4 border-slate-200 rounded-3xl p-4"><p class="cute text-xl font-extrabold text-slate-600 m-0">整段複製（不要這樣）</p><p class="mt-2">經查，查核中心洽詢刑事警察局後，警方表示目前國內並無查獲與網傳手法相同之案件，且 165 反詐騙專線亦表示，台灣無此類案例。</p></div>'
+    '<div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-4"><p class="cute text-xl font-extrabold text-emerald-700 m-0">整理成自己的話（要這樣）</p><p class="mt-2">警方和 165 反詐騙專線說，台灣目前查不到這種手法的案件。</p></div></div>'
+    '<p class="text-lg text-slate-700 mt-3 mb-0"><b>整理</b>＝只留重點、用自己的話、標出是誰說的。</p></div>')
+STEP_MSG = step(8, '我選的訊息', 'amber', '往下寫第一欄。', ORG_INTRO + SC_MSG)
 STEP_HOW = step(9, '我怎麼找到查核文章的', 'teal', '往下寫第二欄。', SC_HOW)
 STEP_RES = step(10, '查核結果', 'rose', '往下寫第三欄。', SC_RES)
 DEMO_MSG = ('<div class="bg-white border-4 border-amber-200 rounded-3xl p-5 mb-5"><div class="grid md:grid-cols-2 gap-4 items-start">'
