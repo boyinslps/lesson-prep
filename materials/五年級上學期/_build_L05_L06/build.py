@@ -188,6 +188,13 @@ _SEA = '  <!-- ===== 步驟 4：找網址（在搜尋頁與查核文章裡做完
 _STEP1 = '''
   <!-- ===== 步驟 1：看範例 ===== -->
   <section class="step" data-step="1">
+    <!-- 找回上次的查核網址：老師在 #admin 用開關決定學生看不看得到 -->
+    <div data-r="rescue" data-rkeep class="hidden mb-6">
+      <div class="hidden bg-slate-100 border-2 border-dashed border-slate-300 rounded-2xl p-3 mb-3 flex items-center gap-3 flex-wrap">
+        <span class="text-sm text-slate-500 font-bold">👩‍🏫 老師開關：</span><button type="button" data-toggle-btn="rescue" class="hidden"></button>
+      </div>
+      %(RESCUE5)s
+    </div>
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-6 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">這兩節，你要做出這樣一份查證文件</h2>
       <p class="text-slate-600 mt-2 text-lg">先看成品：把一則網傳訊息查清楚，整理成 Google 文件。文件有 <b>7 欄</b>，<b>這一節先做前面 4 欄</b>，下一節做後面 3 欄。</p>
@@ -220,6 +227,7 @@ _STEP11 = '''
 '''
 _FMT = {'TASKS_S': tasks('1'), 'TASKS_A': tasks('2'),
         'N1': no('2', 'bg-teal-600'), 'N2': '接著：',
+        'RESCUE5': L5S.RESCUE,
         'DOC': DOC, 'CHIPS': chips7('bg-indigo-100 border-2 border-indigo-200', 'bg-slate-100 border-2 border-slate-200'),
         'CARDS': CARDS, 'LINKS': LINKS, 'REWARD': REWARD,
         'V1': vid('教學_找到查核文章.mp4', '教學_找到查核文章_封面.jpg', '操作影片：從訊息找到查核文章（約 1 分鐘）'),
@@ -244,7 +252,7 @@ L05_BODY = ((_STEP1 % _FMT) + L5S.STEP_DEMO + (_SEL % _FMT) + (_SEA % _FMT)
 L05_CFG = {
     'ws': 'g5-L05', 'lessonPath': 'g5/L05', 'title': 'Docs 查證文件（一）：找到查核文章', 'stateKey': 'g5L05flow',
     'steps': ['看範例', '老師示範', '找訊息', '找網址', '開文件', '貼格式', '貼網址', '我選的訊息', '怎麼找到的', '查核結果', '繳交'],
-    'reveals': [], 'revealOf': {}, 'autoFb': [],
+    'reveals': ['rescue'], 'revealOf': {}, 'autoFb': [],
     'qtypes': {'sel': 'experience', 'chk': 'experience'},
     'choices': {
         'sel': {'opts': ['C', 'D', 'E', 'G', 'H', 'K'], 'card': True},

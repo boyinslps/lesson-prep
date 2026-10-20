@@ -112,6 +112,13 @@
 
   <!-- ===== 步驟 1：看範例 ===== -->
   <section class="step" data-step="1">
+    <!-- 找回上次的查核網址：老師在 #admin 用開關決定學生看不看得到 -->
+    <div data-r="rescue" data-rkeep class="hidden mb-6">
+      <div class="hidden bg-slate-100 border-2 border-dashed border-slate-300 rounded-2xl p-3 mb-3 flex items-center gap-3 flex-wrap">
+        <span class="text-sm text-slate-500 font-bold"> 老師開關：</span><button type="button" data-toggle-btn="rescue" class="hidden"></button>
+      </div>
+      <div class="urlfix mt-4 bg-violet-50 border-2 border-violet-300 rounded-2xl p-4"><p class="font-extrabold text-violet-800 text-xl m-0">找回上次的查核網址</p><div class="mt-3 text-lg text-slate-700 space-y-3"><div class="bg-white border-2 border-violet-200 rounded-xl p-3"><button type="button" data-loadwork class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold rounded-xl px-4 py-2">用我的班級座號，拿回上次的網址</button><p class="text-base text-slate-500 mt-1">先在最上面填好年級、班級、座號。</p><p data-ufmsg class="text-base font-bold mt-1 min-h-[22px]"></p></div><div data-ufpick class="hidden"><label class="block font-bold">上次你選的是哪一則？<select class="urlfixSel mt-1 w-full border-2 border-slate-300 rounded-xl px-3 py-2 text-lg"><option value="">請選</option><option value="C">C ‧ 繪畫比賽投票</option><option value="D">D ‧ 微波爐有輻射</option><option value="E">E ‧ 打雷戴藍芽耳機</option><option value="G">G ‧ 印度街頭小吃</option><option value="H">H ‧ 充電時講電話喝水</option><option value="K">K ‧ 地震躲生命三角</option></select></label></div><div data-ufbox class="hidden bg-white border-2 border-violet-200 rounded-xl p-3"><p class="font-bold" data-ufname></p><p class="break-all font-mono text-base mt-1" data-ufurl></p><div class="flex gap-2 flex-wrap mt-2"><a data-ufopen href="#" target="_blank" rel="noopener" class="bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl px-4 py-2">開啟查核文章 ↗</a><button type="button" data-copyurl class="bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl px-4 py-2">複製網址</button></div></div><p class="text-base text-slate-500">這是老師準備的那一篇，你上次找到別篇也可以。想自己找：瀏覽器按 <kbd>Ctrl</kbd>＋<kbd>H</kbd> 看「歷史記錄」，找 tfc-taiwan 或 mygopen 開頭的。</p></div></div>
+    </div>
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-6 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">這兩節，你要做出這樣一份查證文件</h2>
       <p class="text-slate-600 mt-2 text-lg">先看成品：把一則網傳訊息查清楚，整理成 Google 文件。文件有 <b>7 欄</b>，<b>這一節先做前面 4 欄</b>，下一節做後面 3 欄。</p>
@@ -379,7 +386,7 @@ var firebaseConfig = {
 
 /* ===== 共用引擎：識別列／Firebase／作答狀態／繳交／教師模式／檢視／步驟分頁（依《學習單資料與提交規範》） ===== */
 (function(){
-  var C={"ws": "g5-L05", "lessonPath": "g5/L05", "title": "Docs 查證文件（一）：找到查核文章", "stateKey": "g5L05flow", "steps": ["看範例", "老師示範", "找訊息", "找網址", "開文件", "貼格式", "貼網址", "我選的訊息", "怎麼找到的", "查核結果", "繳交"], "reveals": [], "revealOf": {}, "autoFb": [], "qtypes": {"sel": "experience", "chk": "experience"}, "choices": {"sel": {"opts": ["C", "D", "E", "G", "H", "K"], "card": true}, "chk": {"opts": ["查核文章是查核機構自己的網站，不是轉載", "標題用「標題 1」、欄位名稱用「標題 2」", "文件最上面是查核報告的標題；「查核網址」下面是整條網址，點得開", "「我選的訊息」下面貼了原始訊息的圖片或影片截圖", "前面的欄位都寫好了"], "multi": true, "block": true}}, "texts": [], "patterns": {}, "openQtexts": {}};
+  var C={"ws": "g5-L05", "lessonPath": "g5/L05", "title": "Docs 查證文件（一）：找到查核文章", "stateKey": "g5L05flow", "steps": ["看範例", "老師示範", "找訊息", "找網址", "開文件", "貼格式", "貼網址", "我選的訊息", "怎麼找到的", "查核結果", "繳交"], "reveals": ["rescue"], "revealOf": {}, "autoFb": [], "qtypes": {"sel": "experience", "chk": "experience"}, "choices": {"sel": {"opts": ["C", "D", "E", "G", "H", "K"], "card": true}, "chk": {"opts": ["查核文章是查核機構自己的網站，不是轉載", "標題用「標題 1」、欄位名稱用「標題 2」", "文件最上面是查核報告的標題；「查核網址」下面是整條網址，點得開", "「我選的訊息」下面貼了原始訊息的圖片或影片截圖", "前面的欄位都寫好了"], "multi": true, "block": true}}, "texts": [], "patterns": {}, "openQtexts": {}};
   var WS=C.ws,QUIZ_ID=C.ws,LESSON_PATH=C.lessonPath,TITLE=C.title;
   var TEACHER_EMAIL='boyin0304@slps.tn.edu.tw';
   var IS_ADMIN=location.hash==='#admin';
@@ -663,6 +670,13 @@ var firebaseConfig = {
   function applyReveal(){
     document.querySelectorAll('[data-r]').forEach(function(e){e.classList.toggle('hidden',!REV[e.dataset.r]);});
     document.querySelectorAll('[data-wait]').forEach(function(e){e.classList.toggle('hidden',!!REV[e.dataset.wait]);});
+    // data-rkeep：老師（#admin）一律看得到；data-toggle-btn：老師開關，字會跟著目前狀態變
+    document.querySelectorAll('[data-r][data-rkeep]').forEach(function(e){if(IS_ADMIN&&!REVIEW_ID)e.classList.remove('hidden');});
+    document.querySelectorAll('[data-toggle-btn]').forEach(function(b){
+      var on=!!REV[b.dataset.toggleBtn];
+      b.textContent=on?'學生現在看得到　→　按一下隱藏':'學生現在看不到　→　按一下顯示';
+      b.className=(b.classList.contains('hidden')?'hidden ':'')+'border-2 rounded-xl px-3 py-1.5 font-bold text-base '+(on?'bg-emerald-100 border-emerald-400 text-emerald-800':'bg-amber-100 border-amber-400 text-amber-800');
+    });
     renderFeedback();
   }
   function renderAll(){Object.keys(C.choices).forEach(renderChoice);fillFields();renderFeedback();if(H.render)H.render();}
@@ -770,6 +784,15 @@ var firebaseConfig = {
         else{REV[r]=true;applyReveal();}
       };
     });
+    document.querySelectorAll('[data-toggle-btn]').forEach(function(b){
+      b.classList.remove('hidden');b.parentElement.classList.remove('hidden');
+      b.onclick=function(){
+        var r=b.dataset.toggleBtn,o={};o[r]=!REV[r];
+        if(quizRef)quizRef.set(o,{merge:true}).catch(function(e){alert('切換失敗：'+e.message);});
+        else{REV[r]=!REV[r];applyReveal();}
+      };
+    });
+    applyReveal();
     $('showAnsBtn').onclick=function(){if(H.showAnswers)H.showAnswers();renderAll();};
     $('lockBtn').onclick=function(){
       if(!confirm('確定要還原嗎？\n全班畫面會收回所有公布，「檢視答案」填進去的內容也會清掉。\n學生已經繳交的學習單不受影響。'))return;

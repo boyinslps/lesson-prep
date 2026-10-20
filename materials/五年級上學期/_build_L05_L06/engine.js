@@ -86,6 +86,13 @@
   function applyReveal(){
     document.querySelectorAll('[data-r]').forEach(function(e){e.classList.toggle('hidden',!REV[e.dataset.r]);});
     document.querySelectorAll('[data-wait]').forEach(function(e){e.classList.toggle('hidden',!!REV[e.dataset.wait]);});
+    // data-rkeep：老師（#admin）一律看得到；data-toggle-btn：老師開關，字會跟著目前狀態變
+    document.querySelectorAll('[data-r][data-rkeep]').forEach(function(e){if(IS_ADMIN&&!REVIEW_ID)e.classList.remove('hidden');});
+    document.querySelectorAll('[data-toggle-btn]').forEach(function(b){
+      var on=!!REV[b.dataset.toggleBtn];
+      b.textContent=on?'學生現在看得到　→　按一下隱藏':'學生現在看不到　→　按一下顯示';
+      b.className=(b.classList.contains('hidden')?'hidden ':'')+'border-2 rounded-xl px-3 py-1.5 font-bold text-base '+(on?'bg-emerald-100 border-emerald-400 text-emerald-800':'bg-amber-100 border-amber-400 text-amber-800');
+    });
     renderFeedback();
   }
   function renderAll(){Object.keys(C.choices).forEach(renderChoice);fillFields();renderFeedback();if(H.render)H.render();}
@@ -193,6 +200,15 @@
         else{REV[r]=true;applyReveal();}
       };
     });
+    document.querySelectorAll('[data-toggle-btn]').forEach(function(b){
+      b.classList.remove('hidden');b.parentElement.classList.remove('hidden');
+      b.onclick=function(){
+        var r=b.dataset.toggleBtn,o={};o[r]=!REV[r];
+        if(quizRef)quizRef.set(o,{merge:true}).catch(function(e){alert('切換失敗：'+e.message);});
+        else{REV[r]=!REV[r];applyReveal();}
+      };
+    });
+    applyReveal();
     $('showAnsBtn').onclick=function(){if(H.showAnswers)H.showAnswers();renderAll();};
     $('lockBtn').onclick=function(){
       if(!confirm('確定要還原嗎？\n全班畫面會收回所有公布，「檢視答案」填進去的內容也會清掉。\n學生已經繳交的學習單不受影響。'))return;
