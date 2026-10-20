@@ -9,13 +9,13 @@
 (function(){
   if(!document.getElementById('hBody'))return;
   var AIH='aiHistory',MAXP=5,MINP=4,TEACHER='boyin0304@slps.tn.edu.tw';
-  var LIM={qt:160,at:120,ft:120,issNote:40,mine:100},MINE_MIN=6;
+  var LIM={qt:160,at:120,ft:120,issNote:90,mine:100},MINE_MIN=6,ISS_MIN=6;
   var KIND={ask:'提問策略',check:'發現問題',fix:'追問修正'};
-  var ISS=['我檢查過，沒發現問題','字詞或用字不對','事實可能不對（要查證）','太空泛，不像我','不是真的發生過（AI 編的）','AI 直接幫我寫，不是我想的','刻板印象','沒聽懂我的意思'];
   var DEC=[['use','我採用 AI 的意見'],['edit','我改過之後才採用'],['no','我沒有採用']];
   var WHY=['很像我真實的經驗或感覺','我自己查過，確認是對的','我發現 AI 說錯了，所以追問修正','那天沒有發生，所以不用','太空泛，我換成只有我才有的細節','我沒看懂，請 AI 換個方式說','結果比原本更好'];
   var $=window.$,esc=window.esc,toast=window.toast;
   var DAYS='日一二三四五六';
+  function nb(s){return String(s==null?'':s).replace(/[〔〕]/g,'');}  // 提問句型留下來的〔 〕一律拿掉
 
   /* ---------- 共用：資料索引與一輪的自動帶入 ---------- */
   function indexDoc(doc){
@@ -26,7 +26,7 @@
     (doc.marks||[]).forEach(function(k){if(ix.by[k.id])ix.marks[k.id]=k;});
     return ix;
   }
-  function plain(s){return String(s||'').replace(/\*\*/g,'').replace(/\s*\n+\s*/g,' ').replace(/\s{2,}/g,' ').trim();}
+  function plain(s){return nb(s).replace(/\*\*/g,'').replace(/\s*\n+\s*/g,' ').replace(/\s{2,}/g,' ').trim();}
   function clip(s,n){s=plain(s);return s.length>n?s.slice(0,n-1)+'…':s;}
   function nextA(ix,qid){var o=ix.by[qid];if(!o)return null;for(var j=o.i+1;j<ix.flat.length;j++){var x=ix.flat[j];if(x.si!==o.si)break;if(x.m.r==='u')break;if(x.m.r==='a'&&!x.m.g)return x;}return null;}
   function nextU(ix,aid){var o=ix.by[aid];if(!o)return null;for(var j=o.i+1;j<ix.flat.length;j++){var x=ix.flat[j];if(x.si!==o.si)break;if(x.m.r==='u')return x;}return null;}
@@ -38,12 +38,14 @@
     p.ft=r.f?clip(ix.by[r.f].m.x,LIM.ft):'';
     return p;
   }
-  function newPick(ix,qid){return autoFill(ix,{q:qid,a:'',f:'',qt:'',at:'',ft:'',iss:[],issNote:'',dec:'',why:[],mine:'',ts:Date.now()});}
-  function isDone(p){return !!(p.qt&&p.qt.trim()&&p.at&&p.at.trim()&&p.dec&&(p.mine||'').trim().length>=MINE_MIN);}
+  function newPick(ix,qid){return autoFill(ix,{q:qid,a:'',f:'',qt:'',at:'',ft:'',issNote:'',dec:'',why:[],mine:'',ts:Date.now()});}
+  function isDone(p){return !!(p.qt&&p.qt.trim()&&p.at&&p.at.trim()&&(p.issNote||'').trim().length>=ISS_MIN&&p.dec&&(p.mine||'').trim().length>=MINE_MIN);}
+  // 評審會看的 4 個地方（簡章五）：只是提醒，不擋人
+  function rubric(p){return [['批判檢視 30%',(p.issNote||'').trim().length>=12],['提問與修正 30%',(p.ft||'').trim().length>=4],['生活連結 30%',(p.mine||'').trim().length>=15],['權責揭露 20%',!!p.dec]];}
   function cleanPick(p){
-    return {q:String(p.q),a:String(p.a||''),f:String(p.f||''),qt:String(p.qt||'').slice(0,LIM.qt),at:String(p.at||'').slice(0,LIM.at),ft:String(p.ft||'').slice(0,LIM.ft),
-      iss:(p.iss||[]).filter(function(x){return ISS.indexOf(x)>=0;}),issNote:String(p.issNote||'').slice(0,LIM.issNote),
-      dec:p.dec==='use'||p.dec==='edit'||p.dec==='no'?p.dec:'',why:(p.why||[]).filter(function(x){return WHY.indexOf(x)>=0;}),mine:String(p.mine||'').slice(0,LIM.mine),ts:Number(p.ts)||0};
+    return {q:String(p.q),a:String(p.a||''),f:String(p.f||''),qt:nb(p.qt).slice(0,LIM.qt),at:nb(p.at).slice(0,LIM.at),ft:nb(p.ft).slice(0,LIM.ft),
+      issNote:nb(p.issNote).slice(0,LIM.issNote),
+      dec:p.dec==='use'||p.dec==='edit'||p.dec==='no'?p.dec:'',why:(p.why||[]).filter(function(x){return WHY.indexOf(x)>=0;}),mine:nb(p.mine).slice(0,LIM.mine),ts:Number(p.ts)||0};
   }
   function fmtT(t){return String(t||'').replace('-','/');}
   function sessHead(se){
@@ -69,9 +71,9 @@
         var mk=ix.marks[m.id],rl=role[m.id];
         h+='<div class="msg '+m.r+(m.g?' g':'')+(rl?' pk':'')+'" data-mid="'+m.id+'">';
         h+='<div class="av">'+(m.r==='u'?'我':'e度')+'</div><div class="bw">';
-        if(mk)h+='<div class="mk k-'+esc(mk.kind||'')+'"><b>★ '+esc(KIND[mk.kind]||'老師推薦')+'</b><span>'+esc(mk.label)+'</span>'+(mk.note?'<span class="ex">'+esc(mk.note)+'</span>':'')+'</div>';
+        if(mk)h+='<div class="mk k-'+esc(mk.kind||'')+'"><b>★ '+esc(KIND[mk.kind]||'老師推薦')+'</b><span>'+esc(nb(mk.label))+'</span>'+(mk.note?'<span class="ex">'+esc(nb(mk.note))+'</span>':'')+'</div>';
         if(rl)h+='<span class="rb">第 '+rl[0]+' 輪・'+rl[1]+'</span>';
-        h+='<div class="bub"><div class="tx">'+esc(m.g?'e度 打招呼':m.x)+'</div>'+(m.g?'':'<div class="tm">'+esc(fmtT(m.t))+'</div>')+'</div>';
+        h+='<div class="bub"><div class="tx">'+esc(m.g?'e度 打招呼':nb(m.x))+'</div>'+(m.g?'':'<div class="tm">'+esc(fmtT(m.t))+'</div>')+'</div>';
         if(!m.g){
           if(o.admin)h+='<div class="act"><button class="pbtn mkb" type="button" data-mk="'+m.id+'">'+(mk?'編輯標記':'★ 標記')+'</button></div>';
           else if(m.r==='u')h+='<div class="act"><button class="pbtn'+(pickIdx[m.id]?' on':'')+'" type="button" data-pick="'+m.id+'"><svg class="ico"><use href="#'+(pickIdx[m.id]?'i-check':'i-plus')+'"/></svg>'+(pickIdx[m.id]?'已挑為第 '+pickIdx[m.id]+' 輪（再按取消）':'挑這一輪')+'</button></div>';
@@ -91,12 +93,10 @@
   /* ---------- 歷程紀錄的文字（學生編輯 → 排版）---------- */
   function decLabel(d){for(var i=0;i<DEC.length;i++)if(DEC[i][0]===d)return DEC[i][1];return '';}
   function roundText(p){
-    var a=(p.at||'').trim(),iss=(p.iss||[]).slice();
-    if((p.issNote||'').trim())iss.push(p.issNote.trim());
-    var fd=iss.length?iss.join('；'):'';
+    var a=nb(p.at).trim(),fd=nb(p.issNote).trim();
     var why=(p.dec?'【'+decLabel(p.dec)+'】':'')+(p.why||[]).join('；');
-    if((p.mine||'').trim())why+=(why&&!/】$/.test(why)?'。':'')+p.mine.trim();
-    return {q:(p.qt||'').trim(),a:a,fd:fd,f:(p.ft||'').trim()||'（這一輪沒有追問）',why:why};
+    if(nb(p.mine).trim())why+=(why&&!/】$/.test(why)?'。':'')+nb(p.mine).trim();
+    return {q:nb(p.qt).trim(),a:a,fd:fd,f:nb(p.ft).trim()||'（這一輪沒有追問）',why:why};
   }
   function rowH(l,v,extra){return '<div class="rr"><div class="l">'+l+'</div><div class="v">'+v+(extra||'')+'</div></div>';}
   function sheetEl(items,o){
@@ -211,8 +211,12 @@
       return '<button type="button" class="'+(isDone(p)?'':'todo')+'" data-gopick="'+k+'"><span class="pn">'+(k+1)+'</span><span class="pt">'+esc(clip(p.qt,18)||'（空白）')+'</span>'+(isDone(p)?'<svg class="ico ok"><use href="#i-check"/></svg>':'')+'</button>';
     }).join(''):'<div class="none">還沒挑。在左邊你說的話下面按「挑這一輪」。</div>';
   }
+  function guideH(open,judge,asks,tip){
+    return '<details class="gd"'+(open?' open':'')+'><summary>評審看什麼？怎麼寫？</summary><div class="gdb"><p class="gj"><b>評審看：</b>'+judge+'</p><ul>'+asks.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>'+(tip?'<p class="gt">'+tip+'</p>':'')+'</div></details>';
+  }
+  function rubH(p){return rubric(p).map(function(r){return '<span class="rc'+(r[1]?' on':'')+'">'+(r[1]?'✓ ':'○ ')+r[0]+'</span>';}).join('');}
   function pickCardHTML(p,k){
-    var n=S.picks.length,r=roundIds(S.ix,p.q),mode=(S.doc.sessions[S.ix.by[p.q].si]||{}).mode||'';
+    var n=S.picks.length,r=roundIds(S.ix,p.q),mode=(S.doc.sessions[S.ix.by[p.q].si]||{}).mode||'',op=k===0;
     var h='<div class="pcard'+(isDone(p)?' done':'')+'" data-i="'+k+'" id="pk'+k+'">';
     h+='<div class="ph"><span class="pn">'+(k+1)+'</span><span class="pt">優先 '+(k+1)+(k===0?'（最重要的放第 1）':'')+'<small>'+esc(fmtT(S.ix.by[p.q].m.t))+'　'+esc(mode)+'</small></span><span class="tools">'+
       '<button class="tbtn" type="button" data-act="view">看原文</button>'+
@@ -220,19 +224,28 @@
       '<button class="tbtn" type="button" data-act="down"'+(k===n-1?' disabled':'')+'>▼ 往後</button>'+
       '<button class="tbtn" type="button" data-act="reset" title="把三個自動帶入的欄位換回原文">重新帶入</button>'+
       '<button class="tbtn del" type="button" data-act="del">不挑了</button></span></div>';
+    h+='<div class="rub" title="評審會看的四個地方，寫得具體就會打勾">'+rubH(p)+'</div>';
     h+=fieldH('qt','我的原始提問（Prompt）',true,p.qt,LIM.qt,'自動帶入你當時說的話。太長就留下重點，可以自己刪減。');
-    h+='<div class="pf"><div class="lb"><span>教育型 AI 的回答摘要與問題發現</span><span class="au">自動帶入</span><span class="ct" data-ct="at"></span></div>'+
-      '<textarea class="px auto" data-f="at" maxlength="'+LIM.at+'" rows="3">'+esc(p.at)+'</textarea>'+
-      '<div class="mini">我發現的問題（可複選；看了 e度 的回答，你覺得哪裡要小心？）</div><div class="opts">'+
-      ISS.map(function(x,j){return '<label class="opt"><input type="checkbox" data-iss="'+j+'"'+(p.iss.indexOf(x)>=0?' checked':'')+'>'+esc(x)+'</label>';}).join('')+'</div>'+
-      '<textarea class="px" data-f="issNote" maxlength="'+LIM.issNote+'" rows="1" placeholder="還有想補一句我發現的？（可以不寫）" style="min-height:40px;margin-top:6px">'+esc(p.issNote)+'</textarea></div>';
+    h+='<div class="pf"><div class="lb"><span>教育型 AI 的回答摘要</span><span class="au">自動帶入</span><span class="ct" data-ct="at"></span></div>'+
+      '<textarea class="px auto" data-f="at" maxlength="'+LIM.at+'" rows="3">'+esc(p.at)+'</textarea></div>';
+    h+='<div class="pf"><div class="lb"><span>我發現的問題</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
+      '<textarea class="px" data-f="issNote" maxlength="'+LIM.issNote+'" rows="2" placeholder="哪一句、哪個字或哪個說法有問題？為什麼？我怎麼確認的？（至少 '+ISS_MIN+' 個字）">'+esc(p.issNote)+'</textarea>'+
+      guideH(op,'有沒有真的檢查 e度（批判檢視，佔 30%，同分時先比這項）。',
+        ['寫清楚是<b>哪一句、哪個字、哪個說法</b>有問題，不要只寫「AI 不太好」。','說出<b>為什麼</b>：和我家真實的事不同？查資料不一樣？太空泛，換成別人也能用？AI 直接幫我寫了？','說出<b>我怎麼確認的</b>：查課本或網站、問家人、自己重讀。'],
+        '都沒發現問題也要寫：我是怎麼檢查的、為什麼確定沒問題。只寫「沒有錯誤」，評審看不出你有檢查。')+'</div>';
     h+=fieldH('ft','我的追問／修正指令',true,p.ft,LIM.ft,r.f?'自動帶入你接著說的那句話。':'');
     if(!r.f)h+='<div class="pnote">這一輪後面你沒有再問 e度。評審很看重追問和修正；可以換一輪挑，或在上面寫你後來怎麼改。</div>';
+    h+=guideH(op,'提問策略與人工修正（各佔 30% 的一部分）：你有沒有根據發現的問題，繼續把結果問得更好、改得更像你。',
+      ['有沒有說出<b>哪裡要改</b>、<b>要它怎麼做</b>？','有沒有<b>限制它</b>（只給建議、不要幫我寫、請說明理由）？','追問之後，結果有沒有變得更像我家？'],
+      '追問只有「好」「謝謝」，評審看不到策略；可以換一輪挑，或自己補寫你後來怎麼改。');
     h+='<div class="pf final"><div class="lb"><span>最終採用的理由</span><span class="au me">我自己寫</span></div>'+
       '<div class="mini">① 這一輪的結果，我…</div><div class="opts">'+DEC.map(function(d){return '<label class="opt"><input type="radio" name="dec'+k+'" data-dec="'+d[0]+'"'+(p.dec===d[0]?' checked':'')+'>'+esc(d[1])+'</label>';}).join('')+'</div>'+
       '<div class="mini">② 原因（可複選）</div><div class="opts">'+WHY.map(function(x,j){return '<label class="opt"><input type="checkbox" data-why="'+j+'"'+(p.why.indexOf(x)>=0?' checked':'')+'>'+esc(x)+'</label>';}).join('')+'</div>'+
       '<div class="mini">③ 用你自己的話補一句：到底是哪個字、哪句話、為什麼？（至少 '+MINE_MIN+' 個字）<span class="ct" data-ct="mine" style="float:right;font-weight:500"></span></div>'+
-      '<textarea class="px" data-f="mine" maxlength="'+LIM.mine+'" rows="2" placeholder="例如：我把哪一句留下來／刪掉，因為…">'+esc(p.mine)+'</textarea></div>';
+      '<textarea class="px" data-f="mine" maxlength="'+LIM.mine+'" rows="2" placeholder="我把哪一句留下來或刪掉，因為……">'+esc(p.mine)+'</textarea>'+
+      guideH(op,'人工修正、創意與生活連結（各 30%）、數位倫理與權責揭露（20%）。',
+        ['<b>留下或不用哪一部分</b>，為什麼？','這一句為什麼<b>像我家</b>？連到哪一件真實的事？','這一部分最後是<b>誰做的</b>：AI 給的（紅）、我改的（藍）、我自己想的（黑）？'],
+        '只寫「因為很好」「因為通順」，評審看不到你的判斷。')+'</div>';
     return h+'</div>';
   }
   function fieldH(f,label,auto,val,max,hint){
@@ -254,7 +267,7 @@
   }
   function refreshMeta(){
     var done=S.picks.filter(isDone).length,n=S.picks.length;
-    Array.prototype.forEach.call(document.querySelectorAll('#hPicks .pcard'),function(card){card.classList.toggle('done',isDone(S.picks[Number(card.dataset.i)]));});
+    Array.prototype.forEach.call(document.querySelectorAll('#hPicks .pcard'),function(card){var pp=S.picks[Number(card.dataset.i)];card.classList.toggle('done',isDone(pp));var rb=card.querySelector('.rub');if(rb)rb.innerHTML=rubH(pp);});
     renderMyPk();
     var pr=$('hProg');
     pr.textContent='已挑 '+n+'／'+MAXP+' 輪，寫好理由 '+done+' 輪（至少要 '+MINP+' 輪寫好）';
@@ -316,7 +329,6 @@
     if(!p)return;
     if(f){p[f]=e.target.value;}
     else if(e.target.dataset.dec){p.dec=e.target.dataset.dec;}
-    else if(e.target.dataset.iss!=null){var v=ISS[Number(e.target.dataset.iss)];p.iss=p.iss.filter(function(x){return x!==v;});if(e.target.checked)p.iss.push(v);}
     else if(e.target.dataset.why!=null){var w=WHY[Number(e.target.dataset.why)];p.why=p.why.filter(function(x){return x!==w;});if(e.target.checked)p.why.push(w);}
     else return;
     updCounts();refreshMeta();saveSoon();

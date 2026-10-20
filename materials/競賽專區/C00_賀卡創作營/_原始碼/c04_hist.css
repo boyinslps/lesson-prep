@@ -142,3 +142,17 @@ table.adm td.l{text-align:left}
 .incl{display:grid;gap:6px;margin:6px 0 10px}
 .incl label{display:flex;gap:8px;align-items:flex-start;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:5px 10px;cursor:pointer}
 .incl label small{color:var(--mute)}
+
+/* 評審想看的：引導與四項檢查 */
+.rub{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 8px}
+.rc{font-size:12.5px;font-weight:700;padding:1px 9px;border-radius:999px;background:#f1f2f6;color:var(--mute);border:1.5px solid transparent}
+.rc.on{background:var(--green-soft);color:#23814e;border-color:#9fd6b6}
+details.gd{margin:6px 0 0;background:#fffaf0;border:1.5px solid #efdcb4;border-radius:12px}
+details.gd>summary{cursor:pointer;font-weight:900;font-size:14px;color:#8a5a0c;padding:5px 12px;list-style:none}
+details.gd>summary::-webkit-details-marker{display:none}
+details.gd>summary::before{content:"▸ "}
+details.gd[open]>summary::before{content:"▾ "}
+details.gd .gdb{padding:0 12px 8px;font-size:14.5px}
+details.gd .gdb p{margin:0 0 4px}
+details.gd .gdb ul{margin:0 0 4px;padding-left:1.2em}
+details.gd .gt{color:#a0332b;font-weight:700}
