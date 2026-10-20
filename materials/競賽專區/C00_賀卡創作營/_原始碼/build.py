@@ -5,7 +5,9 @@ rd=lambda n:io.open(os.path.join(SRC,n),encoding='utf-8').read()
 css,sprite,common=rd('common.css'),rd('sprite.svg'),rd('common.js')
 FOLD={'C00':'C00_賀卡創作營','C01':'C01_認識e度與主題','C02':'C02_文字創作與提問','C03':'C03_AI繪圖','C04':'C04_檢查標記與排版','C05':'C05_說明書與交件'}
 def part(s,name):
-    m=re.search(r'<!--@'+name+r'-->(.*?)(?=<!--@|\Z)',s,re.S); return m.group(1).strip() if m else ''
+    m=re.search(r'<!--@'+name+r'-->(.*?)(?=<!--@|\Z)',s,re.S)
+    t=m.group(1).strip() if m else ''
+    return re.sub(r'/\*@include (\S+?)\*/',lambda k:rd(k.group(1)).strip(),t)  # /*@include 檔名*/ → 內嵌該檔
 for code in (sys.argv[1:] or FOLD):
     fn=os.path.join(SRC,code.lower()+'.html')
     if not os.path.exists(fn): continue

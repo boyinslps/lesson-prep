@@ -25,6 +25,10 @@ submissions*.json
 繳交*
 timetable.json
 
+# --- 競賽 C04 學生對話紀錄：整理工具的輸出含姓名與完整對話，只留本機 ---
+materials/競賽專區/C04_檢查標記與排版/學生對話紀錄/_輸出/
+materials/競賽專區/C04_檢查標記與排版/學生對話紀錄/manual.json
+
 # --- 本機環境：每台不同、體積大 ---
 # 可攜式 Python：換電腦用檔案複製帶走，不進 git
 工作台/runtime/
