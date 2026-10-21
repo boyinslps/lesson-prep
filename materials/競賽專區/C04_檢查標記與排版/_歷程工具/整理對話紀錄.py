@@ -11,7 +11,8 @@
     *學生清單*.xlsx                           欄位：年級、班級、座號、姓名（其他欄位忽略）
     老師標記.json（選用）                     {"5-9-11": [{"id": "20261015130022u", "label": "…", "note": "…"}]}
     額外遮蔽.json（選用）                     ["蓁蓁", "潔潔"]  名單全名以外也要遮掉的字（暱稱、署名），內文出現就改成 ○
-    說明書提示.json（選用）                   {"5-9-11": {"idea":{...}, "chapters":[...], "found":[...], "disclose":[...]}}  第 5 步依對話給學生的提醒
+    說明書提示.json（選用）                   {"5-9-11": {"idea":{...}, "chapters":[...], "found":[...], "disclose":[...]}}  第 6 步（作品說明書）依對話給學生的提醒
+    預選對話.json（選用）                     {"5-9-11": [{"seg": [["起點id","終點id"], ...], "hint": "這一輪可以查證／想想的地方"}]}  老師替學生預選的 4～5 輪（第 4 步左右切換著看、勾「選這則」）；seg 起點到終點（含）之間的訊息算一輪，可多段、可超過一問一答
     名單例外.json（選用）                     {"5-11-14": "劉宜蓁"}  名單上的座號 → 紀錄裡實際的姓名（姓名對不上、但老師確認是同一人時用）
 
 輸出（在資料夾的 _輸出\\ ，含學生姓名與對話，已列入 .gitignore，不要 commit）：
@@ -176,6 +177,11 @@ def main():
                 txt = txt.replace(nm, '○' * len(nm))
         return txt
 
+    cand_seed = {}
+    cp = os.path.join(folder, '預選對話.json')
+    if os.path.exists(cp):
+        cand_seed = {k: v for k, v in json.load(io.open(cp, encoding='utf-8')).items() if not k.startswith('_')}
+        P('讀到 預選對話.json（%d 位學生）' % len(cand_seed))
     marks_seed = {}
     mp = os.path.join(folder, '老師標記.json')
     if os.path.exists(mp):
@@ -250,13 +256,25 @@ def main():
         for k in ('chapters', 'found', 'disclose'):
             if gs.get(k):
                 guide[k] = okids(gs[k])
+        flat = [m['id'] for se in sessions for m in se['msgs'] if not m.get('g')]
+        pos = {i: k for k, i in enumerate(flat)}
+        cands = []
+        for ci, cs in enumerate(cand_seed.get(sid, []), 1):
+            cid = []
+            for a, b in cs.get('seg', []):
+                if a not in pos or b not in pos or pos[a] > pos[b]:
+                    P('  ⚠ %s 預選第 %d 輪的片段 %s～%s 找不到或順序顛倒，略過' % (sid, ci, a, b))
+                    continue
+                cid += [i for i in flat[pos[a]:pos[b] + 1] if i not in cid]
+            if cid:
+                cands.append(dict(ids=cid, hint=cs.get('hint', '')))
         modes = collections.Counter()
         for se in sessions:
             modes[se['mode']] += sum(1 for m in se['msgs'] if m['r'] == 'u')
         nmsg = sum(len(se['msgs']) for se in sessions)
         nu = sum(1 for se in sessions for m in se['msgs'] if m['r'] == 'u')
-        P('✓ %s %s：%d 份檔、%d 則訊息（學生 %d 則）、%d 場對話、%d 個老師標記%s' % (sid, nm, len({r['file'] for r in recs}), nmsg, nu, len(sessions), len(marks), note))
-        students[sid] = dict(grade=g, className=c, studentId=s, sessions=sessions, marks=marks, guide=guide, modes=dict(modes))
+        P('✓ %s %s：%d 份檔、%d 則訊息（學生 %d 則）、%d 場對話、%d 個老師標記、預選 %d 輪%s' % (sid, nm, len({r['file'] for r in recs}), nmsg, nu, len(sessions), len(marks), len(cands), note))
+        students[sid] = dict(grade=g, className=c, studentId=s, sessions=sessions, marks=marks, guide=guide, modes=dict(modes), cands=cands)
 
     extra = [n for n in by_name if n not in roster and n not in exc.values()]
     if extra:

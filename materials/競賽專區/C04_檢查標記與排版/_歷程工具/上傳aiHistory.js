@@ -1,6 +1,6 @@
 // 用 Firebase 服務帳號憑證（D:\keys\worksheet-f47f3-firebase-adminsdk*.json）把「去姓名版」aiHistory 寫進 Firestore aiHistory/{年-班-座}。
 // 規則：和網頁「匯入 aiHistory.json」一樣——不動學生挑的 picks；老師在網頁改過標記（marksEdited）的人保留標記，除非加 --overwrite-marks。
-// 另外多寫 guide（說明書提示）、modes（各模式發言次數），第 5 步的提示要靠它們（網頁匯入目前不會寫這兩個欄位）。
+// 另外多寫 guide（說明書提示）、modes（各模式發言次數）、cands（老師預選的輪次，第 4 步左右切換著看），學生端要靠它們（網頁匯入目前不會寫這兩個欄位）。
 // 用法（專案根目錄）：
 //   工作台\runtime\node\node.exe materials\競賽專區\C04_檢查標記與排版\_歷程工具\上傳aiHistory.js inspect   只看雲端現況，不改資料
 //   工作台\runtime\node\node.exe materials\競賽專區\C04_檢查標記與排版\_歷程工具\上傳aiHistory.js upload    寫入（加 --overwrite-marks 才覆蓋已改過的標記）
@@ -79,7 +79,7 @@ async function listExisting(tk) {
   let n = 0;
   for (const id of Object.keys(data)) {
     const s = data[id], cur = ex[id] || {};
-    const body = { grade: s.grade, className: s.className, studentId: s.studentId, sessions: s.sessions, guide: s.guide || {}, modes: s.modes || {}, importedAt: Date.now() };
+    const body = { grade: s.grade, className: s.className, studentId: s.studentId, sessions: s.sessions, guide: s.guide || {}, modes: s.modes || {}, cands: s.cands || [], importedAt: Date.now() };
     const keepMarks = !overwrite && cur.marksEdited && cur.marksEdited.booleanValue;
     if (!keepMarks) { body.marks = s.marks || []; if (overwrite) body.marksEdited = false; }
     const keys = Object.keys(body);

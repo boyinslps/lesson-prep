@@ -234,3 +234,45 @@ details.gd .gt{color:#a0332b;font-weight:700}
 .wnav .wneed{flex:1;min-width:160px;font-size:14px;font-weight:700;color:#8a5a0c}
 .wnav .wneed.ok{color:var(--green)}
 .wnav .btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* ===== 改版二：老師預選輪次，左右切換＋「選這則」===== */
+.vpager{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:0 0 12px;position:sticky;top:60px;z-index:5;background:var(--bg,#fff8e8);padding:6px 0}
+.vpager .btn{padding:6px 16px;font-size:15px}
+.vpager .btn:disabled{opacity:.4;cursor:default}
+.pdots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.vdot{position:relative;width:42px;height:42px;border-radius:50%;border:2.5px solid var(--line);background:#fff;font-weight:900;font-size:17px;cursor:pointer;display:grid;place-items:center}
+.vdot.on{border-color:var(--ac);background:var(--ac-soft);box-shadow:0 0 0 3px var(--ac-soft)}
+.vdot.sel{background:var(--ac);color:#fff;border-color:var(--ac)}
+.vdot .ico{position:absolute;right:-5px;top:-5px;width:18px;height:18px;border-radius:50%;background:var(--green);color:#fff;padding:2px}
+.vcard{background:#fff;border:2.5px solid var(--line);border-radius:18px;padding:14px 16px;margin:0 0 14px}
+.vcard.chosen{border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft)}
+.vcard .ph{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.vcard .pn{width:36px;height:36px;border-radius:50%;background:var(--ac);color:#fff;font-weight:900;font-size:18px;display:grid;place-items:center;flex:none}
+.vcard .pt{font-weight:900;font-size:17px}
+.vcard .pt small{display:block;font-weight:700;color:var(--mute);font-size:13px}
+.vcard .tools{margin-left:auto}
+.vhint{background:#fff8e8;border:1.5px solid #e2c27e;border-left:6px solid #d98a1f;border-radius:12px;padding:7px 12px;margin:6px 0;font-size:15.5px;line-height:1.6}
+.vhint b{color:#8a5a0c;display:block;font-size:13.5px}
+.vwarn{background:#fdeeec;border:1.5px solid #f1b3ae;border-left:6px solid var(--red);border-radius:12px;padding:7px 12px;margin:6px 0;font-size:14.5px;line-height:1.6}
+.vwarn b{color:var(--red)}
+.chain.big{max-height:none;overflow:visible;background:#fff}
+.selbtn{display:flex;align-items:center;gap:14px;cursor:pointer;border:3px solid var(--line);border-radius:16px;padding:12px 18px;margin-top:6px;background:#fff;user-select:none}
+.selbtn:hover{border-color:var(--ac)}
+.selbtn input{position:absolute;opacity:0;pointer-events:none}
+.selbtn .bx{width:34px;height:34px;border-radius:10px;border:3px solid #9aa3b8;display:grid;place-items:center;color:transparent;flex:none;background:#fff}
+.selbtn .bx .ico{width:22px;height:22px}
+.selbtn .tt{font-size:20px;font-weight:900}
+.selbtn .tt small{display:block;font-size:13px;font-weight:500;color:var(--sub)}
+.selbtn.on{border-color:var(--green);background:var(--green-soft)}
+.selbtn.on .bx{background:var(--green);border-color:var(--green);color:#fff}
+.selbtn:has(input:focus-visible){outline:3px solid var(--ac);outline-offset:2px}
+.vmy{margin-top:6px}
+.candrow{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:5px 10px}
+.candrow small{color:var(--sub)}
+/* 前後文視窗 */
+.ctxov{position:fixed;inset:0;z-index:80;background:rgba(15,20,35,.6);display:none;align-items:center;justify-content:center;padding:16px}
+.ctxov.on{display:flex}
+.ctxbox{background:#fff;border-radius:18px;max-width:760px;width:100%;max-height:86vh;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+.ctxh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line)}
+.ctxh .btn{padding:4px 14px;font-size:14px}
+.ctxb{overflow:auto;padding:4px 16px 14px}

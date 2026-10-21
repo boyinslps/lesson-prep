@@ -93,9 +93,13 @@
   function roundText(p,ix){
     var u=[],a=[];
     p.ids.forEach(function(id){var o=ix.by[id];if(!o||o.m.g)return;(o.m.r==='u'?u:a).push(o.m.x);});
+    function cap(arr,lim){   // 訊息很多時只留第一則和最後一則，中間用省略號（2 頁放不下）
+      if(arr.length<=2)return arr.map(function(x){return clip(x,lim);}).join('\n');
+      return clip(arr[0],lim)+'\n⋯（中間還有 '+(arr.length-2)+' 則）\n'+clip(arr[arr.length-1],lim);
+    }
     return {q:u.length?clip(u[0],LIM.q):'（這一輪沒有選到自己的話）',
-      a:a.map(function(x){return clip(x,LIM.a);}).join('\n'),fd:nb(p.issNote).trim(),fl:'我發現的問題與修正',
-      f:u.slice(1).map(function(x){return clip(x,LIM.f);}).join('\n')||'（這一輪沒有追問）',why:nb(p.why).trim()};
+      a:cap(a,LIM.a),fd:nb(p.issNote).trim(),fl:'我發現的問題與修正',
+      f:cap(u.slice(1),LIM.f)||'（這一輪沒有追問）',why:nb(p.why).trim()};
   }
   function rowH(l,v,extra){return '<div class="rr"><div class="l">'+l+'</div><div class="v">'+v+(extra||'')+'</div></div>';}
   function sheetEl(items,o){
@@ -159,10 +163,10 @@
   /* ============================================================
      學生端
      ============================================================ */
-  var S={id:'',doc:null,ix:null,picks:[],sel:[],edit:-1,cur:0,loadedFor:'',fb:null,saveT:null};
+  var S={id:'',doc:null,ix:null,picks:[],items:[],view:0,cur:0,loadedFor:'',fb:null,saveT:null};
   var root=$('hBody'),lockEl=$('hLock'),statEl=$('hStat'),wroot=$('wBody'),wlock=$('wLock');
   function lock(msg,kind){
-    S.doc=null;S.ix=null;S.picks=[];S.sel=[];S.edit=-1;if(typeof renderGuide==='function')renderGuide();
+    S.doc=null;S.ix=null;S.picks=[];S.items=[];if(typeof renderGuide==='function')renderGuide();
     root.hidden=true;wroot.hidden=true;
     var h='<svg class="ico"><use href="#'+(kind==='bad'?'i-alert':'i-lock')+'"/></svg><span>'+esc(msg)+'</span>';
     [lockEl,wlock].forEach(function(e){e.hidden=false;e.innerHTML=h;});
@@ -189,7 +193,7 @@
         S.id=id;S.doc=snap.data();S.ix=indexDoc(S.doc);
         var cloud={picks:S.doc.picks||[],at:S.doc.picksAt||0},loc=readLocal(id)||{picks:[],at:0};
         var use=(loc.at>cloud.at)?loc:cloud;
-        S.picks=picksOf(S.doc,S.ix,use.picks).slice(0,MAXP);S.sel=[];S.edit=-1;S.cur=firstUndone();
+        S.picks=picksOf(S.doc,S.ix,use.picks).slice(0,MAXP);S.view=0;S.cur=firstUndone();
         lockEl.hidden=true;wlock.hidden=true;root.hidden=false;wroot.hidden=false;
         renderAll();
         statEl.textContent=loc.at>cloud.at?'用的是這台電腦上較新的存檔':'已讀取';
@@ -197,86 +201,91 @@
     }).catch(function(e){console.warn('讀取對話紀錄失敗',e);if(S.loadedFor===id)lock('讀取失敗（'+(e.code||e.message||'網路')+'）。再按一次「讀取學習單」，還是不行就告訴老師。','bad');});
   }
 
-  function renderAll(){renderSide();renderChat();renderSaved();renderSel();renderWrite();refreshMeta();renderGuide();}
-  function renderChat(){
-    var c=$('hChat'),y=window.pageYOffset;
-    c.innerHTML=chatHTML(S.doc,S.ix,{picks:S.picks,sel:S.sel,pickable:true});
-    window.scrollTo(0,y);
-  }
-  function paintSel(){
-    Array.prototype.forEach.call($('hChat').querySelectorAll('.msg[data-mid]'),function(el){
-      var on=S.sel.indexOf(el.dataset.mid)>=0;el.classList.toggle('sel',on);
-      var b=el.querySelector('[data-sel]');if(b)b.setAttribute('aria-pressed',on?'true':'false');
+  function renderAll(){buildItems();renderView();renderMyList();renderWrite();refreshMeta();renderGuide();}
+
+  /* ---------- 第 4 步：老師預選的輪次，左右切換著看，勾「選這則」送去寫理由 ---------- */
+  function candKey(ids){return ids.join('|');}
+  // 要看的輪次 = 老師預選（doc.cands）＋學生之前自己挑、但不在預選裡的（保留，可取消）
+  function buildItems(){
+    var items=[],seen={};
+    (S.doc.cands||[]).forEach(function(c){
+      var p=cleanPick({ids:c.ids},S.ix);if(!chainOk(S.ix,p))return;
+      var k=candKey(p.ids);if(seen[k])return;seen[k]=1;
+      items.push({ids:p.ids,hint:nb(c.hint||''),extra:false});
     });
+    S.picks.forEach(function(p){var k=candKey(p.ids);if(!seen[k]){seen[k]=1;items.push({ids:p.ids,hint:'',extra:true});}});
+    S.items=items;
+    if(S.view>=items.length)S.view=Math.max(0,items.length-1);
   }
-  function renderSide(){
-    var jm=$('hJump'),marks=(S.doc.marks||[]).filter(function(k){return S.ix.by[k.id];}).sort(function(a,b){return S.ix.by[a.id].i-S.ix.by[b.id].i;});
-    jm.innerHTML=marks.length?marks.map(function(k){
-      return '<button type="button" class="k-'+esc(k.kind||'')+'" data-jump="'+k.id+'"><span class="kt">★ '+esc(KIND[k.kind]||'值得寫')+'</span>'+esc(k.label)+'<span class="tm">'+esc(fmtT(S.ix.by[k.id].m.t))+'</span></button>';
-    }).join(''):'<div class="none">老師還沒有標記。自己從上往下看，找「我發現問題」「我追問」「我改了」的地方。</div>';
+  function pickIndex(it){var k=candKey(it.ids);for(var i=0;i<S.picks.length;i++)if(candKey(S.picks[i].ids)===k)return i;return -1;}
+  function itemIndexOfPick(p){var k=candKey(p.ids);for(var i=0;i<S.items.length;i++)if(candKey(S.items[i].ids)===k)return i;return -1;}
+  function modesOf(ids){var m=[];ids.forEach(function(id){var o=S.ix.by[id],md=o&&(S.doc.sessions[o.si]||{}).mode;if(md&&m.indexOf(md)<0)m.push(md);});return m;}
+  function msgBlock(m,cls){return '<div class="msg '+m.r+(cls?' '+cls:'')+'" data-mid="'+m.id+'"><div class="av">'+(m.r==='u'?'我':'e度')+'</div><div class="bw"><div class="bub"><div class="tx">'+esc(nb(m.x))+'</div><div class="tm">'+esc(fmtT(m.t))+'</div></div></div></div>';}
+  var WSJ='「文思精靈」會一直給整篇文章、帶你讀文章，所以 e度 沒有照你說的聊。想正常對話、寫賀卡，要切換到「一般模式」。';
+  function renderView(){
+    var host=$('hView'),pg=$('hPager'),n=S.items.length;
+    if(!n){pg.innerHTML='';host.innerHTML='<div class="hempty">老師還沒有幫你挑好對話。先確認最上面的年級、班級、座號有沒有填對；都對的話，請告訴老師。</div>';return;}
+    var it=S.items[S.view],pi=pickIndex(it),on=pi>=0,modes=modesOf(it.ids),o=S.ix.by[it.ids[0]],se=S.doc.sessions[o.si]||{};
+    pg.innerHTML='<button class="btn ghost" type="button" data-vgo="-1"'+(S.view===0?' disabled':'')+'><svg class="ico"><use href="#i-prev"/></svg>上一輪</button>'+
+      '<div class="pdots">'+S.items.map(function(x,k){var s=pickIndex(x)>=0;return '<button type="button" class="vdot'+(k===S.view?' on':'')+(s?' sel':'')+'" data-vdot="'+k+'" aria-label="第 '+(k+1)+' 輪'+(s?'（已選）':'')+'">'+(k+1)+(s?'<svg class="ico"><use href="#i-check"/></svg>':'')+'</button>';}).join('')+'</div>'+
+      '<button class="btn ghost" type="button" data-vgo="1"'+(S.view===n-1?' disabled':'')+'>下一輪<svg class="ico"><use href="#i-next"/></svg></button>';
+    var h='<div class="vcard'+(on?' chosen':'')+'">';
+    h+='<div class="ph"><span class="pn">'+(S.view+1)+'</span><span class="pt">第 '+(S.view+1)+' 輪／共 '+n+' 輪<small>'+esc(modes.join('、'))+'　'+esc(sessHead(se).replace(/<[^>]+>/g,' '))+'　共 '+it.ids.length+' 則訊息</small></span><span class="tools"><button class="tbtn" type="button" data-ctx="'+it.ids[0]+'">看這一輪的前後文</button></span></div>';
+    if(modes.indexOf('文思精靈')>=0)h+='<div class="vwarn"><b>這一輪是用「文思精靈」聊的。</b>'+WSJ+'老師盡量不挑這種輪次，真的沒有別的才用；要選的話，下一步可以寫「e度 沒有照我說的做」。</div>';
+    if(it.hint)h+='<div class="vhint"><b>老師挑這一輪，可以查證、想想：</b>'+esc(it.hint)+'</div>';
+    else if(it.extra)h+='<div class="vhint"><b>這是你之前自己挑的一輪。</b>不想用就把下面的勾拿掉。</div>';
+    h+='<div class="chain big" aria-label="這一輪的對話">'+chainHTML(S.doc,S.ix,{ids:it.ids})+'</div>';
+    h+='<label class="selbtn'+(on?' on':'')+'"><input type="checkbox" data-choose="1"'+(on?' checked':'')+'><span class="bx"><svg class="ico"><use href="#i-check"/></svg></span><span class="tt">選這則<small>勾起來，就會送到下一步「寫理由」的清單</small></span></label>';
+    host.innerHTML=h+'</div>';
   }
-  function ownerOf(id){for(var k=0;k<S.picks.length;k++)if(S.picks[k].ids.indexOf(id)>=0)return k;return -1;}
-  function isU(id){var o=S.ix.by[id];return !!o&&o.m.r==='u';}
-  function firstText(p,n){for(var i=0;i<p.ids.length;i++){var o=S.ix.by[p.ids[i]];if(o&&o.m.r==='u'&&!o.m.g)return clip(o.m.x,n);}return '（沒有選到你的話）';}
-  // 右邊「我保存的對話」：一輪一列，可重選、換順序、刪掉
-  function renderSaved(){
+  function toggleChoose(){
+    var it=S.items[S.view];if(!it)return;
+    var pi=pickIndex(it);
+    if(pi>=0){
+      var p=S.picks[pi];
+      if(((p.issNote||'').trim()||(p.why||'').trim())&&!confirm('不選這一輪了？你在這一輪寫的內容會不見。')){renderView();return;}
+      S.picks.splice(pi,1);S.cur=firstUndone();toast('已從「寫理由」清單拿掉');
+    }else{
+      if(S.picks.length>=MAXP){toast('最多選 '+MAXP+' 輪。先把別輪的勾拿掉。');renderView();return;}
+      S.picks.push({ids:it.ids.slice(),issNote:'',why:'',ts:Date.now()});
+      toast('已送到「寫理由」清單（第 '+S.picks.length+' 個）');
+    }
+    buildItems();renderView();renderMyList();renderWrite();refreshMeta();saveSoon();
+  }
+  function viewGo(k){S.view=Math.max(0,Math.min(S.items.length-1,k));renderView();var t=$('hPager');if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}
+  function firstText(p,n){for(var i=0;i<p.ids.length;i++){var o=S.ix.by[p.ids[i]];if(o&&o.m.r==='u'&&!o.m.g)return clip(o.m.x,n);}return '（沒有你的話）';}
+  // 「我選的」：已勾的輪次，可用 ▲▼ 排優先順序（PDF 照這個順序，最能代表你的放第 1）
+  function renderMyList(){
     var m=$('hMy'),n=S.picks.length;
     m.innerHTML=n?S.picks.map(function(p,k){
-      return '<div class="svi'+(S.edit===k?' ed':'')+'"><button type="button" class="svn" data-gopick="'+k+'"><span class="pn">'+(k+1)+'</span><span class="pt">'+esc(firstText(p,18))+'<small>'+p.ids.length+' 則訊息</small></span></button>'+
-        '<span class="svt"><button type="button" class="tbtn" data-edit="'+k+'" title="把這一輪放回上面重新選">重選</button>'+
-        '<button type="button" class="tbtn" data-mv="'+k+':-1"'+(k===0?' disabled':'')+' title="往前">▲</button><button type="button" class="tbtn" data-mv="'+k+':1"'+(k===n-1?' disabled':'')+' title="往後">▼</button>'+
-        '<button type="button" class="tbtn del" data-del="'+k+'">刪除</button></span></div>';
-    }).join(''):'<div class="none">還沒保存。在左邊點選對話裡的訊息，再按「保存這串對話」。</div>';
-  }
-  // 選取中：右邊的盒子＋畫面下方的固定列（兩邊都有「保存」，不用捲回來）
-  function renderSel(){
-    var n=S.sel.length,u=S.sel.filter(isU).length,ed=S.edit>=0,txt;
-    if(ed)txt='正在重選第 '+(S.edit+1)+' 輪：目前選了 '+n+' 則（你的話 '+u+'、e度 '+(n-u)+'）';
-    else txt=n?'已選 '+n+' 則（你的話 '+u+'、e度 '+(n-u)+'）':'還沒選。點對話裡任何一句（你的話、e度 的話都可以），選好幾句再一起保存。';
-    var btns='<button class="btn" type="button" data-save="1"'+(n?'':' disabled')+'><svg class="ico"><use href="#i-check"/></svg>'+(ed?'更新第 '+(S.edit+1)+' 輪':'保存這串對話')+'</button>'+
-      '<button class="btn ghost" type="button" data-clear="1"'+(n||ed?'':' disabled')+'>'+(ed?'取消重選':'清除選取')+'</button>';
-    $('hSelBox').innerHTML='<p class="selt">'+esc(txt)+'</p><div class="selb">'+btns+'</div>';
-    var bar=$('hSelBar');bar.hidden=!(n||ed);bar.innerHTML='<span class="selt">'+esc(txt)+'</span>'+btns;
-  }
-  function toggleSel(id){
-    var ow=ownerOf(id);
-    if(ow>=0&&ow!==S.edit){toast('這句已經存在第 '+(ow+1)+' 輪。要改的話，先在右邊按那一輪的「重選」，或把那一輪刪掉。');return;}
-    var k=S.sel.indexOf(id);if(k>=0)S.sel.splice(k,1);else S.sel.push(id);
-    paintSel();renderSel();
-  }
-  function saveSel(){
-    var p=cleanPick({ids:S.sel},S.ix);
-    if(!chainOk(S.ix,p)){toast('一輪要同時有「你說的話」和「e度 的回答」，再多選一句。');return;}
-    if(S.edit>=0){S.picks[S.edit].ids=p.ids;toast('已更新第 '+(S.edit+1)+' 輪');}
-    else{
-      if(S.picks.length>=MAXP){toast('最多保存 '+MAXP+' 輪。先在右邊刪掉一輪再存。');return;}
-      S.picks.push({ids:p.ids,issNote:'',why:'',ts:Date.now()});
-      toast('已保存為第 '+S.picks.length+' 輪。可以繼續選下一輪；都選好了，按「下一步」去寫。');
-    }
-    S.sel=[];S.edit=-1;
-    renderChat();renderSaved();renderSel();renderWrite();refreshMeta();saveSoon();
-  }
-  function startEdit(k){
-    S.sel=S.picks[k].ids.slice();S.edit=k;
-    renderChat();renderSaved();renderSel();flash($('hChat'),S.picks[k].ids[0]);
-  }
-  function delPick(k){
-    var p=S.picks[k];
-    if(((p.issNote||'').trim()||(p.why||'').trim())&&!confirm('刪掉這一輪？你寫在這一輪的內容會不見。'))return;
-    S.picks.splice(k,1);
-    if(S.edit===k){S.edit=-1;S.sel=[];}else if(S.edit>k)S.edit--;
-    S.cur=firstUndone();
-    renderChat();renderSaved();renderSel();renderWrite();refreshMeta();saveSoon();
+      var vi=itemIndexOfPick(p);
+      return '<div class="svi"><button type="button" class="svn" data-vopen="'+vi+'"><span class="pn">'+(k+1)+'</span><span class="pt">'+esc(firstText(p,22))+'<small>第 '+(vi+1)+' 輪　'+p.ids.length+' 則訊息</small></span></button>'+
+        '<span class="svt"><button type="button" class="tbtn" data-mv="'+k+':-1"'+(k===0?' disabled':'')+' title="排前面">▲ 往前</button><button type="button" class="tbtn" data-mv="'+k+':1"'+(k===n-1?' disabled':'')+' title="排後面">▼ 往後</button></span></div>';
+    }).join(''):'<div class="none">還沒有勾任何一輪。看完上面的對話，在下面勾「選這則」。</div>';
   }
   function movePick(k,d){
     var j=k+d;if(j<0||j>=S.picks.length)return;
     var x=S.picks[k];S.picks[k]=S.picks[j];S.picks[j]=x;
-    if(S.edit===k)S.edit=j;else if(S.edit===j)S.edit=k;
     S.cur=firstUndone();
-    renderChat();renderSaved();renderSel();renderWrite();refreshMeta();saveSoon();
+    renderMyList();renderWrite();refreshMeta();saveSoon();
+  }
+  // 看某一句的前後文（說明書提示「看那段對話」用）
+  function openCtx(id){
+    var o=S.ix&&S.ix.by[id];if(!o)return;
+    var se=S.doc.sessions[o.si],ms=se.msgs.filter(function(m){return !m.g;}),k=ms.findIndex(function(m){return m.id===id;});
+    var a=Math.max(0,k-3),b=Math.min(ms.length,k+4);
+    var ov=$('ctxOv');
+    if(!ov){ov=document.createElement('div');ov.id='ctxOv';ov.className='ctxov';document.body.appendChild(ov);
+      ov.addEventListener('click',function(e){if(e.target===ov||e.target.closest('[data-ctxclose]'))ov.classList.remove('on');});
+      document.addEventListener('keydown',function(e){if(e.key==='Escape')ov.classList.remove('on');});}
+    var h='<div class="ctxbox"><div class="ctxh"><b>這句話前後的對話</b><button class="btn ghost" type="button" data-ctxclose="1">關閉</button></div><div class="ctxb"><div class="sess">'+sessHead(se)+'</div>';
+    ms.slice(a,b).forEach(function(m){h+=msgBlock(m,m.id===id?'sel':'');});
+    ov.innerHTML=h+'</div></div>';ov.classList.add('on');
+    var t=ov.querySelector('.msg.sel');if(t)t.scrollIntoView({block:'center'});
   }
 
   /* ---------- 第 5 步：一次寫一輪，寫完才換下一輪 ---------- */
+  function need(){return Math.min(MINP,S.items.length||MINP);}
   function unlocked(k){for(var i=0;i<k;i++)if(!isDone(S.picks[i],S.ix))return false;return true;}
   function firstUndone(){for(var i=0;i<S.picks.length;i++)if(!isDone(S.picks[i],S.ix))return i;return Math.max(0,S.picks.length-1);}
   function guideH(open,judge,asks){
@@ -291,12 +300,12 @@
   function writeCardHTML(k){
     var p=S.picks[k],n=S.picks.length,o=S.ix.by[p.ids[0]],se=S.doc.sessions[o.si]||{};
     var h='<div class="pcard" data-i="'+k+'">';
-    h+='<div class="ph"><span class="pn">'+(k+1)+'</span><span class="pt">第 '+(k+1)+' 輪<small>共 '+n+' 輪　'+esc(sessHead(se).replace(/<[^>]+>/g,' '))+'</small></span><span class="tools"><button class="tbtn" type="button" data-wback="'+k+'">回上一步改選的訊息</button></span></div>';
+    h+='<div class="ph"><span class="pn">'+(k+1)+'</span><span class="pt">第 '+(k+1)+' 輪<small>共 '+n+' 輪　'+esc(sessHead(se).replace(/<[^>]+>/g,' '))+'</small></span><span class="tools"><button class="tbtn" type="button" data-wback="'+k+'">回上一步看這一輪</button></span></div>';
     h+='<div class="chain" aria-label="你保存的這一輪對話">'+chainHTML(S.doc,S.ix,p)+'</div>';
     h+='<div class="pf"><div class="lb"><span>我發現的問題，和我怎麼追問或修正</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
       '<textarea class="px" data-f="issNote" maxlength="'+LIM.issNote+'" rows="3">'+esc(p.issNote)+'</textarea>'+
-      guideH(true,'批判檢視、提問策略與人工修正（佔 30%，同分時先比這項）。只寫「很好」「沒有錯」，評審看不出你的想法。',
-        ['看上面這串對話：哪一句、哪個字、哪個說法讓你覺得怪、太空泛或不像你？','你怎麼確認的？（查課本或網站、問家人、重讀一次）','然後你追問了什麼？或自己改了哪裡？改之前和改之後差在哪？','都沒發現問題也要寫：你是怎麼檢查的，為什麼確定沒問題。'])+'</div>';
+      guideH(true,'批判檢視、提問策略與人工修正（佔 30%，同分時先比這項）。「查證」不一定要上網，下面這些都算；只寫「很好」「沒有錯」，評審看不出你的想法。',
+        ['<b>e度 沒看懂你的意思（理解錯誤）</b>：你說的和它做的不一樣？例如你說「晚上」它畫成白天、你說是賀卡它當成作文、你貼自己的文章它當成別人的。','<b>顏色、人數、時間、地點、稱呼</b>：和你要的一樣嗎？把 e度 畫的圖、寫的字，和你說過的話一項一項對。','<b>事實、名稱、成語、修辭、數字</b>：e度 說得對嗎？用字典、網站或問家人確認，記下你查到什麼、哪裡不一樣。','<b>前後不一致</b>：e度 前面這樣說、後面又那樣說，或你前面說的和後面寫的不一樣，哪個才對？','<b>沒有照你的限制做</b>：你說「只給建議」「先問我問題」，它有做到嗎？還是直接幫你寫了？','<b>錯字、用詞怪怪的</b>：你覺得讀起來不對的地方，你怎麼確認？','<b>然後呢？</b>你追問了什麼、或自己改了哪裡？改之前和改之後差在哪？','都沒發現問題也要寫：你是怎麼檢查的、為什麼確定沒問題。'])+'</div>';
     h+='<div class="pf final"><div class="lb"><span>最終採用的理由</span><span class="au me">我自己寫</span><span class="ct" data-ct="why"></span></div>'+
       '<textarea class="px" data-f="why" maxlength="'+LIM.why+'" rows="3">'+esc(p.why)+'</textarea>'+
       guideH(true,'人工修正、創意與生活連結（各 30%）、數位倫理與權責揭露（20%）。',
@@ -307,7 +316,7 @@
   }
   function renderWrite(){
     var host=$('hPicks'),n=S.picks.length;
-    if(!n){$('wTabs').innerHTML='';host.innerHTML='<div class="hempty">還沒有保存任何一輪。回上一步，在對話裡點選你要的訊息，按「保存這串對話」。<br><button class="btn" type="button" data-wback="-1" style="margin-top:8px">回上一步去選</button></div>';return;}
+    if(!n){$('wTabs').innerHTML='';host.innerHTML='<div class="hempty">還沒有選任何一輪。回上一步，看老師幫你挑的對話，在想寫的那一輪勾「選這則」。<br><button class="btn" type="button" data-wback="-1" style="margin-top:8px">回上一步去選</button></div>';return;}
     if(S.cur>=n)S.cur=n-1;
     if(!unlocked(S.cur))S.cur=firstUndone();
     host.innerHTML=writeCardHTML(S.cur);
@@ -336,14 +345,14 @@
   function refreshMeta(){
     var done=S.picks.filter(function(p){return isDone(p,S.ix);}).length,n=S.picks.length;
     var pr=$('hProg');
-    pr.textContent='已保存 '+n+' 輪，寫好 '+done+' 輪（至少要 '+MINP+' 輪寫好）';
-    pr.className='hprog'+(done>=MINP?' good':'');
+    pr.textContent='已選 '+n+' 輪，寫好 '+done+' 輪（至少要 '+need()+' 輪寫好）';
+    pr.className='hprog'+(done>=need()?' good':'');
     clearTimeout(refreshMeta._t);refreshMeta._t=setTimeout(updPages,250);
-    var ok=n>=MINP&&done>=MINP;
+    var ok=n>=need()&&done>=need();
     setHidden('hOk',ok?'1':'');
     setHidden('hCnt',n?(n+' 輪（寫好 '+done+' 輪）'):'');
     $('hSheetBtn').disabled=!done;
-    var inf=$('hSaveInfo');inf.textContent='已保存 '+n+'／'+MAXP+' 輪（至少要 '+MINP+' 輪）';inf.className='hprog'+(n>=MINP?' good':'');
+    var inf=$('hSaveInfo');inf.textContent='已選 '+n+' 輪（至少要 '+need()+' 輪，最多 '+MAXP+' 輪）';inf.className='hprog'+(n>=need()?' good':'');
     if(S.doc)refreshWrite();
   }
   function sheetItems(){return S.picks.filter(function(p){return isDone(p,S.ix);}).map(function(p){return {p:p,ix:S.ix,mode:(S.doc.sessions[S.ix.by[p.ids[0]].si]||{}).mode};});}
@@ -370,22 +379,20 @@
       .catch(function(e){console.warn('picks 存檔失敗',e);statEl.textContent='雲端沒存到，先存在這台電腦';});
   }
 
-  // 事件：第 4 步（選訊息、保存）
+  // 事件：第 4 步（左右切換、勾「選這則」、排順序、看前後文）
   root.addEventListener('click',function(e){
-    var t=e.target.closest('[data-sel],[data-jump],[data-gopick],[data-save],[data-clear],[data-edit],[data-del],[data-mv]');if(!t)return;
-    if(t.dataset.sel){if(String(window.getSelection&&window.getSelection()).length)return;toggleSel(t.dataset.sel);return;}   // 正在選取文字（想複製）就不當成點選
-    if(t.dataset.jump){flash($('hChat'),t.dataset.jump);return;}
-    if(t.dataset.gopick!=null){var p=S.picks[Number(t.dataset.gopick)];if(p)flash($('hChat'),p.ids[0]);return;}
-    if(t.dataset.save){saveSel();return;}
-    if(t.dataset.clear){S.sel=[];S.edit=-1;renderChat();renderSaved();renderSel();return;}
-    if(t.dataset.edit!=null){startEdit(Number(t.dataset.edit));return;}
-    if(t.dataset.del!=null){delPick(Number(t.dataset.del));return;}
+    var t=e.target.closest('[data-vgo],[data-vdot],[data-ctx],[data-mv],[data-vopen]');if(!t||t.disabled)return;
+    if(t.dataset.vgo){viewGo(S.view+Number(t.dataset.vgo));return;}
+    if(t.dataset.vdot!=null){viewGo(Number(t.dataset.vdot));return;}
+    if(t.dataset.ctx){openCtx(t.dataset.ctx);return;}
+    if(t.dataset.vopen!=null){if(Number(t.dataset.vopen)>=0)viewGo(Number(t.dataset.vopen));return;}
     if(t.dataset.mv){var a=t.dataset.mv.split(':');movePick(Number(a[0]),Number(a[1]));return;}
   });
-  root.addEventListener('keydown',function(e){
-    if(e.key!=='Enter'&&e.key!==' ')return;
-    var t=e.target;if(!t.dataset||!t.dataset.sel)return;
-    e.preventDefault();toggleSel(t.dataset.sel);
+  root.addEventListener('change',function(e){if(e.target.dataset&&e.target.dataset.choose)toggleChoose();});
+  document.addEventListener('keydown',function(e){   // 第 4 步用鍵盤 ← → 切換
+    if((e.key!=='ArrowLeft'&&e.key!=='ArrowRight')||root.hidden||root.offsetParent===null)return;
+    var tg=e.target&&e.target.tagName;if(tg==='TEXTAREA'||tg==='INPUT'||tg==='SELECT')return;
+    viewGo(S.view+(e.key==='ArrowLeft'?-1:1));
   });
   // 事件：第 5 步（逐輪書寫）
   wroot.addEventListener('click',function(e){
@@ -398,7 +405,7 @@
       if(S.cur<S.picks.length-1)go(S.cur+1);else $('hSheetBtn').click();
       return;
     }
-    if(t.dataset.wback!=null){window.cardShowStep(4);var k=Number(t.dataset.wback);if(k>=0)setTimeout(function(){startEdit(k);},350);return;}
+    if(t.dataset.wback!=null){var k=Number(t.dataset.wback);if(k>=0&&S.picks[k]){var vi=itemIndexOfPick(S.picks[k]);if(vi>=0)S.view=vi;}window.cardShowStep(4);renderView();return;}
   });
   wroot.addEventListener('input',function(e){
     var f=e.target.dataset&&e.target.dataset.f,p=S.picks[S.cur];
@@ -437,7 +444,7 @@
   }
   document.addEventListener('click',function(e){
     var j=e.target.closest('[data-gojump]'),h=e.target.closest('[data-hb]');
-    if(j){var id=j.dataset.gojump;window.cardShowStep(4);setTimeout(function(){flash($('hChat'),id);},350);}
+    if(j){openCtx(j.dataset.gojump);}
     else if(h){var i=HBIDX[h.dataset.hb];if(i!=null&&window.openHandbook)window.openHandbook(i);}
   });
   // 每 8 秒自動儲存（打字後 1 秒多也會先存一次）
@@ -521,6 +528,10 @@
       var h='<div class="card"><h3><svg class="ico"><use href="#i-users"/></svg>'+id+'　學生保存了 '+pk.length+' 輪</h3>';
       h+='<p class="small muted">① 在下面的對話裡替老師認為「值得寫」的地方按「★ 標記」，學生會在右邊看到跳轉按鈕。② 學生挑好的對話在最下面，可預覽、列印成 PDF（每人最多 2 頁）。</p>';
       h+='<div class="adbox" id="hAdChat">'+chatHTML(d,A.ix,{admin:true,picks:pk,sel:[]})+'</div>';
+      var cd=d.cands||[];
+      if(cd.length){h+='<h3 style="margin-top:6px"><svg class="ico"><use href="#i-star"/></svg>老師預選的輪次（學生在第 4 步左右切換、勾「選這則」）</h3><div class="incl">'+cd.map(function(c,k){
+        var ids=(c.ids||[]).filter(function(i){return A.ix.by[i];}),sel=pk.some(function(p){return p.ids.join('|')===ids.join('|');});
+        return '<div class="candrow"><b>預選 '+(k+1)+'（'+ids.length+' 則）'+(sel?'　✓ 學生已選':'')+'</b><br><small>'+esc(c.hint||'')+'</small></div>';}).join('')+'</div>';}
       h+='<h3 style="margin-top:6px"><svg class="ico"><use href="#i-file"/></svg>學生挑的對話（依優先順序）</h3>';
       if(!pk.length)h+='<div class="hempty">這位同學還沒有挑。</div>';
       else{
