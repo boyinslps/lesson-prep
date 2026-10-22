@@ -282,6 +282,9 @@ def main():
     os.makedirs(out_root, exist_ok=True)
     works_dir = os.path.join(out_root, '_作品PDF')
     os.makedirs(works_dir, exist_ok=True)
+    consent_dir = os.path.join(out_root, '_授權書')   # 掃描的作品授權同意書（含家長個資，只存本機）
+    os.makedirs(consent_dir, exist_ok=True)
+    io.open(os.path.join(consent_dir, '放這裡.txt'), 'w', encoding='utf-8').write('把掃描好的作品授權同意書 PDF 放在這個資料夾，檔名用「年級-班級-座號.pdf」（例如 5-9-11.pdf），重新執行匯出就會自動收進各人資料夾（檔名「…_作品授權同意書.pdf」）。\n')
     io.open(os.path.join(works_dir, '放這裡.txt'), 'w', encoding='utf-8').write(
         '把學生從 Canva 下載的賀卡 PDF 放在這個資料夾，檔名用「年級-班級-座號.pdf」（例如 5-9-11.pdf），重新執行匯出就會自動收進各人的資料夾。\n')
 
@@ -393,9 +396,15 @@ def main():
         else:
             miss.append('還沒有作品 PDF（請放進 _作品PDF\\%s.pdf）' % sid)
 
+        csrc = next(iter(glob.glob(os.path.join(consent_dir, sid + '*.pdf'))), None)
+        if csrc:
+            shutil.copy2(csrc, os.path.join(folder, base + '_作品授權同意書.pdf'))
+        else:
+            miss.append('還沒有作品授權同意書掃描檔（請放進 _授權書\\%s.pdf）' % sid)
+
         info = ['參賽資料', '=' * 20, '組別：' + group, '參賽者姓名：' + name, '年級：' + str(l4.get('mGrade') or g), '班級／座號：%s／%s' % (sid.split('-')[1], sid.split('-')[2]),
                 '作品名稱：' + title, '作品連結：' + (link or '（未填）'), '', '檔名（簡章規定【參賽組別-參賽者姓名-作品名稱】）：', '  ' + base,
-                '', '檢查：', *(['  ✓ 都齊了（作品授權同意書為紙本，請另外掃描）'] if not miss else ['  ✗ ' + x for x in miss])]
+                '', '檢查：', *(['  ✓ 都齊了'] if not miss else ['  ✗ ' + x for x in miss])]
         io.open(os.path.join(folder, '參賽資料.txt'), 'w', encoding='utf-8').write('\n'.join(info) + '\n')
         rows.append([group, g, sid.split('-')[1], sid.split('-')[2], name, title, base, link, '有' if has_work else '無', ndone, npages, '；'.join(miss)])
         report.append('%s %s：%s' % (sid, name, '✓ 齊全' if not miss else '；'.join(miss)))
@@ -416,7 +425,7 @@ def main():
     io.open(os.path.join(out_root, '檢查報告.txt'), 'w', encoding='utf-8').write('\n'.join(report) + '\n')
     print('\n'.join(report))
     print('\n已匯出 %d 位到：%s' % (len(rows), out_root))
-    print('提醒：作品授權同意書（紙本）請另外掃描放進各人資料夾；作品 PDF 請放進 _作品PDF\\ 再重跑一次。')
+    print('提醒：作品 PDF 請放進 _作品PDF\\、授權同意書掃描檔請放進 _授權書\\（檔名 年-班-座.pdf），再重跑一次。')
 
 
 if __name__ == '__main__':
