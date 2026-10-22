@@ -96,40 +96,62 @@ def is_done(p, by):
     return u >= 1 and a >= 1 and len(p['issNote'].strip()) >= ISS_MIN and len(p['why'].strip()) >= MINE_MIN
 
 
-def round_text(p, by):
-    u = [by[i]['m']['x'] for i in p['ids'] if by[i]['m'].get('r') == 'u' and not by[i]['m'].get('g')]
-    a = [by[i]['m']['x'] for i in p['ids'] if by[i]['m'].get('r') == 'a' and not by[i]['m'].get('g')]
-    return dict(q=clip(u[0], LIM['q']) if u else '（這一輪沒有選到自己的話）', a=cap(a, LIM['a']), fd=p['issNote'].strip(),
-                f=cap(u[1:], LIM['f']) or '（這一輪沒有追問）', why=p['why'].strip())
+def rounds_of(p, by):
+    """一問一答算 1 輪；一個「選這則」常常包含好幾輪。"""
+    n, wait = 0, False
+    for i in p['ids']:
+        m = by[i]['m']
+        if m.get('g'):
+            continue
+        if m.get('r') == 'u':
+            wait = True
+        elif wait:
+            n += 1
+            wait = False
+    return n
 
 
+def ts_of(i):
+    m = re.match(r'(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)', i)
+    return '%s-%s-%s %s:%s:%s' % m.groups() if m else ''
+
+
+# 照 e度 匯出的 Excel 排版（對話模式／對話時間／角色／對話內容），完整呈現不省略；純黑白表格。
 SHEET_CSS = """
 @page{size:A4;margin:12mm}
 *{box-sizing:border-box}
-body{margin:0;color:#111;font-family:'Microsoft JhengHei','Noto Sans TC',sans-serif;font-size:10pt;line-height:1.45}
-h1{font-size:16pt;margin:0 0 1mm;font-weight:900;text-align:center}
-.sub{font-size:9pt;color:#444;text-align:center;margin:0 0 4mm}
-.rd{border:1.2px solid #333;border-radius:2mm;margin:0 0 3mm;break-inside:avoid;page-break-inside:avoid;overflow:hidden}
-.rh{background:#e8eef7;font-weight:900;padding:.8mm 2.5mm;font-size:10pt;border-bottom:1px solid #333}
-.rr{display:grid;grid-template-columns:27mm 1fr;border-top:.6px solid #999}
-.rr:first-of-type{border-top:0}
-.l{background:#f6f6f6;padding:.8mm 2mm;font-weight:700;font-size:9pt;border-right:.6px solid #999}
-.v{padding:.8mm 2.5mm;white-space:pre-wrap;word-break:break-word}
-.fd{display:block;color:#333;font-size:9.5pt}.fd b{color:#8a1c1c}
+body{margin:0;color:#000;font-family:'Microsoft JhengHei','Noto Sans TC',sans-serif;font-size:9.5pt;line-height:1.5}
+h1{font-size:15pt;margin:0 0 3mm;font-weight:700;text-align:center}
+h2{font-size:10.5pt;margin:4mm 0 1.2mm;font-weight:700;break-after:avoid;page-break-after:avoid}
+table{width:100%;border-collapse:collapse;table-layout:fixed;margin:0 0 1mm}
+th,td{border:.6pt solid #000;padding:.9mm 1.6mm;vertical-align:top}
+th{font-weight:700;text-align:center}
+table.fd th{text-align:left}
+td.c{text-align:center;white-space:nowrap;font-size:8.5pt}
+td.tx,table.fd td{white-space:pre-wrap;word-break:break-word}
+tr{break-inside:avoid;page-break-inside:avoid}
 """
 
 
-def sheet_html(rounds):
+def sheet_html(picks, by, doc):
+    e = html.escape
     h = ['<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>AI協作歷程紀錄</title><style>', SHEET_CSS, '</style></head><body>',
-         '<h1>教育型 AI 協作歷程紀錄</h1><div class="sub">摘錄與教育型 AI（e度）最具代表性的人機對話，共 %d 輪，依重要程度排序</div>' % len(rounds)]
-    for k, (t, mode) in enumerate(rounds, 1):
-        e = html.escape
-        h.append('<div class="rd"><div class="rh">第 %d 輪%s</div>' % (k, '　（%s）' % e(mode) if mode else ''))
-        h.append('<div class="rr"><div class="l">我的原始提問（Prompt）</div><div class="v">%s</div></div>' % e(t['q']))
-        h.append('<div class="rr"><div class="l">教育型 AI 的回答摘要與問題發現</div><div class="v">%s%s</div></div>' % (
-            e(t['a']), '<span class="fd"><b>我的發現與修正：</b>%s</span>' % e(t['fd']) if t['fd'] else ''))
-        h.append('<div class="rr"><div class="l">我的追問／修正指令</div><div class="v">%s</div></div>' % e(t['f']))
-        h.append('<div class="rr"><div class="l">最終採用的理由</div><div class="v">%s</div></div></div>' % e(t['why']))
+         '<h1>教育型 AI 協作歷程紀錄</h1>']
+    modes = [(se or {}).get('mode', '') for se in (doc.get('sessions') or [])]
+    for k, p in enumerate(picks, 1):
+        rows = ''
+        for i in p['ids']:
+            o = by[i]
+            if o['m'].get('g'):
+                continue
+            rows += '<tr><td class="c">%s</td><td class="c">%s</td><td class="c">%s</td><td class="tx">%s</td></tr>' % (
+                e(modes[o['si']] if o['si'] < len(modes) else ''), e(ts_of(i)), '使用者' if o['m'].get('r') == 'u' else 'e度', e(nb(o['m'].get('x')).strip()))
+        h.append('<h2>第 %d 則　對話紀錄（共 %d 輪）</h2>' % (k, rounds_of(p, by)))
+        h.append('<table><colgroup><col style="width:17mm"><col style="width:30mm"><col style="width:14mm"><col></colgroup>'
+                 '<thead><tr><th>對話模式</th><th>對話時間</th><th>角色</th><th>對話內容</th></tr></thead><tbody>%s</tbody></table>' % rows)
+        h.append('<h2>第 %d 則　我的發現與理由</h2>' % k)
+        h.append('<table class="fd"><colgroup><col style="width:34mm"><col></colgroup><tbody>'
+                 '<tr><th>我的發現（問題，或 e度 怎麼幫我）</th><td>%s</td></tr><tr><th>最終採用的理由</th><td>%s</td></tr></tbody></table>' % (e(nb(p['issNote']).strip()), e(nb(p['why']).strip())))
     h.append('</body></html>')
     return ''.join(h)
 
@@ -289,20 +311,19 @@ def main():
             picks = [clean_pick(p, by) for p in (d.get('picks') or [])]
             picks = [p for p in picks if p['ids']]
             good = [p for p in picks if is_done(p, by)]
-            ndone = len(good)
+            ndone = sum(rounds_of(p, by) for p in good)      # 寫好的輪數（一問一答算 1 輪）
             if good:
-                rounds = [(round_text(p, by), (d['sessions'][by[p['ids'][0]]['si']] or {}).get('mode', '')) for p in good]
                 hp = os.path.join(tmp, sid + '.html')
-                io.open(hp, 'w', encoding='utf-8').write(sheet_html(rounds))
+                io.open(hp, 'w', encoding='utf-8').write(sheet_html(good, by, d))
                 pdf = os.path.join(folder, base + '_AI協作歷程紀錄.pdf')
                 if html_to_pdf(browser, hp, pdf):
                     npages = pdf_pages(pdf)
                     if npages > 2:
-                        miss.append('歷程紀錄有 %d 頁，超過簡章的 2 頁上限（請學生縮短文字或少選一輪）' % npages)
+                        miss.append('歷程紀錄完整呈現共 %d 頁，超過簡章的 2 頁上限（請學生少選幾則、或選短一點的）' % npages)
                 else:
                     miss.append('歷程紀錄 PDF 產生失敗')
             if ndone < 4:
-                miss.append('歷程紀錄只寫好 %d 輪（建議至少 4 輪）' % ndone)
+                miss.append('歷程紀錄寫好 %d 輪（一問一答算 1 輪，建議至少 4 輪）' % ndone)
         else:
             miss.append('沒有對話紀錄資料（aiHistory）')
 
@@ -336,7 +357,7 @@ def main():
 
     with io.open(os.path.join(out_root, '參賽資料總表.csv'), 'w', encoding='utf-8-sig', newline='') as fh:
         wr = csv.writer(fh)
-        wr.writerow(['組別', '年級', '班級', '座號', '參賽者姓名', '作品名稱', '檔名', 'Canva 作品連結', '作品PDF', '歷程寫好輪數', '歷程頁數', '待補'])
+        wr.writerow(['組別', '年級', '班級', '座號', '參賽者姓名', '作品名稱', '檔名', 'Canva 作品連結', '作品PDF', '歷程寫好輪數（一問一答算1輪）', '歷程頁數', '待補'])
         wr.writerows(rows)
     io.open(os.path.join(out_root, '檢查報告.txt'), 'w', encoding='utf-8').write('\n'.join(report) + '\n')
     print('\n'.join(report))

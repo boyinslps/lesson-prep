@@ -116,7 +116,7 @@
   <div class="card">
     <ol class="todo">
       <li><b>看</b>：老師幫你挑好的對話（第 3 步）</li>
-      <li><b>選</b>：你有話想寫的，勾「選這則」，<b>至少 4 個</b></li>
+      <li><b>選</b>：你有話想寫的，勾「選這則」。一問一答算 1 輪，一則常常有好幾輪，<b>合起來至少 4 輪</b></li>
       <li><b>寫</b>：每個要寫 2 格（第 4 步）<br>「我的發現」　「最終採用的理由」</li>
     </ol>
   </div>
@@ -150,23 +150,23 @@
     <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>7 分鐘</span><span class="chip">簡章 四-2-4</span><span class="chip" id="hStat"><svg class="ico"><use href="#i-cloud"/></svg>還沒讀取</span></div>
   </div></div>
 
-  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>老師幫你挑好了。</b>按「上一輪／下一輪」看，想寫的就勾「<b>選這則</b>」，<b>至少選 4 個</b>。對話太短，按「多收一則」。</p></div>
+  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>老師幫你挑好了。</b>按「上一則／下一則」看，想寫的就勾「<b>選這則</b>」。一問一答算 1 輪，<b>選好的合起來至少 4 輪</b>。對話太短，按「多收一則」。</p></div>
 
   <div class="hlock" id="hLock"><svg class="ico"><use href="#i-lock"/></svg><span>先在最上面填年級、班級、座號。</span></div>
 
   <div id="hBody" hidden>
     <div class="vpager" id="hPager"></div>
     <div id="hView"></div>
-    <div class="hbox vmy"><h4><svg class="ico"><use href="#i-star"/></svg>我選的（用 ▲▼ 排順序）</h4><div class="mypk" id="hMy"></div><div class="hprog" id="hSaveInfo"></div>
+    <div class="hbox vmy"><h4><svg class="ico"><use href="#i-star"/></svg>我選的（用 ▲▼ 排順序）</h4><div class="mypk" id="hMy"></div><div class="hprog" id="hSaveInfo"></div><div class="hprog" id="hSavePages"></div>
       <button class="btn ghost" type="button" id="hReload" style="margin-top:8px;font-size:14px;padding:6px 12px"><svg class="ico"><use href="#i-download"/></svg>重新讀取</button></div>
   </div>
   <div class="stepnav"></div>
 </section>
 
-<!-- ========== 步驟 4：寫每一輪的理由（一次一輪）========== -->
+<!-- ========== 步驟 4：寫每一則的理由（一次一則）========== -->
 <section class="step" data-title="寫理由" data-min="8" hidden>
   <div class="step-head"><div class="num">4</div><div>
-    <h2>寫理由：一次寫一個</h2>
+    <h2>寫理由：一次寫一則</h2>
     <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>8 分鐘</span><span class="chip">簡章 四-2-4</span></div>
   </div></div>
   <input type="hidden" id="hOk" data-key="histOk" data-req>

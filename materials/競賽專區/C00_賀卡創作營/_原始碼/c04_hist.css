@@ -324,3 +324,16 @@ ul.short{margin:0;padding-left:1.2em;font-size:17px;line-height:1.9}
 details.gd .gdb ul{margin:0}
 .vhint{font-size:15.5px}
 .vwarn{font-size:14.5px}
+
+/* ===== 歷程紀錄 PDF：照 e度 Excel 排版的純黑白表格（完整呈現，不省略）===== */
+.sheet{font-size:9.5pt;line-height:1.5;color:#000}
+.sheet h1{font-size:15pt;margin:0 0 3mm;font-weight:700;text-align:center}
+.sheet h2{font-size:10.5pt;margin:4mm 0 1.2mm;font-weight:700;color:#000;break-after:avoid;page-break-after:avoid}
+.sheet table{width:100%;border-collapse:collapse;table-layout:fixed;margin:0 0 1mm}
+.sheet th,.sheet td{border:.6pt solid #000;padding:.9mm 1.6mm;vertical-align:top;color:#000;background:none}
+.sheet th{font-weight:700;text-align:center}
+.sheet table.fd th{text-align:left}
+.sheet td.c{text-align:center;white-space:nowrap;font-size:8.5pt}
+.sheet td.tx,.sheet table.fd td{white-space:pre-wrap;word-break:break-word}
+.sheet tr{break-inside:avoid;page-break-inside:avoid}
+.sheet .idl{font-size:8pt;color:#000;text-align:right;margin-top:2mm}
