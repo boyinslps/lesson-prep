@@ -269,6 +269,12 @@ def main():
     except Exception:
         roster = {}
     seat_name = {'%d-%d-%d' % v: k for k, v in roster.items()}
+    # 名單例外.json：名單上的姓名不對（舊資料）時，老師確認過的正確姓名（座號 → 姓名），優先於名單
+    exc_p = os.path.join(DATA, '名單例外.json')
+    if os.path.exists(exc_p):
+        for k, v in json.load(io.open(exc_p, encoding='utf-8')).items():
+            if not k.startswith('_'):
+                seat_name[k] = v
     browser = find_browser()
     if not browser:
         sys.exit('找不到 Edge 或 Chrome，無法產生歷程紀錄 PDF。')
