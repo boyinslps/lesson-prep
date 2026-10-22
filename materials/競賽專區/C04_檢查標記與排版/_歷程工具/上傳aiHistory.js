@@ -22,7 +22,7 @@ function req(method, url, headers, body) {
   return new Promise((res, rej) => {
     const u = new URL(url);
     const r = https.request({ method, hostname: u.hostname, path: u.pathname + u.search, headers }, resp => {
-      let d = ''; resp.on('data', c => d += c); resp.on('end', () => {
+      const ch = []; resp.on('data', c => ch.push(c)); resp.on('end', () => { const d = Buffer.concat(ch).toString('utf8');
         let j; try { j = JSON.parse(d); } catch (e) { j = d; }
         if (resp.statusCode >= 300) rej(new Error(resp.statusCode + ' ' + (typeof j === 'string' ? j : JSON.stringify(j)).slice(0, 400)));
         else res(j);

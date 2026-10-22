@@ -9,15 +9,16 @@
 //
 // 用法（專案根目錄）：
 //   工作台\runtime\node\node.exe materials\競賽專區\C04_檢查標記與排版\_歷程工具\匯入紙本內容.js            只預覽，不寫入
-//   工作台\runtime\node\node.exe …\匯入紙本內容.js --go                                                    寫入（學生已經在網頁寫過的欄位不會被蓋掉）
-//   加 --overwrite：連學生網頁上已經寫的欄位也用紙本內容取代
+//   工作台\runtime\node\node.exe …\匯入紙本內容.js --go                                                    寫入（預設「合併補充」：欄位是空的就寫入；學生網頁上已經有字，就把紙本內容接在後面補充；已經包含的不重複；勾選項目取聯集）
+//   加 --overwrite：欄位直接用紙本內容取代（連學生網頁上已經寫的字）
+//   加 --skip：學生網頁上已經有內容的欄位一律不動
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
 const args = process.argv.slice(2);
-const GO = args.includes('--go'), OVER = args.includes('--overwrite');
+const GO = args.includes('--go'), OVER = args.includes('--overwrite'), SKIP = args.includes('--skip');
 const file = args.find(a => !a.startsWith('--')) || path.join(__dirname, '..', '學生對話紀錄', '紙本內容.json');
 const STR = ['idea', 'chapDesc', 'err', 'found', 'eUse', 'disclose', 'toolsOther', 'learned', 'mTitle', 'mName', 'mGrade'];
 const LST = ['chapters', 'tools'];
@@ -33,7 +34,7 @@ function req(method, url, headers, body, okNotFound) {
   return new Promise((res, rej) => {
     const u = new URL(url);
     const r = https.request({ method, hostname: u.hostname, path: u.pathname + u.search, headers }, resp => {
-      let d = ''; resp.on('data', c => d += c); resp.on('end', () => {
+      const ch = []; resp.on('data', c => ch.push(c)); resp.on('end', () => { const d = Buffer.concat(ch).toString('utf8');
         let j; try { j = JSON.parse(d); } catch (e) { j = d; }
         if (resp.statusCode === 404 && okNotFound) return res(null);
         if (resp.statusCode >= 300) rej(new Error(resp.statusCode + ' ' + (typeof j === 'string' ? j : JSON.stringify(j)).slice(0, 300)));
@@ -69,10 +70,24 @@ const clip = s => String(s).replace(/\s+/g, ' ').slice(0, 40) + (String(s).lengt
     for (const k of Object.keys(data[sid])) {
       const v = data[sid][k];
       if (!STR.includes(k) && !LST.includes(k)) { lines.push('  ⚠ 不認得的欄位「' + k + '」，略過'); continue; }
-      if (have(k) && !OVER) { lines.push('  － ' + k + '：學生網頁上已經有內容，不動（要取代請加 --overwrite）'); continue; }
-      const val = LST.includes(k) ? { arrayValue: { values: [].concat(v).map(x => ({ stringValue: String(x) })) } } : { stringValue: String(v).slice(0, 3000) };
+      const curStr = (l4[k] && l4[k].stringValue || '').trim(), curLst = (l4[k] && l4[k].arrayValue && (l4[k].arrayValue.values || []).map(x => x.stringValue)) || [];
+      let val, note = '';
+      if (LST.includes(k)) {
+        const want = [].concat(v).map(String), merged = OVER ? want : Array.from(new Set(curLst.concat(want)));
+        if (!OVER && merged.length === curLst.length && curLst.length) { lines.push('  － ' + k + '：已經包含，不動'); continue; }
+        if (have(k) && SKIP && !OVER) { lines.push('  － ' + k + '：學生網頁上已經有內容，不動（--skip）'); continue; }
+        val = { arrayValue: { values: merged.map(x => ({ stringValue: x })) } }; note = curLst.length && !OVER ? '（合併）' : '';
+      } else {
+        const want = String(v).trim();
+        if (have(k) && !OVER) {
+          if (SKIP) { lines.push('  － ' + k + '：學生網頁上已經有內容，不動（--skip）'); continue; }
+          if (curStr.includes(want)) { lines.push('  － ' + k + '：已經包含，不動'); continue; }
+          if (want.includes(curStr)) { val = { stringValue: want.slice(0, 3000) }; note = '（紙本內容更完整，取代學生打到一半的）'; fields[k] = val; paths.push('L4.' + k); lines.push('  ✓ ' + k + note + '：' + clip(v)); continue; }
+          val = { stringValue: (curStr + '\n' + want).slice(0, 3000) }; note = '（接在學生原本寫的後面補充）';
+        } else val = { stringValue: want.slice(0, 3000) };
+      }
       fields[k] = val; paths.push('L4.' + k);
-      lines.push('  ✓ ' + k + '：' + clip(Array.isArray(v) ? v.join('、') : v));
+      lines.push('  ✓ ' + k + note + '：' + clip(Array.isArray(v) ? v.join('、') : v));
     }
     console.log((cur ? '' : '（雲端還沒有這位的資料，會新建）') + sid);
     lines.forEach(l => console.log(l));
