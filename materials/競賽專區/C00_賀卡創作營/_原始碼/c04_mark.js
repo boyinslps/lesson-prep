@@ -41,7 +41,10 @@
     if(on&&(t!==cur.text||c!==cur.codes)){paint(view,t,c);cur={text:t,codes:c};}
     if(on){var n=counts(t,c);sum.innerHTML='<span class="k">黑 '+n[0]+' 字</span><span class="r">紅 '+n[1]+' 字</span><span class="b">藍 '+n[2]+' 字</span>';}
     // 作品說明書「查證揭露」旁邊的顏色預覽
-    if(show){show.hidden=!on;if(on)paint(showView,t,c);}
+    if(show){   // 說明書「查證揭露」：只顯示標記文章；還沒標記就提示回第 1 步
+      if(on)paint(showView,t,c);else showView.innerHTML='<span class="muted">你還沒有標記賀卡文字。</span>';
+      var go=$('mkGo');if(go)go.hidden=on;
+    }
   }
   function save(c){setVal(hid,c);if(window.cardRefresh)window.cardRefresh();render();}
 
@@ -91,5 +94,6 @@
   }
   var P=window.PAGE=window.PAGE||{},old=P.onData;
   P.onData=function(a){if(old)try{old(a);}catch(e){}render();prefill();};
+  var go=$('mkGo');if(go)go.addEventListener('click',function(){window.cardShowStep(1);});
   render();
 })();

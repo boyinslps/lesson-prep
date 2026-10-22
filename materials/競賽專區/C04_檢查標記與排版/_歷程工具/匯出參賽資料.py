@@ -271,9 +271,13 @@ def main():
         if l4:
             make_docx(doc_xml, zin, l4, l4.get('markText') or '', l4.get('markCodes') or '', docx)
             pdf_jobs.append((docx, os.path.join(folder, base + '_作品說明書.pdf')))
-            emp = [lab for k, lab in ms.LABEL if not (l4.get(k) if k != 'tools' else ms.val(l4, 'tools'))]
+            emp = [lab for k, lab in ms.LABEL if k != 'disclose' and not (l4.get(k) if k != 'tools' else ms.val(l4, 'tools'))]
+            if not (l4.get('idea') or '').strip():
+                pass
             if emp:
                 miss.append('說明書空白欄位：' + '、'.join(emp))
+            if not (l4.get('markText') or '').strip():
+                miss.append('沒有標記賀卡文字（說明書的「查證揭露」會是空的，請學生到第 1 步標記）')
         else:
             miss.append('還沒有作品說明書（學生沒打開過第 4 節）')
 

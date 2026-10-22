@@ -232,14 +232,13 @@
     <div class="gbox" data-guide="found" hidden></div>
     <div class="field"><div class="lbl">你是怎麼發現跟修正的？</div><textarea id="m_found" data-key="found" data-req rows="5" data-count aria-label="你是怎麼發現跟修正的"></textarea></div>
     <div class="gbox" id="gModes" hidden></div>
-    <div class="field"><div class="lbl">你在哪些地方使用到 e度？</div><textarea id="m_eUse" data-key="eUse" data-req rows="3" data-count aria-label="你在哪些地方使用到 e度" placeholder="例如：用哪一種模式、做了什麼事（問答、想細節、給修改建議、畫圖……）"></textarea></div>
+    <div class="field"><div class="lbl">你在哪些地方使用到 e度？<span class="hint">哪些部分是 AI 幫忙的？哪些是你自己做的？</span></div><textarea id="m_eUse" data-key="eUse" data-req rows="3" data-count aria-label="你在哪些地方使用到 e度" placeholder="例如：用哪一種模式、做了什麼事（問答、想細節、給修改建議、畫圖……）"></textarea></div>
   </div>
 
   <div class="sec">
     <h3><span class="no">4</span>查證揭露</h3>
-    <p class="small muted" style="margin-top:0">哪些部分是 AI 幫忙的？哪些是你自己做的？有沒有都標清楚？</p>
-    <div class="mkshow" id="mkShow" hidden><div class="mkl">你標的卡片文字（黑：我想的　紅：AI 幫忙的　藍：我改的）。交件時會放在這一格的上面。</div><div class="mkview ro" id="mkShowView"></div></div>
-    <div class="field"><div class="lbl">簡單說明：哪些是 AI 幫忙的？哪些是你自己做的？</div><textarea id="m_disclose" data-key="disclose" data-req rows="5" data-count aria-label="查證揭露"></textarea></div>
+    <p class="small muted" style="margin-top:0">你在第 1 步標的卡片文字，會放在這裡。哪些地方用了 AI，寫在上面的「你在哪些地方使用到 e度」。</p>
+    <div class="mkshow" id="mkShow"><div class="mkl">黑：我想的　紅：AI 幫忙的　藍：我改的</div><div class="mkview ro" id="mkShowView"></div><button class="btn ghost" type="button" id="mkGo" hidden>回第 1 步去標記</button></div>
   </div>
 
   <div class="sec">

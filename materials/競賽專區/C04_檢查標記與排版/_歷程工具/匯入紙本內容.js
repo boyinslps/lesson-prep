@@ -4,7 +4,7 @@
 // 內容檔（預設 學生對話紀錄\紙本內容.json，含學生寫的字，已列入 .gitignore，不要 commit）：
 //   { "5-9-11": { "idea": "創作理念…", "disclose": "查證揭露的簡單說明…", "learned": "學習反思…" }, ... }
 //   可用欄位：idea（創作理念）、chapters（["第二章","第四章"]）、chapDesc、err（"有"／"沒有"）、found、eUse、
-//            disclose（查證揭露的簡單說明；標記後的文章是獨立欄位，匯出時合併）、tools（["因材網 e度","Canva"]）、toolsOther、learned、
+//            eUse（你在哪些地方使用到 e度；紙本「查證揭露」的說明寫在這裡，寫 disclose 也會自動轉成 eUse）、tools（["因材網 e度","Canva"]）、toolsOther、learned、
 //            mTitle（作品名稱）、mName（參賽者姓名）、mGrade（年級）
 //
 // 用法（專案根目錄）：
@@ -63,6 +63,8 @@ const clip = s => String(s).replace(/\s+/g, ' ').slice(0, 40) + (String(s).lengt
   for (const sid of Object.keys(data).filter(k => !k.startsWith('_'))) {
     const m = sid.match(/^(\d+)-(\d+)-(\d+)$/);
     if (!m) { console.log('✗ ' + sid + '：座號格式要是 年-班-座（例如 5-9-11）'); continue; }
+    const D0 = data[sid];   // 查證揭露的文字說明已併入「你在哪些地方使用到 e度」（eUse）；說明書的查證揭露只放標記後的文章
+    if ('disclose' in D0) { if (!D0.eUse) D0.eUse = D0.disclose; delete D0.disclose; }
     const cur = await req('GET', `${BASE}/${sid}`, H, null, true);
     const l4 = (cur && cur.fields && cur.fields.L4 && cur.fields.L4.mapValue && cur.fields.L4.mapValue.fields) || {};
     const have = k => { const v = l4[k]; return !!(v && ((v.stringValue || '').trim() || (v.arrayValue && (v.arrayValue.values || []).length))); };
