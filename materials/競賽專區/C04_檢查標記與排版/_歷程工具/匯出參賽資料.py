@@ -2,7 +2,7 @@
 """
 老師端一鍵匯出：依學生在網頁填的內容，產生每人一個資料夾，放進本機（含姓名，只存在你的電腦，已列入 .gitignore）：
 
-    {輸出資料夾}\\{組別-姓名-作品名稱}\\
+    {輸出資料夾}\{學生姓名}\
         {組別-姓名-作品名稱}_作品說明書.pdf        ← 主辦單位 Word 格式（作品說明書_範本.docx）填好，再用 Word 轉 PDF
         {組別-姓名-作品名稱}_AI協作歷程紀錄.pdf     ← 學生選好、寫好的輪次，排成 A4（最多 2 頁），用 Edge 轉 PDF
         {組別-姓名-作品名稱}_作品.pdf               ← 你把 Canva 下載的 PDF 放進 _作品PDF\\ 資料夾（檔名用 年-班-座.pdf，例如 5-9-11.pdf），這裡會自動收進來
@@ -274,7 +274,9 @@ def main():
     zin = zipfile.ZipFile(tpl)
     doc_xml = zin.read('word/document.xml').decode('utf-8')
     ids = sorted(set(work) | set(hist) | set(seat_name), key=lambda s: [int(x) for x in s.split('-')])
-    ids = [i for i in ids if i in seat_name or (work.get(i, {}).get('L4'))]
+    extra_ids = [i for i in ids if i not in seat_name and work.get(i, {}).get('L4')]   # 名單外的資料（誤填座號、測試）不匯出，只在報告提醒
+    ids = [i for i in ids if i in seat_name]
+    used_folders = {}
     rows, report, pdf_jobs, tmp = [], [], [], tempfile.mkdtemp(prefix='sheet_')
     for sid in ids:
         g = int(sid.split('-')[0])
@@ -284,9 +286,16 @@ def main():
         title = (l4.get('mTitle') or '').strip() or (l1.get('title') or '').strip() or '未取名'
         group = '中年級組' if g <= 4 else '高年級組'
         base = '%s-%s-%s' % (group, ms.safe(name), ms.safe(title))
-        folder = os.path.join(out_root, base)
-        os.makedirs(os.path.join(folder, '原始檔'), exist_ok=True)
         miss = []
+        fname = ms.safe(name)
+        if fname in used_folders:   # 兩位同名（或姓名沒填）時加上座號，避免資料夾撞在一起
+            fname = '%s_%s' % (fname, sid)
+        used_folders[fname] = sid
+        folder = os.path.join(out_root, fname)   # 資料夾用學生姓名；裡面的檔名照簡章【組別-姓名-作品名稱】
+        os.makedirs(os.path.join(folder, '原始檔'), exist_ok=True)
+        roster_name = seat_name.get(sid, '')
+        if roster_name and (l4.get('mName') or '').strip() and (l4.get('mName') or '').strip() != roster_name:
+            miss.append('學生自己填的姓名（%s）和名單上的姓名（%s）不一樣，報名前請確認' % ((l4.get('mName') or '').strip(), roster_name))
 
         # 作品說明書
         docx = os.path.join(folder, '原始檔', '作品說明書.docx')
@@ -357,8 +366,10 @@ def main():
 
     with io.open(os.path.join(out_root, '參賽資料總表.csv'), 'w', encoding='utf-8-sig', newline='') as fh:
         wr = csv.writer(fh)
-        wr.writerow(['組別', '年級', '班級', '座號', '參賽者姓名', '作品名稱', '檔名', 'Canva 作品連結', '作品PDF', '歷程寫好輪數（一問一答算1輪）', '歷程頁數', '待補'])
+        wr.writerow(['組別', '年級', '班級', '座號', '參賽者姓名（學生填的，沒填用名單）', '作品名稱', '檔名', 'Canva 作品連結', '作品PDF', '歷程寫好輪數（一問一答算1輪）', '歷程頁數', '待補'])
         wr.writerows(rows)
+    for i in extra_ids:
+        report.append('⚠ 名單外的資料 %s（姓名：%s）沒有匯出：可能是學生填錯座號自動存下的重複資料，或是測試資料' % (i, (work[i].get('L4') or {}).get('mName') or '未填'))
     io.open(os.path.join(out_root, '檢查報告.txt'), 'w', encoding='utf-8').write('\n'.join(report) + '\n')
     print('\n'.join(report))
     print('\n已匯出 %d 位到：%s' % (len(rows), out_root))
