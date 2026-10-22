@@ -47,12 +47,12 @@
 
   $('mkStart').addEventListener('click',function(){
     var t=ta.value.replace(/\r/g,'').replace(/[ \t]+\n/g,'\n').trim();
-    if(t.length<4){$('mkTip').textContent='先把賀卡上的文字貼進來（至少 4 個字）。';return;}
+    if(t.length<4){$('mkTip').textContent='先貼上賀卡的字（至少 4 個字）。';return;}
     ta.value=t.slice(0,800);ta.dispatchEvent(new Event('input',{bubbles:true}));
     cur={text:'',codes:'x'};setVal(ok,'');save(new Array(ta.value.length+1).join('0'));
   });
   $('mkRedo').addEventListener('click',function(){
-    if(!confirm('重貼文字會把你標好的顏色清掉，確定嗎？'))return;
+    if(!confirm('重貼會清掉顏色，確定嗎？'))return;
     setVal(ok,'');cur={text:'',codes:'x'};setVal(hid,'');if(window.cardRefresh)window.cardRefresh();render();
   });
   // 選取 → 按顏色
@@ -60,7 +60,7 @@
   box.addEventListener('click',function(e){
     var b=e.target.closest('[data-mkc]');if(!b)return;
     var sel=window.getSelection(),code=b.dataset.mkc;
-    if(!sel||!sel.rangeCount||sel.isCollapsed||!view.contains(sel.getRangeAt(0).commonAncestorContainer)){window.toast('先用滑鼠把要標的字選起來，再按顏色。');return;}
+    if(!sel||!sel.rangeCount||sel.isCollapsed||!view.contains(sel.getRangeAt(0).commonAncestorContainer)){window.toast('先選字，再按顏色。');return;}
     var r=sel.getRangeAt(0),c=norm(ta.value.replace(/\r/g,''),hid.value).split(''),n=0;
     Array.prototype.forEach.call(view.querySelectorAll('.mc'),function(sp){
       if(!r.intersectsNode(sp))return;
@@ -70,13 +70,13 @@
       c[+sp.dataset.i]=code;n++;
     });
     sel.removeAllRanges();
-    if(!n){window.toast('先用滑鼠把要標的字選起來，再按顏色。');return;}
+    if(!n){window.toast('先選字，再按顏色。');return;}
     setVal(ok,'');save(c.join(''));
   });
   // 帶到查證揭露
   function bring(ask){
     var d=$('m_disclose'),txt=disclosure(ta.value.replace(/\r/g,''),norm(ta.value.replace(/\r/g,''),hid.value));
-    if(d&&d.value.trim()&&d.value.trim()!==txt.trim()&&ask&&!confirm('「查證揭露」裡已經有字了，要用標記結果取代嗎？\n（你自己寫的字會不見）'))return false;
+    if(d&&d.value.trim()&&d.value.trim()!==txt.trim()&&ask&&!confirm('「查證揭露」已經有字，要換成標記結果嗎？'))return false;
     if(d){setVal(d,txt);}
     return true;
   }
@@ -84,9 +84,9 @@
     if(!started())return;
     if(!bring(true))return;
     setVal(ok,'1');if(window.cardRefresh)window.cardRefresh();
-    window.toast('已帶到「作品說明書」的「查證揭露」，可以到那邊再補充。');
+    window.toast('已送到說明書的「查證揭露」。');
   });
-  if($('mkRebring'))$('mkRebring').addEventListener('click',function(){if(started()&&bring(true)){setVal(ok,'1');window.toast('已用標記結果寫入。');}});
+  if($('mkRebring'))$('mkRebring').addEventListener('click',function(){if(started()&&bring(true)){setVal(ok,'1');window.toast('已寫入。');}});
 
   // 雲端資料讀回來、或每次存檔後同步畫面；基本資料預設帶入（作品名稱、年級），學生可以改
   function prefill(){

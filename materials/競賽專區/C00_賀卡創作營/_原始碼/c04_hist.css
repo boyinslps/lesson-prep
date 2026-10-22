@@ -314,3 +314,13 @@ details.gd .gt{color:#a0332b;font-weight:700}
 .ctxpanel .ctxh .btn{padding:3px 12px;font-size:14px}
 .ctxpanel .ctxb{flex:1;overflow:auto;padding:4px 14px 20px}
 body.ctxopen main>.wrap{margin-right:calc(min(440px,38vw) + 12px);margin-left:16px;max-width:none}
+
+/* ===== 精簡版面 ===== */
+ol.todo{margin:0;padding-left:1.3em;font-size:20px;line-height:2;font-weight:700}
+ol.todo li b{color:var(--ac-ink)}
+ul.short{margin:0;padding-left:1.2em;font-size:17px;line-height:1.9}
+.legend.big{font-size:19px;gap:18px;margin:0 0 12px}
+.legend.big i{width:18px;height:18px}
+details.gd .gdb ul{margin:0}
+.vhint{font-size:15.5px}
+.vwarn{font-size:14.5px}

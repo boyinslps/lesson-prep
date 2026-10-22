@@ -236,26 +236,25 @@
   function itemIndexOfPick(p){for(var i=0;i<S.items.length;i++)if(S.items[i].first===p.ids[0])return i;return -1;}
   function modesOf(ids){var m=[];ids.forEach(function(id){var o=S.ix.by[id],md=o&&(S.doc.sessions[o.si]||{}).mode;if(md&&m.indexOf(md)<0)m.push(md);});return m;}
   function msgBlock(m,cls){return '<div class="msg '+m.r+(cls?' '+cls:'')+'" data-mid="'+m.id+'"><div class="av">'+(m.r==='u'?'我':'e度')+'</div><div class="bw"><div class="bub"><div class="tx">'+esc(nb(m.x))+'</div><div class="tm">'+esc(fmtT(m.t))+'</div></div></div></div>';}
-  var WSJ='「文思精靈」會一直給整篇文章、帶你讀文章，所以 e度 沒有照你說的聊。想正常對話、寫賀卡，要切換到「一般模式」。';
-  function renderView(){
+    function renderView(){
     var host=$('hView'),pg=$('hPager'),n=S.items.length;
-    if(!n){pg.innerHTML='';host.innerHTML='<div class="hempty">老師還沒有幫你挑好對話。先確認最上面的年級、班級、座號有沒有填對；都對的話，請告訴老師。</div>';return;}
+    if(!n){pg.innerHTML='';host.innerHTML='<div class="hempty">還沒有對話。檢查最上面的年級、班級、座號；都對就告訴老師。</div>';return;}
     var it=S.items[S.view],pi=pickIndex(it),on=pi>=0,modes=modesOf(it.ids),o=S.ix.by[it.ids[0]],se=S.doc.sessions[o.si]||{};
     pg.innerHTML='<button class="btn ghost" type="button" data-vgo="-1"'+(S.view===0?' disabled':'')+'><svg class="ico"><use href="#i-prev"/></svg>上一輪</button>'+
       '<div class="pdots">'+S.items.map(function(x,k){var s=pickIndex(x)>=0;return '<button type="button" class="vdot'+(k===S.view?' on':'')+(s?' sel':'')+'" data-vdot="'+k+'" aria-label="第 '+(k+1)+' 輪'+(s?'（已選）':'')+'">'+(k+1)+(s?'<svg class="ico"><use href="#i-check"/></svg>':'')+'</button>';}).join('')+'</div>'+
       '<button class="btn ghost" type="button" data-vgo="1"'+(S.view===n-1?' disabled':'')+'>下一輪<svg class="ico"><use href="#i-next"/></svg></button>';
     var h='<div class="vcard'+(on?' chosen':'')+'">';
-    h+='<div class="ph"><span class="pn">'+(S.view+1)+'</span><span class="pt">第 '+(S.view+1)+' 輪／共 '+n+' 輪<small>'+esc(modes.join('、'))+'　'+esc(sessHead(se).replace(/<[^>]+>/g,' '))+'　共 '+it.ids.length+' 則訊息</small></span><span class="tools"><button class="tbtn" type="button" data-ctx="'+it.ids[0]+'">看這一輪的前後文</button></span></div>';
-    if(modes.indexOf('文思精靈')>=0)h+='<div class="vwarn"><b>這一輪是用「文思精靈」聊的。</b>'+WSJ+'老師盡量不挑這種輪次，真的沒有別的才用；要選的話，下一步可以寫「e度 沒有照我說的做」。</div>';
-    if(it.hint)h+='<div class="vhint"><b>老師挑這一輪，可以查證、想想：</b>'+esc(it.hint)+'</div>';
-    else if(it.extra)h+='<div class="vhint"><b>這是你之前自己挑的一輪。</b>不想用就把下面的勾拿掉。</div>';
+    h+='<div class="ph"><span class="pn">'+(S.view+1)+'</span><span class="pt">第 '+(S.view+1)+' 輪／共 '+n+' 輪<small>'+esc(modes.join('、'))+'　'+esc(sessHead(se).replace(/<[^>]+>/g,' '))+'　共 '+it.ids.length+' 則訊息</small></span><span class="tools"><button class="tbtn" type="button" data-ctx="'+it.ids[0]+'">看前後文</button></span></div>';
+    if(modes.indexOf('文思精靈')>=0)h+='<div class="vwarn"><b>這一輪用「文思精靈」。</b>它會一直給整篇文章，不太照你說的聊。想正常聊天，要用「一般模式」。盡量不要選這種。</div>';
+    if(it.hint)h+='<div class="vhint"><b>老師提示：</b>'+esc(it.hint)+'</div>';
+    else if(it.extra)h+='<div class="vhint"><b>你之前自己挑的。</b>不要就拿掉勾。</div>';
     h+='<div class="chain big" aria-label="這一輪的對話">'+chainHTML(S.doc,S.ix,{ids:it.ids,ext:it.ext})+'</div>';
     var avail=nextMsgs(it.base,EXT_MAX).length;
-    h+='<div class="vext"><button class="btn ghost" type="button" data-ext="1"'+(it.ext>=avail?' disabled':'')+'><svg class="ico"><use href="#i-plus"/></svg>多收一則下面的對話</button>'+
+    h+='<div class="vext"><button class="btn ghost" type="button" data-ext="1"'+(it.ext>=avail?' disabled':'')+'><svg class="ico"><use href="#i-plus"/></svg>多收一則</button>'+
       '<button class="btn ghost" type="button" data-ext="-1"'+(it.ext<=0?' disabled':'')+'><svg class="ico"><use href="#i-minus"/></svg>少收一則</button>'+
-      '<span class="vextn">'+(it.extra?'':(it.ext?'已多收 '+it.ext+' 則':'還沒多收'))+(it.ext>=avail&&!it.extra?(avail>=EXT_MAX?'（最多多收 '+EXT_MAX+' 則）':(avail?'（這一場後面沒有了）':'（這一場對話到這裡結束）')):'')+'</span>'+
-      '<span class="vexth">按一下多收一則（不管是 e度 還是你說的），按兩下就多收兩則，可以一直往下收。</span></div>';
-    h+='<label class="selbtn'+(on?' on':'')+'"><input type="checkbox" data-choose="1"'+(on?' checked':'')+'><span class="bx"><svg class="ico"><use href="#i-check"/></svg></span><span class="tt">選這則<small>勾起來，就會送到下一步「寫理由」的清單</small></span></label>';
+      '<span class="vextn">'+(it.extra?'':(it.ext?'多收了 '+it.ext+' 則':''))+(it.ext>=avail&&!it.extra?(avail>=EXT_MAX?'（最多 '+EXT_MAX+' 則）':'（後面沒有了）'):'')+'</span>'+
+      '<span class="vexth">按一下多一則，按兩下多兩則。</span></div>';
+    h+='<label class="selbtn'+(on?' on':'')+'"><input type="checkbox" data-choose="1"'+(on?' checked':'')+'><span class="bx"><svg class="ico"><use href="#i-check"/></svg></span><span class="tt">選這則<small>勾了就送到「寫理由」</small></span></label>';
     host.innerHTML=h+'</div>';
   }
   function toggleChoose(){
@@ -264,11 +263,11 @@
     if(pi>=0){
       var p=S.picks[pi];
       if(((p.issNote||'').trim()||(p.why||'').trim())&&!confirm('不選這一輪了？你在這一輪寫的內容會不見。')){renderView();return;}
-      S.picks.splice(pi,1);S.cur=firstUndone();toast('已從「寫理由」清單拿掉');
+      S.picks.splice(pi,1);S.cur=firstUndone();toast('已拿掉');
     }else{
-      if(S.picks.length>=MAXP){toast('最多選 '+MAXP+' 輪。先把別輪的勾拿掉。');renderView();return;}
+      if(S.picks.length>=MAXP){toast('最多選 '+MAXP+' 個。先拿掉一個。');renderView();return;}
       S.picks.push({ids:it.ids.slice(),issNote:'',why:'',ts:Date.now()});
-      toast('已送到「寫理由」清單（第 '+S.picks.length+' 個）');
+      toast('已選（第 '+S.picks.length+' 個）');
     }
     buildItems();renderView();renderMyList();renderWrite();refreshMeta();saveSoon();
   }
@@ -292,7 +291,7 @@
       var vi=itemIndexOfPick(p);
       return '<div class="svi"><button type="button" class="svn" data-vopen="'+vi+'"><span class="pn">'+(k+1)+'</span><span class="pt">'+esc(firstText(p,22))+'<small>第 '+(vi+1)+' 輪　'+p.ids.length+' 則訊息</small></span></button>'+
         '<span class="svt"><button type="button" class="tbtn" data-mv="'+k+':-1"'+(k===0?' disabled':'')+' title="排前面">▲ 往前</button><button type="button" class="tbtn" data-mv="'+k+':1"'+(k===n-1?' disabled':'')+' title="排後面">▼ 往後</button></span></div>';
-    }).join(''):'<div class="none">還沒有勾任何一輪。看完上面的對話，在下面勾「選這則」。</div>';
+    }).join(''):'<div class="none">還沒選。勾「選這則」。</div>';
   }
   function movePick(k,d){
     var j=k+d;if(j<0||j>=S.picks.length)return;
@@ -322,35 +321,33 @@
   function need(){return Math.min(MINP,S.items.length||MINP);}
   function unlocked(k){for(var i=0;i<k;i++)if(!isDone(S.picks[i],S.ix))return false;return true;}
   function firstUndone(){for(var i=0;i<S.picks.length;i++)if(!isDone(S.picks[i],S.ix))return i;return Math.max(0,S.picks.length-1);}
-  function guideH(open,judge,asks){
-    return '<details class="gd"'+(open?' open':'')+'><summary>評審看什麼？怎麼想？</summary><div class="gdb"><p class="gj"><b>評審看：</b>'+judge+'</p><ul>'+asks.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div></details>';
+  function guideH(open,title,asks){
+    return '<details class="gd"'+(open?' open':'')+'><summary>'+title+'</summary><div class="gdb"><ul>'+asks.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div></details>';
   }
   function needText(p){
     var a=(p.issNote||'').trim().length,b=(p.why||'').trim().length,r=[];
-    if(a<ISS_MIN)r.push('「我發現的問題」至少 '+ISS_MIN+' 個字');
-    if(b<MINE_MIN)r.push('「最終採用的理由」至少 '+MINE_MIN+' 個字');
+    if(a<ISS_MIN)r.push('「我發現的問題」多寫幾個字');
+    if(b<MINE_MIN)r.push('「最終採用的理由」多寫幾個字');
     return r.length?'還差：'+r.join('、'):'';
   }
   function writeCardHTML(k){
     var p=S.picks[k],n=S.picks.length,o=S.ix.by[p.ids[0]],se=S.doc.sessions[o.si]||{};
     var h='<div class="pcard" data-i="'+k+'">';
-    h+='<div class="ph"><span class="pn">'+(k+1)+'</span><span class="pt">第 '+(k+1)+' 輪<small>共 '+n+' 輪　'+esc(sessHead(se).replace(/<[^>]+>/g,' '))+'</small></span><span class="tools"><button class="tbtn" type="button" data-wback="'+k+'">回上一步看這一輪</button></span></div>';
+    h+='<div class="ph"><span class="pn">'+(k+1)+'</span><span class="pt">第 '+(k+1)+' 輪<small>共 '+n+' 輪　'+esc(sessHead(se).replace(/<[^>]+>/g,' '))+'</small></span><span class="tools"><button class="tbtn" type="button" data-wback="'+k+'">回上一步</button></span></div>';
     h+='<div class="chain" aria-label="你保存的這一輪對話">'+chainHTML(S.doc,S.ix,p)+'</div>';
-    h+='<div class="pf"><div class="lb"><span>我發現的問題，和我怎麼追問或修正</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
+    h+='<div class="pf"><div class="lb"><span>我發現的問題（和我怎麼改）</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
       '<textarea class="px" data-f="issNote" maxlength="'+LIM.issNote+'" rows="3">'+esc(p.issNote)+'</textarea>'+
-      guideH(true,'批判檢視、提問策略與人工修正（佔 30%，同分時先比這項）。「查證」不一定要上網，下面這些都算；只寫「很好」「沒有錯」，評審看不出你的想法。',
-        ['<b>e度 沒看懂你的意思（理解錯誤）</b>：你說的和它做的不一樣？例如你說「晚上」它畫成白天、你說是賀卡它當成作文、你貼自己的文章它當成別人的。','<b>顏色、人數、時間、地點、稱呼</b>：和你要的一樣嗎？把 e度 畫的圖、寫的字，和你說過的話一項一項對。','<b>事實、名稱、成語、修辭、數字</b>：e度 說得對嗎？用字典、網站或問家人確認，記下你查到什麼、哪裡不一樣。','<b>前後不一致</b>：e度 前面這樣說、後面又那樣說，或你前面說的和後面寫的不一樣，哪個才對？','<b>沒有照你的限制做</b>：你說「只給建議」「先問我問題」，它有做到嗎？還是直接幫你寫了？','<b>錯字、用詞怪怪的</b>：你覺得讀起來不對的地方，你怎麼確認？','<b>然後呢？</b>你追問了什麼、或自己改了哪裡？改之前和改之後差在哪？','都沒發現問題也要寫：你是怎麼檢查的、為什麼確定沒問題。'])+'</div>';
+      guideH(true,'怎麼想？',['哪裡怪？（沒看懂我、顏色人數不對、字詞不對、前後不一樣…）','我怎麼確認？（查字典、問家人）','後來我怎麼追問或改？','都沒發現問題？寫你怎麼檢查的。'])+'</div>';
     h+='<div class="pf final"><div class="lb"><span>最終採用的理由</span><span class="au me">我自己寫</span><span class="ct" data-ct="why"></span></div>'+
       '<textarea class="px" data-f="why" maxlength="'+LIM.why+'" rows="3">'+esc(p.why)+'</textarea>'+
-      guideH(true,'人工修正、創意與生活連結（各 30%）、數位倫理與權責揭露（20%）。',
-        ['這一輪最後，你留下了哪一部分？哪一部分沒用或自己改掉？為什麼？','這一句為什麼「像我」「像我家」？連到哪一件真實發生過的事？','這一部分最後是誰做的：AI 給的、我改的，還是我自己想的？'])+'</div>';
+      guideH(false,'怎麼想？',['我留下什麼？沒用什麼？為什麼？','這句為什麼像我？'])+'</div>';
     h+='<div class="wnav"><button class="btn ghost" type="button" data-wprev="1"'+(k===0?' disabled':'')+'>← 上一輪</button><span class="wneed" id="wNeed"></span>'+
       '<button class="btn" type="button" data-wnext="1" id="wNext"></button></div>';
     return h+'</div>';
   }
   function renderWrite(){
     var host=$('hPicks'),n=S.picks.length;
-    if(!n){$('wTabs').innerHTML='';host.innerHTML='<div class="hempty">還沒有選任何一輪。回上一步，看老師幫你挑的對話，在想寫的那一輪勾「選這則」。<br><button class="btn" type="button" data-wback="-1" style="margin-top:8px">回上一步去選</button></div>';return;}
+    if(!n){$('wTabs').innerHTML='';host.innerHTML='<div class="hempty">還沒選。回上一步，勾「選這則」。<br><button class="btn" type="button" data-wback="-1" style="margin-top:8px">回上一步去選</button></div>';return;}
     if(S.cur>=n)S.cur=n-1;
     if(!unlocked(S.cur))S.cur=firstUndone();
     host.innerHTML=writeCardHTML(S.cur);
@@ -365,8 +362,8 @@
     }).join('');
     var nx=$('wNext');if(!nx||!S.picks[S.cur])return;
     var p=S.picks[S.cur],d=isDone(p,S.ix),last=S.cur===n-1;
-    nx.disabled=!d;nx.innerHTML=last?'全部寫完了，預覽歷程紀錄<svg class="ico"><use href="#i-eye"/></svg>':'這一輪寫好了，換下一輪<svg class="ico"><use href="#i-next"/></svg>';
-    $('wNeed').textContent=d?(last?'':'寫好了，可以換下一輪。'):needText(p);
+    nx.disabled=!d;nx.innerHTML=last?'寫完了，預覽<svg class="ico"><use href="#i-eye"/></svg>':'寫好了，下一個<svg class="ico"><use href="#i-next"/></svg>';
+    $('wNeed').textContent=d?(last?'':'寫好了！'):needText(p);
     $('wNeed').className='wneed'+(d?' ok':'');
   }
   function updCounts(){
@@ -379,14 +376,14 @@
   function refreshMeta(){
     var done=S.picks.filter(function(p){return isDone(p,S.ix);}).length,n=S.picks.length;
     var pr=$('hProg');
-    pr.textContent='已選 '+n+' 輪，寫好 '+done+' 輪（至少要 '+need()+' 輪寫好）';
+    pr.textContent='已選 '+n+' 個，寫好 '+done+' 個（至少 '+need()+' 個）';
     pr.className='hprog'+(done>=need()?' good':'');
     clearTimeout(refreshMeta._t);refreshMeta._t=setTimeout(updPages,250);
     var ok=n>=need()&&done>=need();
     setHidden('hOk',ok?'1':'');
     setHidden('hCnt',n?(n+' 輪（寫好 '+done+' 輪）'):'');
     $('hSheetBtn').disabled=!done;
-    var inf=$('hSaveInfo');inf.textContent='已選 '+n+' 輪（至少要 '+need()+' 輪，最多 '+MAXP+' 輪）';inf.className='hprog'+(n>=need()?' good':'');
+    var inf=$('hSaveInfo');inf.textContent='已選 '+n+' 個（至少 '+need()+' 個）';inf.className='hprog'+(n>=need()?' good':'');
     if(S.doc)refreshWrite();
   }
   function sheetItems(){return S.picks.filter(function(p){return isDone(p,S.ix);}).map(function(p){return {p:p,ix:S.ix,mode:(S.doc.sessions[S.ix.by[p.ids[0]].si]||{}).mode};});}
@@ -396,7 +393,7 @@
     var tmp=document.createElement('div');tmp.style.cssText='position:absolute;left:-9999px;top:0;visibility:hidden';
     var sh=sheetEl(items,{});tmp.appendChild(sh);document.body.appendChild(tmp);
     var n=pagesOf(sh);document.body.removeChild(tmp);
-    el.textContent='排版後約 '+n+' 頁（上限 2 頁）'+(n>2?'：太長了，請把文字縮短，或少保存一輪':'');
+    el.textContent='約 '+n+' 頁（最多 2 頁）'+(n>2?'：太長了，字寫短一點':'');
     el.className='hprog'+(n>2?'':' good');if(n>2)el.style.color='var(--red)';else el.style.color='';
   }
   function saveSoon(){
@@ -455,26 +452,23 @@
     Object.keys(pdf).forEach(function(k){for(var i=0;i<list.length;i++)if(list[i][0]===pdf[k])HBIDX[k]=i;});})();
   var CHN={'第一章':'壹 AI 是什麼？','第二章':'貳 怎麼和 AI 溝通？','第三章':'參 AI 小任務','第四章':'肆 AI 說的一定對嗎？','第五章':'伍 AI 幫助我學習','第六章':'陸 AI 時代的好公民'};
   var MODEUSE={'一般模式':'一般模式（問答、查事實）','文思精靈':'文思精靈（想細節、帶著寫）','寫作精靈':'寫作精靈（給修改建議）','繪圖精靈':'繪圖精靈（畫圖）'};
-  function links(ids){return (ids||[]).slice(0,3).map(function(id){var o=S.ix&&S.ix.by[id];return o?'<button type="button" class="gl" data-gojump="'+id+'">看那段對話 '+esc(fmtT(o.m.t))+'</button>':'';}).join('');}
-  function gitem(it){return '<div class="gi">'+esc(nb(it.why))+links(it.ids)+'</div>';}
+  function links(ids){return (ids||[]).slice(0,3).map(function(id){var o=S.ix&&S.ix.by[id];return o?'<button type="button" class="gl" data-gojump="'+id+'">看對話 '+esc(fmtT(o.m.t))+'</button>':'';}).join('');}
+  function gitem(it){return '<div class="gi">'+esc(clip(it.why,48))+links(it.ids)+'</div>';}
   function renderGuide(){
     var g=(S.doc&&S.doc.guide)||{};
     Array.prototype.forEach.call(document.querySelectorAll('[data-guide]'),function(b){
       var k=b.dataset.guide,v=g[k],items=!v?[]:(Array.isArray(v)?v:[v]);
       b.hidden=!items.length;
-      b.innerHTML=items.length?'<div class="gh">★ 老師根據你的對話提醒</div>'+items.map(gitem).join(''):'';
+      b.innerHTML=items.length?'<div class="gh">★ 老師提示</div>'+items.slice(0,2).map(gitem).join(''):'';
     });
     var rec={};(g.chapters||[]).forEach(function(c){rec[c.ch]=c;});
     Array.prototype.forEach.call(document.querySelectorAll('.chap'),function(el){
       var c=rec[el.dataset.ch],b=el.querySelector('[data-guide-ch]');
       el.classList.toggle('rec',!!c);b.hidden=!c;b.innerHTML=c?gitem(c):'';
     });
-    var sum=$('gChapSum');
-    if(!S.doc){sum.hidden=false;sum.innerHTML='<div class="gh">填好最上面的年級、班級、座號後，這裡會出現依你的對話整理的提醒。</div>';}
-    else if(!(g.chapters||[]).length){sum.hidden=true;}
-    else{sum.hidden=false;sum.innerHTML='<div class="gh">★ 老師看了你的對話，適合寫這幾章（下面有 ★ 標記）</div><div class="gi">'+g.chapters.map(function(c){return esc(CHN[c.ch]||c.ch);}).join('、')+'</div>';}
+    var sum=$('gChapSum');if(sum)sum.hidden=true;
     var mo=$('gModes'),m=(S.doc&&S.doc.modes)||{},ks=Object.keys(m).sort(function(a,b){return m[b]-m[a];});
-    if(ks.length){mo.hidden=false;mo.innerHTML='<div class="gh">★ 你的 e度 對話紀錄顯示，你用過這些模式（可寫進「你在哪些地方使用到 e度」）</div><div class="gi">'+ks.map(function(k){return esc(MODEUSE[k]||k)+' '+m[k]+' 次';}).join('、')+'</div>';}
+    if(ks.length){mo.hidden=false;mo.innerHTML='<div class="gh">★ 你用過</div><div class="gi">'+ks.map(function(k){return esc(MODEUSE[k]||k)+' '+m[k]+' 次';}).join('、')+'</div>';}
     else mo.hidden=true;
   }
   document.addEventListener('click',function(e){

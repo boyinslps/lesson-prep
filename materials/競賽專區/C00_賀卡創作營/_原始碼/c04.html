@@ -28,8 +28,8 @@
 <section class="hero"><div class="wrap">
   <div>
     <span class="kicker"><svg class="ico"><use href="#i-search"/></svg>第 4 節・10/20（二）・40 分鐘</span>
-    <div class="h1row"><h1>標記自己的文字，<br>寫歷程紀錄和說明書</h1><button class="hbbook" id="hbBook" type="button" aria-label="打開這一節的手冊頁面"></button></div>
-    <p class="goal">今天做完：<b>標記</b>自己賀卡上的文字、從你和 e度 的對話選出 <b>AI 協作歷程紀錄</b>，再寫<b>作品說明書</b>。</p>
+    <div class="h1row"><h1>標記、選對話，<br>寫說明書</h1><button class="hbbook" id="hbBook" type="button" aria-label="打開這一節的手冊頁面"></button></div>
+    <p class="goal">今天做 3 件事：<b>① 標記賀卡</b>　<b>② 選對話、寫理由</b>　<b>③ 寫說明書</b></p>
     <div class="flow" id="flow"></div>
   </div>
   <svg class="art" viewBox="0 0 200 170" aria-hidden="true">
@@ -63,135 +63,81 @@
 </section>
 
 <!-- ========== 步驟 1：標記（貼上自己的賀卡文字，自己劃記）========== -->
-<section class="step" data-title="黑紅藍標記" data-min="8">
+<section class="step" data-title="標記" data-min="8">
   <div class="step-head"><div class="num">1</div><div>
-    <h2>要標記：把你賀卡上的文字，標成黑、紅、藍</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>8 分鐘</span><span class="chip book" data-zoom="assets/hb_p25.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 參 p.25</span><span class="chip book" data-zoom="assets/hb_p54.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 陸 p.54</span></div>
+    <h2>標記：這些字是誰想的？</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>8 分鐘</span><span class="chip book" data-zoom="assets/hb_p25.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 參 p.25</span></div>
   </div></div>
 
-  <div class="hb">
-    <div>
-      <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
-      <q>必須要在作品上註明哪些是我自己想的部分？（標記黑色）哪些是 AI 幫忙的部分？（標記紅色）哪些是自己修改的部分？（標記藍色）</q>
-      <div class="src">參 p.25；陸 p.54 原則二：使用 AI 協助完成的部分要標記</div>
-    </div>
-    <img class="thumb" src="assets/hb_p25.jpg" alt="手冊參 p.25">
-  </div>
+  <div class="legend big"><span><i style="background:#1f2a44"></i>黑色＝我自己想的</span><span><i style="background:#d9534f"></i>紅色＝AI 幫忙的</span><span><i style="background:#2f5aa8"></i>藍色＝我自己改的</span></div>
 
   <div class="card" id="mkPaste">
-    <h3><svg class="ico"><use href="#i-pen"/></svg>① 把你賀卡上的文字貼在這裡</h3>
-    <p class="small muted" style="margin:0 0 8px">貼上卡片上的感謝的話、祝福的話（只貼文字，<b>不要有姓名</b>，最多 800 字）。貼好按「開始標記」。</p>
+    <h3><svg class="ico"><use href="#i-pen"/></svg>① 貼上賀卡上的字</h3>
+    <p class="small muted" style="margin:0 0 8px">不要放名字。</p>
     <div class="field"><textarea id="mkText" data-key="markText" maxlength="800" rows="5" aria-label="賀卡上的文字"></textarea></div>
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px"><button class="btn" type="button" id="mkStart"><svg class="ico"><use href="#i-pen"/></svg>開始標記</button><span class="small muted" id="mkTip"></span></div>
   </div>
 
   <div class="card" id="mkBox" hidden>
-    <h3><svg class="ico"><use href="#i-brush"/></svg>② 自己動手標：用滑鼠選一段字，再按顏色</h3>
+    <h3><svg class="ico"><use href="#i-brush"/></svg>② 用滑鼠選字，再按顏色</h3>
     <div class="mkbar">
-      <button class="mkbtn k" type="button" data-mkc="0"><i></i><b>黑色</b><span>我自己想的</span></button>
-      <button class="mkbtn r" type="button" data-mkc="1"><i></i><b>紅色</b><span>AI 幫忙的</span></button>
-      <button class="mkbtn b" type="button" data-mkc="2"><i></i><b>藍色</b><span>我自己修改的</span></button>
+      <button class="mkbtn k" type="button" data-mkc="0"><i></i><b>黑</b><span>我想的</span></button>
+      <button class="mkbtn r" type="button" data-mkc="1"><i></i><b>紅</b><span>AI 幫忙的</span></button>
+      <button class="mkbtn b" type="button" data-mkc="2"><i></i><b>藍</b><span>我改的</span></button>
     </div>
     <div class="mkview" id="mkView" aria-label="你的卡片文字，選取後按上面的顏色"></div>
-    <p class="small muted" style="margin:6px 0 0">一開始全部是黑色。回想你用 e度 的過程：<b>e度 給的字句，你直接用</b> → 紅色；<b>參考 e度 的建議後，你自己改過</b> → 藍色；<b>你自己想的</b> → 黑色。標錯了，再選一次、按別的顏色就會蓋掉。</p>
+    <p class="small muted" style="margin:6px 0 0">一開始都是黑色。標錯了，再選一次、按別的顏色。</p>
     <div class="mksum" id="mkSum"></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-      <button class="btn" type="button" id="mkDone"><svg class="ico"><use href="#i-check"/></svg>標好了，把結果帶到「作品說明書」的查證揭露</button>
-      <button class="btn ghost" type="button" id="mkRedo">重貼文字（會清掉標記）</button>
+      <button class="btn" type="button" id="mkDone"><svg class="ico"><use href="#i-check"/></svg>標好了，送到說明書</button>
+      <button class="btn ghost" type="button" id="mkRedo">重貼文字</button>
     </div>
     <input type="hidden" id="mkCodes" data-key="markCodes">
     <input type="hidden" id="mkOk" data-key="markOk" data-req>
   </div>
 
   <details class="card">
-    <summary style="cursor:pointer;font-weight:900;font-size:17px">還不太會？先練習一下：幫思思的詩標顏色</summary>
-    <p class="small muted">思思寫了詩，請 e度 給建議，再自己修改（手冊 參 p.23–25）。點字詞可以換顏色：黑 → 紅 → 藍。標好後按「對答案」。</p>
-    <div class="legend"><span><i style="background:#1f2a44"></i>黑：自己想的</span><span><i style="background:#d9534f"></i>紅：AI 幫忙的</span><span><i style="background:#2f5aa8"></i>藍：自己修改的</span></div>
+    <summary style="cursor:pointer;font-weight:900;font-size:17px">不會？先練習：幫思思的詩標顏色</summary>
+    <p class="small muted">點字換顏色：黑 → 紅 → 藍，標好按「對答案」。</p>
     <div class="poem" id="poem"></div>
     <div style="display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap"><button class="btn" type="button" id="poemCheck"><svg class="ico"><use href="#i-check"/></svg>對答案</button><button class="btn ghost" type="button" id="poemShow">看手冊的標法</button></div>
     <p id="poemMsg" style="text-align:center;font-weight:700;margin-top:8px"></p>
   </details>
-
-  <div class="note"><svg class="ico"><use href="#i-shield"/></svg><p><b>為什麼要標？</b>比賽要求說清楚「哪些部分是 AI 協助、哪些是你自己創作的」。你在這裡標好，結果會<b>自動帶到作品說明書的「查證揭露」</b>，不用再寫一次；你也可以在那邊再補充。</p></div>
   <div class="stepnav"></div>
 </section>
 
-<!-- ========== 步驟 2：歷程紀錄怎麼寫 ========== -->
-<section class="step" data-title="歷程怎麼寫" data-min="3" hidden>
+<!-- ========== 步驟 2：歷程紀錄要做什麼 ========== -->
+<section class="step" data-title="歷程怎麼做" data-min="3" hidden>
   <div class="step-head"><div class="num">2</div><div>
-    <h2>「AI 協作歷程紀錄」怎麼寫</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>3 分鐘</span><span class="chip">簡章 四-2-4</span></div>
+    <h2>歷程紀錄：要做 3 件事</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>3 分鐘</span></div>
   </div></div>
 
-  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p>評審最看重這份紀錄（最多 <b>2 頁</b>）。老師已經把你和 e度 說過的話整理好，並替你挑了幾輪，放在下一步。你要從裡面選 <b>4～5 輪</b>（一輪＝一串對話，可以有好幾句）「有發現問題、有追問、改完更像你家」的對話，不是挑最漂亮的圖。</p></div>
-
   <div class="card">
-    <h3><svg class="ico"><use href="#i-list"/></svg>一輪是怎麼做出來的？</h3>
-    <div class="grid2">
-      <div>
-        <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">第 3 步・看、勾</span> <b>看老師幫你挑好的對話，勾「選這則」</b><br><span class="small muted">老師替你挑了 4～5 輪（一輪可以有好幾句，不只一問一答）。左右切換著看，覺得你有話可以寫的就勾起來。</span></p>
-        <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">第 4 步・自己讀</span> <b>一輪一輪寫</b><br><span class="small muted">用對話畫面把你選的那一輪放出來，<b>寫完一輪才換下一輪</b>。</span></p>
-      </div>
-      <div>
-        <p><span class="chip" style="background:var(--ac-soft);border-color:var(--ac)">你自己寫</span> <b>我發現的問題，和我怎麼追問或修正</b><br><span class="small muted">哪裡、為什麼、你怎麼確認、後來怎麼改。</span></p>
-        <p><span class="chip" style="background:var(--ac-soft);border-color:var(--ac)">你自己寫</span> <b>最終採用的理由</b><br><span class="small muted">留下什麼、不用什麼、為什麼。沒有選項可以勾，每個人都用自己的話。</span></p>
-      </div>
-    </div>
+    <ol class="todo">
+      <li><b>看</b>：老師幫你挑好的對話（第 3 步）</li>
+      <li><b>選</b>：你有話想寫的，勾「選這則」，<b>至少 4 個</b></li>
+      <li><b>寫</b>：每個要寫 2 格（第 4 步）<br>「我發現的問題」　「最終採用的理由」</li>
+    </ol>
   </div>
 
   <div class="card">
-    <h3><svg class="ico"><use href="#i-search"/></svg>什麼叫「發現問題、查證」？不一定要上網查</h3>
-    <p class="small muted" style="margin:0 0 6px">怕你寫不出來，先看看這些都算。看 e度 的回答時，用它們當放大鏡：</p>
-    <ul style="margin:0;padding-left:1.2em">
-      <li><b>e度 沒看懂你的意思（理解錯誤）：</b>你說「晚上」它畫成白天；你說是賀卡它當成作文；你貼自己寫的文章，它說「這是一位小朋友寫的」。</li>
-      <li><b>顏色、人數、時間、地點、稱呼：</b>它畫的、寫的，和你說的一樣嗎？一項一項對。</li>
-      <li><b>事實、名稱、成語、修辭、數字：</b>鳥的名字、成語的意思、「這是排比還是類疊」、「增加了 8 個字」，用字典、網站或問家人確認。</li>
-      <li><b>前後不一致：</b>它前面這樣說、後面又那樣說（先給 4 顆星、後來說有 100 分）。</li>
-      <li><b>沒有照你的限制做：</b>你說「只給建議」「先問我問題」，它有做到嗎？還是直接幫你寫了？</li>
-      <li><b>錯字、用詞怪怪的：</b>你覺得讀起來不對的地方，你怎麼確認？</li>
+    <h3><svg class="ico"><use href="#i-search"/></svg>「發現問題」是什麼？這些都算</h3>
+    <ul class="short">
+      <li>e度 <b>沒看懂</b>我的意思（我說晚上，它畫白天）</li>
+      <li><b>顏色、人數、時間、稱呼</b>和我說的不一樣</li>
+      <li><b>名字、成語、數字</b>可能不對（查字典、問家人）</li>
+      <li>前面說的，和後面說的<b>不一樣</b></li>
+      <li>我說「只給建議」，它卻<b>直接幫我寫</b></li>
+      <li><b>錯字</b>、怪怪的字</li>
     </ul>
-    <p class="small muted" style="margin:6px 0 0">找到之後，寫下<b>你怎麼確認的</b>（查了什麼、問了誰），再寫<b>你追問或改了什麼</b>。</p>
-  </div>
-
-  <div class="card" style="border:2px solid var(--ac)">
-    <h3><svg class="ico"><use href="#i-trophy"/></svg>評審想看什麼？（簡章五，總分 100）</h3>
-    <div class="grid2">
-      <div>
-        <p><b>批判檢視、提問策略與人工修正　30%</b>（同分先比這項）<br><span class="small muted">你有沒有發現 e度 的問題、怎麼追問、怎麼自己改。歷程紀錄主要就在拿這 30 分。</span></p>
-        <p><b>創意、原創性與生活連結　30%</b><br><span class="small muted">最後留下來的字句，是不是只有你家才有的事。</span></p>
-      </div>
-      <div>
-        <p><b>AI 與數位工具整合　20%</b><br><span class="small muted">用對精靈、一般模式、Canva，各做各的事。</span></p>
-        <p><b>數位倫理與權責揭露　20%</b><br><span class="small muted">誰做的、誰改的講清楚；提問裡沒有個資。</span></p>
-      </div>
-    </div>
-    <p class="small muted" style="margin-top:6px">所以每一輪都要有：我<b>發現</b>了什麼、我<b>怎麼追問或改</b>、我<b>為什麼</b>採用或不用，而且說得具體。</p>
-  </div>
-
-  <div class="card">
-    <h3><svg class="ico"><use href="#i-target"/></svg>怎麼挑？</h3>
-    <ul style="margin:0;padding-left:1.2em">
-      <li><b>挑有故事的：</b>你發現 e度 說錯、太空泛、不像你家，然後追問或自己改的那一輪。</li>
-      <li><b>每一輪都要有「我」：</b>只是照著 e度 的話做，沒有判斷，評審看不到你的想法。</li>
-      <li><b>排優先順序：</b>最能代表你的放第 1（在第 3 步「我選的」用 ▲▼ 調）。2 頁放不下時，從最後面開始拿掉。</li>
-      <li><b>看老師的提示：</b>每一輪上面有老師寫的「可以查證、想想」的地方，那是方向，答案要你自己找、自己寫。</li>
-    </ul>
+    <p class="small muted" style="margin:6px 0 0">不一定要上網查。寫：你怎麼確認？後來怎麼改？</p>
   </div>
 
   <div class="eg">
-    <div class="egt">範例（不是你的題目，只看寫法）</div>
-    <b>我的原始提問：</b>我想寫書法比賽的心得，開頭想不出來，可以先給我提示嗎？<br>
-    <b>AI 的回答摘要，和我發現的問題：</b>AI 給了三個開頭。第二個寫「大家都很緊張」，但我那天其實很期待，<span class="rd">不像我</span>。<br>
-    <b>我的追問或修正：</b>我告訴它「我那天很期待，不緊張」，請它只給開頭的方向，不要幫我寫。<br>
-    <b>最終採用的理由：</b>第三個方向「先寫墨汁的味道」很像我的感覺，所以我用它，其他的我自己寫。
-  </div>
-
-  <div class="card">
-    <h3><svg class="ico"><use href="#i-chat"/></svg>怎麼把「我和 AI 一起改」寫清楚？（句型範例）</h3>
-    <div class="eg" style="margin-bottom:8px"><div class="egt">我提點子，AI 改，我挑好的加進我的句子</div>我一開始寫「比賽很緊張」，AI 建議改成<span class="rd">「握筆的手一直發抖」</span>。我覺得它講的<span class="rd">「手發抖」</span>很有畫面，<b>所以我把它加進我的句子</b>，再自己改成<span class="blu">「我握筆的手微微發抖」</span>。</div>
-    <div class="eg" style="margin-bottom:8px"><div class="egt">我不採用 AI 的，並說原因</div>AI 建議加上「全場都在為我鼓掌」，但<b>那天沒有發生</b>，我<b>沒有採用</b>，因為不是真的。</div>
-    <div class="eg" style="margin-bottom:0"><div class="egt">我發現 AI 的錯</div>AI 說某個節日是農曆 8 月 1 日，我<b>去查</b>日曆，發現是 8 月 15 日，<b>所以我追問並修正</b>。</div>
-    <p class="small muted" style="margin:8px 0 0">紅色是 AI 給的，藍色是你自己改的，黑色是你自己想的。<b>把內容換成你自己的事</b>，不要整句照抄。</p>
+    <div class="egt">寫法範例（換成你自己的事）</div>
+    <b>我發現的問題：</b>我說「晚上」，e度 畫成白天。我再說一次「是晚上」，它改了。<br>
+    <b>最終採用的理由：</b>晚上才是真的，所以我用改好的。
   </div>
   <div class="stepnav"></div>
 </section>
@@ -199,19 +145,18 @@
 <!-- ========== 步驟 3：看老師幫你挑好的對話，勾「選這則」 ========== -->
 <section class="step" data-title="選對話" data-min="7" hidden>
   <div class="step-head"><div class="num">3</div><div>
-    <h2>老師幫你挑好了幾輪對話：左右切換著看，勾「選這則」</h2>
+    <h2>選對話：看一看，勾「選這則」</h2>
     <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>7 分鐘</span><span class="chip">簡章 四-2-4</span><span class="chip" id="hStat"><svg class="ico"><use href="#i-cloud"/></svg>還沒讀取</span></div>
   </div></div>
 
-  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>老師已經讀過你和 e度 的全部對話，替你挑了幾輪「有發現問題、有追問、有自己決定」的。</b>用「上一輪／下一輪」（或鍵盤 ← →）一輪一輪看。每一輪看完，覺得<b>你有話可以寫</b>的，就在下面勾「<b>選這則</b>」，勾了的會送到下一步「寫理由」。至少選 <b>4 輪</b>，挑你最有話說的；每一輪上面有老師給的提示，告訴你可以查證、想想什麼。<b>覺得老師挑的對話太短</b>，可以按對話下面的「<b>多收一則下面的對話</b>」：按一下多收一則（e度 的或你說的都算），按兩下就多收兩則，可以一直往下收。</p></div>
-  <div class="note"><svg class="ico"><use href="#i-alert"/></svg><p><b>小提醒：選對 e度 的模式。</b>想正常聊天、寫賀卡、改句子，請用「<b>一般模式</b>」。「<b>文思精靈</b>」會一直給你整篇文章、帶你讀文章，不太會照你說的聊；「繪圖精靈」是用來畫圖的。老師盡量不挑文思精靈的對話，真的沒有別的才會放進來。</p></div>
+  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>老師幫你挑好了。</b>按「上一輪／下一輪」看，想寫的就勾「<b>選這則</b>」，<b>至少選 4 個</b>。對話太短，按「多收一則」。</p></div>
 
-  <div class="hlock" id="hLock"><svg class="ico"><use href="#i-lock"/></svg><span>先在最上面填好年級、班級、座號，這一步才看得到老師幫你挑的對話。</span></div>
+  <div class="hlock" id="hLock"><svg class="ico"><use href="#i-lock"/></svg><span>先在最上面填年級、班級、座號。</span></div>
 
   <div id="hBody" hidden>
     <div class="vpager" id="hPager"></div>
     <div id="hView"></div>
-    <div class="hbox vmy"><h4><svg class="ico"><use href="#i-star"/></svg>我選的（上面的最優先，可以用 ▲▼ 調順序）</h4><div class="mypk" id="hMy"></div><div class="hprog" id="hSaveInfo"></div>
+    <div class="hbox vmy"><h4><svg class="ico"><use href="#i-star"/></svg>我選的（用 ▲▼ 排順序）</h4><div class="mypk" id="hMy"></div><div class="hprog" id="hSaveInfo"></div>
       <button class="btn ghost" type="button" id="hReload" style="margin-top:8px;font-size:14px;padding:6px 12px"><svg class="ico"><use href="#i-download"/></svg>重新讀取</button></div>
   </div>
   <div class="stepnav"></div>
@@ -220,21 +165,21 @@
 <!-- ========== 步驟 4：寫每一輪的理由（一次一輪）========== -->
 <section class="step" data-title="寫理由" data-min="8" hidden>
   <div class="step-head"><div class="num">4</div><div>
-    <h2>我挑的對話：一輪一輪寫「最終採用的理由」</h2>
+    <h2>寫理由：一次寫一個</h2>
     <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>8 分鐘</span><span class="chip">簡章 四-2-4</span></div>
   </div></div>
   <input type="hidden" id="hOk" data-key="histOk" data-req>
   <input type="hidden" id="hCnt" data-key="histPicked">
 
-  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p>上面是你選的那一輪對話，<b>讀一讀</b>，再寫下面兩格。<b>寫完這一輪才能換下一輪</b>。沒有選項可以勾，也不會幫你寫好，全部用你自己的話。</p></div>
+  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>讀上面的對話，寫下面 2 格。</b>寫完才能寫下一個。用你自己的話。</p></div>
 
-  <div class="hlock" id="wLock"><svg class="ico"><use href="#i-lock"/></svg><span>先在最上面填好年級、班級、座號，這一步才看得到你選的對話。</span></div>
+  <div class="hlock" id="wLock"><svg class="ico"><use href="#i-lock"/></svg><span>先在最上面填年級、班級、座號。</span></div>
 
   <div id="wBody" hidden>
     <div class="wtabs" id="wTabs"></div>
     <div id="hPicks"></div>
     <div class="hprog" id="hProg"></div><div class="hprog" id="hPages"></div>
-    <div class="hbar"><button class="btn" type="button" id="hSheetBtn" disabled><svg class="ico"><use href="#i-eye"/></svg>預覽排好的歷程紀錄（最多 2 頁）</button><span class="small muted">還沒寫好的輪不會放進預覽。老師會用你選的內容做成 PDF。</span></div>
+    <div class="hbar"><button class="btn" type="button" id="hSheetBtn" disabled><svg class="ico"><use href="#i-eye"/></svg>預覽排好的歷程紀錄（最多 2 頁）</button><span class="small muted">沒寫好的不會放進去。</span></div>
   </div>
   <div class="stepnav"></div>
 </section>
@@ -243,10 +188,10 @@
 <section class="step" data-title="作品說明書" data-min="12" hidden id="manual">
   <div class="step-head"><div class="num">5</div><div>
     <h2>作品說明書：直接在這裡打</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>12 分鐘</span><span class="chip">欄位和比賽的說明書表格一樣</span><span class="chip" id="autoStat"><svg class="ico"><use href="#i-cloud"/></svg>每 8 秒自動儲存</span></div>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>12 分鐘</span><span class="chip" id="autoStat"><svg class="ico"><use href="#i-cloud"/></svg>每 8 秒自動儲存</span></div>
   </div></div>
 
-  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>不用另外開文件了。</b>這一頁的 5 個部分，就是比賽「作品說明書」表格的 5 欄，你打在這裡，系統會<b>每 8 秒自動儲存</b>；老師最後會把你打的內容整理成比賽格式的 Word。每一欄下面有「評審看什麼」，還有老師<b>根據你的對話紀錄</b>給的提醒，可以點「看那段對話」回去看。</p></div>
+  <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>直接打在這裡。</b>會自動存，老師會整理成比賽的表格。</p></div>
 
   <div class="sec">
     <h3 style="margin-bottom:6px">基本資料</h3>
@@ -259,20 +204,15 @@
 
   <div class="sec">
     <h3><span class="no">1</span>創作理念</h3>
-    <p class="small muted" style="margin-top:0">請說明你想透過這個作品告訴大家什麼想法或故事？這個作品結合了你什麼真實的生活經驗？</p>
-    <div class="judge">
-      <div class="j"><b><svg class="ico"><use href="#i-eye"/></svg>評審看什麼</b>想告訴大家什麼？結合了你什麼<b>真實的生活經驗</b>？</div>
-      <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>問自己</b><ul><li>為什麼選這一刻？</li><li>這件事改變了我什麼？</li></ul></div>
-    </div>
+    <p class="small muted" style="margin-top:0">你想告訴大家什麼？這和你家的哪一件真實的事有關？</p>
     <div class="ref"><div class="rt">第 1 節 主題卡</div><div class="rv"><span data-ref="L1.reason"></span>　／　<span data-ref="L1.moment"></span>　／　<span data-ref="L1.why"></span></div></div>
-    <div class="gbox" data-guide="idea" hidden></div>
     <div class="field"><textarea id="m_idea" data-key="idea" data-req rows="5" data-count aria-label="創作理念"></textarea></div>
   </div>
 
   <div class="sec">
     <h3><span class="no">2</span>手冊對應章節（可以複選）</h3>
-    <p class="small muted" style="margin-top:0">請勾選你的作法可以對應到《中小學生成式 AI 之學習應用手冊—國小生聰明用 AI》的哪一個章節，並說明對應部分。點「看手冊」會打開那一章的手冊頁面，幫你回想。</p>
-    <div class="gbox" id="gChapSum"></div>
+    <p class="small muted" style="margin-top:0">勾你用到的章節，再說明用在哪裡。「看手冊」可以回想。</p>
+    <div class="gbox" id="gChapSum" hidden></div>
     <div class="chaps">
       <div class="chap" data-ch="第一章"><label><input type="checkbox" data-key="chapters" value="第一章"><span><b>壹 AI 是什麼？</b>認識 e度 是 AI 代理人<i class="rec-tag">★ 適合你</i></span></label><button class="hblink" type="button" data-hb="第一章"><svg class="ico"><use href="#i-book"/></svg>看手冊</button><div class="gbox" data-guide-ch="第一章" hidden></div></div>
       <div class="chap" data-ch="第二章"><label><input type="checkbox" data-key="chapters" value="第二章"><span><b>貳 怎麼和 AI 溝通？</b>說清楚、追問、保護個資<i class="rec-tag">★ 適合你</i></span></label><button class="hblink" type="button" data-hb="第二章"><svg class="ico"><use href="#i-book"/></svg>看手冊</button><div class="gbox" data-guide-ch="第二章" hidden></div></div>
@@ -281,18 +221,14 @@
       <div class="chap" data-ch="第五章"><label><input type="checkbox" data-key="chapters" value="第五章"><span><b>伍 AI 幫助我學習</b>寫作精靈給修改建議<i class="rec-tag">★ 適合你</i></span></label><button class="hblink" type="button" data-hb="第五章"><svg class="ico"><use href="#i-book"/></svg>看手冊</button><div class="gbox" data-guide-ch="第五章" hidden></div></div>
       <div class="chap" data-ch="第六章"><label><input type="checkbox" data-key="chapters" value="第六章"><span><b>陸 AI 時代的好公民</b>三色燈、標記、剛剛好的資料<i class="rec-tag">★ 適合你</i></span></label><button class="hblink" type="button" data-hb="第六章"><svg class="ico"><use href="#i-book"/></svg>看手冊</button><div class="gbox" data-guide-ch="第六章" hidden></div></div>
     </div>
-    <div class="field" style="margin-top:10px"><div class="lbl">對應部分說明：你用到手冊哪一章的什麼方法？</div><textarea id="m_chapDesc" data-key="chapDesc" data-req rows="4" data-count aria-label="對應部分說明"></textarea></div>
+    <div class="field" style="margin-top:10px"><div class="lbl">對應部分說明：你用了手冊哪一章的什麼方法？</div><textarea id="m_chapDesc" data-key="chapDesc" data-req rows="4" data-count aria-label="對應部分說明"></textarea></div>
   </div>
 
   <div class="sec">
     <h3><span class="no">3</span>使用教育型 AI 過程</h3>
-    <div class="field"><div class="lbl">教育型 AI 有出現錯誤嗎？</div>
+    <div class="field"><div class="lbl">e度 有出現錯誤嗎？</div>
       <div class="opts"><label class="opt"><input type="radio" name="err" data-key="err" value="有" data-req>有</label><label class="opt"><input type="radio" name="err" data-key="err" value="沒有">沒有</label></div>
-      <p class="small muted" style="margin:6px 0 0">勾「沒有」通常代表沒有仔細檢查。回去看看你挑的歷程紀錄。</p></div>
-    <div class="judge"><div class="j"><b><svg class="ico"><use href="#i-eye"/></svg>評審看什麼</b>你<b>怎麼發現</b>的？<b>怎麼追問、怎麼改</b>？改完有沒有更好？</div>
-      <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>寫法</b>發現了什麼 → 我怎麼問 → 結果變成怎樣</div></div>
-    <div class="eg"><div class="egt">範例句型（不是你的題目，換成你自己的事）</div>
-      我一開始提了一個點子：<b>「比賽很緊張」</b>，AI 把它改成<span class="rd">「握筆的手一直發抖」</span>，我覺得它講的<span class="rd">「手發抖」</span>很有畫面，<b>所以我把它加進我的句子裡</b>，再自己改成<span class="blu">「我握筆的手微微發抖」</span>。AI 還建議加「全場鼓掌」，但那天沒有發生，<b>我沒有採用</b>。</div>
+</div>
     <div class="gbox" data-guide="found" hidden></div>
     <div class="field"><div class="lbl">你是怎麼發現跟修正的？</div><textarea id="m_found" data-key="found" data-req rows="5" data-count aria-label="你是怎麼發現跟修正的"></textarea></div>
     <div class="gbox" id="gModes" hidden></div>
@@ -301,24 +237,21 @@
 
   <div class="sec">
     <h3><span class="no">4</span>查證揭露</h3>
-    <p class="small muted" style="margin-top:0">請說明並記錄作品的哪些部分使用教育型 AI、哪些部分是自己創作的？是否完整標示作品經教育型 AI 協助生成？</p>
-    <div class="judge"><div class="j"><b><svg class="ico"><use href="#i-eye"/></svg>評審看什麼</b>哪些部分是 AI 協助、哪些是自己創作？有沒有完整標示？</div>
-      <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>寫法</b>分三句寫：我自己想的、AI 幫忙的、我自己改的（和卡片上標的黑、紅、藍一樣）</div></div>
-    <div class="mkshow" id="mkShow" hidden><div class="mkl">你在第 1 步標好的卡片文字（黑：自己想的　紅：AI 幫忙的　藍：自己修改的）</div><div class="mkview ro" id="mkShowView"></div><button class="btn ghost" type="button" id="mkRebring">用標記結果重新寫入下面的格子</button></div>
-    <div class="gbox" data-guide="disclose" hidden></div>
+    <p class="small muted" style="margin-top:0">哪些部分是 AI 幫忙的？哪些是你自己做的？有沒有都標清楚？</p>
+    <div class="mkshow" id="mkShow" hidden><div class="mkl">你標的卡片文字（黑：我想的　紅：AI 幫忙的　藍：我改的）</div><div class="mkview ro" id="mkShowView"></div><button class="btn ghost" type="button" id="mkRebring">用標記結果重新寫入</button></div>
     <div class="field"><textarea id="m_disclose" data-key="disclose" data-req rows="5" data-count aria-label="查證揭露"></textarea></div>
   </div>
 
   <div class="sec">
     <h3><span class="no">5</span>學習反思</h3>
-    <div class="field"><div class="lbl">你用到了哪些教育型 AI 及數位工具？</div>
+    <div class="field"><div class="lbl">你用了哪些工具？</div>
       <div class="opts"><label class="opt"><input type="checkbox" data-key="tools" value="因材網 e度" data-req>因材網 e度</label><label class="opt"><input type="checkbox" data-key="tools" value="Canva">Canva</label><label class="opt"><input type="checkbox" data-key="tools" value="PowerPoint">PowerPoint</label><label class="opt"><input type="checkbox" data-key="tools" value="Word">Word</label><label class="opt"><input type="checkbox" data-key="tools" value="其他">其他</label></div>
       <input type="text" data-key="toolsOther" id="m_toolsOther" maxlength="60" placeholder="勾「其他」的話，寫是什麼工具" style="margin-top:6px;width:100%;max-width:420px;border:2.5px solid #9a8650;border-radius:12px;padding:6px 12px;font-size:16px"></div>
     <div class="ref"><div class="rt">第 2 節 我用過的招式</div><div class="rv" data-ref="L2.moves"></div></div>
-    <div class="field"><div class="lbl">透過這次實作，你學到了什麼？<span class="hint">寫一個具體的改變，不要只寫「學到很多」</span></div><textarea id="m_learned" data-key="learned" data-req rows="5" data-count aria-label="你學到了什麼"></textarea></div>
+    <div class="field"><div class="lbl">這次你學到了什麼？<span class="hint">寫一件具體的事</span></div><textarea id="m_learned" data-key="learned" data-req rows="5" data-count aria-label="你學到了什麼"></textarea></div>
   </div>
 
-  <div class="note good"><svg class="ico"><use href="#i-check"/></svg><p><b>寫好之後什麼都不用交。</b>內容已經自動存到雲端；老師會匯出成比賽格式的 Word。想改隨時回來改，到交件前都可以。</p></div>
+  <div class="note good"><svg class="ico"><use href="#i-check"/></svg><p><b>寫好不用交。</b>會自動存，交件前都可以改。</p></div>
   <div class="stepnav"></div>
 </section>
 
