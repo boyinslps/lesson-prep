@@ -15,6 +15,7 @@
     工作台\\runtime\\python\\python.exe materials\\競賽專區\\C04_檢查標記與排版\\_歷程工具\\匯出參賽資料.py [輸出資料夾]
     預設輸出資料夾：materials\\競賽專區\\_繳交輸出\\
     加 --min-chars N：「我的發現」「最終採用的理由」各至少幾個字才算寫好（預設 6，和學生網頁一樣；字數偏少但學生有寫的，可以用 --min-chars 1 讓它進 PDF，報告會標出字數偏少的則）
+    學生歷程超過 2 頁時，老師可以在 學生對話紀錄\\歷程挑選.json 指定只放哪幾則：{"5-11-7": [1], "5-11-16": [2]}（數字＝學生在第 3 步選的第幾則，1 起算）。只影響匯出的 PDF，學生雲端的選擇不動。
     加 --no-download 可以不重抓雲端資料，直接用上次下載的（_輸出\\雲端資料.json）。
 
 需要：D:\\keys 的 worksheet-f47f3 服務帳號金鑰、本機的 Microsoft Word 和 Edge（或 Chrome）。
@@ -277,6 +278,10 @@ def main():
     io.open(os.path.join(works_dir, '放這裡.txt'), 'w', encoding='utf-8').write(
         '把學生從 Canva 下載的賀卡 PDF 放在這個資料夾，檔名用「年級-班級-座號.pdf」（例如 5-9-11.pdf），重新執行匯出就會自動收進各人的資料夾。\n')
 
+    pick_sel = {}
+    sp_ = os.path.join(DATA, '歷程挑選.json')
+    if os.path.exists(sp_):
+        pick_sel = {k: v for k, v in json.load(io.open(sp_, encoding='utf-8')).items() if not k.startswith('_')}
     tpl = os.path.join(HERE, '作品說明書_範本.docx')
     zin = zipfile.ZipFile(tpl)
     doc_xml = zin.read('word/document.xml').decode('utf-8')
@@ -326,6 +331,12 @@ def main():
             by, _ = index_doc(d)
             picks = [clean_pick(p, by) for p in (d.get('picks') or [])]
             picks = [p for p in picks if p['ids']]
+            if sid in pick_sel:   # 老師挑選：只放指定的幾則（PDF 在 2 頁內）；學生雲端的選擇不動
+                keep = [picks[i - 1] for i in pick_sel[sid] if 1 <= i <= len(picks)]
+                dropped = [k for k in range(1, len(picks) + 1) if k not in pick_sel[sid]]
+                picks = keep
+                if dropped:
+                    miss.append('歷程只放學生選的第 %s 則（老師挑選；第 %s 則沒放，是為了 PDF 在 2 頁內）' % ('、'.join(map(str, pick_sel[sid])), '、'.join(map(str, dropped))))
             good = [p for p in picks if is_done(p, by)]
             ndone = sum(rounds_of(p, by) for p in good)      # 寫好的輪數（一問一答算 1 輪）
             for k, p in enumerate(good, 1):
