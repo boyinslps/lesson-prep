@@ -16,6 +16,7 @@
     預設輸出資料夾：materials\\競賽專區\\_繳交輸出\\
     加 --min-chars N：「我的發現」「最終採用的理由」各至少幾個字才算寫好（預設 6，和學生網頁一樣；字數偏少但學生有寫的，可以用 --min-chars 1 讓它進 PDF，報告會標出字數偏少的則）
     學生歷程超過 2 頁時，老師可以在 學生對話紀錄\\歷程挑選.json 指定只放哪幾則：{"5-11-7": [1], "5-11-16": [2]}（數字＝學生在第 3 步選的第幾則，1 起算）。只影響匯出的 PDF，學生雲端的選擇不動。
+    學生的輪數不夠（簡章要求）時，老師可以在 學生對話紀錄\\歷程補充.json 替某一則多補幾則訊息：{"5-11-14": {"1": ["訊息id", ...]}}（1＝學生選的第 1 則）。只影響匯出的 PDF，學生雲端的選擇不動。
     加 --no-download 可以不重抓雲端資料，直接用上次下載的（_輸出\\雲端資料.json）。
 
 需要：D:\\keys 的 worksheet-f47f3 服務帳號金鑰、本機的 Microsoft Word 和 Edge（或 Chrome）。
@@ -284,6 +285,10 @@ def main():
     io.open(os.path.join(works_dir, '放這裡.txt'), 'w', encoding='utf-8').write(
         '把學生從 Canva 下載的賀卡 PDF 放在這個資料夾，檔名用「年級-班級-座號.pdf」（例如 5-9-11.pdf），重新執行匯出就會自動收進各人的資料夾。\n')
 
+    pick_extra = {}
+    ex_p = os.path.join(DATA, '歷程補充.json')
+    if os.path.exists(ex_p):
+        pick_extra = {k: v for k, v in json.load(io.open(ex_p, encoding='utf-8')).items() if not k.startswith('_')}
     pick_sel = {}
     sp_ = os.path.join(DATA, '歷程挑選.json')
     if os.path.exists(sp_):
@@ -337,6 +342,13 @@ def main():
             by, _ = index_doc(d)
             picks = [clean_pick(p, by) for p in (d.get('picks') or [])]
             picks = [p for p in picks if p['ids']]
+            if sid in pick_extra:   # 老師補充：替某一則多補幾則訊息（湊足輪數）；學生雲端的選擇不動
+                for k, extra in pick_extra[sid].items():
+                    k = int(k)
+                    if 1 <= k <= len(picks):
+                        ids2 = sorted(set(picks[k - 1]['ids'] + [i for i in extra if i in by]), key=lambda i: by[i]['i'])
+                        picks[k - 1] = dict(picks[k - 1], ids=ids2)
+                        miss.append('第 %d 則在學生選的內容後面，老師補了 %d 則訊息（湊足輪數；學生雲端的選擇沒動）' % (k, len(extra)))
             if sid in pick_sel:   # 老師挑選：只放指定的幾則（PDF 在 2 頁內）；學生雲端的選擇不動
                 keep = [picks[i - 1] for i in pick_sel[sid] if 1 <= i <= len(picks)]
                 dropped = [k for k in range(1, len(picks) + 1) if k not in pick_sel[sid]]
