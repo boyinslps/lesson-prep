@@ -1,6 +1,6 @@
 /* ============================================================
    第 1 步｜標記：貼上自己賀卡上的文字 → 用滑鼠選取，按顏色劃記（黑＝自己想的、紅＝AI 幫忙的、藍＝自己修改的）
-   → 結果帶到第 5 步「作品說明書」的「查證揭露」。
+   → 標記後的文章獨立顯示在第 5 步「作品說明書」的「查證揭露」上方，匯出時合併。
    存檔欄位（L4）：markText（貼上的文字）、markCodes（每個字一碼：0 黑、1 紅、2 藍）、markOk（按過「標好了」）。
    ============================================================ */
 (function(){
@@ -73,20 +73,12 @@
     if(!n){window.toast('先選字，再按顏色。');return;}
     setVal(ok,'');save(c.join(''));
   });
-  // 帶到查證揭露
-  function bring(ask){
-    var d=$('m_disclose'),txt=disclosure(ta.value.replace(/\r/g,''),norm(ta.value.replace(/\r/g,''),hid.value));
-    if(d&&d.value.trim()&&d.value.trim()!==txt.trim()&&ask&&!confirm('「查證揭露」已經有字，要換成標記結果嗎？'))return false;
-    if(d){setVal(d,txt);}
-    return true;
-  }
+  // 標好了：只記下「已完成」。標記後的文章獨立顯示在說明書「查證揭露」上方，交件匯出時才合併進去（不寫進文字格）
   $('mkDone').addEventListener('click',function(){
     if(!started())return;
-    if(!bring(true))return;
     setVal(ok,'1');if(window.cardRefresh)window.cardRefresh();
-    window.toast('已送到說明書的「查證揭露」。');
+    window.toast('標好了。會放在說明書的「查證揭露」上面。');
   });
-  if($('mkRebring'))$('mkRebring').addEventListener('click',function(){if(started()&&bring(true)){setVal(ok,'1');window.toast('已寫入。');}});
 
   // 雲端資料讀回來、或每次存檔後同步畫面；基本資料預設帶入（作品名稱、年級），學生可以改
   function prefill(){
@@ -94,6 +86,8 @@
     var t=$('m_title'),g=$('m_grade');
     if(t&&!t.value.trim()&&all.L1&&all.L1.title)setVal(t,all.L1.title);
     if(g&&!g.value.trim()&&id.grade)setVal(g,String(id.grade));
+    var idea=$('m_idea');
+    if(idea&&!idea.value.trim()&&all.L1&&all.L1.reason)setVal(idea,all.L1.reason);   // 第 1 節「為什麼想寫這個回憶」先帶進來，可以改
   }
   var P=window.PAGE=window.PAGE||{},old=P.onData;
   P.onData=function(a){if(old)try{old(a);}catch(e){}render();prefill();};

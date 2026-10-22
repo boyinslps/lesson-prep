@@ -193,12 +193,12 @@ def make_docx(tpl_xml, zin, m, mark_text, mark_codes, path):
     for i, k in enumerate(ms.CHAPS):
         mapping['c%d' % (i + 1)] = ms.tick(k in ch)
     xml = tpl_xml
-    if mark_text.strip():   # 查證揭露的格子裡，接著放上學生標好顏色的卡片文字
+    if mark_text.strip():   # 查證揭露的格子裡，放上學生標好顏色的卡片文字（在學生說明的上方）
         mm = re.search(r'<w:p[ >](?:(?!</w:p>).)*\{\{disclose\}\}(?:(?!</w:p>).)*</w:p>', xml, re.S)
-        if mm:
+        if mm:   # 同一格：標記後的文章在上，學生的簡單說明（{{disclose}}）在下
             head = '<w:r><w:rPr><w:b/></w:rPr><w:t xml:space="preserve">【卡片文字標記：黑色＝自己想的　紅色＝AI 幫忙的　藍色＝自己修改的】</w:t></w:r><w:r><w:br/></w:r>'
-            para = '<w:p><w:pPr><w:spacing w:before="120"/></w:pPr>%s%s</w:p>' % (head, mark_runs(mark_text, mark_codes))
-            xml = xml[:mm.end()] + para + xml[mm.end():]
+            para = '<w:p><w:pPr><w:spacing w:after="120"/></w:pPr>%s%s</w:p>' % (head, mark_runs(mark_text, mark_codes))
+            xml = xml[:mm.start()] + para + xml[mm.start():]
     xml = ms.fill(xml, mapping)
     with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED) as zo:
         for it in zin.infolist():

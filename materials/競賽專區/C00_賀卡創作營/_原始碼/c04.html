@@ -89,7 +89,7 @@
     <p class="small muted" style="margin:6px 0 0">一開始都是黑色。標錯了，再選一次、按別的顏色。</p>
     <div class="mksum" id="mkSum"></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-      <button class="btn" type="button" id="mkDone"><svg class="ico"><use href="#i-check"/></svg>標好了，送到說明書</button>
+      <button class="btn" type="button" id="mkDone"><svg class="ico"><use href="#i-check"/></svg>標好了</button>
       <button class="btn ghost" type="button" id="mkRedo">重貼文字</button>
     </div>
     <input type="hidden" id="mkCodes" data-key="markCodes">
@@ -206,8 +206,7 @@
   <div class="sec">
     <h3><span class="no">1</span>創作理念</h3>
     <p class="small muted" style="margin-top:0">你想告訴大家什麼？這和你家的哪一件真實的事有關？</p>
-    <div class="ref"><div class="rt">第 1 節 主題卡</div><div class="rv"><span data-ref="L1.reason"></span>　／　<span data-ref="L1.moment"></span>　／　<span data-ref="L1.why"></span></div></div>
-    <div class="field"><textarea id="m_idea" data-key="idea" data-req rows="5" data-count aria-label="創作理念"></textarea></div>
+    <div class="field"><div class="lbl">第 1 節寫的會先放進來，可以直接改<span class="hint"></span></div><textarea id="m_idea" data-key="idea" data-req rows="5" data-count aria-label="創作理念"></textarea></div>
   </div>
 
   <div class="sec">
@@ -239,8 +238,8 @@
   <div class="sec">
     <h3><span class="no">4</span>查證揭露</h3>
     <p class="small muted" style="margin-top:0">哪些部分是 AI 幫忙的？哪些是你自己做的？有沒有都標清楚？</p>
-    <div class="mkshow" id="mkShow" hidden><div class="mkl">你標的卡片文字（黑：我想的　紅：AI 幫忙的　藍：我改的）</div><div class="mkview ro" id="mkShowView"></div><button class="btn ghost" type="button" id="mkRebring">用標記結果重新寫入</button></div>
-    <div class="field"><textarea id="m_disclose" data-key="disclose" data-req rows="5" data-count aria-label="查證揭露"></textarea></div>
+    <div class="mkshow" id="mkShow" hidden><div class="mkl">你標的卡片文字（黑：我想的　紅：AI 幫忙的　藍：我改的）。交件時會放在這一格的上面。</div><div class="mkview ro" id="mkShowView"></div></div>
+    <div class="field"><div class="lbl">簡單說明：哪些是 AI 幫忙的？哪些是你自己做的？</div><textarea id="m_disclose" data-key="disclose" data-req rows="5" data-count aria-label="查證揭露"></textarea></div>
   </div>
 
   <div class="sec">

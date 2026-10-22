@@ -797,7 +797,7 @@ details.gd .gdb ul{margin:0}
     <p class="small muted" style="margin:6px 0 0">一開始都是黑色。標錯了，再選一次、按別的顏色。</p>
     <div class="mksum" id="mkSum"></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-      <button class="btn" type="button" id="mkDone"><svg class="ico"><use href="#i-check"/></svg>標好了，送到說明書</button>
+      <button class="btn" type="button" id="mkDone"><svg class="ico"><use href="#i-check"/></svg>標好了</button>
       <button class="btn ghost" type="button" id="mkRedo">重貼文字</button>
     </div>
     <input type="hidden" id="mkCodes" data-key="markCodes">
@@ -914,8 +914,7 @@ details.gd .gdb ul{margin:0}
   <div class="sec">
     <h3><span class="no">1</span>創作理念</h3>
     <p class="small muted" style="margin-top:0">你想告訴大家什麼？這和你家的哪一件真實的事有關？</p>
-    <div class="ref"><div class="rt">第 1 節 主題卡</div><div class="rv"><span data-ref="L1.reason"></span>　／　<span data-ref="L1.moment"></span>　／　<span data-ref="L1.why"></span></div></div>
-    <div class="field"><textarea id="m_idea" data-key="idea" data-req rows="5" data-count aria-label="創作理念"></textarea></div>
+    <div class="field"><div class="lbl">第 1 節寫的會先放進來，可以直接改<span class="hint"></span></div><textarea id="m_idea" data-key="idea" data-req rows="5" data-count aria-label="創作理念"></textarea></div>
   </div>
 
   <div class="sec">
@@ -947,8 +946,8 @@ details.gd .gdb ul{margin:0}
   <div class="sec">
     <h3><span class="no">4</span>查證揭露</h3>
     <p class="small muted" style="margin-top:0">哪些部分是 AI 幫忙的？哪些是你自己做的？有沒有都標清楚？</p>
-    <div class="mkshow" id="mkShow" hidden><div class="mkl">你標的卡片文字（黑：我想的　紅：AI 幫忙的　藍：我改的）</div><div class="mkview ro" id="mkShowView"></div><button class="btn ghost" type="button" id="mkRebring">用標記結果重新寫入</button></div>
-    <div class="field"><textarea id="m_disclose" data-key="disclose" data-req rows="5" data-count aria-label="查證揭露"></textarea></div>
+    <div class="mkshow" id="mkShow" hidden><div class="mkl">你標的卡片文字（黑：我想的　紅：AI 幫忙的　藍：我改的）。交件時會放在這一格的上面。</div><div class="mkview ro" id="mkShowView"></div></div>
+    <div class="field"><div class="lbl">簡單說明：哪些是 AI 幫忙的？哪些是你自己做的？</div><textarea id="m_disclose" data-key="disclose" data-req rows="5" data-count aria-label="查證揭露"></textarea></div>
   </div>
 
   <div class="sec">
@@ -1427,7 +1426,7 @@ var COLL = 'cardWork';
 })();
 /* ============================================================
    第 1 步｜標記：貼上自己賀卡上的文字 → 用滑鼠選取，按顏色劃記（黑＝自己想的、紅＝AI 幫忙的、藍＝自己修改的）
-   → 結果帶到第 5 步「作品說明書」的「查證揭露」。
+   → 標記後的文章獨立顯示在第 5 步「作品說明書」的「查證揭露」上方，匯出時合併。
    存檔欄位（L4）：markText（貼上的文字）、markCodes（每個字一碼：0 黑、1 紅、2 藍）、markOk（按過「標好了」）。
    ============================================================ */
 (function(){
@@ -1500,20 +1499,12 @@ var COLL = 'cardWork';
     if(!n){window.toast('先選字，再按顏色。');return;}
     setVal(ok,'');save(c.join(''));
   });
-  // 帶到查證揭露
-  function bring(ask){
-    var d=$('m_disclose'),txt=disclosure(ta.value.replace(/\r/g,''),norm(ta.value.replace(/\r/g,''),hid.value));
-    if(d&&d.value.trim()&&d.value.trim()!==txt.trim()&&ask&&!confirm('「查證揭露」已經有字，要換成標記結果嗎？'))return false;
-    if(d){setVal(d,txt);}
-    return true;
-  }
+  // 標好了：只記下「已完成」。標記後的文章獨立顯示在說明書「查證揭露」上方，交件匯出時才合併進去（不寫進文字格）
   $('mkDone').addEventListener('click',function(){
     if(!started())return;
-    if(!bring(true))return;
     setVal(ok,'1');if(window.cardRefresh)window.cardRefresh();
-    window.toast('已送到說明書的「查證揭露」。');
+    window.toast('標好了。會放在說明書的「查證揭露」上面。');
   });
-  if($('mkRebring'))$('mkRebring').addEventListener('click',function(){if(started()&&bring(true)){setVal(ok,'1');window.toast('已寫入。');}});
 
   // 雲端資料讀回來、或每次存檔後同步畫面；基本資料預設帶入（作品名稱、年級），學生可以改
   function prefill(){
@@ -1521,6 +1512,8 @@ var COLL = 'cardWork';
     var t=$('m_title'),g=$('m_grade');
     if(t&&!t.value.trim()&&all.L1&&all.L1.title)setVal(t,all.L1.title);
     if(g&&!g.value.trim()&&id.grade)setVal(g,String(id.grade));
+    var idea=$('m_idea');
+    if(idea&&!idea.value.trim()&&all.L1&&all.L1.reason)setVal(idea,all.L1.reason);   // 第 1 節「為什麼想寫這個回憶」先帶進來，可以改
   }
   var P=window.PAGE=window.PAGE||{},old=P.onData;
   P.onData=function(a){if(old)try{old(a);}catch(e){}render();prefill();};
