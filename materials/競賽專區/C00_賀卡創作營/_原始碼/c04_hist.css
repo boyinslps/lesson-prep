@@ -276,3 +276,13 @@ details.gd .gt{color:#a0332b;font-weight:700}
 .ctxh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line)}
 .ctxh .btn{padding:4px 14px;font-size:14px}
 .ctxb{overflow:auto;padding:4px 16px 14px}
+
+/* 擴增對話：多收一則 */
+.vext{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0 4px;padding:8px 10px;background:#f4f6fb;border:1.5px dashed #9aa3b8;border-radius:12px}
+.vext .btn{padding:5px 14px;font-size:14.5px;user-select:none}
+.vext .btn:disabled{opacity:.4;cursor:default}
+.vextn{font-weight:900;color:var(--ac-ink);font-size:14.5px}
+.vexth{flex-basis:100%;font-size:13px;color:var(--sub)}
+.msg.ext .bub{border-style:dashed;border-color:#6b8fd1;background:#f2f7ff}
+.msg.u.ext .bub{background:#eaf7ee}
+.exttag{display:inline-block;font-size:12px;font-weight:900;color:#fff;background:#6b8fd1;border-radius:6px;padding:0 7px;margin:0 0 3px}

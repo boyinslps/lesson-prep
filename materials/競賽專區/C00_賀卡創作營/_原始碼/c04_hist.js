@@ -71,13 +71,13 @@
   }
   // 唯讀：把一輪的訊息用對話畫面讀回來（第 5 步）；中間沒選的地方用「⋯」隔開
   function chainHTML(doc,ix,p){
-    var h='',last=-2,lastSi=-1;
-    p.ids.forEach(function(id){
-      var o=ix.by[id],m=o.m;
+    var h='',last=-2,lastSi=-1,ext=p.ext||0,n0=p.ids.length-ext;
+    p.ids.forEach(function(id,idx){
+      var o=ix.by[id],m=o.m,ec=idx>=n0?' ext':'';
       if(o.si!==lastSi){h+='<div class="sess">'+sessHead(doc.sessions[o.si])+'</div>';lastSi=o.si;}
       else if(o.i-last>1)h+='<div class="gapm">⋯ 中間的話沒有選 ⋯</div>';
       last=o.i;
-      h+='<div class="msg '+m.r+'"><div class="av">'+(m.r==='u'?'我':'e度')+'</div><div class="bw"><div class="bub"><div class="tx">'+esc(nb(m.x))+'</div><div class="tm">'+esc(fmtT(m.t))+'</div></div></div></div>';
+      h+='<div class="msg '+m.r+ec+'" data-mid="'+m.id+'"><div class="av">'+(m.r==='u'?'我':'e度')+'</div><div class="bw">'+(ec?'<span class="exttag">多收的</span>':'')+'<div class="bub"><div class="tx">'+esc(nb(m.x))+'</div><div class="tm">'+esc(fmtT(m.t))+'</div></div></div></div>';
     });
     return h;
   }
@@ -163,7 +163,7 @@
   /* ============================================================
      學生端
      ============================================================ */
-  var S={id:'',doc:null,ix:null,picks:[],items:[],view:0,cur:0,loadedFor:'',fb:null,saveT:null};
+  var S={id:'',doc:null,ix:null,picks:[],items:[],ext:{},view:0,cur:0,loadedFor:'',fb:null,saveT:null};
   var root=$('hBody'),lockEl=$('hLock'),statEl=$('hStat'),wroot=$('wBody'),wlock=$('wLock');
   function lock(msg,kind){
     S.doc=null;S.ix=null;S.picks=[];S.items=[];if(typeof renderGuide==='function')renderGuide();
@@ -193,7 +193,7 @@
         S.id=id;S.doc=snap.data();S.ix=indexDoc(S.doc);
         var cloud={picks:S.doc.picks||[],at:S.doc.picksAt||0},loc=readLocal(id)||{picks:[],at:0};
         var use=(loc.at>cloud.at)?loc:cloud;
-        S.picks=picksOf(S.doc,S.ix,use.picks).slice(0,MAXP);S.view=0;S.cur=firstUndone();
+        S.picks=picksOf(S.doc,S.ix,use.picks).slice(0,MAXP);S.ext={};S.view=0;S.cur=firstUndone();
         lockEl.hidden=true;wlock.hidden=true;root.hidden=false;wroot.hidden=false;
         renderAll();
         statEl.textContent=loc.at>cloud.at?'用的是這台電腦上較新的存檔':'已讀取';
@@ -205,20 +205,35 @@
 
   /* ---------- 第 4 步：老師預選的輪次，左右切換著看，勾「選這則」送去寫理由 ---------- */
   function candKey(ids){return ids.join('|');}
-  // 要看的輪次 = 老師預選（doc.cands）＋學生之前自己挑、但不在預選裡的（保留，可取消）
+  var EXT_MAX=12;   // 一輪最多多收幾則
+  // base 最後一則之後，同一場對話裡往下數 n 則（不含問候）
+  function nextMsgs(base,n){
+    var o=S.ix.by[base[base.length-1]],out=[];if(!o)return out;
+    for(var j=o.i+1;j<S.ix.flat.length&&out.length<n;j++){var x=S.ix.flat[j];if(x.si!==o.si)break;if(x.m.g)continue;out.push(x.m.id);}
+    return out;
+  }
+  // 要看的輪次 = 老師預選（doc.cands）＋學生之前自己挑、但不在預選裡的；每輪可以再往下多收幾則（S.ext）
   function buildItems(){
     var items=[],seen={};
     (S.doc.cands||[]).forEach(function(c){
       var p=cleanPick({ids:c.ids},S.ix);if(!chainOk(S.ix,p))return;
-      var k=candKey(p.ids);if(seen[k])return;seen[k]=1;
-      items.push({ids:p.ids,hint:nb(c.hint||''),extra:false});
+      var first=p.ids[0];if(seen[first])return;seen[first]=1;
+      var pk=null;for(var i=0;i<S.picks.length;i++)if(S.picks[i].ids[0]===first)pk=S.picks[i];
+      var ext=S.ext[first];
+      if(ext==null){ext=pk?pk.ids.filter(function(id){return p.ids.indexOf(id)<0;}).length:0;S.ext[first]=ext;}
+      ext=Math.min(ext,EXT_MAX,nextMsgs(p.ids,EXT_MAX).length);S.ext[first]=ext;
+      items.push({first:first,base:p.ids,ext:ext,ids:p.ids.concat(nextMsgs(p.ids,ext)),hint:nb(c.hint||''),extra:false});
     });
-    S.picks.forEach(function(p){var k=candKey(p.ids);if(!seen[k]){seen[k]=1;items.push({ids:p.ids,hint:'',extra:true});}});
+    S.picks.forEach(function(p){
+      var first=p.ids[0];if(seen[first])return;seen[first]=1;
+      var ext=Math.min(S.ext[first]||0,EXT_MAX);
+      items.push({first:first,base:p.ids,ext:0,ids:p.ids.slice(),hint:'',extra:true});
+    });
     S.items=items;
     if(S.view>=items.length)S.view=Math.max(0,items.length-1);
   }
-  function pickIndex(it){var k=candKey(it.ids);for(var i=0;i<S.picks.length;i++)if(candKey(S.picks[i].ids)===k)return i;return -1;}
-  function itemIndexOfPick(p){var k=candKey(p.ids);for(var i=0;i<S.items.length;i++)if(candKey(S.items[i].ids)===k)return i;return -1;}
+  function pickIndex(it){for(var i=0;i<S.picks.length;i++)if(S.picks[i].ids[0]===it.first)return i;return -1;}
+  function itemIndexOfPick(p){for(var i=0;i<S.items.length;i++)if(S.items[i].first===p.ids[0])return i;return -1;}
   function modesOf(ids){var m=[];ids.forEach(function(id){var o=S.ix.by[id],md=o&&(S.doc.sessions[o.si]||{}).mode;if(md&&m.indexOf(md)<0)m.push(md);});return m;}
   function msgBlock(m,cls){return '<div class="msg '+m.r+(cls?' '+cls:'')+'" data-mid="'+m.id+'"><div class="av">'+(m.r==='u'?'我':'e度')+'</div><div class="bw"><div class="bub"><div class="tx">'+esc(nb(m.x))+'</div><div class="tm">'+esc(fmtT(m.t))+'</div></div></div></div>';}
   var WSJ='「文思精靈」會一直給整篇文章、帶你讀文章，所以 e度 沒有照你說的聊。想正常對話、寫賀卡，要切換到「一般模式」。';
@@ -234,7 +249,12 @@
     if(modes.indexOf('文思精靈')>=0)h+='<div class="vwarn"><b>這一輪是用「文思精靈」聊的。</b>'+WSJ+'老師盡量不挑這種輪次，真的沒有別的才用；要選的話，下一步可以寫「e度 沒有照我說的做」。</div>';
     if(it.hint)h+='<div class="vhint"><b>老師挑這一輪，可以查證、想想：</b>'+esc(it.hint)+'</div>';
     else if(it.extra)h+='<div class="vhint"><b>這是你之前自己挑的一輪。</b>不想用就把下面的勾拿掉。</div>';
-    h+='<div class="chain big" aria-label="這一輪的對話">'+chainHTML(S.doc,S.ix,{ids:it.ids})+'</div>';
+    h+='<div class="chain big" aria-label="這一輪的對話">'+chainHTML(S.doc,S.ix,{ids:it.ids,ext:it.ext})+'</div>';
+    var avail=nextMsgs(it.base,EXT_MAX).length;
+    h+='<div class="vext"><button class="btn ghost" type="button" data-ext="1"'+(it.ext>=avail?' disabled':'')+'><svg class="ico"><use href="#i-plus"/></svg>多收一則下面的對話</button>'+
+      '<button class="btn ghost" type="button" data-ext="-1"'+(it.ext<=0?' disabled':'')+'><svg class="ico"><use href="#i-minus"/></svg>少收一則</button>'+
+      '<span class="vextn">'+(it.extra?'':(it.ext?'已多收 '+it.ext+' 則':'還沒多收'))+(it.ext>=avail&&!it.extra?(avail>=EXT_MAX?'（最多多收 '+EXT_MAX+' 則）':(avail?'（這一場後面沒有了）':'（這一場對話到這裡結束）')):'')+'</span>'+
+      '<span class="vexth">按一下多收一則（不管是 e度 還是你說的），按兩下就多收兩則，可以一直往下收。</span></div>';
     h+='<label class="selbtn'+(on?' on':'')+'"><input type="checkbox" data-choose="1"'+(on?' checked':'')+'><span class="bx"><svg class="ico"><use href="#i-check"/></svg></span><span class="tt">選這則<small>勾起來，就會送到下一步「寫理由」的清單</small></span></label>';
     host.innerHTML=h+'</div>';
   }
@@ -251,6 +271,17 @@
       toast('已送到「寫理由」清單（第 '+S.picks.length+' 個）');
     }
     buildItems();renderView();renderMyList();renderWrite();refreshMeta();saveSoon();
+  }
+  // 多收／少收一則：已經勾「選這則」的，連選的內容一起更新
+  function extendView(d){
+    var it=S.items[S.view];if(!it||it.extra)return;
+    var avail=nextMsgs(it.base,EXT_MAX).length,n=Math.max(0,Math.min(avail,it.ext+d));
+    if(n===it.ext)return;
+    S.ext[it.first]=n;
+    var pi=pickIndex(it);
+    if(pi>=0){S.picks[pi].ids=it.base.concat(nextMsgs(it.base,n));saveSoon();}
+    buildItems();renderView();renderMyList();renderWrite();refreshMeta();
+    if(d>0){var t=document.querySelector('#hView .chain .msg.ext:last-child');if(t)t.scrollIntoView({block:'nearest',behavior:'smooth'});}
   }
   function viewGo(k){S.view=Math.max(0,Math.min(S.items.length-1,k));renderView();var t=$('hPager');if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}
   function firstText(p,n){for(var i=0;i<p.ids.length;i++){var o=S.ix.by[p.ids[i]];if(o&&o.m.r==='u'&&!o.m.g)return clip(o.m.x,n);}return '（沒有你的話）';}
@@ -381,7 +412,8 @@
 
   // 事件：第 4 步（左右切換、勾「選這則」、排順序、看前後文）
   root.addEventListener('click',function(e){
-    var t=e.target.closest('[data-vgo],[data-vdot],[data-ctx],[data-mv],[data-vopen]');if(!t||t.disabled)return;
+    var t=e.target.closest('[data-vgo],[data-vdot],[data-ctx],[data-mv],[data-vopen],[data-ext]');if(!t||t.disabled)return;
+    if(t.dataset.ext){extendView(Number(t.dataset.ext));return;}
     if(t.dataset.vgo){viewGo(S.view+Number(t.dataset.vgo));return;}
     if(t.dataset.vdot!=null){viewGo(Number(t.dataset.vdot));return;}
     if(t.dataset.ctx){openCtx(t.dataset.ctx);return;}
@@ -530,7 +562,7 @@
       h+='<div class="adbox" id="hAdChat">'+chatHTML(d,A.ix,{admin:true,picks:pk,sel:[]})+'</div>';
       var cd=d.cands||[];
       if(cd.length){h+='<h3 style="margin-top:6px"><svg class="ico"><use href="#i-star"/></svg>老師預選的輪次（學生在第 4 步左右切換、勾「選這則」）</h3><div class="incl">'+cd.map(function(c,k){
-        var ids=(c.ids||[]).filter(function(i){return A.ix.by[i];}),sel=pk.some(function(p){return p.ids.join('|')===ids.join('|');});
+        var ids=(c.ids||[]).filter(function(i){return A.ix.by[i];}),sel=pk.some(function(p){return p.ids[0]===ids[0];});
         return '<div class="candrow"><b>預選 '+(k+1)+'（'+ids.length+' 則）'+(sel?'　✓ 學生已選':'')+'</b><br><small>'+esc(c.hint||'')+'</small></div>';}).join('')+'</div>';}
       h+='<h3 style="margin-top:6px"><svg class="ico"><use href="#i-file"/></svg>學生挑的對話（依優先順序）</h3>';
       if(!pk.length)h+='<div class="hempty">這位同學還沒有挑。</div>';
