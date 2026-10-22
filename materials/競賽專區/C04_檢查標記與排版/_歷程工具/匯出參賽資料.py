@@ -14,6 +14,7 @@
 用法（專案根目錄，或直接點兩下「匯出參賽資料.bat」）：
     工作台\\runtime\\python\\python.exe materials\\競賽專區\\C04_檢查標記與排版\\_歷程工具\\匯出參賽資料.py [輸出資料夾]
     預設輸出資料夾：materials\\競賽專區\\_繳交輸出\\
+    加 --min-chars N：「我的發現」「最終採用的理由」各至少幾個字才算寫好（預設 6，和學生網頁一樣；字數偏少但學生有寫的，可以用 --min-chars 1 讓它進 PDF，報告會標出字數偏少的則）
     加 --no-download 可以不重抓雲端資料，直接用上次下載的（_輸出\\雲端資料.json）。
 
 需要：D:\\keys 的 worksheet-f47f3 服務帳號金鑰、本機的 Microsoft Word 和 Edge（或 Chrome）。
@@ -245,7 +246,13 @@ def docx_to_pdf(pairs):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith('--')]
+    global ISS_MIN, MINE_MIN
+    argv = sys.argv[1:]
+    for i, a in enumerate(argv):
+        if a.startswith('--min-chars'):
+            v = a.split('=', 1)[1] if '=' in a else (argv[i + 1] if i + 1 < len(argv) else '6')
+            ISS_MIN = MINE_MIN = max(1, int(v))
+    args = [a for k, a in enumerate(argv) if not a.startswith('--') and not (k > 0 and argv[k - 1] == '--min-chars')]
     out_root = os.path.abspath(args[0]) if args else os.path.join(ROOT, 'materials', '競賽專區', '_繳交輸出')
     cloud_path = os.path.join(DATA, '_輸出', '雲端資料.json')
     if '--no-download' not in sys.argv:
@@ -321,6 +328,13 @@ def main():
             picks = [p for p in picks if p['ids']]
             good = [p for p in picks if is_done(p, by)]
             ndone = sum(rounds_of(p, by) for p in good)      # 寫好的輪數（一問一答算 1 輪）
+            for k, p in enumerate(good, 1):
+                a, b = len(p['issNote'].strip()), len(p['why'].strip())
+                if a < 6 or b < 6:
+                    miss.append('第 %d 則的發現／理由字數偏少（發現 %d 字、理由 %d 字），建議請學生補充' % (k, a, b))
+            skipped = [k for k, p in enumerate(picks, 1) if p not in good and (p['issNote'].strip() or p['why'].strip())]
+            if skipped:
+                miss.append('第 %s 則有寫但字數不到門檻，沒放進 PDF（可用 --min-chars 1 放進去）' % '、'.join(map(str, skipped)))
             if good:
                 hp = os.path.join(tmp, sid + '.html')
                 io.open(hp, 'w', encoding='utf-8').write(sheet_html(good, by, d))
