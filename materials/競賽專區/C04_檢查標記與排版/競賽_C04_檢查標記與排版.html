@@ -622,6 +622,34 @@ details.gd .gt{color:#a0332b;font-weight:700}
 .msg.ext .bub{border-style:dashed;border-color:#6b8fd1;background:#f2f7ff}
 .msg.u.ext .bub{background:#eaf7ee}
 .exttag{display:inline-block;font-size:12px;font-weight:900;color:#fff;background:#6b8fd1;border-radius:6px;padding:0 7px;margin:0 0 3px}
+
+/* ===== 第 1 步：自己劃記 ===== */
+.mkbar{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 10px}
+.mkbtn{display:inline-flex;align-items:center;gap:8px;border:2.5px solid var(--line);background:#fff;border-radius:14px;padding:6px 16px;cursor:pointer;font-size:15px;user-select:none}
+.mkbtn i{width:18px;height:18px;border-radius:5px;display:inline-block}
+.mkbtn b{font-size:17px}.mkbtn span{color:var(--sub);font-weight:700;font-size:13.5px}
+.mkbtn.k i{background:#1f2a44}.mkbtn.r i{background:#d9534f}.mkbtn.b i{background:#2f5aa8}
+.mkbtn.k:hover{border-color:#1f2a44}.mkbtn.r:hover{border-color:#d9534f}.mkbtn.b:hover{border-color:#2f5aa8}
+.mkview{font-size:22px;line-height:2.1;background:#fff;border:2px solid var(--line);border-radius:14px;padding:12px 16px;white-space:pre-wrap;word-break:break-word;user-select:text;cursor:text}
+.mkview.ro{font-size:18px;line-height:1.9;user-select:none;cursor:default}
+.mc.k{color:#1f2a44}.mc.r{color:#d9534f;font-weight:900}.mc.b{color:#2f5aa8;font-weight:900}
+.mkview ::selection{background:#ffe08a}
+.mksum{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-weight:900;font-size:15px}
+.mksum .k{color:#1f2a44}.mksum .r{color:#d9534f}.mksum .b{color:#2f5aa8}
+.mkshow{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:8px 12px;margin:0 0 10px}
+.mkshow .mkl{font-weight:900;font-size:13.5px;color:var(--sub);margin-bottom:4px}
+.mkshow .btn{margin-top:8px;padding:4px 14px;font-size:14px}
+.basic{display:grid;grid-template-columns:2fr 1.2fr .6fr;gap:12px}
+@media(max-width:760px){.basic{grid-template-columns:1fr}}
+
+/* ===== 右側展開的對話面板（取代跳轉）===== */
+.ctxpanel{position:fixed;top:64px;right:0;bottom:0;width:min(440px,38vw);z-index:60;background:#fff;border-left:3px solid var(--ac);box-shadow:-8px 0 24px rgba(0,0,0,.18);display:none;flex-direction:column}
+.ctxpanel.on{display:flex}
+.ctxpanel .ctxh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--ac-soft)}
+.ctxpanel .ctxs{flex:1;font-size:12.5px;color:var(--sub);min-width:120px}
+.ctxpanel .ctxh .btn{padding:3px 12px;font-size:14px}
+.ctxpanel .ctxb{flex:1;overflow:auto;padding:4px 14px 20px}
+body.ctxopen main>.wrap{margin-right:calc(min(440px,38vw) + 12px);margin-left:16px;max-width:none}
 </style>
 </head>
 <body>
@@ -698,8 +726,8 @@ details.gd .gt{color:#a0332b;font-weight:700}
 <section class="hero"><div class="wrap">
   <div>
     <span class="kicker"><svg class="ico"><use href="#i-search"/></svg>第 4 節・10/20（二）・40 分鐘</span>
-    <div class="h1row"><h1>檢查看、要標記，<br>寫歷程紀錄和說明書</h1><button class="hbbook" id="hbBook" type="button" aria-label="打開這一節的手冊頁面"></button></div>
-    <p class="goal">今天做完：從你和 e度 的對話挑出 <b>AI 協作歷程紀錄</b>，再寫<b>作品說明書</b>。</p>
+    <div class="h1row"><h1>標記自己的文字，<br>寫歷程紀錄和說明書</h1><button class="hbbook" id="hbBook" type="button" aria-label="打開這一節的手冊頁面"></button></div>
+    <p class="goal">今天做完：<b>標記</b>自己賀卡上的文字、從你和 e度 的對話選出 <b>AI 協作歷程紀錄</b>，再寫<b>作品說明書</b>。</p>
     <div class="flow" id="flow"></div>
   </div>
   <svg class="art" viewBox="0 0 200 170" aria-hidden="true">
@@ -732,73 +760,14 @@ details.gd .gt{color:#a0332b;font-weight:700}
   <div id="hAdDetail"></div>
 </section>
 
-<!-- ========== 步驟 1 ========== -->
-<section class="step" data-title="檢查看" data-min="6">
+<!-- ========== 步驟 1：標記（貼上自己的賀卡文字，自己劃記）========== -->
+<section class="step" data-title="黑紅藍標記" data-min="8">
   <div class="step-head"><div class="num">1</div><div>
-    <h2>檢查看：當個 AI 偵探</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>6 分鐘</span><span class="chip book" data-zoom="assets/hb_p36.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 肆 p.36</span><span class="chip book" data-zoom="assets/hb_p37.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 肆 p.37</span></div>
+    <h2>要標記：把你賀卡上的文字，標成黑、紅、藍</h2>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>8 分鐘</span><span class="chip book" data-zoom="assets/hb_p25.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 參 p.25</span><span class="chip book" data-zoom="assets/hb_p54.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 陸 p.54</span></div>
   </div></div>
 
-  <div class="grid2">
-    <div class="hb" style="margin:0">
-      <div><div class="tag"><svg class="ico"><use href="#i-book"/></svg>刻板印象</div>
-        <q>請 AI 畫「游泳選手」可能畫很壯、很高的人……AI 學到的是刻板印象，不是真實的多元樣貌。</q>
-        <div class="src">肆 p.36</div></div>
-      <img class="thumb" src="assets/hb_p36.jpg" alt="手冊肆 p.36">
-    </div>
-    <div class="hb" style="margin:0">
-      <div><div class="tag"><svg class="ico"><use href="#i-book"/></svg>幻覺</div>
-        <q>當 AI 給我們的答案，跟我們學過的不一樣時，要相信自己知道的，而不是盲目相信 AI！</q>
-        <div class="src">肆 p.36。AI 會編出聽起來很厲害、卻是錯的答案，這叫「幻覺」。</div></div>
-      <img class="thumb" src="assets/hb_p37.jpg" alt="手冊肆 p.37">
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:16px">
-    <h3><svg class="ico"><use href="#i-search"/></svg>拿出你的圖和文字，一項一項檢查（檢查過就勾）</h3>
-    <div class="err5">
-      <label><input type="checkbox" data-key="checks" value="圖裡的字"><b>圖裡的字</b><span>有沒有錯字、缺字、看不懂的字？</span></label>
-      <label><input type="checkbox" data-key="checks" value="人和東西"><b>人和東西</b><span>人數、手指、五官、多出來的東西</span></label>
-      <label><input type="checkbox" data-key="checks" value="刻板印象"><b>刻板印象</b><span>像真的你家嗎？還是「標準的家」？</span></label>
-      <label><input type="checkbox" data-key="checks" value="事實"><b>事實</b><span>生肖、節日日期、吉祥話的意思對嗎？</span></label>
-      <label><input type="checkbox" data-key="checks" value="空泛"><b>太空泛</b><span>祝福的話，換成別人家也能用嗎？</span></label>
-    </div>
-  </div>
-
-  <div class="grid2">
-    <div>
-      <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/9e16UAFVImM?rel=0" title="通用型學習夥伴－一般模式" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-      <p class="vcap">影片：因材網 e度 官方「通用型學習夥伴－一般模式」（19 秒）。查事實用一般模式。</p>
-    </div>
-    <div class="frames" style="margin:0">
-      <div class="frame"><div class="lab"><span class="k">③</span>追問理由和查證方法（手冊 貳 p.20）</div>
-      <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>問理由和查證方法，你就能自己去確認，不是只聽 AI 說。</span></div>
-        <div class="fbox"><div class="ftext">你確定<span class="blank">哪一點</span>嗎？可以說明理由嗎？我要怎麼查證？</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div></div>
-      <div class="frame"><div class="lab"><span class="k">G</span>可以說不知道</div>
-      <div class="why"><svg class="ico"><use href="#i-bulb"/></svg><span><b>為什麼這樣問：</b>生肖、節日這種事實，AI 不確定時會亂猜。先講好可以說不知道。</span></div>
-        <div class="fbox"><div class="ftext"><span class="blank">你的問題</span>？如果你不確定，請直接說不確定，不要猜。</div><button class="copy" type="button"><svg class="ico"><use href="#i-copy"/></svg>複製</button></div></div>
-    </div>
-  </div>
-
-  <div class="note" style="margin-top:16px"><svg class="ico"><use href="#i-shield"/></svg><p><b>手冊的偵探工具箱（肆 p.37）：</b>停一停，先別急著相信；查一查，看課本或可信的網站；問一問，問老師或家人。例：卡片寫「明年是羊年」，就去查：2027 年（民國 116 年）是丁未羊年，農曆新年在 2027 年 2 月 6 日。</p></div>
-
-  <div class="docq"><svg class="ico"><use href="#i-file"/></svg><div><b>發現的問題，等一下在「寫理由」那一步自己寫下來。</b>先檢查，把找到的問題記在心裡（或在文件裡隨手記一行）。都沒發現錯？也要記下你<b>怎麼檢查的</b>。</div></div>
-
-<a class="link-card" href="https://boyauc.github.io/gailearn/CH4-factchecking/" target="_blank" rel="noopener">
-    <span class="li"><svg class="ico"><use href="#i-game"/></svg></span>
-    <span><b>多練習：真相大搜查－校園主播危機</b><span>手冊附錄的互動教材，練「停、查、問」，還要在圖上找破綻。證書上的名字不用填。</span></span>
-    <svg class="ico go"><use href="#i-ext"/></svg></a>
-  <div class="stepnav"></div>
-</section>
-
-<!-- ========== 步驟 2 ========== -->
-<section class="step" data-title="黑紅藍標記" data-min="4" hidden>
-  <div class="step-head"><div class="num">2</div><div>
-    <h2>要標記：黑色、紅色、藍色</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>4 分鐘</span><span class="chip book" data-zoom="assets/hb_p25.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 參 p.25</span><span class="chip book" data-zoom="assets/hb_p54.jpg"><svg class="ico"><use href="#i-book"/></svg>手冊 陸 p.54</span></div>
-  </div></div>
-
-    <div class="hb">
+  <div class="hb">
     <div>
       <div class="tag"><svg class="ico"><use href="#i-book"/></svg>手冊這樣說</div>
       <q>必須要在作品上註明哪些是我自己想的部分？（標記黑色）哪些是 AI 幫忙的部分？（標記紅色）哪些是自己修改的部分？（標記藍色）</q>
@@ -807,22 +776,47 @@ details.gd .gt{color:#a0332b;font-weight:700}
     <img class="thumb" src="assets/hb_p25.jpg" alt="手冊參 p.25">
   </div>
 
-  <div class="card">
-    <h3><svg class="ico"><use href="#i-pen"/></svg>練習：幫思思的詩標顏色</h3>
+  <div class="card" id="mkPaste">
+    <h3><svg class="ico"><use href="#i-pen"/></svg>① 把你賀卡上的文字貼在這裡</h3>
+    <p class="small muted" style="margin:0 0 8px">貼上卡片上的感謝的話、祝福的話（只貼文字，<b>不要有姓名</b>，最多 800 字）。貼好按「開始標記」。</p>
+    <div class="field"><textarea id="mkText" data-key="markText" maxlength="800" rows="5" aria-label="賀卡上的文字"></textarea></div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px"><button class="btn" type="button" id="mkStart"><svg class="ico"><use href="#i-pen"/></svg>開始標記</button><span class="small muted" id="mkTip"></span></div>
+  </div>
+
+  <div class="card" id="mkBox" hidden>
+    <h3><svg class="ico"><use href="#i-brush"/></svg>② 自己動手標：用滑鼠選一段字，再按顏色</h3>
+    <div class="mkbar">
+      <button class="mkbtn k" type="button" data-mkc="0"><i></i><b>黑色</b><span>我自己想的</span></button>
+      <button class="mkbtn r" type="button" data-mkc="1"><i></i><b>紅色</b><span>AI 幫忙的</span></button>
+      <button class="mkbtn b" type="button" data-mkc="2"><i></i><b>藍色</b><span>我自己修改的</span></button>
+    </div>
+    <div class="mkview" id="mkView" aria-label="你的卡片文字，選取後按上面的顏色"></div>
+    <p class="small muted" style="margin:6px 0 0">一開始全部是黑色。回想你用 e度 的過程：<b>e度 給的字句，你直接用</b> → 紅色；<b>參考 e度 的建議後，你自己改過</b> → 藍色；<b>你自己想的</b> → 黑色。標錯了，再選一次、按別的顏色就會蓋掉。</p>
+    <div class="mksum" id="mkSum"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+      <button class="btn" type="button" id="mkDone"><svg class="ico"><use href="#i-check"/></svg>標好了，把結果帶到「作品說明書」的查證揭露</button>
+      <button class="btn ghost" type="button" id="mkRedo">重貼文字（會清掉標記）</button>
+    </div>
+    <input type="hidden" id="mkCodes" data-key="markCodes">
+    <input type="hidden" id="mkOk" data-key="markOk" data-req>
+  </div>
+
+  <details class="card">
+    <summary style="cursor:pointer;font-weight:900;font-size:17px">還不太會？先練習一下：幫思思的詩標顏色</summary>
     <p class="small muted">思思寫了詩，請 e度 給建議，再自己修改（手冊 參 p.23–25）。點字詞可以換顏色：黑 → 紅 → 藍。標好後按「對答案」。</p>
     <div class="legend"><span><i style="background:#1f2a44"></i>黑：自己想的</span><span><i style="background:#d9534f"></i>紅：AI 幫忙的</span><span><i style="background:#2f5aa8"></i>藍：自己修改的</span></div>
     <div class="poem" id="poem"></div>
     <div style="display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap"><button class="btn" type="button" id="poemCheck"><svg class="ico"><use href="#i-check"/></svg>對答案</button><button class="btn ghost" type="button" id="poemShow">看手冊的標法</button></div>
     <p id="poemMsg" style="text-align:center;font-weight:700;margin-top:8px"></p>
-  </div>
+  </details>
 
-  <div class="note"><svg class="ico"><use href="#i-pen"/></svg><p><b>你的卡片，哪些是誰做的？</b>這一步不用在學習單寫。老師會帶你<b>在 Word 裡</b>用黑、紅、藍標出來：黑是你自己想的、紅是 AI 幫忙的、藍是你自己修改的。先把上面的詩標對，就會了。</p></div>
+  <div class="note"><svg class="ico"><use href="#i-shield"/></svg><p><b>為什麼要標？</b>比賽要求說清楚「哪些部分是 AI 協助、哪些是你自己創作的」。你在這裡標好，結果會<b>自動帶到作品說明書的「查證揭露」</b>，不用再寫一次；你也可以在那邊再補充。</p></div>
   <div class="stepnav"></div>
 </section>
 
-<!-- ========== 步驟 3：歷程紀錄怎麼寫 ========== -->
+<!-- ========== 步驟 2：歷程紀錄怎麼寫 ========== -->
 <section class="step" data-title="歷程怎麼寫" data-min="3" hidden>
-  <div class="step-head"><div class="num">3</div><div>
+  <div class="step-head"><div class="num">2</div><div>
     <h2>「AI 協作歷程紀錄」怎麼寫</h2>
     <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>3 分鐘</span><span class="chip">簡章 四-2-4</span></div>
   </div></div>
@@ -833,8 +827,8 @@ details.gd .gt{color:#a0332b;font-weight:700}
     <h3><svg class="ico"><use href="#i-list"/></svg>一輪是怎麼做出來的？</h3>
     <div class="grid2">
       <div>
-        <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">第 4 步・看、勾</span> <b>看老師幫你挑好的對話，勾「選這則」</b><br><span class="small muted">老師替你挑了 4～5 輪（一輪可以有好幾句，不只一問一答）。左右切換著看，覺得你有話可以寫的就勾起來。</span></p>
-        <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">第 5 步・自己讀</span> <b>一輪一輪寫</b><br><span class="small muted">用對話畫面把你選的那一輪放出來，<b>寫完一輪才換下一輪</b>。</span></p>
+        <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">第 3 步・看、勾</span> <b>看老師幫你挑好的對話，勾「選這則」</b><br><span class="small muted">老師替你挑了 4～5 輪（一輪可以有好幾句，不只一問一答）。左右切換著看，覺得你有話可以寫的就勾起來。</span></p>
+        <p><span class="chip" style="background:#e8effb;border-color:#8aa6d9">第 4 步・自己讀</span> <b>一輪一輪寫</b><br><span class="small muted">用對話畫面把你選的那一輪放出來，<b>寫完一輪才換下一輪</b>。</span></p>
       </div>
       <div>
         <p><span class="chip" style="background:var(--ac-soft);border-color:var(--ac)">你自己寫</span> <b>我發現的問題，和我怎麼追問或修正</b><br><span class="small muted">哪裡、為什麼、你怎麼確認、後來怎麼改。</span></p>
@@ -877,7 +871,7 @@ details.gd .gt{color:#a0332b;font-weight:700}
     <ul style="margin:0;padding-left:1.2em">
       <li><b>挑有故事的：</b>你發現 e度 說錯、太空泛、不像你家，然後追問或自己改的那一輪。</li>
       <li><b>每一輪都要有「我」：</b>只是照著 e度 的話做，沒有判斷，評審看不到你的想法。</li>
-      <li><b>排優先順序：</b>最能代表你的放第 1（在第 4 步「我選的」用 ▲▼ 調）。2 頁放不下時，從最後面開始拿掉。</li>
+      <li><b>排優先順序：</b>最能代表你的放第 1（在第 3 步「我選的」用 ▲▼ 調）。2 頁放不下時，從最後面開始拿掉。</li>
       <li><b>看老師的提示：</b>每一輪上面有老師寫的「可以查證、想想」的地方，那是方向，答案要你自己找、自己寫。</li>
     </ul>
   </div>
@@ -900,9 +894,9 @@ details.gd .gt{color:#a0332b;font-weight:700}
   <div class="stepnav"></div>
 </section>
 
-<!-- ========== 步驟 4：看老師幫你挑好的對話，勾「選這則」 ========== -->
+<!-- ========== 步驟 3：看老師幫你挑好的對話，勾「選這則」 ========== -->
 <section class="step" data-title="選對話" data-min="7" hidden>
-  <div class="step-head"><div class="num">4</div><div>
+  <div class="step-head"><div class="num">3</div><div>
     <h2>老師幫你挑好了幾輪對話：左右切換著看，勾「選這則」</h2>
     <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>7 分鐘</span><span class="chip">簡章 四-2-4</span><span class="chip" id="hStat"><svg class="ico"><use href="#i-cloud"/></svg>還沒讀取</span></div>
   </div></div>
@@ -921,9 +915,9 @@ details.gd .gt{color:#a0332b;font-weight:700}
   <div class="stepnav"></div>
 </section>
 
-<!-- ========== 步驟 5：寫每一輪的理由（一次一輪）========== -->
+<!-- ========== 步驟 4：寫每一輪的理由（一次一輪）========== -->
 <section class="step" data-title="寫理由" data-min="8" hidden>
-  <div class="step-head"><div class="num">5</div><div>
+  <div class="step-head"><div class="num">4</div><div>
     <h2>我挑的對話：一輪一輪寫「最終採用的理由」</h2>
     <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>8 分鐘</span><span class="chip">簡章 四-2-4</span></div>
   </div></div>
@@ -943,14 +937,23 @@ details.gd .gt{color:#a0332b;font-weight:700}
   <div class="stepnav"></div>
 </section>
 
-<!-- ========== 步驟 6：作品說明書 ========== -->
-<section class="step" data-title="作品說明書" data-min="10" hidden id="manual">
-  <div class="step-head"><div class="num">6</div><div>
+<!-- ========== 步驟 5：作品說明書 ========== -->
+<section class="step" data-title="作品說明書" data-min="12" hidden id="manual">
+  <div class="step-head"><div class="num">5</div><div>
     <h2>作品說明書：直接在這裡打</h2>
-    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>10 分鐘</span><span class="chip">欄位和比賽的說明書表格一樣</span><span class="chip" id="autoStat"><svg class="ico"><use href="#i-cloud"/></svg>每 8 秒自動儲存</span></div>
+    <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>12 分鐘</span><span class="chip">欄位和比賽的說明書表格一樣</span><span class="chip" id="autoStat"><svg class="ico"><use href="#i-cloud"/></svg>每 8 秒自動儲存</span></div>
   </div></div>
 
   <div class="note"><svg class="ico"><use href="#i-bulb"/></svg><p><b>不用另外開文件了。</b>這一頁的 5 個部分，就是比賽「作品說明書」表格的 5 欄，你打在這裡，系統會<b>每 8 秒自動儲存</b>；老師最後會把你打的內容整理成比賽格式的 Word。每一欄下面有「評審看什麼」，還有老師<b>根據你的對話紀錄</b>給的提醒，可以點「看那段對話」回去看。</p></div>
+
+  <div class="sec">
+    <h3 style="margin-bottom:6px">基本資料</h3>
+    <div class="basic">
+      <div class="field"><label for="m_title">作品名稱</label><input type="text" id="m_title" data-key="mTitle" data-req maxlength="30"></div>
+      <div class="field"><label for="m_name">參賽者姓名</label><input type="text" id="m_name" data-key="mName" data-req maxlength="12"></div>
+      <div class="field"><label for="m_grade">年級</label><input type="text" id="m_grade" data-key="mGrade" data-req maxlength="3" inputmode="numeric"></div>
+    </div>
+  </div>
 
   <div class="sec">
     <h3><span class="no">1</span>創作理念</h3>
@@ -999,6 +1002,7 @@ details.gd .gt{color:#a0332b;font-weight:700}
     <p class="small muted" style="margin-top:0">請說明並記錄作品的哪些部分使用教育型 AI、哪些部分是自己創作的？是否完整標示作品經教育型 AI 協助生成？</p>
     <div class="judge"><div class="j"><b><svg class="ico"><use href="#i-eye"/></svg>評審看什麼</b>哪些部分是 AI 協助、哪些是自己創作？有沒有完整標示？</div>
       <div class="a"><b><svg class="ico"><use href="#i-bulb"/></svg>寫法</b>分三句寫：我自己想的、AI 幫忙的、我自己改的（和卡片上標的黑、紅、藍一樣）</div></div>
+    <div class="mkshow" id="mkShow" hidden><div class="mkl">你在第 1 步標好的卡片文字（黑：自己想的　紅：AI 幫忙的　藍：自己修改的）</div><div class="mkview ro" id="mkShowView"></div><button class="btn ghost" type="button" id="mkRebring">用標記結果重新寫入下面的格子</button></div>
     <div class="gbox" data-guide="disclose" hidden></div>
     <div class="field"><textarea id="m_disclose" data-key="disclose" data-req rows="5" data-count aria-label="查證揭露"></textarea></div>
   </div>
@@ -1016,9 +1020,9 @@ details.gd .gt{color:#a0332b;font-weight:700}
   <div class="stepnav"></div>
 </section>
 
-<!-- ========== 步驟 7 ========== -->
+<!-- ========== 步驟 6 ========== -->
 <section class="step" data-title="今天的成果" data-min="2" hidden>
-  <div class="step-head"><div class="num">7</div><div>
+  <div class="step-head"><div class="num">6</div><div>
     <h2>今天的成果</h2>
     <div class="meta"><span class="chip"><svg class="ico"><use href="#i-clock"/></svg>2 分鐘</span></div>
   </div></div>
@@ -1026,7 +1030,7 @@ details.gd .gt{color:#a0332b;font-weight:700}
   <div class="result">
     <h3><svg class="ico" style="color:var(--ac)"><use href="#i-star"/></svg>今天完成的</h3>
     <dl>
-      <dt>檢查了</dt><dd data-ref="L4.checks"></dd>
+      <dt>標記</dt><dd data-ref="L4.markOk" data-empty="還沒標記">已標好，結果帶到說明書</dd>
       <dt>歷程紀錄</dt><dd data-ref="L4.histPicked" data-empty="還沒選">選好</dd>
       <dt>說明書</dt><dd>作品說明書 5 個部分打好，已自動儲存</dd>
     </dl>
@@ -1478,14 +1482,115 @@ var COLL = 'cardWork';
   };
 })();
 /* ============================================================
+   第 1 步｜標記：貼上自己賀卡上的文字 → 用滑鼠選取，按顏色劃記（黑＝自己想的、紅＝AI 幫忙的、藍＝自己修改的）
+   → 結果帶到第 5 步「作品說明書」的「查證揭露」。
+   存檔欄位（L4）：markText（貼上的文字）、markCodes（每個字一碼：0 黑、1 紅、2 藍）、markOk（按過「標好了」）。
+   ============================================================ */
+(function(){
+  var ta=document.getElementById('mkText');if(!ta)return;
+  function $(i){return document.getElementById(i);}
+  var hid=$('mkCodes'),ok=$('mkOk'),box=$('mkBox'),paste=$('mkPaste'),view=$('mkView'),sum=$('mkSum'),show=$('mkShow'),showView=$('mkShowView');
+  var COLS=['k','r','b'],LINE=['我自己想的（黑色）','AI 幫忙的（紅色）','我自己修改的（藍色）'];
+  var cur={text:'',codes:'x'};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function norm(t,c){c=String(c||'').replace(/[^012]/g,'');while(c.length<t.length)c+='0';return c.slice(0,t.length);}
+  function paint(el,t,c){
+    var h='';
+    for(var i=0;i<t.length;i++){var ch=t.charAt(i);h+=ch==='\n'?'<br>':'<span class="mc '+COLS[+c.charAt(i)]+'" data-i="'+i+'">'+esc(ch)+'</span>';}
+    el.innerHTML=h;
+  }
+  function setVal(el,v){if(el.value!==v){el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}));}}
+  function counts(t,c){var n=[0,0,0];for(var i=0;i<t.length;i++)if(/\S/.test(t.charAt(i)))n[+c.charAt(i)]++;return n;}
+  // 連續同色的片段（只留有字的，丟掉只剩標點的）
+  function frags(t,c,code){
+    var out=[],run='';
+    function push(){var x=run.trim();run='';if(/[一-鿿A-Za-z0-9]/.test(x))out.push(x.length>36?x.slice(0,35)+'…':x);}
+    for(var i=0;i<t.length;i++){if(t.charAt(i)!=='\n'&&+c.charAt(i)===code)run+=t.charAt(i);else push();}
+    push();return out;
+  }
+  function disclosure(t,c){
+    var lines=['我在賀卡的文字上，用顏色標出哪些部分是誰完成的：'];
+    [0,1,2].forEach(function(code){
+      var f=frags(t,c,code);
+      if(f.length)lines.push(LINE[code]+'：'+f.map(function(x){return '「'+x+'」';}).join('、')+'。');
+      else lines.push(LINE[code]+'：沒有。');
+    });
+    return lines.join('\n');
+  }
+  function started(){return !!ta.value.trim()&&!!hid.value;}
+  function render(){
+    var t=ta.value.replace(/\r/g,''),c=norm(t,hid.value),on=started();
+    paste.hidden=on;box.hidden=!on;
+    if(on&&(t!==cur.text||c!==cur.codes)){paint(view,t,c);cur={text:t,codes:c};}
+    if(on){var n=counts(t,c);sum.innerHTML='<span class="k">黑 '+n[0]+' 字</span><span class="r">紅 '+n[1]+' 字</span><span class="b">藍 '+n[2]+' 字</span>';}
+    // 作品說明書「查證揭露」旁邊的顏色預覽
+    if(show){show.hidden=!on;if(on)paint(showView,t,c);}
+  }
+  function save(c){setVal(hid,c);if(window.cardRefresh)window.cardRefresh();render();}
+
+  $('mkStart').addEventListener('click',function(){
+    var t=ta.value.replace(/\r/g,'').replace(/[ \t]+\n/g,'\n').trim();
+    if(t.length<4){$('mkTip').textContent='先把賀卡上的文字貼進來（至少 4 個字）。';return;}
+    ta.value=t.slice(0,800);ta.dispatchEvent(new Event('input',{bubbles:true}));
+    cur={text:'',codes:'x'};setVal(ok,'');save(new Array(ta.value.length+1).join('0'));
+  });
+  $('mkRedo').addEventListener('click',function(){
+    if(!confirm('重貼文字會把你標好的顏色清掉，確定嗎？'))return;
+    setVal(ok,'');cur={text:'',codes:'x'};setVal(hid,'');if(window.cardRefresh)window.cardRefresh();render();
+  });
+  // 選取 → 按顏色
+  box.addEventListener('mousedown',function(e){if(e.target.closest('[data-mkc]'))e.preventDefault();});   // 不要讓按鈕把選取弄掉
+  box.addEventListener('click',function(e){
+    var b=e.target.closest('[data-mkc]');if(!b)return;
+    var sel=window.getSelection(),code=b.dataset.mkc;
+    if(!sel||!sel.rangeCount||sel.isCollapsed||!view.contains(sel.getRangeAt(0).commonAncestorContainer)){window.toast('先用滑鼠把要標的字選起來，再按顏色。');return;}
+    var r=sel.getRangeAt(0),c=norm(ta.value.replace(/\r/g,''),hid.value).split(''),n=0;
+    Array.prototype.forEach.call(view.querySelectorAll('.mc'),function(sp){
+      if(!r.intersectsNode(sp))return;
+      var tn=sp.firstChild;   // 邊界上的字（選取剛好停在它前面／後面）不算
+      if(r.endContainer===tn&&r.endOffset===0)return;
+      if(r.startContainer===tn&&r.startOffset>=tn.length)return;
+      c[+sp.dataset.i]=code;n++;
+    });
+    sel.removeAllRanges();
+    if(!n){window.toast('先用滑鼠把要標的字選起來，再按顏色。');return;}
+    setVal(ok,'');save(c.join(''));
+  });
+  // 帶到查證揭露
+  function bring(ask){
+    var d=$('m_disclose'),txt=disclosure(ta.value.replace(/\r/g,''),norm(ta.value.replace(/\r/g,''),hid.value));
+    if(d&&d.value.trim()&&d.value.trim()!==txt.trim()&&ask&&!confirm('「查證揭露」裡已經有字了，要用標記結果取代嗎？\n（你自己寫的字會不見）'))return false;
+    if(d){setVal(d,txt);}
+    return true;
+  }
+  $('mkDone').addEventListener('click',function(){
+    if(!started())return;
+    if(!bring(true))return;
+    setVal(ok,'1');if(window.cardRefresh)window.cardRefresh();
+    window.toast('已帶到「作品說明書」的「查證揭露」，可以到那邊再補充。');
+  });
+  if($('mkRebring'))$('mkRebring').addEventListener('click',function(){if(started()&&bring(true)){setVal(ok,'1');window.toast('已用標記結果寫入。');}});
+
+  // 雲端資料讀回來、或每次存檔後同步畫面；基本資料預設帶入（作品名稱、年級），學生可以改
+  function prefill(){
+    var all=(window.cardData&&window.cardData())||{},id=(window.cardIdentity&&window.cardIdentity())||{};
+    var t=$('m_title'),g=$('m_grade');
+    if(t&&!t.value.trim()&&all.L1&&all.L1.title)setVal(t,all.L1.title);
+    if(g&&!g.value.trim()&&id.grade)setVal(g,String(id.grade));
+  }
+  var P=window.PAGE=window.PAGE||{},old=P.onData;
+  P.onData=function(a){if(old)try{old(a);}catch(e){}render();prefill();};
+  render();
+})();
+/* ============================================================
    第 4 節｜我的對話紀錄（學生）＋ 老師管理（網址後面加 ?admin）＋ 歷程紀錄排版
    ------------------------------------------------------------
    資料：aiHistory/{年級-班級-座號}（見 firestore.rules）
      老師匯入：sessions（對話，整理對話紀錄.py 產生）、marks（老師標記）
      學生寫回：picks（挑的 4～5 輪）、picksAt
-   一輪＝學生在第 4 步用手點選的一串訊息（不限一問一答，學生的話和 e度 的話都能選，可多則）。
+   一輪＝學生在第 3 步左右切換著看、勾「選這則」的一串訊息（不限一問一答，學生的話和 e度 的話都能選，可多則）。
      pick = {ids:[訊息 id，依對話順序], issNote:我發現的問題與怎麼追問修正, why:最終採用的理由, ts}
-     第 4 步只負責選＋保存；第 5 步用對話畫面讀回那一串，下面只有兩格要自己寫的文字（沒有選項、沒有勾選）。
+     第 3 步只負責看＋勾；第 4 步用對話畫面讀回那一串，下面只有兩格要自己寫的文字（沒有選項、沒有勾選）。
      舊格式 {q,a,f,...} 讀進來時自動轉成 ids［q,a,f］。
    ============================================================ */
 (function(){
@@ -1548,7 +1653,7 @@ var COLL = 'cardWork';
     });
     return h||'<div class="hempty">這位同學還沒有對話紀錄。</div>';
   }
-  // 唯讀：把一輪的訊息用對話畫面讀回來（第 5 步）；中間沒選的地方用「⋯」隔開
+  // 唯讀：把一輪的訊息用對話畫面讀回來（第 4 步）；中間沒選的地方用「⋯」隔開
   function chainHTML(doc,ix,p){
     var h='',last=-2,lastSi=-1,ext=p.ext||0,n0=p.ids.length-ext;
     p.ids.forEach(function(id,idx){
@@ -1682,7 +1787,7 @@ var COLL = 'cardWork';
 
   function renderAll(){buildItems();renderView();renderMyList();renderWrite();refreshMeta();renderGuide();}
 
-  /* ---------- 第 4 步：老師預選的輪次，左右切換著看，勾「選這則」送去寫理由 ---------- */
+  /* ---------- 第 3 步：老師預選的輪次，左右切換著看，勾「選這則」送去寫理由 ---------- */
   function candKey(ids){return ids.join('|');}
   var EXT_MAX=12;   // 一輪最多多收幾則
   // base 最後一則之後，同一場對話裡往下數 n 則（不含問候）
@@ -1779,22 +1884,25 @@ var COLL = 'cardWork';
     S.cur=firstUndone();
     renderMyList();renderWrite();refreshMeta();saveSoon();
   }
-  // 看某一句的前後文（說明書提示「看那段對話」用）
+  // 看某一句的前後文：在畫面右側展開（說明書提示「看那段對話」、選對話的「看前後文」都用這個）；再點別的就換成那一句，不跳轉、不擋住表單
   function openCtx(id){
     var o=S.ix&&S.ix.by[id];if(!o)return;
     var se=S.doc.sessions[o.si],ms=se.msgs.filter(function(m){return !m.g;}),k=ms.findIndex(function(m){return m.id===id;});
     var a=Math.max(0,k-3),b=Math.min(ms.length,k+4);
-    var ov=$('ctxOv');
-    if(!ov){ov=document.createElement('div');ov.id='ctxOv';ov.className='ctxov';document.body.appendChild(ov);
-      ov.addEventListener('click',function(e){if(e.target===ov||e.target.closest('[data-ctxclose]'))ov.classList.remove('on');});
-      document.addEventListener('keydown',function(e){if(e.key==='Escape')ov.classList.remove('on');});}
-    var h='<div class="ctxbox"><div class="ctxh"><b>這句話前後的對話</b><button class="btn ghost" type="button" data-ctxclose="1">關閉</button></div><div class="ctxb"><div class="sess">'+sessHead(se)+'</div>';
+    var pn=$('ctxPanel');
+    if(!pn){
+      pn=document.createElement('aside');pn.id='ctxPanel';pn.className='ctxpanel';pn.setAttribute('aria-label','這句話前後的對話');document.body.appendChild(pn);
+      pn.addEventListener('click',function(e){if(e.target.closest('[data-ctxclose]'))closeCtx();});
+      document.addEventListener('keydown',function(e){if(e.key==='Escape')closeCtx();});
+    }
+    var h='<div class="ctxh"><b>這句話前後的對話</b><span class="ctxs">點別的「看那段對話」會換成那一段</span><button class="btn ghost" type="button" data-ctxclose="1">關閉</button></div><div class="ctxb"><div class="sess">'+sessHead(se)+'</div>';
     ms.slice(a,b).forEach(function(m){h+=msgBlock(m,m.id===id?'sel':'');});
-    ov.innerHTML=h+'</div></div>';ov.classList.add('on');
-    var t=ov.querySelector('.msg.sel');if(t)t.scrollIntoView({block:'center'});
+    pn.innerHTML=h+'</div>';pn.classList.add('on');document.body.classList.add('ctxopen');
+    var t=pn.querySelector('.msg.sel');if(t)t.scrollIntoView({block:'center'});
   }
+  function closeCtx(){var pn=$('ctxPanel');if(pn)pn.classList.remove('on');document.body.classList.remove('ctxopen');}
 
-  /* ---------- 第 5 步：一次寫一輪，寫完才換下一輪 ---------- */
+  /* ---------- 第 4 步：一次寫一輪，寫完才換下一輪 ---------- */
   function need(){return Math.min(MINP,S.items.length||MINP);}
   function unlocked(k){for(var i=0;i<k;i++)if(!isDone(S.picks[i],S.ix))return false;return true;}
   function firstUndone(){for(var i=0;i<S.picks.length;i++)if(!isDone(S.picks[i],S.ix))return i;return Math.max(0,S.picks.length-1);}
@@ -1889,7 +1997,7 @@ var COLL = 'cardWork';
       .catch(function(e){console.warn('picks 存檔失敗',e);statEl.textContent='雲端沒存到，先存在這台電腦';});
   }
 
-  // 事件：第 4 步（左右切換、勾「選這則」、排順序、看前後文）
+  // 事件：第 3 步（左右切換、勾「選這則」、排順序、看前後文）
   root.addEventListener('click',function(e){
     var t=e.target.closest('[data-vgo],[data-vdot],[data-ctx],[data-mv],[data-vopen],[data-ext]');if(!t||t.disabled)return;
     if(t.dataset.ext){extendView(Number(t.dataset.ext));return;}
@@ -1900,12 +2008,12 @@ var COLL = 'cardWork';
     if(t.dataset.mv){var a=t.dataset.mv.split(':');movePick(Number(a[0]),Number(a[1]));return;}
   });
   root.addEventListener('change',function(e){if(e.target.dataset&&e.target.dataset.choose)toggleChoose();});
-  document.addEventListener('keydown',function(e){   // 第 4 步用鍵盤 ← → 切換
+  document.addEventListener('keydown',function(e){   // 第 3 步用鍵盤 ← → 切換
     if((e.key!=='ArrowLeft'&&e.key!=='ArrowRight')||root.hidden||root.offsetParent===null)return;
     var tg=e.target&&e.target.tagName;if(tg==='TEXTAREA'||tg==='INPUT'||tg==='SELECT')return;
     viewGo(S.view+(e.key==='ArrowLeft'?-1:1));
   });
-  // 事件：第 5 步（逐輪書寫）
+  // 事件：第 4 步（逐輪書寫）
   wroot.addEventListener('click',function(e){
     var t=e.target.closest('[data-wgo],[data-wprev],[data-wnext],[data-wback]');if(!t||t.disabled)return;
     function go(k){S.cur=k;renderWrite();var c=$('wTabs');if(c)c.scrollIntoView({behavior:'smooth',block:'start'});}
@@ -1916,7 +2024,7 @@ var COLL = 'cardWork';
       if(S.cur<S.picks.length-1)go(S.cur+1);else $('hSheetBtn').click();
       return;
     }
-    if(t.dataset.wback!=null){var k=Number(t.dataset.wback);if(k>=0&&S.picks[k]){var vi=itemIndexOfPick(S.picks[k]);if(vi>=0)S.view=vi;}window.cardShowStep(4);renderView();return;}
+    if(t.dataset.wback!=null){var k=Number(t.dataset.wback);if(k>=0&&S.picks[k]){var vi=itemIndexOfPick(S.picks[k]);if(vi>=0)S.view=vi;}window.cardShowStep(3);renderView();return;}
   });
   wroot.addEventListener('input',function(e){
     var f=e.target.dataset&&e.target.dataset.f,p=S.picks[S.cur];
@@ -1925,7 +2033,7 @@ var COLL = 'cardWork';
     updCounts();refreshMeta();saveSoon();
   });
 
-  /* ---------- 第 6 步（作品說明書）：依對話給的提醒、手冊連結、自動儲存 ---------- */
+  /* ---------- 第 5 步（作品說明書）：依對話給的提醒、手冊連結、自動儲存 ---------- */
   var HBIDX={};
   (function(){var pdf={'第一章':14,'第二章':22,'第三章':34,'第四章':47,'第五章':52,'第六章':65},list=(window.PAGE&&window.PAGE.hb)||[];
     Object.keys(pdf).forEach(function(k){for(var i=0;i<list.length;i++)if(list[i][0]===pdf[k])HBIDX[k]=i;});})();

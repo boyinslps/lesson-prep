@@ -53,9 +53,15 @@ table.log th{background:var(--ac-soft);color:var(--ac-ink)}
 
   <div class="card">
     <h3><svg class="ico"><use href="#i-file"/></svg>檔名這樣取</h3>
-    <p class="small muted">簡章規定：【參賽組別-參賽者姓名-作品名稱】。組別和作品名稱已經幫你帶入，〔你的姓名〕自己改。</p>
+    <p class="small muted">簡章規定：【參賽組別-參賽者姓名-作品名稱】。組別、姓名、作品名稱會從你在第 4 節「作品說明書」最上面填的資料帶進來；還沒填的會顯示〔 〕，回第 4 節補上。</p>
     <div class="fname" id="fname">【組別-〔你的姓名〕-作品名稱】</div>
     <button class="copy" type="button" data-copy="fname" data-done="已複製檔名" style="margin-top:8px"><svg class="ico"><use href="#i-copy"/></svg>複製檔名</button>
+  </div>
+
+  <div class="card">
+    <h3><svg class="ico"><use href="#i-ext"/></svg>賀卡作品連結（Canva）</h3>
+    <p class="small muted" style="margin:0 0 8px">在 Canva 右上角按「分享」→「任何知道連結的人」→ 權限選「<b>檢視者</b>」→「複製連結」，貼在下面。老師會用這個連結確認你的作品。<b>另外也要把賀卡下載成 PDF 交給老師</b>（簡章規定要交 PDF）。</p>
+    <div class="field"><input type="url" id="f_link" data-key="workLink" data-req maxlength="300" aria-label="Canva 分享連結" style="width:100%"></div>
   </div>
 
   <div class="card" style="border:2px solid var(--ac)">
@@ -63,7 +69,7 @@ table.log th{background:var(--ac-soft);color:var(--ac-ink)}
     <div class="checks">
       <label><input type="checkbox" data-key="files" value="卡片PDF" data-req="all">賀卡（PDF）</label>
       <label><input type="checkbox" data-key="files" value="說明書">作品說明書（從文件整理好，照原本表格填好、存檔）</label>
-      <label><input type="checkbox" data-key="files" value="歷程紀錄">AI 協作歷程紀錄（第 4 節在網頁挑好，老師排成 PDF，最多 2 頁）</label>
+      <label><input type="checkbox" data-key="files" value="歷程紀錄">AI 協作歷程紀錄（第 4 節在網頁選好、寫好，老師排成 PDF，最多 2 頁）</label>
       <label><input type="checkbox" data-key="files" value="同意書">作品授權同意書（家長已簽名）</label>
       <label><input type="checkbox" data-key="files" value="檔名">每個檔案都照規定取名</label>
       <label><input type="checkbox" data-key="files" value="標示">卡片上有「由 AI 協作生成」的標示，裝飾素材都有授權（Canva 元素或免費素材庫）</label>
@@ -92,9 +98,9 @@ table.log th{background:var(--ac-soft);color:var(--ac-ink)}
 </div></main>
 <!--@pre-->
 window.PAGE={code:'C05',lesson:'L5',hbTitle:"手冊六章（寫說明書「手冊對應章節」用）",hb:[[6, "目錄", "手冊的六章"], [14, "壹 p.1", "AI 是什麼？我也能懂！"], [22, "貳 p.9", "怎麼和 AI 溝通？"], [34, "參 p.21", "AI 小任務"], [47, "肆 p.34", "AI 說的一定對嗎？"], [52, "伍 p.39", "AI 幫助我學習"], [65, "陸 p.52", "AI 時代的好公民"], [71, "陸 p.58", "AI 使用承諾卡"]],onData:function(all){
-  var g=(window.cardIdentity&&cardIdentity())||{},t=(all.L1&&all.L1.title)||'〔作品名稱〕';
+  var g=(window.cardIdentity&&cardIdentity())||{},l4=all.L4||{},t=l4.mTitle||(all.L1&&all.L1.title)||'〔作品名稱〕',nm=l4.mName||'〔你的姓名〕';
   var grp=g.grade?(g.grade<=4?'中年級組':'高年級組'):'〔組別〕';
-  var f=document.getElementById('fname');if(f)f.textContent='【'+grp+'-〔你的姓名〕-'+t+'】';
+  var f=document.getElementById('fname');if(f)f.textContent='【'+grp+'-'+nm+'-'+t+'】';
   var box=document.getElementById('allDone');if(!box)return;
   var names=['第 1 節 認識 e度與主題','第 2 節 文字創作與提問','第 3 節 AI 繪圖','第 4 節 檢查、歷程紀錄與排版','第 5 節 說明書與交件'];
   box.innerHTML=names.map(function(n,k){var ok=!!(all['L'+(k+1)]&&all['L'+(k+1)]._sub);return '<label style="cursor:default"><input type="checkbox" disabled '+(ok?'checked':'')+'>'+n+(ok?'　已繳交':'　<span class="muted small">（還沒繳交）</span>')+'</label>';}).join('');

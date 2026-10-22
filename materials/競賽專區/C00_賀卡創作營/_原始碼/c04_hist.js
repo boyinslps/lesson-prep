@@ -4,9 +4,9 @@
    資料：aiHistory/{年級-班級-座號}（見 firestore.rules）
      老師匯入：sessions（對話，整理對話紀錄.py 產生）、marks（老師標記）
      學生寫回：picks（挑的 4～5 輪）、picksAt
-   一輪＝學生在第 4 步用手點選的一串訊息（不限一問一答，學生的話和 e度 的話都能選，可多則）。
+   一輪＝學生在第 3 步左右切換著看、勾「選這則」的一串訊息（不限一問一答，學生的話和 e度 的話都能選，可多則）。
      pick = {ids:[訊息 id，依對話順序], issNote:我發現的問題與怎麼追問修正, why:最終採用的理由, ts}
-     第 4 步只負責選＋保存；第 5 步用對話畫面讀回那一串，下面只有兩格要自己寫的文字（沒有選項、沒有勾選）。
+     第 3 步只負責看＋勾；第 4 步用對話畫面讀回那一串，下面只有兩格要自己寫的文字（沒有選項、沒有勾選）。
      舊格式 {q,a,f,...} 讀進來時自動轉成 ids［q,a,f］。
    ============================================================ */
 (function(){
@@ -69,7 +69,7 @@
     });
     return h||'<div class="hempty">這位同學還沒有對話紀錄。</div>';
   }
-  // 唯讀：把一輪的訊息用對話畫面讀回來（第 5 步）；中間沒選的地方用「⋯」隔開
+  // 唯讀：把一輪的訊息用對話畫面讀回來（第 4 步）；中間沒選的地方用「⋯」隔開
   function chainHTML(doc,ix,p){
     var h='',last=-2,lastSi=-1,ext=p.ext||0,n0=p.ids.length-ext;
     p.ids.forEach(function(id,idx){
@@ -203,7 +203,7 @@
 
   function renderAll(){buildItems();renderView();renderMyList();renderWrite();refreshMeta();renderGuide();}
 
-  /* ---------- 第 4 步：老師預選的輪次，左右切換著看，勾「選這則」送去寫理由 ---------- */
+  /* ---------- 第 3 步：老師預選的輪次，左右切換著看，勾「選這則」送去寫理由 ---------- */
   function candKey(ids){return ids.join('|');}
   var EXT_MAX=12;   // 一輪最多多收幾則
   // base 最後一則之後，同一場對話裡往下數 n 則（不含問候）
@@ -300,22 +300,25 @@
     S.cur=firstUndone();
     renderMyList();renderWrite();refreshMeta();saveSoon();
   }
-  // 看某一句的前後文（說明書提示「看那段對話」用）
+  // 看某一句的前後文：在畫面右側展開（說明書提示「看那段對話」、選對話的「看前後文」都用這個）；再點別的就換成那一句，不跳轉、不擋住表單
   function openCtx(id){
     var o=S.ix&&S.ix.by[id];if(!o)return;
     var se=S.doc.sessions[o.si],ms=se.msgs.filter(function(m){return !m.g;}),k=ms.findIndex(function(m){return m.id===id;});
     var a=Math.max(0,k-3),b=Math.min(ms.length,k+4);
-    var ov=$('ctxOv');
-    if(!ov){ov=document.createElement('div');ov.id='ctxOv';ov.className='ctxov';document.body.appendChild(ov);
-      ov.addEventListener('click',function(e){if(e.target===ov||e.target.closest('[data-ctxclose]'))ov.classList.remove('on');});
-      document.addEventListener('keydown',function(e){if(e.key==='Escape')ov.classList.remove('on');});}
-    var h='<div class="ctxbox"><div class="ctxh"><b>這句話前後的對話</b><button class="btn ghost" type="button" data-ctxclose="1">關閉</button></div><div class="ctxb"><div class="sess">'+sessHead(se)+'</div>';
+    var pn=$('ctxPanel');
+    if(!pn){
+      pn=document.createElement('aside');pn.id='ctxPanel';pn.className='ctxpanel';pn.setAttribute('aria-label','這句話前後的對話');document.body.appendChild(pn);
+      pn.addEventListener('click',function(e){if(e.target.closest('[data-ctxclose]'))closeCtx();});
+      document.addEventListener('keydown',function(e){if(e.key==='Escape')closeCtx();});
+    }
+    var h='<div class="ctxh"><b>這句話前後的對話</b><span class="ctxs">點別的「看那段對話」會換成那一段</span><button class="btn ghost" type="button" data-ctxclose="1">關閉</button></div><div class="ctxb"><div class="sess">'+sessHead(se)+'</div>';
     ms.slice(a,b).forEach(function(m){h+=msgBlock(m,m.id===id?'sel':'');});
-    ov.innerHTML=h+'</div></div>';ov.classList.add('on');
-    var t=ov.querySelector('.msg.sel');if(t)t.scrollIntoView({block:'center'});
+    pn.innerHTML=h+'</div>';pn.classList.add('on');document.body.classList.add('ctxopen');
+    var t=pn.querySelector('.msg.sel');if(t)t.scrollIntoView({block:'center'});
   }
+  function closeCtx(){var pn=$('ctxPanel');if(pn)pn.classList.remove('on');document.body.classList.remove('ctxopen');}
 
-  /* ---------- 第 5 步：一次寫一輪，寫完才換下一輪 ---------- */
+  /* ---------- 第 4 步：一次寫一輪，寫完才換下一輪 ---------- */
   function need(){return Math.min(MINP,S.items.length||MINP);}
   function unlocked(k){for(var i=0;i<k;i++)if(!isDone(S.picks[i],S.ix))return false;return true;}
   function firstUndone(){for(var i=0;i<S.picks.length;i++)if(!isDone(S.picks[i],S.ix))return i;return Math.max(0,S.picks.length-1);}
@@ -410,7 +413,7 @@
       .catch(function(e){console.warn('picks 存檔失敗',e);statEl.textContent='雲端沒存到，先存在這台電腦';});
   }
 
-  // 事件：第 4 步（左右切換、勾「選這則」、排順序、看前後文）
+  // 事件：第 3 步（左右切換、勾「選這則」、排順序、看前後文）
   root.addEventListener('click',function(e){
     var t=e.target.closest('[data-vgo],[data-vdot],[data-ctx],[data-mv],[data-vopen],[data-ext]');if(!t||t.disabled)return;
     if(t.dataset.ext){extendView(Number(t.dataset.ext));return;}
@@ -421,12 +424,12 @@
     if(t.dataset.mv){var a=t.dataset.mv.split(':');movePick(Number(a[0]),Number(a[1]));return;}
   });
   root.addEventListener('change',function(e){if(e.target.dataset&&e.target.dataset.choose)toggleChoose();});
-  document.addEventListener('keydown',function(e){   // 第 4 步用鍵盤 ← → 切換
+  document.addEventListener('keydown',function(e){   // 第 3 步用鍵盤 ← → 切換
     if((e.key!=='ArrowLeft'&&e.key!=='ArrowRight')||root.hidden||root.offsetParent===null)return;
     var tg=e.target&&e.target.tagName;if(tg==='TEXTAREA'||tg==='INPUT'||tg==='SELECT')return;
     viewGo(S.view+(e.key==='ArrowLeft'?-1:1));
   });
-  // 事件：第 5 步（逐輪書寫）
+  // 事件：第 4 步（逐輪書寫）
   wroot.addEventListener('click',function(e){
     var t=e.target.closest('[data-wgo],[data-wprev],[data-wnext],[data-wback]');if(!t||t.disabled)return;
     function go(k){S.cur=k;renderWrite();var c=$('wTabs');if(c)c.scrollIntoView({behavior:'smooth',block:'start'});}
@@ -437,7 +440,7 @@
       if(S.cur<S.picks.length-1)go(S.cur+1);else $('hSheetBtn').click();
       return;
     }
-    if(t.dataset.wback!=null){var k=Number(t.dataset.wback);if(k>=0&&S.picks[k]){var vi=itemIndexOfPick(S.picks[k]);if(vi>=0)S.view=vi;}window.cardShowStep(4);renderView();return;}
+    if(t.dataset.wback!=null){var k=Number(t.dataset.wback);if(k>=0&&S.picks[k]){var vi=itemIndexOfPick(S.picks[k]);if(vi>=0)S.view=vi;}window.cardShowStep(3);renderView();return;}
   });
   wroot.addEventListener('input',function(e){
     var f=e.target.dataset&&e.target.dataset.f,p=S.picks[S.cur];
@@ -446,7 +449,7 @@
     updCounts();refreshMeta();saveSoon();
   });
 
-  /* ---------- 第 6 步（作品說明書）：依對話給的提醒、手冊連結、自動儲存 ---------- */
+  /* ---------- 第 5 步（作品說明書）：依對話給的提醒、手冊連結、自動儲存 ---------- */
   var HBIDX={};
   (function(){var pdf={'第一章':14,'第二章':22,'第三章':34,'第四章':47,'第五章':52,'第六章':65},list=(window.PAGE&&window.PAGE.hb)||[];
     Object.keys(pdf).forEach(function(k){for(var i=0;i<list.length;i++)if(list[i][0]===pdf[k])HBIDX[k]=i;});})();
