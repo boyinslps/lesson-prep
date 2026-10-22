@@ -98,7 +98,7 @@
       return clip(arr[0],lim)+'\n⋯（中間還有 '+(arr.length-2)+' 則）\n'+clip(arr[arr.length-1],lim);
     }
     return {q:u.length?clip(u[0],LIM.q):'（這一輪沒有選到自己的話）',
-      a:cap(a,LIM.a),fd:nb(p.issNote).trim(),fl:'我發現的問題與修正',
+      a:cap(a,LIM.a),fd:nb(p.issNote).trim(),fl:'我的發現與修正',
       f:cap(u.slice(1),LIM.f)||'（這一輪沒有追問）',why:nb(p.why).trim()};
   }
   function rowH(l,v,extra){return '<div class="rr"><div class="l">'+l+'</div><div class="v">'+v+(extra||'')+'</div></div>';}
@@ -326,7 +326,7 @@
   }
   function needText(p){
     var a=(p.issNote||'').trim().length,b=(p.why||'').trim().length,r=[];
-    if(a<ISS_MIN)r.push('「我發現的問題」多寫幾個字');
+    if(a<ISS_MIN)r.push('「我的發現」多寫幾個字');
     if(b<MINE_MIN)r.push('「最終採用的理由」多寫幾個字');
     return r.length?'還差：'+r.join('、'):'';
   }
@@ -335,9 +335,9 @@
     var h='<div class="pcard" data-i="'+k+'">';
     h+='<div class="ph"><span class="pn">'+(k+1)+'</span><span class="pt">第 '+(k+1)+' 輪<small>共 '+n+' 輪　'+esc(sessHead(se).replace(/<[^>]+>/g,' '))+'</small></span><span class="tools"><button class="tbtn" type="button" data-wback="'+k+'">回上一步</button></span></div>';
     h+='<div class="chain" aria-label="你保存的這一輪對話">'+chainHTML(S.doc,S.ix,p)+'</div>';
-    h+='<div class="pf"><div class="lb"><span>我發現的問題（和我怎麼改）</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
+    h+='<div class="pf"><div class="lb"><span>我的發現（問題，或 e度 怎麼幫我）</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
       '<textarea class="px" data-f="issNote" maxlength="'+LIM.issNote+'" rows="3">'+esc(p.issNote)+'</textarea>'+
-      guideH(true,'怎麼想？',['哪裡怪？（沒看懂我、顏色人數不對、字詞不對、前後不一樣…）','我怎麼確認？（查字典、問家人）','後來我怎麼追問或改？','都沒發現問題？寫你怎麼檢查的。'])+'</div>';
+      guideH(true,'怎麼想？',['<b>e度 的哪個問題</b>，幫我想到原本想不到的？','或：哪裡怪？（沒看懂我、顏色人數不對、字詞不對、前後不一樣…）','我怎麼確認？（查字典、問家人）','後來我怎麼追問或改？'])+'</div>';
     h+='<div class="pf final"><div class="lb"><span>最終採用的理由</span><span class="au me">我自己寫</span><span class="ct" data-ct="why"></span></div>'+
       '<textarea class="px" data-f="why" maxlength="'+LIM.why+'" rows="3">'+esc(p.why)+'</textarea>'+
       guideH(false,'怎麼想？',['我留下什麼？沒用什麼？為什麼？','這句為什麼像我？'])+'</div>';

@@ -825,13 +825,14 @@ details.gd .gdb ul{margin:0}
     <ol class="todo">
       <li><b>看</b>：老師幫你挑好的對話（第 3 步）</li>
       <li><b>選</b>：你有話想寫的，勾「選這則」，<b>至少 4 個</b></li>
-      <li><b>寫</b>：每個要寫 2 格（第 4 步）<br>「我發現的問題」　「最終採用的理由」</li>
+      <li><b>寫</b>：每個要寫 2 格（第 4 步）<br>「我的發現」　「最終採用的理由」</li>
     </ol>
   </div>
 
   <div class="card">
-    <h3><svg class="ico"><use href="#i-search"/></svg>「發現問題」是什麼？這些都算</h3>
+    <h3><svg class="ico"><use href="#i-search"/></svg>「我的發現」可以寫什麼？這些都算</h3>
     <ul class="short">
+      <li>e度 的問題，幫我<b>想到更多細節</b>（我原本想不到）</li>
       <li>e度 <b>沒看懂</b>我的意思（我說晚上，它畫白天）</li>
       <li><b>顏色、人數、時間、稱呼</b>和我說的不一樣</li>
       <li><b>名字、成語、數字</b>可能不對（查字典、問家人）</li>
@@ -839,13 +840,13 @@ details.gd .gdb ul{margin:0}
       <li>我說「只給建議」，它卻<b>直接幫我寫</b></li>
       <li><b>錯字</b>、怪怪的字</li>
     </ul>
-    <p class="small muted" style="margin:6px 0 0">不一定要上網查。寫：你怎麼確認？後來怎麼改？</p>
+    <p class="small muted" style="margin:6px 0 0">不一定要上網查。可以寫：e度 怎麼幫我？我怎麼確認、怎麼改？</p>
   </div>
 
   <div class="eg">
     <div class="egt">寫法範例（換成你自己的事）</div>
-    <b>我發現的問題：</b>我說「晚上」，e度 畫成白天。我再說一次「是晚上」，它改了。<br>
-    <b>最終採用的理由：</b>晚上才是真的，所以我用改好的。
+    <b>我的發現：</b>我不知道要寫什麼。e度 問「那一刻你在哪裡」，我就想到了床上。<br>
+    <b>最終採用的理由：</b>這是真的發生過的事，所以我寫進賀卡。
   </div>
   <div class="stepnav"></div>
 </section>
@@ -1625,7 +1626,7 @@ var COLL = 'cardWork';
       return clip(arr[0],lim)+'\n⋯（中間還有 '+(arr.length-2)+' 則）\n'+clip(arr[arr.length-1],lim);
     }
     return {q:u.length?clip(u[0],LIM.q):'（這一輪沒有選到自己的話）',
-      a:cap(a,LIM.a),fd:nb(p.issNote).trim(),fl:'我發現的問題與修正',
+      a:cap(a,LIM.a),fd:nb(p.issNote).trim(),fl:'我的發現與修正',
       f:cap(u.slice(1),LIM.f)||'（這一輪沒有追問）',why:nb(p.why).trim()};
   }
   function rowH(l,v,extra){return '<div class="rr"><div class="l">'+l+'</div><div class="v">'+v+(extra||'')+'</div></div>';}
@@ -1853,7 +1854,7 @@ var COLL = 'cardWork';
   }
   function needText(p){
     var a=(p.issNote||'').trim().length,b=(p.why||'').trim().length,r=[];
-    if(a<ISS_MIN)r.push('「我發現的問題」多寫幾個字');
+    if(a<ISS_MIN)r.push('「我的發現」多寫幾個字');
     if(b<MINE_MIN)r.push('「最終採用的理由」多寫幾個字');
     return r.length?'還差：'+r.join('、'):'';
   }
@@ -1862,9 +1863,9 @@ var COLL = 'cardWork';
     var h='<div class="pcard" data-i="'+k+'">';
     h+='<div class="ph"><span class="pn">'+(k+1)+'</span><span class="pt">第 '+(k+1)+' 輪<small>共 '+n+' 輪　'+esc(sessHead(se).replace(/<[^>]+>/g,' '))+'</small></span><span class="tools"><button class="tbtn" type="button" data-wback="'+k+'">回上一步</button></span></div>';
     h+='<div class="chain" aria-label="你保存的這一輪對話">'+chainHTML(S.doc,S.ix,p)+'</div>';
-    h+='<div class="pf"><div class="lb"><span>我發現的問題（和我怎麼改）</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
+    h+='<div class="pf"><div class="lb"><span>我的發現（問題，或 e度 怎麼幫我）</span><span class="au me">我自己寫</span><span class="ct" data-ct="issNote"></span></div>'+
       '<textarea class="px" data-f="issNote" maxlength="'+LIM.issNote+'" rows="3">'+esc(p.issNote)+'</textarea>'+
-      guideH(true,'怎麼想？',['哪裡怪？（沒看懂我、顏色人數不對、字詞不對、前後不一樣…）','我怎麼確認？（查字典、問家人）','後來我怎麼追問或改？','都沒發現問題？寫你怎麼檢查的。'])+'</div>';
+      guideH(true,'怎麼想？',['<b>e度 的哪個問題</b>，幫我想到原本想不到的？','或：哪裡怪？（沒看懂我、顏色人數不對、字詞不對、前後不一樣…）','我怎麼確認？（查字典、問家人）','後來我怎麼追問或改？'])+'</div>';
     h+='<div class="pf final"><div class="lb"><span>最終採用的理由</span><span class="au me">我自己寫</span><span class="ct" data-ct="why"></span></div>'+
       '<textarea class="px" data-f="why" maxlength="'+LIM.why+'" rows="3">'+esc(p.why)+'</textarea>'+
       guideH(false,'怎麼想？',['我留下什麼？沒用什麼？為什麼？','這句為什麼像我？'])+'</div>';

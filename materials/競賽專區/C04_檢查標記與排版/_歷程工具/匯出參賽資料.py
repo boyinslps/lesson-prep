@@ -127,7 +127,7 @@ def sheet_html(rounds):
         h.append('<div class="rd"><div class="rh">第 %d 輪%s</div>' % (k, '　（%s）' % e(mode) if mode else ''))
         h.append('<div class="rr"><div class="l">我的原始提問（Prompt）</div><div class="v">%s</div></div>' % e(t['q']))
         h.append('<div class="rr"><div class="l">教育型 AI 的回答摘要與問題發現</div><div class="v">%s%s</div></div>' % (
-            e(t['a']), '<span class="fd"><b>我發現的問題與修正：</b>%s</span>' % e(t['fd']) if t['fd'] else ''))
+            e(t['a']), '<span class="fd"><b>我的發現與修正：</b>%s</span>' % e(t['fd']) if t['fd'] else ''))
         h.append('<div class="rr"><div class="l">我的追問／修正指令</div><div class="v">%s</div></div>' % e(t['f']))
         h.append('<div class="rr"><div class="l">最終採用的理由</div><div class="v">%s</div></div></div>' % e(t['why']))
     h.append('</body></html>')
