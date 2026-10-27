@@ -1,0 +1,120 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "type": "title",
+   "dur": 3.5,
+   "title": "看標題前面的「標籤」",
+   "subtitle": "錯誤、詐騙、誤導 ＝ 假的　正確 ＝ 真的"
+  },
+  {
+   "dur": 9,
+   "img": "shots/sp_mgp_H.png",
+   "chrome": {
+    "tabs": [
+     "MyGoPen 麥擱騙"
+    ],
+    "urls": [
+     "www.mygopen.com/2022/01/Charging-Phone.html"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "看標題最前面，有一個標籤",
+   "sub": "這一篇的標籤是「錯誤」",
+   "captions": [
+    {
+     "t": 4.4,
+     "caption": "「錯誤」＝ 這則訊息是假的",
+     "sub": "查核機構已經查過了"
+    }
+   ],
+   "circles": [
+    {
+     "t": 1.0,
+     "dur": 99,
+     "x": 100,
+     "y": 312,
+     "w": 152,
+     "h": 52,
+     "pad": 12
+    }
+   ],
+   "labels": [
+    {
+     "t": 5.0,
+     "dur": 99,
+     "x": 300,
+     "y": 440,
+     "text": "錯誤 ＝ 假的",
+     "color": "red",
+     "size": 34
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 800,
+     "y": 500
+    },
+    {
+     "t": 1.0,
+     "x": 330,
+     "y": 338
+    },
+    {
+     "t": 9,
+     "x": 330,
+     "y": 338
+    }
+   ]
+  },
+  {
+   "dur": 7,
+   "img": "shots/sp_tfc_H.png",
+   "chrome": {
+    "tabs": [
+     "台灣事實查核中心"
+    ],
+    "urls": [
+     "tfc-taiwan.org.tw/fact-check-reports/migration-6824"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "另一家查核機構，也是「錯誤」",
+   "sub": "紅色的標籤，寫著「錯誤」",
+   "circles": [
+    {
+     "t": 1.0,
+     "dur": 99,
+     "x": 268,
+     "y": 623,
+     "w": 158,
+     "h": 54,
+     "pad": 12
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 800,
+     "y": 400
+    },
+    {
+     "t": 1.0,
+     "x": 345,
+     "y": 650
+    },
+    {
+     "t": 7,
+     "x": 345,
+     "y": 650
+    }
+   ]
+  }
+ ]
+}

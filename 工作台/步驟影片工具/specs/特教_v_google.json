@@ -1,0 +1,146 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "type": "title",
+   "dur": 3,
+   "title": "貼上關鍵字，按 Enter",
+   "subtitle": "點搜尋框 → Ctrl＋V → Enter"
+  },
+  {
+   "dur": 8,
+   "img": "shots/sp_g_empty.png",
+   "imgs": [
+    {
+     "t": 4.6,
+     "img": "shots/sp_g_typed.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "Google"
+    ],
+    "urls": [
+     "www.google.com"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "點一下搜尋框",
+   "sub": "Google 的最中間，長長的那一格",
+   "captions": [
+    {
+     "t": 2.6,
+     "caption": "按 Ctrl ＋ V，貼上",
+     "sub": "剛剛複製的關鍵字就出現了"
+    }
+   ],
+   "circles": [
+    {
+     "t": 0.3,
+     "dur": 2.0,
+     "x": 345,
+     "y": 259,
+     "w": 453,
+     "h": 50,
+     "pad": 8
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.6,
+     "x": 571,
+     "y": 284
+    }
+   ],
+   "keys": [
+    {
+     "t": 3.0,
+     "dur": 1.8,
+     "keys": [
+      "Ctrl",
+      "V"
+     ],
+     "x": 640,
+     "y": 580
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 900,
+     "y": 480
+    },
+    {
+     "t": 1.4,
+     "x": 571,
+     "y": 284,
+     "mode": "ibeam"
+    },
+    {
+     "t": 8,
+     "x": 571,
+     "y": 284,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 7,
+   "img": "shots/sp_g_typed.png",
+   "imgs": [
+    {
+     "t": 3.6,
+     "img": "shots/sp_g_results.png"
+    }
+   ],
+   "chrome": {
+    "tabs": [
+     "Google"
+    ],
+    "urls": [
+     "www.google.com"
+    ],
+    "active": 0,
+    "urlSel": []
+   },
+   "caption": "按 Enter",
+   "sub": "鍵盤右邊，寫著 Enter 的大按鍵",
+   "captions": [
+    {
+     "t": 3.8,
+     "caption": "出現搜尋結果了",
+     "sub": "下一步：看結果，找查核機構"
+    }
+   ],
+   "keys": [
+    {
+     "t": 1.0,
+     "dur": 2.0,
+     "keys": [
+      "Enter"
+     ],
+     "x": 640,
+     "y": 580
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 571,
+     "y": 284,
+     "mode": "ibeam"
+    },
+    {
+     "t": 7,
+     "x": 571,
+     "y": 284,
+     "mode": "ibeam"
+    }
+   ]
+  }
+ ]
+}

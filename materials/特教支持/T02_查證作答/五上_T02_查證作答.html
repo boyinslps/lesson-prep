@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="資訊老師黃博胤">
+<title>查證作答</title>
+<style>
+:root{--bg:#f3f8fb;--ink:#1e293b;--mute:#64748b;--teal:#0f766e;--teal-l:#ccfbf1;--sky:#0369a1;--sky-l:#e0f2fe;--green:#15803d;--green-l:#dcfce7;--rose:#be123c;--rose-l:#ffe4e6;--amber:#b45309;--amber-l:#fef3c7;--line:#cbd5e1}
+*{box-sizing:border-box}
+html{font-size:20px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Microsoft JhengHei','PingFang TC',sans-serif;line-height:1.7}
+.idbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:4px solid var(--teal-l);padding:8px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.idbar b{font-size:1rem}
+.idbar label{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px}
+.idbar input{width:4.2rem;font-size:1.1rem;font-weight:700;border:3px solid var(--line);border-radius:12px;padding:2px 8px;text-align:center;font-family:inherit}
+.idbar input:focus{outline:none;border-color:var(--teal)}
+#idOk{color:var(--green);font-weight:800}
+.wrap{max-width:900px;margin:0 auto;padding:12px 18px 60px}
+h1{margin:10px 0 0;font-size:1.8rem;color:var(--teal)}
+.sub{color:var(--mute);font-size:.9rem;margin:0}
+.card{background:#fff;border:5px solid var(--teal-l);border-radius:28px;padding:20px 24px;margin-top:16px}
+.card.info{border-color:var(--sky-l)}
+.lead{font-size:1.25rem;margin:6px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:18px;padding:10px 24px;font-size:1.2rem;font-weight:800;cursor:pointer;font-family:inherit;text-decoration:none}
+.btn.go{background:var(--sky);color:#fff}
+.btn.main{background:var(--teal);color:#fff}
+.btn.opt{background:#fff;color:var(--sky);border:3px solid var(--sky)}
+.btn.ghost{background:#fff;color:var(--mute);border:3px solid var(--line)}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.btn.big{font-size:1.6rem;padding:16px 40px}
+.prog{position:sticky;top:58px;z-index:15;display:inline-block;background:var(--sky);color:#fff;border-radius:999px;padding:2px 18px;font-weight:800;font-size:1.05rem;margin-top:10px}
+.q{background:#fff;border:5px solid var(--line);border-radius:28px;padding:18px 24px;margin-top:18px}
+.q.done{border-color:#7dd3fc}
+.q.right{border-color:#86efac;background:#f0fdf4}
+.q.wrong{border-color:#fdba74;background:#fff7ed}
+.qn{display:inline-block;background:var(--amber);color:#fff;border-radius:12px;padding:0 14px;font-weight:800}
+.claim{font-size:1.35rem;font-weight:800;margin:6px 0 10px}
+.media img{width:100%;border:3px solid var(--line);border-radius:16px;display:block}
+.linkcard{display:block;border:3px solid var(--line);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;background:#fff}
+.linkcard .ban{height:110px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800}
+.linkcard .ban.img{height:auto;background:#e2e8f0}
+.linkcard .ban img{width:100%;display:block}
+.linkcard .bd{padding:10px 16px;font-weight:700;font-size:1.05rem}
+.linkcard .bd small{display:block;color:var(--mute);font-weight:500}
+.tools{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+.tools .note{font-size:.95rem;color:var(--mute);align-self:center}
+.judge{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+.judge button{font-family:inherit;font-size:2rem;font-weight:800;border:5px solid transparent;border-radius:22px;padding:18px 10px;cursor:pointer}
+.judge .real{background:var(--green-l);color:var(--green);border-color:#86efac}
+.judge .fake{background:var(--rose-l);color:var(--rose);border-color:#fda4af}
+.judge button.pick{outline:7px solid var(--sky);outline-offset:2px}
+.judge button[disabled]{cursor:default}
+.reveal{margin-top:12px;border-radius:18px;padding:10px 18px;font-size:1.15rem;font-weight:700;background:#fff}
+.reveal .rt{font-size:1.4rem;font-weight:800}
+.reveal a{color:var(--sky);font-weight:800}
+.score{font-size:2.4rem;font-weight:800;color:var(--teal)}
+.reward{display:none;text-align:center;background:linear-gradient(#e0f2fe,#ccfbf1);border:5px solid #5eead4;border-radius:28px;padding:20px;margin-top:20px}
+.stat{min-height:1.8rem;font-weight:800;margin-top:10px}
+.sig{position:fixed;right:10px;bottom:6px;font-size:11px;color:#94a3b8;margin:0;z-index:6}
+</style>
+</head>
+<body>
+<div class="idbar">
+  <b>我是誰</b>
+  <label>年級<input id="idGrade" inputmode="numeric" autocomplete="off"></label>
+  <label>班級<input id="idClass" inputmode="numeric" autocomplete="off"></label>
+  <label>座號<input id="idStudent" inputmode="numeric" autocomplete="off"></label>
+  <span id="idOk" class="hidden" style="display:none">填好了</span>
+</div>
+<div class="wrap">
+  <h1>查證作答</h1>
+  <p class="sub">五年級上學期</p>
+  <div class="card info">
+    <p class="lead"><b>每一則訊息：</b>先查一查，再選<b>真的</b>或<b>假的</b>。最後按「送出」。</p>
+    <p class="lead">怎麼查？按「<b>複製關鍵字</b>」，再按「<b>打開 Google</b>」貼上。圖片也可以用<b>智慧鏡頭</b>。</p>
+    <p class="lead">寫不完也沒關係：選好的會<b>自動存起來</b>。下次填一樣的年級、班級、座號，按「讀取上次紀錄」就能繼續。</p>
+    <p><a class="btn opt" id="reviewLink" href="../g5-review/">忘記怎麼查？回複習頁</a></p>
+  </div>
+  <div class="card" id="resumeCard" style="display:none;border-color:#7dd3fc">
+    <p class="lead" style="margin:0">找到你上次的紀錄了：已選 <b id="resumeN">0</b> 則。</p>
+    <p style="margin:10px 0 0"><button type="button" id="resumeBtn" class="btn go big">繼續上次的紀錄</button></p>
+  </div>
+  <div class="tools" style="margin-top:14px">
+    <button type="button" class="btn opt" id="saveBtn">存起來</button>
+    <button type="button" class="btn opt" id="loadBtn">讀取上次紀錄</button>
+    <span class="note" id="saveStat" style="font-weight:700"></span>
+  </div>
+  <span class="prog" id="prog">已選 0 / 6</span>
+  <div id="list"></div>
+
+  <div class="card" style="text-align:center">
+    <h2 style="margin:0">全部選好了嗎？</h2>
+    <p class="lead">送出給老師。送出後就不能改了。</p>
+    <button id="submitBtn" class="btn main big" type="button">送出</button>
+    <p id="submitStat" class="stat"></p>
+  </div>
+  <div id="resultBox" class="reward">
+    <p class="lead" style="margin:0">你答對了</p>
+    <div class="score"><span id="scoreNum">0</span> / 6</div>
+    <p class="lead" id="scoreMsg"></p>
+    <p class="lead"><b>恭喜你已經做完今日的作業，可以遊玩！</b></p>
+    <p><a class="btn go" href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener">打字英雄</a></p>
+  </div>
+</div>
+<p class="sig">made by 資訊老師黃博胤</p>
+
+<script>
+var firebaseConfig = {
+  apiKey:"AIzaSyAaodBvsP-BSovON14izt22DOXeH40TTGM",
+  authDomain:"pcclass-94300.firebaseapp.com",
+  projectId:"pcclass-94300",
+  storageBucket:"pcclass-94300.firebasestorage.app",
+  messagingSenderId:"1034787516465",
+  appId:"1:1034787516465:web:73c334b2ddad152c472510",
+  measurementId:"G-37P75R7TZ7"
+};
+(function(){
+  var WS_ID='g5-T02', WS_TITLE='查證作答', LESSON='g5/T02', STORE='spT02flow';
+  var FB_PUMPKIN='https://www.facebook.com/61551413690175/posts/%E5%B8%B8%E5%B8%B8%E5%90%83%E5%8D%97%E7%93%9C%E6%89%8B%E6%8E%8C%E8%AE%8A%E9%BB%83%E9%BB%83%E9%80%99%E9%A1%9E%E6%97%8F%E7%BE%A4%E8%AB%8B%E6%B3%A8%E6%84%8F%E6%9C%89%E4%BA%9B%E4%BA%BA%E9%95%B7%E6%9C%9F%E5%90%83%E5%8D%97%E7%93%9C%E8%83%A1%E8%98%BF%E8%94%94%E6%89%8B%E6%8E%8C%E6%88%96%E8%85%B3%E5%BA%95%E8%AE%8A%E6%88%90%E6%A9%99%E9%BB%83%E8%89%B2%E9%80%99%E5%80%8B%E7%8F%BE%E8%B1%A1%E5%85%B6%E5%AF%A6%E6%9C%89%E7%A7%91%E5%AD%B8%E8%A7%A3%E9%87%8B%E8%83%A1%E8%98%BF%E8%94%94%E7%B4%A0%E8%A1%80%E7%97%87carotenemia%E6%8C%87%E8%A1%80%E6%B6%B2%E4%B8%AD%E8%83%A1%E8%98%BF%E8%94%94%E7%B4%A0%E5%90%AB%E9%87%8F%E9%81%8E%E5%A4%9A%E8%87%B3%E6%96%BC/122207012468047123/';
+  /* ===== 題目（真假穿插）：real＝正解；q 是複製的關鍵字 ===== */
+  var items=[
+    {t:'常常吃南瓜、胡蘿蔔，手掌或腳底真的會變黃',real:true,q:'吃南瓜 手掌變黃 查核',mode:'link',fb:true,url:FB_PUMPKIN,title:'常吃南瓜手掌變黃？其實有科學解釋：胡蘿蔔素血症',site:'facebook.com',
+      truth:'真的！這叫「胡蘿蔔素血症」，停一陣子就會消退，對身體無害。'},
+    {t:'親戚的小孩參加繪畫比賽，請幫忙投票，點網址就能投',real:false,q:'繪畫比賽 幫忙投票 網址 查核',mode:'img',src:'assets/msg_C.png',alt:'LINE 訊息：親戚家小孩繪畫比賽，麻煩幫我投下 7 號小朋友，後面附一個網址。',
+      truth:'假的！查核機構標為「詐騙」，用「幫忙投票」騙你輸入資料。',report:'https://www.mygopen.com/2026/08/vote-scam.html'},
+    {t:'奇異果連皮一起吃，膳食纖維會大幅增加',real:true,q:'奇異果 連皮吃 纖維 查核',mode:'link',url:'https://health.udn.com/health/story/6037/8839419',img:'https://pgw.udn.com.tw/gw/photo.php?u=/photo/2025/06/29/realtime/32407364.jpg&x=0&y=0&sw=0&sh=0&exp=3600&w=930',title:'奇異果連皮吃更好！營養師：纖維是果肉的 2 倍',site:'health.udn.com',
+      truth:'真的！奇異果皮富含纖維，洗乾淨連皮吃營養更多。'},
+    {t:'地震時，要躲在「生命三角」',real:false,q:'地震 生命三角 躲 查核',mode:'img',src:'assets/msg_K.jpg',alt:'臉書貼文：遇到強地震，往大樓的電梯樓梯牆角下，抱頭蹲著，那是住宅結構最強的金三角位置。',
+      truth:'假的！查核機構標為「錯誤」。地震時要聽消防局、氣象署的官方說明。',report:'https://tfc-taiwan.org.tw/fact-check-reports/migration-4806'},
+    {t:'熱檸檬水能殺死癌細胞，功效比化療強一萬倍',real:false,q:'熱檸檬水 殺死癌細胞 查核',mode:'link',url:'https://momdata.blogspot.com/2014/07/blog-post_5.html',title:'驚天大秘！大藥廠打死也不願說…檸檬可殺死癌細胞',site:'momdata.blogspot.com',
+      truth:'假的！這是內容農場的謠言，檸檬水不能殺死癌細胞，聽信而不看醫生很危險。'},
+    {t:'印度街頭小吃，把水溝的水加進煮好的食物裡',real:false,q:'印度 街頭小吃 水溝水 查核',mode:'img',src:'assets/msg_G.png',alt:'臉書貼文：印度街頭小吃的影片，一名婦人在水溝旁洗鍋碗，再把水溝的水加進煮好的食物裡。',
+      truth:'假的！查核機構標為「錯誤」。',report:'https://www.mygopen.com/2026/09/india-ai.html'}
+  ];
+  var N=items.length;
+  var state={v:{},done:false};
+  try{var o=JSON.parse(localStorage.getItem(STORE)||'null');if(o&&o.v)state=o;}catch(e){}
+  function save(){try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}}
+  var $=function(id){return document.getElementById(id);};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  /* ===== 識別列 ===== */
+  var ID_KEY='wk_identity';
+  function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
+  function getId(){var g=digits($('idGrade').value),c=digits($('idClass').value),s=digits($('idStudent').value);return {grade:g?Number(g):null,className:c?Number(c):null,studentId:s?Number(s):null};}
+  function idValid(i){return i.grade!=null&&i.className!=null&&i.className>=1&&i.className<=14&&i.studentId!=null;}
+  (function(){
+    var sv={};try{sv=JSON.parse(localStorage.getItem(ID_KEY)||'{}')}catch(e){}
+    if(sv.grade)$('idGrade').value=sv.grade;if(sv.className)$('idClass').value=sv.className;if(sv.studentId)$('idStudent').value=sv.studentId;
+    function upd(){$('idOk').style.display=idValid(getId())?'inline':'none';}
+    ['idGrade','idClass','idStudent'].forEach(function(id){
+      $(id).addEventListener('input',function(){
+        var d=digits($(id).value);if(id==='idClass')while(d!==''&&Number(d)>14)d=d.slice(0,-1);
+        if(d!==$(id).value)$(id).value=d;
+        var i=getId();if(idValid(i)){try{localStorage.setItem(ID_KEY,JSON.stringify(i));}catch(e){}scheduleCheck();}upd();
+      });
+    });
+    upd();
+  })();
+
+  /* ===== 題卡 ===== */
+  function mediaHtml(it){
+    if(it.mode==='img')return '<div class="media"><img src="'+it.src+'" alt="'+esc(it.alt)+'"></div>';
+    var ban=it.img?'<div class="ban img"><img src="'+it.img+'" alt="" onerror="this.parentElement.className=\'ban\';this.parentElement.textContent=\''+esc(it.site)+'\'"></div>'
+      :'<div class="ban">'+(it.fb?'Facebook 貼文':esc(it.site))+'</div>';
+    return '<a class="linkcard" href="'+it.url+'" target="_blank" rel="noopener">'+ban+'<div class="bd">'+esc(it.title)+'<small>'+esc(it.site)+'　（按一下打開文章）</small></div></a>';
+  }
+  function render(){
+    var h='';
+    items.forEach(function(it,i){
+      var v=state.v[i],cls='q'+(state.done?((v===it.real)?' right':' wrong'):(v!==undefined?' done':''));
+      h+='<div class="'+cls+'" data-i="'+i+'"><span class="qn">第 '+(i+1)+' 則</span>'+
+        '<p class="claim">'+esc(it.t)+'</p>'+mediaHtml(it)+
+        '<div class="tools"><button type="button" class="btn opt" data-copy="'+i+'">複製關鍵字</button>'+
+        '<a class="btn go" href="https://www.google.com/" target="_blank" rel="noopener">打開 Google</a>'+
+        '<span class="note">'+(it.mode==='img'?'圖片：右鍵可用「智慧鏡頭」':'')+'</span></div>'+
+        '<div class="judge"><button type="button" class="real'+(v===true?' pick':'')+'" data-v="'+i+'" data-a="1"'+(state.done?' disabled':'')+'>真的</button>'+
+        '<button type="button" class="fake'+(v===false?' pick':'')+'" data-v="'+i+'" data-a="0"'+(state.done?' disabled':'')+'>假的</button></div>';
+      if(state.done){
+        var ok=(v===it.real);
+        h+='<div class="reveal"><span class="rt" style="color:'+(ok?'var(--green)':'var(--amber)')+'">'+(ok?'答對了！':(v===undefined?'這題沒有選。':'這題答錯了。'))+'</span><br>'+esc(it.truth)+
+          (it.report?'　<a href="'+it.report+'" target="_blank" rel="noopener">看查核報告</a>':'')+'</div>';
+      }
+      h+='</div>';
+    });
+    $('list').innerHTML=h;
+    $('prog').textContent='已選 '+Object.keys(state.v).length+' / '+N;
+    [].forEach.call(document.querySelectorAll('[data-v]'),function(b){
+      b.onclick=function(){if(state.done)return;state.v[+b.dataset.v]=b.dataset.a==='1';save();scheduleSave();var y=window.scrollY;render();window.scrollTo(0,y);};
+    });
+    [].forEach.call(document.querySelectorAll('[data-copy]'),function(b){
+      b.onclick=function(){copyText(items[+b.dataset.copy].q,function(){var old=b.textContent;b.textContent='已複製！';setTimeout(function(){b.textContent=old;},1800);});};
+    });
+    if(state.done)finishUi();
+  }
+  function copyText(text,done){
+    function fb(){var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px;top:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);done();}
+    try{navigator.clipboard.writeText(text).then(done,fb);}catch(e){fb();}
+  }
+
+  /* ===== 結果 ===== */
+  function scoreNow(){var n=0;items.forEach(function(it,i){if(state.v[i]===it.real)n++;});return n;}
+  function finishUi(){
+    var n=scoreNow();
+    $('scoreNum').textContent=n;
+    $('scoreMsg').textContent=n===N?'全部答對！你是查證小偵探！':(n>=4?'很棒！答錯的，看一看上面的說明。':'沒關係，看一看上面的說明，下次會更厲害。');
+    $('resultBox').style.display='block';
+    var b=$('submitBtn');b.disabled=true;b.textContent='已送出';
+    $('submitStat').style.color='var(--green)';$('submitStat').textContent='已送出給老師了。';
+  }
+
+  /* ===== 提醒視窗（不用 alert）===== */
+  function failModal(title,msg){
+    var m=document.createElement('div');
+    m.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;padding:20px';
+    m.innerHTML='<div style="background:#fff;border:6px solid #f43f5e;border-radius:28px;padding:26px 30px;max-width:520px;text-align:center"><h2 style="color:#be123c;margin:0 0 8px;font-size:1.8rem">'+title+'</h2><p style="font-size:1.2rem;font-weight:700;margin:0 0 16px">'+msg+'</p><button type="button" class="btn main">我知道了</button></div>';
+    document.body.appendChild(m);
+    m.querySelector('button').onclick=function(){document.body.removeChild(m);var i=getId();var f=i.grade==null?'idGrade':(i.className==null?'idClass':(i.studentId==null?'idStudent':null));if(f)$(f).focus();};
+  }
+
+  /* ===== Firebase 與繳交 ===== */
+  var db=null,auth=null;
+  function loadScript(s){return new Promise(function(res,rej){var e=document.createElement('script');e.src=s;e.onload=res;e.onerror=rej;document.head.appendChild(e);});}
+  function ensureAuth(){return (auth&&auth.currentUser)?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user;});}
+  /* ===== 雲端保存：studentWork/{worksheetId}__{年}-{班}-{座}__draft（只開放 get，要知道號碼才拿得到）===== */
+  var cloud={v:null,n:0,id:null},resumeShown=false,tSave=null,tCheck=null;
+  function setSave(msg,color){$('saveStat').textContent=msg;$('saveStat').style.color=color||'var(--mute)';}
+  function draftId(i){return WS_ID+'__'+i.grade+'-'+i.className+'-'+i.studentId+'__draft';}
+  function nowText(){var d=new Date();return (d.getHours()<10?'0':'')+d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes();}
+  function mergedAnswers(){var m={},k;if(cloud.v&&!resumeDone)for(k in cloud.v)m[k]=cloud.v[k];for(k in state.v)m[k]=state.v[k];return m;}
+  var resumeDone=false;
+  function saveCloud(manual){
+    if(state.done)return;
+    var idn=getId();
+    if(!idValid(idn)){if(manual)setSave('先在最上面填好年級、班級、座號，才能存起來。','var(--amber)');return;}
+    if(!db||!auth){if(manual)setSave('網路還沒連上，晚一點再按一次。','var(--amber)');return;}
+    var m=mergedAnswers();
+    setSave('存檔中…');
+    ensureAuth().then(function(){return db.collection('studentWork').doc(draftId(idn)).set({worksheetId:WS_ID,kind:'draft',grade:idn.grade,className:idn.className,studentId:idn.studentId,data:{v:m},text:'',updatedAt:firebase.firestore.FieldValue.serverTimestamp()});})
+      .then(function(){setSave('已存好（'+nowText()+'）','var(--green)');})
+      .catch(function(){setSave('存檔失敗。選的答案還在這台電腦裡，請檢查網路和年級、班級、座號。','var(--amber)');});
+  }
+  function scheduleSave(){clearTimeout(tSave);tSave=setTimeout(function(){saveCloud(false);},700);}
+  function checkCloud(manual){
+    var idn=getId();
+    if(!idValid(idn)){if(manual)setSave('先在最上面填好年級、班級、座號。','var(--amber)');return;}
+    if(!db||!auth){if(manual)setSave('網路還沒連上，晚一點再按一次。','var(--amber)');return;}
+    var id=draftId(idn);
+    ensureAuth().then(function(){return db.collection('studentWork').doc(id).get();}).then(function(snap){
+      var v=snap.exists&&snap.data().data&&snap.data().data.v;
+      var n=v?Object.keys(v).length:0;
+      cloud={v:n?v:null,n:n,id:id};resumeDone=false;
+      if(n&&!state.done){$('resumeN').textContent=n;$('resumeCard').style.display='block';if(manual)setSave('找到了！按上面「繼續上次的紀錄」。','var(--green)');}
+      else{$('resumeCard').style.display='none';if(manual)setSave('這個號碼還沒有存過紀錄。','var(--mute)');}
+    }).catch(function(){if(manual)setSave('讀取失敗，請檢查網路。','var(--amber)');});
+  }
+  function scheduleCheck(){clearTimeout(tCheck);tCheck=setTimeout(function(){checkCloud(false);},700);}
+  $('saveBtn').onclick=function(){saveCloud(true);};
+  $('loadBtn').onclick=function(){checkCloud(true);};
+  $('resumeBtn').onclick=function(){
+    if(!cloud.v)return;
+    var k,m={};for(k in cloud.v)m[k]=cloud.v[k];for(k in state.v)m[k]=state.v[k];
+    state.v=m;resumeDone=true;save();render();$('resumeCard').style.display='none';
+    setSave('已讀取上次的紀錄，可以繼續了。','var(--green)');saveCloud(false);
+  };
+  (function boot(){
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    loadScript(base+'firebase-app-compat.js').then(function(){return loadScript(base+'firebase-auth-compat.js');}).then(function(){return loadScript(base+'firebase-firestore-compat.js');})
+      .then(function(){firebase.initializeApp(firebaseConfig);db=firebase.firestore();auth=firebase.auth();checkCloud(false);}).catch(function(){});
+  })();
+
+  $('submitBtn').onclick=function(){
+    var idn=getId();
+    if(!idValid(idn)){
+      var miss=[];if(idn.grade==null)miss.push('年級');if(idn.className==null||idn.className<1||idn.className>14)miss.push('班級');if(idn.studentId==null)miss.push('座號');
+      failModal('還不能送出！','請先在最上面填好：<b style="color:#be123c">'+miss.join('、')+'</b>。');return;
+    }
+    var answered=Object.keys(state.v).length;
+    if(!confirm('確定要送出嗎？\n你選了 '+answered+' / '+N+' 則。\n送出後就不能改了。'))return;
+    var answers={},qtypes={},scoreAnswers={},correctN=0;
+    items.forEach(function(it,i){
+      var q='q'+(i+1),given=(state.v[i]===undefined)?null:state.v[i],ok=(given===it.real);
+      answers[q]=given;qtypes[q]='score';scoreAnswers[q]={given:given,correct:it.real,isCorrect:ok};if(ok)correctN++;
+    });
+    var payload={worksheetId:WS_ID,worksheetTitle:WS_TITLE,lessonPath:LESSON,
+      grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      answers:answers,qtypes:qtypes,scoreAnswers:scoreAnswers,experienceAnswers:{},openAnswers:{},
+      accuracyRate:Math.round(correctN/N*100),experienceCompletion:null,
+      status:'submitted',submittedAt:null};
+    var btn=this,stat=$('submitStat');
+    if(!db||!auth){failModal('送出失敗！','網路好像沒有連上。請檢查年級、班級、座號和網路，再按一次。還是不行，就舉手告訴老師。');return;}
+    btn.disabled=true;stat.style.color='var(--sky)';stat.textContent='送出中…';
+    payload.submittedAt=firebase.firestore.FieldValue.serverTimestamp();
+    var docId=WS_ID+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;
+    ensureAuth().then(function(){return db.collection('submissions').doc(docId).set(payload,{merge:true});})
+      .then(function(){state.done=true;save();var y=0;render();$('resultBox').scrollIntoView({behavior:'smooth',block:'center'});})
+      .catch(function(e){btn.disabled=false;stat.style.color='var(--amber)';stat.textContent='送出失敗：'+e.message;failModal('送出失敗！','請檢查年級、班級、座號有沒有寫好，網路是否正常，再按一次。還是不行，就舉手告訴老師。');});
+  };
+  render();
+})();
+</script>
+
+<script type="application/json" id="grading-spec">
+{
+  "summary": "查證作答：6 則網傳訊息，用關鍵字或智慧鏡頭查證後，選「真的」或「假的」（不用寫字）。",
+  "questions": [],
+  "scoring": { "base": 100, "floor": 80, "deduction": 1,
+    "itemPoints": { "q1": 4, "q2": 3, "q3": 3, "q4": 3, "q5": 3, "q6": 4 } }
+}
+</script>
+<!--CHAIR-GATE-START-->
+<script>
+/* ============================================================
+   chair-gate.js — 繳交前「靠椅子」提醒＋等待關卡（學習單通用，無相依、不改學習單原本的繳交程式）
+   規格權威來源：引導規範/學習單資料與提交規範.md §3-e
+
+   原理：在 document 捕獲階段攔截 #submitBtn 的點擊。
+     1. 沒填好身分（localStorage wk_identity）→ 直接放行，讓學習單自己提醒。
+     2. 查 Firestore：chairSettings/main（總開關、等待秒數階梯、下課前免罰分鐘、節次時間）與 chairLog/{年級-班級-座號}。
+     3. 該生有待處理紀錄（pending）且總開關開著 → 蓋一層全螢幕提醒（😠 ＋ 累計次數 ＋ 倒數），倒數完才放行。
+        下課前 graceMin 分鐘內：不用等，但紀錄照樣累計（次數不變）；處理後 pending 清掉。
+     4. 任何一步失敗／逾時 → 放行。這個關卡絕不可以擋住學生交作業。
+   放行＝把 passed 設 true 後再 btn.click() 一次，原本學習單的 onclick 完全不知道被攔過。
+
+   由 引導規範/chair-gate/inject.py 用 CHAIR-GATE-START/END 兩個 HTML 註解標記包起來，內嵌進每份學習單；
+   要改邏輯就改這個檔再重跑 inject.py（idempotent，會整段取代）。
+   ============================================================ */
+(function () {
+  if (window.__chairGate) return;
+  window.__chairGate = true;
+
+  var BTN_ID = 'submitBtn';
+  var TIMEOUT_MS = 4500;            // 查資料超過這麼久就放行
+  var DEFAULT_STEPS = [3, 10, 20, 30, 60];
+  var passed = false, busy = false;
+
+  function digits(v) { return String(v == null ? '' : v).replace(/[^0-9]/g, ''); }
+  function identity() {
+    try {
+      var o = JSON.parse(localStorage.getItem('wk_identity') || '{}');
+      var g = digits(o.grade), c = digits(o.className), s = digits(o.studentId);
+      if (!g || !c || !s) return null;
+      return { grade: Number(g), className: Number(c), studentId: Number(s) };
+    } catch (e) { return null; }
+  }
+
+  function withTimeout(p, ms) {
+    return new Promise(function (resolve, reject) {
+      var t = setTimeout(function () { reject(new Error('timeout')); }, ms);
+      p.then(function (v) { clearTimeout(t); resolve(v); }, function (e) { clearTimeout(t); reject(e); });
+    });
+  }
+
+  // 有登入就沿用；確定沒有任何登入狀態才匿名登入（不能蓋掉老師的 session，見規範 §5-2）
+  function ensureUser(auth) {
+    return new Promise(function (resolve, reject) {
+      var unsub = auth.onAuthStateChanged(function (u) {
+        if (unsub) { unsub(); unsub = null; }
+        if (u) resolve(u);
+        else auth.signInAnonymously().then(function (c) { resolve(c.user); }, reject);
+      });
+    });
+  }
+
+  function steps(cfg) {
+    var a = (cfg && cfg.steps || []).map(Number).filter(function (n) { return n > 0 && isFinite(n); });
+    return a.length ? a : DEFAULT_STEPS;
+  }
+  function waitSeconds(cfg, count) {
+    var a = steps(cfg);
+    return a[Math.min(Math.max(count, 1), a.length) - 1];
+  }
+  // 現在是不是某一節「下課前 graceMin 分鐘」以內
+  function inGrace(cfg) {
+    var g = Number(cfg && cfg.graceMin);
+    if (!isFinite(g) || g < 0) g = 2;      // 沒設才用預設 2 分鐘；老師設 0＝不免罰
+    var now = new Date(), nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    return (cfg && cfg.periods || []).some(function (p) {
+      var m = /^(\d{1,2}):(\d{2})$/.exec(String(p && p.end || ''));
+      if (!m) return false;
+      var endSec = (+m[1]) * 3600 + (+m[2]) * 60, left = endSec - nowSec;
+      return left > 0 && left <= g * 60;
+    });
+  }
+
+  function overlay(count, waitSec, waived) {
+    return new Promise(function (resolve) {
+      var css = document.createElement('style');
+      css.textContent =
+        '#chairGate{position:fixed;inset:0;z-index:2147483000;background:rgba(15,23,42,.72);display:grid;place-items:center;padding:20px;font-family:inherit}' +
+        '#chairGate .cg{background:#fff;border-radius:22px;max-width:420px;width:100%;padding:26px 22px 22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);border:4px solid #f87171}' +
+        '#chairGate .em{font-size:78px;line-height:1;animation:cgShake .5s ease-in-out 2}' +
+        '#chairGate h2{margin:10px 0 6px;font-size:24px;color:#b91c1c;font-weight:900}' +
+        '#chairGate .cnt{display:inline-block;margin:6px 0 10px;padding:4px 14px;border-radius:999px;background:#fee2e2;color:#991b1b;font-weight:800;font-size:16px}' +
+        '#chairGate .msg{font-size:17px;font-weight:700;color:#334155;margin:6px 0 14px;min-height:26px}' +
+        '#chairGate .msg b{font-size:30px;color:#dc2626}' +
+        '#chairGate button{font:inherit;font-weight:800;font-size:17px;width:100%;padding:12px;border:0;border-radius:12px;cursor:pointer}' +
+        '#chairGate .go{background:#dc2626;color:#fff}#chairGate .go:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed}' +
+        '#chairGate .back{margin-top:8px;background:transparent;color:#64748b;font-size:14px;font-weight:600}' +
+        '@keyframes cgShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}';
+      document.head.appendChild(css);
+      var box = document.createElement('div');
+      box.id = 'chairGate';
+      box.innerHTML =
+        '<div class="cg" role="alertdialog" aria-live="polite">' +
+        '<div class="em">😠</div>' +
+        '<h2>上次下課四步驟沒有做確實</h2>' +
+        '<div class="cnt">已累計 ' + count + ' 次紀錄</div>' +
+        '<div class="msg" id="cgMsg"></div>' +
+        '<button class="go" id="cgGo" disabled></button>' +
+        '<button class="back" id="cgBack">先回去檢查，等一下再交</button>' +
+        '</div>';
+      document.body.appendChild(box);
+      var msg = box.querySelector('#cgMsg'), go = box.querySelector('#cgGo');
+      function close(ok) {
+        clearInterval(timer);
+        box.remove(); css.remove();
+        resolve(ok);
+      }
+      var endAt = Date.now() + waitSec * 1000, timer = null;
+      function tick() {
+        var left = Math.ceil((endAt - Date.now()) / 1000);
+        if (left > 0) {
+          msg.innerHTML = '請等待 <b>' + left + '</b> 秒才可以繳交';
+          go.disabled = true; go.textContent = '等待中…';
+        } else {
+          clearInterval(timer);
+          msg.textContent = '時間到了，下次記得做確實喔！';
+          go.disabled = false; go.textContent = '我知道了，繳交';
+        }
+      }
+      if (waived) {
+        msg.textContent = '快下課了，這次不用等待；但這筆紀錄還是會累計。';
+        go.disabled = false; go.textContent = '我知道了，繳交';
+      } else {
+        tick(); timer = setInterval(tick, 250);
+      }
+      go.onclick = function () { if (!go.disabled) close(true); };
+      box.querySelector('#cgBack').onclick = function () { close(false); };
+    });
+  }
+
+  // 回傳 Promise<boolean>：true＝放行繳交
+  function check(idn) {
+    if (!window.firebase || !firebase.apps || !firebase.apps.length) return Promise.resolve(true);
+    var id = idn.grade + '-' + idn.className + '-' + idn.studentId;
+    var db = firebase.firestore();
+    return withTimeout(ensureUser(firebase.auth()).then(function () {
+      return Promise.all([
+        db.collection('chairSettings').doc('main').get(),
+        db.collection('chairLog').doc(id).get()
+      ]);
+    }), TIMEOUT_MS).then(function (r) {
+      var cfg = r[0].exists ? r[0].data() : null, log = r[1].exists ? r[1].data() : null;
+      if (!cfg || !cfg.enabled || !log || !log.pending) return true;
+      var count = Number(log.count) || 1, waived = inGrace(cfg);
+      return overlay(count, waitSeconds(cfg, count), waived).then(function (ok) {
+        if (ok) {   // 處理完（等完或免罰）就把待處理清掉；累計次數不動。失敗不影響繳交。
+          db.collection('chairLog').doc(id)
+            .update({ pending: false, servedAt: firebase.firestore.FieldValue.serverTimestamp() })
+            .catch(function (e) { console.warn('chairGate 更新狀態失敗', e); });
+        }
+        return ok;
+      });
+    }).catch(function (e) {
+      console.warn('chairGate 檢查失敗，直接放行', e);
+      return true;
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest && e.target.closest('#' + BTN_ID);
+    if (!btn || passed) return;
+    var idn = identity();
+    if (!idn) return;                       // 沒填身分：交給學習單自己提醒
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    if (busy) return;
+    busy = true;
+    check(idn).then(function (ok) {
+      busy = false;
+      if (!ok) return;
+      passed = true;
+      try { btn.click(); } finally { passed = false; }
+    });
+  }, true);
+})();
+</script>
+<!--CHAIR-GATE-END-->
+</body>
+</html>
