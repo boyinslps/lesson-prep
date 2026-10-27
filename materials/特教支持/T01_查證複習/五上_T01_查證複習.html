@@ -156,6 +156,11 @@ nav.bar .why{font-size:1rem;color:var(--mute);min-width:0}
     {t:'牙膏管底的黑色條紋，代表裡面含有化學成分',real:false,q:'牙膏 黑色條紋 化學成分 查核',mode:'img',src:'assets/msg_tooth.jpg',alt:'牙膏管底部的色條，黑色色條代表含化學成分的說法。',truth:'假的！那只是機器用來對準的「色條」，跟成分沒有關係。'},
     {t:'酷暑天喝冰水，會導致血管爆裂或中風',real:false,q:'喝冰水 血管爆裂 查核',mode:'link',url:'https://www.cmoney.tw/forum/article/179361052',title:'網傳「熱天喝冰水血管會爆裂」是真的嗎？',site:'cmoney.tw',truth:'假的！喝冰水不會讓血管爆裂，這是被誇大的錯誤說法。'}
   ];
+  function queryOf(r){
+    var sel=S.kw[r]||{},R=ROUNDS[r];
+    var w=R.chips.filter(function(c,i){return sel[i];}).map(function(c){return c.t;});
+    return (w.length?w:[R.chips[0].t]).concat(['查核']).join(' ');
+  }
   var KEY='sp_detective_v1';
   var S={i:0,kw:[{},{}],copied:[0,0],ack:{},org:[{},{}],judged:[0,0],pick:[null,null],qk:{}};
   try{var o=JSON.parse(localStorage.getItem(KEY)||'null');if(o&&o.kw){S=o;if(!S.qk)S.qk={};}}catch(e){}
@@ -218,22 +223,22 @@ nav.bar .why{font-size:1rem;color:var(--mute);min-width:0}
       var filled=R.chips.filter(function(c,i){return sel[i];});
       for(var i=0;i<3;i++)slots+='<span class="slot'+(filled[i]?' f':'')+'">'+(filled[i]?filled[i].t:'')+'</span>';
       var words=R.chips.map(function(c,i){return '<button type="button" class="word'+(sel[i]?' on':'')+'" data-w="'+i+'">'+c.t+'</button>';}).join('');
-      var done=n>=3;
-      return '<div class="card sky">'+head(st,R,st.n,st.total,'選出關鍵字',R.guided?'關鍵字是<b>最重要的字</b>：是什麼東西？在做什麼事？<br>點下面的字，選出 <b>3 個</b>。':'再選出 <b>3 個</b>關鍵字。')+
+      var done=n>=1;
+      return '<div class="card sky">'+head(st,R,st.n,st.total,'選出關鍵字',R.guided?'關鍵字是<b>最重要的字</b>：是什麼東西？在做什麼事？<br>點下面的字，選出 <b>3 個</b>。你選的字，都可以。':'再選出 <b>3 個</b>關鍵字。你選的字，都可以。')+
         '<p class="claim" style="font-size:1.2rem">「'+R.claim+'」</p>'+
         '<div class="words">'+words+'</div><div class="msg" id="kwmsg"></div>'+
         '<p class="lead" style="margin:6px 0 0">你的關鍵字：</p><div class="slots">'+slots+'<span class="plus">＋</span><span class="slot fix">查核</span></div>'+
         '<p class="lead" style="margin:2px 0 8px">「查核」兩個字，會自動加上去。</p>'+
-        (done?'<button type="button" class="btn go big" id="copyBtn">'+(S.copied[r]?'已複製！再按一次也可以':'按這裡，複製關鍵字')+'</button>':'<button type="button" class="btn go big" disabled>選滿 3 個，才能複製</button>')+
-        (R.guided?vid('v_keyword','影片：選 3 個關鍵字，按「複製」',false):'')+'</div>';
+        (done?'<button type="button" class="btn go big" id="copyBtn">'+(S.copied[r]?'已複製！再按一次也可以':'按這裡，複製關鍵字')+'</button>':'<button type="button" class="btn go big" disabled>先選字，才能複製</button>')+
+        vid('v_keyword','影片：選 3 個關鍵字，按「複製」',false)+'</div>';
     },
     google:function(st,R){
       var r=st.r,ack=S.ack['g'+r];
       return '<div class="card">'+head(st,R,st.n,st.total,'到 Google，貼上關鍵字','剛剛複製的關鍵字，要貼到 Google。')+
         '<a class="btn go big" href="https://www.google.com/" target="_blank" rel="noopener">1　打開 Google</a>'+
         '<ol class="steps"><li><span class="n">2</span>點一下<b>搜尋框</b></li><li><span class="n">3</span>按 '+keycaps()+'　<span style="font-weight:500;font-size:1.1rem">（貼上）</span></li><li><span class="n">4</span>按 <kbd>Enter</kbd></li></ol>'+
-        '<p class="lead">貼上以後，搜尋框裡會是：<span class="pill">'+R.query+'</span></p>'+
-        vid('v_google','影片：貼上關鍵字、按 Enter',!R.guided,'不會貼？看影片')+
+        '<p class="lead">貼上以後，搜尋框裡會是：<span class="pill">'+queryOf(r)+'</span></p>'+
+        vid('v_google','影片：貼上關鍵字、按 Enter',false)+
         '<p style="margin-top:16px"><button type="button" class="btn '+(ack?'ok':'opt')+'" data-ack="g'+r+'">'+(ack?'我做好了':'做好了，按這裡')+'</button></p></div>';
     },
     find:function(st,R){
@@ -243,7 +248,7 @@ nav.bar .why{font-size:1rem;color:var(--mute);min-width:0}
         return '<button type="button" class="org'+c+'" data-o="'+i+'"><b>'+g.name+'</b><span>'+g.sub+'</span>'+(o[i]?'<p>'+g.note+'</p>':'')+'</button>';
       }).join('');
       return '<div class="card amber">'+head(st,R,st.n,st.total,'找到「查核機構」的報告','最上面的「<b>AI 摘要</b>」可以先讀，它會告訴你大概。<br>要<b>確定</b>，就往下找<b>專門查謠言</b>的機構，點進去看。')+
-        vid('v_find','影片：往下找，點進查核機構的文章',!R.guided,'不會找？看影片')+
+        vid('v_find','影片：往下找，點進查核機構的文章',false)+
         '<p class="lead" style="margin-top:14px"><b>練習：</b>哪些是查核機構？點一點（要選 2 個）。</p><div class="orgs">'+cards+'</div>'+
         '<p><a class="btn opt" href="'+R.report.url+'" target="_blank" rel="noopener">找不到嗎？按這裡，直接打開查核報告</a></p></div>';
     },
@@ -261,7 +266,7 @@ nav.bar .why{font-size:1rem;color:var(--mute);min-width:0}
         '<div class="row"><div class="shot"><img src="'+p.img+'" alt="'+esc(p.alt)+'"><div class="ring" style="left:'+g.l+'%;top:'+g.t+'%;width:'+g.w+'%;height:'+g.h+'%"></div></div>'+
         '<div><p class="claim">'+p.org+'<br>標籤：<span style="color:var(--rose)">'+p.label+'</span></p>'+sayBtn(p.org+'說，這則訊息的標籤是'+p.label)+
         '<div class="legend"><div class="f">錯誤、詐騙、誤導<br>＝ 假的</div><div class="t">正確<br>＝ 真的</div></div>'+
-        vid('v_label','影片：看標題前面的標籤',!R.guided,'不會看？看影片')+
+        vid('v_label','影片：看標題前面的標籤',false)+
         '<p style="margin-top:14px"><a class="btn opt" href="'+p.url+'" target="_blank" rel="noopener">打開真的查核報告</a></p></div></div></div>';
     },
     judge:function(st,R){
@@ -332,15 +337,15 @@ nav.bar .why{font-size:1rem;color:var(--mute);min-width:0}
     var r=st.r;
     [].forEach.call(document.querySelectorAll('[data-w]'),function(b){
       b.onclick=function(){
-        var i=+b.dataset.w,c=R.chips[i];
-        if((S.kw[r]||{})[i])return;
-        if(c.k){S.kw[r][i]=1;S.copied[r]=0;save();refresh();var m=$('kwmsg');if(m){m.className='msg good';m.textContent='對！「'+c.t+'」是關鍵字。';}}
-        else{b.classList.add('no');var m2=$('kwmsg');m2.className='msg try';m2.textContent=c.h;}
+        var i=+b.dataset.w,c=R.chips[i],sel=S.kw[r],m;
+        if(sel[i]){delete sel[i];S.copied[r]=0;save();refresh();return;}
+        if(Object.keys(sel).length>=3){b.classList.add('no');m=$('kwmsg');m.className='msg try';m.textContent='最多選 3 個。先點一下選好的字，取消一個。';return;}
+        sel[i]=1;S.copied[r]=0;save();refresh();m=$('kwmsg');if(m){m.className='msg good';m.textContent='好！「'+c.t+'」可以當關鍵字。';}
       };
     });
     var cb=$('copyBtn');
     if(cb)cb.onclick=function(){
-      copyText(R.query,function(){S.copied[r]=1;save();refresh();});
+      copyText(queryOf(r),function(){S.copied[r]=1;save();refresh();});
     };
     [].forEach.call(document.querySelectorAll('[data-o]'),function(b){
       b.onclick=function(){var i=+b.dataset.o;S.org[r][i]=ORGS[i].ok?1:2;save();refresh();};
