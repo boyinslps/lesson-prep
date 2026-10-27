@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8"><title>示意畫面 - 格式檢查（字型、字級、樣式）</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,'Microsoft JhengHei',sans-serif;background:#f9fbfd;color:#1f1f1f;height:640px;overflow:hidden;position:relative}
+.top{display:flex;align-items:center;gap:10px;padding:8px 14px 2px}
+.logo{width:28px;height:38px;background:#4285f4;border-radius:3px;position:relative}
+.logo:after{content:'';position:absolute;left:6px;right:6px;top:12px;height:2px;background:#fff;box-shadow:0 5px 0 #fff,0 10px 0 #fff,0 15px 0 #fff}
+.title{font-size:18px}
+.menu{display:flex;gap:16px;font-size:14px;color:#444;padding:2px 0 0 52px;margin-top:-6px}
+.share{margin-left:auto;background:#c2e7ff;border-radius:18px;padding:8px 18px;font-size:14px;font-weight:bold}
+.bar{margin:8px 12px 0;height:44px;background:#edf2fa;border-radius:22px;display:flex;align-items:center;gap:14px;padding:0 18px;font-size:15px;color:#444}
+.bar b{font-weight:normal;border-right:1px solid #c7c7c7;padding-right:14px}
+.bar .btn{font-weight:bold;background:#fff;border:1px solid #c7c7c7;border-radius:6px;padding:4px 10px;color:#1f1f1f;white-space:nowrap}
+#stylebtn{min-width:92px}
+#fontbtn{min-width:96px}
+.sz{display:flex;align-items:center;gap:8px;font-size:17px}
+.num{display:inline-block;min-width:46px;text-align:center;border:1px solid #c7c7c7;border-radius:5px;padding:3px 6px;background:#fff;color:#1f1f1f}
+.num.edit{border:2px solid #1a73e8}
+.num.edit span{background:#b3d4fc;padding:0 2px}
+.page{width:980px;margin:12px auto 0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);height:520px;padding:26px 70px;font-size:22px;line-height:1.35;position:relative;overflow:hidden}
+.page p{margin:0 0 6px;min-height:30px}
+.kai{font-family:'DFKai-SB','標楷體','BiauKai','Kaiti TC',serif}
+.sel{background:#b3d4fc}
+.tag{position:absolute;right:14px;top:96px;font-size:12px;color:#888;background:#fff;border:1px solid #ddd;border-radius:10px;padding:2px 8px;z-index:9}
+.dd{position:absolute;background:#fff;border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,.3);padding:6px 0;z-index:8;font-size:19px;min-width:230px}
+.dd div{padding:7px 18px;white-space:nowrap}
+.dd .hl{background:#e8eaed}
+.dd .h1{font-size:26px}.dd .h2{font-size:22px}.dd .h3{font-size:18px}
+a.lnk{color:#1155cc;text-decoration:underline}
+</style></head><body>
+<span class="tag">示意畫面</span>
+<div class="top"><div class="logo"></div><div class="title">50123 王小明 查證文件</div><div class="share">共用</div></div>
+<div class="menu"><span>檔案</span><span>編輯</span><span>查看</span><span>插入</span><span>格式</span><span>工具</span><span>擴充功能</span><span>說明</span></div>
+<div class="bar"><b>↶ ↷ 🖨</b><b>100%</b><b><span class="btn" id="stylebtn">內文 ▾</span></b><b><span class="btn" id="fontbtn">Arial ▾</span></b><span class="sz">－ <span class="num" id="sizenum">11</span> ＋</span><span><u>B</u></span><span><i>I</i></span><span>U</span></div>
+<div class="page" id="page"></div>
+<div id="fdd" class="dd" style="display:none"><div id="f_kai" class="kai" style="font-size:22px">標楷體</div><div>微軟正黑體</div><div id="f_arial" style="font-family:Arial">Arial</div><div style="font-family:'Times New Roman'">Times New Roman</div><div style="font-family:'Courier New'">Courier New</div></div>
+<div id="sdd" class="dd" style="display:none"><div id="s_normal">內文</div><div style="font-size:26px">標題</div><div style="font-size:19px;color:#5f6368">副標題</div><div id="s_h1" class="h1">標題 1</div><div id="s_h2" class="h2">標題 2</div><div class="h3">標題 3</div></div>
+<script>
+var s=new URLSearchParams(location.search).get('s')||'a0';
+var TT='網傳「打雷時用手機、藍芽耳機會被雷擊」';
+var UR='https://tfc-taiwan.org.tw/fact-check-reports/migration-7854';
+var MSG='網傳訊息說：打雷時用手機、戴藍芽耳機會被雷擊。';
+function P(id,txt,o){o=o||{};var st='font-size:'+(o.px||22)+'px';var c=(o.kai?'kai ':'')+(o.sel?'sel':'');
+  return '<p id="'+id+'" style="'+st+'"><span class="'+c+'" id="t_'+id+'">'+txt+'</span></p>';}
+var H4=['查核網址','我選的訊息','我怎麼找到查核文章的','查核結果'];
+var H3=['為什麼這則訊息會被廣傳？','正確資訊','如果相信的話，會有什麼後果？'];
+function heads(a,o,selIdx,pxs){var r='';a.forEach(function(x,i){var q={px:pxs,kai:o.kai,sel:selIdx===i};if(o.kaiOnly&&o.kaiOnly.indexOf(i)<0)q.kai=false;r+=P('h'+i,x,q);});return r;}
+var st={sb:'內文',fb:'Arial',sz:'11',edit:false,dd:null,hl:null};
+var h='';
+function A(o){return P('l1',TT,{px:o.px,kai:o.kai,sel:o.sel})+P('l2','50123 王小明')+P('h0','查核網址',{px:32})+P('u0','<a class="lnk">'+UR+'</a>');}
+if(s[0]==='a'){
+  var cfgA={a0:{px:40,kai:0,sel:0,sz:'20',fb:'Arial'},a1:{px:40,kai:0,sel:1,sz:'20',fb:'Arial'},a2:{px:40,kai:0,sel:1,sz:'20',fb:'Arial',dd:'f'},
+    a3:{px:40,kai:1,sel:1,sz:'20',fb:'標楷體'},a4:{px:40,kai:1,sel:1,sz:'20',fb:'標楷體',edit:1},a5:{px:52,kai:1,sel:1,sz:'26',fb:'標楷體'},a6:{px:52,kai:1,sel:0,sz:'26',fb:'標楷體'}}[s];
+  st.sb='標題 1';st.fb=cfgA.fb;st.sz=cfgA.sz;st.edit=!!cfgA.edit;st.dd=cfgA.dd||null;h=A(cfgA);
+}
+if(s[0]==='b'){ // 4 個欄位名稱：標題 2、16；只要換字型
+  var k=s==='b4';var sel=(s==='b1'||s==='b2'||s==='b3')?0:-1;
+  var cfg={b0:[0,'Arial'],b1:[0,'Arial'],b2:[0,'Arial'],b3:[1,'標楷體'],b4:[1,'標楷體']}[s];
+  st.sb='標題 2';st.fb=cfg[1];st.sz='16';st.dd=(s==='b2')?'f':null;
+  h=P('l1',TT,{px:52,kai:1})+P('l2','50123 王小明');
+  H4.forEach(function(x,i){var kk=(s==='b4')||(i===0&&cfg[0]===1);h+=P('h'+i,x,{px:32,kai:kk,sel:(i===0&&(s==='b1'||s==='b2'||s==='b3'))});});
+}
+if(s[0]==='c'){ // 3 個欄位名稱：標題 2、字級 11
+  var cc={c0:{k:0,px:32,sel:0,sz:'16',fb:'Arial'},c1:{k:0,px:32,sel:1,sz:'16',fb:'Arial'},c2:{k:0,px:32,sel:1,sz:'16',fb:'Arial',dd:'f'},
+    c3:{k:1,px:32,sel:1,sz:'16',fb:'標楷體'},c4:{k:1,px:32,sel:1,sz:'16',fb:'標楷體',edit:1},c5:{k:1,px:22,sel:1,sz:'11',fb:'標楷體'},c6:{k:1,px:22,sel:0,sz:'11',fb:'標楷體',all:1}}[s];
+  st.sb='標題 2';st.fb=cc.fb;st.sz=cc.sz;st.edit=!!cc.edit;st.dd=cc.dd||null;
+  h=P('l1',TT,{px:52,kai:1})+P('l2','50123 王小明');
+  H3.forEach(function(x,i){var f=cc.all?1:(i===0?cc.k:0);var px=cc.all?22:(i===0?cc.px:32);h+=P('h'+i,x,{px:px,kai:f,sel:(i===0&&cc.sel)});});
+}
+if(s[0]==='d'){ // 內容被設成標題 → 改回 內文
+  var dc={d0:{sb:'標題 2',px:32,sel:0},d1:{sb:'標題 2',px:32,sel:1},d2:{sb:'標題 2',px:32,sel:1,dd:'s'},d3:{sb:'內文',px:22,sel:1},d4:{sb:'內文',px:22,sel:0}}[s];
+  st.sb=dc.sb;st.fb='Arial';st.sz=(dc.px===32?'16':'11');st.dd=dc.dd||null;
+  h=P('l1',TT,{px:52,kai:1})+P('l2','50123 王小明')+P('h0','查核網址',{px:32,kai:1})+P('u0','<a class="lnk">'+UR+'</a>')+P('h1','我選的訊息',{px:32,kai:1})+P('m0',MSG,{px:dc.px,sel:dc.sel});
+}
+document.getElementById('page').innerHTML=h;
+var sb=document.getElementById('stylebtn'),fb=document.getElementById('fontbtn'),sn=document.getElementById('sizenum');
+sb.textContent=st.sb+' ▾';fb.textContent=st.fb+' ▾';
+if(st.edit){sn.className='num edit';sn.innerHTML='<span>'+st.sz+'</span>';}else{sn.textContent=st.sz;}
+function place(dd,anchor){var r=anchor.getBoundingClientRect();dd.style.left=Math.round(r.left)+'px';dd.style.top=Math.round(r.bottom+4)+'px';dd.style.display='block';}
+if(st.dd==='f'){var f=document.getElementById('fdd');place(f,fb);document.getElementById('f_kai').className+=' hl';}
+if(st.dd==='s'){var d=document.getElementById('sdd');place(d,sb);document.getElementById('s_normal').className+=' hl';}
+function R(id){var e=document.getElementById(id);if(!e)return null;var b=e.getBoundingClientRect();return {x:Math.round(b.left),y:Math.round(b.top),w:Math.round(b.width),h:Math.round(b.height)}}
+var ids=['l1','l2','h0','h1','h2','h3','u0','m0','t_l1','t_h0','t_h1','t_h2','t_m0','stylebtn','fontbtn','sizenum','f_kai','s_normal'];
+var o={};ids.forEach(function(i){o[i]=R(i);});window.RECTS=JSON.stringify(o);
+</script></body></html>

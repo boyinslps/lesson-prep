@@ -459,35 +459,97 @@ _BLK_RISK = _tone_block('rose', '⑦ 如果相信的話，會有什麼後果？'
     '<p>要寫誰會怎樣，不是「是假的」。</p>',
     _chips(['身體', '錢', '人際', '恐慌']) + _checks('寫了誰', '寫了怎樣'))
 
-STEP_L06_7 = """
-  <!-- ===== 步驟 6：檢查後三欄 ===== -->
-  <section class="step hidden" data-step="6">
-    <div class="bg-white border-4 border-teal-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-teal-700 m-0">檢查自己寫的：後 3 欄</h2>
-      <p class="text-lg text-slate-600 mt-1">時間不夠，先寫：正確資訊、廣傳、後果。</p>
+def _one_field_step(n, name, tone, title, lead, block):
+    """後 3 欄：一欄一個節點（標題＋一句提醒＋範例／為什麼／我檢查）"""
+    return ('\n  <!-- ===== 步驟 %d：%s ===== -->\n  <section class="step hidden" data-step="%d">\n'
+            '    <div class="bg-white border-4 border-%s-300 rounded-3xl p-5 mb-5 shadow-sm">\n'
+            '      <h2 class="cute text-3xl font-extrabold text-%s-700 m-0">%s</h2>\n'
+            '      <p class="text-lg text-slate-600 mt-1">%s</p>\n    </div>\n    %s\n    <div class="stepnav"></div>\n  </section>\n') % (
+        n, name, n, tone, tone, title, lead, block)
+
+
+STEP_L06_6 = _one_field_step(6, '廣傳原因', 'violet', '檢查自己寫的：⑤ 為什麼廣傳',
+                             '時間不夠，先寫：正確資訊、廣傳、後果。', _BLK_WHY)
+STEP_L06_7 = _one_field_step(7, '正確資訊', 'emerald', '檢查自己寫的：⑥ 正確資訊',
+                             '用自己的話整理查核文章，每點標出是誰說的。', _BLK_FACT)
+STEP_L06_8 = _one_field_step(8, '相信後果', 'rose', '檢查自己寫的：⑦ 如果相信的話，會有什麼後果？',
+                             '寫出誰會怎樣，不是只寫「是假的」。', _BLK_RISK)
+
+# ---------- 步驟 9：格式檢查（字型、字級、樣式、連結；每項都用真正的字型與大小顯示，操作影片收在該項下面）----------
+FMT_CSS = '''
+<style>
+  .docpage{background:#fff;border:1px solid #cbd5e1;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.15);padding:10px 24px;margin-top:12px;font-family:Arial,'Microsoft JhengHei',sans-serif;font-size:11pt;line-height:1.5;color:#000;overflow-x:auto}
+  .docpage p{margin:6px 0}
+  .docpage .kai{font-family:'DFKai-SB','標楷體','BiauKai','Kaiti TC','AR PL UKai TW',serif;font-weight:normal;line-height:1.35;margin:8px 0}
+  .docpage a.lnk{color:#1155cc;text-decoration:underline;word-break:break-all}
+</style>'''
+
+_T26 = '網傳「在戶外遇到打雷時，絕對不用手機接聽電話或上網。一名男子打雷時在慢跑，疑似使用藍芽耳機，不幸遭雷擊而亡」'
+_TFC_URL = 'https://tfc-taiwan.org.tw/fact-check-reports/migration-7854'
+
+
+def _kai(text, pt):
+    return '<p class="kai" style="font-size:%dpt">%s</p>' % (pt, text)
+
+
+def _fmt_row(tone, title, chips, doc_html, clip_html):
+    chip_html = ''.join('<span class="bg-%s-100 border-2 border-%s-300 text-%s-900 rounded-full px-3 py-0.5 text-base font-bold">%s</span>' % (tone, tone, tone, c) for c in chips)
+    return ('<div class="bg-white border-4 border-%s-300 rounded-3xl p-5 mb-5 shadow-sm">'
+            '<h3 class="cute text-2xl font-extrabold text-%s-700 m-0">%s</h3>'
+            '<div class="flex flex-wrap gap-2 mt-2">%s</div>'
+            '<div class="docpage">%s</div>%s</div>') % (tone, tone, title, chip_html, doc_html, clip_html)
+
+
+def _fmt_clip(clip, text, label='查看操作影片'):
+    return ('<details class="mt-3 bg-slate-50 border-2 border-slate-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-slate-700 text-lg">%s</summary>'
+            '<div class="mt-3">' % label) + L5S.sc([L5S.slide(text, clip)], numbered=False) + '</div></details>'
+
+
+_FMT_ROWS = (
+    _fmt_row('sky', '① 文件標題', ['樣式：標題 1', '字型：標楷體', '字級：26'],
+             _kai(_T26, 26),
+             _fmt_clip('步_格式A_標題26', '選取標題，字型選「標楷體」，字級改成 26', '查看操作影片：標題 26 標楷體'))
+    + _fmt_row('indigo', '② 7 個欄位名稱', ['樣式：標題 2', '字型：標楷體', '字級：16'],
+               ''.join(_kai(x, 16) for x in ['查核網址', '我選的訊息', '我怎麼找到查核文章的', '查核結果', '為什麼這則訊息會被廣傳？', '正確資訊', '如果相信的話，會有什麼後果？']),
+               _fmt_clip('步_格式B_欄位16', '選取欄位名稱，字型選「標楷體」，字級看一下要是 16（7 個都要）', '查看操作影片：欄位名稱 16 標楷體'))
+    + _fmt_row('teal', '③ 查核網址', ['超連結', '整條網址', '藍色有底線', '點得開'],
+               '<p><a class="lnk" href="%s" target="_blank" rel="noopener">%s</a></p>' % (_TFC_URL, _TFC_URL),
+               _fmt_clip('步_網址3_加超連結', '圈選網址，點鎖鏈符號貼上網址，按「套用」', '查看操作影片：加超連結'))
+    + _fmt_row('amber', '④ 其餘內容', ['樣式：一般文字（工具列顯示「內文」）'],
+               '<p>50123 王小明</p><p>你自己寫的內容，都是一般文字。</p>',
+               _fmt_clip('步_格式D_一般文字', '選取內容，左上角選「一般文字」', '查看操作影片：設成一般文字')))
+
+STEP_L06_9 = """
+  <!-- ===== 步驟 9：格式檢查 ===== -->
+  <section class="step hidden" data-step="9">
+    <div class="bg-white border-4 border-sky-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">格式檢查</h2>
+      <p class="text-lg text-slate-600 mt-1">內容寫完了，最後檢查<b>字型、字級、樣式、連結</b>。下面的字都是真的大小。</p>
+      <p class="text-base text-slate-500 mt-1">點一下文件裡那一行，上面的工具列會顯示它的樣式、字型、字級。</p>
     </div>
-    @@BLOCKS@@
+    @@ROWS@@
     <div class="stepnav"></div>
   </section>
-""".replace('@@BLOCKS@@', _BLK_WHY + _BLK_FACT + _BLK_RISK)
+""".replace('@@ROWS@@', _FMT_ROWS)
 
 # L06 不再有「抄與整理」（搬到 L05 第 8 步開頭）：只留「廣傳後果」，編號往前補
 _i = OLD_S23.index('  <!-- ===== 步驟 6：廣傳後果 ===== -->')
 OLD_S23 = OLD_S23[_i:].replace('data-step="6"', 'data-step="5"').replace('步驟 6：廣傳後果', '步驟 5：廣傳後果')
 L06_BODY = ('\n' + STEP_L06_1 + '\n' + STEP_L06_2 + '\n' + L5S.step_prep(3, '上一節做過的，直接按「下一步」跳過；還沒做的，一步一步補。').replace('<!-- ===== 準備文件（步驟卡）===== -->', '<!-- ===== 步驟 3：準備文件 ===== -->')
-            + '\n' + STEP_L06_4 + '\n' + OLD_S23 + '\n' + STEP_L06_7 + '\n' + OLD_S8 + '\n')
+            + '\n' + STEP_L06_4 + '\n' + OLD_S23 + '\n' + STEP_L06_6 + '\n' + STEP_L06_7 + '\n' + STEP_L06_8 + '\n' + STEP_L06_9
+            + '\n' + OLD_S8.replace('步驟 7：繳交', '步驟 10：繳交').replace('data-step="7"', 'data-step="10"') + '\n')
 L06_BODY = (L06_BODY.replace('@@RESCUE@@', L5S.RESCUE.replace('<details class="urlfix', '<details open class="urlfix', 1))
             .replace('@@CARDS@@', CARDS).replace('@@DOC@@', DOC).replace('@@REWARD@@', REWARD)
             .replace('@@CHIPS@@', chips7('bg-slate-100 border-2 border-slate-200', 'bg-indigo-100 border-2 border-indigo-200')))
 
 L06_CFG = {
     'ws': 'g5-L06', 'lessonPath': 'g5/L06', 'title': 'Docs 查證文件（二）：整理成報告', 'stateKey': 'g5L06flow',
-    'steps': ['找回資料', '選訊息', '準備文件', '檢查前四欄', '廣傳後果', '檢查後三欄', '繳交'],
+    'steps': ['找回資料', '選訊息', '準備文件', '檢查前四欄', '廣傳後果', '廣傳原因', '正確資訊', '相信後果', '格式檢查', '繳交'],
     'reveals': [], 'revealOf': {}, 'autoFb': [],
     'qtypes': {'sel': 'experience', 'chk': 'experience'},
     'choices': {
         'sel': {'opts': ['C', 'D', 'E', 'G', 'H', 'K'], 'card': True},
-        'chk': {'opts': ['標題和前四欄都對照檢查過了', '「正確資訊」有標出處，沒有整段複製', '「為什麼廣傳」和「後果」都寫了理由', '標題是查核報告的標題，「查核網址」是整條網址、點得開'], 'multi': True, 'block': True},
+        'chk': {'opts': ['標題和前四欄都對照檢查過了', '「正確資訊」有標出處，沒有整段複製', '「為什麼廣傳」和「後果」都寫了理由', '標題是查核報告的標題，「查核網址」是整條網址、點得開', '格式檢查過了：字型、字級、樣式都對'], 'multi': True, 'block': True},
     },
     'texts': [], 'patterns': {}, 'openQtexts': {},
 }
@@ -502,7 +564,7 @@ L06_HOOKS = L05_HOOKS[_a:_z] + r'''
   };
   H.report=function(){
     return ['選的訊息：'+(state.sel&&CARDS[state.sel]?CARDS[state.sel].name:'還沒選'),
-      '自查表：已勾 '+((state.chk||[]).length)+' 項（共 4 項）','提醒：文件要附在 Classroom 作業裡，並在那邊按「繳交」'];
+      '自查表：已勾 '+((state.chk||[]).length)+' 項（共 5 項）','提醒：文件要附在 Classroom 作業裡，並在那邊按「繳交」'];
   };
   H.showAnswers=function(){if(!state.sel)state.sel='E';};
   H.clear=function(){state.sel=null;state.url='';state.chk=[];};
@@ -556,4 +618,4 @@ write('五上_L05_Docs查證文件一.html', 'L05_Docs查證文件一',
            '五年級上學期 · L05 Docs 查證文件（一）· 教學活動流程（40 分鐘）', L05_BODY, L05_CFG, L05_HOOKS, L05_SPEC, L5S.CSS))
 write('五上_L06_Docs查證文件二.html', 'L06_Docs查證文件二',
       page('整理成查證文件｜五上 L06 教學活動', '📝 把查核文章整理成自己的報告',
-           '五年級上學期 · L06 Docs 查證文件（二）· 教學活動流程（40 分鐘）', L06_BODY, L06_CFG, L06_HOOKS, L06_SPEC, L5S.CSS))
+           '五年級上學期 · L06 Docs 查證文件（二）· 教學活動流程（40 分鐘）', L06_BODY, L06_CFG, L06_HOOKS, L06_SPEC, L5S.CSS + FMT_CSS))
