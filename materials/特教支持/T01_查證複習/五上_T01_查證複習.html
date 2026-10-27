@@ -256,9 +256,10 @@ nav.bar .why{font-size:1rem;color:var(--mute);min-width:0}
       var ack=S.ack['l'+st.r];
       return '<div class="card amber">'+head(st,R,st.n,st.total,'方法二：智慧鏡頭','關鍵字找不到，或是<b>圖片、影片</b>的時候，用智慧鏡頭。')+
         '<div class="row"><div><ol class="steps"><li><span class="n">1</span>在圖片上，按<b>滑鼠右鍵</b></li><li><span class="n">2</span>選「透過 Google <b>智慧鏡頭</b>搜尋圖片」</li><li><span class="n">3</span>用滑鼠<b>拖曳框住</b>整張圖片</li><li><span class="n">4</span>往下找<b>查核機構</b>的文章</li></ol>'+
-        '<p class="lead"><b>試試看：</b>在右邊的圖片上，按滑鼠右鍵。</p>'+
-        '<p><button type="button" class="btn '+(ack?'ok':'opt')+'" data-ack="l'+st.r+'">'+(ack?'我看懂了':'看懂了，按這裡')+'</button></p></div>'+
-        '<div><img class="msgimg" src="'+R.img+'" alt="'+esc(R.alt)+'">'+vid('v_lens','影片：用智慧鏡頭搜尋圖片',false)+'</div></div></div>';
+        '<p class="lead"><b>試試看：</b>在右邊的圖片上，按滑鼠右鍵。</p></div>'+
+        '<div><img class="msgimg" src="'+R.img+'" alt="'+esc(R.alt)+'"></div></div>'+
+        vid('v_lens','影片：用智慧鏡頭搜尋圖片',false)+
+        '<p style="margin-top:16px"><button type="button" class="btn '+(ack?'ok':'opt')+'" data-ack="l'+st.r+'">'+(ack?'我看懂了':'看懂了，按這裡')+'</button></p></div>';
     },
     label:function(st,R){
       var p=R.report,g=p.ring;
@@ -312,24 +313,27 @@ nav.bar .why{font-size:1rem;color:var(--mute);min-width:0}
     if(st.k==='quick')return QUICK.every(function(x,i){return S.qk[i]==='ok';})?'':'3 則都答對，才能按下一步';
     return '';
   }
-  function render(){
+  function render(keep){
     var st=STEPS[S.i],R=st.r>=0?ROUNDS[st.r]:null;
     var inRound=STEPS.filter(function(x){return x.r===st.r&&st.r>=0;});
     st.total=inRound.length;st.n=inRound.indexOf(st)+1;
+    var kept={};
+    if(keep)[].forEach.call(document.querySelectorAll('#stage .vid'),function(v){kept[v.dataset.src]=v;});
     $('stage').innerHTML=VIEW[st.k](st,R);
+    if(keep)[].forEach.call(document.querySelectorAll('#stage .vid'),function(v){var o=kept[v.dataset.src];if(o&&!document.contains(o)){v.parentNode.replaceChild(o,v);}});
     $('roundTag').textContent=R?R.name:(st.k==='end'?'完成':(st.k==='quick'?'快問快答':'開始'));
     $('dots').innerHTML=inRound.map(function(x,k){return '<i class="'+(k+1<st.n?'done':(k+1===st.n?'now':''))+'"></i>';}).join('');
     var g=gate(st);
-    $('why').textContent=g;
-    $('next').disabled=!!g;
+    $('why').textContent='';
+    $('next').disabled=false;
     $('next').textContent=(st.k==='end')?'回第一頁':(st.k==='intro'?'開始':'下一步');
     $('prev').style.visibility=S.i===0?'hidden':'visible';
     $('next').style.display=(st.k==='end')?'none':'';
     mountAll();bind(st,R);
-    window.scrollTo(0,0);
+    if(!keep)window.scrollTo(0,0);
   }
   function refresh(){ // 不捲到最上面的更新
-    var y=window.scrollY;render();window.scrollTo(0,y);
+    var y=window.scrollY;render(true);window.scrollTo(0,y);
   }
   function bind(st,R){
     [].forEach.call(document.querySelectorAll('[data-say]'),function(b){b.onclick=function(){say(b.dataset.say);};});
