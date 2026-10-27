@@ -171,7 +171,7 @@ nav.bar .why{font-size:1rem;color:var(--mute);min-width:0}
   var ICON_OK='<svg class="chk" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#16a34a"/><path d="M6.5 12.5l3.5 3.5 7.5-8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var $=function(id){return document.getElementById(id);};
   function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
-  function sayBtn(t){return ('speechSynthesis' in window)?'<button type="button" class="say" data-say="'+esc(t)+'">'+ICON_SAY+'唸給我聽</button>':'';}
+  function sayBtn(t){return '';}
   function say(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang='zh-TW';u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
   function vid(name,cap,collapsed,title){
     var h='<div class="vid" data-src="assets/'+name+'.mp4" data-poster="assets/'+name+'_封面.jpg"></div><p class="vidcap">'+cap+'（點一下影片可以暫停）</p>';

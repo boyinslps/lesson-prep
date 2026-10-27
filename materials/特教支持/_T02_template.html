@@ -86,7 +86,7 @@ h1{margin:10px 0 0;font-size:1.8rem;color:var(--teal)}
     <button type="button" class="btn opt" id="loadBtn">讀取上次紀錄</button>
     <span class="note" id="saveStat" style="font-weight:700"></span>
   </div>
-  <span class="prog" id="prog">已選 0 / 6</span>
+  <span class="prog" id="prog">已選 0 / 8</span>
   <div id="list"></div>
 
   <div class="card" style="text-align:center">
@@ -97,7 +97,7 @@ h1{margin:10px 0 0;font-size:1.8rem;color:var(--teal)}
   </div>
   <div id="resultBox" class="reward">
     <p class="lead" style="margin:0">你答對了</p>
-    <div class="score"><span id="scoreNum">0</span> / 6</div>
+    <div class="score"><span id="scoreNum">0</span> / <span id="scoreTot">8</span></div>
     <p class="lead" id="scoreMsg"></p>
     <p class="lead"><b>恭喜你已經做完今日的作業，可以遊玩！</b></p>
     <p><a class="btn go" href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener">打字英雄</a></p>
@@ -117,7 +117,7 @@ var firebaseConfig = {
 };
 (function(){
   var WS_ID='g5-T02', WS_TITLE='查證作答', LESSON='g5/T02', STORE='spT02flow';
-  var FB_PUMPKIN='@@FB_PUMPKIN@@';
+  var FB_PUMPKIN='@@FB_PUMPKIN@@', FB_HONEY='@@FB_HONEY@@';
   /* ===== 題目（真假穿插）：real＝正解；q 是複製的關鍵字 ===== */
   var items=[
     {t:'常常吃南瓜、胡蘿蔔，手掌或腳底真的會變黃',real:true,q:'吃南瓜 手掌變黃 查核',mode:'link',fb:true,url:FB_PUMPKIN,title:'常吃南瓜手掌變黃？其實有科學解釋：胡蘿蔔素血症',site:'facebook.com',
@@ -126,6 +126,10 @@ var firebaseConfig = {
       truth:'假的！查核機構標為「詐騙」，用「幫忙投票」騙你輸入資料。',report:'https://www.mygopen.com/2026/08/vote-scam.html'},
     {t:'奇異果連皮一起吃，膳食纖維會大幅增加',real:true,q:'奇異果 連皮吃 纖維 查核',mode:'link',url:'https://health.udn.com/health/story/6037/8839419',img:'https://pgw.udn.com.tw/gw/photo.php?u=/photo/2025/06/29/realtime/32407364.jpg&x=0&y=0&sw=0&sh=0&exp=3600&w=930',title:'奇異果連皮吃更好！營養師：纖維是果肉的 2 倍',site:'health.udn.com',
       truth:'真的！奇異果皮富含纖維，洗乾淨連皮吃營養更多。'},
+    {t:'房間放一顆沒剝皮的洋蔥，能吸病毒、預防流感',real:false,q:'洋蔥 吸病毒 預防流感 查核',mode:'youtube',yt:'Lm9KiSn4VUk',
+      truth:'假的！洋蔥沒有吸附病毒的效果。這支影片本身就是在散播謠言。'},
+    {t:'純天然的蜂蜜不會過期，放很久也不會壞',real:true,q:'蜂蜜 不會過期 查核',mode:'link',fb:true,url:FB_HONEY,title:'原來純天然的蜂蜜沒有過期！科普一下冷知識',site:'facebook.com',
+      truth:'真的！純蜂蜜很濃、又有天然的抗菌力，蓋好保存幾乎不會壞。'},
     {t:'地震時，要躲在「生命三角」',real:false,q:'地震 生命三角 躲 查核',mode:'img',src:'assets/msg_K.jpg',alt:'臉書貼文：遇到強地震，往大樓的電梯樓梯牆角下，抱頭蹲著，那是住宅結構最強的金三角位置。',
       truth:'假的！查核機構標為「錯誤」。地震時要聽消防局、氣象署的官方說明。',report:'https://tfc-taiwan.org.tw/fact-check-reports/migration-4806'},
     {t:'熱檸檬水能殺死癌細胞，功效比化療強一萬倍',real:false,q:'熱檸檬水 殺死癌細胞 查核',mode:'link',url:'https://momdata.blogspot.com/2014/07/blog-post_5.html',title:'驚天大秘！大藥廠打死也不願說…檸檬可殺死癌細胞',site:'momdata.blogspot.com',
@@ -161,6 +165,7 @@ var firebaseConfig = {
 
   /* ===== 題卡 ===== */
   function mediaHtml(it){
+    if(it.mode==='youtube')return '<div style="position:relative;padding-top:56.25%;border-radius:16px;overflow:hidden;background:#0f172a"><iframe src="https://www.youtube-nocookie.com/embed/'+it.yt+'" title="影片" frameborder="0" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe></div>';
     if(it.mode==='img')return '<div class="media"><img src="'+it.src+'" alt="'+esc(it.alt)+'"></div>';
     var ban=it.img?'<div class="ban img"><img src="'+it.img+'" alt="" onerror="this.parentElement.className=\'ban\';this.parentElement.textContent=\''+esc(it.site)+'\'"></div>'
       :'<div class="ban">'+(it.fb?'Facebook 貼文':esc(it.site))+'</div>';
@@ -203,7 +208,7 @@ var firebaseConfig = {
   function scoreNow(){var n=0;items.forEach(function(it,i){if(state.v[i]===it.real)n++;});return n;}
   function finishUi(){
     var n=scoreNow();
-    $('scoreNum').textContent=n;
+    $('scoreNum').textContent=n;$('scoreTot').textContent=N;
     $('scoreMsg').textContent=n===N?'全部答對！你是查證小偵探！':(n>=4?'很棒！答錯的，看一看上面的說明。':'沒關係，看一看上面的說明，下次會更厲害。');
     $('resultBox').style.display='block';
     var b=$('submitBtn');b.disabled=true;b.textContent='已送出';
@@ -303,10 +308,10 @@ var firebaseConfig = {
 
 <script type="application/json" id="grading-spec">
 {
-  "summary": "查證作答：6 則網傳訊息，用關鍵字或智慧鏡頭查證後，選「真的」或「假的」（不用寫字）。",
+  "summary": "查證作答：8 則網傳訊息，用關鍵字或智慧鏡頭查證後，選「真的」或「假的」（不用寫字）。",
   "questions": [],
   "scoring": { "base": 100, "floor": 80, "deduction": 1,
-    "itemPoints": { "q1": 4, "q2": 3, "q3": 3, "q4": 3, "q5": 3, "q6": 4 } }
+    "itemPoints": { "q1": 3, "q2": 3, "q3": 3, "q4": 3, "q5": 2, "q6": 2, "q7": 2, "q8": 2 } }
 }
 </script>
 </body>
