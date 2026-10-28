@@ -28,6 +28,20 @@
   table.cmp{border-collapse:collapse;width:100%}
   table.cmp th,table.cmp td{border:2px solid #e2e8f0;padding:8px 10px;text-align:left;vertical-align:top}
   table.cmp th{background:#f0f9ff}
+  .gdoc{border:2px solid #cbd5e1;border-radius:14px;overflow:hidden;background:#f9fbfd;font-family:Arial,'Microsoft JhengHei','Noto Sans TC',sans-serif;color:#1f1f1f}
+  .gdoc-top{display:flex;align-items:center;gap:10px;padding:8px 14px 2px}
+  .gdoc-logo{width:22px;height:30px;background:#4285f4;border-radius:3px;position:relative;flex:none}
+  .gdoc-logo:after{content:'';position:absolute;left:5px;right:5px;top:9px;height:2px;background:#fff;box-shadow:0 5px 0 #fff,0 10px 0 #fff,0 15px 0 #fff}
+  .gdoc-title{font-size:17px}
+  .gdoc-share{margin-left:auto;background:#c2e7ff;border-radius:18px;padding:5px 16px;font-size:13px;font-weight:700}
+  .gdoc-menu{display:flex;gap:16px;font-size:13px;color:#444;padding:0 14px 6px 46px;flex-wrap:wrap}
+  .gdoc-page{background:#fff;margin:6px auto 14px;max-width:880px;box-shadow:0 1px 3px rgba(0,0,0,.25);padding:18px 28px;font-size:16px;line-height:26px}
+  .gdoc-row{display:flex;gap:12px;align-items:center;justify-content:space-between}
+  .gdoc-text p{margin:0}
+  .gdoc-gap{height:26px;margin:0}
+  .gdoc-url{color:#1155cc;text-decoration:underline}
+  .gdoc-note{flex:none;border-radius:10px;padding:4px 10px;font-size:14px;font-weight:700;line-height:1.4;white-space:nowrap}
+  details>summary{list-style:none}details>summary::-webkit-details-marker{display:none}
 </style>
 </head>
 <body>
@@ -110,13 +124,95 @@
       </div>
     </div>
     <p class="text-sm text-slate-500 mt-2">資料：Google 地圖（2026/10/14 早上查，時間會變）；YouBike 臺南 2.0 每 30 分鐘 10 元；公車費用依路線，以大台南公車網站票價頁為準。</p>
+    <p class="text-sm text-slate-500">照片：臺南火車站 CEphoto, Uwe Aranas（CC BY-SA 3.0）、大台南公車 顏嘉佑（CC BY-SA 4.0），Wikimedia Commons。</p>
     <div class="stepnav"></div>
   </section>
 
 
-  <!-- 步驟 2：怎麼查？ -->
-  <section class="step hidden bg-white border-4 border-violet-300 rounded-3xl p-5 shadow-sm" data-step="2">
-    <h2 class="cute text-3xl font-extrabold text-violet-700 mb-3">怎麼查時間？</h2>
+  <!-- 步驟 2：公車（獨立一步＋練習題）：用大台南公車「公共運輸轉乘查詢」 -->
+  <section class="step hidden bg-white border-4 border-emerald-300 rounded-3xl p-5 shadow-sm" data-step="2">
+    <h2 class="cute text-3xl font-extrabold text-emerald-700 mb-3">🚌 公車怎麼搭？</h2>
+
+    <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-emerald-700 mb-2">搭公車，要查 3 件事</p>
+      <div class="grid sm:grid-cols-3 gap-3 text-center">
+        <div class="bg-white border-2 border-emerald-300 rounded-2xl p-3"><p class="cute text-3xl font-extrabold text-emerald-600">①</p><p class="text-2xl font-extrabold">搭<span class="text-emerald-700">幾號</span></p><p class="text-base text-slate-500">哪一路公車</p></div>
+        <div class="bg-white border-2 border-emerald-300 rounded-2xl p-3"><p class="cute text-3xl font-extrabold text-emerald-600">②</p><p class="text-2xl font-extrabold">哪個站牌<span class="text-emerald-700">上車</span></p><p class="text-base text-slate-500">在哪裡等車</p></div>
+        <div class="bg-white border-2 border-emerald-300 rounded-2xl p-3"><p class="cute text-3xl font-extrabold text-emerald-600">③</p><p class="text-2xl font-extrabold">哪個站牌<span class="text-emerald-700">下車</span></p><p class="text-base text-slate-500">在哪裡按鈴</p></div>
+      </div>
+      <div class="bg-white border-2 border-emerald-200 rounded-2xl p-3 mt-3">
+        <p class="text-xl font-extrabold">例：搭 <span class="text-emerald-700">103 路</span>，<span class="text-emerald-700">臺南火車站(中山路C)</span>上車，<span class="text-rose-600">赤崁樓</span>下車</p>
+        <p class="text-base text-slate-500 mt-1">車上約 6 分鐘，加上走路，總共約 8 分鐘。</p>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-emerald-200 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-emerald-700 mb-1">怎麼查？大台南公車「公共運輸轉乘查詢」</p>
+      <a href="https://2384.tainan.gov.tw/newtnbusweb/transferInfo.html?Lang=cht" target="_blank" rel="noopener" class="inline-block mb-3 bg-emerald-500 hover:bg-emerald-600 text-white text-xl font-extrabold rounded-xl px-5 py-2">打開公共運輸轉乘查詢 ↗</a>
+
+      <div class="grid md:grid-cols-5 gap-4 items-start mb-5">
+        <div class="md:col-span-2">
+          <p class="text-2xl font-extrabold"><span class="stepno bg-emerald">1</span>設<span class="text-emerald-700">起點、訖點</span></p>
+          <ol class="list-decimal pl-8 text-xl font-bold space-y-1 mt-2">
+            <li>下面「<span class="text-emerald-700">熱門查詢點</span>」點一個景點</li>
+            <li>選「<span class="text-emerald-700">起點</span>」</li>
+            <li>再點另一個景點，選「<span class="text-emerald-700">訖點</span>」</li>
+          </ol>
+          <p class="text-base text-slate-500 mt-2">景點不在裡面？直接在格子裡打名字。換方向？按「起訖互換」。</p>
+          <p class="text-xl font-bold mt-2">「優先方案」選<span class="text-emerald-700">公車直達</span> → 按「<span class="text-emerald-700">開始規劃</span>」</p>
+        </div>
+        <a href="assets/bus_transfer_form.jpg" target="_blank" rel="noopener" title="點圖放大" class="md:col-span-3"><img src="assets/bus_transfer_form.jpg" alt="公共運輸轉乘查詢：起點台南火車站、訖點赤崁樓、優先方案公車直達，下方是熱門查詢點" class="shot" loading="lazy"></a>
+      </div>
+
+      <div class="grid md:grid-cols-5 gap-4 items-start mb-5">
+        <div class="md:col-span-2">
+          <p class="text-2xl font-extrabold"><span class="stepno bg-emerald">2</span>看結果</p>
+          <p class="text-xl font-bold mt-2">每一列是<span class="text-emerald-700">一種搭法</span>：搭<span class="text-emerald-700">幾號</span>、<span class="text-emerald-700">總共幾分鐘</span></p>
+          <p class="text-base text-slate-500 mt-2">表頭的字有點對不齊；有「<b>分鐘</b>」的那一欄，就是<b>總共要花的時間</b>。</p>
+        </div>
+        <a href="assets/bus_transfer_result.jpg" target="_blank" rel="noopener" title="點圖放大" class="md:col-span-3"><img src="assets/bus_transfer_result.jpg" alt="公共運輸轉乘查詢結果：台南火車站到赤崁樓，列出 103、105、107、14、19、18 路與總共分鐘" class="shot" loading="lazy"></a>
+      </div>
+
+      <div class="grid md:grid-cols-5 gap-4 items-start">
+        <div class="md:col-span-2">
+          <p class="text-2xl font-extrabold"><span class="stepno bg-emerald">3</span>點「<span class="text-emerald-700">詳細內容</span>」</p>
+          <ul class="text-xl font-bold space-y-1 mt-2">
+            <li>🟢 <span class="text-emerald-700">上車站牌</span>（站名在公車圖示上面）</li>
+            <li>🚌 搭<span class="text-emerald-700">幾號</span>、車上<span class="text-emerald-700">幾分鐘</span></li>
+            <li>🔴 <span class="text-rose-600">下車站牌</span>（公車圖示下面）</li>
+          </ul>
+          <p class="text-base text-slate-500 mt-2">下車站牌<b>不一定</b>就是景點，下車後可能還要走一小段，照<b>詳細內容</b>寫。</p>
+        </div>
+        <a href="assets/bus_transfer_detail.jpg" target="_blank" rel="noopener" title="點圖放大" class="md:col-span-3"><img src="assets/bus_transfer_detail.jpg" alt="方案詳細內容：從台南火車站步行至臺南火車站(中山路C)，搭103路開往赤崁樓，6分鐘，到赤崁樓" class="shot" loading="lazy"></a>
+      </div>
+
+      <details class="mt-4 bg-slate-50 border-2 border-slate-200 rounded-2xl p-3">
+        <summary class="font-bold text-slate-600 cursor-pointer">🕒 想知道公車還要等幾分鐘？（點開）</summary>
+        <div class="grid md:grid-cols-5 gap-4 items-start mt-3">
+          <a href="assets/bus_route98.jpg" target="_blank" rel="noopener" title="點圖放大" class="md:col-span-3"><img src="assets/bus_route98.jpg" alt="大台南公車即時動態：98 府城台江線的站牌與預估到站時間" class="shot" loading="lazy"></a>
+          <div class="md:col-span-2 text-lg">
+            <p>用「<b>即時動態</b>」選路線，站牌由上往下就是<b>行駛順序</b>。</p>
+            <p class="mt-1">「預估時間」＝公車<b>還要幾分鐘到站</b>。</p>
+            <a href="https://2384.tainan.gov.tw/newtnbusweb/ebusInfo.html?Lang=cht" target="_blank" rel="noopener" class="inline-block mt-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl px-4 py-1.5">即時動態 ↗</a>
+            <p class="text-base text-slate-500 mt-1">📱 手機也可以裝「大台南公車」App。</p>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="bg-amber-50 border-4 border-amber-300 rounded-3xl p-4" data-qid="q3" data-qtype="experience">
+      <p class="cute text-2xl font-extrabold text-amber-700 mb-1">✏️ 練習：查 A 到 B，可以怎麼搭？</p>
+      <p class="text-lg mb-3">用<b>公共運輸轉乘查詢</b>，「優先方案」選<b>公車直達</b>，看<b>方案 1</b> 的「詳細內容」，寫下來，再按「對答案」。</p>
+      <div id="busPractice" class="space-y-4"></div>
+      <p class="text-base text-slate-500 mt-3">公車班次每天、每個時段都不一樣，你查到的跟參考答案不同也可以；只要上車、下車<b>接得起來</b>就對。</p>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+
+  <!-- 步驟 3：Google 地圖（放最後一個查詢工具；教師錄影後放進 assets/教學_Google地圖查路線.mp4） -->
+  <section class="step hidden bg-white border-4 border-rose-300 rounded-3xl p-5 shadow-sm" data-step="3">
+    <h2 class="cute text-3xl font-extrabold text-rose-700 mb-3">🗺️ Google 地圖：查路線、換交通方式</h2>
 
     <div class="bg-violet-50 border-4 border-violet-200 rounded-3xl p-4 mb-4">
       <p class="cute text-2xl font-extrabold text-violet-700 mb-2">① 開新瀏覽器，選「訪客模式」</p>
@@ -130,85 +226,95 @@
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-4 mb-4">
-      <div class="bg-white border-4 border-rose-200 rounded-3xl p-3">
-        <p class="cute text-2xl font-extrabold text-rose-600">② Google 地圖</p>
-        <a href="assets/gm_route.jpg" target="_blank" rel="noopener" title="點圖放大"><img src="assets/gm_route.jpg" alt="Google 地圖規劃路線：赤崁樓到安平古堡，上方有開車、機車、公車、走路、腳踏車的分鐘" class="shot my-2" loading="lazy"></a>
-        <ol class="list-decimal pl-6 text-xl font-bold space-y-1">
-          <li>搜尋景點 →「<span class="text-rose-600">規劃路線</span>」</li>
-          <li>填<span class="text-rose-600">出發地、目的地</span></li>
-          <li>看上面 5 個圖示的<span class="text-rose-600">分鐘</span></li>
-        </ol>
-        <p class="text-lg font-bold text-slate-700 mt-1">🚗 開車　🛵 機車　🚌 公車　🚶 走路　🚲 腳踏車</p>
-        <p class="text-base text-slate-500">點圖可以放大。時間會變，以你查到的為準。</p>
+    <div class="bg-rose-50 border-4 border-rose-200 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-rose-700 mb-2">② 規劃路線，一種一種換</p>
+      <div id="gmVideoWrap" class="hidden mb-4">
+        <video id="gmVideo" class="w-full max-w-3xl mx-auto rounded-xl border-2 border-rose-200 bg-slate-900" src="assets/教學_Google地圖查路線.mp4" poster="assets/教學_Google地圖查路線_封面.jpg" controls playsinline preload="none"></video>
+        <p class="text-center text-base text-slate-500 mt-1">🎬 影片：搜尋景點 → 規劃路線 → 換交通方式 → 看公車</p>
       </div>
-      <div class="bg-white border-4 border-emerald-200 rounded-3xl p-3">
-        <p class="cute text-2xl font-extrabold text-emerald-700">③ 公車</p>
-        <a href="assets/bus_route98.jpg" target="_blank" rel="noopener" title="點圖放大"><img src="assets/bus_route98.jpg" alt="大台南公車網站：98 府城台江線的站牌與預估到站時間" class="shot my-2" loading="lazy"></a>
-        <ol class="list-decimal pl-6 text-xl font-bold space-y-1">
-          <li>選<span class="text-emerald-700">路線</span>，找到你的<span class="text-emerald-700">站牌</span></li>
-          <li>「預估時間」＝<span class="text-emerald-700">還要幾分鐘到站</span></li>
-          <li>🚲 綠色圖示＝旁邊有 YouBike</li>
-        </ol>
-        <p class="text-lg font-bold text-slate-700 mt-1">📱 手機也可以裝「大台南公車」App</p>
-        <a href="https://2384.tainan.gov.tw/newtnbusweb/ebusInfo.html?Lang=cht" target="_blank" rel="noopener" class="inline-block mt-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl px-4 py-1.5">大台南公車網站 ↗</a>
+      <div class="grid md:grid-cols-5 gap-4 items-start">
+        <a href="assets/gm_route.jpg" target="_blank" rel="noopener" title="點圖放大" class="md:col-span-3"><img src="assets/gm_route.jpg" alt="Google 地圖規劃路線：赤崁樓到安平古堡，上方有開車、機車、公車、走路、腳踏車的分鐘" class="shot" loading="lazy"></a>
+        <div class="md:col-span-2">
+          <ol class="list-decimal pl-6 text-xl font-bold space-y-2">
+            <li>搜尋景點 →「<span class="text-rose-600">規劃路線</span>」</li>
+            <li>填<span class="text-rose-600">出發地</span>、<span class="text-rose-600">目的地</span></li>
+            <li>點上面的<span class="text-rose-600">圖示</span>，<span class="text-rose-600">一種一種換</span>，每種都有自己的分鐘</li>
+            <li>要寫的那一種，<span class="text-rose-600">點進去看細節</span></li>
+          </ol>
+          <p class="text-xl font-bold text-slate-700 mt-2 flex flex-wrap gap-x-4"><span class="whitespace-nowrap">🚗 開車</span><span class="whitespace-nowrap">🛵 機車</span><span class="whitespace-nowrap">🚌 公車</span><span class="whitespace-nowrap">🚶 走路</span><span class="whitespace-nowrap">🚲 腳踏車</span></p>
+          <p class="text-base text-slate-500">點圖可以放大。時間會變，以你查到的為準。</p>
+        </div>
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-4">
-      <div class="bg-white border-4 border-yellow-300 rounded-3xl p-3">
-        <p class="cute text-2xl font-extrabold text-yellow-700">④ YouBike</p>
-        <a href="assets/yb_station.jpg" target="_blank" rel="noopener" title="點圖放大"><img src="assets/yb_station.jpg" alt="YouBike 站點地圖搜尋赤崁樓，顯示可借車輛與可停空位" class="shot my-2" loading="lazy"></a>
-        <ol class="list-decimal pl-6 text-xl font-bold space-y-1">
-          <li>「站點搜尋」打景點名字</li>
-          <li>看「<span class="text-yellow-700">可借車輛</span>」和「<span class="text-yellow-700">可停空位</span>」</li>
-        </ol>
-        <a href="https://www.youbike.com.tw/region/tainan/stations/" target="_blank" rel="noopener" class="inline-block mt-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-xl px-4 py-1.5">YouBike 站點地圖 ↗</a>
-      </div>
-      <div class="bg-white border-4 border-sky-200 rounded-3xl p-3">
-        <p class="cute text-2xl font-extrabold text-sky-700">⑤ 火車</p>
-        <p class="text-xl font-bold my-2">只有<span class="text-sky-700">去很遠</span>才會用到</p>
-        <p class="text-xl">例：去高雄、嘉義</p>
-        <p class="text-xl">查「<b>起站 → 迄站</b>」的發車時間</p>
-        <a href="https://tip.railway.gov.tw/tra-tip-web/tip" target="_blank" rel="noopener" class="inline-block mt-3 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl px-4 py-1.5">臺鐵時刻查詢 ↗</a>
-        <p class="text-base text-slate-500 mt-2">Google 地圖的路線結果，也會出現火車選項。</p>
+    <div class="bg-amber-50 border-4 border-amber-300 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-amber-700 mb-2">③ 🚌 公車也可以查，但不太準</p>
+      <div class="grid md:grid-cols-2 gap-4 text-xl">
+        <ul class="space-y-2 font-bold">
+          <li>✔ 點 🚌，會列出<span class="text-amber-700">搭哪一路</span>、在哪裡<span class="text-amber-700">上車、下車</span></li>
+          <li>✘ 時間是<span class="text-amber-700">估的</span>，走到站牌、等車要<span class="text-amber-700">另外加</span></li>
+          <li>✘ 每次查，結果可能<span class="text-amber-700">不一樣</span></li>
+        </ul>
+        <div class="bg-white border-2 border-amber-200 rounded-2xl p-3">
+          <p class="font-extrabold">所以這樣做：</p>
+          <p class="mt-1">公車請用<a href="#" data-goto="2" class="text-emerald-700 font-extrabold underline">公共運輸轉乘查詢</a>查，<br>會直接告訴你<b>幾號</b>、<b>哪裡上下車</b></p>
+        </div>
       </div>
     </div>
-    <p class="text-sm text-slate-500 mt-2">畫面：Google 地圖、大台南公車、YouBike（2026/10/13～14 擷取）。照片：臺南火車站 CEphoto, Uwe Aranas（CC BY-SA 3.0）、大台南公車 顏嘉佑（CC BY-SA 4.0），Wikimedia Commons。</p>
+
+    <details class="bg-white border-4 border-slate-200 rounded-3xl p-4">
+      <summary class="cute text-xl font-extrabold text-slate-700 cursor-pointer">🚲 YouBike、🚆 火車怎麼查？（點開）</summary>
+      <div class="grid md:grid-cols-2 gap-4 mt-3">
+        <div class="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-3">
+          <p class="cute text-xl font-extrabold text-yellow-700">🚲 YouBike</p>
+          <a href="assets/yb_station.jpg" target="_blank" rel="noopener" title="點圖放大"><img src="assets/yb_station.jpg" alt="YouBike 站點地圖搜尋赤崁樓，顯示可借車輛與可停空位" class="shot my-2" loading="lazy"></a>
+          <ol class="list-decimal pl-6 text-lg font-bold space-y-1">
+            <li>「站點搜尋」打景點名字</li>
+            <li>看「<span class="text-yellow-700">可借車輛</span>」和「<span class="text-yellow-700">可停空位</span>」</li>
+          </ol>
+          <a href="https://www.youbike.com.tw/region/tainan/stations/" target="_blank" rel="noopener" class="inline-block mt-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-xl px-4 py-1.5">YouBike 站點地圖 ↗</a>
+        </div>
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3">
+          <p class="cute text-xl font-extrabold text-sky-700">🚆 火車</p>
+          <p class="text-lg font-bold my-2">只有<span class="text-sky-700">去很遠</span>才會用到（例：去高雄、嘉義）</p>
+          <p class="text-lg">查「<b>起站 → 迄站</b>」的發車時間</p>
+          <a href="https://tip.railway.gov.tw/tra-tip-web/tip" target="_blank" rel="noopener" class="inline-block mt-3 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl px-4 py-1.5">臺鐵時刻查詢 ↗</a>
+          <p class="text-base text-slate-500 mt-2">Google 地圖的路線結果，也會出現火車選項。</p>
+        </div>
+      </div>
+    </details>
+    <p class="text-sm text-slate-500 mt-2">畫面：Google 地圖、大台南公車、YouBike（2026/10/13～14 擷取）。公車路線與站牌：大台南公車網站（2026/10/27 查）。</p>
     <div class="stepnav"></div>
   </section>
 
 
-  <!-- 步驟 3：寫交通格子＋繳交 -->
-  <section class="step hidden bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm" data-step="3">
+  <!-- 步驟 4：撰寫要點＋交通格子＋完整示範＋繳交 -->
+  <section class="step hidden bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm" data-step="4">
     <h2 class="cute text-3xl font-extrabold text-orange-700 mb-3">寫進文件</h2>
 
     <a href="https://boyinslps.github.io/pcclass/g4/L05/" target="_blank" rel="noopener" class="inline-block mb-4 bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">📖 回去看 L05 學習單（複習用）↗</a>
 
     <div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mb-4">
-      <p class="cute text-2xl font-extrabold text-orange-700 mb-2">🎯 今日任務：3 個步驟</p>
+      <p class="cute text-2xl font-extrabold text-orange-700 mb-2">📝 撰寫要點：4 個步驟</p>
       <ol class="text-2xl font-extrabold space-y-2">
-        <li><span class="stepno bg-orange">1</span>看<span class="text-orange-700">比一比</span>，知道怎麼去</li>
-        <li><span class="stepno bg-orange">2</span><span class="text-orange-700">查</span>景點之間的<span class="text-orange-700">交通方式</span>和時間</li>
-        <li><span class="stepno bg-orange">3</span>站與站中間<span class="text-orange-700">插入交通格子</span>，填資料</li>
+        <li><span class="stepno bg-orange">1</span>把景點<span class="text-orange-700">順序排好</span>（<span class="text-orange-700">美食也排進景點中</span>，算一站）</li>
+        <li><span class="stepno bg-orange">2</span>兩站中間，<span class="text-orange-700">貼上交通格子</span></li>
+        <li><span class="stepno bg-orange">3</span>查<span class="text-orange-700">第 1 站 → 第 2 站</span>，選一種<span class="text-orange-700">交通方式</span></li>
+        <li><span class="stepno bg-orange">4</span>寫下<span class="text-orange-700">細節</span>和<span class="text-orange-700">時間</span>（公車：搭<span class="text-orange-700">幾號</span>、哪個站牌<span class="text-orange-700">上</span>、哪個站牌<span class="text-orange-700">下</span>）</li>
       </ol>
+      <p class="text-lg mt-2">不知道怎麼寫？拉到最下面看<a href="#demo" class="text-orange-700 font-extrabold underline">完整示範 ↓</a></p>
     </div>
 
     <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-4">
-      <p class="cute text-2xl font-extrabold text-emerald-700 mb-2"><span class="stepno bg-emerald">3</span>站與站中間：插入交通格子</p>
+      <p class="cute text-2xl font-extrabold text-emerald-700 mb-2"><span class="stepno bg-emerald">2</span>貼上交通格子</p>
       <div class="grid md:grid-cols-2 gap-4 items-start">
         <div>
           <button id="tplCopy" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xl font-extrabold rounded-2xl px-4 py-3">📋 複製交通格子</button>
           <ol class="text-xl font-bold space-y-2 mt-3">
             <li><span class="stepno">1</span>點在<span class="text-emerald-700">兩站中間</span>的空白行</li>
             <li><span class="stepno">2</span><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd>　貼上</li>
-            <li><span class="stepno">3</span>填三欄；要幾個，<span class="text-emerald-700">就再貼幾次</span></li>
+            <li><span class="stepno">3</span>填四欄；要幾個，<span class="text-emerald-700">就再貼幾次</span></li>
           </ol>
-          <ul class="text-lg mt-3 space-y-1">
-            <li><b>出發與目的地</b>：A → B</li>
-            <li><b>交通方式</b>：開車／機車／火車／公車／YouBike／走路</li>
-            <li><b>路程時間</b>：查到的分鐘（1 小時 5 分＝65 分）</li>
-          </ul>
         </div>
         <div>
           <pre id="tplText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-emerald-100"></pre>
@@ -219,15 +325,45 @@
           </div>
         </div>
       </div>
-      <div class="mt-3 pt-3 border-t-2 border-emerald-100">
-        <button id="tplBus" class="bg-indigo-500 hover:bg-indigo-600 text-white text-lg font-extrabold rounded-xl px-4 py-2">🚌 交通型：複製班次格子</button>
-        <pre id="busText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-indigo-100 mt-2 max-w-md"></pre>
+    </div>
+
+    <div class="bg-white border-4 border-sky-200 rounded-3xl p-4 mt-4">
+      <p class="cute text-2xl font-extrabold text-sky-700 mb-2"><span class="stepno">3</span><span class="stepno bg-orange">4</span>查完，四欄這樣寫</p>
+      <div class="overflow-x-auto">
+        <table class="cmp text-lg">
+          <thead><tr><th>欄位</th><th>寫什麼</th><th>例</th></tr></thead>
+          <tbody>
+            <tr><td class="font-extrabold">出發與目的地</td><td>第 1 站 → 第 2 站</td><td>赤崁樓 → 安平古堡</td></tr>
+            <tr><td class="font-extrabold">交通方式</td><td>開車／機車／火車／公車／YouBike／走路，選<b>一種</b></td><td>公車</td></tr>
+            <tr><td class="font-extrabold">搭乘細節</td><td>照交通方式寫，看下表</td><td>搭 98 府城台江線，赤崁樓上車，安平古堡(安北路)下車</td></tr>
+            <tr><td class="font-extrabold">路程時間</td><td>查到的「總共幾分鐘」（1 小時 5 分＝65 分）</td><td>17 分</td></tr>
+          </tbody>
+        </table>
       </div>
+      <p class="font-extrabold text-xl mt-3">「搭乘細節」依交通方式這樣寫：</p>
+      <div class="overflow-x-auto">
+        <table class="cmp text-lg mt-1">
+          <thead><tr><th>方式</th><th>細節寫</th><th>例</th></tr></thead>
+          <tbody>
+            <tr><td class="font-extrabold">🚌 公車</td><td><b>搭幾號</b>、哪個站牌<b>上</b>、哪個站牌<b>下</b></td><td>搭 103 路，臺南火車站(中山路C)上車，赤崁樓下車</td></tr>
+            <tr><td class="font-extrabold">🚶 走路</td><td>走<b>多遠</b></td><td>走路約 0.8 公里</td></tr>
+            <tr><td class="font-extrabold">🚲 YouBike</td><td>在哪個站<b>借</b>、哪個站<b>還</b></td><td>在○○站借車，在△△站還車</td></tr>
+            <tr><td class="font-extrabold">🚗 開車／🛵 機車</td><td>Google 地圖寫的<b>途經路名</b></td><td>途經民權路四段</td></tr>
+            <tr><td class="font-extrabold">🚆 火車</td><td><b>起站 → 迄站</b>、幾點發車</td><td>臺南 → 嘉義，10:30 發車</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <details class="mt-3">
+        <summary class="font-bold text-slate-600 cursor-pointer">🚌 我的景點是台灣好行路線（交通型）→ 用這個格子</summary>
+        <button id="tplBus" class="mt-2 bg-indigo-500 hover:bg-indigo-600 text-white text-lg font-extrabold rounded-xl px-4 py-2">🚌 交通型：複製班次格子</button>
+        <pre id="busText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-indigo-100 mt-2 max-w-md"></pre>
+      </details>
     </div>
 
     <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">✅ 交之前檢查</p>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="w-6 h-6"> <b>站與站中間</b>都有交通格子：<b>交通方式</b>和<b>路程時間</b>（交通型：有<b>班次</b>）</label>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="w-6 h-6"> 景點<b>順序排好</b>了（美食也在裡面）</label>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="w-6 h-6"> <b>站與站中間</b>都有交通格子，四欄都填了（公車：有<b>幾號、上車、下車</b>）</label>
       <label class="flex items-center gap-3"><input type="checkbox" class="w-6 h-6"> 路程時間是<b>我自己查的</b></label>
     </div>
 
@@ -248,9 +384,60 @@
            class="cute inline-block bg-white border-4 border-orange-300 hover:bg-orange-50 text-orange-700 text-lg font-extrabold rounded-2xl px-6 py-2">🕹️ 更多遊戲</a>
       </div>
     </div>
-    <div class="stepnav"></div>
-  </section>
 
+    <!-- 完整示範（最下面）：模仿 Google 文件，兩個景點、中間一個交通格子 -->
+    <div id="demo" class="mt-8 border-t-4 border-dashed border-slate-200 pt-5">
+      <p class="cute text-2xl font-extrabold text-slate-700 mb-1">👀 完整示範</p>
+      <p class="text-lg mb-3">兩個景點，中間一個交通格子。你的文件會長得<b>像這樣</b>（數字是示範，請用你查到的）。</p>
+      <div class="gdoc">
+        <div class="gdoc-top"><span class="gdoc-logo"></span><span class="gdoc-title">我的台南導覽　景點清單</span><span class="gdoc-share">共用</span></div>
+        <div class="gdoc-menu"><span>檔案</span><span>編輯</span><span>查看</span><span>插入</span><span>格式</span><span>工具</span><span>擴充功能</span><span>說明</span></div>
+        <div class="gdoc-page">
+          <div class="gdoc-row">
+            <div class="gdoc-text">
+              <p>第 1 站：赤崁樓</p>
+              <p>地址：臺南市中西區民族路二段212號</p>
+              <p>開放時間：08:30～21:00</p>
+              <p>門票：全票 70 元，半票 35 元</p>
+              <p>停留多久：1 小時</p>
+              <p>景點網址：<span class="gdoc-url">https://www.twtainan.net/…</span></p>
+            </div>
+            <div class="gdoc-note bg-amber-100 text-amber-800">◀ 景點格子（L04）</div>
+          </div>
+          <p class="gdoc-gap"></p>
+          <div class="gdoc-row">
+            <div class="gdoc-text gdoc-trans">
+              <p>【交通】</p>
+              <p>出發與目的地：赤崁樓 → 安平古堡</p>
+              <p>交通方式：公車</p>
+              <p>搭乘細節：搭 98 府城台江線，赤崁樓上車，安平古堡(安北路)下車</p>
+              <p>路程時間：17 分</p>
+            </div>
+            <div class="gdoc-note bg-emerald-100 text-emerald-800">◀ 交通格子<br><span class="text-sm">貼在兩站中間</span></div>
+          </div>
+          <p class="gdoc-gap"></p>
+          <div class="gdoc-row">
+            <div class="gdoc-text">
+              <p>第 2 站：安平古堡</p>
+              <p>地址：臺南市安平區國勝路82號</p>
+              <p>開放時間：10:00～17:10</p>
+              <p>門票：全票 70 元，半票 35 元</p>
+              <p>停留多久：1 小時</p>
+              <p>景點網址：<span class="gdoc-url">https://www.twtainan.net/…</span></p>
+            </div>
+            <div class="gdoc-note bg-amber-100 text-amber-800">◀ 景點格子（L04）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-6 bg-amber-50 border-4 border-amber-200 rounded-3xl p-4">
+      <p class="cute text-xl font-extrabold text-amber-700 mb-2">📖 景點還沒做完？回去補</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="https://boyinslps.github.io/pcclass/g4/L04/" target="_blank" rel="noopener" class="inline-block bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">L04 學習單（選景點、開文件）↗</a>
+        <a href="https://boyinslps.github.io/pcclass/g4/L05/" target="_blank" rel="noopener" class="inline-block bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">L05 學習單（排順序、找照片）↗</a>
+      </div>
+    </div>    <div class="stepnav"></div>
+  </section>
 
 </div>
 
@@ -384,12 +571,89 @@ var firebaseConfig = {
   };
 
   // ===== 範本：交通格子（只留一個，學生自己多次複製貼上）=====
-  var TPL_MAIN='【交通】\n出發與目的地：　　 → \n交通方式：\n路程時間：　分\n';
+  var TPL_MAIN='【交通】\n出發與目的地：　　 → \n交通方式：\n搭乘細節：\n路程時間：　分\n';
   var TPL_BUS='【交通】\n搭乘路線：\n上車站 → 下車站：\n搭乘班次（幾點發車）：\n路程時間：　分\n';
   $('tplText').textContent=TPL_MAIN;
   $('tplCopy').onclick=function(){copyText(TPL_MAIN,this);};
   $('tplBus').onclick=function(){copyText(TPL_BUS,this);};
   $('busText').textContent=TPL_BUS;
+
+  // ===== 公車練習：用「公共運輸轉乘查詢」查 A 到 B（體驗題 q3，不計分）=====
+  // 參考答案取自大台南公車「公共運輸轉乘查詢」（2026/10/27 上午查，優先方案＝公車直達，方案 1 與其他方案）。
+  // ans＝查過詳細內容的搭法；loose＝同一組也會出現、但沒逐一查過站牌的路線（只比對路線號）。
+  var BUS_QS=[
+    {a:'赤崁樓',b:'安平古堡',
+     ans:[{r:'98',t:'98 府城台江線',on:'赤崁樓',off:'安平古堡(安北路)',min:'17',ob:['赤崁樓'],of:['安平古堡']},
+          {r:'102',t:'102 路',on:'郭綜合醫院',off:'安平古堡(安北路)',min:'26',note:'要先走 8 分鐘到郭綜合醫院',ob:['郭綜合'],of:['安平古堡']}],
+     loose:['77','19']},
+    {a:'台南火車站',b:'安平古堡',
+     ans:[{r:'98',t:'98 府城台江線',on:'臺南火車站(中山路C)',off:'安平古堡(安北路)',min:'32',ob:['火車站'],of:['安平古堡']}],
+     loose:['102','19','77']},
+    {a:'安平古堡',b:'赤崁樓',tip:'提示：試試「起訖互換」',
+     ans:[{r:'98',t:'98 府城台江線',on:'安平古堡(安北路)',off:'赤崁樓',min:'11',ob:['安平古堡'],of:['赤崁樓']}],
+     loose:['102','77','19']}
+  ];
+  var busState=BUS_QS.map(function(){return {route:'',on:'',off:'',min:'',checked:false,ok:false};});
+  function norm(s){return String(s||'').replace(/\s+/g,'').replace(/台/g,'臺');}
+  function matchAns(q,st){
+    var rt=(String(st.route).match(/\d+/)||[''])[0],on=norm(st.on),off=norm(st.off);
+    var exact=q.ans.some(function(x){
+      return rt===x.r&&x.ob.some(function(k){return on.indexOf(k)>=0;})&&x.of.some(function(k){return off.indexOf(k)>=0;});
+    });
+    if(exact)return 'exact';
+    if(rt&&on&&off&&q.loose.indexOf(rt)>=0)return 'loose';
+    return 'no';
+  }
+  function renderBus(){
+    var host=$('busPractice');if(!host)return;
+    host.innerHTML='';
+    var inp='w-full border-2 border-slate-300 rounded-xl px-2 py-1 text-lg font-bold focus:border-amber-400 outline-none';
+    BUS_QS.forEach(function(q,i){
+      var st=busState[i];
+      var card=el('div','bg-white border-2 border-amber-300 rounded-2xl p-3');
+      card.innerHTML='<p class="cute text-xl font-extrabold text-slate-700">練習 '+(i+1)+'：<span class="text-emerald-700">🟢 起點 '+esc(q.a)+'</span> → <span class="text-rose-600">🔴 訖點 '+esc(q.b)+'</span></p>'
+        +(q.tip?'<p class="text-base text-slate-500">'+esc(q.tip)+'</p>':'')
+        +'<div class="grid sm:grid-cols-4 gap-2 mt-2">'
+        +'<label class="font-bold text-lg">搭幾號<input data-k="route" class="'+inp+'"></label>'
+        +'<label class="font-bold text-lg">上車站牌<input data-k="on" class="'+inp+'"></label>'
+        +'<label class="font-bold text-lg">下車站牌<input data-k="off" class="'+inp+'"></label>'
+        +'<label class="font-bold text-lg">總共幾分鐘<input data-k="min" class="'+inp+'" inputmode="numeric"></label>'
+        +'</div>'
+        +'<button type="button" class="chk mt-2 bg-amber-500 hover:bg-amber-600 text-white cute text-lg font-extrabold rounded-xl px-5 py-1.5">對答案</button>'
+        +'<div class="res mt-2"></div>';
+      card.querySelectorAll('input').forEach(function(x){x.value=st[x.dataset.k];x.oninput=function(){st[x.dataset.k]=x.value;};});
+      var res=card.querySelector('.res');
+      function showRes(){
+        if(!st.checked){res.innerHTML='';return;}
+        if(!String(st.route).trim()&&!st.on.trim()&&!st.off.trim()){st.checked=false;res.innerHTML='<p class="text-lg font-bold text-amber-700">先寫下你查到的，再對答案。</p>';return;}
+        var h;
+        if(st.ok==='exact')h='<p class="text-lg font-extrabold text-emerald-700">✓ 對了！路線和上車、下車站牌都接得起來。</p>';
+        else if(st.ok==='loose')h='<p class="text-lg font-extrabold text-emerald-700">✓ 這一路也會出現在查詢結果裡。上車、下車站牌請對照你的「詳細內容」再檢查一次。</p>';
+        else h='<p class="text-lg font-extrabold text-amber-700">跟參考答案不太一樣，對一對看看：</p>';
+        h+='<div class="bg-slate-50 border-2 border-slate-200 rounded-xl p-2 mt-1 text-lg"><p class="font-bold text-slate-600">參考答案（方案裡看得到）：</p>'
+          +q.ans.map(function(x){return '<p>🚌 搭 <b>'+esc(x.t)+'</b>，<b>'+esc(x.on)+'</b>上車，<b>'+esc(x.off)+'</b>下車，總共約 '+x.min+' 分鐘'+(x.note?'（'+esc(x.note)+'）':'')+'</p>';}).join('')
+          +'<p class="text-base text-slate-500 mt-1">分鐘會依查詢的時間不同，差一點沒關係。</p></div>';
+        res.innerHTML=h;
+      }
+      card.querySelector('.chk').onclick=function(){st.checked=true;st.ok=matchAns(q,st);showRes();renderStepper();};
+      host.appendChild(card);
+      showRes();
+    });
+  }
+  renderBus();
+  function busDone(){return busState.every(function(s){return s.checked;});}
+  // ===== Google 地圖影片：檔案放好才顯示（assets/教學_Google地圖查路線.mp4）=====
+  (function(){
+    try{
+      fetch('assets/教學_Google地圖查路線.mp4',{method:'HEAD'}).then(function(r){
+        if(r.ok)$('gmVideoWrap').classList.remove('hidden');
+      }).catch(function(){});
+    }catch(e){}
+  })();
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('[data-goto]');
+    if(!a)return;e.preventDefault();showStep(Number(a.dataset.goto));
+  });
 
   // ===== 繳交學習單 =====
   // 定位：q1 是小互動（experience，只算完成度、不計分）；q2 是寫在 Google 文件的主要產出，老師用評分平台「匯入 Classroom 文件」寫進 q2。
@@ -400,17 +664,20 @@ var firebaseConfig = {
     if(!identityValid(idn)){alert('請先在最上方填好年級、班級、座號（都是數字，班級是 1 到 14）。');window.scrollTo({top:0,behavior:'smooth'});return;}
     if(!db){alert('系統尚未連線，請稍後再試或重新整理頁面。');return;}
     var g2=p2Final?{searched:p2Searched,final:p2Final}:(p2Searched.length?{searched:p2Searched,final:null}:null);
-    var experienceAnswers={q1:{given:g2,correct:null,isCorrect:!!(g2&&g2.final)}};
-    var answers={q1:g2},qtypes={q1:'experience'};
-    var experienceCompletion=(g2&&g2.final)?100:0;
-    var msg='確定要繳交學習單嗎？\n交通方式比一比：'+((g2&&g2.final)?'完成':'還沒完成')
+    var g3=busState.some(function(s){return s.route||s.on||s.off;})?{items:BUS_QS.map(function(q,i){var s=busState[i];return {a:q.a,b:q.b,route:s.route,on:s.on,off:s.off,min:s.min,checked:s.checked,result:s.ok};})}:null;
+    var q1Done=!!(g2&&g2.final),q3Done=busDone();
+    var experienceAnswers={q1:{given:g2,correct:null,isCorrect:q1Done},q3:{given:g3,correct:null,isCorrect:q3Done}};
+    var answers={q1:g2,q3:g3},qtypes={q1:'experience',q3:'experience'};
+    var experienceCompletion=Math.round(((q1Done?1:0)+(q3Done?1:0))/2*100);
+    var msg='確定要繳交學習單嗎？\n交通方式比一比：'+(q1Done?'完成':'還沒完成')
+      +'\n公車練習：'+(q3Done?'完成':'還沒完成')
       +'\n\n站與站中間都有交通格子了嗎？';
     if(!confirm(msg))return;
     var payload={worksheetId:WS,worksheetTitle:'台南小導遊養成記：交通方式與路程時間',lessonPath:'g4/L06',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
       qtexts:{
-        q2:'Google 文件：站與站中間的「交通」格子——出發與目的地、交通方式、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間）（老師從 Classroom 作業讀取文件內容）。',
+        q2:'Google 文件：站與站中間的「交通」格子——出發與目的地、交通方式、搭乘細節（公車：幾號、上車站牌、下車站牌）、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間）（老師從 Classroom 作業讀取文件內容）。',
       },
       bonusQids:[],
       scoreAnswers:{},experienceAnswers:experienceAnswers,openAnswers:{},bonusAnswers:{},
@@ -432,12 +699,13 @@ var firebaseConfig = {
   };
 
   // ===== 學習路徑 =====
-  var STEP_NAMES=['比一比','查時間','寫交通格子'];
+  var STEP_NAMES=['比一比','公車','Google 地圖','寫進文件'];
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true},submittedOnce=false;
   function stepDone(n){
     if(n===1)return !!p2Final;
-    if(n===3)return submittedOnce;
+    if(n===2)return busDone();
+    if(n===4)return submittedOnce;
     return !!visited[n]&&n!==curStep;
   }
   function renderStepper(){
@@ -478,14 +746,14 @@ var firebaseConfig = {
      q1 是小互動（experience，不計分）；q2（Google 文件，老師「匯入 Classroom 文件」寫入）是唯一主要開放題 20 分＝base 100 − floor 80（檢核 4+6+6+4）。 -->
 <script type="application/json" id="grading-spec">
 {
-  "summary": "在站與站中間插入「交通」格子，查出並寫下交通方式與路程時間；交通型改寫搭乘路線、上下車站與搭乘班次",
+  "summary": "景點（含美食）排好順序，在站與站中間插入「交通」格子，查出並寫下交通方式、搭乘細節與路程時間；公車要寫幾號、上車站牌、下車站牌；交通型改寫搭乘路線、上下車站與搭乘班次",
   "questions": [
-    { "qid": "q2", "prompt": "Google 文件：站與站中間的「交通」格子——出發與目的地、交通方式、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間）（老師從 Classroom 作業讀取文件內容）。", "mode": "checklist",
+    { "qid": "q2", "prompt": "Google 文件：站與站中間的「交通」格子——出發與目的地、交通方式、搭乘細節（公車：幾號、上車站牌、下車站牌）、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間）（老師從 Classroom 作業讀取文件內容）。", "mode": "checklist",
       "checks": [
         { "desc": "站與站中間有「交通」格子，至少 2 個（景點 3 個以上）", "pts": 4 },
-        { "desc": "每個交通格子都填了三欄：出發與目的地、交通方式、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間；少一兩格空白只扣 1 分）", "pts": 6 },
-        { "desc": "路程時間是數字加「分」且大致合理（同區短、跨區長；1 小時 5 分寫成 65 分）；交通方式寫的是開車、機車、火車、公車、YouBike、走路其中之一（交通型不看這項，改看班次是時間格式）", "pts": 6 },
-        { "desc": "交通格子放在「站與站中間」（不是全堆在文件最後），且「出發與目的地」的站名與前後站接得上", "pts": 4 }
+        { "desc": "每個交通格子都填了四欄：出發與目的地、交通方式、搭乘細節、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間；少一兩格空白只扣 1 分）", "pts": 6 },
+        { "desc": "路程時間是數字加「分」且大致合理（同區短、跨區長；1 小時 5 分寫成 65 分）；交通方式寫的是開車、機車、火車、公車、YouBike、走路其中之一；搭乘細節跟方式對得上（公車要有幾號、上車站牌、下車站牌；走路寫多遠；YouBike 寫借還站）（交通型不看這項，改看班次是時間格式）", "pts": 6 },
+        { "desc": "交通格子放在「站與站中間」（不是全堆在文件最後），且「出發與目的地」的站名與前後站接得上；景點（含美食）站號依序", "pts": 4 }
       ] }
   ],
   "scoring": { "base": 100, "floor": 80, "deduction": 1,
