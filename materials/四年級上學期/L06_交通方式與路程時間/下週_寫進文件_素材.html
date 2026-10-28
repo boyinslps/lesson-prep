@@ -1,0 +1,178 @@
+<!-- 2026-10-28 從 L06 拔出，留給下週。原為步驟 4「寫進文件」：撰寫要點、交通格子、四欄寫法、檢查、完整示範。
+     還原時：放回學習單當一個 data-step、接回下方 JS 範本、grading-spec 用本檔底部那段（q2 20 分）。 -->
+  <!-- 步驟 4：撰寫要點＋交通格子＋完整示範＋繳交 -->
+  <section class="step hidden bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm" data-step="4">
+    <h2 class="cute text-3xl font-extrabold text-orange-700 mb-3">寫進文件</h2>
+
+    <a href="https://boyinslps.github.io/pcclass/g4/L05/" target="_blank" rel="noopener" class="inline-block mb-4 bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">📖 回去看 L05 學習單（複習用）↗</a>
+
+    <div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-orange-700 mb-2">📝 撰寫要點：4 個步驟</p>
+      <ol class="text-2xl font-extrabold space-y-2">
+        <li><span class="stepno bg-orange">1</span>把景點<span class="text-orange-700">順序排好</span>（<span class="text-orange-700">美食也排進景點中</span>，算一站）</li>
+        <li><span class="stepno bg-orange">2</span>兩站中間，<span class="text-orange-700">貼上交通格子</span></li>
+        <li><span class="stepno bg-orange">3</span>查<span class="text-orange-700">第 1 站 → 第 2 站</span>，選一種<span class="text-orange-700">交通方式</span></li>
+        <li><span class="stepno bg-orange">4</span>寫下<span class="text-orange-700">細節</span>和<span class="text-orange-700">時間</span>（公車：搭<span class="text-orange-700">幾號</span>、哪個站牌<span class="text-orange-700">上</span>、哪個站牌<span class="text-orange-700">下</span>）</li>
+      </ol>
+      <p class="text-lg mt-2">不知道怎麼寫？拉到最下面看<a href="#demo" class="text-orange-700 font-extrabold underline">完整示範 ↓</a></p>
+    </div>
+
+    <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-4">
+      <p class="cute text-2xl font-extrabold text-emerald-700 mb-2"><span class="stepno bg-emerald">2</span>貼上交通格子</p>
+      <div class="grid md:grid-cols-2 gap-4 items-start">
+        <div>
+          <button id="tplCopy" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xl font-extrabold rounded-2xl px-4 py-3">📋 複製交通格子</button>
+          <ol class="text-xl font-bold space-y-2 mt-3">
+            <li><span class="stepno">1</span>點在<span class="text-emerald-700">兩站中間</span>的空白行</li>
+            <li><span class="stepno">2</span><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd>　貼上</li>
+            <li><span class="stepno">3</span>填四欄；要幾個，<span class="text-emerald-700">就再貼幾次</span></li>
+          </ol>
+        </div>
+        <div>
+          <pre id="tplText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-emerald-100"></pre>
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-2 mt-3 text-center text-base font-bold">
+            <div class="bg-amber-100 rounded-lg py-0.5">第 1 站</div>
+            <div class="text-emerald-700 py-0.5">⬇ <span class="bg-emerald-100 border-2 border-dashed border-emerald-500 rounded-lg px-3">交通格子</span> ⬇</div>
+            <div class="bg-amber-100 rounded-lg py-0.5">第 2 站</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-sky-200 rounded-3xl p-4 mt-4">
+      <p class="cute text-2xl font-extrabold text-sky-700 mb-2"><span class="stepno">3</span><span class="stepno bg-orange">4</span>查完，四欄這樣寫</p>
+      <div class="overflow-x-auto">
+        <table class="cmp text-lg">
+          <thead><tr><th>欄位</th><th>寫什麼</th><th>例</th></tr></thead>
+          <tbody>
+            <tr><td class="font-extrabold">出發與目的地</td><td>第 1 站 → 第 2 站</td><td>赤崁樓 → 安平古堡</td></tr>
+            <tr><td class="font-extrabold">交通方式</td><td>開車／機車／火車／公車／YouBike／走路，選<b>一種</b></td><td>公車</td></tr>
+            <tr><td class="font-extrabold">搭乘細節</td><td>照交通方式寫，看下表</td><td>搭 98 府城台江線，赤崁樓上車，安平古堡(安北路)下車</td></tr>
+            <tr><td class="font-extrabold">路程時間</td><td>查到的「總共幾分鐘」（1 小時 5 分＝65 分）</td><td>17 分</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="font-extrabold text-xl mt-3">「搭乘細節」依交通方式這樣寫：</p>
+      <div class="overflow-x-auto">
+        <table class="cmp text-lg mt-1">
+          <thead><tr><th>方式</th><th>細節寫</th><th>例</th></tr></thead>
+          <tbody>
+            <tr><td class="font-extrabold">🚌 公車</td><td><b>搭幾號</b>、哪個站牌<b>上</b>、哪個站牌<b>下</b></td><td>搭 103 路，臺南火車站(中山路C)上車，赤崁樓下車</td></tr>
+            <tr><td class="font-extrabold">🚶 走路</td><td>走<b>多遠</b></td><td>走路約 0.8 公里</td></tr>
+            <tr><td class="font-extrabold">🚲 YouBike</td><td>在哪個站<b>借</b>、哪個站<b>還</b></td><td>在○○站借車，在△△站還車</td></tr>
+            <tr><td class="font-extrabold">🚗 開車／🛵 機車</td><td>Google 地圖寫的<b>途經路名</b></td><td>途經民權路四段</td></tr>
+            <tr><td class="font-extrabold">🚆 火車</td><td><b>起站 → 迄站</b>、幾點發車</td><td>臺南 → 嘉義，10:30 發車</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <details class="mt-3">
+        <summary class="font-bold text-slate-600 cursor-pointer">🚌 我的景點是台灣好行路線（交通型）→ 用這個格子</summary>
+        <button id="tplBus" class="mt-2 bg-indigo-500 hover:bg-indigo-600 text-white text-lg font-extrabold rounded-xl px-4 py-2">🚌 交通型：複製班次格子</button>
+        <pre id="busText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-indigo-100 mt-2 max-w-md"></pre>
+      </details>
+    </div>
+
+    <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
+      <p class="cute text-2xl font-extrabold text-teal-700 mb-2">✅ 交之前檢查</p>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="w-6 h-6"> 景點<b>順序排好</b>了（美食也在裡面）</label>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="w-6 h-6"> <b>站與站中間</b>都有交通格子，四欄都填了（公車：有<b>幾號、上車、下車</b>）</label>
+      <label class="flex items-center gap-3"><input type="checkbox" class="w-6 h-6"> 路程時間是<b>我自己查的</b></label>
+    </div>
+
+    <div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mt-4">
+      <p class="cute text-2xl font-extrabold text-orange-700 mb-2">📮 交出去</p>
+      <p class="text-xl font-bold">檢查完，按下面的「<span class="text-orange-700">繳交學習單</span>」</p>
+      <button id="submitBtn" class="mt-4 w-full bg-orange-600 hover:bg-orange-700 text-white cute text-2xl font-extrabold rounded-2xl py-3">繳交學習單</button>
+      <p id="submitStat" class="text-sm font-bold mt-2 min-h-[20px] text-center"></p>
+    </div>
+
+    <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-amber-100 to-orange-100 border-4 border-amber-300 rounded-3xl p-6 mt-4">
+      <div class="text-5xl mb-2 pop">🎉</div>
+      <h3 class="cute text-2xl font-extrabold text-orange-700">恭喜你已經做完今日的作業，可以遊玩！</h3>
+      <div class="flex flex-wrap gap-3 justify-center mt-3">
+        <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener"
+           class="cute inline-block bg-orange-600 hover:bg-orange-700 text-white text-lg font-extrabold rounded-2xl px-6 py-2">🎮 打字英雄</a>
+        <a href="https://gemini.google.com/share/0adbaeae6c16?skid=751ce4ac-860d-4160-8a1a-12a1ebcf6f1d" target="_blank" rel="noopener"
+           class="cute inline-block bg-white border-4 border-orange-300 hover:bg-orange-50 text-orange-700 text-lg font-extrabold rounded-2xl px-6 py-2">🕹️ 更多遊戲</a>
+      </div>
+    </div>
+
+    <!-- 完整示範（最下面）：模仿 Google 文件，兩個景點、中間一個交通格子 -->
+    <div id="demo" class="mt-8 border-t-4 border-dashed border-slate-200 pt-5">
+      <p class="cute text-2xl font-extrabold text-slate-700 mb-1">👀 完整示範</p>
+      <p class="text-lg mb-3">兩個景點，中間一個交通格子。你的文件會長得<b>像這樣</b>（數字是示範，請用你查到的）。</p>
+      <div class="gdoc">
+        <div class="gdoc-top"><span class="gdoc-logo"></span><span class="gdoc-title">我的台南導覽　景點清單</span><span class="gdoc-share">共用</span></div>
+        <div class="gdoc-menu"><span>檔案</span><span>編輯</span><span>查看</span><span>插入</span><span>格式</span><span>工具</span><span>擴充功能</span><span>說明</span></div>
+        <div class="gdoc-page">
+          <div class="gdoc-row">
+            <div class="gdoc-text">
+              <p>第 1 站：赤崁樓</p>
+              <p>地址：臺南市中西區民族路二段212號</p>
+              <p>開放時間：08:30～21:00</p>
+              <p>門票：全票 70 元，半票 35 元</p>
+              <p>停留多久：1 小時</p>
+              <p>景點網址：<span class="gdoc-url">https://www.twtainan.net/…</span></p>
+            </div>
+            <div class="gdoc-note bg-amber-100 text-amber-800">◀ 景點格子（L04）</div>
+          </div>
+          <p class="gdoc-gap"></p>
+          <div class="gdoc-row">
+            <div class="gdoc-text gdoc-trans">
+              <p>【交通】</p>
+              <p>出發與目的地：赤崁樓 → 安平古堡</p>
+              <p>交通方式：公車</p>
+              <p>搭乘細節：搭 98 府城台江線，赤崁樓上車，安平古堡(安北路)下車</p>
+              <p>路程時間：17 分</p>
+            </div>
+            <div class="gdoc-note bg-emerald-100 text-emerald-800">◀ 交通格子<br><span class="text-sm">貼在兩站中間</span></div>
+          </div>
+          <p class="gdoc-gap"></p>
+          <div class="gdoc-row">
+            <div class="gdoc-text">
+              <p>第 2 站：安平古堡</p>
+              <p>地址：臺南市安平區國勝路82號</p>
+              <p>開放時間：10:00～17:10</p>
+              <p>門票：全票 70 元，半票 35 元</p>
+              <p>停留多久：1 小時</p>
+              <p>景點網址：<span class="gdoc-url">https://www.twtainan.net/…</span></p>
+            </div>
+            <div class="gdoc-note bg-amber-100 text-amber-800">◀ 景點格子（L04）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-6 bg-amber-50 border-4 border-amber-200 rounded-3xl p-4">
+      <p class="cute text-xl font-extrabold text-amber-700 mb-2">📖 景點還沒做完？回去補</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="https://boyinslps.github.io/pcclass/g4/L04/" target="_blank" rel="noopener" class="inline-block bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">L04 學習單（選景點、開文件）↗</a>
+        <a href="https://boyinslps.github.io/pcclass/g4/L05/" target="_blank" rel="noopener" class="inline-block bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">L05 學習單（排順序、找照片）↗</a>
+      </div>
+    </div>    <div class="stepnav"></div>
+  </section>
+
+
+<!-- 範本 JS（原 L06）
+  var TPL_MAIN='【交通】\n出發與目的地：　　 → \n交通方式：\n搭乘細節：\n路程時間：　分\n';
+  var TPL_BUS='【交通】\n搭乘路線：\n上車站 → 下車站：\n搭乘班次（幾點發車）：\n路程時間：　分\n';
+  $('tplText').textContent=TPL_MAIN;$('tplCopy').onclick=function(){copyText(TPL_MAIN,this);};
+  $('tplBus').onclick=function(){copyText(TPL_BUS,this);};$('busText').textContent=TPL_BUS;
+-->
+<!-- 評分設定（見《學習單資料與提交規範》§2-e、§3-d）：評分平台「學習單設定 → 從學習單讀取」一鍵帶入。
+     q1 是小互動（experience，不計分）；q2（Google 文件，老師「匯入 Classroom 文件」寫入）是唯一主要開放題 20 分＝base 100 − floor 80（檢核 4+6+6+4）。 -->
+<script type="application/json" id="grading-spec">
+{
+  "summary": "景點（含美食）排好順序，在站與站中間插入「交通」格子，查出並寫下交通方式、搭乘細節與路程時間；公車要寫幾號、上車站牌、下車站牌；交通型改寫搭乘路線、上下車站與搭乘班次",
+  "questions": [
+    { "qid": "q2", "prompt": "Google 文件：站與站中間的「交通」格子——出發與目的地、交通方式、搭乘細節（公車：幾號、上車站牌、下車站牌）、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間）（老師從 Classroom 作業讀取文件內容）。", "mode": "checklist",
+      "checks": [
+        { "desc": "站與站中間有「交通」格子，至少 2 個（景點 3 個以上）", "pts": 4 },
+        { "desc": "每個交通格子都填了四欄：出發與目的地、交通方式、搭乘細節、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間；少一兩格空白只扣 1 分）", "pts": 6 },
+        { "desc": "路程時間是數字加「分」且大致合理（同區短、跨區長；1 小時 5 分寫成 65 分）；交通方式寫的是開車、機車、火車、公車、YouBike、走路其中之一；搭乘細節跟方式對得上（公車要有幾號、上車站牌、下車站牌；走路寫多遠；YouBike 寫借還站）（交通型不看這項，改看班次是時間格式）", "pts": 6 },
+        { "desc": "交通格子放在「站與站中間」（不是全堆在文件最後），且「出發與目的地」的站名與前後站接得上；景點（含美食）站號依序", "pts": 4 }
+      ] }
+  ],
+  "scoring": { "base": 100, "floor": 80, "deduction": 1,
+    "itemPoints": {} }
+}
+</script>
