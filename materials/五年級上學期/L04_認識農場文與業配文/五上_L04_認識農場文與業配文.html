@@ -310,11 +310,7 @@
             <div id="d1Opts" class="flex flex-wrap gap-2 mt-1"></div>
           </div>
           <div>
-            <div class="flex items-center gap-2 flex-wrap"><label for="d2" class="font-bold text-teal-800">2. 原圖右下角，本來標了什麼字？</label><span class="qtypeSlot" data-qid="d2"></span><span id="d2Fb" class="text-sm font-bold"></span></div>
-            <input id="d2" data-k="d2" class="fld ans mt-1">
-          </div>
-          <div>
-            <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800">3. 查核中心給的查核結果是？</p><span class="qtypeSlot" data-qid="d3"></span><span id="d3Fb" class="text-sm font-bold"></span></div>
+            <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800">2. 查核中心給的查核結果是？</p><span class="qtypeSlot" data-qid="d3"></span><span id="d3Fb" class="text-sm font-bold"></span></div>
             <div id="d3Opts" class="flex flex-wrap gap-2 mt-1"></div>
           </div>
         </div>
@@ -385,18 +381,9 @@
       <div class="grid md:grid-cols-2 gap-5 items-start">
         <video class="w-full max-w-[340px] mx-auto rounded-2xl bg-slate-900" src="assets/網傳_曼谷魚群影片.mp4" poster="assets/網傳_曼谷魚群影片_封面.jpg" controls playsinline preload="none"></video>
         <div class="space-y-4">
-          <label class="block"><span class="font-bold text-violet-800">我加的關鍵字</span><input data-k="bkw" class="fld ans mt-1"></label>
           <div>
             <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-violet-800">1. 這段影片是？</p><span class="qtypeSlot" data-qid="b1"></span><span id="b1Fb" class="text-sm font-bold"></span></div>
             <div id="b1Opts" class="flex flex-wrap gap-2 mt-1"></div>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 flex-wrap"><label for="b2" class="font-bold text-violet-800">2. 畫面裡 7-11 的招牌，英文被拼成什麼？</label><span class="qtypeSlot" data-qid="b2"></span><span id="b2Fb" class="text-sm font-bold"></span></div>
-            <input id="b2" data-k="b2" class="fld ans mt-1">
-          </div>
-          <div>
-            <div class="flex items-center gap-2 flex-wrap"><label for="b3" class="font-bold text-violet-800">3. 真正的素坤逸路上方有什麼，影片裡卻沒有？</label><span class="qtypeSlot" data-qid="b3"></span><span id="b3Fb" class="text-sm font-bold"></span></div>
-            <input id="b3" data-k="b3" class="fld ans mt-1">
           </div>
         </div>
       </div>
@@ -633,7 +620,7 @@ var firebaseConfig = {
     d3:{opts:['錯誤','部分錯誤','事實釐清','正確'],correct:'錯誤'},
     b1:{opts:['真的淹水畫面','舊影片','AI 生成'],correct:'AI 生成'}
   };
-  var DEFAULT_PATTERNS={d2:'示意|AI',b2:'LEVEN',b3:'捷運|BTS|高架|軌道|天橋|橋'};
+  var DEFAULT_PATTERNS={};
   var PATTERNS=Object.assign({},DEFAULT_PATTERNS);
   function testPattern(qid,val){
     val=String(val||'').trim();if(!val)return false;
@@ -672,7 +659,7 @@ var firebaseConfig = {
 
   // ===== 作答狀態（localStorage 暫存）=====
   var STATE_KEY='g5L04flow';
-  var FIELDS=['o1','o2','o3','d2','bkw','b2','b3'];
+  var FIELDS=['o1','o2','o3'];
   var state={w1:null,w2:null,w3:null,d0:[],d1:null,d3:null,b1:null,x1order:X1_START.slice(),x1moved:false,x1tries:0,x1shown:false};
   FIELDS.forEach(function(k){state[k]='';});
   if(!REVIEW_ID){try{var sv=localStorage.getItem(STATE_KEY);if(sv)state=Object.assign(state,JSON.parse(sv));}catch(e){}}
@@ -680,10 +667,10 @@ var firebaseConfig = {
   if(!validOrder(state.x1order))state.x1order=X1_START.slice();
   function save(){if(REVIEW_ID)return;try{localStorage.setItem(STATE_KEY,JSON.stringify(state));}catch(e){}}
   var REV={r1:false,r2:false};
-  var REVEAL_OF={d1:'r1',d2:'r1',d3:'r1',b1:'r2',b2:'r2',b3:'r2'};
+  var REVEAL_OF={d1:'r1',d3:'r1',b1:'r2'};
 
   // ===== 題型（預設＋老師即時切換，§5-6）=====
-  var DEFAULT_QTYPE={w1:'score',w2:'score',w3:'score',o1:'open',o2:'open',o3:'open',d0:'experience',d1:'experience',d2:'experience',d3:'experience',b1:'experience',b2:'experience',b3:'experience'};
+  var DEFAULT_QTYPE={w1:'score',w2:'score',w3:'score',o1:'open',o2:'open',o3:'open',d0:'experience',d1:'experience',d3:'experience',b1:'experience'};
   var QTYPE_OVERRIDES={};
   function qtypeOf(qid){return QTYPE_OVERRIDES[qid]||DEFAULT_QTYPE[qid]||'experience';}
 
@@ -743,8 +730,6 @@ var firebaseConfig = {
     ['o1','o2','o3'].forEach(function(q){r[q]={given:String(state[q]||'').trim()||null,correct:null,isCorrect:filled(state[q])};});
     var how=Array.isArray(state.d0)?state.d0:[];
     r.d0={given:how.length?how.join('、'):null,correct:null,isCorrect:how.length>0};
-    ['d2','b2','b3'].forEach(function(q){r[q]={given:String(state[q]||'').trim()||null,correct:PATTERNS[q],isCorrect:isRight(q)};});
-    if(r.b1.given&&filled(state.bkw))r.b1.given+='｜關鍵字：'+state.bkw.trim();
     return r;
   }
 
@@ -774,8 +759,8 @@ var firebaseConfig = {
   }
   function report(){
     function done(keys){return keys.every(function(k){return filled(state[k]);});}
-    return ['④ 東京巨蛋：'+(done(['d1','d2','d3'])&&(state.d0||[]).length?'已作答':'還沒寫完'),
-      '⑤ 曼谷魚群：'+(done(['b1','b2','b3'])?'已作答':'還沒寫完'),
+    return ['④ 東京巨蛋：'+(done(['d1','d3'])&&(state.d0||[]).length?'已作答':'還沒做完（選擇性）'),
+      '⑤ 曼谷魚群：'+(done(['b1'])?'已作答':'還沒做（選擇性）'),
       '⑥ 標題和照片對得上嗎：'+(done(['w1','w2','w3'])?'已作答':'還沒選完')+(done(['o1','o2','o3'])?'':'（「實際上是」還沒寫完）')];
   }
   var submittedOnce=false;
@@ -833,19 +818,16 @@ var firebaseConfig = {
   // 檢視答案：把標準答案填進作答欄（寫死在程式裡的＋已上傳的正則）；⑥ 排成參考順序
   function showAnswers(){
     Object.keys(CHOICES).forEach(function(q){state[q]=CHOICES[q].correct;});
-    state.d2=PATTERNS.d2;state.b2=PATTERNS.b2;state.b3='高架捷運';
     ['o1','o2','o3'].forEach(function(k){state[k]=WARM_REF[k];});
     state.x1order=X1_REF.slice();state.x1shown=true;
     renderAll();
   }
   function clearAnswers(){
     Object.keys(CHOICES).forEach(function(q){state[q]=null;});
-    state.d2='';state.b2='';state.b3='';state.o1='';state.o2='';state.o3='';state.x1order=X1_START.slice();state.x1moved=false;state.x1tries=0;state.x1shown=false;save();renderAll();
+    state.o1='';state.o2='';state.o3='';state.x1order=X1_START.slice();state.x1moved=false;state.x1tries=0;state.x1shown=false;save();renderAll();
   }
   function uploadAnswers(){
-    var p={},bad=[];
-    ['d2','b2','b3'].forEach(function(q){var v=String(state[q]||'').trim();if(!v)return;try{new RegExp(v);p[q]=v;}catch(e){bad.push(q);}});
-    if(bad.length){alert('這幾題的答案格式有誤：'+bad.join('、'));return;}
+    var p={};
     var w={};['o1','o2','o3'].forEach(function(k){var v=String(state[k]||'').trim();if(v)w[k]=v;});
     if(!Object.keys(p).length&&!Object.keys(w).length){alert('先按「檢視答案」或在作答框打上標準答案（多個答案用 | 隔開）。');return;}
     if(!confirm('把下面的答案存成標準答案？\n'+Object.keys(p).map(function(q){return q+'：'+p[q];}).concat(Object.keys(w).map(function(k){return k+'（實際上是）：'+w[k];})).join('\n')))return;
@@ -911,8 +893,8 @@ var firebaseConfig = {
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true};
   function stepDone(n){
-    if(n===4)return ['d1','d2','d3'].every(function(k){return filled(state[k]);})&&(state.d0||[]).length>0;
-    if(n===5)return ['b1','b2','b3'].every(function(k){return filled(state[k]);});
+    if(n===4)return ['d1','d3'].every(function(k){return filled(state[k]);})&&(state.d0||[]).length>0;
+    if(n===5)return filled(state.b1);
     if(n===6)return submittedOnce;
     return !!visited[n]&&n!==curStep;
   }
@@ -969,7 +951,7 @@ var firebaseConfig = {
 })();
 </script>
 
-<!-- 評分設定（《學習單資料與提交規範》§2-e）：計分題 w1～w3（三張圖的選項，各 4 分）＋開放題 o1～o3（實際上是，AI 依關鍵點檢核，3＋3＋2 分）＝20 分＝base 100 − floor 80。④⑤的練習題（d0～d3、b1～b3）都是體驗題，不計分。 -->
+<!-- 評分設定（《學習單資料與提交規範》§2-e）：計分題 w1～w3（三張圖的選項，各 4 分）＋開放題 o1～o3（實際上是，AI 依關鍵點檢核，3＋3＋2 分）＝20 分＝base 100 − floor 80。④⑤的練習題（d0、d1、d3、b1，選擇題、給動作快的學生操作）都是體驗題，不計分，沒有填寫欄位。 -->
 <script type="application/json" id="grading-spec">
 {
   "summary": "認識農場文與 AI 假資訊影片的特徵，分辨舊圖新用／移花接木／AI 生成，用 Chrome 智慧鏡頭對照片以圖搜圖、對影片截圖貼到 Google 圖片加關鍵字反搜，並在台灣事實查核中心、MyGoPen 找到並看懂查核報告；最後判斷三張網傳圖的標題與內容是否相符，並寫出實際由來與證據。",
