@@ -310,7 +310,11 @@
             <div id="d1Opts" class="flex flex-wrap gap-2 mt-1"></div>
           </div>
           <div>
-            <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800">2. 查核中心給的查核結果是？</p><span class="qtypeSlot" data-qid="d3"></span><span id="d3Fb" class="text-sm font-bold"></span></div>
+            <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800">2. 原圖右下角，本來標了什麼字？</p><span class="qtypeSlot" data-qid="d2"></span><span id="d2Fb" class="text-sm font-bold"></span></div>
+            <div id="d2Opts" class="flex flex-wrap gap-2 mt-1"></div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800">3. 查核中心給的查核結果是？</p><span class="qtypeSlot" data-qid="d3"></span><span id="d3Fb" class="text-sm font-bold"></span></div>
             <div id="d3Opts" class="flex flex-wrap gap-2 mt-1"></div>
           </div>
         </div>
@@ -617,6 +621,7 @@ var firebaseConfig = {
     w2:{opts:WARM_OPTS,correct:'AI偽造',silent:true},
     w3:{opts:WARM_OPTS,correct:'真實',silent:true},
     d1:{opts:['真的照片','舊照片','AI 生成'],correct:'AI 生成'},
+    d2:{opts:['示意圖／AI生成','現場直擊','記者拍攝'],correct:'示意圖／AI生成'},
     d3:{opts:['錯誤','部分錯誤','事實釐清','正確'],correct:'錯誤'},
     b1:{opts:['真的淹水畫面','舊影片','AI 生成'],correct:'AI 生成'}
   };
@@ -660,17 +665,17 @@ var firebaseConfig = {
   // ===== 作答狀態（localStorage 暫存）=====
   var STATE_KEY='g5L04flow';
   var FIELDS=['o1','o2','o3'];
-  var state={w1:null,w2:null,w3:null,d0:[],d1:null,d3:null,b1:null,x1order:X1_START.slice(),x1moved:false,x1tries:0,x1shown:false};
+  var state={w1:null,w2:null,w3:null,d0:[],d1:null,d2:null,d3:null,b1:null,x1order:X1_START.slice(),x1moved:false,x1tries:0,x1shown:false};
   FIELDS.forEach(function(k){state[k]='';});
   if(!REVIEW_ID){try{var sv=localStorage.getItem(STATE_KEY);if(sv)state=Object.assign(state,JSON.parse(sv));}catch(e){}}
   function validOrder(o){return Array.isArray(o)&&o.length===X1_START.length&&X1_START.every(function(k){return o.indexOf(k)>=0;});}
   if(!validOrder(state.x1order))state.x1order=X1_START.slice();
   function save(){if(REVIEW_ID)return;try{localStorage.setItem(STATE_KEY,JSON.stringify(state));}catch(e){}}
   var REV={r1:false,r2:false};
-  var REVEAL_OF={d1:'r1',d3:'r1',b1:'r2'};
+  var REVEAL_OF={d1:'r1',d2:'r1',d3:'r1',b1:'r2'};
 
   // ===== 題型（預設＋老師即時切換，§5-6）=====
-  var DEFAULT_QTYPE={w1:'score',w2:'score',w3:'score',o1:'open',o2:'open',o3:'open',d0:'experience',d1:'experience',d3:'experience',b1:'experience'};
+  var DEFAULT_QTYPE={w1:'score',w2:'score',w3:'score',o1:'open',o2:'open',o3:'open',d0:'experience',d1:'experience',d2:'experience',d3:'experience',b1:'experience'};
   var QTYPE_OVERRIDES={};
   function qtypeOf(qid){return QTYPE_OVERRIDES[qid]||DEFAULT_QTYPE[qid]||'experience';}
 
@@ -726,7 +731,7 @@ var firebaseConfig = {
   function filled(v){return !!String(v==null?'':v).trim();}
   function judge(){
     var r={};
-    ['w1','w2','w3','d1','d3','b1'].forEach(function(q){r[q]={given:state[q]||null,correct:CHOICES[q].correct,isCorrect:isRight(q)};});
+    ['w1','w2','w3','d1','d2','d3','b1'].forEach(function(q){r[q]={given:state[q]||null,correct:CHOICES[q].correct,isCorrect:isRight(q)};});
     ['o1','o2','o3'].forEach(function(q){r[q]={given:String(state[q]||'').trim()||null,correct:null,isCorrect:filled(state[q])};});
     var how=Array.isArray(state.d0)?state.d0:[];
     r.d0={given:how.length?how.join('、'):null,correct:null,isCorrect:how.length>0};
@@ -748,7 +753,7 @@ var firebaseConfig = {
       else if(t==='experience'){experienceAnswers[qid]=item;eT++;if(filled(item.given))eA++;}
       else{scoreAnswers[qid]=item;sT++;if(item.isCorrect)sC++;}
     });
-    var parts={w1:state.w1,w2:state.w2,w3:state.w3,d0:state.d0,d1:state.d1,d3:state.d3,b1:state.b1,x1order:state.x1order,x1moved:state.x1moved,x1tries:state.x1tries||0,x1shown:state.x1shown};FIELDS.forEach(function(k){parts[k]=state[k];});
+    var parts={w1:state.w1,w2:state.w2,w3:state.w3,d0:state.d0,d1:state.d1,d2:state.d2,d3:state.d3,b1:state.b1,x1order:state.x1order,x1moved:state.x1moved,x1tries:state.x1tries||0,x1shown:state.x1shown};FIELDS.forEach(function(k){parts[k]=state[k];});
     return {worksheetId:WS,worksheetTitle:TITLE,lessonPath:LESSON_PATH,
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
@@ -759,7 +764,7 @@ var firebaseConfig = {
   }
   function report(){
     function done(keys){return keys.every(function(k){return filled(state[k]);});}
-    return ['④ 東京巨蛋：'+(done(['d1','d3'])&&(state.d0||[]).length?'已作答':'還沒做完（選擇性）'),
+    return ['④ 東京巨蛋：'+(done(['d1','d2','d3'])&&(state.d0||[]).length?'已作答':'還沒做完（選擇性）'),
       '⑤ 曼谷魚群：'+(done(['b1'])?'已作答':'還沒做（選擇性）'),
       '⑥ 標題和照片對得上嗎：'+(done(['w1','w2','w3'])?'已作答':'還沒選完')+(done(['o1','o2','o3'])?'':'（「實際上是」還沒寫完）')];
   }
@@ -893,7 +898,7 @@ var firebaseConfig = {
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true};
   function stepDone(n){
-    if(n===4)return ['d1','d3'].every(function(k){return filled(state[k]);})&&(state.d0||[]).length>0;
+    if(n===4)return ['d1','d2','d3'].every(function(k){return filled(state[k]);})&&(state.d0||[]).length>0;
     if(n===5)return filled(state.b1);
     if(n===6)return submittedOnce;
     return !!visited[n]&&n!==curStep;
@@ -951,7 +956,7 @@ var firebaseConfig = {
 })();
 </script>
 
-<!-- 評分設定（《學習單資料與提交規範》§2-e）：計分題 w1～w3（三張圖的選項，各 4 分）＋開放題 o1～o3（實際上是，AI 依關鍵點檢核，3＋3＋2 分）＝20 分＝base 100 − floor 80。④⑤的練習題（d0、d1、d3、b1，選擇題、給動作快的學生操作）都是體驗題，不計分，沒有填寫欄位。 -->
+<!-- 評分設定（《學習單資料與提交規範》§2-e）：計分題 w1～w3（三張圖的選項，各 4 分）＋開放題 o1～o3（實際上是，AI 依關鍵點檢核，3＋3＋2 分）＝20 分＝base 100 − floor 80。④⑤的練習題（d0、d1、d2、d3、b1，選擇題、給動作快的學生操作）都是體驗題，不計分，沒有填寫欄位。 -->
 <script type="application/json" id="grading-spec">
 {
   "summary": "認識農場文與 AI 假資訊影片的特徵，分辨舊圖新用／移花接木／AI 生成，用 Chrome 智慧鏡頭對照片以圖搜圖、對影片截圖貼到 Google 圖片加關鍵字反搜，並在台灣事實查核中心、MyGoPen 找到並看懂查核報告；最後判斷三張網傳圖的標題與內容是否相符，並寫出實際由來與證據。",
