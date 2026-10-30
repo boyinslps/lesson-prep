@@ -1,10 +1,37 @@
 # 備課平台（lesson-prep）
 
+<p align="center">
+  <a href="https://boyinslps.github.io/platform-guide/docs/media">
+    <img src="docs/images/prep-demo.gif" alt="備課平台操作示意：從課程計畫到成品發布" width="760">
+  </a>
+  <br>
+  <sub>點圖看 40 秒介紹影片</sub>
+</p>
+
 依教師個人教學風格，半自動產出教案、簡報與互動學習單的本機工作流。
 純 Python 標準庫寫成的本機伺服器（**不需要 pip、不需要 Node**），瀏覽器當介面。
 
+<p align="center">
+  <a href="https://boyinslps.github.io/platform-guide/"><b>📖 專案導覽站</b></a> ·
+  <a href="https://boyinslps.github.io/platform-guide/docs/prep">備課平台介紹</a> ·
+  <a href="https://boyinslps.github.io/platform-guide/docs/media">🎬 介紹影片</a> ·
+  <a href="https://boyinslps.github.io/platform-guide/docs/roadmap">未來規劃</a>
+</p>
+
 > 姊妹專案：[grading-platform](https://github.com/boyinslps/grading-platform)（評分平台，負責收學習單繳交與算成績）。
 > 兩邊各自獨立安裝、各自更新，只有「學習單產出 → 學生繳交」這條資料流相連。
+
+## 畫面導覽
+
+備課駕駛艙：左邊是各學期節次，中間是 6 階段管線，每階段標示由 **AI** 或**人工**完成。
+
+<p align="center"><img src="docs/images/workbench.jpg" alt="備課駕駛艙" width="860"></p>
+
+| 推導鷹架 | 素材搜尋＋適合度判斷 | 成品：預覽 → 發布 |
+|---|---|---|
+| <img src="docs/images/scaffold.jpg" alt="鷹架分析"> | <img src="docs/images/materials.jpg" alt="素材搜尋"> | <img src="docs/images/product.jpg" alt="成品發布"> |
+
+**核心理念**：每個階段都是資料夾裡的一個檔案（可回溯、可重跑）；該由人決定的地方——選關鍵字、勾素材、確認流程、迭代成品——都停下來讓老師審核。
 
 ---
 
@@ -72,3 +99,7 @@ git add -A && git commit -m "說明這次改了什麼" && git push
 
 commit 訊息會**直接變成其他人看到的更新說明**，所以要寫人看得懂的話
 （寫「修正繳交後不會跳出獎勵區塊」，不要寫 `fix bug`）。
+
+---
+
+made by 資訊老師黃博胤
