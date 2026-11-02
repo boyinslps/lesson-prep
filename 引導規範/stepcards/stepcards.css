@@ -23,3 +23,10 @@
 .sc-flat .sc-slide{display:block;background:#fff;border:4px solid #fde68a;border-radius:24px;padding:16px;margin:0 0 16px;counter-increment:scn}
 .sc-flat .sc-t:before{content:counter(scn);display:inline-flex;align-items:center;justify-content:center;width:1.7em;height:1.7em;margin-right:.5em;border-radius:9999px;background:#f59e0b;color:#fff;font-size:.8em}
 .sc-flat.sc-nonum .sc-t:before{display:none}
+
+/* 左右並列（sc-split，搭配 sc-flat；2026-11-02 四上 L05 首例）：這一小步左邊放說明文字、右邊放動圖，一眼看完；窄螢幕自動疊回上下
+   結構：<div class="sc-slide sc-split"><div class="sc-txt"><p class="sc-t">…</p>其他說明</div><div class="sc-media" …></div></div> */
+.sc-flat .sc-slide.sc-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 22px;align-items:start}
+.sc-split .sc-txt{min-width:0}
+.sc-split .sc-media{align-self:start}
+@media(max-width:760px){.sc-flat .sc-slide.sc-split{grid-template-columns:minmax(0,1fr)}}

@@ -67,8 +67,8 @@
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">📍 先選：你現在的進度</p>
       <div class="grid md:grid-cols-3 gap-3">
         <button type="button" data-prog="A" class="prog text-left bg-white border-4 border-slate-200 hover:border-teal-400 rounded-2xl p-3"><span class="cute block text-xl font-extrabold text-rose-600">A　景點還沒選完</span><span class="text-lg">先補到 <b>3 個景點＋1 家美食</b></span></button>
-        <button type="button" data-prog="B" class="prog text-left bg-white border-4 border-slate-200 hover:border-teal-400 rounded-2xl p-3"><span class="cute block text-xl font-extrabold text-amber-600">B　已有 3 個景點</span><span class="text-lg">排<b>順序</b>，貼<b>照片</b></span></button>
-        <button type="button" data-prog="C" class="prog text-left bg-white border-4 border-slate-200 hover:border-teal-400 rounded-2xl p-3"><span class="cute block text-xl font-extrabold text-emerald-600">C　都做完了</span><span class="text-lg">再<b>加景點</b>，每站貼照片</span></button>
+        <button type="button" data-prog="B" class="prog text-left bg-white border-4 border-slate-200 hover:border-teal-400 rounded-2xl p-3"><span class="cute block text-xl font-extrabold text-amber-600">B　已有 3 個景點</span><span class="text-lg">排<b>順序</b>，有空再貼<b>照片</b>加分</span></button>
+        <button type="button" data-prog="C" class="prog text-left bg-white border-4 border-slate-200 hover:border-teal-400 rounded-2xl p-3"><span class="cute block text-xl font-extrabold text-emerald-600">C　都做完了</span><span class="text-lg">再<b>加景點</b>，貼<b>照片</b>加分</span></button>
       </div>
       <div id="progBox" class="hidden mt-3 bg-white border-2 border-teal-200 rounded-2xl p-3 text-xl"></div>
     </div>
@@ -159,26 +159,27 @@
     <div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mb-4">
       <p class="cute text-2xl font-extrabold text-orange-700 mb-2">🎯 今日任務：5 個步驟</p>
       <ol class="text-2xl font-extrabold space-y-2">
-        <li><span class="stepno bg-orange">1</span><span class="text-orange-700">多景點路線規劃</span>，找出景點的位置</li>
+        <li><span class="stepno bg-orange">1</span><span class="text-orange-700">多景點路線規劃</span>與<span class="text-orange-700">附近搜尋</span>，找出景點的位置</li>
         <li><span class="stepno bg-orange">2</span>眼睛仔細看，<span class="text-orange-700">怎麼排最順</span></li>
         <li><span class="stepno bg-orange">3</span><span class="text-orange-700">調整</span>文件中景點的<span class="text-orange-700">順序</span></li>
-        <li><span class="stepno bg-orange">4</span>找景點<span class="text-orange-700">照片</span>，複製圖片</li>
-        <li><span class="stepno bg-orange">5</span><span class="text-orange-700">貼進文件</span>（每一站一張）</li>
+        <li><span class="stepno bg-orange">4</span><span class="text-sky-700">⭐ 加分</span>　找景點<span class="text-orange-700">照片</span>，複製圖片</li>
+        <li><span class="stepno bg-orange">5</span><span class="text-sky-700">⭐ 加分</span>　<span class="text-orange-700">貼進文件</span>（每一站一張）</li>
       </ol>
-      <p class="text-lg text-slate-600 mt-2">這一頁做 1～3，一小步一小步看；4、5 在下一頁。</p>
+      <p class="text-lg text-slate-600 mt-2">這一頁做 1～3，一小步一小步看；4、5 是<b>加分</b>，在下一頁，做完 1～3 就算完成今天的作業。</p>
     </div>
 
-    <div class="sc sc-flat" data-sc><div class="sc-slide"><p class="sc-t">開<b>新瀏覽器</b> → <b>訪客模式</b>，搜尋「Google 地圖」</p><div class="sc-media" data-src="assets/步_新瀏覽器.mp4" data-poster="assets/步_新瀏覽器_封面.jpg"></div></div><div class="sc-slide"><p class="sc-t"><b>路線</b> → 新增目的地，看<b>位置</b></p><div class="sc-media" data-src="assets/步_多景點.mp4" data-poster="assets/步_多景點_封面.jpg"></div><p class="text-lg font-bold mt-3 bg-violet-50 border-2 border-violet-200 rounded-xl p-2">ℹ️ 多景點只能選<b>開車</b>。這裡只看<b>位置</b>，交通方式下一課再查。</p></div><div class="sc-slide"><p class="sc-t">眼睛看一看：<b>怎麼排最順？</b></p><ol class="text-2xl font-extrabold space-y-2 mt-1"><li>① <span class="text-emerald-700">近的</span>放一起</li><li>② <span class="text-emerald-700">不走回頭路</span></li><li>③ 一直朝<span class="text-emerald-700">同一個方向</span>走</li></ol></div><div class="sc-slide"><p class="sc-t">拖曳<b>選起整站</b>，按 <kbd>Ctrl</kbd> + <kbd>X</kbd> 剪下</p><div class="sc-media" data-src="assets/步_順序1_剪下.mp4" data-poster="assets/步_順序1_剪下_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">從「第 N 站」選到「景點網址」。</p></div><div class="sc-slide"><p class="sc-t">點到<b>想放的位置</b>，按 <kbd>Ctrl</kbd> + <kbd>V</kbd> 貼上</p><div class="sc-media" data-src="assets/步_順序2_貼上.mp4" data-poster="assets/步_順序2_貼上_封面.jpg"></div><div class="mt-3 bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800 text-lg m-0">示意圖</p><div class="mt-2 grid grid-cols-[1fr_auto_1fr] gap-2 items-center text-center text-lg font-bold"><div class="space-y-1"><p class="text-slate-500 text-base">剪下前</p><div class="bg-amber-100 rounded-lg py-1">第 1 站</div><div class="bg-sky-200 rounded-lg py-1 border-2 border-dashed border-sky-500">第 2 站 ✂</div><div class="bg-amber-100 rounded-lg py-1">第 3 站</div></div><div class="text-3xl">➜</div><div class="space-y-1"><p class="text-slate-500 text-base">貼上後</p><div class="bg-amber-100 rounded-lg py-1">第 1 站</div><div class="bg-amber-100 rounded-lg py-1">第 3 站</div><div class="bg-sky-200 rounded-lg py-1 border-2 border-dashed border-sky-500">第 2 站 📌</div></div></div></div></div><div class="sc-slide"><p class="sc-t">貼完，把<b>站號改對</b></p><div class="sc-media" data-src="assets/步_順序3_改站號.mp4" data-poster="assets/步_順序3_改站號_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">第 1 站、第 2 站、第 3 站……不重複、不跳號。</p></div></div>
+    <div class="sc sc-flat" data-sc><div class="sc-slide sc-split"><div class="sc-txt"><p class="sc-t">開<b>新瀏覽器</b> → <b>訪客模式</b>，搜尋「Google 地圖」</p></div><div class="sc-media" data-src="assets/步_新瀏覽器.mp4" data-poster="assets/步_新瀏覽器_封面.jpg"></div></div><div class="sc-slide sc-split"><div class="sc-txt"><p class="sc-t"><b>路線</b> → 新增目的地，看<b>位置</b></p><p class="text-xl font-bold mb-2">景點一個一個加進去，地圖會把它們<b>連成一條線</b>。</p><p class="text-lg font-bold bg-violet-50 border-2 border-violet-200 rounded-xl p-2">ℹ️ 多景點只能選<b>開車</b>。這裡只看<b>位置</b>，交通方式下一課再查。</p></div><div class="sc-media" data-src="assets/步_多景點.mp4" data-poster="assets/步_多景點_封面.jpg"></div></div><div class="sc-slide sc-split"><div class="sc-txt"><p class="sc-t"><b>附近搜尋</b>：找景點旁邊還有什麼</p><p class="text-xl font-bold mb-2">搜尋一個景點（例：安平古堡），地圖上面有一排按鈕。點一下，就找出這個景點<b>附近</b>的：</p><div class="flex flex-wrap gap-2 mb-3"><span class="bg-amber-100 border-2 border-amber-300 text-amber-800 text-lg font-extrabold rounded-full px-3 py-0.5">📷 觀光景點</span><span class="bg-orange-100 border-2 border-orange-300 text-orange-800 text-lg font-extrabold rounded-full px-3 py-0.5">🍴 餐廳</span><span class="bg-sky-100 border-2 border-sky-300 text-sky-800 text-lg font-extrabold rounded-full px-3 py-0.5">🅿️ 停車場</span></div><p class="text-lg font-bold bg-teal-50 border-2 border-teal-200 rounded-xl p-2 mb-2">👉 <b>觀光景點</b>：找更多可以排進行程的景點。找到想去的，用 L04 的方法把資料複製到文件。</p><p class="text-lg font-bold bg-violet-50 border-2 border-violet-200 rounded-xl p-2">🔎 想找別的？按景點頁的「<b>附近</b>」，再輸入（例：便利商店、廁所）。</p></div><div class="sc-media" data-src="assets/步_附近搜尋.mp4" data-poster="assets/步_附近搜尋_封面.jpg"></div></div><div class="sc-slide"><p class="sc-t">眼睛看一看：<b>怎麼排最順？</b></p><ol class="text-2xl font-extrabold space-y-2 mt-1"><li>① <span class="text-emerald-700">近的</span>放一起</li><li>② <span class="text-emerald-700">不走回頭路</span></li><li>③ 一直朝<span class="text-emerald-700">同一個方向</span>走</li></ol></div><div class="sc-slide"><p class="sc-t">拖曳<b>選起整站</b>，按 <kbd>Ctrl</kbd> + <kbd>X</kbd> 剪下</p><div class="sc-media" data-src="assets/步_順序1_剪下.mp4" data-poster="assets/步_順序1_剪下_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">從「第 N 站」選到「景點網址」。</p></div><div class="sc-slide"><p class="sc-t">點到<b>想放的位置</b>，按 <kbd>Ctrl</kbd> + <kbd>V</kbd> 貼上</p><div class="sc-media" data-src="assets/步_順序2_貼上.mp4" data-poster="assets/步_順序2_貼上_封面.jpg"></div><div class="mt-3 bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="font-extrabold text-sky-800 text-lg m-0">示意圖</p><div class="mt-2 grid grid-cols-[1fr_auto_1fr] gap-2 items-center text-center text-lg font-bold"><div class="space-y-1"><p class="text-slate-500 text-base">剪下前</p><div class="bg-amber-100 rounded-lg py-1">第 1 站</div><div class="bg-sky-200 rounded-lg py-1 border-2 border-dashed border-sky-500">第 2 站 ✂</div><div class="bg-amber-100 rounded-lg py-1">第 3 站</div></div><div class="text-3xl">➜</div><div class="space-y-1"><p class="text-slate-500 text-base">貼上後</p><div class="bg-amber-100 rounded-lg py-1">第 1 站</div><div class="bg-amber-100 rounded-lg py-1">第 3 站</div><div class="bg-sky-200 rounded-lg py-1 border-2 border-dashed border-sky-500">第 2 站 📌</div></div></div></div></div><div class="sc-slide"><p class="sc-t">貼完，把<b>站號改對</b></p><div class="sc-media" data-src="assets/步_順序3_改站號.mp4" data-poster="assets/步_順序3_改站號_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">第 1 站、第 2 站、第 3 站……不重複、不跳號。</p></div></div>
 
     <div class="stepnav"></div>
   </section>
 
   <!-- 步驟 4：找照片＋繳交 -->
   <section class="step hidden bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm" data-step="4">
-    <h2 class="cute text-3xl font-extrabold text-orange-700 mb-3">找照片、交出去</h2>
+    <h2 class="cute text-3xl font-extrabold text-orange-700 mb-3">⭐ 加分：貼照片，再交出去</h2>
+    <div class="bg-sky-50 border-4 border-sky-200 rounded-3xl p-4 mb-4 text-xl font-bold">景點順序調好、站號改對，就<b>完成今天的作業</b>了。<br>每一站貼一張照片是 <span class="text-sky-700">⭐ 加分</span>，有時間再做。</div>
 
-    <p class="cute text-2xl font-extrabold text-yellow-700 mb-2"><span class="stepno bg-yellow">4</span><span class="stepno bg-yellow">5</span>找照片，貼進文件</p>
-    <div class="sc sc-flat" data-sc><div class="sc-slide"><p class="sc-t">景點頁找<b>照片</b>，右鍵 → <b>複製圖片</b></p><div class="sc-media" data-src="assets/步_照片1_複製.mp4" data-poster="assets/步_照片1_複製_封面.jpg"></div><p class="text-lg text-slate-500 mt-2">沒有照片？Google 搜尋景點名 →「圖片」。</p></div><div class="sc-slide"><p class="sc-t">回文件，點「景點網址」下面，按 <kbd>Ctrl</kbd> + <kbd>V</kbd></p><div class="sc-media" data-src="assets/步_照片2_貼上.mp4" data-poster="assets/步_照片2_貼上_封面.jpg"></div><p class="text-lg font-bold mt-2">每一站都貼一張。</p></div></div>
+    <p class="cute text-2xl font-extrabold text-yellow-700 mb-2"><span class="stepno bg-yellow">4</span><span class="stepno bg-yellow">5</span>⭐ 加分：找照片，貼進文件</p>
+    <div class="sc sc-flat" data-sc><div class="sc-slide sc-split"><div class="sc-txt"><p class="sc-t">景點頁找<b>照片</b>，右鍵 → <b>複製圖片</b></p><p class="text-lg text-slate-500 mt-2">沒有照片？Google 搜尋景點名 →「圖片」。</p></div><div class="sc-media" data-src="assets/步_照片1_複製.mp4" data-poster="assets/步_照片1_複製_封面.jpg"></div></div><div class="sc-slide sc-split"><div class="sc-txt"><p class="sc-t">回文件，點「景點網址」下面，按 <kbd>Ctrl</kbd> + <kbd>V</kbd></p><p class="text-lg font-bold mt-2">每一站都貼一張。</p></div><div class="sc-media" data-src="assets/步_照片2_貼上.mp4" data-poster="assets/步_照片2_貼上_封面.jpg"></div></div></div>
 
     <div class="bg-teal-50 border-4 border-teal-200 rounded-3xl p-4 mb-4">
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">📍 要加景點時：複製景點格子</p>
@@ -194,7 +195,7 @@
     <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">✅ 交之前檢查</p>
       <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="w-6 h-6"> 景點順序<b>不走回頭路</b>、站號改對</label>
-      <label class="flex items-center gap-3"><input type="checkbox" class="w-6 h-6"> <b>每一站</b>都有一張<b>照片</b></label>
+      <label class="flex items-center gap-3"><input id="chkPhoto" type="checkbox" class="w-6 h-6"> <span class="text-sky-700 font-extrabold">⭐ 加分</span>：<b>每一站</b>都有一張<b>照片</b>（沒做不用勾）</label>
     </div>
 
     <div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mt-4">
@@ -401,21 +402,24 @@ var firebaseConfig = {
     if(!db){alert('系統尚未連線，請稍後再試或重新整理頁面。');return;}
     var g1=M1.final?{order:M1.final.order,smooth:M1.final.smooth,viewedAll:M1.viewed}:null;
     var g2=M2.final?{order:M2.final.order,smooth:M2.final.smooth,viewedOfficial:M2.viewed}:null;
-    var experienceAnswers={q1:{given:g1,correct:null,isCorrect:!!g1},q2:{given:g2,correct:null,isCorrect:!!g2}};
-    var answers={q1:g1,q2:g2},qtypes={q1:'experience',q2:'experience'};
+    var photoDone=!!($('chkPhoto')&&$('chkPhoto').checked);   // ⭐ 加分：每一站都貼了照片（學生自己勾，老師開文件看）
+    var experienceAnswers={q1:{given:g1,correct:null,isCorrect:!!g1},q2:{given:g2,correct:null,isCorrect:!!g2},q4:{given:photoDone,correct:null,isCorrect:photoDone}};
+    var answers={q1:g1,q2:g2,q4:photoDone},qtypes={q1:'experience',q2:'experience',q4:'experience'};
+    var bonusAnswers={q4:{given:photoDone?'每一站都貼了照片':'沒有貼照片',completed:photoDone}};
     var experienceCompletion=Math.round(((g1?1:0)+(g2?1:0))/2*100);
     var msg='確定要繳交學習單嗎？\n順序不繞路：'+(g1?(g1.smooth?'不繞路':'已排'):'還沒玩')
       +'\n進階挑戰：'+(g2?(g2.smooth?'不繞路':'已排'):'還沒玩')
-      +'\n\n景點順序調好、每站貼了照片了嗎？';
+      +'\n加分（每一站貼照片）：'+(photoDone?'有勾':'沒勾')+'\n\n景點順序調好、站號改對了嗎？';
     if(!confirm(msg))return;
     var payload={worksheetId:WS,worksheetTitle:'台南小導遊養成記：景點順序與找照片',lessonPath:'g4/L05',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
       qtexts:{
-        q3:'Google 文件：3 個以上景點，每一站有站號、地址、開放時間、門票、停留多久、景點網址，景點順序已調整（近的放一起、不走回頭路），站號依序（老師從 Classroom 作業讀取文件內容；照片看不出來，要開文件才知道）。',
+        q3:'Google 文件：3 個以上景點，每一站有站號、地址、開放時間、門票、停留多久、景點網址，景點順序已調整（近的放一起、不走回頭路），站號依序（老師從 Classroom 作業讀取文件內容）。',
+        q4:'加分：每一站都貼了一張景點照片（學生自己勾選；照片是圖片，匯入文字看不到，要開文件目視確認）。'
       },
-      bonusQids:[],
-      scoreAnswers:{},experienceAnswers:experienceAnswers,openAnswers:{},bonusAnswers:{},
+      bonusQids:['q4'],
+      scoreAnswers:{},experienceAnswers:experienceAnswers,openAnswers:{},bonusAnswers:bonusAnswers,
       accuracyRate:null,experienceCompletion:experienceCompletion,
       status:'submitted',submittedAt:firebase.firestore.FieldValue.serverTimestamp()};
     var btn=this,stat=$('submitStat');
@@ -434,7 +438,7 @@ var firebaseConfig = {
   };
 
   // ===== 學習路徑 =====
-  var STEP_NAMES=['順序','怎麼排','排順序','貼照片'];
+  var STEP_NAMES=['順序','怎麼排','排順序','加分照片'];
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true},submittedOnce=false;
   function stepDone(n){
@@ -476,8 +480,8 @@ var firebaseConfig = {
   var PROG_KEY='g4L05prog';
   var PROG_MSG={
     A:'👉 這節先<b>補景點</b>（照 L04），補到 3 個景點＋1 家美食。上面的小遊戲，看一遍就好。<div class="mt-3 flex flex-wrap gap-3"><a href="https://boyinslps.github.io/pcclass/g4/L04/" target="_blank" rel="noopener" class="cute bg-rose-500 hover:bg-rose-600 text-white text-lg font-extrabold rounded-2xl px-5 py-2">📖 回 L04 學習單</a><button type="button" data-goto="3" class="cute bg-teal-600 hover:bg-teal-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">補完了，去排順序 →</button></div>',
-    B:'👉 玩完小遊戲，到<b>步驟 3</b> 排順序，再到<b>步驟 4</b> 貼照片。<div class="mt-3"><button type="button" data-goto="3" class="cute bg-teal-600 hover:bg-teal-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">我先去排順序 →</button></div>',
-    C:'👉 照 B 做完後，<b>再加 1～2 個景點</b>（最多 5 個）。步驟 4 有「複製景點格子」。<div class="mt-3"><button type="button" data-goto="3" class="cute bg-teal-600 hover:bg-teal-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">先去排順序 →</button></div>'};
+    B:'👉 玩完小遊戲，到<b>步驟 3</b> 排順序；做完有時間，再到<b>步驟 4</b> 貼照片（加分）。<div class="mt-3"><button type="button" data-goto="3" class="cute bg-teal-600 hover:bg-teal-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">我先去排順序 →</button></div>',
+    C:'👉 照 B 做完後，<b>再加 1～2 個景點</b>（最多 5 個）。步驟 4 有「複製景點格子」，也有照片加分。<div class="mt-3"><button type="button" data-goto="3" class="cute bg-teal-600 hover:bg-teal-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">先去排順序 →</button></div>'};
   var progSel=null;try{progSel=localStorage.getItem(PROG_KEY);}catch(e){}
   function renderProg(){
     document.querySelectorAll('[data-prog]').forEach(function(b){var on=progSel===b.dataset.prog;b.classList.toggle('border-teal-500',on);b.classList.toggle('bg-teal-50',on);b.classList.toggle('border-slate-200',!on);});
@@ -494,10 +498,10 @@ var firebaseConfig = {
 </script>
 
 <!-- 評分設定（見《學習單資料與提交規範》§2-e、§3-d）：評分平台「學習單設定 → 從學習單讀取」一鍵帶入。
-     q1、q2 是看地圖排順序的小互動與進階題（experience，不計分）；q3（Google 文件，老師「匯入 Classroom 文件」寫入）是唯一主要開放題 20 分＝base 100 − floor 80（檢核 6+4+10）。照片是圖片，匯入文字看不到，需老師開文件目視。 -->
+     q1、q2 是看地圖排順序的小互動與進階題（experience，不計分）；q3（Google 文件，老師「匯入 Classroom 文件」寫入）是唯一主要開放題 20 分＝base 100 − floor 80（檢核 6+4+10）。照片是加分（2026-11-02 教師）：q4＝experience 型加分題，學生勾「每一站都貼了照片」→ isCorrect，答對才加 itemPoints.q4（2 分），沒做不扣分；圖片匯入文字看不到，老師開文件目視確認。 -->
 <script type="application/json" id="grading-spec">
 {
-  "summary": "調整 L04 文件中景點站點的順序（近的放一起、不走回頭路）、站號改對，每一站貼一張照片",
+  "summary": "調整 L04 文件中景點站點的順序（近的放一起、不走回頭路）、站號改對；加分：每一站貼一張景點照片",
   "questions": [
     { "qid": "q3", "prompt": "Google 文件：3 個以上景點，每一站有站號、地址、開放時間、門票、停留多久、景點網址，景點順序已調整（近的放一起、不走回頭路），站號依序（老師從 Classroom 作業讀取文件內容；照片看不出來，要開文件才知道）。", "mode": "checklist",
       "checks": [
@@ -507,7 +511,7 @@ var firebaseConfig = {
       ] }
   ],
   "scoring": { "base": 100, "floor": 80, "deduction": 1,
-    "itemPoints": {} }
+    "itemPoints": { "q4": 2 } }
 }
 </script>
 <!--STEPCARDS-START-->
@@ -537,6 +541,13 @@ var firebaseConfig = {
 .sc-flat .sc-slide{display:block;background:#fff;border:4px solid #fde68a;border-radius:24px;padding:16px;margin:0 0 16px;counter-increment:scn}
 .sc-flat .sc-t:before{content:counter(scn);display:inline-flex;align-items:center;justify-content:center;width:1.7em;height:1.7em;margin-right:.5em;border-radius:9999px;background:#f59e0b;color:#fff;font-size:.8em}
 .sc-flat.sc-nonum .sc-t:before{display:none}
+
+/* 左右並列（sc-split，搭配 sc-flat；2026-11-02 四上 L05 首例）：這一小步左邊放說明文字、右邊放動圖，一眼看完；窄螢幕自動疊回上下
+   結構：<div class="sc-slide sc-split"><div class="sc-txt"><p class="sc-t">…</p>其他說明</div><div class="sc-media" …></div></div> */
+.sc-flat .sc-slide.sc-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 22px;align-items:start}
+.sc-split .sc-txt{min-width:0}
+.sc-split .sc-media{align-self:start}
+@media(max-width:760px){.sc-flat .sc-slide.sc-split{grid-template-columns:minmax(0,1fr)}}
 </style>
 <script>
 /* ============================================================
