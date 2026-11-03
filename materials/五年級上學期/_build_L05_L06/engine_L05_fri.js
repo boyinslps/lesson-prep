@@ -49,7 +49,7 @@
   if(!REVIEW_ID){try{var sv=localStorage.getItem(STATE_KEY);if(sv)state=Object.assign(freshState(),JSON.parse(sv));}catch(e){}}
   function save(){
     if(REVIEW_ID)return;
-    var idn=getIdentity();if(identityValid(idn))state._owner=idKey(idn);
+    var idn=getIdentity();if(!state._owner&&identityValid(idn))state._owner=idKey(idn);   // 換人由 checkOwner 處理
     state._step=curStep;
     try{localStorage.setItem(STATE_KEY,JSON.stringify(state));}catch(e){}
   }
@@ -136,8 +136,8 @@
     });
   })();
 
-  // ===== 識別列（頁面上方黏頂）＋ 開場提醒的三個框，兩邊同步 =====
-  var ID_KEY='wk_identity',BAR=['idGrade','idClass','idStudent'],GATE=['gGrade','gClass','gStudent'];
+  // ===== 識別列（頁面上方黏頂）=====
+  var ID_KEY='wk_identity',BAR=['idGrade','idClass','idStudent'];
   function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
   function loadIdentity(){try{return JSON.parse(localStorage.getItem(ID_KEY)||'{}');}catch(e){return {};}}
   function saveIdentity(o){try{localStorage.setItem(ID_KEY,JSON.stringify(o));}catch(e){}}
@@ -150,15 +150,12 @@
   function idLabel(k){var a=String(k).split('-');return a[0]+'年'+a[1]+'班'+a[2]+'號';}
   function clampClass(v){while(v!==''&&Number(v)>14)v=v.slice(0,-1);return v;}
   function markIdentity(on){
-    BAR.concat(GATE).forEach(function(id){var e=$(id),bad=on&&!digits(e.value);
-      e.classList.toggle('bad',bad&&GATE.indexOf(id)>=0);
-      if(BAR.indexOf(id)>=0){e.classList.toggle('border-rose-400',bad);e.classList.toggle('bg-rose-50',bad);e.classList.toggle('border-slate-200',!bad);}});
+    BAR.forEach(function(id){var e=$(id),bad=on&&!digits(e.value);
+      e.classList.toggle('border-rose-400',bad);e.classList.toggle('bg-rose-50',bad);e.classList.toggle('border-slate-200',!bad);});
   }
   function focusFirstEmptyId(){
     var f=BAR.filter(function(id){return !digits($(id).value);})[0];
-    var gateOpen=!$('startGate').classList.contains('hidden');
-    if(gateOpen)f=GATE[BAR.indexOf(f)]||GATE[0];
-    if(f&&$(f))$(f).focus();
+    if(f)$(f).focus();
   }
   function afterIdChange(){
     var idn=getIdentity(),ok=identityValid(idn);
@@ -166,23 +163,33 @@
     $('idOk').classList.toggle('hidden',!ok);
     $('idNeed').classList.toggle('hidden',ok);
     $('idGrade').parentElement.parentElement.classList.toggle('idwarn',!ok&&!REVIEW_ID);
-    $('gateGo').disabled=!ok;
+  }
+  // 共用電腦：三個框填好離開時，若這台電腦上的作答是別人的，先問再清空（不同意就換回原本的身分）
+  function checkOwner(){
+    if(REVIEW_ID)return;
+    var idn=getIdentity();if(!identityValid(idn))return;
+    var key=idKey(idn);
+    if(state._owner&&state._owner!==key&&hasContent()){
+      if(!confirm('這台電腦上現在的作答是 '+idLabel(state._owner)+' 的，你填的是 '+idLabel(key)+'。\n\n要清掉換成你的嗎？\n（對方如果按過「先存檔交一次」，之後還是拿得回來。）')){
+        var o=state._owner.split('-');BAR.forEach(function(id,i){$(id).value=o[i];});afterIdChange();return;
+      }
+      state=freshState();state._owner=key;save();renderAll();return;
+    }
+    state._owner=key;save();   // 沒換人就不重畫，避免吃掉使用者正要點的按鈕
   }
   (function(){
     var saved=loadIdentity();
-    if(saved.grade){$('idGrade').value=saved.grade;$('gGrade').value=saved.grade;}
-    if(saved.className){$('idClass').value=saved.className;$('gClass').value=saved.className;}
-    if(saved.studentId){$('idStudent').value=saved.studentId;$('gStudent').value=saved.studentId;}
+    if(saved.grade)$('idGrade').value=saved.grade;
+    if(saved.className)$('idClass').value=saved.className;
+    if(saved.studentId)$('idStudent').value=saved.studentId;
     BAR.forEach(function(id,i){
-      [id,GATE[i]].forEach(function(src){
-        var e=$(src);
-        e.addEventListener('input',function(){
-          var d=digits(e.value);if(i===1)d=clampClass(d);if(d!==e.value)e.value=d;
-          $(BAR[i]).value=d;$(GATE[i]).value=d;
-          if(d){$(BAR[i]).classList.remove('border-rose-400','bg-rose-50');$(BAR[i]).classList.add('border-slate-200');$(GATE[i]).classList.remove('bad');}
-          afterIdChange();
-        });
+      var e=$(id);
+      e.addEventListener('input',function(){
+        var d=digits(e.value);if(i===1)d=clampClass(d);if(d!==e.value)e.value=d;
+        if(d){e.classList.remove('border-rose-400','bg-rose-50');e.classList.add('border-slate-200');}
+        afterIdChange();
       });
+      e.addEventListener('change',checkOwner);
     });
     afterIdChange();
   })();
@@ -271,39 +278,6 @@
   document.addEventListener('click',function(ev){
     var t=ev.target.closest&&ev.target.closest('[data-loadwork]');if(t)manualResume();
   });
-
-  // ===== 開場提醒（一進來先寫班級座號；填好後自動找有沒有存過的進度）=====
-  var gateResumeData=null;
-  function showGate(){
-    $('startGate').classList.remove('hidden');document.body.style.overflow='hidden';
-    $('gateMsg').textContent='';$('gateResume').classList.add('hidden');
-    afterIdChange();
-    setTimeout(function(){focusFirstEmptyId();if(identityValid(getIdentity()))$('gateGo').focus();},50);
-  }
-  function closeGate(){
-    $('startGate').classList.add('hidden');document.body.style.overflow='';
-    showStep(state._step&&hasContent()?Math.min(state._step,STEP_NAMES.length):1);
-  }
-  $('gateGo').onclick=function(){
-    var idn=getIdentity();
-    if(!identityValid(idn)){markIdentity(true);focusFirstEmptyId();return;}
-    var key=idKey(idn);
-    if(state._owner&&state._owner!==key&&hasContent()){
-      if(!confirm('這台電腦上現在的作答是 '+idLabel(state._owner)+' 的，你填的是 '+idLabel(key)+'。\n\n要清掉換成你的嗎？\n（對方如果按過「先存檔交一次」，之後還是拿得回來。）'))return;
-      state=freshState();
-    }
-    state._owner=key;save();renderAll();
-    if(hasContent()){closeGate();return;}   // 這台電腦上本來就有他的作答
-    $('gateMsg').textContent='找找看你有沒有存過進度…';$('gateGo').disabled=true;
-    fetchProgress(idn).then(function(r){
-      $('gateGo').disabled=false;
-      if(!r){closeGate();return;}
-      gateResumeData=r;$('gateMsg').textContent='';
-      $('gateResumeText').textContent=resumeLine(r);$('gateResume').classList.remove('hidden');
-    }).catch(function(e){console.warn('讀取進度失敗',e);$('gateGo').disabled=false;closeGate();});
-  };
-  $('gateTake').onclick=function(){var idn=getIdentity();$('startGate').classList.add('hidden');document.body.style.overflow='';applyProgress(gateResumeData,idn);};
-  $('gateFresh').onclick=function(){$('gateResume').classList.add('hidden');closeGate();};
 
   // ===== 填寫畫面：欄位、選項、檢查表、進度 =====
   function bindFields(){
@@ -630,6 +604,4 @@
     if(IS_ADMIN)teacherOnline();
   });
 
-  // 學生一進來：先跳出「寫年級、班級、座號」（老師 #admin、檢視模式不跳）
-  if(!IS_ADMIN&&!REVIEW_ID)showGate();
 })();

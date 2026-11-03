@@ -54,11 +54,6 @@ EXTRA_CSS = r'''
   .ckptbar .ckBtn:hover{background:#d97706}
   .ckptbar .ckBtn:disabled{opacity:.5}
   .locked .chip,.locked [data-pick],.locked .ckptbar,.locked [data-insert]{pointer-events:none;opacity:.8}
-  #startGate{position:fixed;inset:0;z-index:50;background:rgba(15,23,42,.78);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
-  #startGate.hidden{display:none}
-  .gnum{width:84px;text-align:center;font-size:1.9rem;font-weight:900;border:4px solid #cbd5e1;border-radius:16px;padding:8px 4px;outline:none}
-  .gnum:focus{border-color:#6366f1}
-  .gnum.bad{border-color:#fb7185;background:#fff1f2}
   #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:70;background:#065f46;color:#fff;font-weight:800;border-radius:16px;padding:10px 20px;box-shadow:0 8px 24px rgba(0,0,0,.3);max-width:92vw;text-align:center}
   #toast.hidden{display:none}
   .idwarn{animation:idp 1.2s ease-in-out infinite}
@@ -155,7 +150,8 @@ STEP1 = '''
   <section class="step" data-step="1">
     <div class="bg-rose-50 border-4 border-rose-400 rounded-3xl p-5 mb-5">
       <h2 class="cute text-3xl font-extrabold text-rose-700 m-0">第一件事：寫好年級、班級、座號</h2>
-      <p class="text-xl text-slate-800 mt-2 mb-0">畫面最上面有「我是誰」三個框，<b>先填好</b>。老師靠這三個數字找到你的作業；下次回來，也靠它<b>拿回你寫到一半的內容</b>。不用寫名字。</p>
+      <p class="text-xl text-slate-800 mt-2 mb-0">畫面最上面有「我是誰」三個框，<b>先填好</b>，再往下做。不用寫名字，三個數字就好。</p>
+      <ul class="list-disc pl-6 mt-2 mb-0 text-lg text-slate-700 space-y-1"><li>老師靠這三個數字找到你的作業。</li><li>例：五年 3 班 12 號 → 年級 5、班級 3、座號 12。班級是 1～14。</li><li>上次存過進度？填好三個數字，按下面的<b>「拿回我上次存的進度」</b>，就能接著寫。</li></ul>
       <p class="mt-3 mb-0"><button type="button" data-loadwork class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold rounded-xl px-4 py-2 text-lg">拿回我上次存的進度</button>
         <span data-resumemsg class="ml-2 text-base font-bold text-violet-700"></span></p>
     </div>
@@ -448,29 +444,6 @@ TOP = '''<body class="text-slate-800">
   </div>
 </div>
 <button id="backToTeacher" class="hidden fixed bottom-4 right-4 z-30 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full px-4 py-2 shadow-lg">↩ 返回教師模式</button>
-
-<!-- 開場提醒：一進來就先寫年級、班級、座號 -->
-<div id="startGate" class="hidden" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
-  <div class="bg-white rounded-3xl border-8 border-rose-400 max-w-lg w-full p-6 text-center shadow-2xl">
-    <h2 id="gateTitle" class="cute text-3xl font-extrabold text-rose-600 m-0">開始前，先寫你的班級座號</h2>
-    <p class="text-xl text-slate-700 mt-2 mb-0">不用寫名字，<b>三個數字</b>就好。老師靠它找到你的作業，你下次也靠它<b>拿回寫到一半的內容</b>。</p>
-    <div class="flex items-end justify-center gap-3 mt-5 flex-wrap">
-      <label class="font-bold text-slate-600">年級<br><input id="gGrade" class="gnum" inputmode="numeric" maxlength="2" autocomplete="off"></label>
-      <label class="font-bold text-slate-600">班級<br><input id="gClass" class="gnum" inputmode="numeric" maxlength="2" autocomplete="off"></label>
-      <label class="font-bold text-slate-600">座號<br><input id="gStudent" class="gnum" inputmode="numeric" maxlength="2" autocomplete="off"></label>
-    </div>
-    <p class="text-sm text-slate-500 mt-2 mb-0">例：五年 3 班 12 號 → 年級 5、班級 3、座號 12（班級是 1～14）</p>
-    <p id="gateMsg" class="text-lg font-bold mt-3 mb-0 min-h-[28px] text-slate-600"></p>
-    <div id="gateResume" class="hidden mt-3 bg-violet-50 border-4 border-violet-300 rounded-2xl p-4">
-      <p id="gateResumeText" class="text-lg font-bold text-violet-800 m-0"></p>
-      <div class="flex gap-2 justify-center flex-wrap mt-3">
-        <button type="button" id="gateTake" class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold rounded-xl px-5 py-2 text-lg">拿回我的進度</button>
-        <button type="button" id="gateFresh" class="bg-white border-2 border-slate-300 text-slate-600 font-bold rounded-xl px-5 py-2 text-lg">不用，重新開始</button>
-      </div>
-    </div>
-    <button type="button" id="gateGo" class="cute w-full mt-4 bg-rose-500 hover:bg-rose-600 text-white text-2xl font-extrabold rounded-2xl py-3 disabled:opacity-40" disabled>我填好了，開始</button>
-  </div>
-</div>
 
 <!-- 固定在上方：我是誰＋學習路徑＋進度 -->
 <div class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b-2 border-indigo-200">
