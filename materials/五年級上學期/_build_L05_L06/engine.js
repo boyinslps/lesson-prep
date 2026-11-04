@@ -98,6 +98,24 @@
   function renderAll(){Object.keys(C.choices).forEach(renderChoice);fillFields();renderFeedback();if(H.render)H.render();}
   bindFields();renderAll();
 
+  // ===== 老師填的文字設定（例如遊戲網址）：存在 quizzes/{ws}，學生那邊即時看到 =====
+  // data-set-show：有填才顯示（老師看得到）；data-set-href：<a> 的連結；data-set-input：老師輸入框
+  var SET={};
+  function applySettings(){
+    document.querySelectorAll('[data-set-show]').forEach(function(e){
+      var on=!!String(SET[e.dataset.setShow]||'').trim()||(IS_ADMIN&&!REVIEW_ID);
+      e.classList.toggle('hidden',!on);
+    });
+    document.querySelectorAll('[data-set-href]').forEach(function(a){
+      var v=String(SET[a.dataset.setHref]||'').trim();
+      if(v)a.setAttribute('href',v);else a.removeAttribute('href');
+    });
+    document.querySelectorAll('[data-set-input]').forEach(function(i){
+      if(document.activeElement!==i)i.value=SET[i.dataset.setInput]||'';
+    });
+  }
+  applySettings();
+
   // ===== 每題判斷（繳交與檢視共用）=====
   function judge(){
     var r={};
@@ -208,6 +226,19 @@
         else{REV[r]=!REV[r];applyReveal();}
       };
     });
+    document.querySelectorAll('[data-set-admin]').forEach(function(box){
+      box.classList.remove('hidden');
+      var key=box.dataset.setAdmin,inp=box.querySelector('[data-set-input]'),btn=box.querySelector('[data-set-save]'),stat=box.querySelector('[data-set-stat]');
+      btn.onclick=function(){
+        var v=inp.value.trim();
+        if(v&&!/^https?:\/\//i.test(v)){alert('網址要以 http:// 或 https:// 開頭');return;}
+        var o={};o[key]=v;
+        function ok(){stat.className='text-sm font-bold text-emerald-600';stat.textContent=v?'已儲存，學生繳交後就會看到按鈕':'已清除';}
+        if(quizRef)quizRef.set(o,{merge:true}).then(ok).catch(function(e){alert('儲存失敗：'+e.message);});
+        else{SET[key]=v;applySettings();ok();}
+      };
+    });
+    applySettings();
     applyReveal();
     $('showAnsBtn').onclick=function(){if(H.showAnswers)H.showAnswers();renderAll();};
     $('lockBtn').onclick=function(){
@@ -301,6 +332,7 @@
       var d=(doc&&doc.data())||{};
       if(d.qtypeOverrides&&!REVIEW_ID){QTYPE_OVERRIDES=d.qtypeOverrides;renderQtypeSlots();}
       if(REVIEW_ID)return;
+      (C.textSettings||[]).forEach(function(k){SET[k]=String(d[k]||'');});applySettings();
       var next={};(C.reveals||[]).forEach(function(r){next[r]=!!d[r];});
       var undone=Object.keys(next).some(function(k){return REV[k]&&!next[k];});
       if(undone&&!first&&!IS_ADMIN){location.reload();return;}   // 老師按還原：全部收回

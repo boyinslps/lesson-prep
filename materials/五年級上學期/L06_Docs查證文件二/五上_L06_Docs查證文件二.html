@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="資訊老師黃博胤">
-<title>整理成查證文件｜五上 L06 教學活動</title>
+<title>整理成查證文件｜L06 教學活動</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -111,7 +111,7 @@
 
   <header class="text-center mb-6">
     <h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600"> 把查核文章整理成自己的報告</h1>
-    <p class="text-sm text-slate-500 mt-2">五年級上學期 · L06 Docs 查證文件（二）· 教學活動流程（40 分鐘）</p>
+    <p class="text-sm text-slate-500 mt-2">L06 Docs 查證文件（二）· 教學活動流程（40 分鐘）</p>
     <p id="syncBadge" class="hidden mt-2 text-xs text-emerald-600 font-bold"> 已連線：老師公布答案時，這台會自動同步</p>
   </header>
 
@@ -293,6 +293,16 @@
         <ol class="list-decimal pl-6 mt-1 space-y-1"><li>回 <b>Classroom 作業</b>，確認文件<b>附在作業裡</b>，按<b>「繳交」</b>。</li><li>回到這裡，按下面的<b>「繳交學習單」</b>。</li></ol>
         <p class="text-sm text-slate-500 mt-2">還沒寫完也可以先交，下一節開頭還有時間補。</p>
       </div>
+      <p class="font-bold text-indigo-800 mt-5 mb-2">看影片：怎麼在 Classroom 繳交</p>
+      <video class="w-full max-w-[560px] mx-auto rounded-2xl bg-slate-900" src="assets/教學_繳交.mp4" poster="assets/教學_繳交_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1 text-center">回 Classroom 分頁，按「繳交」，再按一次確認</p>
+    </div>
+    <div data-set-admin="gameUrl" class="hidden bg-slate-100 border-2 border-dashed border-slate-300 rounded-2xl p-4 mt-6">
+      <p class="font-bold text-slate-600 text-sm">老師設定：真假對決的網址（開好伺服器後貼上並儲存，學生繳交後就會看到按鈕）</p>
+      <div class="flex gap-2 flex-wrap mt-2 items-center">
+        <input type="url" data-set-input="gameUrl" autocomplete="off" class="flex-1 min-w-[16rem] border-2 border-slate-300 rounded-xl px-3 py-2 text-base bg-white">
+        <button type="button" data-set-save class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl px-4 py-2">儲存網址</button>
+      </div>
+      <p data-set-stat class="text-sm font-bold mt-2 min-h-[20px]"></p>
     </div>
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 shadow-sm text-center mt-6">
       <h2 class="cute text-xl font-extrabold text-indigo-700 mb-1"> 繳交學習單</h2>
@@ -303,10 +313,11 @@
 
     <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-7 mt-6">
       <div class="text-6xl mb-2 pop"></div>
-      <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
-      <div class="flex flex-wrap gap-3 justify-center mt-4">
-        <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-xl font-extrabold rounded-2xl px-8 py-3"> 打字英雄</a>
-        <a href="https://boyinslps.github.io/pcclass/games/" target="_blank" rel="noopener" class="cute inline-block bg-white border-4 border-indigo-300 hover:bg-indigo-50 text-indigo-700 text-xl font-extrabold rounded-2xl px-8 py-3"> 更多遊戲</a>
+      <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業！</h2>
+      <div data-set-show="gameUrl" class="hidden mt-5">
+        <p class="text-xl font-bold text-slate-700">接下來，來挑戰「真假對決」</p>
+        <p class="text-lg text-slate-600 mt-1">玩一段時間後，老師會看排名，名次在前面的同學可以先自由活動。</p>
+        <a data-set-href="gameUrl" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-2xl font-extrabold rounded-2xl px-10 py-4 mt-4">開始玩　真假對決</a>
       </div>
     </div>
     <div class="stepnav"></div>
@@ -345,7 +356,7 @@ var firebaseConfig = {
 
 /* ===== 共用引擎：識別列／Firebase／作答狀態／繳交／教師模式／檢視／步驟分頁（依《學習單資料與提交規範》） ===== */
 (function(){
-  var C={"ws": "g5-L06", "lessonPath": "g5/L06", "title": "Docs 查證文件（二）：整理成報告", "stateKey": "g5L06flow", "steps": ["找回資料", "選訊息", "準備文件", "檢查前四欄", "廣傳後果", "廣傳原因", "正確資訊", "相信後果", "格式檢查", "繳交"], "reveals": [], "revealOf": {}, "autoFb": [], "qtypes": {"sel": "experience", "chk": "experience"}, "choices": {"sel": {"opts": ["C", "D", "E", "G", "H", "K"], "card": true}, "chk": {"opts": ["標題和前四欄都對照檢查過了", "「正確資訊」有標出處，沒有整段複製", "「為什麼廣傳」和「後果」都寫了理由", "標題是查核報告的標題，「查核網址」是整條網址、點得開", "格式檢查過了：字型、字級、樣式都對"], "multi": true, "block": true}}, "texts": [], "patterns": {}, "openQtexts": {}};
+  var C={"ws": "g5-L06", "lessonPath": "g5/L06", "title": "Docs 查證文件（二）：整理成報告", "stateKey": "g5L06flow", "steps": ["找回資料", "選訊息", "準備文件", "檢查前四欄", "廣傳後果", "廣傳原因", "正確資訊", "相信後果", "格式檢查", "繳交"], "reveals": [], "revealOf": {}, "autoFb": [], "textSettings": ["gameUrl"], "qtypes": {"sel": "experience", "chk": "experience"}, "choices": {"sel": {"opts": ["C", "D", "E", "G", "H", "K"], "card": true}, "chk": {"opts": ["標題和前四欄都對照檢查過了", "「正確資訊」有標出處，沒有整段複製", "「為什麼廣傳」和「後果」都寫了理由", "標題是查核報告的標題，「查核網址」是整條網址、點得開", "格式檢查過了：字型、字級、樣式都對"], "multi": true, "block": true}}, "texts": [], "patterns": {}, "openQtexts": {}};
   var WS=C.ws,QUIZ_ID=C.ws,LESSON_PATH=C.lessonPath,TITLE=C.title;
   var TEACHER_EMAIL='boyin0304@slps.tn.edu.tw';
   var IS_ADMIN=location.hash==='#admin';
@@ -638,6 +649,24 @@ var firebaseConfig = {
   function renderAll(){Object.keys(C.choices).forEach(renderChoice);fillFields();renderFeedback();if(H.render)H.render();}
   bindFields();renderAll();
 
+  // ===== 老師填的文字設定（例如遊戲網址）：存在 quizzes/{ws}，學生那邊即時看到 =====
+  // data-set-show：有填才顯示（老師看得到）；data-set-href：<a> 的連結；data-set-input：老師輸入框
+  var SET={};
+  function applySettings(){
+    document.querySelectorAll('[data-set-show]').forEach(function(e){
+      var on=!!String(SET[e.dataset.setShow]||'').trim()||(IS_ADMIN&&!REVIEW_ID);
+      e.classList.toggle('hidden',!on);
+    });
+    document.querySelectorAll('[data-set-href]').forEach(function(a){
+      var v=String(SET[a.dataset.setHref]||'').trim();
+      if(v)a.setAttribute('href',v);else a.removeAttribute('href');
+    });
+    document.querySelectorAll('[data-set-input]').forEach(function(i){
+      if(document.activeElement!==i)i.value=SET[i.dataset.setInput]||'';
+    });
+  }
+  applySettings();
+
   // ===== 每題判斷（繳交與檢視共用）=====
   function judge(){
     var r={};
@@ -748,6 +777,19 @@ var firebaseConfig = {
         else{REV[r]=!REV[r];applyReveal();}
       };
     });
+    document.querySelectorAll('[data-set-admin]').forEach(function(box){
+      box.classList.remove('hidden');
+      var key=box.dataset.setAdmin,inp=box.querySelector('[data-set-input]'),btn=box.querySelector('[data-set-save]'),stat=box.querySelector('[data-set-stat]');
+      btn.onclick=function(){
+        var v=inp.value.trim();
+        if(v&&!/^https?:\/\//i.test(v)){alert('網址要以 http:// 或 https:// 開頭');return;}
+        var o={};o[key]=v;
+        function ok(){stat.className='text-sm font-bold text-emerald-600';stat.textContent=v?'已儲存，學生繳交後就會看到按鈕':'已清除';}
+        if(quizRef)quizRef.set(o,{merge:true}).then(ok).catch(function(e){alert('儲存失敗：'+e.message);});
+        else{SET[key]=v;applySettings();ok();}
+      };
+    });
+    applySettings();
     applyReveal();
     $('showAnsBtn').onclick=function(){if(H.showAnswers)H.showAnswers();renderAll();};
     $('lockBtn').onclick=function(){
@@ -841,6 +883,7 @@ var firebaseConfig = {
       var d=(doc&&doc.data())||{};
       if(d.qtypeOverrides&&!REVIEW_ID){QTYPE_OVERRIDES=d.qtypeOverrides;renderQtypeSlots();}
       if(REVIEW_ID)return;
+      (C.textSettings||[]).forEach(function(k){SET[k]=String(d[k]||'');});applySettings();
       var next={};(C.reveals||[]).forEach(function(r){next[r]=!!d[r];});
       var undone=Object.keys(next).some(function(k){return REV[k]&&!next[k];});
       if(undone&&!first&&!IS_ADMIN){location.reload();return;}   // 老師按還原：全部收回

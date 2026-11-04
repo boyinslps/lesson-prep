@@ -535,17 +535,46 @@ STEP_L06_9 = """
 # L06 不再有「抄與整理」（搬到 L05 第 8 步開頭）：只留「廣傳後果」，編號往前補
 _i = OLD_S23.index('  <!-- ===== 步驟 6：廣傳後果 ===== -->')
 OLD_S23 = OLD_S23[_i:].replace('data-step="6"', 'data-step="5"').replace('步驟 6：廣傳後果', '步驟 5：廣傳後果')
+# L06 的繳交步驟：加「怎麼在 Classroom 繳交」影片；繳交後的獎勵區改成「真假對決」（網址由老師在 #admin 填）
+_S10 = OLD_S8.replace('步驟 7：繳交', '步驟 10：繳交').replace('data-step="7"', 'data-step="10"')
+_S10_TAIL = '還沒寫完也可以先交，下一節開頭還有時間補。</p>\n      </div>\n    </div>@@REWARD@@'
+assert _S10_TAIL in _S10
+_S10 = _S10.replace(_S10_TAIL, '還沒寫完也可以先交，下一節開頭還有時間補。</p>\n      </div>\n'
+                    '      <p class="font-bold text-indigo-800 mt-5 mb-2">看影片：怎麼在 Classroom 繳交</p>\n      '
+                    + vid('教學_繳交.mp4', '教學_繳交_封面.jpg', '回 Classroom 分頁，按「繳交」，再按一次確認') + '\n    </div>@@REWARD@@')
+
+GAME_ADMIN = '''
+    <div data-set-admin="gameUrl" class="hidden bg-slate-100 border-2 border-dashed border-slate-300 rounded-2xl p-4 mt-6">
+      <p class="font-bold text-slate-600 text-sm">👩‍🏫 老師設定：真假對決的網址（開好伺服器後貼上並儲存，學生繳交後就會看到按鈕）</p>
+      <div class="flex gap-2 flex-wrap mt-2 items-center">
+        <input type="url" data-set-input="gameUrl" autocomplete="off" class="flex-1 min-w-[16rem] border-2 border-slate-300 rounded-xl px-3 py-2 text-base bg-white">
+        <button type="button" data-set-save class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl px-4 py-2">儲存網址</button>
+      </div>
+      <p data-set-stat class="text-sm font-bold mt-2 min-h-[20px]"></p>
+    </div>'''
+REWARD6 = GAME_ADMIN + REWARD.split('\n    <div id="rewardBox"')[0] + '''
+
+    <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-7 mt-6">
+      <div class="text-6xl mb-2 pop">🎉</div>
+      <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業！</h2>
+      <div data-set-show="gameUrl" class="hidden mt-5">
+        <p class="text-xl font-bold text-slate-700">接下來，來挑戰「真假對決」</p>
+        <p class="text-lg text-slate-600 mt-1">玩一段時間後，老師會看排名，名次在前面的同學可以先自由活動。</p>
+        <a data-set-href="gameUrl" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-2xl font-extrabold rounded-2xl px-10 py-4 mt-4">開始玩　真假對決</a>
+      </div>
+    </div>'''
+
 L06_BODY = ('\n' + STEP_L06_1 + '\n' + STEP_L06_2 + '\n' + L5S.step_prep(3, '上一節做過的，直接按「下一步」跳過；還沒做的，一步一步補。').replace('<!-- ===== 準備文件（步驟卡）===== -->', '<!-- ===== 步驟 3：準備文件 ===== -->')
             + '\n' + STEP_L06_4 + '\n' + OLD_S23 + '\n' + STEP_L06_6 + '\n' + STEP_L06_7 + '\n' + STEP_L06_8 + '\n' + STEP_L06_9
-            + '\n' + OLD_S8.replace('步驟 7：繳交', '步驟 10：繳交').replace('data-step="7"', 'data-step="10"') + '\n')
+            + '\n' + _S10 + '\n')
 L06_BODY = (L06_BODY.replace('@@RESCUE@@', L5S.RESCUE.replace('<details class="urlfix', '<details open class="urlfix', 1))
-            .replace('@@CARDS@@', CARDS).replace('@@DOC@@', DOC).replace('@@REWARD@@', REWARD)
+            .replace('@@CARDS@@', CARDS).replace('@@DOC@@', DOC).replace('@@REWARD@@', REWARD6)
             .replace('@@CHIPS@@', chips7('bg-slate-100 border-2 border-slate-200', 'bg-indigo-100 border-2 border-indigo-200')))
 
 L06_CFG = {
     'ws': 'g5-L06', 'lessonPath': 'g5/L06', 'title': 'Docs 查證文件（二）：整理成報告', 'stateKey': 'g5L06flow',
     'steps': ['找回資料', '選訊息', '準備文件', '檢查前四欄', '廣傳後果', '廣傳原因', '正確資訊', '相信後果', '格式檢查', '繳交'],
-    'reveals': [], 'revealOf': {}, 'autoFb': [],
+    'reveals': [], 'revealOf': {}, 'autoFb': [], 'textSettings': ['gameUrl'],
     'qtypes': {'sel': 'experience', 'chk': 'experience'},
     'choices': {
         'sel': {'opts': ['C', 'D', 'E', 'G', 'H', 'K'], 'card': True},
@@ -614,8 +643,8 @@ def write(name, folder, html):
     print('wrote', p, len(html) // 1024, 'KB')
 
 write('五上_L05_Docs查證文件一.html', 'L05_Docs查證文件一',
-      page('訊息查證小偵探｜五上 L05 教學活動', '🔎 訊息查證小偵探',
-           '五年級上學期 · L05 Docs 查證文件（一）· 教學活動流程（40 分鐘）', L05_BODY, L05_CFG, L05_HOOKS, L05_SPEC, L5S.CSS))
+      page('訊息查證小偵探｜L05 教學活動', '🔎 訊息查證小偵探',
+           'L05 Docs 查證文件（一）· 教學活動流程（40 分鐘）', L05_BODY, L05_CFG, L05_HOOKS, L05_SPEC, L5S.CSS))
 write('五上_L06_Docs查證文件二.html', 'L06_Docs查證文件二',
-      page('整理成查證文件｜五上 L06 教學活動', '📝 把查核文章整理成自己的報告',
-           '五年級上學期 · L06 Docs 查證文件（二）· 教學活動流程（40 分鐘）', L06_BODY, L06_CFG, L06_HOOKS, L06_SPEC, L5S.CSS + FMT_CSS))
+      page('整理成查證文件｜L06 教學活動', '📝 把查核文章整理成自己的報告',
+           'L06 Docs 查證文件（二）· 教學活動流程（40 分鐘）', L06_BODY, L06_CFG, L06_HOOKS, L06_SPEC, L5S.CSS + FMT_CSS))
