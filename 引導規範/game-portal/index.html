@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="資訊老師黃博胤">
+    <title>學生學習與遊戲入口網 - 分類導航版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        body {
+            background-color: #f1f5f9;
+            font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+
+        .resource-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-badge {
+            background: rgba(79, 70, 229, 0.1);
+            color: #4f46e5;
+            padding: 2px 10px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .section-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+            margin-left: 1rem;
+        }
+
+        /* 高亮標示動畫 */
+        .highlight-new {
+            position: relative;
+            animation: pulse-border 2s infinite;
+            border: 2px solid #7c3aed;
+        }
+
+        @keyframes pulse-border {
+            0% { border-color: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+            70% { border-color: #4f46e5; box-shadow: 0 0 0 10px rgba(124, 58, 237, 0); }
+            100% { border-color: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- 導覽列 -->
+    <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-2 rounded-lg shadow-inner">
+                    <i class="fas fa-rocket text-indigo-600 text-xl"></i>
+                </div>
+                <h1 class="text-xl md:text-2xl font-bold tracking-tight">
+                    學生許可資源入口網
+                </h1>
+            </div>
+            <div class="hidden md:flex items-center space-x-4 text-sm font-medium">
+                <a href="#edu-section" class="hover:text-indigo-200 transition-colors">教學平台</a>
+                <a href="#practice-section" class="hover:text-indigo-200 transition-colors">練習資源</a>
+                <span class="opacity-50">|</span>
+                <span id="current-date"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要內容 -->
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+        <header class="mb-10 text-center md:text-left">
+            <h2 class="text-3xl font-extrabold text-gray-900 mb-3">優質學習資源清單</h2>
+            <p class="text-gray-600 max-w-2xl">
+                請根據當日進度，先完成老師指定的任務，再點擊下方連結進行自主學習。
+            </p>
+        </header>
+
+        <!-- 第一部分：教學平台類 -->
+        <section id="edu-section">
+            <div class="section-divider">
+                <h3 class="text-lg font-bold text-indigo-600 flex items-center">
+                    <i class="fas fa-book-open mr-2"></i> 教學與互動平台
+                </h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 綺芳老師教學網站 -->
+                <div class="resource-card bg-white rounded-2xl p-6 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-star text-pink-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">綺芳老師的教學網站</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6">Fun Fun 學習網，提供豐富的教學活動與互動資源，讓學習充滿驚喜與樂趣。</p>
+                    </div>
+                    <a href="https://sites.google.com/slps.tn.edu.tw/funfun" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium flex items-center justify-center transition-colors group">
+                        前往 Fun Fun 網 <i class="fas fa-external-link-alt ml-2 text-xs group-hover:scale-110"></i>
+                    </a>
+                </div>
+
+                <!-- 炤幃老師教學網站 -->
+                <div class="resource-card bg-white rounded-2xl p-6 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-chalkboard-teacher text-purple-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">炤幃老師教學網站</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6">精心整理的教學資源與打字練習遊戲，是掌握資訊技能的重要入口。</p>
+                    </div>
+                    <a href="https://chiucho.com/type/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium flex items-center justify-center transition-colors group">
+                        進入教學網 <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- PaGamO -->
+                <div class="resource-card bg-white rounded-2xl p-6 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-map-marked-alt text-green-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">PaGamO</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6">全球首創電競學堂，透過拓土遊戲邊玩邊解題，挑戰你的學科知識。</p>
+                    </div>
+                    <a href="https://www.pagamo.org/course/TMGQOQS7" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium flex items-center justify-center transition-colors group">
+                        開始挑戰 <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第二部分：練習工具類 -->
+        <section id="practice-section" class="mt-8">
+            <div class="section-divider">
+                <h3 class="text-lg font-bold text-indigo-600 flex items-center">
+                    <i class="fas fa-tools mr-2"></i> 專項練習與 AI 體驗
+                </h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+
+                <!-- Silk 互動藝術 -->
+                <div class="resource-card bg-white rounded-2xl p-6 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-magic text-cyan-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Silk 互動藝術</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6">對稱式光束繪圖，只要動動滑鼠就能創作出精美的對稱藝術作品，訓練美感與滑鼠控制。</p>
+                    </div>
+                    <a href="http://weavesilk.com/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl font-medium flex items-center justify-center transition-colors">
+                        開始創作 <i class="fas fa-paint-brush ml-2 text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- E-game -->
+                <div class="resource-card bg-white rounded-2xl p-6 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                            <i class="fas fa-laptop-code text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">E-game</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6">打寇島編程練習與數理闖關，全方位的邏輯思考練習平台。</p>
+                    </div>
+                    <a href="https://www.egame.kh.edu.tw/login" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium flex items-center justify-center transition-colors">
+                        登入遊戲 <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- 3分鐘中文打字大進擊 -->
+                <div class="resource-card bg-white rounded-2xl p-6 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+                            <i class="fas fa-font text-orange-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">中文打字大進擊</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6">專注於提升打字速度與正確率，是練習中文輸入的好幫手。</p>
+                    </div>
+                    <a href="https://worldofkeyboards.com/elemschwords" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium flex items-center justify-center transition-colors">
+                        挑戰極限 <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Quick Draw -->
+                <div class="resource-card bg-white rounded-2xl p-6 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-4">
+                            <i class="fas fa-paint-brush text-rose-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Quick Draw</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6">與 Google AI 互動，看看機器人能不能猜出你畫的是什麼！</p>
+                    </div>
+                    <a href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium flex items-center justify-center transition-colors">
+                        開始塗鴉 <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 使用須知與守則 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-green-500">
+                <h4 class="font-bold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-shield-alt text-green-500 mr-2"></i> 安全規範
+                </h4>
+                <ul class="text-gray-600 text-sm space-y-2">
+                    <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2 text-xs"></i> 列表內網站均經過安全過濾。</li>
+                    <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2 text-xs"></i> 請遵守著作權，不隨意複製他人作品。</li>
+                </ul>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-red-500">
+                <h4 class="font-bold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-exclamation-circle text-red-500 mr-2"></i> 課堂守則
+                </h4>
+                <ol class="text-gray-600 text-sm space-y-3 font-medium">
+                    <li class="flex items-start">
+                        <span class="bg-red-100 text-red-600 w-5 h-5 flex items-center justify-center rounded-full text-xs mr-2 flex-shrink-0">1</span>
+                        不得使用未列在清單上的網站，違者將暫時失去使用電腦的權利。
+                    </li>
+                    <li class="flex items-start">
+                        <span class="bg-red-100 text-red-600 w-5 h-5 flex items-center justify-center rounded-full text-xs mr-2 flex-shrink-0">2</span>
+                        使用時請顧及還在完成作業的同學，保持安靜。
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="bg-gray-800 text-gray-400 py-8 text-center mt-12">
+        <div class="container mx-auto px-6">
+            <p class="mb-2">© 2024 電腦教室資源管理系統</p>
+            <p class="text-xs">如有新增連結需求，請洽詢系統管理員。</p>
+            <p class="text-xs text-right mt-4 text-gray-500">made by 資訊老師黃博胤</p>
+        </div>
+    </footer>
+
+    <script>
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+        document.getElementById('current-date').textContent = now.toLocaleDateString('zh-TW', options);
+    </script>
+</body>
+</html>
