@@ -54,7 +54,8 @@
   .gsim-size input{width:48px;height:34px;text-align:center;border:1px solid #c7c7c7;border-radius:6px;background:#fff;font-size:16px;font-family:inherit}
   .gsim-all{margin-left:auto;background:#7c3aed;color:#fff;font-weight:800;border-radius:999px;padding:3px 16px}
   .gsim-page{cursor:text;min-height:150px}
-  .gsim-page span.sel{background:#b3d4fc}</style>
+  .gsim-page span.sel{background:#b3d4fc}  .shot{border-radius:14px;border:3px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.14);width:100%;display:block}
+</style>
 </head>
 <body>
 
@@ -102,19 +103,45 @@
       </ol>
     </div>
 
-    <div class="bg-sky-50 border-4 border-sky-200 rounded-3xl p-4">
-      <p class="cute text-2xl font-extrabold text-sky-700 mb-2">查路線、換交通方式（L06）</p>
+    <div class="bg-violet-50 border-4 border-violet-200 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-violet-700 mb-2">① 開新瀏覽器，選「訪客模式」</p>
+      <div class="grid md:grid-cols-5 gap-4 items-center">
+        <div class="md:col-span-3"><video class="w-full rounded-xl border-2 border-violet-200 bg-slate-900" src="assets/教學_開新瀏覽器.mp4" poster="assets/教學_開新瀏覽器_封面.jpg" controls playsinline preload="none"></video></div>
+        <ol class="md:col-span-2 list-decimal pl-6 text-xl font-bold space-y-2">
+          <li>開<span class="text-violet-700">新的瀏覽器</span></li>
+          <li>選「<span class="text-violet-700">訪客模式</span>」</li>
+          <li>搜尋「Google 地圖」</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="bg-rose-50 border-4 border-rose-200 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-rose-700 mb-2">② 規劃路線，一種一種換</p>
+      <div class="mb-4">
+        <video class="w-full max-w-3xl mx-auto rounded-xl border-2 border-rose-200 bg-slate-900" src="assets/教學_Google地圖查路線.mp4" poster="assets/教學_Google地圖查路線_封面.jpg" controls playsinline preload="none"></video>
+        <p class="text-center text-base text-slate-500 mt-1">🎬 影片：搜尋景點 → 規劃路線 → 換交通方式 → 看公車</p>
+      </div>
       <div class="grid md:grid-cols-5 gap-4 items-start">
-        <div class="md:col-span-3"><video class="w-full rounded-xl border-2 border-sky-200 bg-slate-900" src="assets/教學_Google地圖查路線.mp4" poster="assets/教學_Google地圖查路線_封面.jpg" controls playsinline preload="none"></video></div>
+        <a href="assets/gm_route.jpg" target="_blank" rel="noopener" title="點圖放大" class="md:col-span-3"><img src="assets/gm_route.jpg" alt="Google 地圖規劃路線：赤崁樓到安平古堡，上方有開車、機車、公車、走路、腳踏車的分鐘" class="shot" loading="lazy"></a>
         <div class="md:col-span-2">
           <ol class="list-decimal pl-6 text-xl font-bold space-y-2">
-            <li>搜尋景點 →「<span class="text-sky-700">路線</span>」</li>
-            <li>填<span class="text-sky-700">出發地</span>、<span class="text-sky-700">目的地</span></li>
-            <li>點上面的圖示，<span class="text-sky-700">一種一種換</span></li>
+            <li>搜尋景點 →「<span class="text-rose-600">規劃路線</span>」</li>
+            <li>填<span class="text-rose-600">出發地</span>、<span class="text-rose-600">目的地</span></li>
+            <li>點上面的<span class="text-rose-600">圖示</span>，<span class="text-rose-600">一種一種換</span>，每種都有自己的分鐘</li>
+            <li>要寫的那一種，<span class="text-rose-600">點進去看細節</span></li>
           </ol>
-          <p class="text-lg font-bold bg-amber-50 border-2 border-amber-200 rounded-xl p-2 mt-3">💡 公車也能查，但不太準。<br>公車用<a href="https://2384.tainan.gov.tw/newtnbusweb/transferInfo.html?Lang=cht" target="_blank" rel="noopener" class="text-emerald-700 underline">公共運輸轉乘查詢 ↗</a></p>
+          <p class="text-xl font-bold text-slate-700 mt-2 flex flex-wrap gap-x-4"><span class="whitespace-nowrap">🚗 開車</span><span class="whitespace-nowrap">🛵 機車</span><span class="whitespace-nowrap">🚌 公車</span><span class="whitespace-nowrap">🚶 走路</span><span class="whitespace-nowrap">🚲 腳踏車</span></p>
+          <p class="text-base text-slate-500">點圖可以放大。時間會變，以你查到的為準。</p>
         </div>
       </div>
+    </div>
+
+    <div class="bg-amber-50 border-4 border-amber-300 rounded-3xl p-4">
+      <p class="cute text-2xl font-extrabold text-amber-700 mb-2">③ 🚌 選公車：看搭乘細節</p>
+      <ul class="space-y-2 font-bold text-xl">
+        <li>✔ 點 🚌，會列出<span class="text-amber-700">搭哪一路</span>、在哪裡<span class="text-amber-700">上車、下車</span></li>
+        <li>✘ 時間是<span class="text-amber-700">估的</span>，走到站牌、等車要<span class="text-amber-700">另外加</span></li>
+      </ul>
     </div>
     <a href="https://boyinslps.github.io/pcclass/g4/L06/" target="_blank" rel="noopener" class="inline-block mt-4 bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">📖 回去看 L06 學習單（複習用）↗</a>
     <div class="stepnav"></div>
@@ -196,13 +223,13 @@
             <thead><tr><th>欄位</th><th>寫什麼</th><th>例</th></tr></thead>
             <tbody>
               <tr><td class="font-extrabold">出發與目的地</td><td>第 1 站 → 第 2 站</td><td>赤崁樓 → 安平古堡</td></tr>
-              <tr><td class="font-extrabold">交通方式</td><td>開車／機車／火車／公車／YouBike／走路，選<b>一種</b></td><td>公車</td></tr>
-              <tr><td class="font-extrabold">搭乘細節</td><td>看下一張</td><td>搭 98 府城台江線，赤崁樓上車，安平古堡(安北路)下車</td></tr>
+              <tr><td class="font-extrabold">交通方式</td><td>開車／機車／公車／走路／腳踏車，選<b>一種</b></td><td>公車</td></tr>
+              <tr><td class="font-extrabold">搭乘細節</td><td>公車寫搭乘；其他寫<b>距離</b>，看下一張</td><td>搭 98 府城台江線，赤崁樓上車，安平古堡(安北路)下車</td></tr>
               <tr><td class="font-extrabold">路程時間</td><td>查到的「總共幾分鐘」（1 小時 5 分＝65 分）</td><td>17 分</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="text-base text-slate-500 mt-1">還不會查？L06 的「公共運輸轉乘查詢」和 Google 地圖。</p>
+        <p class="text-base text-slate-500 mt-1">還不會查？回去看第 1 頁的 Google 地圖。</p>
       </div>
       <div class="sc-slide">
         <p class="sc-t"><b>搭乘細節</b>這樣寫</p>
@@ -211,10 +238,8 @@
             <thead><tr><th>方式</th><th>細節寫</th><th>例</th></tr></thead>
             <tbody>
               <tr><td class="font-extrabold">🚌 公車</td><td><b>搭幾號</b>、哪個站牌<b>上</b>、哪個站牌<b>下</b></td><td>搭 103 路，臺南火車站(中山路C)上車，赤崁樓下車</td></tr>
-              <tr><td class="font-extrabold">🚶 走路</td><td>走<b>多遠</b></td><td>走路約 0.8 公里</td></tr>
-              <tr><td class="font-extrabold">🚲 YouBike</td><td>在哪個站<b>借</b>、哪個站<b>還</b></td><td>在○○站借車，在△△站還車</td></tr>
-              <tr><td class="font-extrabold">🚗 開車／🛵 機車</td><td>Google 地圖的<b>途經路名</b></td><td>途經民權路四段</td></tr>
-              <tr><td class="font-extrabold">🚆 火車</td><td><b>起站 → 迄站</b>、幾點發車</td><td>臺南 → 嘉義，10:30 發車</td></tr>
+              <tr><td class="font-extrabold">🚶 走路／🚲 腳踏車</td><td>Google 地圖上的<b>距離</b></td><td>走路 0.8 公里</td></tr>
+              <tr><td class="font-extrabold">🚗 開車／🛵 機車</td><td>Google 地圖上的<b>距離</b></td><td>開車 5.2 公里</td></tr>
             </tbody>
           </table>
         </div>
@@ -230,7 +255,7 @@
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">✅ 這一步檢查</p>
       <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 兩站中間，有<b>交通格子</b></label>
       <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> <b>四欄</b>都填了</label>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 公車：有<b>幾號、上車、下車</b>站牌</label>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 搭乘細節：公車有<b>幾號、上車、下車</b>站牌；其他方式寫<b>距離</b>（幾公里）</label>
       <label class="flex items-center gap-3"><input type="checkbox" class="chk w-6 h-6"> 路程時間是<b>數字＋「分」</b></label>
     </div>
     <div class="stepnav"></div>
@@ -764,7 +789,7 @@ var firebaseConfig = {
       "checks": [
         { "desc": "景點（含美食）至少 4 站，每一站都有景點格子：站號、地址、開放時間（美食為營業時間）、門票（美食為想吃什麼）、停留多久、網址（少一兩格空白只扣 1 分）", "pts": 6 },
         { "desc": "站與站中間有交通格子（站數 − 1 個），每個都填了四欄：出發與目的地、交通方式、搭乘細節、路程時間（交通型：搭乘路線、上車站→下車站、搭乘班次、路程時間；少一兩格空白只扣 1 分）", "pts": 6 },
-        { "desc": "交通內容合理：交通方式是開車、機車、火車、公車、YouBike、走路其中之一；搭乘細節跟方式對得上（公車要有幾號、上車站牌、下車站牌；走路寫多遠；YouBike 寫借還站）；路程時間是數字加「分」且大致合理（交通型不看這項，改看班次是時間格式）", "pts": 4 },
+        { "desc": "交通內容合理：交通方式是開車、機車、公車、走路、腳踏車其中之一；搭乘細節跟方式對得上（公車要有幾號、上車站牌、下車站牌；走路、腳踏車、開車、機車寫距離）；路程時間是數字加「分」且大致合理（交通型不看這項，改看班次是時間格式）", "pts": 4 },
         { "desc": "站號依序、沒有重複；順序合理（不繞回頭路、同一區放一起）；交通格子的「出發與目的地」接得上前後站", "pts": 4 }
       ] }
   ],
