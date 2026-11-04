@@ -43,7 +43,18 @@
   .tbox{background:#fff;border:1px solid #c7c7c7;border-radius:6px;padding:2px 12px;min-width:56px;text-align:center}
   .tring{outline:4px solid #ef4444;outline-offset:3px;border-radius:8px}
   .kai{font-family:'DFKai-SB','標楷體','BiauKai','Kaiti TC','AR PL UKai TW',serif}
-</style>
+  /* 文件編輯器模擬（排版練習） */
+  .gsim{outline:none}
+  .gsim:focus-within{border-color:#8b5cf6}
+  .gsim-tb{display:flex;align-items:center;gap:10px;background:#f0f4f9;border-radius:28px;padding:8px 16px;margin:4px 12px 0;font-family:Arial,'Microsoft JhengHei',sans-serif;font-size:16px;flex-wrap:wrap}
+  .gsim-tb .tbi{color:#444;font-size:18px}
+  .gsim-font{appearance:auto;font-size:16px;min-width:150px;height:34px;padding:0 8px}
+  .gsim-size{display:inline-flex;align-items:center;gap:4px}
+  .gsim-size button{width:28px;height:28px;border-radius:999px;border:1px solid #c7c7c7;background:#fff;font-weight:700;line-height:1}
+  .gsim-size input{width:48px;height:34px;text-align:center;border:1px solid #c7c7c7;border-radius:6px;background:#fff;font-size:16px;font-family:inherit}
+  .gsim-all{margin-left:auto;background:#7c3aed;color:#fff;font-weight:800;border-radius:999px;padding:3px 16px}
+  .gsim-page{cursor:text;min-height:150px}
+  .gsim-page span.sel{background:#b3d4fc}</style>
 </head>
 <body>
 
@@ -76,11 +87,9 @@
     </div>
   </header>
 
-  <!-- 步驟 1：放交通格子 -->
-  <section class="step bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm" data-step="1">
-    <h2 class="cute text-3xl font-extrabold text-orange-700 mb-3">放交通格子</h2>
-
-    <a href="https://boyinslps.github.io/pcclass/g4/L05/" target="_blank" rel="noopener" class="inline-block mb-4 bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">📖 回去看 L05 學習單（複習用）↗</a>
+  <!-- 步驟 1：複習 Google 地圖 -->
+  <section class="step bg-white border-4 border-sky-300 rounded-3xl p-5 shadow-sm" data-step="1">
+    <h2 class="cute text-3xl font-extrabold text-sky-700 mb-3">先複習：Google 地圖</h2>
 
     <div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mb-4">
       <p class="cute text-2xl font-extrabold text-orange-700 mb-2">🎯 今日任務：5 件事</p>
@@ -92,6 +101,30 @@
         <li><span class="stepno bg-orange">5</span>貼<span class="text-orange-700">連結</span>，交作業</li>
       </ol>
     </div>
+
+    <div class="bg-sky-50 border-4 border-sky-200 rounded-3xl p-4">
+      <p class="cute text-2xl font-extrabold text-sky-700 mb-2">查路線、換交通方式（L06）</p>
+      <div class="grid md:grid-cols-5 gap-4 items-start">
+        <div class="md:col-span-3"><video class="w-full rounded-xl border-2 border-sky-200 bg-slate-900" src="assets/教學_Google地圖查路線.mp4" poster="assets/教學_Google地圖查路線_封面.jpg" controls playsinline preload="none"></video></div>
+        <div class="md:col-span-2">
+          <ol class="list-decimal pl-6 text-xl font-bold space-y-2">
+            <li>搜尋景點 →「<span class="text-sky-700">路線</span>」</li>
+            <li>填<span class="text-sky-700">出發地</span>、<span class="text-sky-700">目的地</span></li>
+            <li>點上面的圖示，<span class="text-sky-700">一種一種換</span></li>
+          </ol>
+          <p class="text-lg font-bold bg-amber-50 border-2 border-amber-200 rounded-xl p-2 mt-3">💡 公車也能查，但不太準。<br>公車用<a href="https://2384.tainan.gov.tw/newtnbusweb/transferInfo.html?Lang=cht" target="_blank" rel="noopener" class="text-emerald-700 underline">公共運輸轉乘查詢 ↗</a></p>
+        </div>
+      </div>
+    </div>
+    <a href="https://boyinslps.github.io/pcclass/g4/L06/" target="_blank" rel="noopener" class="inline-block mt-4 bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">📖 回去看 L06 學習單（複習用）↗</a>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- 步驟 2：放交通格子 -->
+  <section class="step hidden bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm" data-step="2">
+    <h2 class="cute text-3xl font-extrabold text-orange-700 mb-3">放交通格子</h2>
+
+    <a href="https://boyinslps.github.io/pcclass/g4/L05/" target="_blank" rel="noopener" class="inline-block mb-4 bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">📖 回去看 L05 學習單（複習用）↗</a>
 
     <p class="cute text-2xl font-extrabold text-slate-700 mb-1">👀 先看：文件要像這樣</p>
     <p class="text-xl font-bold mb-3">兩個景點，<span class="text-emerald-700">中間一個交通格子</span></p>
@@ -204,8 +237,8 @@
   </section>
 
 
-  <!-- 步驟 2：文件內容 -->
-  <section class="step hidden bg-white border-4 border-teal-300 rounded-3xl p-5 shadow-sm" data-step="2">
+  <!-- 步驟 3：文件內容 -->
+  <section class="step hidden bg-white border-4 border-teal-300 rounded-3xl p-5 shadow-sm" data-step="3">
     <h2 class="cute text-3xl font-extrabold text-teal-700 mb-3">補齊文件內容</h2>
 
     <div class="bg-teal-50 border-4 border-teal-200 rounded-3xl p-4 mb-4">
@@ -235,7 +268,11 @@
           <div>
             <button id="tplSpot" class="w-full bg-teal-600 hover:bg-teal-700 text-white text-xl font-extrabold rounded-2xl px-4 py-3">📍 複製景點格子</button>
             <p class="text-xl font-bold mt-3">缺的站 → <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></p>
-            <p class="text-lg text-slate-500">資料去台南旅遊網找（L04）。</p>
+            <p class="text-lg font-bold mt-3">資料去<b>台南旅遊網</b>找（L04）</p>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <a href="https://www.twtainan.net/zh-tw/attractions/" target="_blank" rel="noopener" class="inline-block bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-bold rounded-xl px-4 py-1.5">景點搜尋 ↗</a>
+              <a href="https://www.twtainan.net/zh-tw/attractions/map/" target="_blank" rel="noopener" class="inline-block bg-violet-500 hover:bg-violet-600 text-white font-bold rounded-xl px-4 py-1.5">旅遊地圖 ↗</a>
+            </div>
           </div>
           <pre id="spotText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-teal-100"></pre>
         </div>
@@ -247,6 +284,11 @@
             <button id="tplFood" class="w-full bg-orange-500 hover:bg-orange-600 text-white text-xl font-extrabold rounded-2xl px-4 py-3">🍜 複製美食格子</button>
             <p class="text-xl font-bold mt-3">放進<b>順序</b>裡，填<b>站號</b></p>
             <p class="text-lg text-slate-500">前後也要有交通格子。</p>
+            <p class="text-lg font-bold mt-3">店家資料去<b>台南旅遊網</b>找（L04）</p>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <a href="https://www.twtainan.net/zh-tw/shop/consumelist/" target="_blank" rel="noopener" class="inline-block bg-violet-500 hover:bg-violet-600 text-white font-bold rounded-xl px-4 py-1.5">店家搜尋 ↗</a>
+              <a href="https://www.twtainan.net/zh-tw/shop/cuisines/" target="_blank" rel="noopener" class="inline-block bg-white border-2 border-violet-300 hover:bg-violet-50 text-violet-700 font-bold rounded-xl px-4 py-1.5">必吃美食 ↗</a>
+            </div>
           </div>
           <pre id="foodText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-orange-100"></pre>
         </div>
@@ -278,8 +320,8 @@
   </section>
 
 
-  <!-- 步驟 3：順序檢查 -->
-  <section class="step hidden bg-white border-4 border-emerald-300 rounded-3xl p-5 shadow-sm" data-step="3">
+  <!-- 步驟 4：順序檢查 -->
+  <section class="step hidden bg-white border-4 border-emerald-300 rounded-3xl p-5 shadow-sm" data-step="4">
     <h2 class="cute text-3xl font-extrabold text-emerald-700 mb-3">檢查順序，不繞路</h2>
 
     <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-4 mb-4">
@@ -336,8 +378,8 @@
   </section>
 
 
-  <!-- 步驟 4：排版檢查 -->
-  <section class="step hidden bg-white border-4 border-violet-300 rounded-3xl p-5 shadow-sm" data-step="4">
+  <!-- 步驟 5：排版檢查 -->
+  <section class="step hidden bg-white border-4 border-violet-300 rounded-3xl p-5 shadow-sm" data-step="5">
     <h2 class="cute text-3xl font-extrabold text-violet-700 mb-3">檢查排版</h2>
 
     <div class="bg-violet-50 border-4 border-violet-200 rounded-3xl p-4 mb-4">
@@ -351,26 +393,41 @@
 
     <div class="sc sc-flat" data-sc>
       <div class="sc-slide">
-        <p class="sc-t">按 <kbd>Ctrl</kbd> + <kbd>A</kbd>，<b>全選</b></p>
-        <p class="text-lg text-slate-500">整份文件都變成藍色。</p>
+        <p class="sc-t">先<b>練習</b>：把這份文件，改成<b>標楷體 12</b></p>
+        <ol class="text-xl font-bold space-y-1 mb-3">
+          <li><span class="stepno bg-violet">1</span>按 <kbd>Ctrl</kbd> + <kbd>A</kbd> <b>全選</b>（點一下文件，再按）</li>
+          <li><span class="stepno bg-violet">2</span>字型框，選 <b>標楷體</b></li>
+          <li><span class="stepno bg-violet">3</span>大小框，改成 <b>12</b>，按 <kbd>Enter</kbd></li>
+        </ol>
+        <div id="sim" class="gdoc gsim" tabindex="0">
+          <div class="gdoc-top"><span class="gdoc-logo"></span><span class="gdoc-title">我的台南導覽　景點清單</span><span class="gdoc-share">共用</span></div>
+          <div class="gdoc-menu"><span>檔案</span><span>編輯</span><span>查看</span><span>插入</span><span>格式</span><span>工具</span><span>擴充功能</span><span>說明</span></div>
+          <div class="gsim-tb">
+            <span class="tbi">↶</span><span class="tbi">↷</span><span class="tbi">⎙</span>
+            <span class="tbox">100% ▾</span>
+            <span class="tbox">一般文字 ▾</span>
+            <select id="simFont" class="tbox gsim-font" aria-label="字型">
+              <option value=""></option><option>Arial</option><option>標楷體</option><option>微軟正黑體</option><option>Times New Roman</option>
+            </select>
+            <span class="gsim-size"><button type="button" id="simMinus" aria-label="縮小">−</button><input id="simSize" inputmode="numeric" maxlength="2" aria-label="大小"><button type="button" id="simPlus" aria-label="放大">+</button></span>
+            <button type="button" id="simAll" class="gsim-all">全選</button>
+          </div>
+          <div class="gdoc-page gsim-page" id="simPage"></div>
+        </div>
+        <p id="simMsg" class="text-xl font-extrabold mt-2 min-h-[34px]"></p>
+        <button type="button" id="simReset" class="bg-white border-2 border-slate-300 hover:border-violet-400 text-slate-600 font-bold rounded-xl px-4 py-1">↺ 重新練習</button>
       </div>
       <div class="sc-slide">
-        <p class="sc-t">字型框，選 <b>標楷體</b></p>
-        <div class="tbar"><span>100% ▾</span><span>一般文字 ▾</span><span class="tbox tring kai">標楷體 ▾</span><span>− <span class="tbox">11</span> +</span></div>
-        <p class="text-lg text-slate-500 mt-2">找不到？點「更多字型」，搜尋「標楷體」。</p>
-      </div>
-      <div class="sc-slide">
-        <p class="sc-t">大小框，改成 <b>12</b></p>
-        <div class="tbar"><span>100% ▾</span><span>一般文字 ▾</span><span class="tbox kai">標楷體 ▾</span><span>− <span class="tbox tring">12</span> +</span></div>
-        <p class="text-lg text-slate-500 mt-2">打 12，按 <kbd>Enter</kbd>。</p>
-      </div>
-      <div class="sc-slide">
-        <p class="sc-t">再檢查：<b>全選後</b>，兩個框是不是對的</p>
-        <div class="tbar"><span>100% ▾</span><span>一般文字 ▾</span><span class="tbox kai">標楷體 ▾</span><span>− <span class="tbox">12</span> +</span><span class="text-emerald-600 font-extrabold">✓ 對了</span></div>
-        <p class="text-lg text-slate-500 mt-2">框是<b>空白</b>？還有別的字型或大小，再設一次。</p>
+        <p class="sc-t">換成<b>你的文件</b>，一樣三步</p>
+        <ol class="text-2xl font-extrabold space-y-2">
+          <li><span class="stepno bg-violet">1</span><kbd>Ctrl</kbd> + <kbd>A</kbd> 全選</li>
+          <li><span class="stepno bg-violet">2</span>字型，<span class="text-violet-700">標楷體</span></li>
+          <li><span class="stepno bg-violet">3</span>大小，<span class="text-violet-700">12</span></li>
+        </ol>
+        <p class="text-lg text-slate-500 mt-2">找不到標楷體？點「更多字型」，搜尋「標楷體」。</p>
+        <p class="text-lg font-bold bg-violet-50 border-2 border-violet-200 rounded-xl p-2 mt-2">再檢查：全選後，兩個框是<b>標楷體</b>和 <b>12</b>。框是<b>空白</b>，就是還有別的，再設一次。</p>
       </div>
     </div>
-
     <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">✅ 這一步檢查</p>
       <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 全選後，字型是 <b>標楷體</b></label>
@@ -381,8 +438,8 @@
   </section>
 
 
-  <!-- 步驟 5：貼連結、交作業 -->
-  <section class="step hidden bg-white border-4 border-rose-300 rounded-3xl p-5 shadow-sm" data-step="5">
+  <!-- 步驟 6：貼連結、交作業 -->
+  <section class="step hidden bg-white border-4 border-rose-300 rounded-3xl p-5 shadow-sm" data-step="6">
     <h2 class="cute text-3xl font-extrabold text-rose-700 mb-3">貼連結，交作業</h2>
 
     <div class="sc sc-flat" data-sc>
@@ -596,8 +653,62 @@ var firebaseConfig = {
       });
   };
 
+  // ===== 排版練習：文件編輯器模擬（全選 → 字型 → 大小）=====
+  var SIM_FONTS={'Arial':'Arial,sans-serif','標楷體':"'DFKai-SB','標楷體','BiauKai','Kaiti TC','AR PL UKai TW',serif",'微軟正黑體':"'Microsoft JhengHei','Noto Sans TC',sans-serif",'Times New Roman':"'Times New Roman',serif"};
+  var SIM_INIT=[
+    ['第 1 站：赤崁樓','Arial',14],['地址：臺南市中西區民族路二段212號','Arial',11],['開放時間：08:30～21:00','微軟正黑體',12],
+    ['門票：全票 70 元，半票 35 元','標楷體',11],['停留多久：1 小時','Arial',11],['',' Arial',11],
+    ['【交通】','標楷體',14],['出發與目的地：赤崁樓 → 安平古堡','標楷體',12],['交通方式：公車','Times New Roman',12],
+    ['搭乘細節：搭 98 府城台江線，赤崁樓上車，安平古堡(安北路)下車','Times New Roman',10],['路程時間：17 分','標楷體',12]
+  ];
+  var simLines=[],simSel=false;
+  function simReset(){simLines=SIM_INIT.map(function(r){return {t:r[0],f:r[1].trim(),s:r[2]};});simSel=false;simRender();}
+  function simUniq(k){var u=[];simLines.forEach(function(l){if(u.indexOf(l[k])<0)u.push(l[k]);});return u;}
+  function simRender(){
+    var h='';
+    simLines.forEach(function(l){
+      var st='font-family:'+SIM_FONTS[l.f]+';font-size:'+(l.s*1.5)+'px;line-height:1.55;margin:0;min-height:1.55em';
+      h+='<p style="'+st+'">'+(l.t?'<span class="'+(simSel?'sel':'')+'">'+l.t+'</span>':'&nbsp;')+'</p>';
+    });
+    $('simPage').innerHTML=h;
+    var fs=simSel?simUniq('f'):[simLines[0].f],ss=simSel?simUniq('s'):[simLines[0].s];
+    $('simFont').value=fs.length===1?fs[0]:'';
+    $('simSize').value=ss.length===1?ss[0]:'';
+    var m=$('simMsg'),allF=simUniq('f'),allS=simUniq('s');
+    if(allF.length===1&&allF[0]==='標楷體'&&allS.length===1&&allS[0]===12){m.className='text-xl font-extrabold mt-2 min-h-[34px] text-emerald-700';m.textContent='✓ 全部都是標楷體、12！換你的文件做';}
+    else if(!simSel){m.className='text-xl font-extrabold mt-2 min-h-[34px] text-slate-600';m.textContent='先按 Ctrl + A 全選';}
+    else{
+      var t=[];
+      if(fs.length>1)t.push('字型框空白：還有別的字型');else if(fs[0]!=='標楷體')t.push('字型不是標楷體');
+      if(ss.length>1)t.push('大小框空白：還有別的大小');else if(ss[0]!==12)t.push('大小不是 12');
+      m.className='text-xl font-extrabold mt-2 min-h-[34px] text-violet-700';m.textContent=t.join('；');
+    }
+  }
+  function simNeedSel(){if(simSel)return true;var m=$('simMsg');m.className='text-xl font-extrabold mt-2 min-h-[34px] text-amber-700';m.textContent='先按 Ctrl + A 全選';return false;}
+  function simSetSize(v){
+    var n=parseInt(v,10);if(!(n>=6&&n<=72)){simRender();return;}
+    if(!simNeedSel())return;simLines.forEach(function(l){l.s=n;});simRender();
+  }
+  $('simAll').onclick=function(){simSel=true;simRender();$('sim').focus();};
+  $('simPage').addEventListener('mousedown',function(){simSel=false;simRender();$('sim').focus();});
+  $('sim').addEventListener('keydown',function(e){
+    if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='SELECT'))return;
+    if((e.ctrlKey||e.metaKey)&&String(e.key).toLowerCase()==='a'){e.preventDefault();simSel=true;simRender();}
+  });
+  $('simFont').onchange=function(){
+    var v=this.value;if(!v){simRender();return;}
+    if(!simNeedSel()){this.value=simLines[0].f;return;}
+    simLines.forEach(function(l){l.f=v;});simRender();
+  };
+  $('simSize').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();simSetSize(this.value);}});
+  $('simSize').addEventListener('change',function(){simSetSize(this.value);});
+  $('simPlus').onclick=function(){if(!simNeedSel())return;simLines.forEach(function(l){l.s=Math.min(72,l.s+1);});simRender();};
+  $('simMinus').onclick=function(){if(!simNeedSel())return;simLines.forEach(function(l){l.s=Math.max(6,l.s-1);});simRender();};
+  $('simReset').onclick=simReset;
+  simReset();
+
   // ===== 學習路徑 =====
-  var STEP_NAMES=['交通格子','文件內容','順序','排版','交作業'];
+  var STEP_NAMES=['複習','交通格子','文件內容','順序','排版','交作業'];   // 第 1 頁是複習（進度列顯示「複」），其餘 1～5 對應今日任務
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true},submittedOnce=false;
   function stepDone(n){
@@ -614,8 +725,8 @@ var firebaseConfig = {
       var cell=el('div','flex flex-col items-center');
       var b=el('button','stepdot cute rounded-full border-2 font-extrabold text-sm flex items-center justify-center transition '+
         (cur?'bg-orange-500 border-orange-500 text-white':(done?'bg-emerald-500 border-emerald-500 text-white':'bg-white border-slate-300 text-slate-400 hover:border-orange-300')));
-      b.textContent=done&&!cur?'✓':String(n);
-      b.setAttribute('aria-label','第 '+n+' 步：'+name);
+      b.textContent=done&&!cur?'✓':(n===1?'複':String(n-1));
+      b.setAttribute('aria-label',n===1?'先複習：'+name:'第 '+(n-1)+' 步：'+name);
       if(cur)b.setAttribute('aria-current','step');
       b.onclick=function(){showStep(n);};
       cell.appendChild(b);
@@ -623,7 +734,7 @@ var firebaseConfig = {
       host.appendChild(cell);
       if(n<STEP_NAMES.length)host.appendChild(el('div','flex-1 h-0.5 mt-3.5 sm:mt-4 mx-0.5 sm:mx-1 rounded '+(done&&!cur?'bg-emerald-300':'bg-slate-200')));
     });
-    $('stepLabel').textContent='第 '+curStep+' 步／共 '+STEP_NAMES.length+' 步 · '+STEP_NAMES[curStep-1];
+    $('stepLabel').textContent=curStep===1?'先複習 · Google 地圖':'第 '+(curStep-1)+' 步／共 '+(STEP_NAMES.length-1)+' 步 · '+STEP_NAMES[curStep-1];
   }
   function showStep(n){
     curStep=n;visited[n]=true;
