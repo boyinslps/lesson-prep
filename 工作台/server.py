@@ -19,6 +19,7 @@ MATERIALS = ROOT / "materials"
 GUIDE = ROOT / "引導規範"
 WEB = HERE / "web"
 CONFIG = HERE / "config.json"
+PROGRESS_DIR = ROOT / "課程進度"
 PORT = 8770
 
 # 單元層級管線階段 → 對應檔名（計畫切分是專案層級，不在此）
@@ -1334,6 +1335,28 @@ def diagnostics():
     return {"ok": True, "diag": out}
 
 
+def read_progress(sample=False):
+    """課程進度甘特圖的資料來源（唯讀）。規格見《引導規範/課程進度與甘特圖規範.md》。
+    預設讀 課程進度/進度彙整.json（真實資料，由本機另一個 session 產生，不進 git）；
+    sample=True 讀 課程進度/範例進度彙整.json（假資料，進 git）。
+    只在「檔案不存在」時回 code=not_found，讓前端可以改讀範例；檔案壞掉（JSON 錯誤）要明確報錯，
+    不可默默換成範例，否則老師會把假資料當成真實進度。"""
+    f = PROGRESS_DIR / ("範例進度彙整.json" if sample else "進度彙整.json")
+    rel = f.relative_to(ROOT).as_posix()
+    if not f.is_file():
+        return {"ok": False, "code": "not_found", "file": rel, "error": "找不到 " + rel,
+                "sampleAvailable": (PROGRESS_DIR / "範例進度彙整.json").is_file()}
+    try:
+        data = json.loads(f.read_text("utf-8-sig"))        # utf-8-sig：容許 Windows 編輯器存出的 BOM
+    except (OSError, ValueError) as e:
+        return {"ok": False, "code": "invalid_json", "file": rel, "error": rel + " 讀取或解析失敗：" + str(e)}
+    if not isinstance(data, dict):
+        return {"ok": False, "code": "invalid_json", "file": rel, "error": rel + " 最外層必須是 JSON 物件"}
+    out = {"ok": True, "source": "sample" if sample else "real", "file": rel}
+    out.update({k: v for k, v in data.items() if k not in out})   # 檔案內容原樣攤在最外層
+    return out
+
+
 class H(BaseHTTPRequestHandler):
     def _send(self, code, body, ctype="application/json; charset=utf-8"):
         if isinstance(body, (dict, list)):
@@ -1422,6 +1445,8 @@ class H(BaseHTTPRequestHandler):
                 return self._send(200, classroom_students(q.get("courseId", [""])[0]))
             if u.path == "/api/diagnostics":
                 return self._send(200, diagnostics())
+            if u.path == "/api/progress":
+                return self._send(200, read_progress(q.get("sample", [""])[0] in ("1", "true")))
             if u.path == "/api/update/check":
                 return self._send(200, updater.check_update(ROOT))
             # 靜態：materials/、引導規範/、web/ 底下的檔（圖片、html…）

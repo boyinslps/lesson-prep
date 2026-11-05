@@ -25,6 +25,11 @@ submissions*.json
 繳交*
 timetable.json
 
+# --- 課程進度：真實彙整檔由另一個本機 session 產生，只留本機（範例進度彙整.json 是假資料，要進 git）---
+課程進度/進度彙整*.json
+# 彙整過程的暫存（Classroom／Firestore 原始回應含姓名、courseId 對照表等），一律只放這裡
+課程進度/_本機/
+
 # --- 競賽 C04 學生對話紀錄：整理工具的輸出含姓名與完整對話，只留本機 ---
 materials/競賽專區/C04_檢查標記與排版/學生對話紀錄/_輸出/
 materials/競賽專區/C04_檢查標記與排版/學生對話紀錄/manual.json

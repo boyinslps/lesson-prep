@@ -2,6 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
+<meta name="author" content="資訊老師黃博胤">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>備課駕駛艙</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -75,6 +76,122 @@
   .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:var(--bg);font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:99px;transition:.25s;z-index:60;pointer-events:none;max-width:80vw;text-align:center}.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
   @media(max-width:900px){.work{grid-template-columns:1fr}.panel+.panel{border-left:none;border-top:1px solid var(--border)}.panel.lessons .pb{max-height:220px}}
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  /* ===== 課程進度甘特圖（#gtO）：色票沿用三態主題（system／明示 light／dark） ===== */
+  :root{--g-done:#2E7D53;--g-done-ink:#fff;--g-partial:#E8B53A;--g-partial-ink:#3b2a00;--g-doing:#2A6FB0;--g-doing-ink:#fff;
+    --g-todo:#B4BBB6;--g-todo-ink:#1B2320;--g-skip:#7C867F;--g-plan:#CFE6E2;--g-plan-line:#7DB8B0;
+    --g-slow:#B04A08;--g-slow-bg:#FBE4D2;--g-fast:#2E7D53;--g-fast-bg:#D8ECDF;--g-flat:#5C665F;--g-flat-bg:#E9ECE8;
+    --g-today:#D93B3B;--g-grid:#E6EAE4;--g-band:#F7F8F6;}
+  @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--g-done:#5FC088;--g-done-ink:#0B2216;--g-partial:#E3B341;--g-partial-ink:#2B1F00;
+    --g-doing:#5B9BD6;--g-doing-ink:#071B2E;--g-todo:#59645F;--g-todo-ink:#E7ECEA;--g-skip:#9AA5A0;--g-plan:#24413E;--g-plan-line:#3FB6A8;
+    --g-slow:#F2994A;--g-slow-bg:#3A2614;--g-fast:#5FC088;--g-fast-bg:#12301F;--g-flat:#A9B4AF;--g-flat-bg:#242B2E;
+    --g-today:#FF6B6B;--g-grid:#262D30;--g-band:#161B1D;}}
+  :root[data-theme="dark"]{--g-done:#5FC088;--g-done-ink:#0B2216;--g-partial:#E3B341;--g-partial-ink:#2B1F00;
+    --g-doing:#5B9BD6;--g-doing-ink:#071B2E;--g-todo:#59645F;--g-todo-ink:#E7ECEA;--g-skip:#9AA5A0;--g-plan:#24413E;--g-plan-line:#3FB6A8;
+    --g-slow:#F2994A;--g-slow-bg:#3A2614;--g-fast:#5FC088;--g-fast-bg:#12301F;--g-flat:#A9B4AF;--g-flat-bg:#242B2E;
+    --g-today:#FF6B6B;--g-grid:#262D30;--g-band:#161B1D;}
+  .gt-modal{width:min(1800px,100%);height:calc(100vh - 48px);max-height:none}
+  .gt-modal .mh{align-items:flex-start;gap:12px}
+  .gt-hr{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+  .gt-badge{font-size:12px;font-weight:800;border-radius:99px;padding:4px 12px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);white-space:nowrap}
+  .gt-badge.sample{background:var(--g-slow-bg);color:var(--g-slow);border-color:var(--g-slow)}
+  .gt-badge.stale{background:var(--g-slow-bg);color:var(--g-slow);border-color:var(--g-slow)}
+  .gt-bar{display:flex;align-items:center;gap:16px;padding:9px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap;font-size:12.5px}
+  .gt-bar .chk{display:inline-flex;gap:6px;align-items:center;font-weight:700;cursor:pointer;user-select:none}
+  .gt-bar .chk input{width:15px;height:15px;padding:0;accent-color:var(--accent)}
+  .gt-bar .fl{display:inline-flex;gap:6px;align-items:center;font-weight:700}
+  .gt-printed{display:none;font-size:11px;color:var(--muted)}
+  .gt-legend{display:flex;gap:6px 16px;flex-wrap:wrap;padding:8px 18px;border-bottom:1px solid var(--border);font-size:11.5px;color:var(--muted);align-items:center}
+  .gt-legend .it{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+  .gt-legend .sep{width:1px;height:14px;background:var(--border-strong)}
+  .sw{display:inline-block;width:18px;height:10px;border-radius:3px;flex:0 0 auto}
+  .sw.done{background:var(--g-done)}.sw.partial{background:var(--g-partial)}.sw.doing{background:var(--g-doing)}.sw.todo{background:var(--g-todo)}
+  .sw.skip{border:2px dashed var(--g-skip);background:transparent}
+  .sw.pl{height:6px;background:var(--g-plan);border:1px solid var(--g-plan-line)}
+  .sw.today{width:2px;height:14px;background:var(--g-today);border-radius:0}
+  .sw.cur{background:var(--g-done);box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+  .gt-body{flex:1;min-height:0;overflow:auto;position:relative}
+  .gt-grid{--labw:238px;min-width:calc(var(--labw) + var(--weeks) * 50px)}
+  .gt-row{display:grid;grid-template-columns:var(--labw) minmax(0,1fr);border-bottom:1px solid var(--border)}
+  .gt-lab{position:sticky;left:0;z-index:3;background:var(--surface);border-right:1px solid var(--border-strong);padding:5px 12px;display:flex;flex-direction:column;justify-content:center;gap:3px;min-width:0}
+  .gt-head{position:sticky;top:0;z-index:6;background:var(--surface);border-bottom:1px solid var(--border-strong)}
+  .gt-head .gt-lab{z-index:7;font-size:11px;font-weight:800;color:var(--muted);justify-content:flex-end}
+  .gt-wks{display:grid;grid-template-columns:repeat(var(--weeks),minmax(0,1fr));position:relative}
+  .gt-wk{text-align:center;padding:5px 0 4px;border-left:1px solid var(--g-grid);font-size:10px;color:var(--muted);line-height:1.3;font-variant-numeric:tabular-nums}
+  .gt-wk b{display:block;font-size:11.5px;color:var(--ink);font-weight:800}
+  .gt-wk.now{background:var(--accent-soft)}.gt-wk.now b{color:var(--accent-ink)}
+  .gt-flag{position:absolute;top:0;transform:translateX(-50%);background:var(--g-today);color:#fff;font-size:10px;font-weight:800;padding:0 6px;border-radius:0 0 5px 5px;z-index:3;white-space:nowrap}
+  .gt-trk{position:relative;overflow:hidden;background-image:linear-gradient(to right,var(--g-grid) 1px,transparent 1px);background-size:calc(100% / var(--weeks)) 100%}
+  .gt-today{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--g-today);z-index:2;pointer-events:none}
+  .gt-grp{cursor:pointer;user-select:none}
+  .gt-grp .gt-lab{background:var(--accent-soft);color:var(--accent-ink);flex-direction:row;align-items:center;gap:8px;font-weight:800;font-size:12.5px;padding-top:6px;padding-bottom:6px}
+  .gt-grp .gt-lab small{margin-left:auto;font-size:11px;font-weight:700;color:var(--muted)}
+  .gt-grp .gt-trk{background-color:var(--surface-2)}
+  .gt-grp .gt-ct{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:11.5px;font-weight:700;color:var(--muted);white-space:nowrap}
+  .gt-cls{height:48px}
+  .gt-cls:hover .gt-lab{background:var(--surface-2)}
+  .gt-cls .l1{display:flex;align-items:baseline;gap:5px;white-space:nowrap}
+  .gt-cls .l1 b{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}
+  .gt-cls .l1 small{font-size:11px;color:var(--muted)}
+  .gt-cls .l2{display:flex;align-items:center;gap:8px;white-space:nowrap}
+  .gt-cls .cur{font-size:11.5px;font-weight:800;color:var(--ink)}
+  .lag{font-size:11px;font-weight:800;border-radius:99px;padding:0 8px;line-height:1.55;white-space:nowrap}
+  .lag.slow{color:var(--g-slow);background:var(--g-slow-bg)}.lag.fast{color:var(--g-fast);background:var(--g-fast-bg)}
+  .lag.flat,.lag.none{color:var(--g-flat);background:var(--g-flat-bg)}
+  .plan{position:absolute;top:8px;height:7px;border-radius:4px;background:var(--g-plan);border:1px solid var(--g-plan-line)}
+  .plan.cur{outline:2px solid var(--lagc,var(--g-flat));outline-offset:1px}
+  .act{position:absolute;top:20px;height:21px;border-radius:5px;min-width:24px;display:flex;align-items:center;justify-content:center;
+    font-size:10.5px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;z-index:1;overflow:hidden;white-space:nowrap}
+  .act.done{background:var(--g-done);color:var(--g-done-ink)}.act.partial{background:var(--g-partial);color:var(--g-partial-ink)}
+  .act.doing{background:var(--g-doing);color:var(--g-doing-ink)}.act.todo{background:var(--g-todo);color:var(--g-todo-ink)}
+  .act.skip{background:transparent;border:2px dashed var(--g-skip);color:var(--g-skip)}
+  .act.est{opacity:.6;z-index:0;background-image:repeating-linear-gradient(135deg,transparent 0 4px,rgba(255,255,255,.4) 4px 8px)}
+  .act.skip.est{opacity:1;background-image:none}
+  .act.iscur{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink);z-index:2}
+  .act.est.iscur{z-index:0}   /* 示意條（無日期）永遠在真實條下面，不然會擋住前一節的 tooltip */
+  .act{outline:1px solid var(--surface)}
+  .act:hover,.plan:hover{filter:brightness(1.12)}
+  .gt-grid.noplan .plan{display:none}.gt-grid.noplan .act{top:8px}.gt-grid.noplan .gt-cls{height:36px}
+  .gt-msg{margin:40px auto;max-width:620px;padding:18px 22px;border:1px solid var(--border-strong);border-radius:var(--r);background:var(--surface-2);font-size:13px;line-height:1.8}
+  .gt-msg b{font-size:14px}.gt-msg code{font-family:var(--fm);font-size:12px;background:var(--surface);padding:1px 5px;border-radius:4px}
+  .gt-msg.err{border-color:var(--g-slow)}
+  .gt-empty{padding:28px;text-align:center;color:var(--muted);font-size:13px}
+  .gt-foot{padding:12px 18px 40px;font-size:12px;color:var(--muted);display:grid;gap:10px;border-top:1px solid var(--border)}
+  .gt-foot h4{margin:0 0 3px;font-size:12px;color:var(--ink)}.gt-foot ul{margin:0;padding-left:18px}.gt-foot li{margin:1px 0}
+  .gt-foot .warn{color:var(--g-slow);font-weight:700}
+  .gt-tip{position:fixed;left:0;top:0;z-index:90;display:none;pointer-events:none;max-width:340px;background:var(--surface);color:var(--ink);
+    border:1px solid var(--border-strong);border-radius:10px;box-shadow:var(--shadow);padding:9px 12px;font-size:12px;line-height:1.6}
+  .gt-tip b{font-size:13px}.gt-tip .row{display:flex;gap:6px;align-items:center}.gt-tip .mut{color:var(--muted)}
+  .gt-tip .note{margin-top:3px;padding-top:3px;border-top:1px dashed var(--border-strong);white-space:pre-wrap}
+  .gt-tip .warn{margin-top:3px;color:var(--g-slow);font-weight:700}
+  .credit{position:fixed;right:10px;bottom:5px;font-size:10.5px;color:var(--muted);opacity:.85;z-index:70;pointer-events:none;user-select:none}
+  @media print{
+    @page{size:A4 landscape;margin:8mm}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    body:has(#gtO.on){background:#fff!important;height:auto;overflow:visible}
+    body:has(#gtO.on)>:not(#gtO):not(.credit){display:none!important}
+    body:has(#gtO.on) #gtO{position:static;display:block;padding:0;background:none}
+    /* 列印一律用淺色（即使目前是深色模式） */
+    #gtO{--bg:#F1F3F0;--surface:#fff;--surface-2:#F7F8F6;--ink:#1B2320;--muted:#59615C;--border:#E1E5DF;--border-strong:#CFD5CC;
+      --accent:#0E7C73;--accent-ink:#0A5A53;--accent-soft:#DCEFEC;--shadow:none;
+      --g-done:#2E7D53;--g-done-ink:#fff;--g-partial:#E8B53A;--g-partial-ink:#3b2a00;--g-doing:#2A6FB0;--g-doing-ink:#fff;
+      --g-todo:#B4BBB6;--g-todo-ink:#1B2320;--g-skip:#7C867F;--g-plan:#CFE6E2;--g-plan-line:#7DB8B0;
+      --g-slow:#B04A08;--g-slow-bg:#FBE4D2;--g-fast:#2E7D53;--g-fast-bg:#D8ECDF;--g-flat:#5C665F;--g-flat-bg:#E9ECE8;
+      --g-today:#D93B3B;--g-grid:#E6EAE4;--g-band:#F7F8F6;color:#1B2320}
+    #gtO .gt-modal{width:100%;height:auto;max-height:none;border:0;box-shadow:none;border-radius:0;overflow:visible;zoom:.7}
+    /* 列印版列高收緊，讓十幾個班能放進一頁 A4 橫向 */
+    #gtO .gt-cls{height:40px}#gtO .plan{top:5px}#gtO .act{top:15px;height:19px}
+    #gtO .gt-grid.noplan .gt-cls{height:30px}#gtO .gt-grid.noplan .act{top:5px}
+    #gtO .gt-lab{padding-top:3px;padding-bottom:3px;gap:1px}
+    #gtO .gt-foot{padding:6px 18px 0}
+    #gtO .gt-grp{break-after:avoid}
+    #gtO .no-print,#gtO #gtX,#gtTip{display:none!important}
+    #gtO .gt-body{overflow:visible}
+    #gtO .gt-lab,#gtO .gt-head{position:static}
+    #gtO .gt-grid{min-width:0}
+    #gtO .gt-row{break-inside:avoid}
+    #gtO .gt-printed{display:inline}
+  }
 </style>
 </head>
 <body>
@@ -132,6 +249,7 @@
     <div class="spacer"></div>
     <span class="pill">進度 <b id="prog">–</b></span>
     <select id="proj"></select>
+    <button class="btn btn-ghost" id="ganttBtn" title="課程進度甘特圖（各班進度 vs 計畫）">📊 課程進度</button>
     <button class="ib" id="splitBtn" title="計畫切分（貼計畫→產生節次）">✂</button>
     <button class="ib" id="reload" title="重新讀取">🔄</button>
     <button class="ib" id="setBtn" title="設定">⚙</button>
@@ -264,7 +382,38 @@
   <div class="mf"><button class="btn btn-ghost" id="alX2">關閉</button><button class="btn btn-primary" id="alRun">新增</button></div>
 </div></div>
 
+<div class="overlay" id="gtO"><div class="modal gt-modal" role="dialog" aria-label="課程進度甘特圖">
+  <div class="mh">
+    <div><h3>📊 課程進度甘特圖</h3><div class="tl"><span id="gtTerm">讀取中…</span> <span class="gt-printed" id="gtPrinted"></span></div></div>
+    <div class="gt-hr"><span class="gt-badge" id="gtSrc" style="display:none"></span><button class="ib" id="gtX" title="關閉（Esc）">✕</button></div>
+  </div>
+  <div class="gt-bar no-print">
+    <label class="fl">年級 <select id="gtGrade"><option value="all">全部</option></select></label>
+    <label class="chk"><input type="checkbox" id="gtLag"> 只看落後的班</label>
+    <label class="chk"><input type="checkbox" id="gtPlan" checked> 顯示計畫層</label>
+    <span class="spacer"></span>
+    <button class="btn btn-ghost" id="gtReload" title="重新讀取進度檔">🔄 重新讀取</button>
+    <button class="btn btn-primary" id="gtPrint" title="列印，或在列印視窗選「另存為 PDF」">🖨 列印／另存 PDF</button>
+  </div>
+  <div class="gt-legend" id="gtLegend">
+    <span class="it"><i class="sw done"></i>已完成 ≥80%</span>
+    <span class="it"><i class="sw partial"></i>部分完成 30–79%</span>
+    <span class="it"><i class="sw doing"></i>進行中 &lt;30%</span>
+    <span class="it"><i class="sw todo"></i>未開始（無資料）</span>
+    <span class="it"><i class="sw skip"></i>略過</span>
+    <span class="sep"></span>
+    <span class="it"><i class="sw pl"></i>計畫（細條，依各節 plannedWeek）</span>
+    <span class="it"><i class="sw cur"></i>目前進行的節次</span>
+    <span class="it"><i class="sw today"></i>今天</span>
+    <span class="sep"></span>
+    <span class="it"><span class="lag slow">▼ 慢</span><span class="lag fast">▲ 快</span><span class="lag flat">＝ 持平</span>（目前節的計畫週 vs 今天所在週）</span>
+  </div>
+  <div class="gt-body" id="gtBody"><div class="gt-empty">讀取中…</div></div>
+  <div class="gt-tip" id="gtTip"></div>
+</div></div>
+
 <div class="toast" id="toast"></div>
+<div class="credit">made by 資訊老師黃博胤</div>
 
 <script>
 const STAGES=["原始計畫","鷹架分析","關鍵字","素材搜尋","篩選勾選","教學環節","成品"];
@@ -774,6 +923,216 @@ $("#proj").onchange=e=>{pi=+e.target.value;li=0;si=0;selected=new Set();curFolde
 $("#reload").onclick=async()=>{await loadTree();toast('已重新讀取');};
 $("#themeBtn").onclick=()=>{const r=document.documentElement;const cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';r.setAttribute('data-theme',nx);try{localStorage.setItem('cockpit_theme',nx);}catch(e){}};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay.on').forEach(o=>o.classList.remove('on'));});
+
+/* ===== 課程進度甘特圖（唯讀）：資料來自 GET /api/progress，規格見《引導規範/課程進度與甘特圖規範.md》 ===== */
+const GT={d:null,src:'',err:null,tips:{},grade:'all',lag:false,plan:true,col:{}};
+try{const p=JSON.parse(localStorage.getItem('gantt_prefs')||'{}');GT.grade=p.grade?String(p.grade):'all';GT.lag=!!p.lag;GT.plan=p.plan!==false;if(p.col&&typeof p.col==='object')GT.col=p.col;}catch(e){}
+const gtSave=()=>{try{localStorage.setItem('gantt_prefs',JSON.stringify({grade:GT.grade,lag:GT.lag,plan:GT.plan,col:GT.col}));}catch(e){}};
+const gtEsc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const GT_WD=['日','一','二','三','四','五','六'], GT_GRADE={4:'四年級',5:'五年級',6:'六年級'};
+const GT_ST={done:{n:'已完成',c:'done'},partial:{n:'部分完成',c:'partial'},in_progress:{n:'進行中',c:'doing'},not_started:{n:'未開始',c:'todo'},skipped:{n:'略過',c:'skip'}};
+const gtPad=n=>String(n).padStart(2,'0');
+// 日期一律轉成「UTC 日序號」計算，避開時區與夏令時間的位移
+function gtDay(s){const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');return m?Math.round(Date.UTC(+m[1],+m[2]-1,+m[3])/864e5):NaN;}
+const gtMD=n=>{const d=new Date(n*864e5);return gtPad(d.getUTCMonth()+1)+'/'+gtPad(d.getUTCDate());};
+const gtYMD=n=>{const d=new Date(n*864e5);return d.getUTCFullYear()+'-'+gtPad(d.getUTCMonth()+1)+'-'+gtPad(d.getUTCDate());};
+const gtWd=n=>GT_WD[new Date(n*864e5).getUTCDay()];
+// 今天：網址加 ?today=2026-11-04 可指定（測試用）；否則取本機日期
+function gtToday(){const q=gtDay(new URLSearchParams(location.search).get('today'));if(!isNaN(q))return q;const t=new Date();return gtDay(t.getFullYear()+'-'+gtPad(t.getMonth()+1)+'-'+gtPad(t.getDate()));}
+
+async function gtLoad(){
+  $('#gtBody').innerHTML='<div class="gt-empty">讀取中…</div>';
+  let r;
+  try{
+    r=await (await fetch('/api/progress')).json();
+    // 只有「檔案不存在」才改讀範例；檔案壞掉要明講，不可默默換成假資料
+    if(!r.ok&&r.code==='not_found'){
+      const s=await (await fetch('/api/progress?sample=1')).json();
+      r=s.ok?s:{ok:false,code:'no_data',error:'找不到 課程進度/進度彙整.json，也找不到 課程進度/範例進度彙整.json'};
+    }
+  }catch(e){r={ok:false,code:'network',error:'無法連到本機伺服器：'+e.message};}
+  if(r.ok){GT.d=r;GT.src=r.source;GT.err=null;}else{GT.d=null;GT.err=r;}
+  gtRender();
+}
+
+function gtMsg(title,html,err){return '<div class="gt-msg'+(err?' err':'')+'"><b>'+title+'</b><br>'+html+'</div>';}
+
+function gtRender(){
+  const body=$('#gtBody'),badge=$('#gtSrc'),keepL=body.scrollLeft,keepT=body.scrollTop;
+  GT.tips={};
+  const fail=(t,h)=>{badge.style.display='none';$('#gtTerm').textContent='';body.innerHTML=gtMsg(t,h,true);};
+  if(GT.err){
+    return fail('無法顯示進度',gtEsc(GT.err.error||'未知錯誤')+'<br>請見 <code>引導規範/課程進度與甘特圖規範.md</code> 的「常見錯誤」。');
+  }
+  const D=GT.d,T=D.term||{};
+  const start=gtDay(T.start);let weeks=parseInt(T.weeks,10);
+  if(!(weeks>=1)){const end=gtDay(T.end);weeks=isNaN(end)||isNaN(start)?NaN:Math.ceil((end-start+1)/7);}
+  if(isNaN(start)||!(weeks>=1)||!Array.isArray(D.courses)||!Array.isArray(D.classes)){
+    return fail('進度檔欄位不完整','需要 <code>term.start</code>（YYYY-MM-DD）、<code>term.weeks</code>、<code>courses[]</code>、<code>classes[]</code>。');
+  }
+  const span=weeks*7,today=gtToday(),tw=Math.floor((today-start)/7)+1,inTerm=tw>=1&&tw<=weeks;
+  const pct=d=>(d-start)/span*100,clamp=v=>Math.min(100,Math.max(0,v));
+
+  // ── 右上角資料來源標示 ──
+  badge.style.display='';badge.title='';badge.className='gt-badge';
+  if(GT.src==='sample'){
+    badge.classList.add('sample');badge.textContent='目前顯示的是範例資料';
+    badge.title='找不到 課程進度/進度彙整.json，改讀 課程進度/範例進度彙整.json（虛構資料）';
+  }else{
+    const m=/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(String(D.generatedAt||''));
+    badge.textContent='資料產生時間：'+(m?m[1]+' '+m[2]:(D.generatedAt||'未知'));
+    const gd=m?gtDay(m[1]):NaN;
+    if(!isNaN(gd)&&today-gd>7){badge.classList.add('stale');badge.textContent+='（已 '+(today-gd)+' 天未更新）';}
+  }
+  $('#gtTerm').textContent=(T.name||'學期')+'　｜　'+(inTerm?'今天 '+gtYMD(today)+'＝第 '+tw+' 週':'今天 '+gtYMD(today)+' 不在本學期範圍內（'+gtMD(start)+' 起共 '+weeks+' 週）')+'　｜　共 '+weeks+' 週';
+
+  // ── 課程、節次索引 ──
+  const CM={},LM={};
+  D.courses.forEach(c=>{CM[c.id]=c;LM[c.id]={};(c.lessons||[]).forEach(l=>{LM[c.id][l.code]=l;});});
+
+  // ── 每班：目前節、快慢 ──
+  const rows=D.classes.map(c=>{
+    const course=CM[c.course],recs={};(c.lessons||[]).forEach(r=>{recs[r.code]=r;});
+    const cur=c.current||null,pl=course&&cur?LM[course.id][cur]:null;
+    let lag={k:'none',d:0,t:'—',why:'沒有可比較的資料'};
+    if(cur&&pl&&inTerm){
+      const d=tw-pl.plannedWeek;
+      lag=d>0?{k:'slow',d,t:'▼ 慢 '+d+' 週'}:d<0?{k:'fast',d:-d,t:'▲ 快 '+(-d)+' 週'}:{k:'flat',d:0,t:'＝ 持平'};
+      lag.why='計畫第 '+pl.plannedWeek+' 週，今天是第 '+tw+' 週';
+    }else if(cur&&pl&&!inTerm)lag.why='今天不在學期範圍內，不比較';
+    else if(cur)lag.why='找不到 '+cur+' 的計畫週（courses 裡沒有這節）';
+    else if(course&&course.lessons.length&&course.lessons.every(l=>recs[l.code]&&(recs[l.code].status==='done'||recs[l.code].status==='skipped')))lag={k:'flat',d:0,t:'✓ 全部完成',why:'全部節次都已完成或略過'};
+    else lag.why='沒有指定 current（目前節）';
+    return {c,course,recs,cur,pl,lag};
+  }).sort((a,b)=>(parseInt(a.c.id,10)-parseInt(b.c.id,10))||String(a.c.id).localeCompare(String(b.c.id)));
+
+  // ── 年級篩選選單 ──
+  const grades=[...new Set(rows.map(r=>r.c.grade))].sort((a,b)=>a-b);
+  if(GT.grade!=='all'&&!grades.map(String).includes(GT.grade))GT.grade='all';
+  $('#gtGrade').innerHTML='<option value="all">全部</option>'+grades.map(g=>'<option value="'+g+'">'+gtEsc(GT_GRADE[g]||g+' 年級')+'</option>').join('');
+  $('#gtGrade').value=GT.grade;$('#gtLag').checked=GT.lag;$('#gtPlan').checked=GT.plan;
+
+  // ── 畫圖 ──
+  const todayLine=inTerm?'<i class="gt-today" style="left:'+pct(today+.5)+'%"></i>':'';
+  const flag=inTerm?'<span class="gt-flag" style="left:'+pct(today+.5)+'%">今天 '+gtMD(today)+'</span>':'';
+  const wkHead=Array.from({length:weeks},(_,i)=>'<div class="gt-wk'+(inTerm&&i+1===tw?' now':'')+'"><b>W'+(i+1)+'</b>'+gtMD(start+7*i)+'</div>').join('');
+  const wkOf=n=>Math.floor((n-start)/7)+1;
+  const dd=n=>gtMD(n)+'（'+gtWd(n)+'，第 '+wkOf(n)+' 週）';
+
+  function planBars(row){
+    const {course,cur}=row;if(!course)return '';
+    return (course.lessons||[]).map(l=>{
+      const a=start+7*(l.plannedWeek-1),per=Math.max(1,l.periods||1),b=a+7*per;
+      const k='p:'+course.id+':'+l.code;
+      GT.tips[k]='<b>計畫｜'+gtEsc(l.code+' '+(l.name||''))+'</b><div>第 '+l.plannedWeek+(per>1?'～'+(l.plannedWeek+per-1):'')+' 週（'+gtMD(a)+' 起）'+(per>1?'，共 '+per+' 節':'')+'</div>';
+      const left=clamp(pct(a)),w=clamp(pct(b))-left;if(w<=0)return '';
+      return '<i class="plan'+(l.code===cur?' cur':'')+'" data-k="'+gtEsc(k)+'" style="left:'+left+'%;width:calc('+w+'% - 3px)"></i>';
+    }).join('');
+  }
+  function actBars(row){
+    const {c,course,recs,cur}=row;
+    const order=course?(course.lessons||[]).map(l=>l.code):[];
+    const span2=r=>{let a=gtDay(r.firstDate),b=gtDay(r.lastDate);if(isNaN(a)&&!isNaN(b))a=b;if(isNaN(b)&&!isNaN(a))b=a;return isNaN(a)?null:{a:Math.min(a,b),b:Math.max(a,b),i:order.indexOf(r.code)};};
+    const dated=Object.values(recs).map(span2).filter(Boolean);
+    return Object.values(recs).map(r=>{
+      const st=GT_ST[r.status]||{n:'未知狀態（'+r.status+'）',c:'todo'},pl=course?LM[course.id][r.code]:null;
+      let a=gtDay(r.firstDate),b=gtDay(r.lastDate),est=false;
+      if(isNaN(a)&&!isNaN(b))a=b;if(isNaN(b)&&!isNaN(a))b=a;
+      if(isNaN(a)){
+        // 沒有日期（not_started／skipped）：畫在「前一節結束後、下一節開始前」的空檔當示意；
+        // 不畫在計畫週，因為落後的班那個位置已經是別節的真實資料，會疊在一起。
+        if(!pl)return '';
+        const i=order.indexOf(r.code),per=Math.max(1,pl.periods||1);
+        const bef=dated.filter(x=>x.i>=0&&x.i<i).map(x=>x.b),aft=dated.filter(x=>x.i>i).map(x=>x.a);
+        if(bef.length){
+          a=Math.max(...bef)+1;b=r.status==='skipped'?a+6:a+7*per-1;
+          if(aft.length)b=Math.min(b,Math.min(...aft)-1);
+          if(b<a)b=a;
+        }else{a=start+7*(pl.plannedWeek-1);b=a+7*per-1;}   // 前面完全沒有資料：退回計畫週
+        est=true;
+      }
+      if(b<a){const t=a;a=b;b=t;}
+      const left=clamp(pct(a)),w=clamp(pct(b+1))-left;if(w<=0)return '';
+      const k='a:'+c.id+':'+r.code,p=r.total>0?Math.round(r.submitted/r.total*100):null,has=!isNaN(gtDay(r.firstDate));
+      GT.tips[k]='<b>'+gtEsc(r.code+' '+(pl&&pl.name||''))+'</b>'
+        +'<div class="row"><i class="sw '+st.c+'"></i>'+gtEsc(st.n)+'　繳交 <b>'+gtEsc(r.submitted)+' / '+gtEsc(r.total)+'</b>'+(p==null?'':'（'+p+'%）')+'</div>'
+        +(has?(r.firstDate===r.lastDate?'<div>日期：'+dd(gtDay(r.firstDate))+'</div>':'<div>起：'+dd(gtDay(r.firstDate))+'</div><div>迄：'+dd(gtDay(r.lastDate))+'</div>')
+              :'<div class="mut">起迄：尚無日期（條狀位置只是前後節之間的示意）</div>')
+        +(pl?'<div class="mut">計畫：第 '+pl.plannedWeek+' 週'+((pl.periods||1)>1?'起，共 '+pl.periods+' 節':'')+'</div>':'')
+        +(r.note?'<div class="note">備註：'+gtEsc(r.note)+'</div>':'')
+        +'<div class="mut">'+gtEsc(c.id)+' 班　資料來源：'+gtEsc(r.source||'—')+'</div>';
+      return '<i class="act '+st.c+(est?' est':'')+(r.code===cur?' iscur':'')+'" data-k="'+gtEsc(k)+'" style="left:'+left+'%;width:'+w+'%">'+gtEsc(r.code)+'</i>';
+    }).join('');
+  }
+
+  let html='<div class="gt-grid'+(GT.plan?'':' noplan')+'" style="--weeks:'+weeks+'">'
+    +'<div class="gt-row gt-head"><div class="gt-lab">班級　｜　目前進度</div><div><div style="position:relative;height:15px">'+flag+'</div><div class="gt-wks">'+wkHead+'</div></div></div>';
+  let shown=0;
+  grades.forEach(g=>{
+    const all=rows.filter(r=>r.c.grade===g);
+    if(GT.grade!=='all'&&String(g)!==GT.grade)return;
+    const list=all.filter(r=>!GT.lag||r.lag.k==='slow');
+    if(!list.length)return;
+    const slow=all.filter(r=>r.lag.k==='slow').length,fast=all.filter(r=>r.lag.k==='fast').length,course=all[0].course,closed=!!GT.col[g];
+    html+='<div class="gt-row gt-grp" data-g="'+g+'" title="點一下'+(closed?'展開':'摺疊')+'"><div class="gt-lab"><span>'+(closed?'▸':'▾')+'</span><span>'+gtEsc(GT_GRADE[g]||g+' 年級')+'</span><small>'+all.length+' 班'+(slow?'・落後 '+slow:'')+(fast?'・領先 '+fast:'')+'</small></div>'
+      +'<div class="gt-trk"><span class="gt-ct">'+(course?gtEsc(course.title||'')+'（'+(course.lessons||[]).length+' 節）':'')+'</span>'+todayLine+'</div></div>';
+    if(closed)return;
+    list.forEach(row=>{
+      const {c,course,cur,pl,lag}=row;shown++;
+      GT.tips['c:'+c.id]='<b>'+gtEsc(c.id)+' 班　'+gtEsc(GT_GRADE[c.grade]||'')+'</b>'
+        +'<div>'+(cur?'進行到 '+gtEsc(cur+' '+(pl&&pl.name||'')):'未指定目前節')+'</div>'
+        +'<div class="mut">'+gtEsc(lag.why)+'</div>'+(lag.k==='slow'||lag.k==='fast'?'<div><b>比計畫'+(lag.k==='slow'?'慢':'快')+' '+lag.d+' 週</b></div>':'');
+      html+='<div class="gt-row gt-cls" style="--lagc:var(--g-'+(lag.k==='none'?'flat':lag.k)+')"><div class="gt-lab" data-k="c:'+gtEsc(c.id)+'">'
+        +'<div class="l1"><b>'+gtEsc(c.id)+'</b><small>班・'+gtEsc(c.students)+' 人</small></div>'
+        +'<div class="l2"><span class="cur">進行到 '+gtEsc(cur||'—')+'</span><span class="lag '+lag.k+'">'+gtEsc(lag.t)+'</span></div></div>'
+        +'<div class="gt-trk">'+planBars(row)+actBars(row)+todayLine+'</div></div>';
+    });
+  });
+  if(!shown)html+='<div class="gt-empty">沒有符合條件的班級</div>';
+  html+='</div>';
+
+  // ── 底部：備註與待確認 ──
+  const maps=(D.mappingNotes||[]).filter(m=>m&&m.needsConfirm),notes=(D.notes||[]).filter(Boolean);
+  if(maps.length||notes.length){
+    html+='<div class="gt-foot">';
+    if(maps.length)html+='<div><h4 class="warn">⚠ 作業標題對應待確認（'+maps.length+' 筆）</h4><ul>'+maps.map(m=>'<li>「'+gtEsc(m.assignment)+'」→ '+(m.lesson?gtEsc(m.lesson)+'（暫定）':'<b>無法判斷節次</b>')+'</li>').join('')+'</ul></div>';
+    if(notes.length)html+='<div><h4>資料備註</h4><ul>'+notes.map(n=>'<li>'+gtEsc(n)+'</li>').join('')+'</ul></div>';
+    html+='</div>';
+  }
+  body.innerHTML=html;body.scrollLeft=keepL;body.scrollTop=keepT;
+}
+
+// ── 滑鼠提示：整個圖只用一個浮動 tooltip ──
+(function(){
+  const body=$('#gtBody'),tip=$('#gtTip');
+  const hide=()=>{tip.style.display='none';tip.dataset.k='';};
+  body.addEventListener('mousemove',e=>{
+    const el=e.target.closest('[data-k]'),h=el&&GT.tips[el.dataset.k];
+    if(!h)return hide();
+    if(tip.dataset.k!==el.dataset.k){tip.innerHTML=h;tip.dataset.k=el.dataset.k;}
+    tip.style.display='block';
+    const w=tip.offsetWidth,hh=tip.offsetHeight;
+    let x=e.clientX+14,y=e.clientY+16;
+    if(x+w>innerWidth-8)x=e.clientX-w-14;
+    if(y+hh>innerHeight-8)y=e.clientY-hh-14;
+    tip.style.left=Math.max(8,x)+'px';tip.style.top=Math.max(8,y)+'px';
+  });
+  body.addEventListener('mouseleave',hide);
+  body.addEventListener('scroll',hide);
+  body.addEventListener('click',e=>{
+    const g=e.target.closest('.gt-grp');if(!g)return;
+    GT.col[g.dataset.g]=!GT.col[g.dataset.g];gtSave();hide();gtRender();
+  });
+})();
+$('#gtGrade').onchange=e=>{GT.grade=e.target.value;gtSave();gtRender();};
+$('#gtLag').onchange=e=>{GT.lag=e.target.checked;gtSave();gtRender();};
+$('#gtPlan').onchange=e=>{GT.plan=e.target.checked;gtSave();gtRender();};
+$('#gtReload').onclick=gtLoad;
+const gtStamp=()=>{const t=new Date();$('#gtPrinted').textContent='｜列印時間：'+t.getFullYear()+'-'+gtPad(t.getMonth()+1)+'-'+gtPad(t.getDate())+' '+gtPad(t.getHours())+':'+gtPad(t.getMinutes());};
+$('#gtPrint').onclick=()=>{gtStamp();window.print();};
+window.addEventListener('beforeprint',gtStamp);
+$('#ganttBtn').onclick=()=>{$('#gtO').classList.add('on');gtLoad();};
+$('#gtX').onclick=()=>$('#gtO').classList.remove('on');
 
 loadTree();
 </script>

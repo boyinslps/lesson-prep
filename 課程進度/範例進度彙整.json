@@ -1,0 +1,237 @@
+{
+ "schema": 1,
+ "generatedAt": "2026-11-04T16:00:00+08:00",
+ "term": {"name": "115 學年度第 1 學期", "start": "2026-08-31", "end": "2027-01-15", "weeks": 20},
+ "courses": [
+  {"id": "g4", "gradeLabel": "四年級", "title": "勝利小創客：台南小導遊",
+   "lessons": [
+    {"code": "L01", "name": "旅行經驗與主題發想", "plannedWeek": 1, "periods": 1},
+    {"code": "L02", "name": "景點選定與資料蒐集", "plannedWeek": 2, "periods": 1},
+    {"code": "L03", "name": "導覽主題發想", "plannedWeek": 3, "periods": 1},
+    {"code": "L04", "name": "景點選擇與開設文件", "plannedWeek": 4, "periods": 1},
+    {"code": "L05", "name": "景點順序與找照片", "plannedWeek": 5, "periods": 1},
+    {"code": "L06", "name": "交通方式與路程時間", "plannedWeek": 6, "periods": 1},
+    {"code": "L07", "name": "一日行程表製作", "plannedWeek": 7, "periods": 1},
+    {"code": "L08", "name": "景點特色撰寫", "plannedWeek": 8, "periods": 1},
+    {"code": "L09", "name": "Word版面與注意事項", "plannedWeek": 9, "periods": 1},
+    {"code": "L10", "name": "Canva介面與小書結構", "plannedWeek": 10, "periods": 1},
+    {"code": "L11", "name": "圖文配置與版型", "plannedWeek": 11, "periods": 1},
+    {"code": "L12", "name": "頁面順序編排", "plannedWeek": 12, "periods": 1},
+    {"code": "L13", "name": "設計四原則CRAP", "plannedWeek": 13, "periods": 1},
+    {"code": "L14", "name": "色彩與字型搭配", "plannedWeek": 14, "periods": 1},
+    {"code": "L15", "name": "圖片留白與範例觀摩", "plannedWeek": 15, "periods": 1},
+    {"code": "L16", "name": "小書統整與定稿", "plannedWeek": 16, "periods": 1},
+    {"code": "L17", "name": "發表內容架構與講稿", "plannedWeek": 17, "periods": 1},
+    {"code": "L18", "name": "口語發表演練", "plannedWeek": 18, "periods": 1},
+    {"code": "L19", "name": "上台發表與作品展示", "plannedWeek": 19, "periods": 1},
+    {"code": "L20", "name": "觀摩互評與自我修正", "plannedWeek": 20, "periods": 1}
+   ]},
+  {"id": "g5", "gradeLabel": "五、六年級", "title": "勝利小創客：數位時代的校園安全",
+   "lessons": [
+    {"code": "L01", "name": "假消息與目的辨識", "plannedWeek": 1, "periods": 1},
+    {"code": "L02", "name": "事實與意見區分", "plannedWeek": 2, "periods": 1},
+    {"code": "L03", "name": "來源評估與橫向閱讀", "plannedWeek": 3, "periods": 1},
+    {"code": "L04", "name": "認識農場文與業配文", "plannedWeek": 4, "periods": 1},
+    {"code": "L05", "name": "Docs查證文件", "plannedWeek": 5, "periods": 2},
+    {"code": "L06", "name": "AI破綻與deepfake", "plannedWeek": 7, "periods": 2},
+    {"code": "L07", "name": "AI幻覺與查證", "plannedWeek": 9, "periods": 1},
+    {"code": "L08", "name": "宣導主題與分鏡", "plannedWeek": 10, "periods": 1},
+    {"code": "L09", "name": "Canva影片版面", "plannedWeek": 11, "periods": 2},
+    {"code": "L10", "name": "字幕與配音", "plannedWeek": 13, "periods": 1},
+    {"code": "L11", "name": "轉場與輸出", "plannedWeek": 14, "periods": 1},
+    {"code": "L12", "name": "詢問與回應", "plannedWeek": 15, "periods": 1},
+    {"code": "L13", "name": "如果否則判斷", "plannedWeek": 16, "periods": 1},
+    {"code": "L14", "name": "變數計分", "plannedWeek": 17, "periods": 1},
+    {"code": "L15", "name": "串接多題", "plannedWeek": 18, "periods": 1},
+    {"code": "L16", "name": "發表與互評", "plannedWeek": 19, "periods": 1},
+    {"code": "L17", "name": "題庫與除錯", "plannedWeek": 20, "periods": 1}
+   ]}
+ ],
+ "classes": [
+  {"id": "401", "grade": 4, "course": "g4", "students": 27, "current": "L10",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-08-31", "lastDate": "2026-09-02", "submitted": 27, "total": 27, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-07", "lastDate": "2026-09-08", "submitted": 26, "total": 27, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-14", "lastDate": "2026-09-17", "submitted": 27, "total": 27, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-09-21", "lastDate": "2026-09-23", "submitted": 25, "total": 27, "source": "classroom", "note": ""},
+    {"code": "L05", "status": "done", "firstDate": "2026-09-28", "lastDate": "2026-09-29", "submitted": 26, "total": 27, "source": "classroom", "note": ""},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-05", "lastDate": "2026-10-07", "submitted": 24, "total": 27, "source": "classroom", "note": ""},
+    {"code": "L07", "status": "done", "firstDate": "2026-10-12", "lastDate": "2026-10-14", "submitted": 26, "total": 27, "source": "classroom", "note": ""},
+    {"code": "L08", "status": "done", "firstDate": "2026-10-19", "lastDate": "2026-10-23", "submitted": 25, "total": 27, "source": "classroom", "note": ""},
+    {"code": "L09", "status": "done", "firstDate": "2026-10-26", "lastDate": "2026-10-29", "submitted": 22, "total": 27, "source": "classroom", "note": "3 人請假，下週補交"},
+    {"code": "L10", "status": "in_progress", "firstDate": "2026-11-02", "lastDate": "2026-11-03", "submitted": 6, "total": 27, "source": "classroom", "note": ""}
+   ]},
+  {"id": "402", "grade": 4, "course": "g4", "students": 25, "current": "L11",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-01", "lastDate": "2026-09-03", "submitted": 25, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-08", "lastDate": "2026-09-09", "submitted": 24, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-15", "lastDate": "2026-09-18", "submitted": 25, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-09-22", "lastDate": "2026-09-23", "submitted": 23, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L05", "status": "done", "firstDate": "2026-09-29", "lastDate": "2026-09-29", "submitted": 25, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-01", "lastDate": "2026-10-02", "submitted": 24, "total": 25, "source": "classroom", "note": "與 L05 同週加課（週二、週四各一節）"},
+    {"code": "L07", "status": "done", "firstDate": "2026-10-06", "lastDate": "2026-10-08", "submitted": 22, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L08", "status": "done", "firstDate": "2026-10-13", "lastDate": "2026-10-14", "submitted": 25, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L09", "status": "done", "firstDate": "2026-10-20", "lastDate": "2026-10-22", "submitted": 24, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L10", "status": "done", "firstDate": "2026-10-27", "lastDate": "2026-10-30", "submitted": 23, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L11", "status": "in_progress", "firstDate": "2026-11-03", "lastDate": "2026-11-03", "submitted": 4, "total": 25, "source": "classroom", "note": ""}
+   ]},
+  {"id": "403", "grade": 4, "course": "g4", "students": 25, "current": "L08",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-02", "lastDate": "2026-09-04", "submitted": 25, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-09", "lastDate": "2026-09-10", "submitted": 24, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-16", "lastDate": "2026-09-18", "submitted": 25, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-09-23", "lastDate": "2026-09-24", "submitted": 23, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L05", "status": "done", "firstDate": "2026-09-30", "lastDate": "2026-10-02", "submitted": 24, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-07", "lastDate": "2026-10-08", "submitted": 22, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L07", "status": "done", "firstDate": "2026-10-28", "lastDate": "2026-10-29", "submitted": 21, "total": 25, "source": "classroom", "note": "第 7～8 週因校慶活動與段考停課"},
+    {"code": "L08", "status": "not_started", "firstDate": null, "lastDate": null, "submitted": 0, "total": 25, "source": "none", "note": "11/04 剛上課，尚無繳交"}
+   ]},
+  {"id": "404", "grade": 4, "course": "g4", "students": 28, "current": "L10",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-03", "lastDate": "2026-09-04", "submitted": 28, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-10", "lastDate": "2026-09-11", "submitted": 27, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-17", "lastDate": "2026-09-18", "submitted": 28, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "partial", "firstDate": "2026-09-24", "lastDate": "2026-09-25", "submitted": 16, "total": 28, "source": "classroom", "note": "約一半同學未完成，已安排課後補交"},
+    {"code": "L05", "status": "done", "firstDate": "2026-10-01", "lastDate": "2026-10-02", "submitted": 26, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-08", "lastDate": "2026-10-09", "submitted": 27, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L07", "status": "done", "firstDate": "2026-10-15", "lastDate": "2026-10-16", "submitted": 26, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L08", "status": "done", "firstDate": "2026-10-22", "lastDate": "2026-10-23", "submitted": 28, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L09", "status": "done", "firstDate": "2026-10-29", "lastDate": "2026-10-30", "submitted": 24, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L10", "status": "not_started", "firstDate": null, "lastDate": null, "submitted": 0, "total": 28, "source": "none", "note": "尚未上課（週四）"}
+   ]},
+  {"id": "405", "grade": 4, "course": "g4", "students": 27, "current": "L06",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-03", "lastDate": "2026-09-04", "submitted": 27, "total": 27, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-10", "lastDate": "2026-09-11", "submitted": 26, "total": 27, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "skipped", "firstDate": null, "lastDate": null, "submitted": 0, "total": 27, "source": "manual", "note": "校慶預演調課，本班略過，改由老師口頭補充"},
+    {"code": "L04", "status": "done", "firstDate": "2026-09-24", "lastDate": "2026-09-25", "submitted": 25, "total": 27, "source": "classroom", "note": ""},
+    {"code": "L05", "status": "partial", "firstDate": "2026-10-15", "lastDate": "2026-10-16", "submitted": 20, "total": 27, "source": "classroom", "note": "第 5～6 週停課（颱風假、校內活動）；缺交較多"},
+    {"code": "L06", "status": "in_progress", "firstDate": "2026-10-29", "lastDate": "2026-10-30", "submitted": 7, "total": 27, "source": "classroom", "note": "多數同學尚未完成"}
+   ]},
+  {"id": "406", "grade": 4, "course": "g4", "students": 26, "current": "L08",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-04", "lastDate": "2026-09-04", "submitted": 26, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-11", "lastDate": "2026-09-11", "submitted": 25, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-18", "lastDate": "2026-09-18", "submitted": 26, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-10-02", "lastDate": "2026-10-02", "submitted": 24, "total": 26, "source": "classroom", "note": "9/25 中秋節放假"},
+    {"code": "L05", "status": "done", "firstDate": "2026-10-16", "lastDate": "2026-10-16", "submitted": 25, "total": 26, "source": "classroom", "note": "10/9 國慶補假"},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-23", "lastDate": "2026-10-23", "submitted": 23, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L07", "status": "done", "firstDate": "2026-10-30", "lastDate": "2026-10-30", "submitted": 22, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L08", "status": "not_started", "firstDate": null, "lastDate": null, "submitted": 0, "total": 26, "source": "none", "note": "尚未上課（週五）"}
+   ]},
+  {"id": "407", "grade": 4, "course": "g4", "students": 26, "current": "L07",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-03", "lastDate": "2026-09-04", "submitted": 26, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-10", "lastDate": "2026-09-11", "submitted": 25, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-17", "lastDate": "2026-09-18", "submitted": 26, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-10-01", "lastDate": "2026-10-02", "submitted": 24, "total": 26, "source": "classroom", "note": "9/24 班級活動停課"},
+    {"code": "L05", "status": "done", "firstDate": "2026-10-15", "lastDate": "2026-10-16", "submitted": 23, "total": 26, "source": "classroom", "note": "10/8 停課"},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-29", "lastDate": "2026-10-29", "submitted": 22, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L07", "status": "not_started", "firstDate": null, "lastDate": null, "submitted": 0, "total": 26, "source": "none", "note": "尚未上課（週四）"}
+   ]},
+  {"id": "501", "grade": 5, "course": "g5", "students": 24, "current": "L08",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-08-31", "lastDate": "2026-09-02", "submitted": 24, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-07", "lastDate": "2026-09-09", "submitted": 23, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-14", "lastDate": "2026-09-17", "submitted": 24, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-09-21", "lastDate": "2026-09-23", "submitted": 22, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L05", "status": "done", "firstDate": "2026-09-28", "lastDate": "2026-10-07", "submitted": 23, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-12", "lastDate": "2026-10-21", "submitted": 21, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L07", "status": "done", "firstDate": "2026-10-26", "lastDate": "2026-10-28", "submitted": 22, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L08", "status": "in_progress", "firstDate": "2026-11-02", "lastDate": "2026-11-03", "submitted": 7, "total": 24, "source": "classroom", "note": ""}
+   ]},
+  {"id": "502", "grade": 5, "course": "g5", "students": 26, "current": "L09",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-01", "lastDate": "2026-09-03", "submitted": 26, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-08", "lastDate": "2026-09-10", "submitted": 25, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-15", "lastDate": "2026-09-18", "submitted": 26, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-09-22", "lastDate": "2026-09-24", "submitted": 24, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L05", "status": "done", "firstDate": "2026-09-29", "lastDate": "2026-10-08", "submitted": 25, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-13", "lastDate": "2026-10-22", "submitted": 24, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L07", "status": "done", "firstDate": "2026-10-27", "lastDate": "2026-10-28", "submitted": 23, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L08", "status": "done", "firstDate": "2026-10-30", "lastDate": "2026-11-02", "submitted": 22, "total": 26, "source": "classroom", "note": "週五加課，與 L07 同週"},
+    {"code": "L09", "status": "in_progress", "firstDate": "2026-11-03", "lastDate": "2026-11-03", "submitted": 5, "total": 26, "source": "classroom", "note": "2 節課的第 1 節"}
+   ]},
+  {"id": "503", "grade": 5, "course": "g5", "students": 24, "current": "L06",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-02", "lastDate": "2026-09-04", "submitted": 24, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-09", "lastDate": "2026-09-11", "submitted": 23, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-16", "lastDate": "2026-09-18", "submitted": 24, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-09-23", "lastDate": "2026-09-25", "submitted": 22, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L05", "status": "done", "firstDate": "2026-09-30", "lastDate": "2026-10-15", "submitted": 22, "total": 24, "source": "classroom", "note": "第 6 週停課（校內活動），第 2 節順延到第 7 週"},
+    {"code": "L06", "status": "partial", "firstDate": "2026-10-28", "lastDate": "2026-10-29", "submitted": 14, "total": 24, "source": "classroom", "note": "第 8 週停課；第 1 節已繳 58%，第 2 節 11/04 剛上課尚未統計"}
+   ]},
+  {"id": "504", "grade": 5, "course": "g5", "students": 25, "current": "L07",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-03", "lastDate": "2026-09-04", "submitted": 25, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-10", "lastDate": "2026-09-11", "submitted": 24, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-17", "lastDate": "2026-09-18", "submitted": 25, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-10-01", "lastDate": "2026-10-02", "submitted": 23, "total": 25, "source": "classroom", "note": "9/24 停課"},
+    {"code": "L05", "status": "done", "firstDate": "2026-10-08", "lastDate": "2026-10-16", "submitted": 22, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-22", "lastDate": "2026-10-30", "submitted": 20, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L07", "status": "not_started", "firstDate": null, "lastDate": null, "submitted": 0, "total": 25, "source": "none", "note": "尚未上課（週四）"}
+   ]},
+  {"id": "505", "grade": 5, "course": "g5", "students": 25, "current": "L05",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-04", "lastDate": "2026-09-04", "submitted": 25, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-11", "lastDate": "2026-09-11", "submitted": 24, "total": 25, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "partial", "firstDate": "2026-09-18", "lastDate": "2026-09-18", "submitted": 14, "total": 25, "source": "classroom", "note": "第一次使用 Docs，操作卡關，多人未完成"},
+    {"code": "L04", "status": "done", "firstDate": "2026-10-02", "lastDate": "2026-10-02", "submitted": 22, "total": 25, "source": "classroom", "note": "9/25 中秋節放假"},
+    {"code": "L05", "status": "in_progress", "firstDate": "2026-10-16", "lastDate": "2026-10-30", "submitted": 7, "total": 25, "source": "classroom", "note": "10/9 國慶補假、10/23 停課；第 2 節 10/30 才上"}
+   ]},
+  {"id": "601", "grade": 6, "course": "g5", "students": 28, "current": "L08",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-08-31", "lastDate": "2026-09-02", "submitted": 28, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-07", "lastDate": "2026-09-09", "submitted": 27, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-14", "lastDate": "2026-09-17", "submitted": 26, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "skipped", "firstDate": null, "lastDate": null, "submitted": 0, "total": 28, "source": "manual", "note": "六年級已具備基礎，略過"},
+    {"code": "L05", "status": "done", "firstDate": "2026-09-21", "lastDate": "2026-09-30", "submitted": 26, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-05", "lastDate": "2026-10-14", "submitted": 25, "total": 28, "source": "classroom", "note": ""},
+    {"code": "L07", "status": "done", "firstDate": "2026-10-26", "lastDate": "2026-10-28", "submitted": 24, "total": 28, "source": "classroom", "note": "10/19 停課（校慶彩排）"},
+    {"code": "L08", "status": "in_progress", "firstDate": "2026-11-02", "lastDate": "2026-11-03", "submitted": 3, "total": 28, "source": "classroom", "note": ""}
+   ]},
+  {"id": "602", "grade": 6, "course": "g5", "students": 26, "current": "L07",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-01", "lastDate": "2026-09-03", "submitted": 26, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-08", "lastDate": "2026-09-10", "submitted": 25, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-15", "lastDate": "2026-09-18", "submitted": 26, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-09-22", "lastDate": "2026-09-24", "submitted": 24, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L05", "status": "done", "firstDate": "2026-09-29", "lastDate": "2026-10-08", "submitted": 25, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-13", "lastDate": "2026-10-22", "submitted": 24, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L07", "status": "in_progress", "firstDate": "2026-10-27", "lastDate": "2026-11-03", "submitted": 6, "total": 26, "source": "classroom", "note": "多數同學尚未完成"}
+   ]},
+  {"id": "603", "grade": 6, "course": "g5", "students": 24, "current": "L08",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-02", "lastDate": "2026-09-04", "submitted": 24, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-09", "lastDate": "2026-09-11", "submitted": 24, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-16", "lastDate": "2026-09-18", "submitted": 23, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-09-23", "lastDate": "2026-09-25", "submitted": 23, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L05", "status": "done", "firstDate": "2026-09-30", "lastDate": "2026-10-09", "submitted": 22, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L06", "status": "done", "firstDate": "2026-10-14", "lastDate": "2026-10-23", "submitted": 22, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L07", "status": "done", "firstDate": "2026-10-28", "lastDate": "2026-10-29", "submitted": 21, "total": 24, "source": "classroom", "note": ""},
+    {"code": "L08", "status": "not_started", "firstDate": null, "lastDate": null, "submitted": 0, "total": 24, "source": "none", "note": "11/04 今日上課，尚無繳交"}
+   ]},
+  {"id": "604", "grade": 6, "course": "g5", "students": 26, "current": "L06",
+   "lessons": [
+    {"code": "L01", "status": "done", "firstDate": "2026-09-03", "lastDate": "2026-09-04", "submitted": 26, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L02", "status": "done", "firstDate": "2026-09-10", "lastDate": "2026-09-11", "submitted": 26, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L03", "status": "done", "firstDate": "2026-09-17", "lastDate": "2026-09-18", "submitted": 25, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L04", "status": "done", "firstDate": "2026-09-24", "lastDate": "2026-09-25", "submitted": 24, "total": 26, "source": "classroom", "note": ""},
+    {"code": "L05", "status": "done", "firstDate": "2026-10-01", "lastDate": "2026-10-16", "submitted": 23, "total": 26, "source": "classroom", "note": "第 6 週停課（段考）"},
+    {"code": "L06", "status": "in_progress", "firstDate": "2026-10-29", "lastDate": "2026-10-30", "submitted": 5, "total": 26, "source": "classroom", "note": ""}
+   ]}
+ ],
+ "mappingNotes": [
+  {"assignment": "第一週 旅行經驗分享", "lesson": "L01", "needsConfirm": false},
+  {"assignment": "第九週 交通方式與路程時間", "lesson": "L06", "needsConfirm": false},
+  {"assignment": "景點資料表（第二版）", "lesson": "L02", "needsConfirm": true},
+  {"assignment": "假消息偵探任務單", "lesson": "L01", "needsConfirm": false},
+  {"assignment": "查證小任務（週五版）", "lesson": "L05", "needsConfirm": true},
+  {"assignment": "宣導影片分鏡草稿", "lesson": "L08", "needsConfirm": false},
+  {"assignment": "課堂回饋問卷", "lesson": null, "needsConfirm": true}
+ ],
+ "notes": [
+  "【範例資料】班級、日期、繳交人數皆為虛構，僅供開發與展示，不代表任何真實班級。",
+  "節次名稱沿用 materials/ 底下的實際單元名稱；其餘內容皆為假設。"
+ ]
+}
