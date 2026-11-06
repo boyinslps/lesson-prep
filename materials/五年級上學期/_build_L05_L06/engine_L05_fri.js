@@ -257,7 +257,7 @@
   function applyProgress(r,idn){
     state=Object.assign(freshState(),r.state);state._owner=idKey(idn);
     var want=r.step&&r.step<=STEP_NAMES.length?r.step:suggestStep();
-    save();renderAll();showStep(want);
+    starLive=false;save();renderAll();showStep(want);starLive=true;
     toast('已拿回你的進度，接著寫吧！');
   }
   function suggestStep(){
@@ -340,7 +340,7 @@
       if(isUrl){try{host=new URL(t).hostname;}catch(e){}}
       return [C(/^https:\/\//i.test(t),'以 https:// 開頭'),
         C(isUrl,'只有一條網址，前後沒有多餘的字或空格'),
-        C(isUrl&&OK_HOST.test(host),'是查核機構自己的網站（tfc-taiwan.org.tw 或 mygopen.com）',isUrl),
+        C(isUrl&&OK_HOST.test(host),'網址裡有 mygopen 或 tfc-taiwan（查核機構自己的網站）',isUrl),
         C(isUrl,'按「測試連結」，開得到同一篇文章')];
     },
     tool:function(){
@@ -388,14 +388,33 @@
     });
   }
   function renderProgress(){
-    var n=doneCount(),t=REPORT.length;
-    $('progTxt').textContent='報告 '+n+'／'+t+' 欄';$('progBar').style.width=Math.round(n/t*100)+'%';
+    var n=starCount(),t=REPORT.length;
+    $('progTxt').textContent='⭐ '+n+'／'+t;$('progBar').style.width=Math.round(n/t*100)+'%';
+  }
+  // ===== 收集星星：一欄寫好、檢查表沒有 ☐（全部 ✓，「!」提醒不擋）就拿到一顆 ⭐ =====
+  function starOf(qid){return DONE[qid]()&&!CHECKS[qid]().some(function(c){return c.s==='todo';});}
+  function starCount(){return REPORT.filter(function(q){return starOf(q.qid);}).length;}
+  var STAR_SEEN={},starLive=false,starT;   // starLive=false 時（載入、拿回進度）只記錄不慶祝
+  function renderStars(){
+    var n=starCount(),t=REPORT.length,fresh=null;
+    document.querySelectorAll('[data-star]').forEach(function(x){var ok=starOf(x.dataset.star);x.className='starbadge'+(ok?' got':'');x.textContent=ok?'⭐ 拿到這顆星了！':'☆ 檢查表全部打 ✓，就拿到這顆星';});
+    document.querySelectorAll('[data-star-mini]').forEach(function(x){x.textContent=starOf(x.dataset.starMini)?'⭐':'☆';});
+    var f=$('starFinal');if(f)f.textContent='你收集了 '+n+'／'+t+' 顆星'+(n===t?'，全部收集完成！':'。');
+    REPORT.forEach(function(q){if(starOf(q.qid)&&!STAR_SEEN[q.qid]){STAR_SEEN[q.qid]=true;fresh=q;}});
+    if(fresh&&starLive&&!REVIEW_ID)starPop(fresh,n,t);
+  }
+  function starPop(q,n,t){
+    var old=$('starPop');if(old)old.remove();
+    var p=el('div','');p.id='starPop';p.setAttribute('role','status');
+    p.innerHTML='<span class="big">⭐</span><b class="cute" style="font-size:1.5rem;color:#b45309">拿到第 '+n+' 顆星！</b>'
+      +'<div style="font-weight:700;color:#78350f">'+esc(q.name)+' 完成'+(n===t?'<br>7 顆全收集！去「預覽」看看你的報告':'・還差 '+(t-n)+' 顆')+'</div>';
+    document.body.appendChild(p);clearTimeout(starT);starT=setTimeout(function(){p.remove();},n===t?3500:2200);
   }
   function renderSummary(){
     var host=$('sumList');if(!host)return;host.innerHTML='';
     REPORT.forEach(function(q,i){
       var ok=DONE[q.qid](),row=el('div','flex items-center gap-3 flex-wrap bg-'+(ok?'emerald':'slate')+'-50 border-2 border-'+(ok?'emerald':'slate')+'-200 rounded-2xl px-4 py-2');
-      row.innerHTML='<span class="font-extrabold text-lg flex-1">'+(i+1)+' ‧ '+esc(q.name)+'</span><span class="font-bold '+(ok?'text-emerald-700':'text-amber-700')+'">'+(ok?'✓ 寫好了':'還沒寫完')+'</span>';
+      row.innerHTML='<span class="font-extrabold text-lg flex-1">'+(i+1)+' ‧ '+esc(q.name)+'</span><span class="font-bold '+(ok?'text-emerald-700':'text-amber-700')+'">'+(ok?'✓ 寫好了':'還沒寫完')+'</span><span class="text-xl" title="'+(starOf(q.qid)?'拿到星星了':'檢查表還有沒打 ✓ 的')+'">'+(starOf(q.qid)?'⭐':'☆')+'</span>';
       var b=el('button','bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-xl px-3 py-1',ok?'再看看':'去寫');b.type='button';b.onclick=function(){showStep(q.step);};
       row.appendChild(b);host.appendChild(row);
     });
@@ -421,19 +440,19 @@
     host.innerHTML='';
     var selName=s.sel&&CARDS[s.sel]?CARDS[s.sel].name:'';
     var head=el('div','pb-3 border-b-2 border-dashed border-emerald-200 flex items-center gap-2 flex-wrap');
-    head.innerHTML='<div class="flex-1 min-w-0"><p class="cute text-2xl font-extrabold text-emerald-700 m-0">查證報告</p><p class="m-0 text-lg">我查的訊息：'+(selName?'<b>'+esc(selName)+'</b>':'<span class="text-amber-700 font-bold">（還沒選）</span>')+'</p></div>';
+    head.innerHTML='<div class="flex-1 min-w-0"><p class="cute text-2xl font-extrabold text-emerald-700 m-0">查證報告</p><p class="m-0 text-lg">我查的訊息：'+(selName?'<b>'+esc(selName)+'</b>':'<span class="text-amber-700 font-bold">（還沒選）</span>')+'</p><p class="m-0 text-lg font-extrabold text-amber-700">我收集到 ⭐ '+starCount()+'／'+REPORT.length+' 顆星</p></div>';
     var hb=el('button','bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-xl px-3 py-1',selName?'換一則':'去選');hb.type='button';hb.onclick=function(){showStep(3);};head.appendChild(hb);
     host.appendChild(head);
     REPORT.forEach(function(q,i){
       var ok=DONE[q.qid](),html=body(q.qid),box=el('div','border-2 rounded-2xl p-4 '+(ok?'border-emerald-200 bg-emerald-50':'border-amber-300 bg-amber-50'));
       box.innerHTML='<div class="flex items-center gap-2 flex-wrap"><p class="cute text-xl font-extrabold m-0 flex-1">'+(i+1)+' ‧ '+esc(q.name)+'</p>'
-        +'<span class="font-bold text-sm '+(ok?'text-emerald-700':'text-amber-700')+'">'+(ok?'✓ 寫好了':'還沒寫完')+'</span></div>'
+        +'<span class="font-bold text-sm '+(ok?'text-emerald-700':'text-amber-700')+'">'+(ok?'✓ 寫好了':'還沒寫完')+'</span><span class="text-xl">'+(starOf(q.qid)?'⭐':'☆')+'</span></div>'
         +'<div class="text-lg text-slate-800 mt-1">'+(html||none)+'</div>';
       var b=el('button','mt-2 bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-xl px-3 py-1',html?'去改':'去寫');b.type='button';b.onclick=function(){showStep(q.step);};
       box.appendChild(b);host.appendChild(box);
     });
   }
-  function refresh(){renderChips();renderToolFields();renderPreview();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();}
+  function refresh(){renderChips();renderToolFields();renderPreview();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();renderStars();}
   function renderAll(){fillFields();refresh();}
 
   // ===== 題型（預設＋老師即時切換，§5-6）=====
@@ -543,7 +562,7 @@
     $('teacherbar').classList.remove('hidden');$('tStatus').textContent=label;teacherAuthed=true;renderQtypeSlots();
     if(REVIEW_ID){loadReview();return;}
     ['showAnsBtn','lockBtn'].forEach(function(id){$(id).classList.remove('hidden');});
-    $('showAnsBtn').onclick=function(){state=Object.assign(freshState(),JSON.parse(JSON.stringify(SAMPLE)));save();renderAll();};
+    $('showAnsBtn').onclick=function(){state=Object.assign(freshState(),JSON.parse(JSON.stringify(SAMPLE)));starLive=false;save();renderAll();starLive=true;};
     $('lockBtn').onclick=function(){
       if(!confirm('確定要還原嗎？\n會清掉「檢視答案」填進去的內容。\n學生已經繳交的學習單不受影響。'))return;
       state=freshState();save();renderAll();
@@ -620,7 +639,7 @@
     if(n<STEP_NAMES.length){var x=el('button','cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl px-6 py-2','下一步：'+STEP_NAMES[n]+' →');x.type='button';x.onclick=function(){showStep(n+1);};nav.appendChild(x);}
   });
 
-  bindFields();renderAll();
+  bindFields();renderAll();starLive=true;
   curStep=1;stepEls.forEach(function(s){s.classList.toggle('hidden',Number(s.dataset.step)!==1);});renderStepper();
 
   fbReady.then(function(){
