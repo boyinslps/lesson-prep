@@ -97,6 +97,9 @@
   .hl{background:#fef08a;border-radius:4px;padding:0 2px}
   .fieldcell{background:#eef2ff;border:2px solid #c7d2fe;border-radius:14px;padding:8px 10px;font-weight:800;font-size:1.05rem}
   .selline{font-size:1.15rem;margin:.6rem 0 0}
+  .selbox{background:#fff;border:2px solid #fcd34d;border-radius:16px;padding:12px 14px;margin-bottom:6px}
+  .selbox img,.selbox video{max-height:420px;width:auto;max-width:100%;border-radius:12px;display:block;margin:0 auto}
+  [data-forkind].hidden{display:none}
   .insbtn{background:#0284c7;color:#fff;font-weight:700;border-radius:12px;padding:4px 12px}
   .insbtn:hover{background:#0369a1}
   /* 收集星星（用 ★ 字元，不用 emoji） */
@@ -310,17 +313,17 @@
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-4 shadow-sm">
       <p class="text-sm font-bold text-slate-500 m-0">第 3 欄／共 7 欄<span class="starbadge" data-star="desc"></span><span class="qtypeSlot" data-qid="desc"></span></p>
       <h2 class="cute text-3xl font-extrabold text-amber-700 m-0 mt-1">原始內容描述</h2>
-      <p class="goal">用自己的話說：這則訊息在講什麼。<b>不寫真的假的</b>。</p>
+      <p class="goal"><b>看到什麼寫什麼</b>：這則訊息說了什麼？不猜、不寫真的假的。</p>
     </div>
     <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
       <h3 class="parth text-amber-700">看老師怎麼做</h3>
-      <div class="exbox"><p class="exh">老師的示範</p><div>網傳訊息說：只要<span class="hl">幫路上的陌生人操作手機</span><span class="tag">什麼事</span>，<span class="hl">指紋、聲音和臉就會被偷走，拿去貸款</span><span class="tag">會怎樣</span>。這則訊息在<span class="hl">臉書</span><span class="tag">在哪裡</span>流傳。</div></div>
+      <div class="exbox"><p class="exh">老師的示範</p><div>網傳訊息說：只要<span class="hl">幫路上的陌生人操作手機</span><span class="tag">什麼事</span>，<span class="hl">指紋、聲音和臉就會被偷走，拿去貸款</span><span class="tag">會怎樣</span>。這則訊息在<span class="hl">臉書</span><span class="tag">在哪裡</span>流傳。</div></div><p class="exnote">老師只寫訊息上看得到的字，沒有加自己的想法。</p><div data-forkind="video" class="hidden exbox mt-3"><p class="exh">影片這樣寫</p><div>網傳影片中，<b>＿＿</b><span class="tag">誰</span>在<b>＿＿</b><span class="tag">做什麼</span>，影片說<b>＿＿</b><span class="tag">字幕或說的話</span>。這支影片在<b>＿＿</b><span class="tag">在哪裡</span>流傳。</div></div>
       <button type="button" class="opennext" data-open="desc">看懂了，換我寫</button>
     </div>
     <div class="fillbox hidden bg-amber-50 border-4 border-amber-400 rounded-3xl p-5 mt-4" data-part="desc">
       <h3 class="parth text-amber-700">換你寫</h3>
-      <p class="selline">你選的是：<b data-selname></b></p><ol class="howlist"><li>說出訊息講了<b>什麼事</b></li><li>說出訊息說<b>會怎樣</b></li><li>說出在<b>哪裡流傳</b>（LINE、臉書…）</li></ol>
-      <div class="mt-3"><button type="button" data-insert="desc" data-text="網傳訊息說：" class="insbtn">插入：網傳訊息說：</button> <button type="button" data-insert="desc" data-text="這則訊息在　　流傳。" class="insbtn">插入：這則訊息在　流傳。</button></div><textarea id="f_desc" class="fld mt-2" rows="4" data-k="desc" aria-label="原始內容描述"></textarea>
+      <div class="selbox"><p class="m-0 font-extrabold text-lg">你選的訊息：<span data-selname></span></p><div data-selmedia class="mt-2"></div><p data-forkind="img" class="hidden exnote">點圖可以放大。看上面的字，邊看邊寫。</p><p data-forkind="video" class="hidden exnote">按播放，看完再寫。可以重看。</p></div><div data-forkind="img" class="hidden"><ol class="howlist"><li>看圖上的字：說了<b>什麼事</b>？</li><li>它說<b>會怎樣</b>？要大家做什麼？</li><li>在<b>哪裡流傳</b>？看不出來就寫「網路上」</li></ol></div><div data-forkind="video" class="hidden"><ol class="howlist"><li>看影片：<b>誰</b>在<b>做什麼</b>？</li><li>字幕或說話，說了<b>什麼</b>？</li><li>在<b>哪裡流傳</b>？看不出來就寫「網路上」</li></ol></div><p data-forkind="none" class="exnote">還沒選訊息？先回到「選訊息」選一則。</p>
+      <div class="mt-3" data-forkind="img"><button type="button" data-insert="desc" data-text="網傳訊息說：" class="insbtn">插入：網傳訊息說：</button> <button type="button" data-insert="desc" data-text="這則訊息在　　流傳。" class="insbtn">插入：這則訊息在　流傳。</button></div><div class="mt-3 hidden" data-forkind="video"><button type="button" data-insert="desc" data-text="網傳影片中，" class="insbtn">插入：網傳影片中，</button> <button type="button" data-insert="desc" data-text="影片說：" class="insbtn">插入：影片說：</button> <button type="button" data-insert="desc" data-text="這支影片在　　流傳。" class="insbtn">插入：這支影片在　流傳。</button></div><textarea id="f_desc" class="fld mt-2" rows="4" data-k="desc" aria-label="原始內容描述"></textarea>
       <ul class="checks" data-checks="desc"></ul>
     </div>
     <div class="ckptbar" data-ckpt></div>
@@ -385,8 +388,8 @@
     </div>
     <div class="fillbox hidden bg-violet-50 border-4 border-violet-400 rounded-3xl p-5 mt-4" data-part="why">
       <h3 class="parth text-violet-700">換你寫</h3>
-      <ol class="howlist"><li>選原因（可以選兩個）</li><li>寫出訊息裡<b>哪一句話</b>讓人想轉傳</li></ol>
-      <p class="lb">① 原因</p><div class="flex flex-wrap gap-2 mt-2 " data-chips="whyKinds" data-multi="1"><button type="button" class="chip" data-v="怕"><span class="mk">☐</span>怕</button><button type="button" class="chip" data-v="好奇／驚奇"><span class="mk">☐</span>好奇／驚奇</button><button type="button" class="chip" data-v="關心家人"><span class="mk">☐</span>關心家人</button><button type="button" class="chip" data-v="好康"><span class="mk">☐</span>好康</button><button type="button" class="chip" data-v="親友傳來的"><span class="mk">☐</span>親友傳來的</button></div><label class="lb" for="f_whyText">② 是哪一句話？為什麼？</label><textarea id="f_whyText" class="fld mt-1" rows="4" data-k="whyText"></textarea>
+      <ol class="howlist"><li>找出訊息裡<b>讓人想轉傳</b>的那一句，用「」框起來</li><li>寫出這句話讓人有什麼<b>感覺</b>（怕？好奇？想幫忙？）</li></ol>
+      <label class="lb" for="f_whyText">為什麼大家想轉傳？</label><textarea id="f_whyText" class="fld mt-1" rows="4" data-k="whyText"></textarea>
       <ul class="checks" data-checks="why"></ul>
     </div>
     <div class="ckptbar" data-ckpt></div>
@@ -407,8 +410,8 @@
     </div>
     <div class="fillbox hidden bg-rose-50 border-4 border-rose-400 rounded-3xl p-5 mt-4" data-part="risk">
       <h3 class="parth text-rose-700">換你寫</h3>
-      <ol class="howlist"><li>選後果的種類</li><li>寫出<b>誰</b>會<b>怎樣</b></li></ol>
-      <p class="lb">① 後果的種類</p><div class="flex flex-wrap gap-2 mt-2 " data-chips="riskKinds" data-multi="1"><button type="button" class="chip" data-v="身體"><span class="mk">☐</span>身體</button><button type="button" class="chip" data-v="錢"><span class="mk">☐</span>錢</button><button type="button" class="chip" data-v="人際"><span class="mk">☐</span>人際</button><button type="button" class="chip" data-v="恐慌"><span class="mk">☐</span>恐慌</button></div><label class="lb" for="f_riskText">② 誰會怎樣？</label><textarea id="f_riskText" class="fld mt-1" rows="4" data-k="riskText"></textarea>
+      <ol class="howlist"><li>想一想：<b>誰</b>會相信這則訊息？</li><li>寫出他相信以後，<b>會怎樣</b></li></ol>
+      <label class="lb" for="f_riskText">誰會怎樣？</label><textarea id="f_riskText" class="fld mt-1" rows="4" data-k="riskText"></textarea>
       <ul class="checks" data-checks="risk"></ul>
     </div>
     <div class="ckptbar" data-ckpt></div>
@@ -552,8 +555,8 @@ var firebaseConfig = {
     desc:function(){return filled(state.desc);},
     res:function(){return filled(state.resOrg)&&filled(state.resLabel)&&filled(state.resNote);},
     fact:function(){return filled(state.fact);},
-    why:function(){return state.whyKinds.length>0&&filled(state.whyText);},
-    risk:function(){return state.riskKinds.length>0&&filled(state.riskText);}
+    why:function(){return filled(state.whyText);},
+    risk:function(){return filled(state.riskText);}
   };
   function given(qid){
     var s=state,p=[];
@@ -573,11 +576,11 @@ var firebaseConfig = {
       case 'fact':return tr(s.fact);
       case 'why':
         if(s.whyKinds.length)p.push('原因類型：'+s.whyKinds.join('、'));
-        if(filled(s.whyText))p.push('理由：'+tr(s.whyText));
+        if(filled(s.whyText))p.push((s.whyKinds.length?'理由：':'')+tr(s.whyText));
         return p.join('\n');
       case 'risk':
         if(s.riskKinds.length)p.push('後果類型：'+s.riskKinds.join('、'));
-        if(filled(s.riskText))p.push('誰會怎樣：'+tr(s.riskText));
+        if(filled(s.riskText))p.push((s.riskKinds.length?'誰會怎樣：':'')+tr(s.riskText));
         return p.join('\n');
     }
     return '';
@@ -857,14 +860,14 @@ var firebaseConfig = {
     },
     why:function(){
       var t=tr(state.whyText);
-      return [C(state.whyKinds.length>0,'選了原因'),C(t.length>=15,'寫了理由'),
-        C(/[「『"]/.test(t),'用「」框出訊息的原句',t.length>0)];
+      return [C(/[「『"]/.test(t),'用「」框出訊息的原句',t.length>0),
+        C(t.length>=15,'寫了為什麼想轉傳'),
+        C(/怕|擔心|緊張|恐慌|好奇|驚奇|厲害|神奇|想幫|幫忙|關心|家人|救人|好康|免費|便宜|搶|相信|信任|朋友|親友|感動|生氣|有趣/.test(t),'說了讓人有什麼感覺',t.length>0)];
     },
     risk:function(){
       var t=tr(state.riskText);
-      return [C(state.riskKinds.length>0,'選了種類'),
-        C(/有人|我|大家|家人|別人|老人|長輩|學生|小孩|同學|朋友|民眾|他們|人們|陌生人|消費者|媽媽|爸爸|阿公|阿嬤/.test(t),'寫了「誰」'),
-        C(t.length>=15,'寫了「會怎樣」（至少一句話）')];
+      return [C(/有人|我|大家|家人|別人|老人|長輩|學生|小孩|同學|朋友|民眾|他們|人們|陌生人|消費者|媽媽|爸爸|阿公|阿嬤/.test(t),'寫了「誰」'),
+        C(t.length>=15,'寫了「會怎樣」')];
     }
   };
   function renderChecks(){
@@ -919,6 +922,24 @@ var firebaseConfig = {
     var k=b.dataset.open;state.open=state.open||{};state.open[k]=true;save();refresh();
     var p=document.querySelector('[data-part="'+k+'"]');if(p)p.scrollIntoView({behavior:'smooth',block:'start'});
   });
+  // 原始內容描述：把選的訊息（圖或影片）放到寫的地方，依種類換引導與句型
+  var lastSelMedia='?';
+  function selKind(){
+    if(!state.sel)return 'none';
+    var c=document.querySelector('[data-card="'+state.sel+'"]');
+    return c&&!c.querySelector('img.shotimg')&&c.querySelector('video')?'video':'img';
+  }
+  function renderSelMedia(){
+    var k=selKind();
+    document.querySelectorAll('[data-forkind]').forEach(function(x){x.classList.toggle('hidden',x.dataset.forkind!==k);});
+    if(lastSelMedia===state.sel)return;lastSelMedia=state.sel;
+    document.querySelectorAll('[data-selmedia]').forEach(function(box){
+      box.innerHTML='';var c=state.sel&&document.querySelector('[data-card="'+state.sel+'"]');if(!c)return;
+      var m=c.querySelector('img.shotimg')||c.querySelector('video');if(!m)return;
+      var n=m.cloneNode(true);n.removeAttribute('loading');n.classList.remove('mt-3');if(n.tagName==='VIDEO')n.setAttribute('preload','metadata');
+      box.appendChild(n);
+    });
+  }
   function renderToolFields(){document.querySelectorAll('[data-kwonly]').forEach(function(n){n.classList.toggle('hidden',!hasKw());});}
   // ===== 預覽全部內容：7 欄排成一份報告（只讀，內容全部經 esc 跳脫）=====
   function renderPreview(){
@@ -932,8 +953,8 @@ var firebaseConfig = {
         case 'desc':return pv('',s.desc);
         case 'res':return pv('機構：',s.resOrg)+pv('標籤：',s.resLabel)+pv('重點：',s.resNote);
         case 'fact':return pv('',s.fact);
-        case 'why':return pv('原因類型：',s.whyKinds.join('、'))+pv('理由：',s.whyText);
-        case 'risk':return pv('後果類型：',s.riskKinds.join('、'))+pv('誰會怎樣：',s.riskText);
+        case 'why':return pv('原因類型：',s.whyKinds.join('、'))+pv(s.whyKinds.length?'理由：':'',s.whyText);
+        case 'risk':return pv('後果類型：',s.riskKinds.join('、'))+pv(s.riskKinds.length?'誰會怎樣：':'',s.riskText);
       }
       return '';
     }
@@ -952,7 +973,7 @@ var firebaseConfig = {
       box.appendChild(b);host.appendChild(box);
     });
   }
-  function refresh(){renderChips();renderParts();renderToolFields();renderPreview();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();renderStars();}
+  function refresh(){renderChips();renderParts();renderToolFields();renderSelMedia();renderPreview();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();renderStars();}
   function renderAll(){fillFields();refresh();}
 
   // ===== 題型（預設＋老師即時切換，§5-6）=====
@@ -1046,8 +1067,8 @@ var firebaseConfig = {
     desc:'網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。這則訊息在臉書流傳。',
     resOrg:'MyGoPen 麥擱騙',resLabel:'誤導',resNote:'MyGoPen 查核後標為「誤導」，重點是這個說法在技術和金融上都不合理。',
     fact:'1. 根據 MyGoPen，只有指紋或臉，不能直接拿去貸款，銀行還要看很多檢查。\n2. 警方和 165 說，台灣查不到這種案件。\n3. 不過，陌生人要你做驗證時，還是要小心。',
-    whyKinds:['怕','關心家人','好奇／驚奇'],whyText:'訊息說「30 分鐘傾家蕩產」，讓人怕；又寫「轉傳給家人朋友」，大家覺得轉傳是關心家人。',
-    riskKinds:['恐慌'],riskText:'有人怕到不敢幫真的需要幫忙的人；也有人把嚇人的訊息再轉給更多人，讓大家一起害怕。'};
+    whyText:'訊息說「30 分鐘傾家蕩產」，讓人怕；又寫「轉傳給家人朋友」，大家覺得轉傳是關心家人。',
+    riskText:'有人怕到不敢幫真的需要幫忙的人；也有人把嚇人的訊息再轉給更多人，讓大家一起害怕。'};
   if(!IS_ADMIN){try{if(sessionStorage.getItem(PREVIEW_KEY)==='1')$('backToTeacher').classList.remove('hidden');}catch(e){}}
   $('previewModeBtn').onclick=function(){
     if(!confirm('會清空這台裝置上的身分（年級/班級/座號）與作答，變回全新學生的畫面，確定要預覽嗎？'))return;
@@ -1178,7 +1199,7 @@ var firebaseConfig = {
         { "desc": "有標出是哪個機構或人（警方、165、查核機構、專家等）說的", "pts": 1 } ] },
     { "qid": "why", "prompt": "為什麼這則訊息會被廣傳？", "mode": "checklist",
       "checks": [
-        { "desc": "說出至少一個原因類型（怕、好奇、關心家人、好康、親友傳來）", "pts": 1 },
+        { "desc": "說出這則訊息讓人有什麼感覺或想法（例如怕、好奇、想幫忙）", "pts": 1 },
         { "desc": "說明理由，最好指出訊息裡的哪句話造成的", "pts": 1 } ] },
     { "qid": "risk", "prompt": "如果相信這則訊息，會有什麼後果？（誰會怎樣）", "mode": "levels", "points": 2,
       "standard": "說出誰會怎樣；只寫「是假的」或「會被騙」不給分" }

@@ -72,8 +72,8 @@
     desc:function(){return filled(state.desc);},
     res:function(){return filled(state.resOrg)&&filled(state.resLabel)&&filled(state.resNote);},
     fact:function(){return filled(state.fact);},
-    why:function(){return state.whyKinds.length>0&&filled(state.whyText);},
-    risk:function(){return state.riskKinds.length>0&&filled(state.riskText);}
+    why:function(){return filled(state.whyText);},
+    risk:function(){return filled(state.riskText);}
   };
   function given(qid){
     var s=state,p=[];
@@ -93,11 +93,11 @@
       case 'fact':return tr(s.fact);
       case 'why':
         if(s.whyKinds.length)p.push('原因類型：'+s.whyKinds.join('、'));
-        if(filled(s.whyText))p.push('理由：'+tr(s.whyText));
+        if(filled(s.whyText))p.push((s.whyKinds.length?'理由：':'')+tr(s.whyText));
         return p.join('\n');
       case 'risk':
         if(s.riskKinds.length)p.push('後果類型：'+s.riskKinds.join('、'));
-        if(filled(s.riskText))p.push('誰會怎樣：'+tr(s.riskText));
+        if(filled(s.riskText))p.push((s.riskKinds.length?'誰會怎樣：':'')+tr(s.riskText));
         return p.join('\n');
     }
     return '';
@@ -377,14 +377,14 @@
     },
     why:function(){
       var t=tr(state.whyText);
-      return [C(state.whyKinds.length>0,'選了原因'),C(t.length>=15,'寫了理由'),
-        C(/[「『"]/.test(t),'用「」框出訊息的原句',t.length>0)];
+      return [C(/[「『"]/.test(t),'用「」框出訊息的原句',t.length>0),
+        C(t.length>=15,'寫了為什麼想轉傳'),
+        C(/怕|擔心|緊張|恐慌|好奇|驚奇|厲害|神奇|想幫|幫忙|關心|家人|救人|好康|免費|便宜|搶|相信|信任|朋友|親友|感動|生氣|有趣/.test(t),'說了讓人有什麼感覺',t.length>0)];
     },
     risk:function(){
       var t=tr(state.riskText);
-      return [C(state.riskKinds.length>0,'選了種類'),
-        C(/有人|我|大家|家人|別人|老人|長輩|學生|小孩|同學|朋友|民眾|他們|人們|陌生人|消費者|媽媽|爸爸|阿公|阿嬤/.test(t),'寫了「誰」'),
-        C(t.length>=15,'寫了「會怎樣」（至少一句話）')];
+      return [C(/有人|我|大家|家人|別人|老人|長輩|學生|小孩|同學|朋友|民眾|他們|人們|陌生人|消費者|媽媽|爸爸|阿公|阿嬤/.test(t),'寫了「誰」'),
+        C(t.length>=15,'寫了「會怎樣」')];
     }
   };
   function renderChecks(){
@@ -439,6 +439,24 @@
     var k=b.dataset.open;state.open=state.open||{};state.open[k]=true;save();refresh();
     var p=document.querySelector('[data-part="'+k+'"]');if(p)p.scrollIntoView({behavior:'smooth',block:'start'});
   });
+  // 原始內容描述：把選的訊息（圖或影片）放到寫的地方，依種類換引導與句型
+  var lastSelMedia='?';
+  function selKind(){
+    if(!state.sel)return 'none';
+    var c=document.querySelector('[data-card="'+state.sel+'"]');
+    return c&&!c.querySelector('img.shotimg')&&c.querySelector('video')?'video':'img';
+  }
+  function renderSelMedia(){
+    var k=selKind();
+    document.querySelectorAll('[data-forkind]').forEach(function(x){x.classList.toggle('hidden',x.dataset.forkind!==k);});
+    if(lastSelMedia===state.sel)return;lastSelMedia=state.sel;
+    document.querySelectorAll('[data-selmedia]').forEach(function(box){
+      box.innerHTML='';var c=state.sel&&document.querySelector('[data-card="'+state.sel+'"]');if(!c)return;
+      var m=c.querySelector('img.shotimg')||c.querySelector('video');if(!m)return;
+      var n=m.cloneNode(true);n.removeAttribute('loading');n.classList.remove('mt-3');if(n.tagName==='VIDEO')n.setAttribute('preload','metadata');
+      box.appendChild(n);
+    });
+  }
   function renderToolFields(){document.querySelectorAll('[data-kwonly]').forEach(function(n){n.classList.toggle('hidden',!hasKw());});}
   // ===== 預覽全部內容：7 欄排成一份報告（只讀，內容全部經 esc 跳脫）=====
   function renderPreview(){
@@ -452,8 +470,8 @@
         case 'desc':return pv('',s.desc);
         case 'res':return pv('機構：',s.resOrg)+pv('標籤：',s.resLabel)+pv('重點：',s.resNote);
         case 'fact':return pv('',s.fact);
-        case 'why':return pv('原因類型：',s.whyKinds.join('、'))+pv('理由：',s.whyText);
-        case 'risk':return pv('後果類型：',s.riskKinds.join('、'))+pv('誰會怎樣：',s.riskText);
+        case 'why':return pv('原因類型：',s.whyKinds.join('、'))+pv(s.whyKinds.length?'理由：':'',s.whyText);
+        case 'risk':return pv('後果類型：',s.riskKinds.join('、'))+pv(s.riskKinds.length?'誰會怎樣：':'',s.riskText);
       }
       return '';
     }
@@ -472,7 +490,7 @@
       box.appendChild(b);host.appendChild(box);
     });
   }
-  function refresh(){renderChips();renderParts();renderToolFields();renderPreview();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();renderStars();}
+  function refresh(){renderChips();renderParts();renderToolFields();renderSelMedia();renderPreview();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();renderStars();}
   function renderAll(){fillFields();refresh();}
 
   // ===== 題型（預設＋老師即時切換，§5-6）=====
@@ -566,8 +584,8 @@
     desc:'網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。這則訊息在臉書流傳。',
     resOrg:'MyGoPen 麥擱騙',resLabel:'誤導',resNote:'MyGoPen 查核後標為「誤導」，重點是這個說法在技術和金融上都不合理。',
     fact:'1. 根據 MyGoPen，只有指紋或臉，不能直接拿去貸款，銀行還要看很多檢查。\n2. 警方和 165 說，台灣查不到這種案件。\n3. 不過，陌生人要你做驗證時，還是要小心。',
-    whyKinds:['怕','關心家人','好奇／驚奇'],whyText:'訊息說「30 分鐘傾家蕩產」，讓人怕；又寫「轉傳給家人朋友」，大家覺得轉傳是關心家人。',
-    riskKinds:['恐慌'],riskText:'有人怕到不敢幫真的需要幫忙的人；也有人把嚇人的訊息再轉給更多人，讓大家一起害怕。'};
+    whyText:'訊息說「30 分鐘傾家蕩產」，讓人怕；又寫「轉傳給家人朋友」，大家覺得轉傳是關心家人。',
+    riskText:'有人怕到不敢幫真的需要幫忙的人；也有人把嚇人的訊息再轉給更多人，讓大家一起害怕。'};
   if(!IS_ADMIN){try{if(sessionStorage.getItem(PREVIEW_KEY)==='1')$('backToTeacher').classList.remove('hidden');}catch(e){}}
   $('previewModeBtn').onclick=function(){
     if(!confirm('會清空這台裝置上的身分（年級/班級/座號）與作答，變回全新學生的畫面，確定要預覽嗎？'))return;

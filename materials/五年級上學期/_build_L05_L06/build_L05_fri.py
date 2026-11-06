@@ -74,6 +74,9 @@ EXTRA_CSS = r'''
   .hl{background:#fef08a;border-radius:4px;padding:0 2px}
   .fieldcell{background:#eef2ff;border:2px solid #c7d2fe;border-radius:14px;padding:8px 10px;font-weight:800;font-size:1.05rem}
   .selline{font-size:1.15rem;margin:.6rem 0 0}
+  .selbox{background:#fff;border:2px solid #fcd34d;border-radius:16px;padding:12px 14px;margin-bottom:6px}
+  .selbox img,.selbox video{max-height:420px;width:auto;max-width:100%;border-radius:12px;display:block;margin:0 auto}
+  [data-forkind].hidden{display:none}
   .insbtn{background:#0284c7;color:#fff;font-weight:700;border-radius:12px;padding:4px 12px}
   .insbtn:hover{background:#0369a1}
   /* 收集星星（用 ★ 字元，不用 emoji） */
@@ -267,15 +270,32 @@ N_TOOL = node(5, 2, 'teal', '你使用的搜索工具', '你是用什麼方法�
     '<label class="lb" for="f_toolB">② 我輸入的是</label>'
     '<input id="f_toolB" class="fld mt-1" data-k="toolB" autocomplete="off"></div>')
 
-N_DESC = node(6, 3, 'amber', '原始內容描述', '用自己的話說：這則訊息在講什麼。<b>不寫真的假的</b>。', 'desc',
+N_DESC = node(6, 3, 'amber', '原始內容描述', '<b>看到什麼寫什麼</b>：這則訊息說了什麼？不猜、不寫真的假的。', 'desc',
     ex('網傳訊息說：只要<span class="hl">幫路上的陌生人操作手機</span>' + tag('什麼事') +
        '，<span class="hl">指紋、聲音和臉就會被偷走，拿去貸款</span>' + tag('會怎樣') +
-       '。這則訊息在<span class="hl">臉書</span>' + tag('在哪裡') + '流傳。'),
-    SELNAME + steps('說出訊息講了<b>什麼事</b>',
-          '說出訊息說<b>會怎樣</b>',
-          '說出在<b>哪裡流傳</b>（LINE、臉書…）'),
-    '<div class="mt-3"><button type="button" data-insert="desc" data-text="網傳訊息說：" class="insbtn">插入：網傳訊息說：</button> '
+       '。這則訊息在<span class="hl">臉書</span>' + tag('在哪裡') + '流傳。',
+       '老師只寫訊息上看得到的字，沒有加自己的想法。') +
+    # 選的是影片：多一張「影片這樣寫」（句型，不是答案）
+    '<div data-forkind="video" class="hidden exbox mt-3"><p class="exh">影片這樣寫</p><div>網傳影片中，<b>＿＿</b>' + tag('誰') +
+    '在<b>＿＿</b>' + tag('做什麼') + '，影片說<b>＿＿</b>' + tag('字幕或說的話') +
+    '。這支影片在<b>＿＿</b>' + tag('在哪裡') + '流傳。</div></div>',
+    # 換你寫：先把選的訊息放出來，邊看邊寫
+    '<div class="selbox"><p class="m-0 font-extrabold text-lg">你選的訊息：<span data-selname></span></p>'
+    '<div data-selmedia class="mt-2"></div>'
+    '<p data-forkind="img" class="hidden exnote">點圖可以放大。看上面的字，邊看邊寫。</p>'
+    '<p data-forkind="video" class="hidden exnote">按播放，看完再寫。可以重看。</p></div>'
+    '<div data-forkind="img" class="hidden">' + steps('看圖上的字：說了<b>什麼事</b>？',
+          '它說<b>會怎樣</b>？要大家做什麼？',
+          '在<b>哪裡流傳</b>？看不出來就寫「網路上」') + '</div>'
+    '<div data-forkind="video" class="hidden">' + steps('看影片：<b>誰</b>在<b>做什麼</b>？',
+          '字幕或說話，說了<b>什麼</b>？',
+          '在<b>哪裡流傳</b>？看不出來就寫「網路上」') + '</div>'
+    '<p data-forkind="none" class="exnote">還沒選訊息？先回到「選訊息」選一則。</p>',
+    '<div class="mt-3" data-forkind="img"><button type="button" data-insert="desc" data-text="網傳訊息說：" class="insbtn">插入：網傳訊息說：</button> '
     '<button type="button" data-insert="desc" data-text="這則訊息在　　流傳。" class="insbtn">插入：這則訊息在　流傳。</button></div>'
+    '<div class="mt-3 hidden" data-forkind="video"><button type="button" data-insert="desc" data-text="網傳影片中，" class="insbtn">插入：網傳影片中，</button> '
+    '<button type="button" data-insert="desc" data-text="影片說：" class="insbtn">插入：影片說：</button> '
+    '<button type="button" data-insert="desc" data-text="這支影片在　　流傳。" class="insbtn">插入：這支影片在　流傳。</button></div>'
     '<textarea id="f_desc" class="fld mt-2" rows="4" data-k="desc" aria-label="原始內容描述"></textarea>')
 
 N_RES = node(7, 4, 'rose', '查核結果', '查核機構給了什麼結果？', 'res',
@@ -305,18 +325,16 @@ N_WHY = node(9, 6, 'violet', '為什麼會流傳', '這則訊息為什麼讓人�
     ex('訊息說「<span class="hl">30 分鐘傾家蕩產</span>」，讓人' + tag('怕') + '；'
        '又寫「<span class="hl">轉傳給家人朋友</span>」，大家覺得轉傳是' + tag('關心家人') + '。',
        '黃色＝訊息裡的原句。'),
-    steps('選原因（可以選兩個）',
-          '寫出訊息裡<b>哪一句話</b>讓人想轉傳'),
-    '<p class="lb">① 原因</p>' + chips('whyKinds', ['怕', '好奇／驚奇', '關心家人', '好康', '親友傳來的'], True) +
-    '<label class="lb" for="f_whyText">② 是哪一句話？為什麼？</label>'
+    steps('找出訊息裡<b>讓人想轉傳</b>的那一句，用「」框起來',
+          '寫出這句話讓人有什麼<b>感覺</b>（怕？好奇？想幫忙？）'),
+    '<label class="lb" for="f_whyText">為什麼大家想轉傳？</label>'
     '<textarea id="f_whyText" class="fld mt-1" rows="4" data-k="whyText"></textarea>')
 
 N_RISK = node(10, 7, 'rose', '相信的後果', '如果有人相信了，會怎樣？', 'risk',
     ex('<span class="hl">有人</span>' + tag('誰') + '怕到不敢幫真的需要幫忙的人' + tag('會怎樣') + '。'),
-    steps('選後果的種類',
-          '寫出<b>誰</b>會<b>怎樣</b>'),
-    '<p class="lb">① 後果的種類</p>' + chips('riskKinds', ['身體', '錢', '人際', '恐慌'], True) +
-    '<label class="lb" for="f_riskText">② 誰會怎樣？</label>'
+    steps('想一想：<b>誰</b>會相信這則訊息？',
+          '寫出他相信以後，<b>會怎樣</b>'),
+    '<label class="lb" for="f_riskText">誰會怎樣？</label>'
     '<textarea id="f_riskText" class="fld mt-1" rows="4" data-k="riskText"></textarea>')
 
 # ---------- 步驟 11：預覽全部內容（內容由 engine 的 renderPreview 依作答填入）----------
@@ -454,7 +472,7 @@ GRADING = '''<script type="application/json" id="grading-spec">
         { "desc": "有標出是哪個機構或人（警方、165、查核機構、專家等）說的", "pts": 1 } ] },
     { "qid": "why", "prompt": "為什麼這則訊息會被廣傳？", "mode": "checklist",
       "checks": [
-        { "desc": "說出至少一個原因類型（怕、好奇、關心家人、好康、親友傳來）", "pts": 1 },
+        { "desc": "說出這則訊息讓人有什麼感覺或想法（例如怕、好奇、想幫忙）", "pts": 1 },
         { "desc": "說明理由，最好指出訊息裡的哪句話造成的", "pts": 1 } ] },
     { "qid": "risk", "prompt": "如果相信這則訊息，會有什麼後果？（誰會怎樣）", "mode": "levels", "points": 2,
       "standard": "說出誰會怎樣；只寫「是假的」或「會被騙」不給分" }
