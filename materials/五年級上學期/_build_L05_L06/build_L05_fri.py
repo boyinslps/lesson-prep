@@ -66,6 +66,9 @@ EXTRA_CSS = r'''
   .parth{font-size:1.5rem;font-weight:900;margin:0 0 .6rem}
   .opennext{display:block;margin:18px auto 0;background:#4f46e5;color:#fff;font-weight:900;font-size:1.25rem;border-radius:16px;padding:10px 30px}
   .opennext:hover{background:#4338ca}
+  .whycard{background:#f5f3ff;border:2px solid #ddd6fe;border-radius:14px;padding:8px 10px;text-align:center;font-size:1.1rem;line-height:1.5}
+  .whycard b{display:block;color:#6d28d9;font-size:1.2rem}
+  .whycard span{color:#475569}
   .mhead{font-size:1.2rem;font-weight:900;color:#0f766e;margin:.9rem 0 .2rem}
   .parthrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
   .parthrow .parth{margin:0}
@@ -336,12 +339,19 @@ N_FACT = node(8, 5, 'emerald', '正確資訊', '真正的事實是什麼？<b>�
     '<button type="button" data-insert="fact" data-text="　　說，" class="insbtn">插入：○○說……</button></div>'
     '<textarea id="f_fact" class="fld mt-2" rows="5" data-k="fact" aria-label="正確資訊"></textarea>')
 
+# 為什麼會流傳：先說明「大家為什麼會轉傳」的 5 種原因（沿用原本 L05 的說明），再看老師示範，最後自己寫
+WHY_TYPES = [('怕', '講得很可怕'), ('好奇／驚奇', '聽起來很厲害'), ('關心家人', '「轉傳等於救人」'),
+             ('好康', '免費、搶先'), ('親友傳來的', '因為信任傳的人')]
 N_WHY = node(9, 6, 'violet', '為什麼會流傳', '這則訊息為什麼讓人想轉傳？', 'why',
+    '<p class="mhead" style="color:#6d28d9">先認識：大家為什麼會轉傳？常見 5 種原因</p>'
+    '<div class="grid sm:grid-cols-5 gap-2 mb-4">' +
+    ''.join('<div class="whycard"><b>%s</b><span>%s</span></div>' % t for t in WHY_TYPES) + '</div>' +
     ex('訊息說「<span class="hl">30 分鐘傾家蕩產</span>」，讓人' + tag('怕') + '；'
        '又寫「<span class="hl">轉傳給家人朋友</span>」，大家覺得轉傳是' + tag('關心家人') + '。',
-       '黃色＝訊息裡的原句。'),
+       '黃色＝訊息裡的那一句；橘色＝它是哪一種原因。'),
     steps('找出訊息裡<b>讓人想轉傳</b>的那一句',
-          '寫出這句話讓人有什麼<b>感覺</b>（怕？好奇？想幫忙？）'),
+          '對照 5 種原因，寫出這句話讓人有什麼<b>感覺</b>') +
+    '<p class="exnote">5 種原因：' + '｜'.join('<b>%s</b>' % n for n, _ in WHY_TYPES) + '</p>',
     '<label class="lb" for="f_whyText">為什麼大家想轉傳？</label>'
     '<textarea id="f_whyText" class="fld mt-1" rows="4" data-k="whyText"></textarea>')
 
