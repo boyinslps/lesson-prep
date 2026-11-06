@@ -16,7 +16,7 @@
   function withTimeout(p,ms){return new Promise(function(res,rej){var t=setTimeout(function(){rej(new Error('timeout'));},ms);p.then(function(v){clearTimeout(t);res(v);},function(e){clearTimeout(t);rej(e);});});}
 
   // ===== 題目：qid 對應步驟、題型、題幹 =====
-  var STEP_NAMES=['開始','老師示範','選訊息','找文章','網址','搜尋工具','原始內容','查核結果','正確資訊','為何流傳','相信後果','繳交'];
+  var STEP_NAMES=['開始','老師示範','選訊息','找文章','網址','搜尋工具','原始內容','查核結果','正確資訊','為何流傳','相信後果','預覽','繳交'];
   var Q=[
     {qid:'sel',step:3,type:'experience',name:'選一則訊息'},
     {qid:'url',step:5,type:'experience',report:1,name:'查核網址'},
@@ -231,7 +231,7 @@
     var text='第 '+curStep+' 步・已完成 '+doneCount()+'／'+REPORT.length+' 欄\n'+tr(state.url).slice(0,300);
     db.collection('studentWork').doc(workId(idn)).set({
       worksheetId:WS,kind:WORK_KIND,grade:idn.grade,className:idn.className,studentId:idn.studentId,
-      data:{state:snap,step:curStep,done:doneCount(),v:2},text:text.slice(0,1900),updatedAt:firebase.firestore.FieldValue.serverTimestamp()})
+      data:{state:snap,step:curStep,done:doneCount(),v:3},text:text.slice(0,1900),updatedAt:firebase.firestore.FieldValue.serverTimestamp()})
       .catch(function(e){console.warn('進度暫存失敗',e);});
   }
   // 回傳 Promise<null | {state,step,done,at}>；讀取失敗會 reject
@@ -243,9 +243,11 @@
         if(!doc.exists)return null;
         var d=doc.data()||{},dd=d.data||{};if(!dd.state)return null;
         var at=null;try{at=d.updatedAt&&d.updatedAt.toDate();}catch(e){}
-        // v1（舊版）有「查核報告標題」這一步（第 5 步）：之後的步驟編號都比現在多 1、完成數可能多算標題
-        var step=dd.step||0,done=dd.done||0;
-        if((dd.v||1)<2){if(step>=6)step-=1;if(filled(dd.state.title)&&done>0)done-=1;}
+        // v1（最早上線版）有「查核報告標題」這一步（第 5 步）：第 6～12 步現在都少 1，完成數可能多算標題
+        // v2（只有 7 欄、沒有預覽）：「繳交」從第 12 步移到第 13 步
+        var step=dd.step||0,done=dd.done||0,v=dd.v||1;
+        if(v<2){if(step>=6&&step<=12)step-=1;if(filled(dd.state.title)&&done>0)done-=1;}
+        else if(v===2&&step===12)step=13;
         return {state:dd.state,step:step,done:done,at:at};
       });
     return withTimeout(p,6000);
@@ -399,7 +401,39 @@
     });
   }
   function renderToolFields(){document.querySelectorAll('[data-kwonly]').forEach(function(n){n.classList.toggle('hidden',!hasKw());});}
-  function refresh(){renderChips();renderToolFields();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();}
+  // ===== 預覽全部內容：7 欄排成一份報告（只讀，內容全部經 esc 跳脫）=====
+  function renderPreview(){
+    var host=$('previewBox');if(!host)return;
+    var s=state,none='<p class="m-0 text-amber-700 font-bold">（還沒寫）</p>';
+    function pv(label,val){return filled(val)?'<p class="m-0 mt-1"><b class="text-slate-500">'+label+'</b><span style="white-space:pre-wrap">'+esc(tr(val))+'</span></p>':'';}
+    function body(qid){
+      switch(qid){
+        case 'url':return filled(s.url)?(URL_RE.test(tr(s.url))?'<p class="m-0"><a href="'+esc(tr(s.url))+'" target="_blank" rel="noopener" class="underline break-all text-indigo-700">'+esc(tr(s.url))+'</a></p>':pv('',s.url)):'';
+        case 'tool':return pv('工具：',s.toolKinds.join('、'))+(hasKw()?pv('我輸入的是：',s.toolB):'');
+        case 'desc':return pv('',s.desc);
+        case 'res':return pv('機構：',s.resOrg)+pv('標籤：',s.resLabel)+pv('重點：',s.resNote);
+        case 'fact':return pv('',s.fact);
+        case 'why':return pv('原因類型：',s.whyKinds.join('、'))+pv('理由：',s.whyText);
+        case 'risk':return pv('後果類型：',s.riskKinds.join('、'))+pv('誰會怎樣：',s.riskText);
+      }
+      return '';
+    }
+    host.innerHTML='';
+    var selName=s.sel&&CARDS[s.sel]?CARDS[s.sel].name:'';
+    var head=el('div','pb-3 border-b-2 border-dashed border-emerald-200 flex items-center gap-2 flex-wrap');
+    head.innerHTML='<div class="flex-1 min-w-0"><p class="cute text-2xl font-extrabold text-emerald-700 m-0">查證報告</p><p class="m-0 text-lg">我查的訊息：'+(selName?'<b>'+esc(selName)+'</b>':'<span class="text-amber-700 font-bold">（還沒選）</span>')+'</p></div>';
+    var hb=el('button','bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-xl px-3 py-1',selName?'換一則':'去選');hb.type='button';hb.onclick=function(){showStep(3);};head.appendChild(hb);
+    host.appendChild(head);
+    REPORT.forEach(function(q,i){
+      var ok=DONE[q.qid](),html=body(q.qid),box=el('div','border-2 rounded-2xl p-4 '+(ok?'border-emerald-200 bg-emerald-50':'border-amber-300 bg-amber-50'));
+      box.innerHTML='<div class="flex items-center gap-2 flex-wrap"><p class="cute text-xl font-extrabold m-0 flex-1">'+(i+1)+' ‧ '+esc(q.name)+'</p>'
+        +'<span class="font-bold text-sm '+(ok?'text-emerald-700':'text-amber-700')+'">'+(ok?'✓ 寫好了':'還沒寫完')+'</span></div>'
+        +'<div class="text-lg text-slate-800 mt-1">'+(html||none)+'</div>';
+      var b=el('button','mt-2 bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-xl px-3 py-1',html?'去改':'去寫');b.type='button';b.onclick=function(){showStep(q.step);};
+      box.appendChild(b);host.appendChild(box);
+    });
+  }
+  function refresh(){renderChips();renderToolFields();renderPreview();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();}
   function renderAll(){fillFields();refresh();}
 
   // ===== 題型（預設＋老師即時切換，§5-6）=====

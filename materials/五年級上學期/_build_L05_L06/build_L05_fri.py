@@ -2,7 +2,7 @@
 # 產生「五上 L05 週五版」學習單：L05（找查核文章）＋ L06（整理成報告）合成一份，
 # 全部寫在學習單裡（不開 Google 文件，所以沒有標題 1/2、超連結、貼格式這些排版步驟）。
 #
-# 流程：開始 → 老師示範 → 選訊息 → 找查核文章 → 7 個填寫節點 → 檢查繳交（共 12 步）
+# 流程：開始 → 老師示範 → 選訊息 → 找查核文章 → 7 個填寫節點 → 預覽全部內容 → 檢查繳交（共 13 步）
 # 7 個節點（照老師指定順序）：查核網址、你使用的搜索工具、原始內容描述、
 #                              查核結果、正確資訊、為什麼會流傳、相信的後果
 # （2026-11-06 教師指定：拿掉「查核報告標題」整節；搜索工具只留「用的工具」與「我輸入的是」，後者只有選了關鍵字搜尋才出現）
@@ -370,10 +370,24 @@ N_RISK = node(11, 7, 'rose', '相信的後果',
     '<label class="lb" for="f_riskText">② 誰會怎樣？ <small>句型：＿＿（誰）相信以後，會＿＿</small></label>'
     '<textarea id="f_riskText" class="fld mt-1" rows="4" data-k="riskText" placeholder="例：有人相信以後，會……"></textarea>')
 
-# ---------- 步驟 12：檢查繳交 ----------
-STEP12 = '''
-  <!-- ===== 步驟 12：檢查繳交 ===== -->
+# ---------- 步驟 12：預覽全部內容（把學生打的 7 欄排成一份報告；內容由 engine 的 renderPreview 依作答填入）----------
+STEP_PREVIEW = '''
+  <!-- ===== 步驟 12：預覽全部內容 ===== -->
   <section class="step hidden" data-step="12">
+    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-emerald-700 m-0">預覽全部內容</h2>
+      <p class="text-lg text-slate-600 mt-1 mb-0">這是你的查證報告，7 欄合起來的樣子。從頭看一遍：有沒有寫錯、漏掉？要改的，按那一欄旁邊的「去改」。</p>
+    </div>
+    <div id="previewBox" class="bg-white border-4 border-emerald-200 rounded-3xl p-5 sm:p-7 space-y-4"></div>
+    <div class="ckptbar" data-ckpt></div>
+    <div class="stepnav"></div>
+  </section>
+'''
+
+# ---------- 步驟 13：檢查繳交 ----------
+STEP13 = '''
+  <!-- ===== 步驟 13：檢查繳交 ===== -->
+  <section class="step hidden" data-step="13">
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-indigo-700">繳交前自己檢查</h2>
       <p class="text-lg text-slate-600 mt-1">下面是 7 欄的狀態。還沒寫完的，按「去寫」跳過去。</p>
@@ -510,7 +524,7 @@ GRADING = '''<script type="application/json" id="grading-spec">
 
 
 def build(assets):
-    body = (TOP + STEP1 + STEP2 + STEP3 + STEP4 + N_URL + N_TOOL + N_DESC + N_RES + N_FACT + N_WHY + N_RISK + STEP12 + BOTTOM)
+    body = (TOP + STEP1 + STEP2 + STEP3 + STEP4 + N_URL + N_TOOL + N_DESC + N_RES + N_FACT + N_WHY + N_RISK + STEP_PREVIEW + STEP13 + BOTTOM)
     engine = io.open(os.path.join(HERE, 'engine_L05_fri.js'), encoding='utf8').read().replace('/*FIREBASE_CONFIG*/', FIREBASE_CFG)
     html = (HEAD_CSS + EXTRA_CSS + '</head>\n' + body + '\n<script>\n' + engine + '\n</script>\n\n' + GRADING + '\n' + CHAIR + '\n' + STEPCARDS + '\n</body>\n</html>\n')
     return html.replace('@@A@@', assets)
