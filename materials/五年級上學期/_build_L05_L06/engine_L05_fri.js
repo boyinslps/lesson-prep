@@ -16,17 +16,16 @@
   function withTimeout(p,ms){return new Promise(function(res,rej){var t=setTimeout(function(){rej(new Error('timeout'));},ms);p.then(function(v){clearTimeout(t);res(v);},function(e){clearTimeout(t);rej(e);});});}
 
   // ===== 題目：qid 對應步驟、題型、題幹 =====
-  var STEP_NAMES=['開始','老師示範','選訊息','找文章','標題','網址','搜尋工具','原始內容','查核結果','正確資訊','為何流傳','相信後果','繳交'];
+  var STEP_NAMES=['開始','老師示範','選訊息','找文章','網址','搜尋工具','原始內容','查核結果','正確資訊','為何流傳','相信後果','繳交'];
   var Q=[
     {qid:'sel',step:3,type:'experience',name:'選一則訊息'},
-    {qid:'title',step:5,type:'experience',report:1,name:'查核報告標題'},
-    {qid:'url',step:6,type:'experience',report:1,name:'查核網址'},
-    {qid:'tool',step:7,type:'open',report:1,name:'你使用的搜索工具',text:'你使用的搜索工具（關鍵字、以圖搜圖、智慧鏡頭）：用了什麼工具、搜了什麼、點進哪個網站、為什麼認定它是查核機構'},
-    {qid:'desc',step:8,type:'open',report:1,name:'原始內容描述',text:'原始內容描述：只描述網傳訊息或影片說了什麼，不做查證判斷'},
-    {qid:'res',step:9,type:'open',report:1,name:'查核結果',text:'查核結果：哪個查核機構、標了什麼結果、一句重點'},
-    {qid:'fact',step:10,type:'open',report:1,name:'正確資訊',text:'正確資訊：用自己的話整理查核文章說的事實，1～3 點，並標出是誰說的'},
-    {qid:'why',step:11,type:'open',report:1,name:'為什麼會流傳',text:'為什麼這則訊息會被廣傳？'},
-    {qid:'risk',step:12,type:'open',report:1,name:'相信的後果',text:'如果相信這則訊息，會有什麼後果？（誰會怎樣）'}
+    {qid:'url',step:5,type:'experience',report:1,name:'查核網址'},
+    {qid:'tool',step:6,type:'open',report:1,name:'你使用的搜索工具',text:'你使用的搜索工具（關鍵字、以圖搜圖、智慧鏡頭）：用了什麼工具；用關鍵字搜尋的，輸入了什麼'},
+    {qid:'desc',step:7,type:'open',report:1,name:'原始內容描述',text:'原始內容描述：只描述網傳訊息或影片說了什麼，不做查證判斷'},
+    {qid:'res',step:8,type:'open',report:1,name:'查核結果',text:'查核結果：哪個查核機構、標了什麼結果、一句重點'},
+    {qid:'fact',step:9,type:'open',report:1,name:'正確資訊',text:'正確資訊：用自己的話整理查核文章說的事實，1～3 點，並標出是誰說的'},
+    {qid:'why',step:10,type:'open',report:1,name:'為什麼會流傳',text:'為什麼這則訊息會被廣傳？'},
+    {qid:'risk',step:11,type:'open',report:1,name:'相信的後果',text:'如果相信這則訊息，會有什麼後果？（誰會怎樣）'}
   ];
   var QMAP={};Q.forEach(function(q){QMAP[q.qid]=q;});
   var STEP_Q={};Q.forEach(function(q){STEP_Q[q.step]=q.qid;});
@@ -44,7 +43,7 @@
   };
 
   // ===== 作答狀態（localStorage）。_owner＝這份作答屬於誰（共用電腦換人時用）=====
-  function freshState(){return {sel:null,title:'',url:'',toolKinds:[],toolA:'',toolB:'',toolC:'',desc:'',resOrg:'',resLabel:'',resNote:'',fact:'',whyKinds:[],whyText:'',riskKinds:[],riskText:'',chk:[],_owner:'',_step:1};}
+  function freshState(){return {sel:null,url:'',toolKinds:[],toolB:'',desc:'',resOrg:'',resLabel:'',resNote:'',fact:'',whyKinds:[],whyText:'',riskKinds:[],riskText:'',chk:[],_owner:'',_step:1};}
   var state=freshState();
   if(!REVIEW_ID){try{var sv=localStorage.getItem(STATE_KEY);if(sv)state=Object.assign(freshState(),JSON.parse(sv));}catch(e){}}
   function save(){
@@ -54,16 +53,17 @@
     try{localStorage.setItem(STATE_KEY,JSON.stringify(state));}catch(e){}
   }
   function hasContent(){
-    return ['sel','title','url','toolA','toolB','toolC','desc','resOrg','resLabel','resNote','fact','whyText','riskText'].some(function(k){return filled(state[k]);})
+    return ['sel','url','toolB','desc','resOrg','resLabel','resNote','fact','whyText','riskText'].some(function(k){return filled(state[k]);})
       ||['toolKinds','whyKinds','riskKinds'].some(function(k){return (state[k]||[]).length>0;});
   }
 
   // ===== 每題「寫好了嗎」＋「交出去的文字」=====
+  function hasKw(){return (state.toolKinds||[]).indexOf('關鍵字搜尋')>=0;}
   var DONE={
     sel:function(){return !!state.sel;},
-    title:function(){return filled(state.title);},
     url:function(){return URL_RE.test(tr(state.url));},
-    tool:function(){return state.toolKinds.length>0&&filled(state.toolA)&&filled(state.toolB)&&filled(state.toolC);},
+    // 只有選了「關鍵字搜尋」才需要寫「我輸入的是」；以圖搜圖、智慧鏡頭沒有這一欄
+    tool:function(){return state.toolKinds.length>0&&(!hasKw()||filled(state.toolB));},
     desc:function(){return filled(state.desc);},
     res:function(){return filled(state.resOrg)&&filled(state.resLabel)&&filled(state.resNote);},
     fact:function(){return filled(state.fact);},
@@ -74,13 +74,10 @@
     var s=state,p=[];
     switch(qid){
       case 'sel':return s.sel?(CARDS[s.sel]?CARDS[s.sel].name:s.sel):'';
-      case 'title':return tr(s.title);
       case 'url':return tr(s.url);
       case 'tool':
         if(s.toolKinds.length)p.push('使用的工具：'+s.toolKinds.join('、'));
-        if(filled(s.toolA))p.push('圈出的關鍵詞或使用的圖片：'+tr(s.toolA));
-        if(filled(s.toolB))p.push('在 Google 輸入或上傳：'+tr(s.toolB));
-        if(filled(s.toolC))p.push('點進哪個網站、為什麼是查核機構：'+tr(s.toolC));
+        if(hasKw()&&filled(s.toolB))p.push('在 Google 輸入：'+tr(s.toolB));
         return p.join('\n');
       case 'desc':return tr(s.desc);
       case 'res':
@@ -231,10 +228,10 @@
   function saveProgress(idn){
     if(!db)return;
     var snap=JSON.parse(JSON.stringify(state));delete snap._owner;delete snap._step;
-    var text='第 '+curStep+' 步・已完成 '+doneCount()+'／'+REPORT.length+' 欄\n'+tr(state.title).slice(0,120)+'\n'+tr(state.url).slice(0,300);
+    var text='第 '+curStep+' 步・已完成 '+doneCount()+'／'+REPORT.length+' 欄\n'+tr(state.url).slice(0,300);
     db.collection('studentWork').doc(workId(idn)).set({
       worksheetId:WS,kind:WORK_KIND,grade:idn.grade,className:idn.className,studentId:idn.studentId,
-      data:{state:snap,step:curStep,done:doneCount(),v:1},text:text.slice(0,1900),updatedAt:firebase.firestore.FieldValue.serverTimestamp()})
+      data:{state:snap,step:curStep,done:doneCount(),v:2},text:text.slice(0,1900),updatedAt:firebase.firestore.FieldValue.serverTimestamp()})
       .catch(function(e){console.warn('進度暫存失敗',e);});
   }
   // 回傳 Promise<null | {state,step,done,at}>；讀取失敗會 reject
@@ -246,7 +243,10 @@
         if(!doc.exists)return null;
         var d=doc.data()||{},dd=d.data||{};if(!dd.state)return null;
         var at=null;try{at=d.updatedAt&&d.updatedAt.toDate();}catch(e){}
-        return {state:dd.state,step:dd.step||0,done:dd.done||0,at:at};
+        // v1（舊版）有「查核報告標題」這一步（第 5 步）：之後的步驟編號都比現在多 1、完成數可能多算標題
+        var step=dd.step||0,done=dd.done||0;
+        if((dd.v||1)<2){if(step>=6)step-=1;if(filled(dd.state.title)&&done>0)done-=1;}
+        return {state:dd.state,step:step,done:done,at:at};
       });
     return withTimeout(p,6000);
   }
@@ -333,12 +333,6 @@
   var JUDGE=/假的|不是真|謠言|不實|造謠|錯誤|誤導|詐騙|騙人|不可信|不要相信|別相信/;
   var CHECKS={
     sel:function(){return [C(!!state.sel,'選了一則訊息')];},
-    title:function(){
-      var t=tr(state.title);
-      return [C(t.length>0,'有貼上標題'),
-        C(t.length>=10,'是完整的標題（查核報告的標題通常超過 10 個字）'),
-        C(t.length>0&&!/文件標題|^標題$|查核報告$/.test(t),'不是「（文件標題）」或「查核報告」這種代替的字')];
-    },
     url:function(){
       var t=tr(state.url),isUrl=URL_RE.test(t),host='';
       if(isUrl){try{host=new URL(t).hostname;}catch(e){}}
@@ -348,12 +342,11 @@
         C(isUrl,'按「測試連結」，開得到同一篇文章')];
     },
     tool:function(){
-      var kw=state.toolKinds.indexOf('關鍵字搜尋')>=0;
-      var l=[C(state.toolKinds.length>0,'選了至少一種工具'),
-        C(filled(state.toolA),'寫了關鍵詞（或用的圖片）'),
-        C(filled(state.toolB),'寫了在 Google 輸入（或上傳）的是什麼')];
-      if(kw&&filled(state.toolB))l.push(C(/查核/.test(state.toolB),'用關鍵字搜尋，輸入的字最後要加「查核」',true));
-      l.push(C(filled(state.toolC),'寫了點進哪個網站、為什麼它是查核機構'));
+      var l=[C(state.toolKinds.length>0,'選了至少一種工具')];
+      if(hasKw()){
+        l.push(C(filled(state.toolB),'寫了在 Google 輸入的是什麼'));
+        if(filled(state.toolB))l.push(C(/查核/.test(state.toolB),'用關鍵字搜尋，輸入的字最後要加「查核」',true));
+      }
       return l;
     },
     desc:function(){
@@ -405,7 +398,8 @@
       row.appendChild(b);host.appendChild(row);
     });
   }
-  function refresh(){renderChips();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();}
+  function renderToolFields(){document.querySelectorAll('[data-kwonly]').forEach(function(n){n.classList.toggle('hidden',!hasKw());});}
+  function refresh(){renderChips();renderToolFields();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();}
   function renderAll(){fillFields();refresh();}
 
   // ===== 題型（預設＋老師即時切換，§5-6）=====
@@ -494,8 +488,8 @@
 
   // ===== 教師模式（§5）=====
   var PREVIEW_KEY='wk_previewMode';
-  var SAMPLE={sel:'C',title:'【誤導】幫陌生人操作手機會被盜取生物特徵去貸款？誇大AI技術！不符金融審核機制',url:'https://www.mygopen.com/2026/02/ai-fraud.html',
-    toolKinds:['關鍵字搜尋'],toolA:'陌生人、操作手機、生物特徵',toolB:'陌生人 操作手機 生物特徵 查核',toolC:'點進 MyGoPen 麥擱騙，它專門查謠言，不是轉載。',
+  var SAMPLE={sel:'C',url:'https://www.mygopen.com/2026/02/ai-fraud.html',
+    toolKinds:['關鍵字搜尋'],toolB:'陌生人 操作手機 生物特徵 查核',
     desc:'網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。這則訊息在臉書流傳。',
     resOrg:'MyGoPen 麥擱騙',resLabel:'誤導',resNote:'MyGoPen 查核後標為「誤導」，重點是這個說法在技術和金融上都不合理。',
     fact:'1. 根據 MyGoPen，只有指紋或臉，不能直接拿去貸款，銀行還要看很多檢查。\n2. 警方和 165 說，台灣查不到這種案件。\n3. 不過，陌生人要你做驗證時，還是要小心。',
