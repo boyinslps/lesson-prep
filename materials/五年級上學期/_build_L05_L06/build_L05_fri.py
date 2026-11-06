@@ -2,10 +2,13 @@
 # 產生「五上 L05 週五版」學習單：L05（找查核文章）＋ L06（整理成報告）合成一份，
 # 全部寫在學習單裡（不開 Google 文件，所以沒有標題 1/2、超連結、貼格式這些排版步驟）。
 #
-# 流程：開始 → 老師示範 → 選訊息 → 找查核文章 → 7 個填寫節點 → 預覽全部內容 → 檢查繳交（共 13 步）
+# 流程：開始 → 選訊息 → 找查核文章 → 7 個填寫節點 → 預覽全部內容 → 繳交（共 12 步）
 # 7 個節點（照老師指定順序）：查核網址、你使用的搜索工具、原始內容描述、
 #                              查核結果、正確資訊、為什麼會流傳、相信的後果
 # （2026-11-06 教師指定：拿掉「查核報告標題」整節；搜索工具只留「用的工具」與「我輸入的是」，後者只有選了關鍵字搜尋才出現）
+# 2026-11-06 依國小課本編排重整：拿掉「老師示範」整步（示範改放在各欄）；每一欄＝本欄目標一句＋「看老師怎麼做」
+#   （操作欄放一支完整影片、寫作欄放標出重點的範例）→ 按「看懂了，換我寫」才出現最多 3 步＋填寫＋檢查表；
+#   每欄檢查表全部打勾就收集一顆 ★（頁面不用 emoji）。
 # 新功能「斷點繳交」：每個節點都能先交一次（老師後台同樣顯示已繳交），並把進度存進 studentWork，
 #                    下次輸入同樣的年級／班級／座號就能拿回。
 # 骨架（CSS、靠椅子關卡、步驟卡）直接取自已發布的 pcclass/g5/L05/index.html，確保行為一致。
@@ -58,12 +61,28 @@ EXTRA_CSS = r'''
   #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:70;background:#065f46;color:#fff;font-weight:800;border-radius:16px;padding:10px 20px;box-shadow:0 8px 24px rgba(0,0,0,.3);max-width:92vw;text-align:center}
   #toast.hidden{display:none}
   .idwarn{animation:idp 1.2s ease-in-out infinite}
-  /* 收集星星 */
-  .starbadge{display:inline-block;margin-left:6px;font-weight:800;font-size:.95rem;color:#94a3b8;border:2px dashed #cbd5e1;border-radius:999px;padding:1px 10px}
+  /* 課本式編排：本欄目標 → 看老師怎麼做 → 換你寫 */
+  .goal{font-size:1.3rem;font-weight:700;color:#334155;margin:.4rem 0 0;line-height:1.6}
+  .parth{font-size:1.5rem;font-weight:900;margin:0 0 .6rem}
+  .opennext{display:block;margin:18px auto 0;background:#4f46e5;color:#fff;font-weight:900;font-size:1.25rem;border-radius:16px;padding:10px 30px}
+  .opennext:hover{background:#4338ca}
+  .opennext.hidden,.fillbox.hidden,[data-kwonly].hidden{display:none}   /* 自己寫的 display 會蓋過 Tailwind 的 hidden，這裡明確補上 */
+  .exbox{background:#fffbeb;border:2px solid #fcd34d;border-radius:16px;padding:12px 16px;font-size:1.25rem;line-height:2}
+  .exbox .exh{margin:0 0 2px;font-size:1rem;font-weight:900;color:#b45309}
+  .exnote{margin:8px 0 0;font-size:1.05rem;color:#64748b}
+  .tag{display:inline-block;font-size:.8rem;font-weight:900;color:#fff;background:#f59e0b;border-radius:999px;padding:0 8px;margin:0 3px;line-height:1.6;vertical-align:middle}
+  .hl{background:#fef08a;border-radius:4px;padding:0 2px}
+  .fieldcell{background:#eef2ff;border:2px solid #c7d2fe;border-radius:14px;padding:8px 10px;font-weight:800;font-size:1.05rem}
+  .selline{font-size:1.15rem;margin:.6rem 0 0}
+  .insbtn{background:#0284c7;color:#fff;font-weight:700;border-radius:12px;padding:4px 12px}
+  .insbtn:hover{background:#0369a1}
+  /* 收集星星（用 ★ 字元，不用 emoji） */
+  .starbadge{display:inline-block;margin-left:10px;font-weight:800;font-size:.95rem;color:#94a3b8;border:2px dashed #cbd5e1;border-radius:999px;padding:1px 10px}
   .starbadge.got{color:#92400e;background:#fef3c7;border:2px solid #f59e0b}
-  .starmini{color:#f59e0b;font-size:1.15em;margin-right:4px}
+  .starmini{color:#cbd5e1;font-size:1.15em;margin-right:4px}
+  .starmini.on{color:#f59e0b}
   #starPop{position:fixed;left:50%;top:110px;transform:translateX(-50%);z-index:80;pointer-events:none;background:#fffbeb;border:4px solid #f59e0b;border-radius:24px;padding:12px 26px;text-align:center;box-shadow:0 12px 32px rgba(0,0,0,.18);animation:starin .45s cubic-bezier(.2,1.4,.4,1)}
-  #starPop .big{font-size:56px;line-height:1.1;display:block;animation:starspin .8s ease-out}
+  #starPop .big{font-size:64px;line-height:1.1;display:block;color:#f59e0b;animation:starspin .8s ease-out}
   @keyframes starin{from{transform:translateX(-50%) scale(.4);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
   @keyframes starspin{from{transform:rotate(-180deg) scale(.3)}to{transform:rotate(0) scale(1)}}
   @media (prefers-reduced-motion:reduce){#starPop,#starPop .big{animation:none}}
@@ -71,16 +90,17 @@ EXTRA_CSS = r'''
 </style>
 '''
 
+LINKS = '''<div class="flex flex-wrap gap-2 mt-4">
+        <a href="https://www.google.com/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2">Google 搜尋</a>
+        <a href="https://tfc-taiwan.org.tw/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2"><img src="https://www.google.com/s2/favicons?domain=tfc-taiwan.org.tw&sz=64" class="w-5 h-5 bg-white rounded" alt="">台灣事實查核中心</a>
+        <a href="https://www.mygopen.com/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2"><img src="https://www.google.com/s2/favicons?domain=mygopen.com&sz=64" class="w-5 h-5 bg-white rounded" alt="">MyGoPen 麥擱騙</a>
+      </div>'''
+
 # ---------- 小零件 ----------
 def media(name, cap=''):
+    """老師示範影片：靜音、循環、點一下暫停（stepcards 元件負責載入）。一個操作一支完整影片，不切碎。"""
     return ('<div class="sc sc-flat sc-nonum" data-sc><div class="sc-slide"><p class="sc-t">%s</p>'
             '<div class="sc-media" data-src="@@A@@%s.mp4" data-poster="@@A@@%s_封面.jpg"></div></div></div>') % (cap, name, name)
-
-
-def clips(label, *items):
-    """操作影片收在「看操作影片」裡（點開才載入）。items＝(檔名, 說明)"""
-    return ('<details class="mt-4 bg-slate-50 border-2 border-slate-300 rounded-2xl p-3"><summary class="cursor-pointer font-extrabold text-slate-700 text-lg">%s</summary>'
-            '<div class="mt-3">%s</div></details>') % (label, ''.join(media(n, c) for n, c in items))
 
 
 def chips(key, items, multi=False, cls=''):
@@ -89,157 +109,95 @@ def chips(key, items, multi=False, cls=''):
         ''.join('<button type="button" class="chip" data-v="%s">%s%s</button>' % (v, '<span class="mk">☐</span>' if multi else '', v) for v in items))
 
 
-def good_bad(good, bad):
-    # 五年級認知負荷：原本是兩個大框，跟檢查表重複；縮成兩行提醒
-    return ('<div class="mt-4 text-lg space-y-1">'
-            '<p class="m-0"><b class="text-emerald-700">✔ 要有：</b>%s</p>'
-            '<p class="m-0"><b class="text-rose-700">✘ 不要：</b>%s</p></div>') % (good, bad)
-
-
-def example_box(ex, starter=''):
-    h = ('<div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4"><p class="font-extrabold text-amber-800 m-0">範例（老師的示範：幫陌生人操作手機）</p>'
-         '<div class="mt-2 text-xl text-slate-800 leading-relaxed">%s</div></div>') % ex
-    if starter:
-        h += ('<div class="bg-sky-50 border-2 border-sky-300 rounded-2xl p-4 mt-3"><p class="font-extrabold text-sky-800 m-0">句型（照著填就好）</p>'
-              '<div class="mt-2 text-lg text-slate-700">%s</div></div>') % starter
-    return h
-
-
-def node(n, k, tone, title, lead, qid, how, right, fill, extra=''):
-    """一個填寫節點。how＝左欄（做什麼、怎麼做）；right＝右欄（範例、好壞對照）；fill＝填寫區。"""
-    return '''
-  <!-- ===== 步驟 %(n)d：%(title)s ===== -->
-  <section class="step hidden" data-step="%(n)d">
-    <div class="bg-white border-4 border-%(t)s-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <p class="text-sm font-bold text-slate-500 m-0">第 %(k)d 欄／共 7 欄　<span class="qtypeSlot" data-qid="%(q)s"></span><span class="starbadge" data-star="%(q)s"></span></p>
-      <h2 class="cute text-3xl font-extrabold text-%(t)s-700 m-0 mt-1">%(title)s</h2>
-      <p class="text-xl text-slate-700 mt-2 mb-0">%(lead)s</p>
-    </div>
-    <div class="grid lg:grid-cols-2 gap-5">
-      <div class="bg-white border-4 border-%(t)s-200 rounded-3xl p-5">
-        <h3 class="cute text-2xl font-extrabold text-%(t)s-700 m-0">怎麼做（照順序）</h3>
-        %(how)s
-      </div>
-      <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">%(right)s</div>
-    </div>
-    <div class="fillbox bg-%(t)s-50 border-4 border-%(t)s-400 rounded-3xl p-5 mt-5">
-      <h3 class="cute text-2xl font-extrabold text-%(t)s-700 m-0">換你寫：%(title)s</h3>
-      %(fill)s
-      <ul class="checks" data-checks="%(q)s"></ul>
-    </div>%(extra)s
-    <div class="ckptbar" data-ckpt></div>
-    <div class="stepnav"></div>
-  </section>
-''' % {'n': n, 'k': k, 't': tone, 'title': title, 'lead': lead, 'q': qid, 'how': how, 'right': right, 'fill': fill, 'extra': extra}
-
-
-def how(*items):
-    return '<ol class="howlist">%s</ol>' % ''.join('<li>%s</li>' % i for i in items)
-
-
 def kb(*ks):
     return '＋'.join('<kbd>%s</kbd>' % k for k in ks)
 
 
-SELNAME = '<div class="bg-teal-50 border-2 border-teal-200 rounded-2xl px-4 py-2 mt-3 text-lg">你選的是：<b data-selname class="text-teal-800">（還沒選，請回第 3 步）</b></div>'
+def steps(*items):
+    """換你寫的步驟：最多 3 步，每步一句短話、動詞開頭。"""
+    assert len(items) <= 3
+    return '<ol class="howlist">%s</ol>' % ''.join('<li>%s</li>' % i for i in items)
+
+
+def ex(html, note=''):
+    """老師的示範（寫作欄）：黃底範例，用 <span class="tag"> 標出每一部分在回答什麼。"""
+    return ('<div class="exbox"><p class="exh">老師的示範</p><div>%s</div></div>' % html
+            + ('<p class="exnote">%s</p>' % note if note else ''))
+
+
+def tag(t):
+    return '<span class="tag">%s</span>' % t
+
+
+def node(n, k, tone, title, goal, qid, demo, todo, fill):
+    """一欄一頁，照國小課本的順序分兩批出現：
+       ① 本欄目標＋看老師怎麼做（影片或範例）→ 按「看懂了，換我寫」→ ② 換你寫（最多 3 步＋填寫＋檢查表）。
+       已經寫過、拿到星星或老師檢視時，②直接展開（engine 的 renderParts）。"""
+    return '''
+  <!-- ===== 步驟 %(n)d：%(title)s ===== -->
+  <section class="step hidden" data-step="%(n)d">
+    <div class="bg-white border-4 border-%(t)s-300 rounded-3xl p-5 mb-4 shadow-sm">
+      <p class="text-sm font-bold text-slate-500 m-0">第 %(k)d 欄／共 7 欄<span class="starbadge" data-star="%(q)s"></span><span class="qtypeSlot" data-qid="%(q)s"></span></p>
+      <h2 class="cute text-3xl font-extrabold text-%(t)s-700 m-0 mt-1">%(title)s</h2>
+      <p class="goal">%(goal)s</p>
+    </div>
+    <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
+      <h3 class="parth text-amber-700">看老師怎麼做</h3>
+      %(demo)s
+      <button type="button" class="opennext" data-open="%(q)s">看懂了，換我寫</button>
+    </div>
+    <div class="fillbox hidden bg-%(t)s-50 border-4 border-%(t)s-400 rounded-3xl p-5 mt-4" data-part="%(q)s">
+      <h3 class="parth text-%(t)s-700">換你寫</h3>
+      %(todo)s
+      %(fill)s
+      <ul class="checks" data-checks="%(q)s"></ul>
+    </div>
+    <div class="ckptbar" data-ckpt></div>
+    <div class="stepnav"></div>
+  </section>
+''' % {'n': n, 'k': k, 't': tone, 'title': title, 'goal': goal, 'q': qid, 'demo': demo, 'todo': todo, 'fill': fill}
+
+
+SELNAME = '<p class="selline">你選的是：<b data-selname></b></p>'
+
+# 選訊息卡片上的難度原本是 ★☆☆，會跟「收集星星」搞混 → 改成文字
+for s_, w_ in (('★☆☆', '簡單'), ('★★☆', '中等'), ('★★★', '較難')):
+    CARDS_HTML = CARDS_HTML.replace('title="查證難易度：星星越多越難">%s</span>' % s_, 'title="查證難易度">難度：%s</span>' % w_)
+assert '★' not in CARDS_HTML
 
 # ---------- 步驟 1：開始 ----------
-FIELD_LIST = [
-    ('1', '查核網址', '那篇文章的整條網址'),
-    ('2', '你使用的搜索工具', '關鍵字、以圖搜圖、智慧鏡頭'),
-    ('3', '原始內容描述', '只描述訊息說了什麼，不判斷真假'),
-    ('4', '查核結果', '哪個機構、標了什麼'),
-    ('5', '正確資訊', '真正的事實，用自己的話'),
-    ('6', '為什麼會流傳', '為什麼大家想轉傳'),
-    ('7', '相信的後果', '相信了，誰會怎樣'),
-]
+FIELD_LIST = ['查核網址', '搜尋工具', '原始內容', '查核結果', '正確資訊', '為什麼流傳', '相信的後果']
 FIELD_QIDS = ['url', 'tool', 'desc', 'res', 'fact', 'why', 'risk']
-FIELD_GRID = ''.join('<div class="bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-3"><p class="font-extrabold m-0"><span class="starmini" data-star-mini="%s">☆</span>%s ‧ %s</p><p class="text-sm text-slate-600 mt-0.5 mb-0">%s</p></div>' % ((q,) + f) for q, f in zip(FIELD_QIDS, FIELD_LIST))
+FIELD_GRID = ''.join('<div class="fieldcell"><span class="starmini" data-star-mini="%s">☆</span>%d ‧ %s</div>' % (q, i + 1, t)
+                     for i, (q, t) in enumerate(zip(FIELD_QIDS, FIELD_LIST)))
 
 STEP1 = '''
   <!-- ===== 步驟 1：開始 ===== -->
   <section class="step" data-step="1">
     <div class="bg-rose-50 border-4 border-rose-400 rounded-3xl p-5 mb-5">
-      <h2 class="cute text-3xl font-extrabold text-rose-700 m-0">第一件事：寫好年級、班級、座號</h2>
-      <p class="text-xl text-slate-800 mt-2 mb-0">畫面最上面有「我是誰」三個框，<b>先填好</b>，再往下做。不用寫名字，三個數字就好。</p>
-      <ul class="list-disc pl-6 mt-2 mb-0 text-lg text-slate-700 space-y-1"><li>老師靠這三個數字找到你的作業。</li><li>例：五年 3 班 12 號 → 年級 5、班級 3、座號 12。班級是 1～14。</li><li>上次存過進度？填好三個數字，按下面的<b>「拿回我上次存的進度」</b>，就能接著寫。</li></ul>
-      <p class="mt-3 mb-0"><button type="button" data-loadwork class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold rounded-xl px-4 py-2 text-lg">拿回我上次存的進度</button>
+      <h2 class="cute text-3xl font-extrabold text-rose-700 m-0">先寫好你是誰</h2>
+      <p class="goal">在最上面填年級、班級、座號。<span class="text-slate-500">例：五年 3 班 12 號 → 5、3、12</span></p>
+      <p class="mt-3 mb-0 text-lg">上一節存過？<button type="button" data-loadwork class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold rounded-xl px-4 py-2 text-lg">拿回我上次存的進度</button>
         <span data-resumemsg class="ml-2 text-base font-bold text-violet-700"></span></p>
     </div>
-    <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-6 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">今天要做的事</h2>
-      <p class="text-xl text-slate-700 mt-2">把一則網路上流傳的訊息查清楚，寫成一份<b>查證報告</b>。報告有 <b>7 個欄位</b>，<b>全部直接寫在這張學習單裡</b>，不用開 Google 文件。</p>
-      <p class="text-xl text-slate-700 mt-2 mb-0">每一欄寫好、<b>檢查表全部打 ✓</b>，就收集一顆 <b>⭐</b>。7 顆全收集，報告就完成了！</p>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-4 text-base">%s</div>
-      <div class="bg-amber-50 border-4 border-dashed border-amber-300 rounded-2xl p-4 mt-5 text-lg text-slate-800">
-        <p class="m-0"><b class="text-amber-800">一節寫不完沒關係：</b>按每一步下面黃色的<b>「先存檔交一次」</b>。下次填同樣的年級、班級、座號，就能拿回來接著寫。</p>
-      </div>
+    <div class="bg-white border-4 border-sky-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">今天的任務</h2>
+      <p class="goal">查一則網路訊息，寫成 7 欄的查證報告。</p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">%s</div>
+      <p class="goal mt-4">每寫好一欄，就收集一顆 <span class="starmini on">★</span>。</p>
+      <p class="text-lg text-slate-600 mt-2 mb-0">寫不完？按黃色的「先存檔交一次」，下次拿回來接著寫。</p>
     </div>
     <div class="stepnav"></div>
   </section>
 ''' % FIELD_GRID
 
-# ---------- 步驟 2：老師示範 ----------
-DEMO_ROWS = [
-    ('1 ‧ 查核網址', '<span class="text-indigo-700 underline break-all">https://www.mygopen.com/2026/02/ai-fraud.html</span>'),
-    ('2 ‧ 你使用的搜索工具', '工具：關鍵字搜尋<br>在 Google 輸入：陌生人 操作手機 生物特徵 查核'),
-    ('3 ‧ 原始內容描述', '網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。這則訊息在臉書流傳。'),
-    ('4 ‧ 查核結果', 'MyGoPen 查核後標為「誤導」，重點是這個說法在技術和金融上都不合理。'),
-    ('5 ‧ 正確資訊', '1. 根據 MyGoPen，只有指紋或臉，不能直接拿去貸款，銀行還要看很多檢查。<br>2. 警方和 165 說，台灣查不到這種案件。<br>3. 不過，陌生人要你做驗證時，還是要小心。'),
-    ('6 ‧ 為什麼會流傳', '訊息說「30 分鐘傾家蕩產」，讓人怕；又寫「轉傳給家人朋友」，大家覺得轉傳是關心家人；還提到 AI 和手機，聽起來很厲害，帶點好奇。'),
-    ('7 ‧ 相信的後果', '有人怕到不敢幫真的需要幫忙的人；也有人把嚇人的訊息再轉給更多人，讓大家一起害怕。'),
-]
-DEMO_TABLE = ''.join('<div class="grid sm:grid-cols-4 gap-2 border-t-2 border-amber-100 py-3"><p class="font-extrabold text-amber-800 m-0">%s</p><div class="sm:col-span-3 text-lg text-slate-800">%s</div></div>' % r for r in DEMO_ROWS)
-
+# ---------- 步驟 2：選訊息 ----------
 STEP2 = '''
-  <!-- ===== 步驟 2：老師示範 ===== -->
+  <!-- ===== 步驟 2：選訊息 ===== -->
   <section class="step hidden" data-step="2">
-    <div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">老師示範：從訊息找到查核文章</h2>
-      <p class="text-lg text-slate-600 mt-1">看老師怎麼做。示範訊息：幫陌生人操作手機，會被盜走指紋？</p>
-    </div>
-    <div class="bg-white border-4 border-amber-200 rounded-3xl p-5 mb-5"><div class="grid md:grid-cols-2 gap-4 items-start"><div><img class="shotimg" src="@@A@@M2_B示範_陌生人手機_網傳訊息.png" alt="示範訊息：兩則臉書貼文，標題寫「人工智能生物信息詐騙，要的不是你的錢而是你這個人」，帳號已遮蔽" loading="lazy"><p class="text-[11px] text-slate-400 mt-1">示範訊息（帳號已遮蔽）・點圖可放大</p></div><p class="text-xl text-slate-800 m-0">網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。</p></div></div>
-    <div class="bg-white border-4 border-violet-200 rounded-3xl p-5 mb-5">
-      <p class="cute text-2xl font-extrabold text-violet-700 m-0">先認識 5 個詞</p>
-      <div class="grid sm:grid-cols-2 gap-x-6 gap-y-1 mt-2 text-lg text-slate-800">
-        <p class="m-0"><b>查核</b>：查清楚一則訊息是真的還是假的。</p>
-        <p class="m-0"><b>查核機構</b>：專門查謠言的團體，例如台灣事實查核中心、MyGoPen。</p>
-        <p class="m-0"><b>查核文章</b>：查核機構把查到的結果，寫成的文章。</p>
-        <p class="m-0"><b>標籤</b>：查核文章標題前面的【錯誤】【誤導】，告訴你結果。</p>
-        <p class="m-0"><b>轉載</b>：新聞或臉書把別人的文章再貼一次，不是原本那一篇。</p>
-      </div>
-    </div>
-    <div class="sc sc-flat" data-sc>
-      <div class="sc-slide"><p class="sc-t">圈出 2～3 個<b>關鍵詞</b></p><p class="text-lg mt-2">不要整句貼去搜。例：<span class="bg-amber-50 border border-amber-300 rounded-lg px-2 font-bold">陌生人</span> <span class="bg-amber-50 border border-amber-300 rounded-lg px-2 font-bold">操作手機</span> <span class="bg-amber-50 border border-amber-300 rounded-lg px-2 font-bold">生物特徵</span></p><p class="text-base text-slate-500 mt-1 mb-0">（生物特徵＝指紋、臉、聲音這些身體的特徵。關鍵詞不一定要用訊息裡的字，也可以換成意思一樣的詞。）</p></div>
-      <div class="sc-slide"><p class="sc-t">Google 打「關鍵詞＋<b>查核</b>」</p><p class="text-lg mt-2 bg-amber-50 border-2 border-amber-200 rounded-xl px-3 py-2">陌生人 操作手機 生物特徵 查核</p></div>
-      <div class="sc-slide"><p class="sc-t">認出<b>查核機構</b></p><p class="text-lg mt-2">看<b>機構名稱</b>：<b>台灣事實查核中心</b>、<b>MyGoPen 麥擱騙</b>，才是專門查謠言的。新聞、貼文是轉載，要點到原始的查核機構。</p></div>
-      <div class="sc-slide"><p class="sc-t">只讀<b>兩個地方</b></p><p class="text-lg mt-2">標題前的<b>標籤</b>（錯誤、誤導…），和最上面的「<b>你可以先知道</b>」。</p></div>
-      <div class="sc-slide"><p class="sc-t">結果</p><p class="text-lg mt-2">MyGoPen「誤導」、台灣事實查核中心「錯誤」，結論一致。</p><p class="text-lg mt-1 text-rose-700 font-bold">搜尋結果最上面的 AI 摘要先跳過，要讀的是查核機構寫的原始文章。</p></div>
-    </div>
-    <details class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <summary class="cursor-pointer cute text-2xl font-extrabold text-amber-700">想先看老師寫好的完整報告？點這裡打開（可以先跳過）</summary>
-      <p class="text-base text-slate-500 mt-2">每一欄只要像這樣，1～3 句就夠。之後每一步也會再給你看那一欄的範例。要換成<b>你自己選的那一則</b>，不能照抄。</p>
-      %s
-    </details>
-    <div class="stepnav"></div>
-  </section>
-''' % DEMO_TABLE
-
-# ---------- 步驟 3：選訊息 ----------
-STEP3 = '''
-  <!-- ===== 步驟 3：選訊息 ===== -->
-  <section class="step hidden" data-step="3">
-    <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-rose-700">選一則你要查的訊息</h2>
-      <p class="text-slate-600 mt-2 text-lg">下面 6 則都是真的在網路上流傳過的：有<b>圖片</b>、有<b>影片</b>。選<b>一則</b>，用今天學的方法查它。選好會顯示「我選這則」。</p>
-      <div class="mt-3 bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 text-base text-slate-700">
-        <p class="font-bold text-amber-800">查證難易度：星星越多越難查</p>
-        <div class="grid sm:grid-cols-3 gap-2 mt-2">
-          <p><span class="text-amber-500 font-extrabold tracking-wider">★☆☆</span> <b>簡單</b>：搜尋第一頁就找得到，結果很明確</p>
-          <p><span class="text-amber-500 font-extrabold tracking-wider">★★☆</span> <b>中等</b>：要多讀一點，或多換幾個關鍵詞</p>
-          <p><span class="text-amber-500 font-extrabold tracking-wider">★★★</span> <b>較難</b>：結果很細微，或要分辨轉載與原始查核機構</p>
-        </div>
-      </div>
+    <div class="bg-white border-4 border-rose-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-rose-700 m-0">選一則你要查的訊息</h2>
+      <p class="goal">6 則都在網路上流傳過。選一則，按「選這則」。</p>
       <div class="flex items-center gap-2 flex-wrap mt-2"><span class="qtypeSlot" data-qid="sel"></span></div>
       <ul class="checks" data-checks="sel"></ul>
     </div>
@@ -249,156 +207,125 @@ STEP3 = '''
   </section>
 '''
 
-# ---------- 步驟 4：找查核文章 ----------
-STEP4 = '''
-  <!-- ===== 步驟 4：找查核文章 ===== -->
-  <section class="step hidden" data-step="4">
-    <div class="bg-white border-4 border-teal-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-teal-700">換你查：找到查核文章</h2>
-      <div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-4 mt-3 text-lg">
-        <p class="m-0">你選的是：<b data-selname class="text-teal-800">（還沒選，請回第 3 步）</b></p>
-        <p data-hint class="text-slate-600 mt-1 mb-0"></p>
-      </div>
+# ---------- 步驟 3：找查核文章 ----------
+STEP3 = '''
+  <!-- ===== 步驟 3：找查核文章 ===== -->
+  <section class="step hidden" data-step="3">
+    <div class="bg-white border-4 border-teal-300 rounded-3xl p-5 mb-4 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-teal-700 m-0">找到查核文章</h2>
+      <p class="goal">找到查核機構寫的那一篇。</p>
+      %(sel)s
+      <p data-hint class="text-lg text-slate-600 mt-1 mb-0"></p>
     </div>
-    <div class="bg-teal-50 border-4 border-teal-200 rounded-3xl p-5 mb-5">
-      <p class="cute text-2xl font-extrabold text-teal-700 mb-2">在新分頁，把查核文章找出來</p>
-      <ol class="howlist">
-        <li>圈 2～3 個<b class="text-teal-700">關鍵詞</b>（訊息有圖，也可以直接用圖片搜）。</li>
-        <li>打開 Google，輸入「關鍵詞＋<b class="text-teal-700">查核</b>」，按 Enter。</li>
-        <li>在結果裡，點機構名稱是 <b class="text-teal-700">台灣事實查核中心</b> 或 <b class="text-teal-700">MyGoPen 麥擱騙</b> 的那一篇。</li>
-        <li>讀懂它：看標題前的<b class="text-teal-700">標籤</b>（錯誤、誤導…），再讀最上面的「<b class="text-teal-700">你可以先知道</b>」。</li>
-        <li><b class="text-rose-700">這個分頁先不要關</b>：接下來 7 欄都要回來這一篇複製或查看。</li>
-      </ol>
-      <div class="flex flex-wrap gap-2 mt-4">
-        <a href="https://www.google.com/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2">Google 搜尋 ↗</a>
-        <a href="https://tfc-taiwan.org.tw/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2"><img src="https://www.google.com/s2/favicons?domain=tfc-taiwan.org.tw&sz=64" class="w-5 h-5 bg-white rounded" alt="">台灣事實查核中心 ↗</a>
-        <a href="https://www.mygopen.com/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-2"><img src="https://www.google.com/s2/favicons?domain=mygopen.com&sz=64" class="w-5 h-5 bg-white rounded" alt="">MyGoPen 麥擱騙 ↗</a>
-      </div>
-      <div class="mt-4 bg-white border-2 border-rose-200 rounded-2xl p-3 text-lg text-slate-700">搜尋結果最上面的 <b>AI 摘要先跳過</b>。新聞、臉書貼文只是<b>轉載</b>，要點到<b>原始的查核機構</b>。</div>
-      %s
-      <div class="bg-white border-2 border-sky-200 rounded-2xl p-4 mt-4">
-        <p class="cute text-xl font-extrabold text-sky-700 m-0">搜不到？換「以圖搜圖」或「智慧鏡頭」</p>
-        <p class="text-lg text-slate-700 mt-1 mb-0">第 2 欄會請你寫用了哪個工具，所以先記得自己用了什麼。</p>
-        %s
-      </div>
+    <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
+      <h3 class="parth text-amber-700">看老師怎麼做</h3>
+      %(v1)s
+      <button type="button" class="opennext" data-open="find">看懂了，換我找</button>
+    </div>
+    <div class="fillbox hidden bg-teal-50 border-4 border-teal-400 rounded-3xl p-5 mt-4" data-part="find">
+      <h3 class="parth text-teal-700">換你找</h3>
+      %(todo)s
+      %(links)s
+      <p class="goal mt-4">找到了？<b class="text-rose-700">這個分頁不要關</b>，下一步要用。</p>
+      <details class="mt-4 bg-white border-2 border-sky-200 rounded-2xl p-3">
+        <summary class="cursor-pointer font-extrabold text-sky-700 text-lg">訊息是圖片或影片？點這裡，看怎麼用圖片找</summary>
+        %(v2)s
+        %(v3)s
+      </details>
     </div>
     <div class="ckptbar" data-ckpt></div>
     <div class="stepnav"></div>
   </section>
-''' % (
-    clips('不會找？看操作影片：從訊息找到查核文章（約 1 分鐘）', ('教學_找到查核文章', '關鍵字搜尋：從訊息找到查核文章')),
-    clips('看操作影片：以圖搜圖、智慧鏡頭', ('教學_以圖搜圖兩種方法', '圖片：智慧鏡頭，或相機圖示貼上圖片'), ('截圖google圖片搜尋_字卡', '影片：按 Win＋Shift＋S 截圖，再搜')))
+''' % {
+    'sel': SELNAME,
+    'v1': media('教學_找到查核文章', '用關鍵字找到查核文章'),
+    'todo': steps('圈 2～3 個關鍵詞，最後加「<b>查核</b>」',
+                  '用 Google 搜尋，<b>跳過</b>最上面的 AI 摘要',
+                  '點<b>台灣事實查核中心</b>或 <b>MyGoPen</b> 的文章'),
+    'links': LINKS,
+    'v2': media('教學_以圖搜圖兩種方法', '用圖片找：以圖搜圖、智慧鏡頭'),
+    'v3': media('截圖google圖片搜尋_字卡', '影片：先按 Win＋Shift＋S 截一張圖再找'),
+}
 
-# ---------- 7 個填寫節點 ----------
-N_URL = node(5, 1, 'indigo', '查核網址',
-    '貼上那篇查核文章的<b>整條網址</b>，讓老師和別人能點進去看。', 'url',
-    how('回到<b>查核文章分頁</b>，點一下最上面的<b>網址列</b>（整條網址會變成藍色）。',
-        '按 ' + kb('Ctrl', 'C') + ' 複製。',
-        '回到這裡，點下面的框，按 ' + kb('Ctrl', 'V') + ' 貼上。',
-        '檢查：開頭是 <b>https://</b>，網址前後沒有多餘的字。按旁邊的「測試連結」，能開到同一篇才對。') +
-        '<div class="mt-3 bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 text-lg">網址裡要看得到 <b>mygopen</b> 或 <b>tfc-taiwan</b>，才是查核機構自己的網站。新聞、臉書轉載的不算。</div>' +
-        clips('看操作影片：複製網址', ('步_網址1_複製網址列', '回到查核文章，點網址列，複製網址')),
-    example_box('<span class="text-indigo-700 underline break-all">https://www.mygopen.com/2026/02/ai-fraud.html</span>') +
-        good_bad('整條網址，只有網址。', '只寫「MyGoPen」；網址前後多了別的字；網址被截掉一半。'),
-    '<label class="lb" for="f_url">貼上查核文章的網址</label>'
-    '<input id="f_url" class="fld mt-1" data-k="url" autocomplete="off" placeholder="https://" inputmode="url">'
-    '<p class="mt-2 mb-0"><a data-urltest href="#" target="_blank" rel="noopener" class="hidden inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl px-4 py-2">測試連結：開開看 ↗</a></p>')
+# ---------- 7 個填寫節點（一欄一頁）----------
+N_URL = node(4, 1, 'indigo', '查核網址', '把查核文章的網址貼過來。', 'url',
+    media('步_網址0_貼到學習單_v2', '複製網址列，回來貼上'),
+    steps('回到查核文章，點上面的<b>網址列</b>',
+          '按 ' + kb('Ctrl', 'C') + ' 複製',
+          '點下面的框，按 ' + kb('Ctrl', 'V') + ' 貼上'),
+    '<label class="lb" for="f_url">查核文章的網址</label>'
+    '<input id="f_url" class="fld mt-1" data-k="url" autocomplete="off" inputmode="url">'
+    '<p class="mt-2 mb-0"><a data-urltest href="#" target="_blank" rel="noopener" class="hidden inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl px-4 py-2">測試連結：開開看</a></p>')
 
-N_TOOL = node(6, 2, 'teal', '你使用的搜索工具',
-    '寫出你是<b>怎麼找到</b>查核文章的：用了哪個工具；用<b>關鍵字搜尋</b>的，再寫你<b>輸入了什麼</b>。讓別人照著做也找得到。', 'tool',
-    how('回想你在<b>第 4 步</b>是怎麼找到查核文章的。',
-        '在下面選你用的工具（用了兩種就選兩種）：<div class="space-y-1 mt-2 text-lg">'
-        '<p class="m-0"><b class="text-teal-800">關鍵字搜尋</b>：在 Google 打字搜尋。</p>'
-        '<p class="m-0"><b class="text-teal-800">以圖搜圖</b>：在 Google 圖片按<b>相機圖示</b>，用圖片搜尋。</p>'
-        '<p class="m-0"><b class="text-teal-800">智慧鏡頭</b>：在圖片上按右鍵，選「Google 智慧鏡頭」。</p></div>',
-        '選了<b>關鍵字搜尋</b>，會多一格「我輸入的是」：回到 Google 分頁，把<b>搜尋框裡的字</b>照抄過來。') +
-        clips('看操作影片：三種搜尋工具', ('教學_找到查核文章', '關鍵字搜尋'), ('教學_以圖搜圖兩種方法', '以圖搜圖／智慧鏡頭'), ('截圖google圖片搜尋_字卡', '影片先截圖再搜')),
-    example_box('<b>工具：</b>關鍵字搜尋<br><b>我輸入的是：</b>陌生人 操作手機 生物特徵 查核') +
-        good_bad('寫出用了哪個工具；用關鍵字搜尋的，也寫出輸入了什麼（最後有加「查核」）。', '只寫「我用 Google 找的」；選了關鍵字搜尋卻沒寫輸入了什麼。'),
-    '<p class="lb">① 我用的工具（可複選）</p>' +
+N_TOOL = node(5, 2, 'teal', '你使用的搜索工具', '你是用什麼方法找到的？', 'tool',
+    ex('工具：<b>關鍵字搜尋</b><br>我輸入的是：陌生人 操作手機 生物特徵 查核'),
+    steps('選你剛剛用的工具（可以選兩個）',
+          '選了關鍵字搜尋：把<b>搜尋框裡的字</b>抄下來'),
+    '<p class="lb">① 我用的工具</p>' +
     chips('toolKinds', ['關鍵字搜尋', '以圖搜圖', '智慧鏡頭'], True) +
     '<div data-kwonly class="hidden">'
-    '<label class="lb" for="f_toolB">② 我輸入的是 <small>在 Google 輸入的字，最後要加「查核」</small></label>'
-    '<input id="f_toolB" class="fld mt-1" data-k="toolB" autocomplete="off" placeholder="例：陌生人 操作手機 生物特徵 查核"></div>')
+    '<label class="lb" for="f_toolB">② 我輸入的是</label>'
+    '<input id="f_toolB" class="fld mt-1" data-k="toolB" autocomplete="off"></div>')
 
-N_DESC = node(7, 3, 'amber', '原始內容描述',
-    '只說這則訊息或影片<b>說了什麼</b>，像向沒看過的朋友轉述。<b>不要寫它是真的還是假的</b>，那是下一欄的事。', 'desc',
-    how('重新看一次你選的訊息（圖片或影片）。',
-        '回答這 <b>3 個問題</b>，訊息裡沒說的就寫「沒說」：<div class="grid sm:grid-cols-3 gap-2 mt-2 text-center text-base"><div class="bg-amber-50 border border-amber-200 rounded-xl p-2"><b>① 說誰？</b></div><div class="bg-amber-50 border border-amber-200 rounded-xl p-2"><b>② 說會發生什麼事？</b></div><div class="bg-amber-50 border border-amber-200 rounded-xl p-2"><b>③ 在哪裡流傳？</b><br>（LINE、臉書…）</div></div><p class="text-base text-slate-500 mt-1 mb-0">訊息有說時間、地點，也可以一起寫。</p>',
-        '把 3 個答案連成 1～3 句話，<b>用自己的話</b>，不要整段抄。按下面「插入句型」可以先得到開頭。',
-        '檢查：有沒有不小心寫了「這是假的」「不要相信」？有的話<b>刪掉</b>，留到「查核結果」再寫。') + SELNAME,
-    example_box('網傳訊息說：只要幫路上的陌生人操作手機、摸螢幕、對著鏡頭說話，指紋、聲音和臉就會被偷走，騙子拿去貸款，30 分鐘就傾家蕩產。這則訊息在臉書流傳。',
-                '網傳訊息說：<b>＿＿</b>（誰）<b>＿＿</b>（會發生什麼事）……這則訊息在<b>＿＿</b>流傳。') +
-        good_bad('只講訊息<b>本身說了什麼</b>，也說了在哪裡流傳。', '「這是假訊息，不要相信」（這是判斷，不是描述）；「一則很可怕的訊息」（沒說內容）。'),
-    '<label class="lb" for="f_desc">用自己的話描述這則訊息或影片 <small>只描述，不判斷真假</small></label>'
-    '<div class="mt-1"><button type="button" data-insert="desc" data-text="網傳訊息說：" class="bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl px-3 py-1">插入句型：網傳訊息說：</button> '
-    '<button type="button" data-insert="desc" data-text="這則訊息在　　流傳。" class="bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl px-3 py-1">插入句型：這則訊息在　流傳</button></div>'
-    '<textarea id="f_desc" class="fld mt-2" rows="4" data-k="desc" placeholder="網傳訊息說：……這則訊息在＿＿流傳。"></textarea>')
+N_DESC = node(6, 3, 'amber', '原始內容描述', '用自己的話說：這則訊息在講什麼。<b>不寫真的假的</b>。', 'desc',
+    ex('網傳訊息說：只要<span class="hl">幫路上的陌生人操作手機</span>' + tag('什麼事') +
+       '，<span class="hl">指紋、聲音和臉就會被偷走，拿去貸款</span>' + tag('會怎樣') +
+       '。這則訊息在<span class="hl">臉書</span>' + tag('在哪裡') + '流傳。'),
+    SELNAME + steps('說出訊息講了<b>什麼事</b>',
+          '說出訊息說<b>會怎樣</b>',
+          '說出在<b>哪裡流傳</b>（LINE、臉書…）'),
+    '<div class="mt-3"><button type="button" data-insert="desc" data-text="網傳訊息說：" class="insbtn">插入：網傳訊息說：</button> '
+    '<button type="button" data-insert="desc" data-text="這則訊息在　　流傳。" class="insbtn">插入：這則訊息在　流傳。</button></div>'
+    '<textarea id="f_desc" class="fld mt-2" rows="4" data-k="desc" aria-label="原始內容描述"></textarea>')
 
-N_RES = node(8, 4, 'rose', '查核結果',
-    '查核機構看完以後，<b>標了什麼結果</b>？寫出<b>哪一家</b>、<b>標什麼</b>、<b>一句重點</b>。', 'res',
-    how('回到<b>查核文章分頁</b>，看標題前面的<b>標籤</b>（錯誤、誤導…）。',
-        '讀文章最上面的「<b>你可以先知道</b>」，找出一句最重要的重點。',
-        '在下面選<b>哪一家</b>機構、選<b>標籤</b>（照文章寫，不要自己換字）。',
-        '用一句話寫<b>重點</b>。想挑戰：再找另一家機構的文章比對，多寫一句。') +
-        clips('看操作影片：看標籤', ('步_結果_看標籤', '看標題前的標籤，和「你可以先知道」')),
-    example_box('MyGoPen 查核後標為「誤導」，重點是這個說法在技術和金融上都不合理。',
-                '<b>＿＿</b>（機構）查核後標為「<b>＿＿</b>」，重點是……') +
-        good_bad('機構名稱、標籤、一句重點，三樣都有。', '只寫「是假的」；標籤自己亂換；沒說是哪一家查的。'),
-    '<p class="lb">① 哪一家機構查的？</p>' + chips('resOrg', ['台灣事實查核中心', 'MyGoPen 麥擱騙', '其他查核機構']) +
-    '<p class="lb">② 標的結果（照文章寫）</p>' + chips('resLabel', ['錯誤', '誤導', '易誤解', '事實釐清', '詐騙', '部分錯誤', '正確', '其他']) +
-    '<label class="lb" for="f_resNote">③ 一句重點 <small>句型：＿＿（機構）查核後標為「＿＿」，重點是……</small></label>'
-    '<textarea id="f_resNote" class="fld mt-1" rows="3" data-k="resNote" placeholder="例：MyGoPen 查核後標為「誤導」，重點是……"></textarea>')
+N_RES = node(7, 4, 'rose', '查核結果', '查核機構給了什麼結果？', 'res',
+    media('步_結果_看標籤_v2', '看標題前的標籤，再看「你可以先知道」') +
+    ex('MyGoPen' + tag('哪一家') + ' 查核後標為「誤導」' + tag('標籤') +
+       '，重點是這個說法在技術和金融上都不合理' + tag('重點') + '。'),
+    steps('選<b>哪一家</b>查的',
+          '選<b>標籤</b>（照文章寫）',
+          '用一句話寫<b>重點</b>'),
+    '<p class="lb">① 哪一家查的</p>' + chips('resOrg', ['台灣事實查核中心', 'MyGoPen 麥擱騙', '其他查核機構']) +
+    '<p class="lb">② 標籤</p>' + chips('resLabel', ['錯誤', '誤導', '易誤解', '事實釐清', '詐騙', '部分錯誤', '正確', '其他']) +
+    '<label class="lb" for="f_resNote">③ 一句重點</label>'
+    '<textarea id="f_resNote" class="fld mt-1" rows="3" data-k="resNote"></textarea>')
 
-N_FACT = node(9, 5, 'emerald', '正確資訊',
-    '查核文章告訴我們<b>真正的事實</b>是什麼？<b>先寫 1 點就過關</b>，寫得出來再加到 3 點。每點用<b>自己的話</b>，說是<b>誰說的</b>。', 'fact',
-    '<div class="grid sm:grid-cols-2 gap-3 mt-3 text-lg"><div class="bg-slate-50 border-2 border-slate-300 rounded-2xl p-3"><p class="font-extrabold text-slate-600 m-0">整段複製（不要這樣）</p><p class="mt-1 mb-0">經查，查核中心洽詢刑事警察局後，警方表示目前國內並無查獲與網傳手法相同之案件，且 165 反詐騙專線亦表示，台灣無此類案例。</p></div><div class="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-3"><p class="font-extrabold text-emerald-700 m-0">整理成自己的話（要這樣）</p><p class="mt-1 mb-0">警方和 165 反詐騙專線說，台灣目前查不到這種手法的案件。</p></div></div>'
-    + how('回到<b>查核文章分頁</b>，讀「你可以先知道」和後面的說明。',
-          '先找出<b>最重要的 1 個事實</b>：是誰（警方、專家、機構）說了什麼。還有力氣，再找第 2、3 個。',
-          '每一點寫<b>一句</b>，用句型：「根據○○，……」「○○說，……」「不過，……」。',
-          '不要整段貼上。整理＝只留重點、用自己的話、標出是誰說的。'),
-    example_box('1. 根據 MyGoPen，只有指紋或臉，不能直接拿去貸款，銀行還要看很多檢查。<br>2. 警方和 165 說，台灣查不到這種案件。<br>3. 不過，陌生人要你做驗證時，還是要小心。',
-                '根據<b>＿＿</b>，……／<b>＿＿</b>說，……／不過，……') +
-        good_bad('每點一句、標出是誰說的、先講最重要的結論。', '整段複製貼上；沒有說是誰說的；只寫「這是假的」。'),
-    '<label class="lb" for="f_fact">正確資訊（1～3 點，每點一句） <small>每點標出是誰說的</small></label>'
-    '<div class="mt-1"><button type="button" data-insert="fact" data-text="1. 根據　　，" class="bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl px-3 py-1">插入：根據……</button> '
-    '<button type="button" data-insert="fact" data-text="2.　　說，" class="bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl px-3 py-1">插入：○○說……</button> '
-    '<button type="button" data-insert="fact" data-text="3. 不過，" class="bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl px-3 py-1">插入：不過……</button></div>'
-    '<textarea id="f_fact" class="fld mt-2" rows="6" data-k="fact" placeholder="1. 根據＿＿，……&#10;2. ＿＿說，……&#10;3. 不過，……"></textarea>')
+N_FACT = node(8, 5, 'emerald', '正確資訊', '真正的事實是什麼？<b>先寫 1 點</b>就可以。', 'fact',
+    ex('1. <span class="hl">根據 MyGoPen</span>，只有指紋或臉，不能直接拿去貸款。<br>'
+       '2. <span class="hl">警方和 165 說</span>，台灣查不到這種案件。',
+       '黃色＝是誰說的。用自己的話寫，不要整段貼上。'),
+    steps('找出<b>最重要</b>的一件事實',
+          '用自己的話寫成<b>一句</b>',
+          '寫出是<b>誰說的</b>（根據○○）'),
+    '<div class="mt-3"><button type="button" data-insert="fact" data-text="根據　　，" class="insbtn">插入：根據……</button> '
+    '<button type="button" data-insert="fact" data-text="　　說，" class="insbtn">插入：○○說……</button></div>'
+    '<textarea id="f_fact" class="fld mt-2" rows="5" data-k="fact" aria-label="正確資訊"></textarea>')
 
-N_WHY = node(10, 6, 'violet', '為什麼會流傳',
-    '這則訊息有什麼地方，讓大家<b>想轉傳</b>？先選原因的<b>類型</b>，再用一兩句<b>說出理由</b>。', 'why',
-    '<p class="text-lg text-slate-700 mt-2 mb-0">常見的 5 類原因：</p><ul class="mt-2 space-y-1 text-lg text-slate-700"><li><b>怕</b>：講得很可怕</li><li><b>好奇／驚奇</b>：聽起來很厲害</li><li><b>關心家人</b>：「轉傳等於救人」</li><li><b>好康</b>：免費、搶先</li><li><b>親友傳來的</b>：因為信任</li></ul>'
-    + how('再看一次你的訊息，找出<b>哪一句話</b>讓你覺得「想轉傳」或「好可怕」。',
-          '在下面選一類（或兩類）原因。',
-          '用一兩句寫理由，最好<b>引用訊息裡的那句話</b>。'),
-    example_box('訊息說「30 分鐘傾家蕩產」，讓人<b>怕</b>；又寫「轉傳給家人朋友」，大家覺得轉傳是<b>關心家人</b>；還提到 AI 和手機，聽起來很厲害，帶點<b>好奇</b>。',
-                '這則訊息讓人<b>＿＿</b>（怕／好奇…），因為它說「<b>＿＿</b>」。') +
-        good_bad('選了類型，還說出訊息裡<b>哪一句</b>造成的。', '「因為很多人相信」（沒說為什麼相信）；只勾類型沒寫理由。'),
-    '<p class="lb">① 原因類型（可複選）</p>' + chips('whyKinds', ['怕', '好奇／驚奇', '關心家人', '好康', '親友傳來的'], True) +
-    '<label class="lb" for="f_whyText">② 說出理由 <small>句型：這則訊息讓人＿＿，因為它說「＿＿」</small></label>'
-    '<textarea id="f_whyText" class="fld mt-1" rows="4" data-k="whyText" placeholder="例：這則訊息讓人怕，因為它說「……」"></textarea>')
+N_WHY = node(9, 6, 'violet', '為什麼會流傳', '這則訊息為什麼讓人想轉傳？', 'why',
+    ex('訊息說「<span class="hl">30 分鐘傾家蕩產</span>」，讓人' + tag('怕') + '；'
+       '又寫「<span class="hl">轉傳給家人朋友</span>」，大家覺得轉傳是' + tag('關心家人') + '。',
+       '黃色＝訊息裡的原句。'),
+    steps('選原因（可以選兩個）',
+          '寫出訊息裡<b>哪一句話</b>讓人想轉傳'),
+    '<p class="lb">① 原因</p>' + chips('whyKinds', ['怕', '好奇／驚奇', '關心家人', '好康', '親友傳來的'], True) +
+    '<label class="lb" for="f_whyText">② 是哪一句話？為什麼？</label>'
+    '<textarea id="f_whyText" class="fld mt-1" rows="4" data-k="whyText"></textarea>')
 
-N_RISK = node(11, 7, 'rose', '相信的後果',
-    '如果有人<b>相信並照做、轉傳</b>，會發生什麼事？要寫出<b>誰</b>會<b>怎樣</b>。', 'risk',
-    '<p class="text-lg text-slate-700 mt-2 mb-0">常見的 4 類後果：</p><ul class="mt-2 space-y-1 text-lg text-slate-700"><li><b>身體</b>：吃錯、做錯</li><li><b>錢</b>：被騙</li><li><b>人際</b>：誤會、吵架</li><li><b>恐慌</b>：嚇到更多人、再轉傳</li></ul>'
-    + how('想一想：誰會相信這則訊息？（家人、同學、陌生人…）',
-          '他相信以後，會<b>做什麼</b>？會<b>發生什麼事</b>？',
-          '在下面選類型，再寫成「<b>誰</b>會<b>怎樣</b>」。'),
-    example_box('有人怕到不敢幫真的需要幫忙的人；也有人把嚇人的訊息再轉給更多人，讓大家一起害怕。',
-                '<b>＿＿</b>（誰）相信以後，會<b>＿＿</b>（怎樣）。') +
-        good_bad('寫出<b>誰</b>會<b>怎樣</b>。', '「會被騙」（沒說誰、怎麼被騙）；「這則訊息是假的」（那是查核結果，不是後果）。'),
-    '<p class="lb">① 後果類型（可複選）</p>' + chips('riskKinds', ['身體', '錢', '人際', '恐慌'], True) +
-    '<label class="lb" for="f_riskText">② 誰會怎樣？ <small>句型：＿＿（誰）相信以後，會＿＿</small></label>'
-    '<textarea id="f_riskText" class="fld mt-1" rows="4" data-k="riskText" placeholder="例：有人相信以後，會……"></textarea>')
+N_RISK = node(10, 7, 'rose', '相信的後果', '如果有人相信了，會怎樣？', 'risk',
+    ex('<span class="hl">有人</span>' + tag('誰') + '怕到不敢幫真的需要幫忙的人' + tag('會怎樣') + '。'),
+    steps('選後果的種類',
+          '寫出<b>誰</b>會<b>怎樣</b>'),
+    '<p class="lb">① 後果的種類</p>' + chips('riskKinds', ['身體', '錢', '人際', '恐慌'], True) +
+    '<label class="lb" for="f_riskText">② 誰會怎樣？</label>'
+    '<textarea id="f_riskText" class="fld mt-1" rows="4" data-k="riskText"></textarea>')
 
-# ---------- 步驟 12：預覽全部內容（把學生打的 7 欄排成一份報告；內容由 engine 的 renderPreview 依作答填入）----------
+# ---------- 步驟 11：預覽全部內容（內容由 engine 的 renderPreview 依作答填入）----------
 STEP_PREVIEW = '''
-  <!-- ===== 步驟 12：預覽全部內容 ===== -->
-  <section class="step hidden" data-step="12">
-    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm">
+  <!-- ===== 步驟 11：預覽全部內容 ===== -->
+  <section class="step hidden" data-step="11">
+    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-4 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-emerald-700 m-0">預覽全部內容</h2>
-      <p class="text-lg text-slate-600 mt-1 mb-0">這是你的查證報告，7 欄合起來的樣子。從頭看一遍：有沒有寫錯、漏掉？要改的，按那一欄旁邊的「去改」。</p>
+      <p class="goal">從頭看一遍。要改的，按「去改」。</p>
     </div>
     <div id="previewBox" class="bg-white border-4 border-emerald-200 rounded-3xl p-5 sm:p-7 space-y-4"></div>
     <div class="ckptbar" data-ckpt></div>
@@ -406,30 +333,22 @@ STEP_PREVIEW = '''
   </section>
 '''
 
-# ---------- 步驟 13：檢查繳交 ----------
-STEP13 = '''
-  <!-- ===== 步驟 13：檢查繳交 ===== -->
-  <section class="step hidden" data-step="13">
-    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-indigo-700">繳交前自己檢查</h2>
-      <p class="text-lg text-slate-600 mt-1">下面是 7 欄的狀態。還沒寫完的，按「去寫」跳過去。</p>
+# ---------- 步驟 12：繳交 ----------
+STEP_SUBMIT = '''
+  <!-- ===== 步驟 12：繳交 ===== -->
+  <section class="step hidden" data-step="12">
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-indigo-700 m-0">繳交</h2>
+      <p class="goal">還沒寫完的，按「去寫」。</p>
       <div id="sumList" class="mt-3 space-y-2"></div>
-      <h3 class="cute text-xl font-extrabold text-indigo-700 mt-5 mb-1">最後再看一次（打勾，只是提醒自己）</h3>
-      <div data-chips="chk" data-multi="1" class="space-y-2 mt-2">
-        <button type="button" class="chip block w-full" data-v="網址是查核機構自己的網站，點得開"><span class="mk">☐</span>網址是查核機構自己的網站，點得開</button>
-        <button type="button" class="chip block w-full" data-v="原始內容描述只講訊息說什麼，沒有判斷真假"><span class="mk">☐</span>原始內容描述只講訊息說什麼，沒有判斷真假</button>
-        <button type="button" class="chip block w-full" data-v="正確資訊用自己的話，有標出是誰說的"><span class="mk">☐</span>正確資訊用自己的話，有標出是誰說的</button>
-        <button type="button" class="chip block w-full" data-v="為什麼流傳、相信的後果都有寫理由"><span class="mk">☐</span>為什麼流傳、相信的後果都有寫理由</button>
-      </div>
     </div>
-    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 shadow-sm text-center mt-6">
-      <h2 class="cute text-xl font-extrabold text-indigo-700 mb-1">繳交學習單</h2>
-      <p class="text-sm text-slate-500 mb-3">確定都填好了嗎？按下面按鈕交給老師（可以重交，會覆蓋前一次，也會蓋掉之前「先存檔交一次」的那份）。</p>
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 shadow-sm text-center">
+      <p class="text-lg text-slate-600 mt-0 mb-3">確定好了，按下面的按鈕交給老師。可以重交。</p>
       <button id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white cute text-xl font-extrabold rounded-2xl py-3">繳交學習單</button>
       <p id="submitStat" class="text-sm font-bold mt-3 min-h-[20px]"></p>
     </div>
     <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-7 mt-6">
-      <div class="text-6xl mb-2 pop">🎉</div>
+      <div class="pop" style="font-size:64px;line-height:1;color:#f59e0b">★</div>
       <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
       <p id="starFinal" class="text-xl font-extrabold text-amber-700 mt-2 mb-0"></p>
       <div class="flex flex-wrap gap-3 justify-center mt-4">
@@ -474,7 +393,7 @@ TOP = '''<body class="text-slate-800">
     <label class="flex items-center gap-1 text-slate-500">座號<input id="idStudent" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-indigo-400 outline-none" inputmode="numeric" maxlength="2"></label>
     <span id="idOk" class="hidden text-emerald-600 font-bold text-xs">✓ 已記住</span>
     <span id="idNeed" class="hidden text-rose-600 font-extrabold text-sm">← 先填年級、班級、座號</span>
-    <span class="ml-auto flex items-center gap-2 text-xs font-bold text-slate-500"><span id="progTxt">⭐ 0／7</span><span class="inline-block w-24 h-2 bg-slate-200 rounded-full overflow-hidden align-middle"><span id="progBar" class="block h-full bg-emerald-500" style="width:0%"></span></span></span>
+    <span class="ml-auto flex items-center gap-2 text-xs font-bold text-slate-500"><span id="progTxt">★ 0／7</span><span class="inline-block w-24 h-2 bg-slate-200 rounded-full overflow-hidden align-middle"><span id="progBar" class="block h-full bg-emerald-500" style="width:0%"></span></span></span>
   </div>
   <div class="max-w-5xl mx-auto px-4 py-2">
     <div id="stepper" class="flex items-start"></div>
@@ -522,7 +441,7 @@ GRADING = '''<script type="application/json" id="grading-spec">
         { "desc": "選了關鍵字搜尋的，寫出在 Google 輸入的字，且最後有加「查核」（沒選關鍵字搜尋的此項直接給分）", "pts": 1 } ] },
     { "qid": "desc", "prompt": "原始內容描述：只描述網傳訊息或影片說了什麼，不做查證判斷", "mode": "checklist",
       "checks": [
-        { "desc": "用自己的話說出訊息說了誰、會發生什麼事（沒說的標「沒說」），並說明在哪裡流傳", "pts": 2 },
+        { "desc": "用自己的話說出訊息講了什麼事、說會怎樣，並說明在哪裡流傳", "pts": 2 },
         { "desc": "只描述，沒有加入「是假的」「不要相信」這類真假判斷", "pts": 1 } ] },
     { "qid": "res", "prompt": "查核結果：哪個查核機構、標了什麼結果、一句重點", "mode": "checklist",
       "checks": [
@@ -547,7 +466,7 @@ GRADING = '''<script type="application/json" id="grading-spec">
 
 
 def build(assets):
-    body = (TOP + STEP1 + STEP2 + STEP3 + STEP4 + N_URL + N_TOOL + N_DESC + N_RES + N_FACT + N_WHY + N_RISK + STEP_PREVIEW + STEP13 + BOTTOM)
+    body = (TOP + STEP1 + STEP2 + STEP3 + N_URL + N_TOOL + N_DESC + N_RES + N_FACT + N_WHY + N_RISK + STEP_PREVIEW + STEP_SUBMIT + BOTTOM)
     engine = io.open(os.path.join(HERE, 'engine_L05_fri.js'), encoding='utf8').read().replace('/*FIREBASE_CONFIG*/', FIREBASE_CFG)
     html = (HEAD_CSS + EXTRA_CSS + '</head>\n' + body + '\n<script>\n' + engine + '\n</script>\n\n' + GRADING + '\n' + CHAIR + '\n' + STEPCARDS + '\n</body>\n</html>\n')
     return html.replace('@@A@@', assets)

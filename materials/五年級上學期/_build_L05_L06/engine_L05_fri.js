@@ -16,17 +16,22 @@
   function withTimeout(p,ms){return new Promise(function(res,rej){var t=setTimeout(function(){rej(new Error('timeout'));},ms);p.then(function(v){clearTimeout(t);res(v);},function(e){clearTimeout(t);rej(e);});});}
 
   // ===== 題目：qid 對應步驟、題型、題幹 =====
-  var STEP_NAMES=['開始','老師示範','選訊息','找文章','網址','搜尋工具','原始內容','查核結果','正確資訊','為何流傳','相信後果','預覽','繳交'];
+  var STEP_NAMES=['開始','選訊息','找文章','網址','搜尋工具','原始內容','查核結果','正確資訊','為何流傳','相信後果','預覽','繳交'];
   var Q=[
-    {qid:'sel',step:3,type:'experience',name:'選一則訊息'},
-    {qid:'url',step:5,type:'experience',report:1,name:'查核網址'},
-    {qid:'tool',step:6,type:'open',report:1,name:'你使用的搜索工具',text:'你使用的搜索工具（關鍵字、以圖搜圖、智慧鏡頭）：用了什麼工具；用關鍵字搜尋的，輸入了什麼'},
-    {qid:'desc',step:7,type:'open',report:1,name:'原始內容描述',text:'原始內容描述：只描述網傳訊息或影片說了什麼，不做查證判斷'},
-    {qid:'res',step:8,type:'open',report:1,name:'查核結果',text:'查核結果：哪個查核機構、標了什麼結果、一句重點'},
-    {qid:'fact',step:9,type:'open',report:1,name:'正確資訊',text:'正確資訊：用自己的話整理查核文章說的事實，1～3 點，並標出是誰說的'},
-    {qid:'why',step:10,type:'open',report:1,name:'為什麼會流傳',text:'為什麼這則訊息會被廣傳？'},
-    {qid:'risk',step:11,type:'open',report:1,name:'相信的後果',text:'如果相信這則訊息，會有什麼後果？（誰會怎樣）'}
+    {qid:'sel',step:2,type:'experience',name:'選一則訊息'},
+    {qid:'url',step:4,type:'experience',report:1,name:'查核網址'},
+    {qid:'tool',step:5,type:'open',report:1,name:'你使用的搜索工具',text:'你使用的搜索工具（關鍵字、以圖搜圖、智慧鏡頭）：用了什麼工具；用關鍵字搜尋的，輸入了什麼'},
+    {qid:'desc',step:6,type:'open',report:1,name:'原始內容描述',text:'原始內容描述：只描述網傳訊息或影片說了什麼，不做查證判斷'},
+    {qid:'res',step:7,type:'open',report:1,name:'查核結果',text:'查核結果：哪個查核機構、標了什麼結果、一句重點'},
+    {qid:'fact',step:8,type:'open',report:1,name:'正確資訊',text:'正確資訊：用自己的話整理查核文章說的事實，1～3 點，並標出是誰說的'},
+    {qid:'why',step:9,type:'open',report:1,name:'為什麼會流傳',text:'為什麼這則訊息會被廣傳？'},
+    {qid:'risk',step:10,type:'open',report:1,name:'相信的後果',text:'如果相信這則訊息，會有什麼後果？（誰會怎樣）'}
   ];
+  // 舊版的步驟清單（拿回舊進度時用名稱對到新的步驟）。v1：有標題；v2：拿掉標題；v3：加預覽；v4（現在）：拿掉老師示範
+  var OLD_STEPS={1:['開始','老師示範','選訊息','找文章','標題','網址','搜尋工具','原始內容','查核結果','正確資訊','為何流傳','相信後果','繳交'],
+    2:['開始','老師示範','選訊息','找文章','網址','搜尋工具','原始內容','查核結果','正確資訊','為何流傳','相信後果','繳交'],
+    3:['開始','老師示範','選訊息','找文章','網址','搜尋工具','原始內容','查核結果','正確資訊','為何流傳','相信後果','預覽','繳交']};
+  var STEP_ALIAS={'標題':'網址','老師示範':'選訊息'};
   var QMAP={};Q.forEach(function(q){QMAP[q.qid]=q;});
   var STEP_Q={};Q.forEach(function(q){STEP_Q[q.step]=q.qid;});
   var REPORT=Q.filter(function(q){return q.report;});
@@ -43,7 +48,7 @@
   };
 
   // ===== 作答狀態（localStorage）。_owner＝這份作答屬於誰（共用電腦換人時用）=====
-  function freshState(){return {sel:null,url:'',toolKinds:[],toolB:'',desc:'',resOrg:'',resLabel:'',resNote:'',fact:'',whyKinds:[],whyText:'',riskKinds:[],riskText:'',chk:[],_owner:'',_step:1};}
+  function freshState(){return {sel:null,url:'',toolKinds:[],toolB:'',desc:'',resOrg:'',resLabel:'',resNote:'',fact:'',whyKinds:[],whyText:'',riskKinds:[],riskText:'',chk:[],open:{},_owner:'',_step:1};}
   var state=freshState();
   if(!REVIEW_ID){try{var sv=localStorage.getItem(STATE_KEY);if(sv)state=Object.assign(freshState(),JSON.parse(sv));}catch(e){}}
   function save(){
@@ -231,7 +236,7 @@
     var text='第 '+curStep+' 步・已完成 '+doneCount()+'／'+REPORT.length+' 欄\n'+tr(state.url).slice(0,300);
     db.collection('studentWork').doc(workId(idn)).set({
       worksheetId:WS,kind:WORK_KIND,grade:idn.grade,className:idn.className,studentId:idn.studentId,
-      data:{state:snap,step:curStep,done:doneCount(),v:3},text:text.slice(0,1900),updatedAt:firebase.firestore.FieldValue.serverTimestamp()})
+      data:{state:snap,step:curStep,done:doneCount(),v:4},text:text.slice(0,1900),updatedAt:firebase.firestore.FieldValue.serverTimestamp()})
       .catch(function(e){console.warn('進度暫存失敗',e);});
   }
   // 回傳 Promise<null | {state,step,done,at}>；讀取失敗會 reject
@@ -243,11 +248,12 @@
         if(!doc.exists)return null;
         var d=doc.data()||{},dd=d.data||{};if(!dd.state)return null;
         var at=null;try{at=d.updatedAt&&d.updatedAt.toDate();}catch(e){}
-        // v1（最早上線版）有「查核報告標題」這一步（第 5 步）：第 6～12 步現在都少 1，完成數可能多算標題
-        // v2（只有 7 欄、沒有預覽）：「繳交」從第 12 步移到第 13 步
         var step=dd.step||0,done=dd.done||0,v=dd.v||1;
-        if(v<2){if(step>=6&&step<=12)step-=1;if(filled(dd.state.title)&&done>0)done-=1;}
-        else if(v===2&&step===12)step=13;
+        if(v<4){
+          var oldNames=OLD_STEPS[v]||OLD_STEPS[1],nm=oldNames[step-1];nm=STEP_ALIAS[nm]||nm;
+          var idx=STEP_NAMES.indexOf(nm);step=idx>=0?idx+1:0;
+          if(v<2&&filled(dd.state.title)&&done>0)done-=1;   // v1 的完成數含「標題」
+        }
         return {state:dd.state,step:step,done:done,at:at};
       });
     return withTimeout(p,6000);
@@ -310,7 +316,7 @@
       host.querySelectorAll('[data-v]').forEach(function(b){
         var v=b.dataset.v,on=multi?(state[k]||[]).indexOf(v)>=0:state[k]===v;
         b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');
-        var mk=b.querySelector('.mk');if(mk)mk.textContent=on?'☑':'☐';
+        var mk=b.querySelector('.mk');if(mk)mk.textContent=on?'✓':'☐';
       });
     });
   }
@@ -319,10 +325,10 @@
   function renderCards(){
     document.querySelectorAll('[data-card]').forEach(function(c){
       var on=state.sel===c.dataset.card;c.classList.toggle('on',on);
-      var bt=c.querySelector('[data-pick]');bt.textContent=on?'✔ 我選這則':'選這則';
+      var bt=c.querySelector('[data-pick]');bt.textContent=on?'✓ 我選這則':'選這則';
     });
     var s=state.sel&&CARDS[state.sel];
-    document.querySelectorAll('[data-selname]').forEach(function(e){e.textContent=s?s.name+'　難度 '+'★'.repeat(s.stars)+'☆'.repeat(3-s.stars):'（還沒選，請回第 3 步）';});
+    document.querySelectorAll('[data-selname]').forEach(function(e){e.textContent=s?s.name+'（難度：'+['','簡單','中等','較難'][s.stars]+'）':'還沒選，回到「選訊息」選一則';});
     document.querySelectorAll('[data-hint]').forEach(function(e){e.textContent=s?s.hint:'';});
   }
   // 網址測試連結
@@ -338,45 +344,45 @@
     url:function(){
       var t=tr(state.url),isUrl=URL_RE.test(t),host='';
       if(isUrl){try{host=new URL(t).hostname;}catch(e){}}
-      return [C(/^https:\/\//i.test(t),'以 https:// 開頭'),
-        C(isUrl,'只有一條網址，前後沒有多餘的字或空格'),
-        C(isUrl&&OK_HOST.test(host),'網址裡有 mygopen 或 tfc-taiwan（查核機構自己的網站）',isUrl),
-        C(isUrl,'按「測試連結」，開得到同一篇文章')];
+      return [C(/^https:\/\//i.test(t),'開頭是 https://'),
+        C(isUrl,'只有網址，沒有別的字'),
+        C(isUrl&&OK_HOST.test(host),'網址裡有 mygopen 或 tfc-taiwan',isUrl),
+        C(isUrl,'按「測試連結」開得到')];
     },
     tool:function(){
-      var l=[C(state.toolKinds.length>0,'選了至少一種工具')];
+      var l=[C(state.toolKinds.length>0,'選了工具')];
       if(hasKw()){
-        l.push(C(filled(state.toolB),'寫了在 Google 輸入的是什麼'));
-        if(filled(state.toolB))l.push(C(/查核/.test(state.toolB),'用關鍵字搜尋，輸入的字最後要加「查核」',true));
+        l.push(C(filled(state.toolB),'寫了輸入的字'));
+        if(filled(state.toolB))l.push(C(/查核/.test(state.toolB),'最後要加「查核」',true));
       }
       return l;
     },
     desc:function(){
       var t=tr(state.desc),m=t.match(JUDGE);
-      var l=[C(t.length>=30,'寫出訊息的內容（至少一兩句話）'),
-        C(/流傳|LINE|Line|臉書|FB|IG|Threads|YouTube|TikTok|抖音|網路|群組|轉傳|社群|傳/.test(t),'說了這則訊息在哪裡流傳（沒說就寫「沒說」）')];
-      if(m)l.push(C(false,'出現了「'+m[0]+'」：如果是訊息裡本來就有的字沒關係；如果是你的判斷，請刪掉，留到「查核結果」寫',true));
-      else l.push(C(t.length>0,'只描述，沒有寫真假判斷'));
+      var l=[C(t.length>=30,'寫了一兩句（30 字以上）'),
+        C(/流傳|LINE|Line|臉書|FB|IG|Threads|YouTube|TikTok|抖音|網路|群組|轉傳|社群|傳/.test(t),'說了在哪裡流傳')];
+      if(m)l.push(C(false,'有「'+m[0]+'」：是你的判斷就刪掉',true));
+      else l.push(C(t.length>0,'沒有寫真的假的'));
       return l;
     },
     res:function(){
-      return [C(filled(state.resOrg),'選了哪一家機構'),C(filled(state.resLabel),'選了查核標籤'),
-        C(tr(state.resNote).length>=10,'寫了一句重點（至少 10 個字）')];
+      return [C(filled(state.resOrg),'選了哪一家'),C(filled(state.resLabel),'選了標籤'),
+        C(tr(state.resNote).length>=10,'寫了一句重點')];
     },
     fact:function(){
       var t=tr(state.fact),lines=t.split(/\n+/).filter(filled),long=lines.some(function(x){return x.length>110;});
-      return [C(t.length>=20,'寫了至少一點事實'),
-        C(/根據|說|表示|指出|MyGoPen|查核中心|警方|165|衛福|專家|機構|官方|消防|氣象/.test(t),'有標出是誰說的（根據○○／○○說）'),
-        long?C(false,'有一句太長了，是不是整段複製？試著縮成一句自己的話',true):C(t.length>0,'每點一句、不是整段複製')];
+      return [C(t.length>=20,'寫了一點事實'),
+        C(/根據|說|表示|指出|MyGoPen|查核中心|警方|165|衛福|專家|機構|官方|消防|氣象/.test(t),'寫了是誰說的'),
+        long?C(false,'有一句太長，改成自己的話',true):C(t.length>0,'用自己的話，一點一句')];
     },
     why:function(){
       var t=tr(state.whyText);
-      return [C(state.whyKinds.length>0,'選了至少一類原因'),C(t.length>=15,'寫了理由（至少一句話）'),
-        C(/[「『"]/.test(t),'最好引用訊息裡的那句話（用「」框起來）',t.length>0)];
+      return [C(state.whyKinds.length>0,'選了原因'),C(t.length>=15,'寫了理由'),
+        C(/[「『"]/.test(t),'用「」框出訊息的原句',t.length>0)];
     },
     risk:function(){
       var t=tr(state.riskText);
-      return [C(state.riskKinds.length>0,'選了至少一類後果'),
+      return [C(state.riskKinds.length>0,'選了種類'),
         C(/有人|我|大家|家人|別人|老人|長輩|學生|小孩|同學|朋友|民眾|他們|人們|陌生人|消費者|媽媽|爸爸|阿公|阿嬤/.test(t),'寫了「誰」'),
         C(t.length>=15,'寫了「會怎樣」（至少一句話）')];
     }
@@ -389,24 +395,24 @@
   }
   function renderProgress(){
     var n=starCount(),t=REPORT.length;
-    $('progTxt').textContent='⭐ '+n+'／'+t;$('progBar').style.width=Math.round(n/t*100)+'%';
+    $('progTxt').innerHTML='<b style="color:#f59e0b">★</b> '+n+'／'+t;$('progBar').style.width=Math.round(n/t*100)+'%';
   }
-  // ===== 收集星星：一欄寫好、檢查表沒有 ☐（全部 ✓，「!」提醒不擋）就拿到一顆 ⭐ =====
+  // ===== 收集星星：一欄寫好、檢查表沒有 ☐（全部 ✓，「!」提醒不擋）就拿到一顆 ★ =====
   function starOf(qid){return DONE[qid]()&&!CHECKS[qid]().some(function(c){return c.s==='todo';});}
   function starCount(){return REPORT.filter(function(q){return starOf(q.qid);}).length;}
   var STAR_SEEN={},starLive=false,starT;   // starLive=false 時（載入、拿回進度）只記錄不慶祝
   function renderStars(){
     var n=starCount(),t=REPORT.length,fresh=null;
-    document.querySelectorAll('[data-star]').forEach(function(x){var ok=starOf(x.dataset.star);x.className='starbadge'+(ok?' got':'');x.textContent=ok?'⭐ 拿到這顆星了！':'☆ 檢查表全部打 ✓，就拿到這顆星';});
-    document.querySelectorAll('[data-star-mini]').forEach(function(x){x.textContent=starOf(x.dataset.starMini)?'⭐':'☆';});
-    var f=$('starFinal');if(f)f.textContent='你收集了 '+n+'／'+t+' 顆星'+(n===t?'，全部收集完成！':'。');
+    document.querySelectorAll('[data-star]').forEach(function(x){var ok=starOf(x.dataset.star);x.className='starbadge'+(ok?' got':'');x.textContent=ok?'★ 拿到這顆星了':'☆ 檢查表全部打勾，就拿到 ★';});
+    document.querySelectorAll('[data-star-mini]').forEach(function(x){var ok=starOf(x.dataset.starMini);x.textContent=ok?'★':'☆';x.classList.toggle('on',ok);});
+    var f=$('starFinal');if(f)f.textContent='你收集了 '+n+'／'+t+' 顆 ★'+(n===t?'，全部收集完成！':'。');
     REPORT.forEach(function(q){if(starOf(q.qid)&&!STAR_SEEN[q.qid]){STAR_SEEN[q.qid]=true;fresh=q;}});
     if(fresh&&starLive&&!REVIEW_ID)starPop(fresh,n,t);
   }
   function starPop(q,n,t){
     var old=$('starPop');if(old)old.remove();
     var p=el('div','');p.id='starPop';p.setAttribute('role','status');
-    p.innerHTML='<span class="big">⭐</span><b class="cute" style="font-size:1.5rem;color:#b45309">拿到第 '+n+' 顆星！</b>'
+    p.innerHTML='<span class="big">★</span><b class="cute" style="font-size:1.5rem;color:#b45309">拿到第 '+n+' 顆星！</b>'
       +'<div style="font-weight:700;color:#78350f">'+esc(q.name)+' 完成'+(n===t?'<br>7 顆全收集！去「預覽」看看你的報告':'・還差 '+(t-n)+' 顆')+'</div>';
     document.body.appendChild(p);clearTimeout(starT);starT=setTimeout(function(){p.remove();},n===t?3500:2200);
   }
@@ -414,11 +420,25 @@
     var host=$('sumList');if(!host)return;host.innerHTML='';
     REPORT.forEach(function(q,i){
       var ok=DONE[q.qid](),row=el('div','flex items-center gap-3 flex-wrap bg-'+(ok?'emerald':'slate')+'-50 border-2 border-'+(ok?'emerald':'slate')+'-200 rounded-2xl px-4 py-2');
-      row.innerHTML='<span class="font-extrabold text-lg flex-1">'+(i+1)+' ‧ '+esc(q.name)+'</span><span class="font-bold '+(ok?'text-emerald-700':'text-amber-700')+'">'+(ok?'✓ 寫好了':'還沒寫完')+'</span><span class="text-xl" title="'+(starOf(q.qid)?'拿到星星了':'檢查表還有沒打 ✓ 的')+'">'+(starOf(q.qid)?'⭐':'☆')+'</span>';
+      row.innerHTML='<span class="font-extrabold text-lg flex-1">'+(i+1)+' ‧ '+esc(q.name)+'</span><span class="font-bold '+(ok?'text-emerald-700':'text-amber-700')+'">'+(ok?'✓ 寫好了':'還沒寫完')+'</span><span class="starmini'+(starOf(q.qid)?' on':'')+'" style="font-size:1.4rem">'+(starOf(q.qid)?'★':'☆')+'</span>';
       var b=el('button','bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-xl px-3 py-1',ok?'再看看':'去寫');b.type='button';b.onclick=function(){showStep(q.step);};
       row.appendChild(b);host.appendChild(row);
     });
   }
+  function partOpen(k){
+    if(REVIEW_ID||(state.open&&state.open[k]))return true;
+    if(k==='find')return filled(state.url);
+    return !!(DONE[k]&&given(k));
+  }
+  function renderParts(){
+    document.querySelectorAll('[data-part]').forEach(function(p){p.classList.toggle('hidden',!partOpen(p.dataset.part));});
+    document.querySelectorAll('[data-open]').forEach(function(b){b.classList.toggle('hidden',partOpen(b.dataset.open));});
+  }
+  document.addEventListener('click',function(ev){
+    var b=ev.target.closest&&ev.target.closest('[data-open]');if(!b)return;
+    var k=b.dataset.open;state.open=state.open||{};state.open[k]=true;save();refresh();
+    var p=document.querySelector('[data-part="'+k+'"]');if(p)p.scrollIntoView({behavior:'smooth',block:'start'});
+  });
   function renderToolFields(){document.querySelectorAll('[data-kwonly]').forEach(function(n){n.classList.toggle('hidden',!hasKw());});}
   // ===== 預覽全部內容：7 欄排成一份報告（只讀，內容全部經 esc 跳脫）=====
   function renderPreview(){
@@ -440,19 +460,19 @@
     host.innerHTML='';
     var selName=s.sel&&CARDS[s.sel]?CARDS[s.sel].name:'';
     var head=el('div','pb-3 border-b-2 border-dashed border-emerald-200 flex items-center gap-2 flex-wrap');
-    head.innerHTML='<div class="flex-1 min-w-0"><p class="cute text-2xl font-extrabold text-emerald-700 m-0">查證報告</p><p class="m-0 text-lg">我查的訊息：'+(selName?'<b>'+esc(selName)+'</b>':'<span class="text-amber-700 font-bold">（還沒選）</span>')+'</p><p class="m-0 text-lg font-extrabold text-amber-700">我收集到 ⭐ '+starCount()+'／'+REPORT.length+' 顆星</p></div>';
-    var hb=el('button','bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-xl px-3 py-1',selName?'換一則':'去選');hb.type='button';hb.onclick=function(){showStep(3);};head.appendChild(hb);
+    head.innerHTML='<div class="flex-1 min-w-0"><p class="cute text-2xl font-extrabold text-emerald-700 m-0">查證報告</p><p class="m-0 text-lg">我查的訊息：'+(selName?'<b>'+esc(selName)+'</b>':'<span class="text-amber-700 font-bold">（還沒選）</span>')+'</p><p class="m-0 text-lg font-extrabold text-amber-700">我收集到 <span style="color:#f59e0b">★</span> '+starCount()+'／'+REPORT.length+'</p></div>';
+    var hb=el('button','bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-xl px-3 py-1',selName?'換一則':'去選');hb.type='button';hb.onclick=function(){showStep(QMAP.sel.step);};head.appendChild(hb);
     host.appendChild(head);
     REPORT.forEach(function(q,i){
       var ok=DONE[q.qid](),html=body(q.qid),box=el('div','border-2 rounded-2xl p-4 '+(ok?'border-emerald-200 bg-emerald-50':'border-amber-300 bg-amber-50'));
       box.innerHTML='<div class="flex items-center gap-2 flex-wrap"><p class="cute text-xl font-extrabold m-0 flex-1">'+(i+1)+' ‧ '+esc(q.name)+'</p>'
-        +'<span class="font-bold text-sm '+(ok?'text-emerald-700':'text-amber-700')+'">'+(ok?'✓ 寫好了':'還沒寫完')+'</span><span class="text-xl">'+(starOf(q.qid)?'⭐':'☆')+'</span></div>'
+        +'<span class="font-bold text-sm '+(ok?'text-emerald-700':'text-amber-700')+'">'+(ok?'✓ 寫好了':'還沒寫完')+'</span><span class="starmini'+(starOf(q.qid)?' on':'')+'" style="font-size:1.4rem">'+(starOf(q.qid)?'★':'☆')+'</span></div>'
         +'<div class="text-lg text-slate-800 mt-1">'+(html||none)+'</div>';
       var b=el('button','mt-2 bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-xl px-3 py-1',html?'去改':'去寫');b.type='button';b.onclick=function(){showStep(q.step);};
       box.appendChild(b);host.appendChild(box);
     });
   }
-  function refresh(){renderChips();renderToolFields();renderPreview();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();renderStars();}
+  function refresh(){renderChips();renderParts();renderToolFields();renderPreview();renderCards();renderUrlTest();renderChecks();renderProgress();renderSummary();renderStepper();renderStars();}
   function renderAll(){fillFields();refresh();}
 
   // ===== 題型（預設＋老師即時切換，§5-6）=====
@@ -497,8 +517,8 @@
   var submittedOnce=false,pendingCk=null;
   // 每個節點的「先存檔交一次」：走同一顆 #submitBtn（靠椅子關卡才攔得到），用 pendingCk 標記是斷點
   document.querySelectorAll('[data-ckpt]').forEach(function(box){
-    box.innerHTML='<div class="flex items-center gap-3 flex-wrap"><button type="button" class="ckBtn">先存檔交一次（斷點繳交）</button><span class="ckStat text-sm font-bold"></span></div>'
-      +'<p class="text-sm text-slate-600 mt-2 mb-0">還沒寫完也可以先交：老師會看到你<b>已經繳交</b>，你寫的內容也<b>存起來</b>了。下次輸入<b>同樣的年級、班級、座號</b>就能拿回來接著寫。</p>';
+    box.innerHTML='<div class="flex items-center gap-3 flex-wrap"><button type="button" class="ckBtn">先存檔交一次</button><span class="ckStat text-sm font-bold"></span></div>'
+      +'<p class="text-sm text-slate-600 mt-2 mb-0">寫不完先按，下次用同樣的年級、班級、座號拿回來。</p>';
     box.querySelector('.ckBtn').onclick=function(){pendingCk={final:false};$('submitBtn').click();};
   });
   $('submitBtn').addEventListener('pointerdown',function(){pendingCk=null;},true);   // 真的用滑鼠按最後一步的鈕＝正式繳交
