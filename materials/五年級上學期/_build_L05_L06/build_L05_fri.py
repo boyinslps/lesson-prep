@@ -66,6 +66,13 @@ EXTRA_CSS = r'''
   .parth{font-size:1.5rem;font-weight:900;margin:0 0 .6rem}
   .opennext{display:block;margin:18px auto 0;background:#4f46e5;color:#fff;font-weight:900;font-size:1.25rem;border-radius:16px;padding:10px 30px}
   .opennext:hover{background:#4338ca}
+  .mhead{font-size:1.2rem;font-weight:900;color:#0f766e;margin:.9rem 0 .2rem}
+  .parthrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .parthrow .parth{margin:0}
+  .reviewbtn{background:#fff;border:2px solid #f59e0b;color:#b45309;font-weight:800;border-radius:12px;padding:4px 14px}
+  .reviewbtn:hover{background:#fffbeb}
+  [data-demo].flash{animation:demoflash 1.4s ease-out}
+  @keyframes demoflash{0%,60%{box-shadow:0 0 0 6px rgba(245,158,11,.55)}100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}}
   .opennext.hidden,.fillbox.hidden,[data-kwonly].hidden{display:none}   /* 自己寫的 display 會蓋過 Tailwind 的 hidden，這裡明確補上 */
   .exbox{background:#fffbeb;border:2px solid #fcd34d;border-radius:16px;padding:12px 16px;font-size:1.25rem;line-height:2}
   .exbox .exh{margin:0 0 2px;font-size:1rem;font-weight:900;color:#b45309}
@@ -100,10 +107,11 @@ LINKS = '''<div class="flex flex-wrap gap-2 mt-4">
       </div>'''
 
 # ---------- 小零件 ----------
-def media(name, cap=''):
-    """老師示範影片：靜音、循環、點一下暫停（stepcards 元件負責載入）。一個操作一支完整影片，不切碎。"""
+def media(name, cap='', at='@@A@@'):
+    """老師示範影片：靜音、循環、點一下暫停（stepcards 元件負責載入）。一個操作一支完整影片，不切碎。
+    at＝素材資料夾代號：@@A@@＝L05 素材、@@A4@@＝L04 素材（智慧鏡頭）。"""
     return ('<div class="sc sc-flat sc-nonum" data-sc><div class="sc-slide"><p class="sc-t">%s</p>'
-            '<div class="sc-media" data-src="@@A@@%s.mp4" data-poster="@@A@@%s_封面.jpg"></div></div></div>') % (cap, name, name)
+            '<div class="sc-media" data-src="%s%s.mp4" data-poster="%s%s_封面.jpg"></div></div></div>') % (cap, at, name, at, name)
 
 
 def chips(key, items, multi=False, cls=''):
@@ -144,13 +152,13 @@ def node(n, k, tone, title, goal, qid, demo, todo, fill):
       <h2 class="cute text-3xl font-extrabold text-%(t)s-700 m-0 mt-1">%(title)s</h2>
       <p class="goal">%(goal)s</p>
     </div>
-    <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
+    <div class="bg-white border-4 border-amber-200 rounded-3xl p-5" data-demo="%(q)s">
       <h3 class="parth text-amber-700">看老師怎麼做</h3>
       %(demo)s
       <button type="button" class="opennext" data-open="%(q)s">看懂了，換我寫</button>
     </div>
     <div class="fillbox hidden bg-%(t)s-50 border-4 border-%(t)s-400 rounded-3xl p-5 mt-4" data-part="%(q)s">
-      <h3 class="parth text-%(t)s-700">換你寫</h3>
+      <div class="parthrow"><h3 class="parth text-%(t)s-700">換你寫</h3><button type="button" class="reviewbtn" data-review="%(q)s">再看一次示範</button></div>
       %(todo)s
       %(fill)s
       <ul class="checks" data-checks="%(q)s"></ul>
@@ -220,19 +228,24 @@ STEP3 = '''
       %(sel)s
       <p data-hint class="text-lg text-slate-600 mt-1 mb-0"></p>
     </div>
-    <div class="bg-white border-4 border-amber-200 rounded-3xl p-5">
+    <div class="bg-white border-4 border-amber-200 rounded-3xl p-5" data-demo="find">
       <h3 class="parth text-amber-700">看老師怎麼做</h3>
+      <p class="mhead">方法一：用關鍵字找</p>
       %(v1)s
+      <p class="mhead">方法二：用智慧鏡頭找（訊息有圖片時）</p>
+      %(v2)s
       <button type="button" class="opennext" data-open="find">看懂了，換我找</button>
     </div>
     <div class="fillbox hidden bg-teal-50 border-4 border-teal-400 rounded-3xl p-5 mt-4" data-part="find">
-      <h3 class="parth text-teal-700">換你找</h3>
+      <div class="parthrow"><h3 class="parth text-teal-700">換你找</h3><button type="button" class="reviewbtn" data-review="find">再看一次示範</button></div>
+      <p class="mhead">用關鍵字</p>
       %(todo)s
+      <p class="mhead">訊息有圖片：用智慧鏡頭</p>
+      %(todo2)s
       %(links)s
       <p class="goal mt-4">找到了？<b class="text-rose-700">這個分頁不要關</b>，下一步要用。</p>
       <details class="mt-4 bg-white border-2 border-sky-200 rounded-2xl p-3">
-        <summary class="cursor-pointer font-extrabold text-sky-700 text-lg">訊息是圖片或影片？點這裡，看怎麼用圖片找</summary>
-        %(v2)s
+        <summary class="cursor-pointer font-extrabold text-sky-700 text-lg">訊息是影片？先截一張圖，再用智慧鏡頭找</summary>
         %(v3)s
       </details>
     </div>
@@ -245,8 +258,10 @@ STEP3 = '''
     'todo': steps('圈 2～3 個關鍵詞，最後加「<b>查核</b>」',
                   '用 Google 搜尋，<b>跳過</b>最上面的 AI 摘要',
                   '點<b>台灣事實查核中心</b>或 <b>MyGoPen</b> 的文章'),
+    'todo2': steps('在圖片上按右鍵，選「用 Google <b>智慧鏡頭</b>搜尋」',
+                   '看右邊的結果，點<b>查核機構</b>的文章'),
     'links': LINKS,
-    'v2': media('教學_以圖搜圖兩種方法', '用圖片找：以圖搜圖、智慧鏡頭'),
+    'v2': media('智慧鏡頭', '圖片按右鍵 → 智慧鏡頭 → 看右邊的結果', '@@A4@@'),
     'v3': media('截圖google圖片搜尋_字卡', '影片：先按 Win＋Shift＋S 截一張圖再找'),
 }
 
@@ -325,7 +340,7 @@ N_WHY = node(9, 6, 'violet', '為什麼會流傳', '這則訊息為什麼讓人�
     ex('訊息說「<span class="hl">30 分鐘傾家蕩產</span>」，讓人' + tag('怕') + '；'
        '又寫「<span class="hl">轉傳給家人朋友</span>」，大家覺得轉傳是' + tag('關心家人') + '。',
        '黃色＝訊息裡的原句。'),
-    steps('找出訊息裡<b>讓人想轉傳</b>的那一句，用「」框起來',
+    steps('找出訊息裡<b>讓人想轉傳</b>的那一句',
           '寫出這句話讓人有什麼<b>感覺</b>（怕？好奇？想幫忙？）'),
     '<label class="lb" for="f_whyText">為什麼大家想轉傳？</label>'
     '<textarea id="f_whyText" class="fld mt-1" rows="4" data-k="whyText"></textarea>')
@@ -483,11 +498,14 @@ GRADING = '''<script type="application/json" id="grading-spec">
 </script>'''
 
 
-def build(assets):
+def build(assets, assets4=None):
+    # L04 素材：教材資料夾 ../L04_認識農場文與業配文/assets/、發布資料夾 ../L04/assets/
+    if assets4 is None:
+        assets4 = assets.replace('L05_Docs查證文件一', 'L04_認識農場文與業配文') if 'L05_Docs' in assets else assets.replace('/L05/', '/L04/')
     body = (TOP + STEP1 + STEP2 + STEP3 + N_URL + N_TOOL + N_DESC + N_RES + N_FACT + N_WHY + N_RISK + STEP_PREVIEW + STEP_SUBMIT + BOTTOM)
     engine = io.open(os.path.join(HERE, 'engine_L05_fri.js'), encoding='utf8').read().replace('/*FIREBASE_CONFIG*/', FIREBASE_CFG)
     html = (HEAD_CSS + EXTRA_CSS + '</head>\n' + body + '\n<script>\n' + engine + '\n</script>\n\n' + GRADING + '\n' + CHAIR + '\n' + STEPCARDS + '\n</body>\n</html>\n')
-    return html.replace('@@A@@', assets)
+    return html.replace('@@A4@@', assets4).replace('@@A@@', assets)
 
 
 def write(path, html):

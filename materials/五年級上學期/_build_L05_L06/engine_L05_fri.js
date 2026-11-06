@@ -377,8 +377,7 @@
     },
     why:function(){
       var t=tr(state.whyText);
-      return [C(/[「『"]/.test(t),'用「」框出訊息的原句',t.length>0),
-        C(t.length>=15,'寫了為什麼想轉傳'),
+      return [C(t.length>=15,'寫了為什麼想轉傳'),
         C(/怕|擔心|緊張|恐慌|好奇|驚奇|厲害|神奇|想幫|幫忙|關心|家人|救人|好康|免費|便宜|搶|相信|信任|朋友|親友|感動|生氣|有趣/.test(t),'說了讓人有什麼感覺',t.length>0)];
     },
     risk:function(){
@@ -437,7 +436,18 @@
   document.addEventListener('click',function(ev){
     var b=ev.target.closest&&ev.target.closest('[data-open]');if(!b)return;
     var k=b.dataset.open;state.open=state.open||{};state.open[k]=true;save();refresh();
-    var p=document.querySelector('[data-part="'+k+'"]');if(p)p.scrollIntoView({behavior:'smooth',block:'start'});
+    scrollToEl(document.querySelector('[data-part="'+k+'"]'));
+  });
+  function scrollToEl(el){
+    if(!el)return;var bar=document.querySelector('.sticky');var off=(bar?bar.offsetHeight:0)+16;
+    window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-off,behavior:'smooth'});
+  }
+  document.addEventListener('click',function(ev){
+    var b=ev.target.closest&&ev.target.closest('[data-review]');if(!b)return;
+    var d=document.querySelector('[data-demo="'+b.dataset.review+'"]');if(!d)return;
+    scrollToEl(d);
+    d.querySelectorAll('video').forEach(function(v){try{v.currentTime=0;var p=v.play();if(p&&p.catch)p.catch(function(){});}catch(x){}});
+    d.classList.remove('flash');void d.offsetWidth;d.classList.add('flash');
   });
   // 原始內容描述：把選的訊息（圖或影片）放到寫的地方，依種類換引導與句型
   var lastSelMedia='?';
