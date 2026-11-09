@@ -79,8 +79,9 @@
   <section class="step bg-white border-4 border-sky-300 rounded-3xl p-5 shadow-sm" data-step="1">
     <h2 class="cute text-3xl font-extrabold text-sky-700 mb-3">⚖️ 怎麼去？比一比</h2>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-4">
       <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 text-center"><p class="text-4xl">🚗</p><p class="cute text-xl font-extrabold text-rose-700">開車／機車</p><p class="text-base">要有人載<br>要停車</p></div>
+      <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl overflow-hidden text-center"><img src="assets/mode_train.jpg" alt="臺南火車站" class="w-full h-20 object-cover" loading="lazy"><div class="p-2"><p class="cute text-xl font-extrabold text-sky-700">🚆 火車</p><p class="text-base">照時刻表<br>去很遠才用</p></div></div>
       <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl overflow-hidden text-center"><img src="assets/mode_bus.jpg" alt="大台南公車" class="w-full h-20 object-cover" loading="lazy"><div class="p-2"><p class="cute text-xl font-extrabold text-emerald-700">🚌 公車</p><p class="text-base">要找站牌<br>要等車</p></div></div>
       <div class="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-3 text-center"><p class="text-4xl">🚲</p><p class="cute text-xl font-extrabold text-yellow-700">YouBike</p><p class="text-base">30 分鐘 10 元<br>要有車、有位</p></div>
       <div class="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 text-center"><p class="text-4xl">🚶</p><p class="cute text-xl font-extrabold text-violet-700">走路</p><p class="text-base">0 元<br>靠自己的腳</p></div>
@@ -108,7 +109,7 @@
     </div>
 
     <p class="text-sm text-slate-500 mt-3">資料：走路、YouBike 的分鐘取自 Google 地圖（2026/10/14 查）；公車 8 分、17 分取自大台南公車「公共運輸轉乘查詢」（2026/10/27 查），10 分取自 Google 地圖；時間會變。時段和氣溫是「情境設定」，不是今天的天氣。YouBike 臺南 2.0 每 30 分鐘 10 元；公車費用依路線，以大台南公車網站票價頁為準。</p>
-    <p class="text-sm text-slate-500">照片：大台南公車 顏嘉佑（CC BY-SA 4.0），Wikimedia Commons。</p>
+    <p class="text-sm text-slate-500">照片：臺南火車站 CEphoto, Uwe Aranas（CC BY-SA 3.0）、大台南公車 顏嘉佑（CC BY-SA 4.0），Wikimedia Commons。</p>
 
     <div class="stepnav"></div>
   </section>
@@ -233,79 +234,45 @@
     </div>
 
     <div class="bg-amber-50 border-4 border-amber-300 rounded-3xl p-4 mb-4">
-      <p class="cute text-2xl font-extrabold text-amber-700 mb-2">③ 🚌 公車也可以查</p>
-      <p class="text-xl font-bold">點 🚌，會列出<span class="text-amber-700">搭哪一路</span>、在哪裡<span class="text-amber-700">上車、下車</span>。下一步教你怎麼<a href="#" data-goto="4" class="text-rose-700 font-extrabold underline">查公車站牌</a>。</p>
-    </div>
-
-    <details class="bg-white border-4 border-slate-200 rounded-3xl p-4">
-      <summary class="cute text-xl font-extrabold text-slate-700 cursor-pointer">🚲 YouBike 怎麼找站？（點開）</summary>
-      <div class="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-3 mt-3">
-        <div class="grid md:grid-cols-5 gap-4 items-start">
-          <a href="assets/gm_ubike.jpg" target="_blank" rel="noopener" title="點圖放大" class="md:col-span-3"><img src="assets/gm_ubike.jpg" alt="Google 地圖搜尋「赤崁樓 ubike」，左邊顯示 YouBike 站點、地址與可租借的車輛數" class="shot" loading="lazy"></a>
-          <div class="md:col-span-2">
-            <ol class="list-decimal pl-6 text-xl font-bold space-y-2">
-              <li>在 Google 地圖搜尋「<span class="text-yellow-700">景點名 ubike</span>」<br><span class="text-base text-slate-500">例：赤崁樓 ubike</span></li>
-              <li>找到離景點<span class="text-yellow-700">最近的站點</span></li>
-              <li><span class="text-yellow-700">記下站名</span>（景點 → 附近 YouBike 站）</li>
-            </ol>
-            <p class="text-lg font-bold mt-3">也可以：搜尋景點 → 按「<span class="text-yellow-700">附近</span>」→ 輸入 <span class="text-yellow-700">ubike</span></p>
-            <p class="text-base text-slate-500 mt-1">點站點會看到「共幾輛單車，有幾輛可供租借」。</p>
-          </div>
-        </div>
-        <a href="https://www.youbike.com.tw/region/tainan/stations/" target="_blank" rel="noopener" class="inline-block mt-3 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-xl px-4 py-1.5">YouBike 站點地圖 ↗</a>
-      </div>
-    </details>
-    <p class="text-sm text-slate-500 mt-2">畫面：Google 地圖、大台南公車（2026/10/13～14 擷取；YouBike 搜尋 2026/11/09）。公車路線與站牌：大台南公車網站（2026/10/27 查）。</p>
-    <div class="stepnav"></div>
-  </section>
-
-
-  <!-- 步驟 4：Google 地圖查公車站牌（影片＋景點查詢練習 q4＋繳交） -->
-  <section class="step hidden bg-white border-4 border-teal-300 rounded-3xl p-5 shadow-sm" data-step="4">
-    <h2 class="cute text-3xl font-extrabold text-teal-700 mb-3">🚏 Google 地圖：查公車站牌</h2>
-
-    <div class="bg-teal-50 border-4 border-teal-200 rounded-3xl p-4 mb-4">
-      <p class="cute text-2xl font-extrabold text-teal-700 mb-2">一樣先搜尋起點、終點，再點「大眾運輸」</p>
-      <div class="grid md:grid-cols-5 gap-4 items-start">
-        <div class="md:col-span-3"><video class="w-full rounded-xl border-2 border-teal-200 bg-slate-900" src="assets/教學_Google地圖查站牌.mp4" poster="assets/教學_Google地圖查站牌_封面.jpg" controls playsinline preload="none"></video></div>
-        <ol class="md:col-span-2 list-decimal pl-6 text-xl font-bold space-y-2">
-          <li>輸入<span class="text-teal-700">起點、終點</span></li>
-          <li>點「<span class="text-teal-700">大眾運輸</span>」（公車圖示）</li>
-          <li>按第一個方案的「<span class="text-teal-700">詳細資料</span>」</li>
-          <li>看<span class="text-teal-700">公車圖示</span>，上面的點是<span class="text-emerald-700">上車站牌</span>，下面的點是<span class="text-rose-600">下車站牌</span></li>
-        </ol>
-      </div>
-      <div class="grid sm:grid-cols-3 gap-3 mt-4 text-center">
-        <div class="bg-white border-2 border-teal-300 rounded-2xl p-3"><p class="text-2xl font-extrabold"><span class="text-emerald-700">上面的點</span></p><p class="text-lg">＝上車站牌</p></div>
-        <div class="bg-white border-2 border-teal-300 rounded-2xl p-3"><p class="text-2xl font-extrabold"><span class="text-rose-600">下面的點</span></p><p class="text-lg">＝下車站牌</p></div>
-        <div class="bg-white border-2 border-teal-300 rounded-2xl p-3"><p class="text-2xl font-extrabold"><span class="text-slate-600">虛線</span>走路　<span class="text-sky-600">實線</span>搭車</p><p class="text-lg">左邊那條線</p></div>
-      </div>
-    </div>
-
-    <div class="bg-amber-50 border-4 border-amber-300 rounded-3xl p-4 mb-4">
-      <p class="cute text-2xl font-extrabold text-amber-700 mb-2">⚠ 提醒：Google 地圖的公車時間不一定準</p>
+      <p class="cute text-2xl font-extrabold text-amber-700 mb-2">③ 🚌 公車也可以查，但不太準</p>
       <div class="grid md:grid-cols-2 gap-4 text-xl">
         <ul class="space-y-2 font-bold">
+          <li>✔ 點 🚌，會列出<span class="text-amber-700">搭哪一路</span>、在哪裡<span class="text-amber-700">上車、下車</span></li>
           <li>✘ 時間是<span class="text-amber-700">估的</span>，走到站牌、等車要<span class="text-amber-700">另外加</span></li>
           <li>✘ 每次查，結果可能<span class="text-amber-700">不一樣</span></li>
         </ul>
         <div class="bg-white border-2 border-amber-200 rounded-2xl p-3">
           <p class="font-extrabold">所以這樣做：</p>
-          <p class="mt-1">用 Google 地圖知道<b>搭幾號</b>之後，<br>再到<a href="#" data-goto="2" class="text-emerald-700 font-extrabold underline">大台南公車</a>查<b>公車什麼時候來</b></p>
+          <p class="mt-1">公車請用<a href="#" data-goto="2" class="text-emerald-700 font-extrabold underline">公共運輸轉乘查詢</a>查，<br>會直接告訴你<b>幾號</b>、<b>哪裡上下車</b></p>
         </div>
       </div>
     </div>
 
-    <div class="bg-rose-50 border-4 border-rose-300 rounded-3xl p-4 mb-4" data-qid="q4" data-qtype="experience">
-      <p class="cute text-2xl font-extrabold text-rose-700 mb-1">✏️ 景點查詢練習</p>
-      <p class="text-lg mb-3">用 <b>Google 地圖</b>，點「<b>大眾運輸</b>」，看第一個方案的「<b>詳細資料</b>」，寫下搭幾號、上車站牌、下車站牌，再按「對答案」。</p>
-      <div id="gmPractice" class="space-y-4"></div>
-      <p class="text-base text-slate-500 mt-3">公車班次每個時段都不一樣，你查到的跟參考答案不同也可以；只要上車、下車<b>接得起來</b>就對。</p>
-    </div>
-
+    <details class="bg-white border-4 border-slate-200 rounded-3xl p-4">
+      <summary class="cute text-xl font-extrabold text-slate-700 cursor-pointer">🚲 YouBike、🚆 火車怎麼查？（點開）</summary>
+      <div class="grid md:grid-cols-2 gap-4 mt-3">
+        <div class="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-3">
+          <p class="cute text-xl font-extrabold text-yellow-700">🚲 YouBike</p>
+          <a href="assets/yb_station.jpg" target="_blank" rel="noopener" title="點圖放大"><img src="assets/yb_station.jpg" alt="YouBike 站點地圖搜尋赤崁樓，顯示可借車輛與可停空位" class="shot my-2" loading="lazy"></a>
+          <ol class="list-decimal pl-6 text-lg font-bold space-y-1">
+            <li>「站點搜尋」打景點名字</li>
+            <li>看「<span class="text-yellow-700">可借車輛</span>」和「<span class="text-yellow-700">可停空位</span>」</li>
+          </ol>
+          <a href="https://www.youbike.com.tw/region/tainan/stations/" target="_blank" rel="noopener" class="inline-block mt-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-xl px-4 py-1.5">YouBike 站點地圖 ↗</a>
+        </div>
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3">
+          <p class="cute text-xl font-extrabold text-sky-700">🚆 火車</p>
+          <p class="text-lg font-bold my-2">只有<span class="text-sky-700">去很遠</span>才會用到（例：去高雄、嘉義）</p>
+          <p class="text-lg">查「<b>起站 → 迄站</b>」的發車時間</p>
+          <a href="https://tip.railway.gov.tw/tra-tip-web/tip" target="_blank" rel="noopener" class="inline-block mt-3 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl px-4 py-1.5">臺鐵時刻查詢 ↗</a>
+          <p class="text-base text-slate-500 mt-2">Google 地圖的路線結果，也會出現火車選項。</p>
+        </div>
+      </div>
+    </details>
+    <p class="text-sm text-slate-500 mt-2">畫面：Google 地圖、大台南公車、YouBike（2026/10/13～14 擷取）。公車路線與站牌：大台南公車網站（2026/10/27 查）。</p>
     <div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mt-4">
       <p class="cute text-2xl font-extrabold text-orange-700 mb-2">📮 交出去</p>
-      <p class="text-xl font-bold">比一比、公車練習、景點查詢練習都做完，按下面的「<span class="text-orange-700">繳交學習單</span>」</p>
+      <p class="text-xl font-bold">比一比、公車練習都做完，按下面的「<span class="text-orange-700">繳交學習單</span>」</p>
       <button id="submitBtn" class="mt-4 w-full bg-orange-600 hover:bg-orange-700 text-white cute text-2xl font-extrabold rounded-2xl py-3">繳交學習單</button>
       <p id="submitStat" class="text-sm font-bold mt-2 min-h-[20px] text-center"></p>
     </div>
@@ -491,20 +458,15 @@ var firebaseConfig = {
     {a:'赤崁樓',b:'安平古堡',
      ans:[{r:'98',t:'98 府城台江線',on:'赤崁樓',off:'安平古堡(安北路)',min:'17',ob:['赤崁樓'],of:['安平古堡']},
           {r:'102',t:'102 路',on:'郭綜合醫院',off:'安平古堡(安北路)',min:'26',note:'要先走 8 分鐘到郭綜合醫院',ob:['郭綜合'],of:['安平古堡']}],
-     loose:['77','19']}
-  ];
-  // ===== 景點查詢練習（q4，Google 地圖「大眾運輸」→ 詳細資料；體驗題不計分）=====
-  // 參考答案取自 Google 地圖（2026/11/09 上午查，第一個方案的詳細資料）；班次時段不同結果會不同，所以另列 loose 路線只比對路線號。
-  var GM_QS=[
-    {a:'安平古堡',b:'臺南火車站',
-     ans:[{r:'102',t:'102 路（往崑山科大）',on:'天妃里',off:'臺南火車站(中山路D)',note:'要先走 3 分鐘到天妃里',ob:['天妃里'],of:['火車站']}],
-     loose:['77']},
-    {a:'臺南孔廟',b:'安平古堡',
-     ans:[{r:'102',t:'102 路（往白鷺灣社區）',on:'孔廟(臺灣文學館)',off:'安平古堡(安北路)',note:'要先走 3 分鐘到孔廟(臺灣文學館)',ob:['孔廟','文學館'],of:['安平古堡']}],
-     loose:['19']}
+     loose:['77','19']},
+    {a:'台南火車站',b:'安平古堡',
+     ans:[{r:'98',t:'98 府城台江線',on:'臺南火車站(中山路C)',off:'安平古堡(安北路)',min:'32',ob:['火車站'],of:['安平古堡']}],
+     loose:['102','19','77']},
+    {a:'安平古堡',b:'赤崁樓',tip:'提示：試試「起訖互換」',
+     ans:[{r:'98',t:'98 府城台江線',on:'安平古堡(安北路)',off:'赤崁樓',min:'11',ob:['安平古堡'],of:['赤崁樓']}],
+     loose:['102','77','19']}
   ];
   var busState=BUS_QS.map(function(){return {route:'',on:'',off:'',min:'',checked:false,ok:false};});
-  var gmState=GM_QS.map(function(){return {route:'',on:'',off:'',min:'',checked:false,ok:false};});
   function norm(s){return String(s||'').replace(/\s+/g,'').replace(/台/g,'臺');}
   function matchAns(q,st){
     var rt=(String(st.route).match(/\d+/)||[''])[0],on=norm(st.on),off=norm(st.off);
@@ -515,21 +477,20 @@ var firebaseConfig = {
     if(rt&&on&&off&&q.loose.indexOf(rt)>=0)return 'loose';
     return 'no';
   }
-  // 兩組練習共用：hostId＝放題目的容器；QS／ST＝題目與作答狀態；withMin＝要不要填「總共幾分鐘」；label＝題號前綴
-  function renderPractice(hostId,QS,ST,withMin,label){
-    var host=$(hostId);if(!host)return;
+  function renderBus(){
+    var host=$('busPractice');if(!host)return;
     host.innerHTML='';
     var inp='w-full border-2 border-slate-300 rounded-xl px-2 py-1 text-lg font-bold focus:border-amber-400 outline-none';
-    QS.forEach(function(q,i){
-      var st=ST[i];
+    BUS_QS.forEach(function(q,i){
+      var st=busState[i];
       var card=el('div','bg-white border-2 border-amber-300 rounded-2xl p-3');
-      card.innerHTML='<p class="cute text-xl font-extrabold text-slate-700">'+label+(QS.length>1?' '+(i+1):'')+'：<span class="text-emerald-700">🟢 起點 '+esc(q.a)+'</span> → <span class="text-rose-600">🔴 訖點 '+esc(q.b)+'</span></p>'
+      card.innerHTML='<p class="cute text-xl font-extrabold text-slate-700">練習 '+(i+1)+'：<span class="text-emerald-700">🟢 起點 '+esc(q.a)+'</span> → <span class="text-rose-600">🔴 訖點 '+esc(q.b)+'</span></p>'
         +(q.tip?'<p class="text-base text-slate-500">'+esc(q.tip)+'</p>':'')
-        +'<div class="grid '+(withMin?'sm:grid-cols-4':'sm:grid-cols-3')+' gap-2 mt-2">'
+        +'<div class="grid sm:grid-cols-4 gap-2 mt-2">'
         +'<label class="font-bold text-lg">搭幾號<input data-k="route" class="'+inp+'"></label>'
         +'<label class="font-bold text-lg">上車站牌<input data-k="on" class="'+inp+'"></label>'
         +'<label class="font-bold text-lg">下車站牌<input data-k="off" class="'+inp+'"></label>'
-        +(withMin?'<label class="font-bold text-lg">總共幾分鐘<input data-k="min" class="'+inp+'" inputmode="numeric"></label>':'')
+        +'<label class="font-bold text-lg">總共幾分鐘<input data-k="min" class="'+inp+'" inputmode="numeric"></label>'
         +'</div>'
         +'<button type="button" class="chk mt-2 bg-amber-500 hover:bg-amber-600 text-white cute text-lg font-extrabold rounded-xl px-5 py-1.5">對答案</button>'
         +'<div class="res mt-2"></div>';
@@ -543,8 +504,8 @@ var firebaseConfig = {
         else if(st.ok==='loose')h='<p class="text-lg font-extrabold text-emerald-700">✓ 這一路也會出現在查詢結果裡。上車、下車站牌請對照你的「詳細內容」再檢查一次。</p>';
         else h='<p class="text-lg font-extrabold text-amber-700">跟參考答案不太一樣，對一對看看：</p>';
         h+='<div class="bg-slate-50 border-2 border-slate-200 rounded-xl p-2 mt-1 text-lg"><p class="font-bold text-slate-600">參考答案（方案裡看得到）：</p>'
-          +q.ans.map(function(x){return '<p>🚌 搭 <b>'+esc(x.t)+'</b>，<b>'+esc(x.on)+'</b>上車，<b>'+esc(x.off)+'</b>下車'+(withMin?'，總共約 '+x.min+' 分鐘':'')+(x.note?'（'+esc(x.note)+'）':'')+'</p>';}).join('')
-          +'<p class="text-base text-slate-500 mt-1">'+(withMin?'分鐘會依查詢的時間不同，差一點沒關係。':'路線和站牌會依查詢的時間不同，上車、下車接得起來就好。')+'</p></div>';
+          +q.ans.map(function(x){return '<p>🚌 搭 <b>'+esc(x.t)+'</b>，<b>'+esc(x.on)+'</b>上車，<b>'+esc(x.off)+'</b>下車，總共約 '+x.min+' 分鐘'+(x.note?'（'+esc(x.note)+'）':'')+'</p>';}).join('')
+          +'<p class="text-base text-slate-500 mt-1">分鐘會依查詢的時間不同，差一點沒關係。</p></div>';
         res.innerHTML=h;
       }
       card.querySelector('.chk').onclick=function(){st.checked=true;st.ok=matchAns(q,st);showRes();renderStepper();};
@@ -552,10 +513,8 @@ var firebaseConfig = {
       showRes();
     });
   }
-  renderPractice('busPractice',BUS_QS,busState,true,'練習');
-  renderPractice('gmPractice',GM_QS,gmState,false,'景點');
+  renderBus();
   function busDone(){return busState.every(function(s){return s.checked;});}
-  function gmDone(){return gmState.every(function(s){return s.checked;});}
   // ===== Google 地圖影片：檔案放好才顯示（assets/教學_Google地圖查路線.mp4）=====
   (function(){
     try{
@@ -570,7 +529,7 @@ var firebaseConfig = {
   });
 
   // ===== 繳交學習單 =====
-  // 定位：q1（比一比）、q3（公車練習）、q4（景點查詢練習）都是體驗題，只算完成度、不計分；沒有開放題，不內嵌 grading-spec。
+  // 定位：q1（比一比）、q3（公車練習）都是體驗題，只算完成度、不計分；沒有開放題，不內嵌 grading-spec。
   var WS='g4-L06';
   function workDocId(idn){return WS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;}
   $('submitBtn').onclick=function(){
@@ -579,14 +538,12 @@ var firebaseConfig = {
     if(!db){alert('系統尚未連線，請稍後再試或重新整理頁面。');return;}
     var g2=scState.some(function(s){return s.final;})?{items:SCENS.map(function(s,i){var f=scState[i].final;return {pair:s.a+'→'+s.b,time:s.time,clock:s.clock,temp:s.temp,choice:f?f.choice:null,reasons:f?f.reasons:[]};})}:null;
     var g3=busState.some(function(s){return s.route||s.on||s.off;})?{items:BUS_QS.map(function(q,i){var s=busState[i];return {a:q.a,b:q.b,route:s.route,on:s.on,off:s.off,min:s.min,checked:s.checked,result:s.ok};})}:null;
-    var g4=gmState.some(function(s){return s.route||s.on||s.off;})?{items:GM_QS.map(function(q,i){var s=gmState[i];return {a:q.a,b:q.b,route:s.route,on:s.on,off:s.off,checked:s.checked,result:s.ok};})}:null;
-    var q1Done=scenDone(),q3Done=busDone(),q4Done=gmDone();
-    var experienceAnswers={q1:{given:g2,correct:null,isCorrect:q1Done},q3:{given:g3,correct:null,isCorrect:q3Done},q4:{given:g4,correct:null,isCorrect:q4Done}};
-    var answers={q1:g2,q3:g3,q4:g4},qtypes={q1:'experience',q3:'experience',q4:'experience'};
-    var experienceCompletion=Math.round(((q1Done?1:0)+(q3Done?1:0)+(q4Done?1:0))/3*100);
+    var q1Done=scenDone(),q3Done=busDone();
+    var experienceAnswers={q1:{given:g2,correct:null,isCorrect:q1Done},q3:{given:g3,correct:null,isCorrect:q3Done}};
+    var answers={q1:g2,q3:g3},qtypes={q1:'experience',q3:'experience'};
+    var experienceCompletion=Math.round(((q1Done?1:0)+(q3Done?1:0))/2*100);
     var msg='確定要繳交學習單嗎？\n交通方式比一比：'+(q1Done?'完成':'還沒完成')
-      +'\n公車練習：'+(q3Done?'完成':'還沒完成')
-      +'\n景點查詢練習：'+(q4Done?'完成':'還沒完成');
+      +'\n公車練習：'+(q3Done?'完成':'還沒完成');
     if(!confirm(msg))return;
     var payload={worksheetId:WS,worksheetTitle:'台南小導遊養成記：交通方式與路程時間',lessonPath:'g4/L06',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
@@ -594,7 +551,6 @@ var firebaseConfig = {
       qtexts:{
         q1:'交通方式比一比：三個情境（起訖、時段、氣溫固定），看表格選一種交通方式，並勾選考慮了什麼。',
         q3:'公車練習：用公共運輸轉乘查詢查 A 到 B，寫下搭幾號、上車站牌、下車站牌、總共幾分鐘。',
-        q4:'景點查詢練習：用 Google 地圖「大眾運輸」查兩組景點，看第一個方案的詳細資料，寫下搭幾號、上車站牌、下車站牌。',
       },
       bonusQids:[],
       scoreAnswers:{},experienceAnswers:experienceAnswers,openAnswers:{},bonusAnswers:{},
@@ -616,13 +572,13 @@ var firebaseConfig = {
   };
 
   // ===== 學習路徑 =====
-  var STEP_NAMES=['比一比','公車','Google 地圖','查站牌'];
+  var STEP_NAMES=['比一比','公車','Google 地圖'];
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true},submittedOnce=false;
   function stepDone(n){
     if(n===1)return scenDone();
     if(n===2)return busDone();
-    if(n===4)return submittedOnce;
+    if(n===3)return submittedOnce;
     return !!visited[n]&&n!==curStep;
   }
   function renderStepper(){
