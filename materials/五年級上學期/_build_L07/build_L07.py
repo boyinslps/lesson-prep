@@ -291,6 +291,14 @@ STEP6 = '''
       <p class="font-bold text-indigo-800 mt-5 mb-2">看影片：怎麼在 Classroom 繳交</p>
       <video class="w-full max-w-[560px] mx-auto rounded-2xl bg-slate-900" src="assets/教學_繳交.mp4" poster="assets/教學_繳交_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1 text-center">回 Classroom 分頁，按「繳交」，再按一次確認</p>
     </div>
+    <div data-set-admin="gameUrl" class="hidden bg-slate-100 border-2 border-dashed border-slate-300 rounded-2xl p-4 mt-6">
+      <p class="font-bold text-slate-600 text-sm">老師設定：真假對決的網址（不填就沿用 L06 設定的；開好伺服器後貼上並儲存，學生繳交後就會看到按鈕）</p>
+      <div class="flex gap-2 flex-wrap mt-2 items-center">
+        <input type="url" data-set-input="gameUrl" autocomplete="off" class="flex-1 min-w-[16rem] border-2 border-slate-300 rounded-xl px-3 py-2 text-base bg-white">
+        <button type="button" data-set-save class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl px-4 py-2">儲存網址</button>
+      </div>
+      <p data-set-stat class="text-sm font-bold mt-2 min-h-[20px]"></p>
+    </div>
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 shadow-sm text-center mt-6">
       <h2 class="cute text-xl font-extrabold text-indigo-700 mb-1">繳交學習單</h2>
       <p class="text-sm text-slate-500 mb-3">確定都填好了嗎？按下面按鈕交給老師（可以重交，會覆蓋前一次）。</p>
@@ -301,8 +309,13 @@ STEP6 = '''
     <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-7 mt-6">
       <div class="text-6xl mb-2 pop">🎉</div>
       <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
+      <div data-set-show="gameUrl" class="hidden mt-5">
+        <p class="text-xl font-bold text-slate-700">接下來，來挑戰「真假對決」</p>
+        <p class="text-lg text-slate-600 mt-1">玩一段時間後，老師會看排名，名次在前面的同學可以先自由活動。</p>
+        <a data-set-href="gameUrl" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-2xl font-extrabold rounded-2xl px-10 py-4 mt-4">開始玩　真假對決</a>
+      </div>
       <div class="flex flex-wrap gap-3 justify-center mt-4">
-        <a href="@@PORTAL@@" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-2xl font-extrabold rounded-2xl px-10 py-4">電腦教室遊戲網站</a>
+        <a href="@@PORTAL@@" target="_blank" rel="noopener" class="cute inline-block bg-white border-4 border-indigo-400 hover:bg-indigo-50 text-indigo-700 text-2xl font-extrabold rounded-2xl px-10 py-4">電腦教室遊戲網站</a>
       </div>
     </div>
     <div class="stepnav"></div>
@@ -321,7 +334,7 @@ BODY = '\n' + ''.join(renum(s, i + 1) for i, s in enumerate([STEP5, STEPC, STEP1
 CFG = {
     'ws': 'g5-L07', 'lessonPath': 'g5/L07', 'title': '找主題：解說影片的題目', 'stateKey': 'g5L07flow',
     'steps': ['檢查格式', '檢查內容', '看示範', '跟 AI 聊天', '題目範圍', '我的主題', '繳交'],
-    'reveals': [], 'revealOf': {}, 'autoFb': ['tip1', 'tip2'], 'textSettings': ['gemUrl'],
+    'reveals': [], 'revealOf': {}, 'autoFb': ['tip1', 'tip2'], 'textSettings': ['gemUrl', 'gameUrl'],
     'qtypes': {'demo': 'experience', 'tip1': 'score', 'tip2': 'score', 'cat': 'experience', 'hook': 'open', 'src': 'open',
                'seen': 'experience', 'core': 'open', 'fmt': 'experience', 'cont': 'experience', 'chk': 'experience'},
     'choices': {
@@ -461,8 +474,12 @@ t = t.replace("已儲存，學生繳交後就會看到按鈕", "已儲存，學�
 # 找題目 Gem 的預設網址（老師 2026-11-10 提供）：老師沒在 #admin 另填時用這個
 GEM_URL = 'https://gemini.google.com/gem/1hC9bs9aBqIvNCe3GKbjujuU86tN7M21R?usp=sharing'
 assert t.count("var SET={};") == 1 and t.count("SET[k]=String(d[k]||'');") == 1
-t = t.replace("var SET={};", "var DEFAULT_SET={gemUrl:'" + GEM_URL + "'};var SET={gemUrl:DEFAULT_SET.gemUrl};")
-t = t.replace("SET[k]=String(d[k]||'');", "SET[k]=String(d[k]||DEFAULT_SET[k]||'');")
+t = t.replace("var SET={};", "var DEFAULT_SET={gemUrl:'" + GEM_URL + "'};var OWN={};var SET={gemUrl:DEFAULT_SET.gemUrl};")
+t = t.replace("SET[k]=String(d[k]||'');", "OWN[k]=String(d[k]||'');SET[k]=OWN[k]||DEFAULT_SET[k]||'';")
+# 真假對決：L07 自己沒設定網址，就沿用老師在 L06 設定的（quizzes/g5-L06.gameUrl，公開可讀）
+_snap = "    var first=true;\n    quizRef.onSnapshot("
+assert t.count(_snap) == 1
+t = t.replace(_snap, "    db.collection('quizzes').doc('g5-L06').get().then(function(x){var u=x.exists&&x.data()&&x.data().gameUrl;if(u){DEFAULT_SET.gameUrl=String(u);if(!OWN.gameUrl){SET.gameUrl=String(u);applySettings();}}}).catch(function(){});\n" + _snap)
 # 評分設定
 t = sub1(r'<script type="application/json" id="grading-spec">\n.*?\n</script>',
          '<script type="application/json" id="grading-spec">\n' + json.dumps(SPEC, ensure_ascii=False, indent=2) + '\n</script>', t)

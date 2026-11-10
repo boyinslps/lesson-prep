@@ -281,6 +281,14 @@
       <p class="font-bold text-indigo-800 mt-5 mb-2">看影片：怎麼在 Classroom 繳交</p>
       <video class="w-full max-w-[560px] mx-auto rounded-2xl bg-slate-900" src="assets/教學_繳交.mp4" poster="assets/教學_繳交_封面.jpg" controls playsinline preload="none"></video><p class="text-[11px] text-slate-400 mt-1 text-center">回 Classroom 分頁，按「繳交」，再按一次確認</p>
     </div>
+    <div data-set-admin="gameUrl" class="hidden bg-slate-100 border-2 border-dashed border-slate-300 rounded-2xl p-4 mt-6">
+      <p class="font-bold text-slate-600 text-sm">老師設定：真假對決的網址（不填就沿用 L06 設定的；開好伺服器後貼上並儲存，學生繳交後就會看到按鈕）</p>
+      <div class="flex gap-2 flex-wrap mt-2 items-center">
+        <input type="url" data-set-input="gameUrl" autocomplete="off" class="flex-1 min-w-[16rem] border-2 border-slate-300 rounded-xl px-3 py-2 text-base bg-white">
+        <button type="button" data-set-save class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl px-4 py-2">儲存網址</button>
+      </div>
+      <p data-set-stat class="text-sm font-bold mt-2 min-h-[20px]"></p>
+    </div>
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 shadow-sm text-center mt-6">
       <h2 class="cute text-xl font-extrabold text-indigo-700 mb-1">繳交學習單</h2>
       <p class="text-sm text-slate-500 mb-3">確定都填好了嗎？按下面按鈕交給老師（可以重交，會覆蓋前一次）。</p>
@@ -291,8 +299,13 @@
     <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-7 mt-6">
       <div class="text-6xl mb-2 pop"></div>
       <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
+      <div data-set-show="gameUrl" class="hidden mt-5">
+        <p class="text-xl font-bold text-slate-700">接下來，來挑戰「真假對決」</p>
+        <p class="text-lg text-slate-600 mt-1">玩一段時間後，老師會看排名，名次在前面的同學可以先自由活動。</p>
+        <a data-set-href="gameUrl" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-2xl font-extrabold rounded-2xl px-10 py-4 mt-4">開始玩　真假對決</a>
+      </div>
       <div class="flex flex-wrap gap-3 justify-center mt-4">
-        <a href="https://boyinslps.github.io/pcclass/games/" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-2xl font-extrabold rounded-2xl px-10 py-4">電腦教室遊戲網站</a>
+        <a href="https://boyinslps.github.io/pcclass/games/" target="_blank" rel="noopener" class="cute inline-block bg-white border-4 border-indigo-400 hover:bg-indigo-50 text-indigo-700 text-2xl font-extrabold rounded-2xl px-10 py-4">電腦教室遊戲網站</a>
       </div>
     </div>
     <div class="stepnav"></div>
@@ -330,7 +343,7 @@ var firebaseConfig = {
 
 /* ===== 共用引擎：識別列／Firebase／作答狀態／繳交／教師模式／檢視／步驟分頁（依《學習單資料與提交規範》） ===== */
 (function(){
-  var C={"ws": "g5-L07", "lessonPath": "g5/L07", "title": "找主題：解說影片的題目", "stateKey": "g5L07flow", "steps": ["檢查格式", "檢查內容", "看示範", "跟 AI 聊天", "題目範圍", "我的主題", "繳交"], "reveals": [], "revealOf": {}, "autoFb": ["tip1", "tip2"], "textSettings": ["gemUrl"], "qtypes": {"demo": "experience", "tip1": "score", "tip2": "score", "cat": "experience", "hook": "open", "src": "open", "seen": "experience", "core": "open", "fmt": "experience", "cont": "experience", "chk": "experience"}, "choices": {"demo": {"opts": ["一開始就問一個問題", "用插畫、照片或影片當畫面", "重點用大字或顏色標出來", "下面有字幕", "有人在旁白說明", "最後有結論或提醒"], "multi": true}, "tip1": {"opts": ["幫我想一個影片題目", "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"], "block": true, "correct": "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"}, "tip2": {"opts": ["我是五年級學生，想找冷知識的題目。", "我叫王小明，讀 5 年 3 班，住在……", "請給我 3 個題目，每個都附上來源網址。"], "block": true, "correct": "我叫王小明，讀 5 年 3 班，住在……"}, "cat": {"opts": ["冷知識", "謠言", "事實澄清"]}, "seen": {"opts": ["我點開來源看過了，網頁上真的有寫"], "multi": true}, "fmt": {"opts": ["文件標題：標題 1、標楷體、26", "7 個欄位名稱：標題 2、標楷體、16", "查核網址：整條網址、超連結、點得開", "其餘內容：一般文字"], "multi": true, "block": true}, "cont": {"opts": ["我選的訊息：用自己的話，有人事時地物，有貼圖", "我怎麼找到查核文章的：寫了是用以圖搜圖，或用哪些關鍵字查到的", "查核結果和查核網址：有結果、有機構、網址是整條", "正確資訊：用自己的話 1～3 點，有標出處", "為什麼會被廣傳：至少一個原因，說明了理由", "如果相信的後果：說出誰會怎樣"], "multi": true, "block": true}, "chk": {"opts": ["我選好類型，也寫了開頭句", "我貼了來源網址，而且點開看過", "我寫了一句核心訊息", "查證文件的格式和內容檢查過了"], "multi": true, "block": true}}, "texts": ["hook", "src", "core"], "patterns": {"src": "^https?://\\S+"}, "openQtexts": {"hook": "我的解說影片開頭句（例如「你知道嗎？……」「有人說……，是真的嗎？」）。", "src": "我找到的來源網址。", "core": "我的核心訊息：一句話，20 字內。"}};
+  var C={"ws": "g5-L07", "lessonPath": "g5/L07", "title": "找主題：解說影片的題目", "stateKey": "g5L07flow", "steps": ["檢查格式", "檢查內容", "看示範", "跟 AI 聊天", "題目範圍", "我的主題", "繳交"], "reveals": [], "revealOf": {}, "autoFb": ["tip1", "tip2"], "textSettings": ["gemUrl", "gameUrl"], "qtypes": {"demo": "experience", "tip1": "score", "tip2": "score", "cat": "experience", "hook": "open", "src": "open", "seen": "experience", "core": "open", "fmt": "experience", "cont": "experience", "chk": "experience"}, "choices": {"demo": {"opts": ["一開始就問一個問題", "用插畫、照片或影片當畫面", "重點用大字或顏色標出來", "下面有字幕", "有人在旁白說明", "最後有結論或提醒"], "multi": true}, "tip1": {"opts": ["幫我想一個影片題目", "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"], "block": true, "correct": "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"}, "tip2": {"opts": ["我是五年級學生，想找冷知識的題目。", "我叫王小明，讀 5 年 3 班，住在……", "請給我 3 個題目，每個都附上來源網址。"], "block": true, "correct": "我叫王小明，讀 5 年 3 班，住在……"}, "cat": {"opts": ["冷知識", "謠言", "事實澄清"]}, "seen": {"opts": ["我點開來源看過了，網頁上真的有寫"], "multi": true}, "fmt": {"opts": ["文件標題：標題 1、標楷體、26", "7 個欄位名稱：標題 2、標楷體、16", "查核網址：整條網址、超連結、點得開", "其餘內容：一般文字"], "multi": true, "block": true}, "cont": {"opts": ["我選的訊息：用自己的話，有人事時地物，有貼圖", "我怎麼找到查核文章的：寫了是用以圖搜圖，或用哪些關鍵字查到的", "查核結果和查核網址：有結果、有機構、網址是整條", "正確資訊：用自己的話 1～3 點，有標出處", "為什麼會被廣傳：至少一個原因，說明了理由", "如果相信的後果：說出誰會怎樣"], "multi": true, "block": true}, "chk": {"opts": ["我選好類型，也寫了開頭句", "我貼了來源網址，而且點開看過", "我寫了一句核心訊息", "查證文件的格式和內容檢查過了"], "multi": true, "block": true}}, "texts": ["hook", "src", "core"], "patterns": {"src": "^https?://\\S+"}, "openQtexts": {"hook": "我的解說影片開頭句（例如「你知道嗎？……」「有人說……，是真的嗎？」）。", "src": "我找到的來源網址。", "core": "我的核心訊息：一句話，20 字內。"}};
   var WS=C.ws,QUIZ_ID=C.ws,LESSON_PATH=C.lessonPath,TITLE=C.title;
   var TEACHER_EMAIL='boyin0304@slps.tn.edu.tw';
   var IS_ADMIN=location.hash==='#admin';
@@ -566,7 +579,7 @@ var firebaseConfig = {
 
   // ===== 老師填的文字設定（例如遊戲網址）：存在 quizzes/{ws}，學生那邊即時看到 =====
   // data-set-show：有填才顯示（老師看得到）；data-set-href：<a> 的連結；data-set-input：老師輸入框
-  var DEFAULT_SET={gemUrl:'https://gemini.google.com/gem/1hC9bs9aBqIvNCe3GKbjujuU86tN7M21R?usp=sharing'};var SET={gemUrl:DEFAULT_SET.gemUrl};
+  var DEFAULT_SET={gemUrl:'https://gemini.google.com/gem/1hC9bs9aBqIvNCe3GKbjujuU86tN7M21R?usp=sharing'};var OWN={};var SET={gemUrl:DEFAULT_SET.gemUrl};
   function applySettings(){
     document.querySelectorAll('[data-set-show]').forEach(function(e){
       var on=!!String(SET[e.dataset.setShow]||'').trim()||(IS_ADMIN&&!REVIEW_ID);
@@ -793,12 +806,13 @@ var firebaseConfig = {
 
   fbReady.then(function(){
     if(!quizRef){if(IS_ADMIN)teacherOffline();return;}
+    db.collection('quizzes').doc('g5-L06').get().then(function(x){var u=x.exists&&x.data()&&x.data().gameUrl;if(u){DEFAULT_SET.gameUrl=String(u);if(!OWN.gameUrl){SET.gameUrl=String(u);applySettings();}}}).catch(function(){});
     var first=true;
     quizRef.onSnapshot(function(doc){
       var d=(doc&&doc.data())||{};
       if(d.qtypeOverrides&&!REVIEW_ID){QTYPE_OVERRIDES=d.qtypeOverrides;renderQtypeSlots();}
       if(REVIEW_ID)return;
-      (C.textSettings||[]).forEach(function(k){SET[k]=String(d[k]||DEFAULT_SET[k]||'');});applySettings();
+      (C.textSettings||[]).forEach(function(k){OWN[k]=String(d[k]||'');SET[k]=OWN[k]||DEFAULT_SET[k]||'';});applySettings();
       var next={};(C.reveals||[]).forEach(function(r){next[r]=!!d[r];});
       var undone=Object.keys(next).some(function(k){return REV[k]&&!next[k];});
       if(undone&&!first&&!IS_ADMIN){location.reload();return;}   // 老師按還原：全部收回
