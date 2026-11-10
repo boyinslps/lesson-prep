@@ -6,7 +6,7 @@
     python 引導規範/game-portal/check.py 某檔.html   # 只掃指定檔案
 
 規則見《學習單資料與提交規範》§3-b：
-  - 「更多遊戲」按鈕的 href 必須是 PORTAL。
+  - 「更多遊戲」或「電腦教室遊戲網站」按鈕的 href 必須是 PORTAL。
   - 不得留有 gemini.google.com/share/ 之類的分享連結（錯誤）。
   - 有完成獎勵區（rewardBox）卻沒有「更多遊戲」只列警告（有些專題頁刻意不放）。
 有錯誤就回傳 1。
@@ -21,7 +21,8 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 ROOT = Path(__file__).resolve().parents[2]
 PORTAL = "https://boyinslps.github.io/pcclass/games/"
 SKIP = ("_影片原檔", "node_modules", ".git", ".pub_repo")
-ANCHOR = re.compile(r'<a\b[^>]*?href="([^"]+)"[^>]*>(?:(?!</a>).)*?更多遊戲(?:(?!</a>).)*?</a>', re.S)
+LABELS = "(?:更多遊戲|電腦教室遊戲網站)"   # 2026-11-05：五上 L07 起，獎勵區改成單一按鈕「電腦教室遊戲網站」
+ANCHOR = re.compile(r'<a\b[^>]*?href="([^"]+)"[^>]*>(?:(?!</a>).)*?' + LABELS + r'(?:(?!</a>).)*?</a>', re.S)
 
 
 def targets(args):

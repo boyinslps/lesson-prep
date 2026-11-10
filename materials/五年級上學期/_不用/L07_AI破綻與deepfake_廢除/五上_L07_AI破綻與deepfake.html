@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="資訊老師黃博胤">
+<title>畫面再真也要核對｜L07 教學活動</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Noto Sans TC',sans-serif;background:#F4F6FB;color:#1f2430}
+  .cute{font-family:'Baloo 2','Noto Sans TC',cursive}
+  .pop{animation:pp .35s}@keyframes pp{0%{transform:scale(.9)}60%{transform:scale(1.05)}100%{transform:scale(1)}}
+  .flip{animation:fl .5s}@keyframes fl{0%{transform:rotateX(90deg);opacity:0}100%{transform:rotateX(0);opacity:1}}
+  .idnum{width:52px;text-align:center}
+  .shotimg{width:100%;border-radius:1rem;border:3px solid #cbd5e1;display:block;background:#fff;cursor:zoom-in}
+  .imgph{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;text-align:center;background:repeating-linear-gradient(45deg,#f1f5f9,#f1f5f9 10px,#e2e8f0 10px,#e2e8f0 20px);border:3px dashed #94a3b8;border-radius:1rem;color:#64748b;font-weight:700;padding:1rem;width:100%}
+  .opt{transition:.15s}
+  .fld{width:100%;border:2px solid #cbd5e1;border-radius:12px;padding:6px 10px;background:#fff;outline:none}
+  .fld:focus{border-color:#6366f1}
+  kbd{background:#f1f5f9;border:1px solid #cbd5e1;border-bottom-width:3px;border-radius:6px;padding:0 6px;font-family:inherit;font-weight:700}
+  .locked .ans{pointer-events:none}
+  details>summary{cursor:pointer;list-style:none}details>summary::-webkit-details-marker{display:none}
+  .stepnav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:24px;padding-top:16px;border-top:2px solid #e2e8f0}
+  .stepdot{width:32px;height:32px}
+  /* 教育部動畫播放區 */
+  .moebox{position:relative;width:100%;aspect-ratio:16/9;border-radius:1rem;overflow:hidden;background:#0f172a;border:4px solid #c4b5fd}
+  .moebox video{position:absolute;inset:0;width:100%;height:100%;background:#0f172a}
+  .moeplay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;background:rgba(15,23,42,.35);border:0;color:#fff}
+  .moeplay .tri{width:84px;height:84px;border-radius:999px;background:#7c3aed;display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 6px 24px rgba(0,0,0,.4)}
+  /* 點圖放大：滾輪縮放、拖曳移動、雙擊還原 */
+  #lightbox{position:fixed;inset:0;z-index:60;background:rgba(15,20,35,.92);display:none;flex-direction:column}
+  #lightbox.on{display:flex}
+  .lbtop{display:flex;align-items:center;gap:10px;padding:10px 16px;color:#cbd5e1;font-size:14px;flex-wrap:wrap}
+  .lbstage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 16px 16px}
+  .lbstage img{max-height:100%;max-width:100%;border-radius:10px;background:#fff;object-fit:contain;touch-action:none;user-select:none}
+  .zbtn{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:8px;padding:4px 10px;font-weight:700;cursor:pointer}
+  .zbtn:hover{background:rgba(255,255,255,.26)}
+  .scn{display:block;width:100%;text-align:left;border:2px solid #cbd5e1;background:#fff;border-radius:14px;padding:10px 14px;font-weight:500;transition:.15s}
+  .scn:hover{border-color:#818cf8}
+  .scn.on{border-color:#6366f1;background:#eef2ff}
+  .scn.good{border-color:#10b981;background:#ecfdf5}
+  .scn.bad{border-color:#fb7185;background:#fff1f2}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="text-slate-800">
+
+<!-- 教師檢視模式橫幅（?review= 時顯示，見《學習單資料與提交規範》§5-7） -->
+<div id="reviewBanner" class="hidden bg-amber-400 text-amber-950 text-sm font-bold">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-3 flex-wrap">
+    <span id="reviewText">🔍 檢視模式（唯讀）</span>
+    <a id="reviewExit" href="#" class="ml-auto underline">✕ 離開檢視</a>
+  </div>
+</div>
+
+<!-- 老師工具列（僅 #admin 時顯示；公布鈕放在各段落旁邊） -->
+<div id="teacherbar" class="hidden bg-slate-900 text-white text-sm">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex items-center gap-2 flex-wrap">
+    <span class="cute font-bold text-amber-300">👩‍🏫 教師模式</span>
+    <span id="tStatus" class="text-slate-300 text-xs"></span>
+    <div class="ml-auto flex gap-2 flex-wrap">
+      <button id="showAnsBtn" class="hidden bg-emerald-600 hover:bg-emerald-700 rounded-lg px-3 py-1" title="把標準答案填進學習單的作答欄">👁 檢視答案</button>
+      <button id="lockBtn" class="hidden bg-slate-700 hover:bg-slate-600 rounded-lg px-3 py-1" title="收回所有公布，清掉「檢視答案」填進去的內容">↩ 還原</button>
+      <button id="previewModeBtn" class="bg-indigo-600 hover:bg-indigo-700 font-bold rounded-lg px-3 py-1">👀 預覽學生模式</button>
+    </div>
+  </div>
+</div>
+<button id="backToTeacher" class="hidden fixed bottom-4 right-4 z-30 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full px-4 py-2 shadow-lg">↩ 返回教師模式</button>
+
+<!-- 識別列（年級/班級/座號）＋學習路徑進度列：合成一條黏頂，缺身分提醒時不必捲頁（《學習單資料與提交規範》§1、§3-b） -->
+<div class="sticky top-0 z-20 bg-white/95 backdrop-blur border-b-2 border-indigo-100">
+<div class="border-b border-indigo-100">
+  <div class="max-w-5xl mx-auto px-4 py-1 flex items-center gap-3 flex-wrap text-sm">
+    <span class="cute font-bold text-indigo-700">我是誰</span>
+    <label class="flex items-center gap-1 text-slate-500">年級<input id="idGrade" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-indigo-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">班級<input id="idClass" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-indigo-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <label class="flex items-center gap-1 text-slate-500">座號<input id="idStudent" class="idnum border-2 border-slate-200 rounded-lg px-2 py-1 font-bold text-slate-700 focus:border-indigo-400 outline-none" inputmode="numeric" maxlength="2"></label>
+    <span id="idOk" class="hidden text-emerald-600 font-bold text-xs">✓ 已記住</span>
+  </div>
+</div>
+
+<!-- 學習路徑進度列（可點圓點跳步） -->
+  <div class="max-w-5xl mx-auto px-4 py-1.5">
+    <div id="stepper" class="flex items-start"></div>
+    <p id="stepLabel" class="sm:hidden text-xs font-bold text-indigo-700 text-center mt-1"></p>
+  </div>
+</div>
+
+<div id="main" class="max-w-5xl mx-auto px-4 py-6">
+
+  <header class="text-center mb-6">
+    <h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600">🎭 畫面再真，也要核對</h1>
+    <p class="text-sm text-slate-500 mt-2">L07 AI 做的圖與 Deepfake 深偽 · 教學活動流程（40 分鐘）</p>
+    <p id="syncBadge" class="hidden mt-2 text-xs text-emerald-600 font-bold">🔗 已連線：老師公布答案時，這台會自動同步</p>
+  </header>
+
+  <!-- ===== 步驟 1：猜猜看 ===== -->
+  <section class="step" data-step="1">
+    <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap">
+        <h2 class="cute text-3xl font-extrabold text-rose-700 m-0">① 猜猜看：哪些是真的照片？</h2>
+        <button data-reveal-btn="r1" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-lg px-3 py-1.5">🎉 公布①</button>
+      </div>
+      <p class="text-slate-600 mt-2 text-lg">下面 4 張都是食物照片：有的是<b>相機拍的真照片</b>，有的是 <b>AI 做出來的圖</b>。<b>只用眼睛判斷</b>，先不要查、也不要問旁邊的同學。</p>
+      <div class="grid sm:grid-cols-2 gap-5 mt-4" id="guessGrid">
+        <div class="bg-rose-50/60 border-2 border-rose-100 rounded-2xl p-3">
+          <img class="shotimg aspect-[4/3] object-cover" src="assets/q1.jpg" alt="第 1 張：桌布上的一顆青蘋果" loading="lazy">
+          <div class="flex items-center gap-2 flex-wrap mt-3"><p class="font-bold text-rose-800">第 1 張</p><span class="qtypeSlot" data-qid="g1"></span><span id="g1Fb" class="text-sm font-bold"></span></div>
+          <div id="g1Opts" class="flex flex-wrap gap-2 mt-1"></div>
+        </div>
+        <div class="bg-rose-50/60 border-2 border-rose-100 rounded-2xl p-3">
+          <img class="shotimg aspect-[4/3] object-cover" src="assets/q2.jpg" alt="第 2 張：白色背景上的巧克力糖珠甜甜圈" loading="lazy">
+          <div class="flex items-center gap-2 flex-wrap mt-3"><p class="font-bold text-rose-800">第 2 張</p><span class="qtypeSlot" data-qid="g2"></span><span id="g2Fb" class="text-sm font-bold"></span></div>
+          <div id="g2Opts" class="flex flex-wrap gap-2 mt-1"></div>
+        </div>
+        <div class="bg-rose-50/60 border-2 border-rose-100 rounded-2xl p-3">
+          <img class="shotimg aspect-[4/3] object-cover" src="assets/q3.jpg" alt="第 3 張：燭光餐桌上的烤雞凱薩沙拉" loading="lazy">
+          <div class="flex items-center gap-2 flex-wrap mt-3"><p class="font-bold text-rose-800">第 3 張</p><span class="qtypeSlot" data-qid="g3"></span><span id="g3Fb" class="text-sm font-bold"></span></div>
+          <div id="g3Opts" class="flex flex-wrap gap-2 mt-1"></div>
+        </div>
+        <div class="bg-rose-50/60 border-2 border-rose-100 rounded-2xl p-3">
+          <img class="shotimg aspect-[4/3] object-cover" src="assets/q4.jpg" alt="第 4 張：深色桌面上的烤雞肉蔬菜盤" loading="lazy">
+          <div class="flex items-center gap-2 flex-wrap mt-3"><p class="font-bold text-rose-800">第 4 張</p><span class="qtypeSlot" data-qid="g4"></span><span id="g4Fb" class="text-sm font-bold"></span></div>
+          <div id="g4Opts" class="flex flex-wrap gap-2 mt-1"></div>
+        </div>
+      </div>
+      <div class="mt-5">
+        <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-rose-800 text-lg">你主要靠什麼判斷？<span class="font-normal text-slate-500 text-sm">（可以選好幾個）</span></p><span class="qtypeSlot" data-qid="gc"></span></div>
+        <div id="gcOpts" class="flex flex-wrap gap-2 mt-2"></div>
+      </div>
+      <p class="text-[11px] text-slate-400 mt-3">點圖可放大。</p>
+    </div>
+
+    <p data-wait="r1" class="text-center text-slate-400 mt-3 text-lg">🔒 答案等老師公布</p>
+    <div data-r="r1" class="hidden mt-3 bg-white border-4 border-rose-200 rounded-3xl p-6 flip">
+      <h3 class="cute text-2xl font-extrabold text-rose-700 mb-3">🎉 公布：第 1、4 張是 AI，第 2、3 張是真照片</h3>
+      <div class="grid sm:grid-cols-2 gap-3 text-base">
+        <div class="bg-rose-50 border-2 border-rose-100 rounded-2xl p-4"><p class="font-bold text-rose-800">第 1 張・AI 生成</p><p class="text-slate-700">Midjourney 畫的。幾乎沒有破綻：光滑、乾淨，連桌布的皺褶都剛剛好。</p></div>
+        <div class="bg-emerald-50 border-2 border-emerald-100 rounded-2xl p-4"><p class="font-bold text-emerald-800">第 2 張・真照片</p><p class="text-slate-700">相機拍的真甜甜圈（白底攝影）。糖珠亂亂的、邊緣不規則，<b>真的反而可能看起來「很假」</b>。</p></div>
+        <div class="bg-emerald-50 border-2 border-emerald-100 rounded-2xl p-4"><p class="font-bold text-emerald-800">第 3 張・真照片</p><p class="text-slate-700">餐廳裡拍的凱薩沙拉。燭光、背景模糊的酒杯，看起來很像廣告，但它是真的。</p></div>
+        <div class="bg-rose-50 border-2 border-rose-100 rounded-2xl p-4"><p class="font-bold text-rose-800">第 4 張・AI 生成</p><p class="text-slate-700">Midjourney 畫的。燈光、擺盤都像精修過的美食廣告照，很難找到明顯的錯。</p></div>
+      </div>
+      <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 text-lg mt-4 space-y-2">
+        <p class="cute text-xl font-extrabold text-amber-700">💡 發現了嗎？</p>
+        <p class="text-slate-700">• 「看起來太完美」<b>不一定是 AI</b>，「看起來亂亂的」<b>也不一定是真的</b>。</p>
+        <p class="text-slate-700">• 澳洲新南威爾斯大學和國立大學的研究（2026 年報導）：一般人分辨 AI 做的<b>人臉</b>，只比亂猜好一點點，而且<b>每個人都很有自信</b>。</p>
+        <p class="text-slate-700 font-bold">🤔 想一想：如果「看」不太靠得住，我們還能用什麼方法？先學怎麼找破綻，再學怎麼不只靠眼睛。</p>
+      </div>
+      <p class="text-[11px] text-slate-400 mt-2">圖片來源：維基共享資源。第 1 張 Midjourney（公眾領域）；第 2 張 Evan-Amos（公眾領域）；第 3 張 PattayaPatrol（CC BY-SA 4.0）；第 4 張 Dennis Sylvester Hurd／Midjourney（CC0）。</p>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 2：破綻偵探 ===== -->
+  <section class="step hidden" data-step="2">
+    <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">② 破綻偵探：AI 圖常露出哪些馬腳？</h2>
+      <p class="text-slate-600 mt-2 text-lg">還記得 L04 的曼谷魚群、東京巨蛋嗎？查核人員就是找到了「破綻」，才確定它們是 AI 做的。把這些馬腳整理成<b>四種</b>：</p>
+      <div class="grid sm:grid-cols-2 gap-3 mt-4 text-base">
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4"><p class="font-bold text-sky-700 text-lg">🖐️ 手指與身體</p><p class="text-slate-700">手指融在一起、變形，或多一根少一根。AI 不太懂「手怎麼動」。</p></div>
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4"><p class="font-bold text-sky-700 text-lg">🔤 文字</p><p class="text-slate-700">招牌、看板上的字拼錯、變亂碼，或「很像字，但不是字」。</p></div>
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4"><p class="font-bold text-sky-700 text-lg">✨ 質感太完美</p><p class="text-slate-700">皮膚、食物、背景光滑乾淨到不真實，像精修過的廣告。</p></div>
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4"><p class="font-bold text-sky-700 text-lg">🧭 跟現實對不上</p><p class="text-slate-700">把畫面和<b>真實的地方、真實的東西</b>比一比：少了高架橋、座位樣式不一樣。</p></div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 mt-5 items-start">
+        <div><img class="shotimg" src="assets/bkk_flaws.jpg" alt="曼谷魚群影片的破綻：婦人手指融入手機、7-11 招牌拼成 LEVEN、真實街景有高架橋" loading="lazy"><p class="text-xs text-slate-500 mt-1">L04 曼谷魚群：手指、招牌文字、街景都有問題</p></div>
+        <div><img class="shotimg" src="assets/dome_compare.jpg" alt="東京巨蛋實景與網傳圖比對：標竿消失、看板亂碼、座位樣式不符" loading="lazy"><p class="text-xs text-slate-500 mt-1">L04 東京巨蛋：用<b>實景照片對照</b>才找得出破綻</p></div>
+      </div>
+      <p class="text-[11px] text-slate-400 mt-2">圖片來源：台灣事實查核中心查核報告・點圖可放大</p>
+    </div>
+
+    <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h3 class="cute text-2xl font-extrabold text-violet-700 m-0">🔤 AI 會「畫」字，但不會「寫」字</h3>
+      <div class="grid md:grid-cols-2 gap-5 mt-3 items-center">
+        <img class="shotimg" src="assets/panda.jpg" alt="一個男孩指著熊貓，對話框裡是看不懂的假文字" loading="lazy">
+        <div>
+          <p class="font-bold text-violet-800 text-lg">看看左邊對話框裡的字：</p>
+          <div class="flex items-center gap-2 flex-wrap mt-2"><span class="qtypeSlot" data-qid="ft"></span></div>
+          <div id="ftOpts" class="flex flex-wrap gap-2 mt-1"></div>
+          <div id="ftReveal" class="hidden mt-3 bg-violet-50 border-2 border-violet-200 rounded-2xl p-4 text-lg flip">
+            <p class="text-slate-700">我們要求 AI：「<b>一個人指著熊貓，對話框寫『看！熊猫！』</b>」。</p>
+            <p class="text-slate-700 mt-1">結果它畫出一堆<b>很像字的圖案</b>。AI 是把文字當成「圖案」來畫，不是真的在寫字。</p>
+          </div>
+        </div>
+      </div>
+      <p class="text-[11px] text-slate-400 mt-2">圖片來源：維基共享資源，Microsoft Designer（DALL‑E 3）生成，公眾領域・點圖可放大</p>
+    </div>
+
+    <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap">
+        <h3 class="cute text-2xl font-extrabold text-sky-700 m-0">✋ 換你分類：這個破綻是哪一種？</h3>
+        <button data-reveal-btn="r2" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-lg px-3 py-1.5">🎉 公布②</button>
+      </div>
+      <p class="text-slate-600 mt-1 mb-3">每一張都是上面查核圖卡裡的細節，或是剛剛的圖。選出它屬於<b>哪一種破綻</b>。</p>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="bg-sky-50/60 border-2 border-sky-100 rounded-2xl p-3">
+          <img class="shotimg aspect-[4/3] object-contain bg-white" src="assets/ev_hand.jpg" alt="曼谷影片裡婦人拿著手機，手指和手機融在一起" loading="lazy">
+          <p class="text-sm text-slate-600 mt-2">曼谷影片：婦人拿手機拍照的手</p>
+          <div class="flex items-center gap-2 flex-wrap mt-1"><span class="font-bold text-sky-800 text-sm">這是：</span><span class="qtypeSlot" data-qid="p1"></span><span id="p1Fb" class="text-sm font-bold"></span></div>
+          <div id="p1Opts" class="flex flex-wrap gap-2 mt-1"></div>
+        </div>
+        <div class="bg-sky-50/60 border-2 border-sky-100 rounded-2xl p-3">
+          <img class="shotimg aspect-[4/3] object-contain bg-white" src="assets/ev_sign.jpg" alt="曼谷影片裡 7-11 招牌被拼成 7-LEVEN" loading="lazy">
+          <p class="text-sm text-slate-600 mt-2">曼谷影片：便利商店招牌</p>
+          <div class="flex items-center gap-2 flex-wrap mt-1"><span class="font-bold text-sky-800 text-sm">這是：</span><span class="qtypeSlot" data-qid="p2"></span><span id="p2Fb" class="text-sm font-bold"></span></div>
+          <div id="p2Opts" class="flex flex-wrap gap-2 mt-1"></div>
+        </div>
+        <div class="bg-sky-50/60 border-2 border-sky-100 rounded-2xl p-3">
+          <img class="shotimg aspect-[4/3] object-contain bg-white" src="assets/ev_bridge.jpg" alt="真實的曼谷素坤逸路上方有高架橋，影片裡卻沒有" loading="lazy">
+          <p class="text-sm text-slate-600 mt-2">真實的素坤逸路（Google 街景）上方有高架橋，影片裡的天空是空的</p>
+          <div class="flex items-center gap-2 flex-wrap mt-1"><span class="font-bold text-sky-800 text-sm">這是：</span><span class="qtypeSlot" data-qid="p3"></span><span id="p3Fb" class="text-sm font-bold"></span></div>
+          <div id="p3Opts" class="flex flex-wrap gap-2 mt-1"></div>
+        </div>
+        <div class="bg-sky-50/60 border-2 border-sky-100 rounded-2xl p-3">
+          <img class="shotimg aspect-[4/3] object-cover" src="assets/q1.jpg" alt="第 1 張青蘋果：光滑、乾淨、沒有一點瑕疵" loading="lazy">
+          <p class="text-sm text-slate-600 mt-2">猜猜看的第 1 張（AI 畫的青蘋果）：最明顯的特徵</p>
+          <div class="flex items-center gap-2 flex-wrap mt-1"><span class="font-bold text-sky-800 text-sm">這是：</span><span class="qtypeSlot" data-qid="p4"></span><span id="p4Fb" class="text-sm font-bold"></span></div>
+          <div id="p4Opts" class="flex flex-wrap gap-2 mt-1"></div>
+        </div>
+      </div>
+      <p data-wait="r2" class="text-center text-slate-400 mt-4 text-lg">🔒 答案等老師公布</p>
+      <div data-r="r2" class="hidden mt-4 bg-sky-50 border-2 border-sky-200 rounded-2xl p-4 text-lg flip space-y-1">
+        <p class="text-slate-700">🖐️ 手指融進手機 → <b>手指與身體</b></p>
+        <p class="text-slate-700">🔤 招牌拼成 LEVEN → <b>文字</b></p>
+        <p class="text-slate-700">🧭 少了高架橋 → <b>跟現實對不上</b>（要拿真實街景來比）</p>
+        <p class="text-slate-700">✨ 蘋果光滑到沒有一點瑕疵 → <b>質感太完美</b></p>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 shadow-sm">
+      <h3 class="cute text-2xl font-extrabold text-amber-700 m-0">⚠️ 但是，只靠「找破綻」不夠</h3>
+      <div class="space-y-3 mt-3 text-lg text-slate-700">
+        <p><b>① 破綻會越來越少。</b>去年還會畫壞的手指，現在很多 AI 已經畫得出來。第 1 步的第 1、4 張，你就找不到錯。</p>
+        <p><b>② 真照片也會怪怪的。</b>動作模糊、照片被壓縮、拍攝角度，都會讓手指或文字看起來變形。不能看到一個怪怪的地方，就說「這是 AI」。</p>
+        <p><b>③ 破綻只是「線索」，不是「證據」。</b>要確定，還要用 L04 的方法查出身：<b>以圖搜圖、查證網站、有沒有 AI 標示</b>，再用 L03 的 5W 問「<b>誰發的？為什麼發？</b>」</p>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 3：認識深偽 ===== -->
+  <section class="step hidden" data-step="3">
+    <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-violet-700 m-0">③ 認識深偽：連「人」也能做假</h2>
+      <p class="text-slate-600 mt-2 text-lg"><b>Deepfake（深偽）</b>＝「深度學習 deep learning」＋「偽造 fake」。AI 先看某個人<b>成千上萬張照片和影片</b>，學會他的表情和聲音，再把<b>別人的臉、別人的聲音</b>換成他的。</p>
+      <div class="mt-4">
+        <div class="moebox" id="moeBox">
+          <video id="moeVideo" controls playsinline preload="none" poster="assets/moe_cover.jpg"></video>
+          <button type="button" id="moePlay" class="moeplay" aria-label="播放教育部動畫《這是誰的臉？》"><span class="tri">▶</span><span class="cute text-xl font-extrabold">播放動畫（約 6 分 10 秒）</span></button>
+        </div>
+        <p id="moeFail" class="hidden mt-2 text-rose-600 font-bold">影片播不出來：請按下面的按鈕，到教育部網站看。</p>
+        <div class="flex flex-wrap gap-3 mt-3">
+          <a href="https://isafeevent.moe.edu.tw/video/30d38db0-71ee-4fef-87e0-011d12899ea7/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl px-4 py-2">在教育部網站看 ↗</a>
+          <a href="https://market.cloud.edu.tw/resources/video/1856937" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-white border-2 border-violet-300 hover:bg-violet-50 text-violet-700 font-bold rounded-xl px-4 py-2">教育雲市集 ↗</a>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-1">影片：教育部《全民資訊素養》素養動畫〈這是誰的臉？〉（五、六年級）</p>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-violet-200 rounded-3xl p-6 mb-5">
+      <div class="flex items-center gap-2 flex-wrap"><h3 class="cute text-2xl font-extrabold text-violet-700 m-0">🔍 看影片找線索</h3><span class="qtypeSlot" data-qid="ov"></span></div>
+      <p class="text-slate-700 text-lg mt-2">影片裡的直播主「阿龍」其實是 AI 做的。請寫出<b>兩個</b>讓人看穿他的線索：</p>
+      <textarea id="ov" data-k="ov" rows="3" class="fld ans mt-2 text-lg"></textarea>
+    </div>
+
+    <div class="bg-white border-4 border-violet-200 rounded-3xl p-6 mb-5">
+      <h3 class="cute text-2xl font-extrabold text-violet-700 m-0">同一項技術，三種用途</h3>
+      <div class="grid md:grid-cols-3 gap-3 mt-3 text-base">
+        <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-4"><p class="font-bold text-emerald-700 text-lg">🎬 好玩、有幫助</p><p class="text-slate-700">電影讓演員的替身換臉、讓歷史人物在教學影片裡開口說話、虛擬試穿衣服。<b>大家知情、有同意。</b></p></div>
+        <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4"><p class="font-bold text-amber-700 text-lg">💸 騙人拿錢</p><p class="text-slate-700">假冒知名企業家推薦投資，或假冒家人、老師的視訊和語音要你匯款。刑事警察局說這類影片<b>傳得快、很難分辨</b>。</p></div>
+        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4"><p class="font-bold text-rose-700 text-lg">💔 傷害別人</p><p class="text-slate-700">把同學、老師的臉換進影片取笑，或做不當的內容。<b>對方會很受傷，也可能違法。</b></p></div>
+      </div>
+      <p class="text-slate-700 text-lg mt-3">💡 差別在兩件事：<b>有沒有經過本人同意？有沒有騙人？</b></p>
+    </div>
+
+    <div class="bg-white border-4 border-slate-300 rounded-3xl p-6 shadow-sm">
+      <h3 class="cute text-2xl font-extrabold text-slate-700 m-0">🔒 你的臉和聲音，別隨便交出去</h3>
+      <p class="text-slate-700 text-lg mt-2">AI 要有<b>你的照片和聲音</b>，才學得會你。影片裡也提醒：有些 App 會叫你上傳照片、錄音，個人資料就跑到別人手上，傳出去<b>就收不回來</b>。</p>
+      <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 mt-3 text-lg text-slate-700">
+        <p class="font-bold text-slate-800">記住這一條</p>
+        <p>不把自己或別人的<b>臉、聲音</b>上傳到不明的 App 或網站。</p>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 4：遇到怎麼辦 ===== -->
+  <section class="step hidden" data-step="4">
+    <div class="bg-white border-4 border-teal-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-teal-700 m-0">④ 遇到了怎麼辦：停・問・查</h2>
+      <p class="text-slate-600 mt-2 text-lg">就算真的分不出來，也有辦法不被騙。<b>詐騙最愛的就是「急」</b>——所以第一步永遠是先停下來。</p>
+      <div class="grid md:grid-cols-3 gap-3 mt-4">
+        <div class="flex gap-3 items-start bg-teal-50 border-2 border-teal-200 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-teal-600 shrink-0">停</div><div><p class="font-bold text-lg">先別動，也別轉傳</p><p class="text-slate-700">不點連結、不加好友、不匯款、不唸出驗證碼。</p></div></div>
+        <div class="flex gap-3 items-start bg-teal-50 border-2 border-teal-200 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-teal-600 shrink-0">問</div><div><p class="font-bold text-lg">用「另一個管道」問本人</p><p class="text-slate-700">掛掉電話，用<b>原本存的號碼</b>打回去；或問只有家人知道的<b>暗號</b>。</p></div></div>
+        <div class="flex gap-3 items-start bg-teal-50 border-2 border-teal-200 rounded-2xl p-4"><div class="cute text-3xl font-extrabold text-teal-600 shrink-0">查</div><div><p class="font-bold text-lg">用 L04 的工具查</p><p class="text-slate-700">查證網站、以圖搜圖、看<b>官方帳號</b>有沒有同一則公告。</p></div></div>
+      </div>
+      <p class="text-sm text-slate-500 mt-3">刑事警察局的口訣：<b>一聽、二掛、三查證</b>。不確定就打 <b>165 反詐騙專線</b>（24 小時免費）。</p>
+    </div>
+
+    <div class="bg-white border-4 border-teal-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap">
+        <h3 class="cute text-2xl font-extrabold text-teal-700 m-0">✋ 換你選：這時候你會怎麼做？</h3>
+        <button data-reveal-btn="r3" class="hidden shrink-0 bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold rounded-lg px-3 py-1.5">🎉 公布④</button>
+      </div>
+      <p class="text-slate-600 mt-1 mb-4">三個情境，每個選一個<b>最好的做法</b>。</p>
+
+      <div class="mb-5 bg-teal-50/60 border-2 border-teal-100 rounded-2xl p-4">
+        <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800 text-lg">情境 1：阿嬤接到視訊</p><span class="qtypeSlot" data-qid="s1"></span><span id="s1Fb" class="text-sm font-bold"></span></div>
+        <p class="text-slate-700 text-lg mt-1">你在阿嬤家。阿嬤手機響了，視訊畫面裡是<b>你爸爸的臉和聲音</b>，很著急地說：「我出事了，手機壞了，用別人的手機打的，<b>快轉 3 萬塊</b>給我！」阿嬤很緊張，轉頭問你怎麼辦。</p>
+        <div id="s1Opts" class="grid gap-2 mt-3"></div>
+      </div>
+
+      <div class="mb-5 bg-teal-50/60 border-2 border-teal-100 rounded-2xl p-4">
+        <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800 text-lg">情境 2：實況主送點數</p><span class="qtypeSlot" data-qid="s2"></span><span id="s2Fb" class="text-sm font-bold"></span></div>
+        <p class="text-slate-700 text-lg mt-1">你最愛的實況主出現在一支影片裡說：「<b>今天限定！加我的 LINE、留言，就送 5000 遊戲點數！</b>」底下好多人留言：「我領到了！」</p>
+        <div id="s2Opts" class="grid gap-2 mt-3"></div>
+      </div>
+
+      <div class="bg-teal-50/60 border-2 border-teal-100 rounded-2xl p-4">
+        <div class="flex items-center gap-2 flex-wrap"><p class="font-bold text-teal-800 text-lg">情境 3：同學傳來的影片</p><span class="qtypeSlot" data-qid="s3"></span><span id="s3Fb" class="text-sm font-bold"></span></div>
+        <p class="text-slate-700 text-lg mt-1">班上有人用 AI 把<b>一位同學的臉</b>換進搞笑影片，大家都在轉傳。有人傳給你，問你要不要也轉到班群。</p>
+        <div id="s3Opts" class="grid gap-2 mt-3"></div>
+      </div>
+
+      <p data-wait="r3" class="text-center text-slate-400 mt-4 text-lg">🔒 答案等老師公布</p>
+      <div data-r="r3" class="hidden mt-4 bg-teal-50 border-2 border-teal-200 rounded-2xl p-4 text-lg flip space-y-2">
+        <p class="text-slate-700"><b>情境 1：B。</b>臉和聲音都可能是 AI 做的，而且對方一直催你「快」，就是詐騙的樣子。<b>掛掉，用原本存的號碼打給爸爸，或問暗號</b>。</p>
+        <p class="text-slate-700"><b>情境 2：C。</b>留言也可能是假帳號。<b>到實況主「官方頻道」找有沒有同一則公告</b>，找不到、或要你加 LINE 的，先不要。</p>
+        <p class="text-slate-700"><b>情境 3：D。</b>不轉傳、不留言笑，<b>告訴老師或大人</b>。被換臉的同學可能很受傷；轉傳的人，也成了幫兇。</p>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-teal-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap"><h3 class="cute text-2xl font-extrabold text-teal-700 m-0">✍️ 如果是你：被做成深偽怎麼辦？</h3><span class="qtypeSlot" data-qid="o2"></span></div>
+      <p class="text-slate-600 mt-2 text-lg">假設有人把<b>你的照片</b>做成影片，影片裡的「你」說了奇怪的話，還傳進班群。寫出你<b>會做的 2～3 件事</b>，照先後順序寫。</p>
+      <textarea id="o2" data-k="o2" rows="4" class="fld ans mt-3 text-lg"></textarea>
+      <details class="mt-3 bg-teal-50 border-2 border-teal-100 rounded-2xl p-3">
+        <summary class="font-bold text-teal-700">寫完再打開：教育部的建議步驟 ▾</summary>
+        <p class="text-slate-700 mt-2 text-lg">① <b>保持冷靜</b>，不回應、不轉傳。② <b>截圖存證</b>：影片、對話、日期時間、網址。③ <b>告訴老師或家長</b>。④ 向平台<b>申訴檢舉</b>，必要時<b>報警</b>。⑤ 心裡難受，可以找輔導老師聊聊。</p>
+        <p class="text-[11px] text-slate-400 mt-1">參考：教育部全民資訊素養推廣計畫（i 安全網）學習手冊延伸學習文章</p>
+      </details>
+    </div>
+
+    <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 shadow-sm">
+      <h3 class="cute text-2xl font-extrabold text-amber-700 m-0">🗝️ 今晚回家就能做：和家人約一個暗號</h3>
+      <p class="text-slate-700 text-lg mt-2">和家人約定一個<b>只有你們知道</b>的暗號。以後有人用「家人的臉或聲音」要你做急事，先問暗號；答不出來，就不是本人。</p>
+      <p class="text-slate-500 mt-2">暗號<b>不要寫在這張學習單</b>，也不要放在網路上。</p>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 5：布置夢想房間（好的合成技術）＋繳交 ===== -->
+  <section class="step hidden" data-step="5">
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-indigo-700 m-0">⑤ 好用的深偽：布置你的夢想房間</h2>
+      <p class="text-slate-600 mt-2 text-lg">剛剛看的是壞用途。同樣是<b>電腦合成出很像真的畫面</b>，也能拿來做好玩又有用的事：<b>不用搬家具</b>，就先看看房間換了顏色、擺了新家具會長怎樣。換你來布置！</p>
+      <a href="https://www.ikea.com/us/en/home-design/" target="_blank" rel="noopener" class="mt-4 flex items-center gap-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl p-4">
+        <div class="text-4xl">🏠</div><div class="flex-1"><div class="cute text-xl font-extrabold">打開 IKEA Kreativ 房間設計</div><div class="text-sm text-indigo-100">網站是英文，看圖就會用；不用登入、不用填任何資料</div></div><div class="font-bold">開啟 ↗</div>
+      </a>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4 mb-5">
+      <div class="bg-white border-4 border-sky-200 rounded-3xl p-5">
+        <div class="flex items-center gap-3"><span class="cute shrink-0 w-9 h-9 rounded-full bg-sky-500 text-white font-extrabold flex items-center justify-center text-lg">1</span><p class="cute text-xl font-extrabold text-sky-700 m-0">按 <span class="bg-slate-100 rounded px-2">Choose a room</span></p></div>
+        <img class="shotimg mt-3" src="assets/ikea_1.jpg" alt="IKEA Kreativ 首頁的三個開始方式，第一個是 Choose a room" loading="lazy">
+      </div>
+      <div class="bg-white border-4 border-sky-200 rounded-3xl p-5">
+        <div class="flex items-center gap-3"><span class="cute shrink-0 w-9 h-9 rounded-full bg-sky-500 text-white font-extrabold flex items-center justify-center text-lg">2</span><p class="cute text-xl font-extrabold text-sky-700 m-0">往下找 <span class="bg-slate-100 rounded px-2">Furnished rooms</span>，選一間喜歡的</p></div>
+        <img class="shotimg mt-3" src="assets/ikea_2.jpg" alt="Furnished rooms 已經布置好的房間照片列表" loading="lazy">
+      </div>
+      <div class="bg-white border-4 border-sky-200 rounded-3xl p-5">
+        <div class="flex items-center gap-3"><span class="cute shrink-0 w-9 h-9 rounded-full bg-sky-500 text-white font-extrabold flex items-center justify-center text-lg">3</span><p class="cute text-xl font-extrabold text-sky-700 m-0">按 <span class="bg-slate-100 rounded px-2">Wall color</span>，換牆壁顏色</p></div>
+        <img class="shotimg mt-3" src="assets/ikea_3.jpg" alt="房間下方的 Wall color 按鈕與牆壁顏色選單" loading="lazy">
+      </div>
+      <div class="bg-white border-4 border-sky-200 rounded-3xl p-5">
+        <div class="flex items-center gap-3"><span class="cute shrink-0 w-9 h-9 rounded-full bg-sky-500 text-white font-extrabold flex items-center justify-center text-lg">4</span><p class="cute text-xl font-extrabold text-sky-700 m-0">左邊挑家具，按 <span class="bg-slate-100 rounded px-2">+</span> 放進房間</p></div>
+        <img class="shotimg mt-3" src="assets/ikea_4.jpg" alt="左邊的家具列表，滑過去會出現 Add to room，加進房間後牆壁已換成橘色" loading="lazy">
+      </div>
+    </div>
+
+    <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-5 mb-5 text-lg text-slate-700">
+      <p class="font-bold text-amber-700">你的任務</p>
+      <p>做出<b>你的夢想房間</b>：換一個<b>牆壁顏色</b>，加 <b>2 件以上</b>的家具，再把家具<b>拖到好位置</b>。做好了，請老師過來看。</p>
+      <p class="text-sm text-slate-500 mt-1">家具剛加進來可能疊在別的家具上，用滑鼠拖開就好。</p>
+    </div>
+
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h3 class="cute text-2xl font-extrabold text-indigo-700 m-0">💭 想一想：同樣是合成，差別在哪？</h3>
+      <p class="text-slate-600 mt-2 text-lg">你布置的房間是電腦合成的，卻看起來很像真的。回想步驟 3 的兩個問題，寫出<b>拿來布置房間，和拿來騙人、傷人，差別在哪</b>。</p>
+      <textarea id="pl" data-k="pl" rows="3" class="fld ans mt-3 text-lg"></textarea>
+    </div>
+
+    <div class="text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-6">
+      <div class="text-5xl mb-2">🎖️</div>
+      <h2 class="cute text-2xl font-extrabold text-indigo-700">今天你帶走的能力</h2>
+      <p class="text-slate-700 mt-2 text-lg"><b>畫面再真，也要核對。</b></p>
+      <div class="flex flex-wrap justify-center items-center gap-2 mt-3 text-lg font-bold">
+        <span class="bg-white border-2 border-indigo-300 rounded-full px-4 py-1 text-indigo-700">🔍 看破綻</span><span class="text-indigo-400">→</span>
+        <span class="bg-white border-2 border-indigo-300 rounded-full px-4 py-1 text-indigo-700">🧾 查出處</span><span class="text-indigo-400">→</span>
+        <span class="bg-white border-2 border-indigo-300 rounded-full px-4 py-1 text-indigo-700">📞 問本人</span>
+      </div>
+      <p class="text-slate-700 mt-3 text-lg">同一種技術，是好玩還是傷人，看<b>有沒有經過同意、有沒有騙人</b>。<br>下一課，我們要看 AI 的<b>另一種</b>錯：它不只會畫假圖，連<b>說話</b>也會一本正經地說錯！</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-4 mt-5">
+      <a href="https://tfc-taiwan.org.tw/articles/9630" target="_blank" rel="noopener" class="flex items-center gap-3 bg-white border-4 border-dashed border-indigo-300 rounded-2xl p-4 hover:bg-indigo-50">
+        <div class="text-3xl">🎮</div><div class="flex-1"><div class="font-bold text-indigo-700">延伸遊戲：測驗你的 AI 之眼</div><div class="text-xs text-slate-400">台灣事實查核中心（2023 年製作，AI 已經進步很多）</div></div><div class="text-indigo-600 font-bold text-sm">開啟 ↗</div>
+      </a>
+      <a href="https://isafeevent.moe.edu.tw/manual/" target="_blank" rel="noopener" class="flex items-center gap-3 bg-white border-4 border-dashed border-indigo-300 rounded-2xl p-4 hover:bg-indigo-50">
+        <div class="text-3xl">📘</div><div class="flex-1"><div class="font-bold text-indigo-700">延伸閱讀：〈這是誰的臉？〉學習手冊</div><div class="text-xs text-slate-400">教育部全民資訊素養推廣計畫（國小高年級學生版）</div></div><div class="text-indigo-600 font-bold text-sm">開啟 ↗</div>
+      </a>
+    </div>
+
+    <div class="bg-white border-4 border-indigo-300 rounded-3xl p-5 shadow-sm text-center mt-6">
+      <h2 class="cute text-xl font-extrabold text-indigo-700 mb-1">📮 繳交學習單</h2>
+      <p class="text-sm text-slate-500 mb-3">確定都填好了嗎？按下面按鈕交給老師（可以重交，會覆蓋前一次）。</p>
+      <button id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white cute text-xl font-extrabold rounded-2xl py-3">繳交學習單</button>
+      <p id="submitStat" class="text-sm font-bold mt-3 min-h-[20px]"></p>
+    </div>
+
+    <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-indigo-100 to-sky-100 border-4 border-indigo-300 rounded-3xl p-7 mt-6">
+      <div class="text-6xl mb-2 pop">🎉</div>
+      <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
+      <div class="flex flex-wrap gap-3 justify-center mt-4">
+        <a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-xl font-extrabold rounded-2xl px-8 py-3">🎮 打字英雄</a>
+        <a href="https://boyinslps.github.io/pcclass/games/" target="_blank" rel="noopener" class="cute inline-block bg-white border-4 border-indigo-300 hover:bg-indigo-50 text-indigo-700 text-xl font-extrabold rounded-2xl px-8 py-3">🕹️ 更多遊戲</a>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <footer class="text-center text-xs text-slate-400 mt-8 pb-2">教師公布答案：在網址列加上 <code class="bg-slate-200 rounded px-1">#admin</code> 後重新整理。圖片來源：維基共享資源（各圖授權見公布頁）、台灣事實查核中心查核報告、教育部全民資訊素養推廣計畫、IKEA Kreativ 畫面截圖。</footer>
+  <p class="text-right text-xs text-slate-400 pb-4">made by 資訊老師黃博胤</p>
+</div>
+
+<!-- 點圖放大 -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="放大看圖">
+  <div class="lbtop">
+    <span>滾輪放大縮小・放大後拖曳移動・雙擊還原</span>
+    <button type="button" class="zbtn" id="lbOut" aria-label="縮小">－</button>
+    <span id="lbPct" class="font-bold text-white w-12 text-center">100%</span>
+    <button type="button" class="zbtn" id="lbIn" aria-label="放大">＋</button>
+    <button type="button" class="zbtn" id="lbReset">還原</button>
+    <button type="button" class="zbtn ml-auto" id="lbClose">✕ 關閉</button>
+  </div>
+  <div class="lbstage" id="lbStage"><img id="lbImg" alt=""></div>
+</div>
+
+<script>
+/* Firebase（沿用 pcclass-94300 專案）。設為 null＝單機模式（可作答，不會繳交出去）。 */
+var firebaseConfig = {
+  apiKey:"AIzaSyAaodBvsP-BSovON14izt22DOXeH40TTGM",
+  authDomain:"pcclass-94300.firebaseapp.com",
+  projectId:"pcclass-94300",
+  storageBucket:"pcclass-94300.firebasestorage.app",
+  messagingSenderId:"1034787516465",
+  appId:"1:1034787516465:web:73c334b2ddad152c472510",
+  measurementId:"G-37P75R7TZ7"
+};
+
+(function(){
+  var WS='g5-L07', QUIZ_ID='g5-L07', LESSON_PATH='g5/L07', TITLE='AI 做的圖與 Deepfake 深偽';
+  var TEACHER_EMAIL='boyin0304@slps.tn.edu.tw';
+  var IS_ADMIN=location.hash==='#admin';
+  var REVIEW_ID=IS_ADMIN?new URLSearchParams(location.search).get('review'):null;   // 沒有 #admin 不給看別人的作答
+  function $(id){return document.getElementById(id);}
+  function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  // 圖片載不到 → 明確的佔位框（《HTML互動教材設計規範》§4.5）
+  function phImg(img){var d=el('div','imgph','🖼️ '+esc(img.getAttribute('src')));img.replaceWith(d);}
+  document.querySelectorAll('img.shotimg').forEach(function(img){if(img.complete&&img.naturalWidth===0)phImg(img);else img.addEventListener('error',function(){phImg(img);});});
+
+  // ===== 點圖放大：滾輪多段放大、拖曳移動、雙擊還原 =====
+  (function(){
+    var lb=$('lightbox'),stage=$('lbStage'),img=$('lbImg'),pct=$('lbPct');
+    var sc=1,tx=0,ty=0,drag=null,moved=false,MAX=8;
+    img.style.transformOrigin='0 0';img.draggable=false;
+    function apply(){img.style.transform='translate('+tx+'px,'+ty+'px) scale('+sc+')';img.style.cursor=sc>1?(drag?'grabbing':'grab'):'zoom-in';pct.textContent=Math.round(sc*100)+'%';}
+    function zoomAt(f,cx,cy){
+      var r=img.getBoundingClientRect(),bl=r.left-tx,bt=r.top-ty;
+      if(cx==null){cx=r.left+r.width/2;cy=r.top+r.height/2;}
+      var x=(cx-bl-tx)/sc,y=(cy-bt-ty)/sc,s2=Math.max(1,Math.min(MAX,sc*f));
+      if(s2===1){tx=ty=0;}else{tx=cx-bl-x*s2;ty=cy-bt-y*s2;}
+      sc=s2;apply();
+    }
+    function reset(){sc=1;tx=ty=0;apply();}
+    stage.addEventListener('wheel',function(e){e.preventDefault();zoomAt(e.deltaY<0?1.25:0.8,e.clientX,e.clientY);},{passive:false});
+    img.addEventListener('dblclick',function(e){e.preventDefault();if(sc>1)reset();else zoomAt(2.5,e.clientX,e.clientY);});
+    img.addEventListener('pointerdown',function(e){if(sc<=1)return;e.preventDefault();drag={x:e.clientX-tx,y:e.clientY-ty};moved=false;img.setPointerCapture(e.pointerId);apply();});
+    img.addEventListener('pointermove',function(e){if(!drag)return;tx=e.clientX-drag.x;ty=e.clientY-drag.y;moved=true;apply();});
+    img.addEventListener('pointerup',function(){drag=null;apply();});
+    img.addEventListener('click',function(e){e.stopPropagation();if(!moved&&sc===1)zoomAt(2,e.clientX,e.clientY);moved=false;});
+    $('lbIn').onclick=function(){zoomAt(1.25);};$('lbOut').onclick=function(){zoomAt(0.8);};$('lbReset').onclick=reset;
+    function close(){lb.classList.remove('on');document.body.style.overflow='';}
+    $('lbClose').onclick=close;
+    stage.addEventListener('click',function(e){if(e.target===stage)close();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('on'))close();});
+    document.addEventListener('click',function(e){
+      var t=e.target.closest&&e.target.closest('img.shotimg');
+      if(!t||lb.contains(t))return;
+      e.preventDefault();img.src=t.getAttribute('src');img.alt=t.alt||'';reset();lb.classList.add('on');document.body.style.overflow='hidden';
+    });
+  })();
+
+  // ===== 識別列 =====
+  var ID_KEY='wk_identity',ID_FIELDS=['idGrade','idClass','idStudent'];
+  function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
+  function loadIdentity(){try{return JSON.parse(localStorage.getItem(ID_KEY)||'{}');}catch(e){return {};}}
+  function saveIdentity(o){try{localStorage.setItem(ID_KEY,JSON.stringify(o));}catch(e){}}
+  function getIdentity(){
+    var g=digits($('idGrade').value),c=digits($('idClass').value),s=digits($('idStudent').value);
+    return {grade:g?Number(g):null,className:c?Number(c):null,studentId:s?Number(s):null};
+  }
+  function identityValid(id){return id.grade!=null&&id.className!=null&&id.className>=1&&id.className<=14&&id.studentId!=null;}
+  function clampClass(v){while(v!==''&&Number(v)>14)v=v.slice(0,-1);return v;}
+  function markIdentity(on){ID_FIELDS.forEach(function(id){var e=$(id),bad=on&&!digits(e.value);e.classList.toggle('border-rose-400',bad);e.classList.toggle('bg-rose-50',bad);e.classList.toggle('border-slate-200',!bad);});}
+  (function(){
+    var saved=loadIdentity();
+    if(saved.grade)$('idGrade').value=saved.grade;
+    if(saved.className)$('idClass').value=saved.className;
+    if(saved.studentId)$('idStudent').value=saved.studentId;
+    if(identityValid(saved))$('idOk').classList.remove('hidden');
+    ID_FIELDS.forEach(function(id){
+      var e=$(id);
+      e.addEventListener('input',function(){
+        var d=digits(e.value);if(id==='idClass')d=clampClass(d);if(d!==e.value)e.value=d;
+        if(d){e.classList.remove('border-rose-400','bg-rose-50');e.classList.add('border-slate-200');}
+        var idn=getIdentity();
+        if(identityValid(idn)){saveIdentity(idn);$('idOk').classList.remove('hidden');}else $('idOk').classList.add('hidden');
+      });
+    });
+  })();
+
+  // ===== Firebase =====
+  var db=null,auth=null,quizRef=null;
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+  var fbReady=(function(){
+    if(!firebaseConfig)return Promise.resolve();
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    return loadScript(base+'firebase-app-compat.js')
+      .then(function(){return loadScript(base+'firebase-auth-compat.js');})
+      .then(function(){return loadScript(base+'firebase-firestore-compat.js');})
+      .then(function(){firebase.initializeApp(firebaseConfig);db=firebase.firestore();auth=firebase.auth();quizRef=db.collection('quizzes').doc(QUIZ_ID);$('syncBadge').classList.remove('hidden');})
+      .catch(function(e){console.warn('Firebase 啟用失敗，改用單機模式',e);});
+  })();
+  // 等 Firebase 還原持久化登入狀態；學生分支確認沒人登入才匿名登入（避免洗掉老師的 session）
+  var authResolved=fbReady.then(function(){
+    if(!auth)return null;
+    return new Promise(function(resolve){var unsub=auth.onAuthStateChanged(function(u){if(unsub){unsub();unsub=null;}resolve(u);});});
+  });
+  function ensureAuth(){return (auth&&auth.currentUser)?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user;});}
+
+  // ===== 教育部動畫《這是誰的臉？》（HLS，需 hls.js；播不出來就退回外連按鈕）=====
+  (function(){
+    var URL_M3U8='https://media.video.cloud.edu.tw/medialib/00/06/DE/02/playlist.m3u8';
+    var HLS_CDN='https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js';
+    var v=$('moeVideo'),btn=$('moePlay'),hls=null,started=false;
+    function fail(){btn.classList.add('hidden');$('moeFail').classList.remove('hidden');if(hls){try{hls.destroy();}catch(e){}}}
+    function go(){
+      if(started)return;started=true;btn.classList.add('hidden');
+      // 先用 hls.js（Chrome／Edge 沒有原生 HLS）；hls.js 載不到或不支援，才退回原生播放（Safari），再不行就顯示外連按鈕
+      loadScript(HLS_CDN).catch(function(){}).then(function(){
+        if(window.Hls&&Hls.isSupported()){
+          hls=new Hls({capLevelToPlayerSize:true,startLevel:1});   // 全班同時看：依視窗大小選畫質、從低畫質起步，省校網頻寬
+          hls.loadSource(URL_M3U8);hls.attachMedia(v);
+          hls.on(Hls.Events.MANIFEST_PARSED,function(){v.play().catch(function(){});});
+          hls.on(Hls.Events.ERROR,function(ev,d){if(d&&d.fatal)fail();});
+        }else if(v.canPlayType('application/vnd.apple.mpegurl')){
+          v.addEventListener('error',fail,{once:true});v.src=URL_M3U8;v.play().catch(function(){});
+        }else fail();
+      });
+    }
+    btn.onclick=go;
+  })();
+
+  // ===== 題目與標準答案（唯一來源＝這份學習單）=====
+  var GUESS_OPTS=['真照片','AI 生成'];
+  var TYPE_OPTS=['手指與身體','文字','質感太完美','跟現實對不上'];
+  var CHOICES={
+    g1:{opts:GUESS_OPTS,correct:'AI 生成'},
+    g2:{opts:GUESS_OPTS,correct:'真照片'},
+    g3:{opts:GUESS_OPTS,correct:'真照片'},
+    g4:{opts:GUESS_OPTS,correct:'AI 生成'},
+    p1:{opts:TYPE_OPTS,correct:'手指與身體'},
+    p2:{opts:TYPE_OPTS,correct:'文字'},
+    p3:{opts:TYPE_OPTS,correct:'跟現實對不上'},
+    p4:{opts:TYPE_OPTS,correct:'質感太完美'}
+  };
+  var SCN={
+    s1:{correct:'B',opts:[
+      {k:'A',t:'馬上幫阿嬤轉帳。爸爸出事了，臉和聲音都是爸爸，一定是真的，不能再等了。'},
+      {k:'B',t:'叫阿嬤先掛掉，用爸爸原本存的號碼打回去確認，或問只有家人知道的暗號。'},
+      {k:'C',t:'在視訊裡問他：「你是不是真的爸爸？」他說是，也很著急，就趕快幫他轉帳。'},
+      {k:'D',t:'先把這段視訊錄下來，傳到班群問大家看起來是不是真的，再決定要不要轉帳。'}]},
+    s2:{correct:'C',opts:[
+      {k:'A',t:'馬上加他的 LINE 領 5000 點。留言那麼多人說領到了，應該是真的，不領可惜。'},
+      {k:'B',t:'轉傳給好朋友，大家一起領。人越多越划算，錯過了就沒有了。'},
+      {k:'C',t:'先到他的官方頻道找有沒有同一則公告；找不到或要加 LINE，就不理它並告訴大人。'},
+      {k:'D',t:'也留言「我也要」，等他私訊我。他看到我的留言，就會把點數送給我。'}]},
+    s3:{correct:'D',opts:[
+      {k:'A',t:'轉到班群。大家都在傳，只是好玩而已，不會有人真的生氣。'},
+      {k:'B',t:'存下來，再把影片改得更好笑一點，這樣大家會覺得我很厲害。'},
+      {k:'C',t:'只偷偷傳給幾個好朋友看，不要讓被換臉的同學和老師知道就好。'},
+      {k:'D',t:'不轉傳、不留言笑，把影片告訴老師或大人，因為被換臉的同學會很受傷。'}]}
+  };
+  var CLUE_OPTS=['太完美、太乾淨','光線和陰影','細節和質地','背景','直覺・就是覺得','隨便猜'];
+  var FT_OPTS=['讀得出來','像字，但讀不出來','看不懂這種字'];
+  var REF_OPEN={
+    ov:'眼鏡框會變形、閃爍；他身後的影子慢半拍；動作太大時邊緣不自然；嘴型和聲音對不上（任兩個都可以）',
+    o2:'保持冷靜、不回應不轉傳；截圖存證（影片、對話、日期時間、網址）；告訴老師或家長；向平台申訴、必要時報警；找輔導老師聊聊'
+  };
+
+  // ===== 作答狀態（localStorage 暫存）=====
+  var STATE_KEY='g5L07flow';
+  var FIELDS=['ov','o2','pl'];
+  var state={g1:null,g2:null,g3:null,g4:null,gc:[],ft:null,p1:null,p2:null,p3:null,p4:null,s1:null,s2:null,s3:null};
+  FIELDS.forEach(function(k){state[k]='';});
+  if(!REVIEW_ID){try{var sv=localStorage.getItem(STATE_KEY);if(sv)state=Object.assign(state,JSON.parse(sv));}catch(e){}}
+  function save(){if(REVIEW_ID)return;try{localStorage.setItem(STATE_KEY,JSON.stringify(state));}catch(e){}}
+  var REV={r1:false,r2:false,r3:false};
+  var REVEAL_OF={g1:'r1',g2:'r1',g3:'r1',g4:'r1',p1:'r2',p2:'r2',p3:'r2',p4:'r2',s1:'r3',s2:'r3',s3:'r3'};
+
+  // ===== 題型（預設＋老師即時切換）=====
+  // 猜猜看與其他體驗題不計分；p1～p4（分類）、s1～s3（情境）是計分題；ov、o2 是開放題
+  var DEFAULT_QTYPE={g1:'experience',g2:'experience',g3:'experience',g4:'experience',gc:'experience',ft:'experience',p1:'score',p2:'score',p3:'score',p4:'score',ov:'open',s1:'score',s2:'score',s3:'score',o2:'open',pl:'experience'};
+  var QTYPE_OVERRIDES={};
+  function qtypeOf(qid){return QTYPE_OVERRIDES[qid]||DEFAULT_QTYPE[qid]||'experience';}
+
+  // ===== 畫面 =====
+  var chipCls='opt ans border-2 border-slate-200 bg-white rounded-full px-4 py-1.5 font-bold hover:border-indigo-400';
+  var chipOn='opt ans border-2 border-indigo-500 bg-indigo-50 text-indigo-800 rounded-full px-4 py-1.5 font-bold';
+  function renderChoice(q){
+    var host=$(q+'Opts');host.innerHTML='';
+    CHOICES[q].opts.forEach(function(o){
+      var b=el('button',state[q]===o?chipOn:chipCls,esc(o));b.type='button';
+      b.onclick=function(){state[q]=o;save();renderChoice(q);renderFeedback();};
+      host.appendChild(b);
+    });
+  }
+  function renderScenario(q){
+    var host=$(q+'Opts');host.innerHTML='';
+    SCN[q].opts.forEach(function(o){
+      var cls='scn ans';
+      if(state[q]===o.k){
+        cls+=' on';
+        if(REV[REVEAL_OF[q]])cls+=(o.k===SCN[q].correct?' good':' bad');
+      }else if(REV[REVEAL_OF[q]]&&o.k===SCN[q].correct)cls+=' good';
+      var b=el('button',cls,'<b>'+o.k+'.</b> '+esc(o.t));b.type='button';
+      b.onclick=function(){state[q]=o.k;save();renderScenario(q);renderFeedback();};
+      host.appendChild(b);
+    });
+  }
+  function renderMulti(hostId,key,opts){
+    var host=$(hostId);host.innerHTML='';if(!Array.isArray(state[key]))state[key]=[];
+    opts.forEach(function(o){
+      var on=state[key].indexOf(o)>=0;
+      var b=el('button',on?chipOn:chipCls,(on?'✔ ':'')+esc(o));b.type='button';
+      b.onclick=function(){var i=state[key].indexOf(o);if(i>=0)state[key].splice(i,1);else state[key].push(o);save();renderMulti(hostId,key,opts);};
+      host.appendChild(b);
+    });
+  }
+  function renderFt(){
+    var host=$('ftOpts');host.innerHTML='';
+    FT_OPTS.forEach(function(o){
+      var b=el('button',state.ft===o?chipOn:chipCls,esc(o));b.type='button';
+      b.onclick=function(){state.ft=o;save();renderFt();};
+      host.appendChild(b);
+    });
+    $('ftReveal').classList.toggle('hidden',!state.ft);
+  }
+  function bindFields(){
+    document.querySelectorAll('[data-k]').forEach(function(f){
+      f.value=state[f.dataset.k]||'';
+      f.addEventListener('input',function(){state[f.dataset.k]=f.value;save();});
+    });
+  }
+  function fillFields(){document.querySelectorAll('[data-k]').forEach(function(f){f.value=state[f.dataset.k]||'';});}
+  function isRight(q){return SCN[q]?state[q]===SCN[q].correct:state[q]===CHOICES[q].correct;}
+  function renderFeedback(){
+    Object.keys(REVEAL_OF).forEach(function(q){
+      var e=$(q+'Fb');if(!e)return;
+      var show=REV[REVEAL_OF[q]]&&state[q];
+      if(!show){e.textContent='';return;}
+      var ok=isRight(q);e.className='text-sm font-bold '+(ok?'text-emerald-600':'text-rose-600');e.textContent=ok?'✔ 答對了':'✘ 正確答案：'+(SCN[q]?SCN[q].correct:CHOICES[q].correct);
+    });
+  }
+  function applyReveal(){
+    document.querySelectorAll('[data-r]').forEach(function(e){e.classList.toggle('hidden',!REV[e.dataset.r]);});
+    document.querySelectorAll('[data-wait]').forEach(function(e){e.classList.toggle('hidden',!!REV[e.dataset.wait]);});
+    ['s1','s2','s3'].forEach(renderScenario);
+    renderFeedback();
+  }
+  function renderAll(){
+    ['g1','g2','g3','g4','p1','p2','p3','p4'].forEach(renderChoice);
+    ['s1','s2','s3'].forEach(renderScenario);
+    renderMulti('gcOpts','gc',CLUE_OPTS);renderFt();fillFields();renderFeedback();
+  }
+  bindFields();renderAll();
+
+  // ===== 每題判斷（繳交與檢視共用）=====
+  function filled(v){return !!String(v==null?'':v).trim();}
+  function judge(){
+    var r={};
+    ['g1','g2','g3','g4'].forEach(function(q){r[q]={given:state[q]||null,correct:CHOICES[q].correct,isCorrect:filled(state[q])};});   // 體驗題：看有沒有作答
+    var clue=Array.isArray(state.gc)?state.gc:[];
+    r.gc={given:clue.length?clue.join('、'):null,correct:null,isCorrect:clue.length>0};
+    r.ft={given:state.ft||null,correct:null,isCorrect:filled(state.ft)};
+    ['p1','p2','p3','p4'].forEach(function(q){r[q]={given:state[q]||null,correct:CHOICES[q].correct,isCorrect:isRight(q)};});
+    ['s1','s2','s3'].forEach(function(q){r[q]={given:state[q]||null,correct:SCN[q].correct,isCorrect:isRight(q)};});
+    ['ov','o2','pl'].forEach(function(q){r[q]={given:String(state[q]||'').trim()||null,correct:null,isCorrect:filled(state[q])};});
+    return r;
+  }
+
+  // ===== 繳交（§2-b、§3、§3-b）=====
+  var OPEN_QTEXTS={"ov":"教育部動畫《這是誰的臉？》裡的直播主「阿龍」其實是 AI 做的。請寫出兩個讓人看穿他的線索。","o2":"假設有人把你的照片做成影片，影片裡的「你」說了奇怪的話，還傳進班群。寫出你會做的 2～3 件事，照先後順序寫。"};
+  function buildPayload(idn){
+    var j=judge(),answers={},qtypes={},scoreAnswers={},experienceAnswers={},openAnswers={};
+    var sT=0,sC=0,eT=0,eA=0;
+    Object.keys(DEFAULT_QTYPE).forEach(function(qid){
+      var t=qtypeOf(qid);qtypes[qid]=t;
+      var item=j[qid];
+      answers[qid]=item.given;
+      if(t==='open'){openAnswers[qid]=String(item.given||'');}
+      else if(t==='experience'){experienceAnswers[qid]=item;eT++;if(filled(item.given))eA++;}
+      else{scoreAnswers[qid]=item;sT++;if(item.isCorrect)sC++;}
+    });
+    var parts={};Object.keys(state).forEach(function(k){parts[k]=state[k];});
+    return {worksheetId:WS,worksheetTitle:TITLE,lessonPath:LESSON_PATH,
+      grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      answers:answers,qtypes:qtypes,
+      qtexts:OPEN_QTEXTS,
+      scoreAnswers:scoreAnswers,experienceAnswers:experienceAnswers,openAnswers:openAnswers,
+      accuracyRate:sT?Math.round(sC/sT*100):null,experienceCompletion:eT?Math.round(eA/eT*100):null,
+      parts:parts,status:'submitted'};
+  }
+  function report(){
+    function done(keys){return keys.every(function(k){return filled(state[k]);});}
+    return ['① 猜猜看：'+(done(['g1','g2','g3','g4'])?'已作答':'還沒選完'),
+      '② 破綻分類：'+(done(['p1','p2','p3','p4'])?'已作答':'還沒選完'),
+      '③ 看影片找線索：'+(filled(state.ov)?'已作答':'還沒寫'),
+      '④ 三個情境：'+(done(['s1','s2','s3'])?'已作答':'還沒選完'),
+      '④ 被做成深偽怎麼辦：'+(filled(state.o2)?'已作答':'還沒寫'),
+      '⑤ 布置房間想一想：'+(filled(state.pl)?'已作答':'還沒寫')];
+  }
+  var submittedOnce=false;
+  // 繳交失敗用明顯的提醒視窗，不用 alert（《學習單資料與提交規範》§3-b）；關閉後 focus 到第一個空欄，不捲頁
+  function failModal(title,msg){
+    var old=$('failModal');if(old)old.remove();
+    var d=el('div','');d.id='failModal';
+    d.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.65);display:flex;align-items:center;justify-content:center;padding:16px';
+    d.innerHTML='<div class="pop" style="background:#fff;border:6px solid #f43f5e;border-radius:24px;max-width:420px;width:100%;padding:28px 24px;text-align:center"><div style="font-size:56px">⚠️</div><h2 class="cute" style="font-size:26px;font-weight:800;color:#e11d48;margin:6px 0 10px"></h2><p style="font-size:18px;font-weight:700;color:#334155;line-height:1.6"></p><button style="margin-top:18px;background:#e11d48;color:#fff;font-size:20px;font-weight:800;border-radius:16px;padding:10px 32px">我知道了</button></div>';
+    d.querySelector('h2').textContent=title;d.querySelector('p').innerHTML=msg;
+    d.querySelector('button').onclick=function(){d.remove();var first=ID_FIELDS.map($).filter(function(e){return !digits(e.value);})[0]||$('idGrade');first.focus();};
+    document.body.appendChild(d);
+  }
+  $('submitBtn').onclick=function(){
+    var idn=getIdentity(),stat=$('submitStat');
+    if(!identityValid(idn)){   // 識別列黏頂，不捲頁；彈視窗提醒、把空格標紅
+      markIdentity(true);
+      stat.className='text-sm font-bold mt-3 min-h-[20px] text-rose-600';stat.textContent='⚠️ 還沒填好身分：請到頁面最上面填年級、班級（1-14）、座號，再按一次繳交。';
+      failModal('還不能繳交！','你還沒寫<b style="color:#e11d48">年級、班級、座號</b>！<br>請到最上方填好（班級 1-14、座號都是數字），再按一次繳交。');
+      return;
+    }
+    markIdentity(false);
+    if(!db){failModal('繳交失敗！','現在連不上資料庫，請檢查網路後重新整理頁面，再按一次繳交。還是不行就舉手告訴老師。');return;}
+    if(!confirm('確定要繳交嗎？\n\n'+report().join('\n')+'\n\n送出後老師會看到，確定要交嗎？'))return;
+    var payload=buildPayload(idn);payload.submittedAt=firebase.firestore.FieldValue.serverTimestamp();
+    var btn=this;
+    btn.disabled=true;stat.className='text-sm font-bold mt-3 min-h-[20px] text-indigo-600';stat.textContent='繳交中…';
+    authResolved.then(function(){return ensureAuth();})
+      .then(function(){return db.collection('submissions').doc(WS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId).set(payload,{merge:true});})
+      .then(function(){
+        btn.disabled=false;btn.textContent='重新繳交（覆蓋）';submittedOnce=true;renderStepper();
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-emerald-600';stat.textContent='✓ 已繳交。可再按一次覆蓋更新。';
+        var rb=$('rewardBox');rb.classList.remove('hidden');rb.scrollIntoView({behavior:'smooth'});
+      }).catch(function(e){
+        console.warn('繳交失敗',e);btn.disabled=false;
+        stat.className='text-sm font-bold mt-3 min-h-[20px] text-amber-600';stat.textContent='繳交失敗，請檢查網路後再按一次；還是不行就告訴老師。';
+        failModal('繳交失敗！','請檢查最上方的<b style="color:#e11d48">年級、班級、座號</b>有沒有寫好，網路也要正常，再按一次繳交。還是不行就舉手告訴老師。');
+      });
+  };
+
+  // ===== 教師模式 =====
+  var PREVIEW_KEY='wk_previewMode',teacherAuthed=false;
+  if(!IS_ADMIN){try{if(sessionStorage.getItem(PREVIEW_KEY)==='1')$('backToTeacher').classList.remove('hidden');}catch(e){}}
+  $('previewModeBtn').onclick=function(){
+    if(!confirm('會清空這台裝置上的身分（年級/班級/座號）與作答，變回全新學生的畫面，確定要預覽嗎？'))return;
+    try{localStorage.removeItem(ID_KEY);localStorage.removeItem(STATE_KEY);sessionStorage.setItem(PREVIEW_KEY,'1');}catch(e){}
+    location.href=location.pathname;
+  };
+  $('backToTeacher').onclick=function(){
+    try{sessionStorage.removeItem(PREVIEW_KEY);}catch(e){}
+    location.href=location.pathname+location.search+'#admin';location.reload();
+  };
+  var QTYPE_CYCLE=['experience','score','open'];
+  var QTYPE_LABEL={score:'檢測',experience:'體驗',open:'開放'};
+  var QTYPE_STYLE={score:'bg-rose-100 text-rose-700 border-rose-300',experience:'bg-sky-100 text-sky-700 border-sky-300',open:'bg-emerald-100 text-emerald-700 border-emerald-300'};
+  function renderQtypeSlots(){
+    document.querySelectorAll('.qtypeSlot').forEach(function(slot){
+      var qid=slot.dataset.qid,t=qtypeOf(qid);
+      if(!IS_ADMIN||!teacherAuthed||REVIEW_ID){slot.innerHTML='';return;}
+      slot.innerHTML='<button type="button" class="border rounded-full px-2 py-0.5 text-xs font-bold '+QTYPE_STYLE[t]+'" title="點一下切換題型">'+QTYPE_LABEL[t]+'</button>';
+      slot.firstChild.onclick=function(){
+        QTYPE_OVERRIDES[qid]=QTYPE_CYCLE[(QTYPE_CYCLE.indexOf(qtypeOf(qid))+1)%QTYPE_CYCLE.length];renderQtypeSlots();
+        if(quizRef)quizRef.set({qtypeOverrides:QTYPE_OVERRIDES},{merge:true}).catch(function(e){alert('題型存不進去：'+e.message);});
+      };
+    });
+  }
+  // 檢視答案：把標準答案填進作答欄
+  function showAnswers(){
+    Object.keys(CHOICES).forEach(function(q){state[q]=CHOICES[q].correct;});
+    Object.keys(SCN).forEach(function(q){state[q]=SCN[q].correct;});
+    FIELDS.forEach(function(k){state[k]=REF_OPEN[k];});
+    renderAll();
+  }
+  function clearAnswers(){
+    Object.keys(CHOICES).forEach(function(q){state[q]=null;});
+    Object.keys(SCN).forEach(function(q){state[q]=null;});
+    FIELDS.forEach(function(k){state[k]='';});
+    save();renderAll();
+  }
+  function wireTeacher(label){
+    $('teacherbar').classList.remove('hidden');$('tStatus').textContent=label;teacherAuthed=true;renderQtypeSlots();
+    if(REVIEW_ID){loadReview();return;}
+    ['showAnsBtn','lockBtn'].forEach(function(id){$(id).classList.remove('hidden');});
+    document.querySelectorAll('[data-reveal-btn]').forEach(function(b){
+      b.classList.remove('hidden');
+      b.onclick=function(){
+        var r=b.dataset.revealBtn,o={};o[r]=true;
+        if(quizRef)quizRef.set(o,{merge:true}).catch(function(e){alert('公布失敗：'+e.message);});
+        else{REV[r]=true;applyReveal();}
+      };
+    });
+    $('showAnsBtn').onclick=showAnswers;
+    $('lockBtn').onclick=function(){
+      if(!confirm('確定要還原嗎？\n全班畫面會收回所有公布，「檢視答案」填進去的內容也會清掉。\n學生已經繳交的學習單不受影響。'))return;
+      clearAnswers();
+      if(quizRef)quizRef.set({r1:false,r2:false,r3:false},{merge:true}).catch(function(e){alert('還原失敗：'+e.message);});
+      else{REV={r1:false,r2:false,r3:false};applyReveal();}
+    };
+  }
+  function teacherOnline(){
+    authResolved.then(function(u){
+      if(u&&!u.isAnonymous&&u.email){wireTeacher('已登入 '+u.email);return;}
+      var email=prompt('教師 Email：',TEACHER_EMAIL);if(email===null)return;
+      var pw=prompt('密碼：');if(pw===null)return;
+      auth.signInWithEmailAndPassword(email,pw).then(function(c){wireTeacher('已登入 '+c.user.email);})
+        .catch(function(e){alert('登入失敗：'+e.message);});
+    });
+  }
+  function teacherOffline(){
+    var pw=prompt('教師密碼：');if(pw!=='1234'){if(pw!==null)alert('密碼錯誤');return;}
+    wireTeacher('單機模式（公布、題型只影響這台）');
+  }
+  // 檢視學生繳交（唯讀重現）
+  function loadReview(){
+    $('reviewBanner').classList.remove('hidden');$('reviewExit').href=location.pathname+'#admin';
+    $('submitBtn').classList.add('hidden');$('rewardBox').remove();
+    REV={r1:true,r2:true,r3:true};
+    if(!db){$('reviewText').textContent='🔍 檢視模式：現在連不上資料庫';return;}
+    db.collection('submissions').doc(REVIEW_ID).get().then(function(doc){
+      if(!doc.exists){$('reviewText').textContent='🔍 檢視模式：找不到這份繳交';return;}
+      var d=doc.data()||{};
+      $('reviewText').textContent='🔍 檢視模式（唯讀）：'+d.grade+'年'+d.className+'班'+d.studentId+'號 的作答';
+      $('idGrade').value=d.grade||'';$('idClass').value=d.className||'';$('idStudent').value=d.studentId||'';
+      if(d.qtypes)QTYPE_OVERRIDES=d.qtypes;
+      Object.assign(state,d.parts||{});
+      applyReveal();renderAll();
+      $('main').classList.add('locked');
+      document.querySelectorAll('#main input,#main textarea,#idGrade,#idClass,#idStudent').forEach(function(f){f.disabled=true;});
+    }).catch(function(e){console.warn('讀取繳交失敗',e);$('reviewText').textContent='🔍 檢視模式：讀取失敗';});
+  }
+
+  // ===== 學習路徑：一次只顯示一步，頂端進度列可以跳步（《HTML互動教材設計規範》§5.8）=====
+  var STEP_NAMES=['猜猜看','破綻偵探','認識深偽','怎麼辦','布置房間'];
+  var stepEls=[].slice.call(document.querySelectorAll('.step'));
+  var curStep=1,visited={1:true};
+  function allFilled(keys){return keys.every(function(k){return filled(state[k]);});}
+  function stepDone(n){
+    if(n===1)return allFilled(['g1','g2','g3','g4'])&&(state.gc||[]).length>0&&n!==curStep;
+    if(n===2)return allFilled(['p1','p2','p3','p4'])&&n!==curStep;
+    if(n===3)return filled(state.ov)&&n!==curStep;
+    if(n===4)return allFilled(['s1','s2','s3','o2'])&&n!==curStep;
+    if(n===5)return submittedOnce;
+    return false;
+  }
+  function renderStepper(){
+    var host=$('stepper');host.innerHTML='';
+    STEP_NAMES.forEach(function(name,idx){
+      var n=idx+1,cur=n===curStep,done=stepDone(n);
+      var cell=el('div','flex flex-col items-center');
+      var b=el('button','stepdot cute rounded-full border-2 font-extrabold text-sm flex items-center justify-center transition '+
+        (cur?'bg-indigo-600 border-indigo-600 text-white':(done?'bg-emerald-500 border-emerald-500 text-white':'bg-white border-slate-300 text-slate-400 hover:border-indigo-300')));
+      b.type='button';b.textContent=done&&!cur?'✓':String(n);
+      b.setAttribute('aria-label','第 '+n+' 步：'+name);
+      if(cur)b.setAttribute('aria-current','step');
+      b.onclick=function(){showStep(n);};
+      cell.appendChild(b);
+      cell.appendChild(el('span','hidden sm:block text-xs font-bold mt-0.5 '+(cur?'text-indigo-700':'text-slate-400'),name));
+      host.appendChild(cell);
+      if(n<STEP_NAMES.length)host.appendChild(el('div','flex-1 h-0.5 mt-3.5 sm:mt-4 mx-0.5 sm:mx-1 rounded '+(done&&!cur?'bg-emerald-300':'bg-slate-200')));
+    });
+    $('stepLabel').textContent='第 '+curStep+' 步／共 '+STEP_NAMES.length+' 步 · '+STEP_NAMES[curStep-1];
+  }
+  function showStep(n){
+    curStep=n;visited[n]=true;
+    stepEls.forEach(function(s){s.classList.toggle('hidden',Number(s.dataset.step)!==n);});
+    renderStepper();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  stepEls.forEach(function(s){
+    var n=Number(s.dataset.step),nav=s.querySelector('.stepnav');
+    if(n>1){var p=el('button','bg-white border-2 border-slate-300 hover:border-indigo-400 text-slate-600 font-bold rounded-2xl px-5 py-2','← 上一步');p.type='button';p.onclick=function(){showStep(n-1);};nav.appendChild(p);}
+    else nav.appendChild(el('span',''));
+    if(n<STEP_NAMES.length){var x=el('button','cute bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-extrabold rounded-2xl px-6 py-2','下一步：'+STEP_NAMES[n]+' →');x.type='button';x.onclick=function(){showStep(n+1);};nav.appendChild(x);}
+  });
+  document.addEventListener('click',function(){setTimeout(renderStepper,0);});
+  document.addEventListener('input',function(){setTimeout(renderStepper,0);});
+  renderStepper();
+
+  fbReady.then(function(){
+    if(!quizRef){if(IS_ADMIN)teacherOffline();return;}
+    var first=true;
+    quizRef.onSnapshot(function(doc){
+      var d=(doc&&doc.data())||{};
+      if(d.qtypeOverrides&&!REVIEW_ID){QTYPE_OVERRIDES=d.qtypeOverrides;renderQtypeSlots();}
+      if(REVIEW_ID)return;
+      var next={r1:!!d.r1,r2:!!d.r2,r3:!!d.r3};
+      var undone=Object.keys(next).some(function(k){return REV[k]&&!next[k];});
+      if(undone&&!first&&!IS_ADMIN){location.reload();return;}   // 老師按還原：全部收回
+      REV=next;first=false;applyReveal();
+    },function(e){console.warn('讀取公布狀態失敗',e);});
+    if(IS_ADMIN)teacherOnline();
+  });
+})();
+</script>
+
+<!-- 評分設定（《學習單資料與提交規範》§2-e）：計分題 p1～p4（各 1 分）、s1～s3（各 2 分）＝10 分；開放題 ov（4 分）、o2（6 分）＝10 分；合計 20 分＝base 100 − floor 80。猜猜看 g1～g4、gc、ft、步驟 5 的想一想 pl 都是體驗題，不計分。 -->
+<script type="application/json" id="grading-spec">
+{
+  "summary": "認識 AI 生成圖與 Deepfake 深偽：先用猜真假照片發現「只靠眼睛不可靠」，再學四種 AI 破綻（手指與身體、文字、質感太完美、跟現實對不上）並知道破綻會消失、需要查證；看教育部〈這是誰的臉？〉動畫認識深偽的原理、三種用途與不亂上傳臉和聲音；用情境判斷練習「停・問・查」與家人暗號，寫出被做成深偽時的處理步驟；最後用 IKEA Kreativ 布置夢想房間，體驗好的合成技術，並說出它和壞用途的差別（有同意、沒騙人）。",
+  "questions": [
+    {
+      "qid": "ov",
+      "prompt": "教育部動畫《這是誰的臉？》裡的直播主「阿龍」其實是 AI 做的。請寫出兩個讓人看穿他的線索。",
+      "mode": "checklist",
+      "checks": [
+        {
+          "desc": "說出第一個影片提到的線索（眼鏡框變形閃爍、身後的影子慢半拍、動作太大邊緣不自然、嘴型和聲音對不上，擇一）",
+          "pts": 2
+        },
+        {
+          "desc": "說出第二個不同的線索（同上，與第一個不重複）",
+          "pts": 2
+        }
+      ]
+    },
+    {
+      "qid": "o2",
+      "prompt": "假設有人把你的照片做成影片，影片裡的「你」說了奇怪的話，還傳進班群。寫出你會做的 2～3 件事，照先後順序寫。",
+      "mode": "checklist",
+      "checks": [
+        {
+          "desc": "說出先冷靜／不回應、不轉傳（不跟著亂傳或亂吵）",
+          "pts": 2
+        },
+        {
+          "desc": "說出保留證據（截圖、保存影片／對話／日期時間／網址）",
+          "pts": 2
+        },
+        {
+          "desc": "說出告訴老師、家長或可信任的大人，或向平台申訴／報警",
+          "pts": 2
+        }
+      ]
+    }
+  ],
+  "scoring": {
+    "base": 100,
+    "floor": 80,
+    "deduction": 1,
+    "itemPoints": {
+      "p1": 1,
+      "p2": 1,
+      "p3": 1,
+      "p4": 1,
+      "s1": 2,
+      "s2": 2,
+      "s3": 2
+    }
+  }
+}
+</script>
+<!--CHAIR-GATE-START-->
+<script>
+/* ============================================================
+   chair-gate.js — 繳交前「靠椅子」提醒＋等待關卡（學習單通用，無相依、不改學習單原本的繳交程式）
+   規格權威來源：引導規範/學習單資料與提交規範.md §3-e
+
+   原理：在 document 捕獲階段攔截 #submitBtn 的點擊。
+     1. 沒填好身分（localStorage wk_identity）→ 直接放行，讓學習單自己提醒。
+     2. 查 Firestore：chairSettings/main（總開關、等待秒數階梯、下課前免罰分鐘、節次時間）與 chairLog/{年級-班級-座號}。
+     3. 該生有待處理紀錄（pending）且總開關開著 → 蓋一層全螢幕提醒（😠 ＋ 累計次數 ＋ 倒數），倒數完才放行。
+        下課前 graceMin 分鐘內：不用等，但紀錄照樣累計（次數不變）；處理後 pending 清掉。
+     4. 任何一步失敗／逾時 → 放行。這個關卡絕不可以擋住學生交作業。
+   放行＝把 passed 設 true 後再 btn.click() 一次，原本學習單的 onclick 完全不知道被攔過。
+
+   由 引導規範/chair-gate/inject.py 用 CHAIR-GATE-START/END 兩個 HTML 註解標記包起來，內嵌進每份學習單；
+   要改邏輯就改這個檔再重跑 inject.py（idempotent，會整段取代）。
+   ============================================================ */
+(function () {
+  if (window.__chairGate) return;
+  window.__chairGate = true;
+
+  var BTN_ID = 'submitBtn';
+  var TIMEOUT_MS = 4500;            // 查資料超過這麼久就放行
+  var DEFAULT_STEPS = [3, 10, 20, 30, 60];
+  var passed = false, busy = false;
+
+  function digits(v) { return String(v == null ? '' : v).replace(/[^0-9]/g, ''); }
+  function identity() {
+    try {
+      var o = JSON.parse(localStorage.getItem('wk_identity') || '{}');
+      var g = digits(o.grade), c = digits(o.className), s = digits(o.studentId);
+      if (!g || !c || !s) return null;
+      return { grade: Number(g), className: Number(c), studentId: Number(s) };
+    } catch (e) { return null; }
+  }
+
+  function withTimeout(p, ms) {
+    return new Promise(function (resolve, reject) {
+      var t = setTimeout(function () { reject(new Error('timeout')); }, ms);
+      p.then(function (v) { clearTimeout(t); resolve(v); }, function (e) { clearTimeout(t); reject(e); });
+    });
+  }
+
+  // 有登入就沿用；確定沒有任何登入狀態才匿名登入（不能蓋掉老師的 session，見規範 §5-2）
+  function ensureUser(auth) {
+    return new Promise(function (resolve, reject) {
+      var unsub = auth.onAuthStateChanged(function (u) {
+        if (unsub) { unsub(); unsub = null; }
+        if (u) resolve(u);
+        else auth.signInAnonymously().then(function (c) { resolve(c.user); }, reject);
+      });
+    });
+  }
+
+  function steps(cfg) {
+    var a = (cfg && cfg.steps || []).map(Number).filter(function (n) { return n > 0 && isFinite(n); });
+    return a.length ? a : DEFAULT_STEPS;
+  }
+  function waitSeconds(cfg, count) {
+    var a = steps(cfg);
+    return a[Math.min(Math.max(count, 1), a.length) - 1];
+  }
+  // 現在是不是某一節「下課前 graceMin 分鐘」以內
+  function inGrace(cfg) {
+    var g = Number(cfg && cfg.graceMin);
+    if (!isFinite(g) || g < 0) g = 2;      // 沒設才用預設 2 分鐘；老師設 0＝不免罰
+    var now = new Date(), nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    return (cfg && cfg.periods || []).some(function (p) {
+      var m = /^(\d{1,2}):(\d{2})$/.exec(String(p && p.end || ''));
+      if (!m) return false;
+      var endSec = (+m[1]) * 3600 + (+m[2]) * 60, left = endSec - nowSec;
+      return left > 0 && left <= g * 60;
+    });
+  }
+
+  function overlay(count, waitSec, waived) {
+    return new Promise(function (resolve) {
+      var css = document.createElement('style');
+      css.textContent =
+        '#chairGate{position:fixed;inset:0;z-index:2147483000;background:rgba(15,23,42,.72);display:grid;place-items:center;padding:20px;font-family:inherit}' +
+        '#chairGate .cg{background:#fff;border-radius:22px;max-width:420px;width:100%;padding:26px 22px 22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);border:4px solid #f87171}' +
+        '#chairGate .em{font-size:78px;line-height:1;animation:cgShake .5s ease-in-out 2}' +
+        '#chairGate h2{margin:10px 0 6px;font-size:24px;color:#b91c1c;font-weight:900}' +
+        '#chairGate .cnt{display:inline-block;margin:6px 0 10px;padding:4px 14px;border-radius:999px;background:#fee2e2;color:#991b1b;font-weight:800;font-size:16px}' +
+        '#chairGate .msg{font-size:17px;font-weight:700;color:#334155;margin:6px 0 14px;min-height:26px}' +
+        '#chairGate .msg b{font-size:30px;color:#dc2626}' +
+        '#chairGate button{font:inherit;font-weight:800;font-size:17px;width:100%;padding:12px;border:0;border-radius:12px;cursor:pointer}' +
+        '#chairGate .go{background:#dc2626;color:#fff}#chairGate .go:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed}' +
+        '#chairGate .back{margin-top:8px;background:transparent;color:#64748b;font-size:14px;font-weight:600}' +
+        '@keyframes cgShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}';
+      document.head.appendChild(css);
+      var box = document.createElement('div');
+      box.id = 'chairGate';
+      box.innerHTML =
+        '<div class="cg" role="alertdialog" aria-live="polite">' +
+        '<div class="em">😠</div>' +
+        '<h2>上次下課四步驟沒有做確實</h2>' +
+        '<div class="cnt">已累計 ' + count + ' 次紀錄</div>' +
+        '<div class="msg" id="cgMsg"></div>' +
+        '<button class="go" id="cgGo" disabled></button>' +
+        '<button class="back" id="cgBack">先回去檢查，等一下再交</button>' +
+        '</div>';
+      document.body.appendChild(box);
+      var msg = box.querySelector('#cgMsg'), go = box.querySelector('#cgGo');
+      function close(ok) {
+        clearInterval(timer);
+        box.remove(); css.remove();
+        resolve(ok);
+      }
+      var endAt = Date.now() + waitSec * 1000, timer = null;
+      function tick() {
+        var left = Math.ceil((endAt - Date.now()) / 1000);
+        if (left > 0) {
+          msg.innerHTML = '請等待 <b>' + left + '</b> 秒才可以繳交';
+          go.disabled = true; go.textContent = '等待中…';
+        } else {
+          clearInterval(timer);
+          msg.textContent = '時間到了，下次記得做確實喔！';
+          go.disabled = false; go.textContent = '我知道了，繳交';
+        }
+      }
+      if (waived) {
+        msg.textContent = '快下課了，這次不用等待；但這筆紀錄還是會累計。';
+        go.disabled = false; go.textContent = '我知道了，繳交';
+      } else {
+        tick(); timer = setInterval(tick, 250);
+      }
+      go.onclick = function () { if (!go.disabled) close(true); };
+      box.querySelector('#cgBack').onclick = function () { close(false); };
+    });
+  }
+
+  // 回傳 Promise<boolean>：true＝放行繳交
+  function check(idn) {
+    if (!window.firebase || !firebase.apps || !firebase.apps.length) return Promise.resolve(true);
+    var id = idn.grade + '-' + idn.className + '-' + idn.studentId;
+    var db = firebase.firestore();
+    return withTimeout(ensureUser(firebase.auth()).then(function () {
+      return Promise.all([
+        db.collection('chairSettings').doc('main').get(),
+        db.collection('chairLog').doc(id).get()
+      ]);
+    }), TIMEOUT_MS).then(function (r) {
+      var cfg = r[0].exists ? r[0].data() : null, log = r[1].exists ? r[1].data() : null;
+      if (!cfg || !cfg.enabled || !log || !log.pending) return true;
+      var count = Number(log.count) || 1, waived = inGrace(cfg);
+      return overlay(count, waitSeconds(cfg, count), waived).then(function (ok) {
+        if (ok) {   // 處理完（等完或免罰）就把待處理清掉；累計次數不動。失敗不影響繳交。
+          db.collection('chairLog').doc(id)
+            .update({ pending: false, servedAt: firebase.firestore.FieldValue.serverTimestamp() })
+            .catch(function (e) { console.warn('chairGate 更新狀態失敗', e); });
+        }
+        return ok;
+      });
+    }).catch(function (e) {
+      console.warn('chairGate 檢查失敗，直接放行', e);
+      return true;
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest && e.target.closest('#' + BTN_ID);
+    if (!btn || passed) return;
+    var idn = identity();
+    if (!idn) return;                       // 沒填身分：交給學習單自己提醒
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    if (busy) return;
+    busy = true;
+    check(idn).then(function (ok) {
+      busy = false;
+      if (!ok) return;
+      passed = true;
+      try { btn.click(); } finally { passed = false; }
+    });
+  }, true);
+})();
+</script>
+<!--CHAIR-GATE-END-->
+</body>
+</html>
