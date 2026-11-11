@@ -95,9 +95,9 @@
     <div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mb-4">
       <p class="cute text-2xl font-extrabold text-orange-700 mb-2">🎯 今日任務：5 件事</p>
       <ol class="text-2xl font-extrabold space-y-2">
-        <li><span class="stepno bg-orange">1</span>兩個景點中間，放<span class="text-orange-700">交通格子</span></li>
-        <li><span class="stepno bg-orange">2</span>補齊文件的<span class="text-orange-700">內容</span></li>
-        <li><span class="stepno bg-orange">3</span>檢查<span class="text-orange-700">順序</span>，不繞路</li>
+        <li><span class="stepno bg-orange">1</span>補齊文件的<span class="text-orange-700">內容</span></li>
+        <li><span class="stepno bg-orange">2</span>檢查<span class="text-orange-700">順序</span>，不繞路</li>
+        <li><span class="stepno bg-orange">3</span>兩個景點中間，放<span class="text-orange-700">交通格子</span></li>
         <li><span class="stepno bg-orange">4</span>檢查<span class="text-orange-700">排版</span>：標楷體、12</li>
         <li><span class="stepno bg-orange">5</span>貼<span class="text-orange-700">連結</span>，交作業</li>
       </ol>
@@ -147,14 +147,143 @@
     <div class="stepnav"></div>
   </section>
 
-  <!-- 步驟 2：放交通格子 -->
-  <section class="step hidden bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm" data-step="2">
+  <!-- 步驟 2：文件內容 -->
+  <section class="step hidden bg-white border-4 border-teal-300 rounded-3xl p-5 shadow-sm" data-step="2">
+    <h2 class="cute text-3xl font-extrabold text-teal-700 mb-3">補齊文件內容</h2>
+
+    <div class="bg-teal-50 border-4 border-teal-200 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-teal-700 mb-2">文件要放這些</p>
+      <div class="grid md:grid-cols-2 gap-4 items-start">
+        <div class="bg-white border-2 border-slate-200 rounded-2xl p-3 text-lg font-bold space-y-1">
+          <div class="bg-amber-100 rounded-lg px-3 py-1">第 1 站　景點格子 <span class="text-sky-700">＋ ⭐ 圖片</span></div>
+          <div class="bg-amber-100 rounded-lg px-3 py-1">第 2 站　景點格子 <span class="text-sky-700">＋ ⭐ 圖片</span></div>
+          <div class="bg-amber-100 rounded-lg px-3 py-1">第 3 站　景點格子 <span class="text-sky-700">＋ ⭐ 圖片</span></div>
+          <div class="bg-orange-100 rounded-lg px-3 py-1">第 4 站　<b>美食</b>格子</div>
+        </div>
+        <ul class="text-2xl font-extrabold space-y-2">
+          <li>📍 <span class="text-teal-700">3 個景點</span> ＋ <span class="text-teal-700">1 家美食</span></li>
+          <li>🔢 站號 <span class="text-teal-700">依序</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sc sc-flat" data-sc>
+      <div class="sc-slide">
+        <p class="sc-t">每一站：<b>景點格子</b>，6 項都要有</p>
+        <div class="grid md:grid-cols-2 gap-4 items-start">
+          <div>
+            <button id="tplSpot" class="w-full bg-teal-600 hover:bg-teal-700 text-white text-xl font-extrabold rounded-2xl px-4 py-3">📍 複製景點格子</button>
+            <p class="text-xl font-bold mt-3">缺的站 → <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></p>
+            <p class="text-lg font-bold mt-3">資料去<b>台南旅遊網</b>找（L04）</p>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <a href="https://www.twtainan.net/zh-tw/attractions/" target="_blank" rel="noopener" class="inline-block bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-bold rounded-xl px-4 py-1.5">景點搜尋 ↗</a>
+              <a href="https://www.twtainan.net/zh-tw/attractions/map/" target="_blank" rel="noopener" class="inline-block bg-violet-500 hover:bg-violet-600 text-white font-bold rounded-xl px-4 py-1.5">旅遊地圖 ↗</a>
+            </div>
+          </div>
+          <pre id="spotText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-teal-100"></pre>
+        </div>
+      </div>
+      <div class="sc-slide">
+        <p class="sc-t"><b>美食</b>也是一站</p>
+        <div class="grid md:grid-cols-2 gap-4 items-start">
+          <div>
+            <button id="tplFood" class="w-full bg-orange-500 hover:bg-orange-600 text-white text-xl font-extrabold rounded-2xl px-4 py-3">🍜 複製美食格子</button>
+            <p class="text-xl font-bold mt-3">放進<b>順序</b>裡，填<b>站號</b></p>
+            <p class="text-lg text-slate-500">先放著，下一步排順序。</p>
+            <p class="text-lg font-bold mt-3">店家資料去<b>台南旅遊網</b>找（L04）</p>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <a href="https://www.twtainan.net/zh-tw/shop/consumelist/" target="_blank" rel="noopener" class="inline-block bg-violet-500 hover:bg-violet-600 text-white font-bold rounded-xl px-4 py-1.5">店家搜尋 ↗</a>
+              <a href="https://www.twtainan.net/zh-tw/shop/cuisines/" target="_blank" rel="noopener" class="inline-block bg-white border-2 border-violet-300 hover:bg-violet-50 text-violet-700 font-bold rounded-xl px-4 py-1.5">必吃美食 ↗</a>
+            </div>
+          </div>
+          <pre id="foodText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-orange-100"></pre>
+        </div>
+      </div>
+      <div class="sc-slide sc-split">
+        <div class="sc-txt">
+          <p class="sc-t"><span class="text-sky-700">⭐ 加分</span>：景點頁找<b>圖片</b>，右鍵 → <b>複製圖片</b></p>
+          <p class="text-lg text-slate-500 mt-2">沒有圖？Google 搜尋景點名 →「圖片」。</p>
+        </div>
+        <div class="sc-media" data-src="assets/步_照片1_複製.mp4" data-poster="assets/步_照片1_複製_封面.jpg"></div>
+      </div>
+      <div class="sc-slide sc-split">
+        <div class="sc-txt">
+          <p class="sc-t"><span class="text-sky-700">⭐ 加分</span>：回文件，點「景點網址」下面，按 <kbd>Ctrl</kbd> + <kbd>V</kbd></p>
+          <p class="text-lg font-bold mt-2">每一站貼一張。</p>
+        </div>
+        <div class="sc-media" data-src="assets/步_照片2_貼上.mp4" data-poster="assets/步_照片2_貼上_封面.jpg"></div>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
+      <p class="cute text-2xl font-extrabold text-teal-700 mb-2">✅ 這一步檢查</p>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 每一站 <b>6 項</b>都有：站號、地址、開放時間、門票、停留多久、網址</label>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> <b>美食</b>也放進來了，有站號</label>
+      <label class="flex items-center gap-3"><input id="chkPhoto" type="checkbox" class="w-6 h-6"> <span class="text-sky-700 font-extrabold">⭐ 加分</span>：<b>每一站</b>都有一張<b>圖片</b>（沒做不用勾）</label>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+
+
+  <!-- 步驟 3：順序檢查 -->
+  <section class="step hidden bg-white border-4 border-emerald-300 rounded-3xl p-5 shadow-sm" data-step="3">
+    <h2 class="cute text-3xl font-extrabold text-emerald-700 mb-3">檢查順序，不繞路</h2>
+
+    <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-emerald-700 mb-2">好順序，3 句話</p>
+      <ol class="text-2xl font-extrabold space-y-2">
+        <li>① <span class="text-emerald-700">近的</span>放一起</li>
+        <li>② <span class="text-emerald-700">不走回頭路</span></li>
+        <li>③ 一直朝<span class="text-emerald-700">同一個方向</span>走</li>
+      </ol>
+      <p class="text-lg text-slate-600 mt-2">💡 11～16 點最熱：放<b>美食</b>或室內。</p>
+      <p class="text-lg mt-2">看不出順不順？<a href="https://boyinslps.github.io/pcclass/g4/L05/" target="_blank" rel="noopener" class="text-emerald-700 font-extrabold underline">L05 的 Google 地圖看位置 ↗</a></p>
+    </div>
+
+    <p class="cute text-2xl font-extrabold text-orange-700 mb-2">順序不對？換位置</p>
+    <div class="sc sc-flat" data-sc>
+      <div class="sc-slide sc-split">
+        <div class="sc-txt">
+          <p class="sc-t">拖曳<b>選起整站</b>，按 <kbd>Ctrl</kbd> + <kbd>X</kbd> 剪下</p>
+          <p class="text-lg text-slate-500 mt-2">從「第 N 站」選到「景點網址」。</p>
+        </div>
+        <div class="sc-media" data-src="assets/步_順序1_剪下.mp4" data-poster="assets/步_順序1_剪下_封面.jpg"></div>
+      </div>
+      <div class="sc-slide sc-split">
+        <div class="sc-txt">
+          <p class="sc-t">點到<b>想放的位置</b>，按 <kbd>Ctrl</kbd> + <kbd>V</kbd> 貼上</p>
+        </div>
+        <div class="sc-media" data-src="assets/步_順序2_貼上.mp4" data-poster="assets/步_順序2_貼上_封面.jpg"></div>
+      </div>
+      <div class="sc-slide sc-split">
+        <div class="sc-txt">
+          <p class="sc-t">把<b>站號改對</b></p>
+          <p class="text-lg text-slate-500 mt-2">第 1 站、第 2 站……不重複、不跳號。</p>
+        </div>
+        <div class="sc-media" data-src="assets/步_順序3_改站號.mp4" data-poster="assets/步_順序3_改站號_封面.jpg"></div>
+      </div>
+    </div>
+
+    <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
+      <p class="cute text-2xl font-extrabold text-teal-700 mb-2">✅ 這一步檢查</p>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 景點連起來，<b>一直朝同一個方向</b></label>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 沒有<b>走回頭路</b></label>
+      <label class="flex items-center gap-3"><input type="checkbox" class="chk w-6 h-6"> 站號<b>依序</b>，沒有重複</label>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+
+
+  <!-- 步驟 4：放交通格子 -->
+  <section class="step hidden bg-white border-4 border-orange-300 rounded-3xl p-5 shadow-sm" data-step="4">
     <h2 class="cute text-3xl font-extrabold text-orange-700 mb-3">放交通格子</h2>
 
     <a href="https://boyinslps.github.io/pcclass/g4/L05/" target="_blank" rel="noopener" class="inline-block mb-4 bg-white border-4 border-amber-300 hover:bg-amber-50 text-amber-700 text-lg font-extrabold rounded-2xl px-5 py-2">📖 回去看 L05 學習單（複習用）↗</a>
 
     <p class="cute text-2xl font-extrabold text-slate-700 mb-1">👀 先看：文件要像這樣</p>
-    <p class="text-xl font-bold mb-3">兩個景點，<span class="text-emerald-700">中間一個交通格子</span></p>
+    <p class="text-xl font-bold mb-3">順序排好了，每兩個景點，<span class="text-emerald-700">中間一個交通格子</span></p>
     <div class="gdoc mb-5">
       <div class="gdoc-top"><span class="gdoc-logo"></span><span class="gdoc-title">我的台南導覽　景點清單</span><span class="gdoc-share">共用</span></div>
       <div class="gdoc-menu"><span>檔案</span><span>編輯</span><span>查看</span><span>插入</span><span>格式</span><span>工具</span><span>擴充功能</span><span>說明</span></div>
@@ -211,7 +340,7 @@
           <div>
             <button id="tplCopy" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xl font-extrabold rounded-2xl px-4 py-3">📋 複製交通格子</button>
             <p class="text-xl font-bold mt-3">文件裡 → <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></p>
-            <p class="text-lg text-slate-500">兩站之間要幾個，就貼幾次。</p>
+            <p class="text-lg text-slate-500">兩站之間要幾個，就貼幾次。<b>4 站就是 3 個</b>（站數 − 1）。</p>
           </div>
           <pre id="tplText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-emerald-100"></pre>
         </div>
@@ -253,7 +382,8 @@
 
     <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">✅ 這一步檢查</p>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 兩站中間，有<b>交通格子</b></label>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 兩站中間，都有<b>交通格子</b>（數量 ＝ <b>站數 − 1</b>）</label>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 交通格子的<b>出發與目的地</b>，接得上前後站</label>
       <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> <b>四欄</b>都填了</label>
       <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 搭乘細節：公車有<b>幾號、上車、下車</b>站牌；其他方式寫<b>距離</b>（幾公里）</label>
       <label class="flex items-center gap-3"><input type="checkbox" class="chk w-6 h-6"> 路程時間是<b>數字＋「分」</b></label>
@@ -261,146 +391,6 @@
     <div class="stepnav"></div>
   </section>
 
-
-  <!-- 步驟 3：文件內容 -->
-  <section class="step hidden bg-white border-4 border-teal-300 rounded-3xl p-5 shadow-sm" data-step="3">
-    <h2 class="cute text-3xl font-extrabold text-teal-700 mb-3">補齊文件內容</h2>
-
-    <div class="bg-teal-50 border-4 border-teal-200 rounded-3xl p-4 mb-4">
-      <p class="cute text-2xl font-extrabold text-teal-700 mb-2">文件要放這些</p>
-      <div class="grid md:grid-cols-2 gap-4 items-start">
-        <div class="bg-white border-2 border-slate-200 rounded-2xl p-3 text-lg font-bold space-y-1">
-          <div class="bg-amber-100 rounded-lg px-3 py-1">第 1 站　景點格子 <span class="text-sky-700">＋ ⭐ 圖片</span></div>
-          <div class="text-emerald-700 text-center">⬇ <span class="bg-emerald-100 border-2 border-dashed border-emerald-500 rounded-lg px-3">交通格子</span></div>
-          <div class="bg-amber-100 rounded-lg px-3 py-1">第 2 站　景點格子 <span class="text-sky-700">＋ ⭐ 圖片</span></div>
-          <div class="text-emerald-700 text-center">⬇ <span class="bg-emerald-100 border-2 border-dashed border-emerald-500 rounded-lg px-3">交通格子</span></div>
-          <div class="bg-amber-100 rounded-lg px-3 py-1">第 3 站　景點格子 <span class="text-sky-700">＋ ⭐ 圖片</span></div>
-          <div class="text-emerald-700 text-center">⬇ <span class="bg-emerald-100 border-2 border-dashed border-emerald-500 rounded-lg px-3">交通格子</span></div>
-          <div class="bg-orange-100 rounded-lg px-3 py-1">第 4 站　<b>美食</b>格子</div>
-        </div>
-        <ul class="text-2xl font-extrabold space-y-2">
-          <li>📍 <span class="text-teal-700">3 個景點</span> ＋ <span class="text-teal-700">1 家美食</span></li>
-          <li>🚌 交通格子 ＝ <span class="text-teal-700">站數 − 1</span></li>
-          <li>🔢 站號 <span class="text-teal-700">依序</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="sc sc-flat" data-sc>
-      <div class="sc-slide">
-        <p class="sc-t">每一站：<b>景點格子</b>，6 項都要有</p>
-        <div class="grid md:grid-cols-2 gap-4 items-start">
-          <div>
-            <button id="tplSpot" class="w-full bg-teal-600 hover:bg-teal-700 text-white text-xl font-extrabold rounded-2xl px-4 py-3">📍 複製景點格子</button>
-            <p class="text-xl font-bold mt-3">缺的站 → <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></p>
-            <p class="text-lg font-bold mt-3">資料去<b>台南旅遊網</b>找（L04）</p>
-            <div class="flex flex-wrap gap-2 mt-2">
-              <a href="https://www.twtainan.net/zh-tw/attractions/" target="_blank" rel="noopener" class="inline-block bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-bold rounded-xl px-4 py-1.5">景點搜尋 ↗</a>
-              <a href="https://www.twtainan.net/zh-tw/attractions/map/" target="_blank" rel="noopener" class="inline-block bg-violet-500 hover:bg-violet-600 text-white font-bold rounded-xl px-4 py-1.5">旅遊地圖 ↗</a>
-            </div>
-          </div>
-          <pre id="spotText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-teal-100"></pre>
-        </div>
-      </div>
-      <div class="sc-slide">
-        <p class="sc-t"><b>美食</b>也是一站</p>
-        <div class="grid md:grid-cols-2 gap-4 items-start">
-          <div>
-            <button id="tplFood" class="w-full bg-orange-500 hover:bg-orange-600 text-white text-xl font-extrabold rounded-2xl px-4 py-3">🍜 複製美食格子</button>
-            <p class="text-xl font-bold mt-3">放進<b>順序</b>裡，填<b>站號</b></p>
-            <p class="text-lg text-slate-500">前後也要有交通格子。</p>
-            <p class="text-lg font-bold mt-3">店家資料去<b>台南旅遊網</b>找（L04）</p>
-            <div class="flex flex-wrap gap-2 mt-2">
-              <a href="https://www.twtainan.net/zh-tw/shop/consumelist/" target="_blank" rel="noopener" class="inline-block bg-violet-500 hover:bg-violet-600 text-white font-bold rounded-xl px-4 py-1.5">店家搜尋 ↗</a>
-              <a href="https://www.twtainan.net/zh-tw/shop/cuisines/" target="_blank" rel="noopener" class="inline-block bg-white border-2 border-violet-300 hover:bg-violet-50 text-violet-700 font-bold rounded-xl px-4 py-1.5">必吃美食 ↗</a>
-            </div>
-          </div>
-          <pre id="foodText" class="text-base leading-relaxed whitespace-pre-wrap font-[inherit] bg-white rounded-xl p-3 border-2 border-orange-100"></pre>
-        </div>
-      </div>
-      <div class="sc-slide sc-split">
-        <div class="sc-txt">
-          <p class="sc-t"><span class="text-sky-700">⭐ 加分</span>：景點頁找<b>圖片</b>，右鍵 → <b>複製圖片</b></p>
-          <p class="text-lg text-slate-500 mt-2">沒有圖？Google 搜尋景點名 →「圖片」。</p>
-        </div>
-        <div class="sc-media" data-src="assets/步_照片1_複製.mp4" data-poster="assets/步_照片1_複製_封面.jpg"></div>
-      </div>
-      <div class="sc-slide sc-split">
-        <div class="sc-txt">
-          <p class="sc-t"><span class="text-sky-700">⭐ 加分</span>：回文件，點「景點網址」下面，按 <kbd>Ctrl</kbd> + <kbd>V</kbd></p>
-          <p class="text-lg font-bold mt-2">每一站貼一張。</p>
-        </div>
-        <div class="sc-media" data-src="assets/步_照片2_貼上.mp4" data-poster="assets/步_照片2_貼上_封面.jpg"></div>
-      </div>
-    </div>
-
-    <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
-      <p class="cute text-2xl font-extrabold text-teal-700 mb-2">✅ 這一步檢查</p>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 每一站 <b>6 項</b>都有：站號、地址、開放時間、門票、停留多久、網址</label>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> <b>美食</b>也放進來了，有站號</label>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 交通格子的數量 ＝ <b>站數 − 1</b></label>
-      <label class="flex items-center gap-3"><input id="chkPhoto" type="checkbox" class="w-6 h-6"> <span class="text-sky-700 font-extrabold">⭐ 加分</span>：<b>每一站</b>都有一張<b>圖片</b>（沒做不用勾）</label>
-    </div>
-    <div class="stepnav"></div>
-  </section>
-
-
-  <!-- 步驟 4：順序檢查 -->
-  <section class="step hidden bg-white border-4 border-emerald-300 rounded-3xl p-5 shadow-sm" data-step="4">
-    <h2 class="cute text-3xl font-extrabold text-emerald-700 mb-3">檢查順序，不繞路</h2>
-
-    <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-4 mb-4">
-      <p class="cute text-2xl font-extrabold text-emerald-700 mb-2">好順序，3 句話</p>
-      <ol class="text-2xl font-extrabold space-y-2">
-        <li>① <span class="text-emerald-700">近的</span>放一起</li>
-        <li>② <span class="text-emerald-700">不走回頭路</span></li>
-        <li>③ 一直朝<span class="text-emerald-700">同一個方向</span>走</li>
-      </ol>
-      <p class="text-lg text-slate-600 mt-2">💡 11～16 點最熱：放<b>美食</b>或室內。</p>
-      <p class="text-lg mt-2">看不出順不順？<a href="https://boyinslps.github.io/pcclass/g4/L05/" target="_blank" rel="noopener" class="text-emerald-700 font-extrabold underline">L05 的 Google 地圖看位置 ↗</a></p>
-    </div>
-
-    <p class="cute text-2xl font-extrabold text-orange-700 mb-2">順序不對？換位置</p>
-    <div class="sc sc-flat" data-sc>
-      <div class="sc-slide sc-split">
-        <div class="sc-txt">
-          <p class="sc-t">拖曳<b>選起整站</b>，按 <kbd>Ctrl</kbd> + <kbd>X</kbd> 剪下</p>
-          <p class="text-lg text-slate-500 mt-2">從「第 N 站」選到「景點網址」。</p>
-        </div>
-        <div class="sc-media" data-src="assets/步_順序1_剪下.mp4" data-poster="assets/步_順序1_剪下_封面.jpg"></div>
-      </div>
-      <div class="sc-slide sc-split">
-        <div class="sc-txt">
-          <p class="sc-t">點到<b>想放的位置</b>，按 <kbd>Ctrl</kbd> + <kbd>V</kbd> 貼上</p>
-        </div>
-        <div class="sc-media" data-src="assets/步_順序2_貼上.mp4" data-poster="assets/步_順序2_貼上_封面.jpg"></div>
-      </div>
-      <div class="sc-slide sc-split">
-        <div class="sc-txt">
-          <p class="sc-t">把<b>站號改對</b></p>
-          <p class="text-lg text-slate-500 mt-2">第 1 站、第 2 站……不重複、不跳號。</p>
-        </div>
-        <div class="sc-media" data-src="assets/步_順序3_改站號.mp4" data-poster="assets/步_順序3_改站號_封面.jpg"></div>
-      </div>
-      <div class="sc-slide">
-        <p class="sc-t"><b>交通格子</b>也要跟著換</p>
-        <div class="grid sm:grid-cols-3 gap-3 text-xl font-bold">
-          <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="text-sky-800">① 出發與目的地</p><p class="text-lg font-normal">改成新的前後站</p></div>
-          <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="text-sky-800">② 搭乘細節</p><p class="text-lg font-normal">重查上車、下車站牌</p></div>
-          <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3"><p class="text-sky-800">③ 路程時間</p><p class="text-lg font-normal">重查幾分鐘</p></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
-      <p class="cute text-2xl font-extrabold text-teal-700 mb-2">✅ 這一步檢查</p>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 景點連起來，<b>一直朝同一個方向</b></label>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 沒有<b>走回頭路</b></label>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 站號<b>依序</b>，沒有重複</label>
-      <label class="flex items-center gap-3"><input type="checkbox" class="chk w-6 h-6"> 交通格子的<b>出發與目的地</b>，接得上前後站</label>
-    </div>
-    <div class="stepnav"></div>
-  </section>
 
 
   <!-- 步驟 5：排版檢查 -->
@@ -733,7 +723,7 @@ var firebaseConfig = {
   simReset();
 
   // ===== 學習路徑 =====
-  var STEP_NAMES=['複習','交通格子','文件內容','順序','排版','交作業'];   // 第 1 頁是複習（進度列顯示「複」），其餘 1～5 對應今日任務
+  var STEP_NAMES=['複習','文件內容','順序','交通格子','排版','交作業'];   // 第 1 頁是複習（進度列顯示「複」），其餘 1～5 對應今日任務
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true},submittedOnce=false;
   function stepDone(n){
