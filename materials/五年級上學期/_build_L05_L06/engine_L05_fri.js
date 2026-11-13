@@ -396,13 +396,33 @@
     var n=starCount(),t=REPORT.length;
     $('progTxt').innerHTML='<b style="color:#f59e0b">★</b> '+n+'／'+t;$('progBar').style.width=Math.round(n/t*100)+'%';
   }
-  // ===== 收集星星：一欄寫好、檢查表沒有 ☐（全部 ✓，「!」提醒不擋）就拿到一顆 ★ =====
-  function starOf(qid){return DONE[qid]()&&!CHECKS[qid]().some(function(c){return c.s==='todo';});}
+  // ===== 收集星星：一欄寫好且文字超過 5 個字就拿到一顆 ★ =====
+  // 星星門檻（老師口頭提醒內容品質）：該欄必填的都有寫，而且要寫的字「超過 5 個字」（空白不算）就給星星。
+  // 檢查表照樣顯示當提醒，但不再擋星星。選項類的欄（只選工具）不需要字數。
+  var STAR_MIN=5;
+  function starText(qid){
+    var s=state;
+    switch(qid){
+      case 'url':return s.url;
+      case 'tool':return hasKw()?s.toolB:null;
+      case 'desc':return s.desc;
+      case 'res':return s.resNote;
+      case 'fact':return s.fact;
+      case 'why':return s.whyText;
+      case 'risk':return s.riskText;
+    }
+    return null;
+  }
+  function starOf(qid){
+    if(!DONE[qid]())return false;
+    var t=starText(qid);
+    return t==null||tr(t).replace(/\s/g,'').length>STAR_MIN;
+  }
   function starCount(){return REPORT.filter(function(q){return starOf(q.qid);}).length;}
   var STAR_SEEN={},starLive=false,starT;   // starLive=false 時（載入、拿回進度）只記錄不慶祝
   function renderStars(){
     var n=starCount(),t=REPORT.length,fresh=null;
-    document.querySelectorAll('[data-star]').forEach(function(x){var ok=starOf(x.dataset.star);x.className='starbadge'+(ok?' got':'');x.textContent=ok?'★ 拿到這顆星了':'☆ 檢查表全部打勾，就拿到 ★';});
+    document.querySelectorAll('[data-star]').forEach(function(x){var ok=starOf(x.dataset.star);x.className='starbadge'+(ok?' got':'');x.textContent=ok?'★ 拿到這顆星了':'☆ 寫超過 5 個字，就拿到 ★';});
     document.querySelectorAll('[data-star-mini]').forEach(function(x){var ok=starOf(x.dataset.starMini);x.textContent=ok?'★':'☆';x.classList.toggle('on',ok);});
     var f=$('starFinal');if(f)f.textContent='你收集了 '+n+'／'+t+' 顆 ★'+(n===t?'，全部收集完成！':'。');
     REPORT.forEach(function(q){if(starOf(q.qid)&&!STAR_SEEN[q.qid]){STAR_SEEN[q.qid]=true;fresh=q;}});
