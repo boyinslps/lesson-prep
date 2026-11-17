@@ -11,31 +11,31 @@ DEFAULT_SEGS = 'qqeeeec'        # 一開始的 7 句：開頭 2、主體 4、CTA
 # 三段＝①開頭（Hook）②主體 ③CTA。2026-11-17 老師：冷知識沒有「問題」，所以不再用「問題／解釋／結論」。
 DEMOS = {
     'rumor': {'label': '假資訊', 'type': '謠言', 'topic': '口香糖吞下去，會留在肚子裡 7 年？', 'rows': [
-        ('①開頭', '有人說：吞下口香糖，會卡在肚子 7 年？', '把網路上流傳的說法說出來，讓人想知道真假', ''),
-        ('①開頭', '這是真的嗎？', '把問題丟給大家，讓人想聽下去', ''),
-        ('②主體', '口香糖裡的膠，人體確實消化不了。', '介紹背景：先說真的部分，是什麼東西', ''),
-        ('②主體', '但它不會卡在肚子裡。', '說出重點：一句只講一件事', ''),
-        ('②主體', '它會跟其他食物一起，慢慢排出去。', '證據：它後來去了哪裡', ''),
-        ('②主體', '所以「留在肚子 7 年」是假的。', '說出查證的結果', ''),
-        ('③CTA', '如果有人這樣說，記得提醒他。', 'CTA：只放一個，提醒身邊的人', ''),
+        ('①開頭（Hook）', '有人說：吞下口香糖，會卡在肚子 7 年？', '把網路上流傳的說法說出來，讓人想知道真假', ''),
+        ('①開頭（Hook）', '這是真的嗎？', '把問題丟給大家，讓人想聽下去', ''),
+        ('②主體（Body）', '口香糖裡的膠，人體確實消化不了。', '介紹背景：先說真的部分，是什麼東西', ''),
+        ('②主體（Body）', '但它不會卡在肚子裡。', '說出重點：一句只講一件事', ''),
+        ('②主體（Body）', '它會跟其他食物一起，慢慢排出去。', '證據：它後來去了哪裡', ''),
+        ('②主體（Body）', '所以「留在肚子 7 年」是假的。', '說出查證的結果', ''),
+        ('③行動呼籲（CTA）', '如果有人這樣說，記得提醒他。', 'CTA：只放一個，提醒身邊的人', ''),
     ]},
     'fact': {'label': '冷知識', 'type': '冷知識', 'topic': '章魚有三顆心臟', 'rows': [
-        ('①開頭', '你知道嗎？章魚有三顆心臟！', '震撼事實開頭：用想不到的事實讓人停下來', '章魚　心臟'),
-        ('①開頭', '而且牠的血是藍色的。', '再補一個驚人的事實，讓人想聽下去', '藍色　血'),
-        ('②主體', '章魚是一種住在海裡的軟體動物。', '介紹背景：OOO是一種……', '海底　章魚'),
-        ('②主體', '兩顆心臟，把血送去鰓。', '說明：一句只講一件事', '鰓　心臟'),
-        ('②主體', '另一顆心臟，把血送到全身。', '接著講另一件事', '身體　血管'),
-        ('②主體', '牠的血含銅，所以看起來是藍的。', '說明原因：為什麼是藍色', '銅　藍色'),
-        ('③CTA', '下次看到章魚，記得跟朋友分享！', 'CTA：分享讓更多人知道', '朋友　分享'),
+        ('①開頭（Hook）', '你知道嗎？章魚有三顆心臟！', '震撼事實開頭：用想不到的事實讓人停下來', '章魚　心臟'),
+        ('①開頭（Hook）', '而且牠的血是藍色的。', '再補一個驚人的事實，讓人想聽下去', '藍色　血'),
+        ('②主體（Body）', '章魚是一種住在海裡的軟體動物。', '介紹背景：OOO是一種……', '海底　章魚'),
+        ('②主體（Body）', '兩顆心臟，把血送去鰓。', '說明：一句只講一件事', '鰓　心臟'),
+        ('②主體（Body）', '另一顆心臟，把血送到全身。', '接著講另一件事', '身體　血管'),
+        ('②主體（Body）', '牠的血含銅，所以看起來是藍的。', '說明原因：為什麼是藍色', '銅　藍色'),
+        ('③行動呼籲（CTA）', '下次看到章魚，記得跟朋友分享！', 'CTA：分享讓更多人知道', '朋友　分享'),
     ]},
     'clarify': {'label': '事實釐清', 'type': '事實澄清', 'topic': '蝙蝠是瞎子？', 'rows': [
-        ('①開頭', '很多人以為，蝙蝠是瞎子。', '說出大家常有的誤會', ''),
-        ('①開頭', '其實，牠們看得見！', '馬上說出真相，讓人想知道為什麼', ''),
-        ('②主體', '蝙蝠是一種會飛的哺乳動物。', '介紹背景：OOO是一種……', ''),
-        ('②主體', '所有的蝙蝠都有眼睛，也看得見。', '證據：直接回答誤會', ''),
-        ('②主體', '有些蝙蝠還會發出聲音，聽回聲找路。', '再補充：牠們還有另一種本領', ''),
-        ('②主體', '這叫「回聲定位」，晚上不容易撞到東西。', '說明這個本領叫什麼、有什麼用', ''),
-        ('③CTA', '下次有人說蝙蝠是瞎子，告訴他真相！', 'CTA：下次遇到……，要……', ''),
+        ('①開頭（Hook）', '很多人以為，蝙蝠是瞎子。', '說出大家常有的誤會', ''),
+        ('①開頭（Hook）', '其實，牠們看得見！', '馬上說出真相，讓人想知道為什麼', ''),
+        ('②主體（Body）', '蝙蝠是一種會飛的哺乳動物。', '介紹背景：OOO是一種……', ''),
+        ('②主體（Body）', '所有的蝙蝠都有眼睛，也看得見。', '證據：直接回答誤會', ''),
+        ('②主體（Body）', '有些蝙蝠還會發出聲音，聽回聲找路。', '再補充：牠們還有另一種本領', ''),
+        ('②主體（Body）', '這叫「回聲定位」，晚上不容易撞到東西。', '說明這個本領叫什麼、有什麼用', ''),
+        ('③行動呼籲（CTA）', '下次有人說蝙蝠是瞎子，告訴他真相！', 'CTA：下次遇到……，要……', ''),
     ]},
 }
 for _k, _d in DEMOS.items():
@@ -71,8 +71,8 @@ STEP_PARTS = '''
     </div>
     <div class="grid md:grid-cols-3 gap-4 mb-5">
       <div class="bg-rose-50 border-4 border-rose-200 rounded-3xl p-5 text-lg"><p class="cute text-xl font-extrabold text-rose-700 m-0">① 開頭（Hook）</p><p class="mt-1 text-slate-700">前 3 秒，1～2 句。<br>任務：<b>讓人停下來</b>，想聽下去。</p></div>
-      <div class="bg-sky-50 border-4 border-sky-200 rounded-3xl p-5 text-lg"><p class="cute text-xl font-extrabold text-sky-700 m-0">② 主體</p><p class="mt-1 text-slate-700">3～4 句。<br>任務：把內容說清楚，<b>每一句只講一件事</b>。</p></div>
-      <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-5 text-lg"><p class="cute text-xl font-extrabold text-emerald-700 m-0">③ CTA</p><p class="mt-1 text-slate-700">最後 1 句。<br>任務：告訴大家<b>看完可以做什麼</b>。</p></div>
+      <div class="bg-sky-50 border-4 border-sky-200 rounded-3xl p-5 text-lg"><p class="cute text-xl font-extrabold text-sky-700 m-0">② 主體（Body）</p><p class="mt-1 text-slate-700">3～4 句。<br>任務：把內容說清楚，<b>每一句只講一件事</b>。</p></div>
+      <div class="bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-5 text-lg"><p class="cute text-xl font-extrabold text-emerald-700 m-0">③ 行動呼籲（CTA）<span class="block text-xs font-bold text-emerald-600">Call To Action</span></p><p class="mt-1 text-slate-700">最後 1 句。<br>任務：告訴大家<b>看完可以做什麼</b>。</p></div>
     </div>
 
     <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 mb-5 shadow-sm">
@@ -99,7 +99,7 @@ STEP_PARTS = '''
     </div>
 
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <p class="cute text-2xl font-extrabold text-sky-700 m-0">② 主體：每一句只講一件事</p>
+      <p class="cute text-2xl font-extrabold text-sky-700 m-0">② 主體（Body）：每一句只講一件事</p>
       <ul class="mt-3 space-y-1 text-lg text-slate-700 list-disc pl-6">
         <li>開頭之後，就是影片的內容。30～45 秒很短，<b>一次講太多重點，大家最後什麼都記不住</b>。</li>
         <li>所以<b>一句台詞，只講一件事</b>。</li>
@@ -124,8 +124,8 @@ STEP_PARTS = '''
     </div>
 
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <p class="cute text-2xl font-extrabold text-emerald-700 m-0">③ CTA：影片最後，告訴大家可以做什麼</p>
-      <p class="text-lg text-slate-700 mt-3">CTA 的意思是「請大家行動」。影片不要說完就停了，最後用<b>一句話</b>告訴大家，看完可以做什麼。<b>一支影片，只放一個 CTA。</b></p>
+      <p class="cute text-2xl font-extrabold text-emerald-700 m-0">③ 行動呼籲（CTA）：影片最後，告訴大家可以做什麼 <span class="text-sm font-bold text-emerald-600">Call To Action</span></p>
+      <p class="text-lg text-slate-700 mt-3">行動呼籲（CTA）的意思是「請大家行動」。影片不要說完就停了，最後用<b>一句話</b>告訴大家，看完可以做什麼。<b>一支影片，只放一個。</b></p>
       <ul class="mt-3 space-y-1 text-lg text-slate-800 list-disc pl-6">
         <li>下次遇到＿＿＿＿＿，不要／要＿＿＿＿＿。</li>
         <li>如果有人說＿＿＿＿＿，記得提醒他＿＿＿＿＿。</li>
@@ -159,12 +159,13 @@ STEP_DEMO = '''
       <p class="text-lg text-slate-700 mt-4">每句 20 字以內，7 句，唸起來約 30 秒。</p>
     </div>
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <p class="cute text-xl font-extrabold text-amber-700 m-0">寫完先改短、改成說話</p>
+      <p class="cute text-xl font-extrabold text-amber-700 m-0">寫完檢查：有內容，不囉嗦</p>
+      <p class="text-lg text-slate-700 mt-2">知識性的影片，句子可以比較正式、有知識，例如「章魚有三顆心臟，各自負責不同的血液循環。」這樣就很好。要避免的是<b>太長，又沒講到內容</b>。</p>
       <div class="grid md:grid-cols-2 gap-3 mt-3 text-lg">
-        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3"><b class="text-rose-700">太長、像課本</b><br>章魚的體內擁有三顆心臟，各自負責不同的血液循環功能。（26 字）</div>
-        <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><b class="text-emerald-700">改成說話</b><br>章魚有三顆心臟，各管不同的地方。（15 字）</div>
+        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3"><b class="text-rose-700">太長、沒內容</b><br>章魚這種動物，其實真的是非常非常特別，牠的身體裡也有很多很有趣的地方喔。</div>
+        <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><b class="text-emerald-700">有內容、說得短</b><br>章魚有三顆心臟，各管不同的地方。</div>
       </div>
-      <p class="text-lg text-slate-700 mt-3">改的時候問自己：<b>哪個字可以拿掉？</b>　<b>講給同學聽，會怎麼說？</b></p>
+      <p class="text-lg text-slate-700 mt-3">寫完問自己：<b>這一句，有沒有告訴大家一個資訊？</b>　<b>哪些字可以拿掉？</b></p>
     </div>
     <div class="stepnav"></div>
   </section>
@@ -191,22 +192,30 @@ STEP_AI = '''
       </div>
     </div>
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <p class="cute text-xl font-extrabold text-violet-700 m-0">AI 教練會怎麼幫你</p>
-      <ul class="mt-2 space-y-1 text-lg text-slate-700 list-disc pl-6">
-        <li>先問你要用什麼開頭讓人停下來，再一段一段問：背景是什麼？證據是什麼？最後想請大家怎麼做？</li>
-        <li>你回答後，<b>自己</b>把答案寫成一句 20 字內的台詞。</li>
-        <li>太長、太難、不像說話，它會問你「哪個字可以拿掉？」「講給同學聽會怎麼說？」，由你來改。</li>
-        <li>你卡住了，它會給你一個句型提示，還是由你寫完。</li>
-        <li>資料裡沒有的數字、人名、日期，不要加。它會問你「資料裡有寫嗎？」</li>
-        <li>關鍵字它不幫你選，等台詞貼進文件之後，你自己挑。</li>
-      </ul>
+      <p class="cute text-xl font-extrabold text-violet-700 m-0">怎麼和 AI 討論台詞</p>
+      <ol class="mt-2 space-y-1 text-lg text-slate-700 list-decimal pl-6">
+        <li>先告訴它你的主題，還有你想對大家說什麼。</li>
+        <li>它問你問題，你<b>一題一題回答</b>。答案是你的想法，不是它的。</li>
+        <li>想到一句，貼給它看，問：「這一句有內容嗎？哪裡可以更短？」</li>
+        <li>卡住了，可以請它「給我一個句型提示」。不要叫它「幫我寫」。</li>
+        <li>它說的資料，要回到<b>來源網址</b>確認。AI 也可能說錯。</li>
+        <li>最後的台詞，用<b>自己的話</b>寫。不要整句複製它的句子。</li>
+      </ol>
+      <p class="font-bold text-slate-700 mt-4 mb-2 text-lg">你可以這樣說：</p>
+      <div class="flex flex-wrap gap-2 text-lg">
+        <span class="bg-violet-50 border-2 border-violet-200 text-violet-800 rounded-xl px-3 py-1">「開始寫台詞」</span>
+        <span class="bg-violet-50 border-2 border-violet-200 text-violet-800 rounded-xl px-3 py-1">「我想講的是……」</span>
+        <span class="bg-violet-50 border-2 border-violet-200 text-violet-800 rounded-xl px-3 py-1">「這句太長了，怎麼變短？」</span>
+        <span class="bg-violet-50 border-2 border-violet-200 text-violet-800 rounded-xl px-3 py-1">「我卡住了，給我一個句型提示」</span>
+        <span class="bg-violet-50 border-2 border-violet-200 text-violet-800 rounded-xl px-3 py-1">「這一句有講到重點嗎？」</span>
+      </div>
     </div>
     <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-6 mb-5 text-lg">
       <p class="cute text-xl font-extrabold text-amber-700 m-0">不用 AI，或 AI 打不開：用句型卡</p>
       <ul class="mt-2 space-y-1 text-slate-700">
-        <li><b>① 開頭：</b>你知道嗎？＿＿＿＿＿！／有人說：＿＿＿＿＿？／很多人以為＿＿＿，其實＿＿＿！</li>
-        <li><b>② 主體：</b>＿＿＿是一種＿＿＿。／＿＿＿最早是由＿＿＿。／其實＿＿＿，因為＿＿＿。</li>
-        <li><b>③ CTA：</b>下次遇到＿＿＿，要＿＿＿。／如果有人說＿＿＿，記得提醒他。</li>
+        <li><b>① 開頭（Hook）：</b>你知道嗎？＿＿＿＿＿！／有人說：＿＿＿＿＿？／很多人以為＿＿＿，其實＿＿＿！</li>
+        <li><b>② 主體（Body）：</b>＿＿＿是一種＿＿＿。／＿＿＿最早是由＿＿＿。／其實＿＿＿，因為＿＿＿。</li>
+        <li><b>③ 行動呼籲（CTA）：</b>下次遇到＿＿＿，要＿＿＿。／如果有人說＿＿＿，記得提醒他。</li>
       </ul>
     </div>
     <div data-set-admin="scriptGemUrl" class="hidden bg-slate-100 border-2 border-dashed border-slate-300 rounded-2xl p-4 mb-5">
@@ -231,7 +240,7 @@ STEP_WRITE = '''
   <section class="step hidden" data-step="4">
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-emerald-700 m-0">寫下我的台詞</h2>
-      <p class="text-slate-600 mt-2 text-lg">把你寫好的台詞，一句一句填進來。<b>至少 7 句，每句 20 字以內</b>，開頭、主體、CTA 三個部分都要有。字數超過會變紅色。</p>
+      <p class="text-slate-600 mt-2 text-lg">把你寫好的台詞，一句一句填進來。<b>至少 7 句，每句 20 字以內</b>，開頭、主體、行動呼籲（CTA）三個部分都要有。最上面也寫一個<b>影片標題</b>，等一下會跟著台詞一起複製進文件。字數超過會變紅色。</p>
     </div>
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-emerald-700 m-0">老師的台詞（示範：冷知識，7 句，約 30 秒）</p>
@@ -244,11 +253,15 @@ STEP_WRITE = '''
     </div>
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-emerald-700 m-0">我的台詞表</p>
-      <div id="scriptRows" class="space-y-4 mt-4"></div>
+      <div class="mt-3">
+        <label for="vtitle" class="cute text-lg font-extrabold text-emerald-700 block">我的影片標題</label>
+        <input id="vtitle" data-k="vtitle" type="text" autocomplete="off" maxlength="30" class="fld ans mt-1 text-lg">
+      </div>
+      <div id="scriptRows" class="space-y-4 mt-5"></div>
       <div class="flex flex-wrap gap-2 mt-5">
         <button type="button" data-addseg="q" class="cute bg-rose-100 hover:bg-rose-200 border-2 border-rose-300 text-rose-800 text-lg font-extrabold rounded-2xl px-5 py-2">＋ 新增開頭</button>
         <button type="button" data-addseg="e" class="cute bg-sky-100 hover:bg-sky-200 border-2 border-sky-300 text-sky-800 text-lg font-extrabold rounded-2xl px-5 py-2">＋ 新增主體</button>
-        <button type="button" data-addseg="c" class="cute bg-emerald-100 hover:bg-emerald-200 border-2 border-emerald-300 text-emerald-800 text-lg font-extrabold rounded-2xl px-5 py-2">＋ 新增 CTA</button>
+        <button type="button" data-addseg="c" class="cute bg-emerald-100 hover:bg-emerald-200 border-2 border-emerald-300 text-emerald-800 text-lg font-extrabold rounded-2xl px-5 py-2">＋ 新增行動呼籲（CTA）</button>
       </div>
       <p id="scriptCount" class="text-lg font-bold text-slate-700 mt-4"></p>
     </div>
@@ -266,7 +279,7 @@ STEP_COPY = '''
   <section class="step hidden" data-step="5">
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">把台詞表放進文件</h2>
-      <p class="text-slate-600 mt-2 text-lg">你填好的主題和台詞，一次複製，貼進老師幫你開好的文件。每一句下面留了「關鍵字」，<b>下一步在文件裡寫</b>。</p>
+      <p class="text-slate-600 mt-2 text-lg">你填好的主題、影片標題和台詞，一次複製，貼進老師幫你開好的文件。每一句下面留了「關鍵字」，<b>下一步在文件裡寫</b>。</p>
     </div>
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-sky-700 m-0">① 複製台詞表</p>
@@ -322,7 +335,7 @@ STEP_KW = '''
 CHOICES = {
     'tconf': {'opts': ['來源網址我點開看過，網頁上真的有寫', '開頭句是一個完整的句子', '核心訊息只有一句話、20 字內', '這個題目 30～45 秒說得完'], 'multi': True, 'block': True},
     'gem': {'opts': ['我打開台詞小教練，對它說了「開始寫台詞」', '我照它的問題一題一題回答', '每一句台詞，我自己用自己的話說出來'], 'multi': True, 'block': True},
-    'write': {'opts': ['台詞寫了 7 句以上，每句 20 字內', '開頭、主體、CTA 三個部分都有', '台詞都是我自己用自己的話寫的', '我全部唸過一遍，像在說話'], 'multi': True, 'block': True},
+    'write': {'opts': ['台詞寫了 7 句以上，每句 20 字內', '開頭、主體、行動呼籲（CTA）三個部分都有', '台詞都是我自己用自己的話寫的', '我全部唸過一遍，像在說話'], 'multi': True, 'block': True},
     'doc': {'opts': ['我按了「複製台詞表」', '我打開老師給的台詞表文件，貼上了', '我看過了，每一句台詞都在文件裡'], 'multi': True, 'block': True},
     'kw': {'opts': ['每一句下面都寫了 1～2 個關鍵字', '關鍵字是我自己挑的，看得到畫面', '關鍵字可以拿去搜尋圖片、影片'], 'multi': True, 'block': True},
 }

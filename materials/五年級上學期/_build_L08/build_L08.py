@@ -48,9 +48,7 @@ C_MAKE = must(C_MAKE, '<li>把名字改成「我的解說影片」。</li>', '<l
 _MK_ANCH = '    <div class="bg-white border-4 border-rose-300 rounded-3xl p-5 mb-5 shadow-sm">' + NL + '      <div class="flex items-center gap-2 flex-wrap"><p class="cute text-xl font-extrabold text-rose-700 m-0">我做到了'
 NAME_CARD = '''    <div class="bg-white border-4 border-rose-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-rose-700 m-0">專案名稱要取好</p>
-      <p class="text-lg text-slate-700 mt-2">名字的格式是<b>班級座號　影片標題</b>，中間空一格。班級和座號各用 2 位數，例如 11 班 22 號，寫成 <b>1122</b>。</p>
-      <label for="vtitle" class="cute text-lg font-extrabold text-rose-700 block mt-4">我的影片標題</label>
-      <input id="vtitle" data-k="vtitle" type="text" autocomplete="off" maxlength="30" class="fld ans mt-1 text-lg">
+      <p class="text-lg text-slate-700 mt-2">名字的格式是<b>班級座號　影片標題</b>，中間空一格。影片標題，就是你在「寫台詞表」那一步寫的標題。班級和座號各用 2 位數，例如 11 班 22 號，寫成 <b>1122</b>。</p>
       <p class="text-lg text-slate-700 mt-4">你的專案名稱：</p>
       <div class="flex gap-2 flex-wrap items-center mt-1">
         <b id="projName" class="text-2xl text-rose-700 bg-rose-50 border-2 border-rose-200 rounded-2xl px-4 py-2"></b>
@@ -148,7 +146,7 @@ CFG = {
 
 HOOKS = r'''
   var MAXR=@@MAXR@@,DEFSEG='@@DEFSEG@@',OLDSEG='qqeeeecc';
-  var SEGI={q:['①','開頭','rose'],e:['②','主體','sky'],c:['③','CTA','emerald']},SEGO=['q','e','c'];
+  var SEGI={q:['①','開頭（Hook）','rose','開頭'],e:['②','主體（Body）','sky','主體'],c:['③','行動呼籲（CTA）','emerald','行動呼籲']},SEGO=['q','e','c'];
   var fullMsg=false;
   var DEMOS=@@DEMOS@@;
   var CATDEMO={'謠言':'rumor','冷知識':'fact','事實澄清':'clarify'};
@@ -189,17 +187,17 @@ HOOKS = r'''
   function segsOk(){return segCount('q')>0&&segCount('e')>0&&segCount('c')>0;}
   function agg(){
     var out=[],n=0;
-    slots().forEach(function(i){var v=textOf(i);if(v){n++;out.push(n+'.（'+SEGI[state['g'+i]][1]+'）'+v);}});
+    slots().forEach(function(i){var v=textOf(i);if(v){n++;out.push(n+'.（'+SEGI[state['g'+i]][3]+'）'+v);}});
     state.scriptAll=out.join(String.fromCharCode(10));
   }
   H.stepDone=function(n){
     var a=function(k){return state[k]!=null&&(Array.isArray(state[k])?state[k].length>0:filled(state[k]));};
     if(n===1)return a('tconf')&&n!==curStep;
     if(n===4)return a('gem')&&n!==curStep;
-    if(n===5)return nS()>=7&&segsOk()&&a('write')&&n!==curStep;
+    if(n===5)return nS()>=7&&segsOk()&&filled(state.vtitle)&&a('write')&&n!==curStep;
     if(n===6)return a('doc')&&n!==curStep;
     if(n===7)return a('kw')&&n!==curStep;
-    if(n===8)return a('ratio')&&a('make')&&filled(state.vtitle)&&n!==curStep;
+    if(n===8)return a('ratio')&&a('make')&&n!==curStep;
     return null;   // 第 2、3 步只閱讀、第 9 步是繳交：看過就算完成
   };
   H.report=function(){
@@ -219,8 +217,8 @@ HOOKS = r'''
 
   function topicLines(){return '類型：'+(state.cat||'')+'\n開頭句：'+(state.hook||'')+'\n來源網址：'+(state.src||'')+'\n核心訊息：'+(state.core||'');}
   function tplText(){
-    var t='我的台詞表\n我的主題：\n'+topicLines()+'\n\n台詞（關鍵字等一下在文件裡寫）：',n=0;
-    slots().forEach(function(i){n++;var g=SEGI[state['g'+i]];t+='\n\n第 '+n+' 句（'+g[0]+g[1]+'）：'+(state['s'+i]||'')+'\n關鍵字：';});
+    var t='我的台詞表\n我的主題：\n'+topicLines()+'\n影片標題：'+(state.vtitle||'')+'\n\n台詞（關鍵字等一下在文件裡寫）：',n=0;
+    slots().forEach(function(i){n++;var g=SEGI[state['g'+i]];t+='\n\n第 '+n+' 句（'+g[0]+g[3]+'）：'+(state['s'+i]||'')+'\n關鍵字：';});
     return t;
   }
   function projName(){
@@ -283,7 +281,7 @@ HOOKS = r'''
     var t=$('tplText');if(t)t.textContent=tplText();
     document.querySelectorAll('[data-count]').forEach(function(e){var n=String(state[e.dataset.count]||'').length;e.textContent=n;e.parentNode.className='text-sm mt-0.5 '+(n>20?'text-rose-600 font-bold':'text-slate-500');});
     var sc=$('scriptCount');
-    if(sc){var n=nS();sc.textContent='目前寫了 '+n+' 句（開頭 '+segCount('q')+'、主體 '+segCount('e')+'、CTA '+segCount('c')+'）'+(n>=7?'，夠了。':'，至少要 7 句。')+(fullMsg?'　最多 '+MAXR+' 句，不能再新增了。':'');}
+    if(sc){var n=nS();sc.textContent='目前寫了 '+n+' 句（開頭 '+segCount('q')+'、主體 '+segCount('e')+'、行動呼籲 '+segCount('c')+'）'+(n>=7?'，夠了。':'，至少要 7 句。')+(filled(state.vtitle)?'':'　影片標題還沒寫。')+(fullMsg?'　最多 '+MAXR+' 句，不能再新增了。':'');}
     var pn=$('projName');if(pn)pn.textContent=projName()||'（先填好最上面的班級、座號）';
   };
   H.changed=function(){H.render();};
