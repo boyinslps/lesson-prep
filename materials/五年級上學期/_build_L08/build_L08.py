@@ -94,7 +94,7 @@ STEP_SUBMIT = '''
   <section class="step hidden" data-step="8">
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-indigo-700 m-0">自己檢查，再繳交</h2>
-      <p class="text-slate-600 mt-2 text-lg">影片還在 Canva 裡，這節不用交連結。先自己檢查一遍，再按繳交。下週繼續做字幕和素材。</p>
+      <p class="text-slate-600 mt-2 text-lg">先到你的台詞表文件，自己檢查一遍，再按繳交。下週用 Canva 建立影片。</p>
     </div>
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h3 class="cute text-xl font-extrabold text-indigo-700 m-0">繳交前自己檢查</h3>
@@ -125,19 +125,17 @@ def renum(s, n):
     return re.sub(r'<section class="step( hidden)?"', '<section class="step' + (' hidden' if n > 1 else '') + '"', s, count=1)
 
 
-ORDER = [STEP_TOPIC, M.STEP_PARTS, M.STEP_DEMO, M.STEP_AI, M.STEP_WRITE, M.STEP_COPY, M.STEP_KW, C_MAKE, STEP_SUBMIT]
+ORDER = [STEP_TOPIC, M.STEP_PARTS, M.STEP_DEMO, M.STEP_AI, M.STEP_WRITE, M.STEP_COPY, M.STEP_KW, STEP_SUBMIT]   # C_MAKE（建立影片、專案命名）2026-11-17 移到下週 L09，先不放
 BODY = NL + ''.join(renum(s, i + 1) for i, s in enumerate(ORDER)) + NL
 
 _TEXTS = ['cat', 'hook', 'src', 'core', 'vtitle'] + ['%s%d' % (p, i) for p in 'sg' for i in range(1, M.MAXR + 1)]
 CFG = {
-    'ws': 'g5-L08', 'lessonPath': 'g5/L08', 'title': '寫台詞、建立你的影片', 'stateKey': 'g5L08flow',
-    'steps': ['拿回主題', '影片三部分', '看示範', '問 AI 教練', '寫台詞表', '複製進文件', '挑關鍵字', '建立影片', '檢查繳交'],
+    'ws': 'g5-L08', 'lessonPath': 'g5/L08', 'title': '確認主題、寫台詞', 'stateKey': 'g5L08flow',
+    'steps': ['拿回主題', '影片三部分', '看示範', '問 AI 教練', '寫台詞表', '複製進文件', '挑關鍵字', '檢查繳交'],
     'reveals': [], 'revealOf': {}, 'autoFb': [], 'textSettings': ['scriptGemUrl'],
-    'qtypes': dict(M.QTYPES, **{'ratio': 'experience', 'make': 'experience', 'chk': 'experience'}),
+    'qtypes': dict(M.QTYPES, **{'chk': 'experience'}),
     'choices': dict(M.CHOICES, **{
-        'ratio': {'opts': ['橫式（16：9）', '直式（9：16）']},
-        'make': {'opts': ['我建立了影片設計，比例是我選的那一種', '專案名稱改成「班級座號　影片標題」了'], 'multi': True, 'block': True},
-        'chk': {'opts': ['台詞表文件裡，每一句都有台詞和關鍵字', 'Canva 已經建立好影片專案，比例也選好了', 'Canva 專案名稱是「班級座號　影片標題」'], 'multi': True, 'block': True},
+        'chk': {'opts': ['台詞表文件裡，影片標題和每一句台詞都貼進去了', '文件裡每一句台詞，下面都寫了關鍵字'], 'multi': True, 'block': True},
     }),
     'texts': _TEXTS,
     'patterns': {},
@@ -197,19 +195,17 @@ HOOKS = r'''
     if(n===5)return nS()>=7&&segsOk()&&filled(state.vtitle)&&a('write')&&n!==curStep;
     if(n===6)return a('doc')&&n!==curStep;
     if(n===7)return a('kw')&&n!==curStep;
-    if(n===8)return a('ratio')&&a('make')&&n!==curStep;
     return null;   // 第 2、3 步只閱讀、第 9 步是繳交：看過就算完成
   };
   H.report=function(){
     var over=slots().filter(function(i){return textOf(i).length>20;}).length;
     return ['台詞：寫了 '+nS()+' 句（開頭 '+segCount('q')+'、主體 '+segCount('e')+'、CTA '+segCount('c')+'）'+(over?'，有 '+over+' 句超過 20 字':''),
-      '影片比例：'+(state.ratio||'還沒選'),
       '影片標題：'+(String(state.vtitle||'').trim()||'還沒寫'),
-      '自查表：已勾 '+((state.chk||[]).length)+' 項（共 3 項）'];
+      '自查表：已勾 '+((state.chk||[]).length)+' 項（共 2 項）'];
   };
   H.showAnswers=function(){};
   H.clear=function(){
-    ['tconf','gem','write','kw','doc','make','chk'].forEach(function(k){state[k]=[];});state.ratio=null;
+    ['tconf','gem','write','kw','doc','chk'].forEach(function(k){state[k]=[];});
     C.texts.forEach(function(k){state[k]='';});
     for(var i=1;i<=MAXR;i++)delete state['o'+i];
     ensureSegs();agg();
@@ -282,7 +278,6 @@ HOOKS = r'''
     document.querySelectorAll('[data-count]').forEach(function(e){var n=String(state[e.dataset.count]||'').length;e.textContent=n;e.parentNode.className='text-sm mt-0.5 '+(n>20?'text-rose-600 font-bold':'text-slate-500');});
     var sc=$('scriptCount');
     if(sc){var n=nS();sc.textContent='目前寫了 '+n+' 句（開頭 '+segCount('q')+'、主體 '+segCount('e')+'、行動呼籲 '+segCount('c')+'）'+(n>=7?'，夠了。':'，至少要 7 句。')+(filled(state.vtitle)?'':'　影片標題還沒寫。')+(fullMsg?'　最多 '+MAXR+' 句，不能再新增了。':'');}
-    var pn=$('projName');if(pn)pn.textContent=projName()||'（先填好最上面的班級、座號）';
   };
   H.changed=function(){H.render();};
   document.addEventListener('click',function(e){
@@ -355,12 +350,11 @@ HOOKS = r'''
 
   $('tplCopy').onclick=function(){copyText(tplText(),this);};
   $('copyGo').onclick=function(){copyText('開始寫台詞',this);};
-  $('projCopy').onclick=function(){var p=projName();if(p)copyText(p,this);};
   H.render();
 '''.replace('@@MAXR@@', str(M.MAXR)).replace('@@DEFSEG@@', M.DEFAULT_SEGS).replace('@@DEMOS@@', json.dumps(M.DEMOS, ensure_ascii=False))
 
 SPEC = {
-    'summary': '拿回 L07 存的主題並確認；學短影片的三個部分（開頭 Hook、主體、CTA），看冷知識、假資訊、事實釐清三種示範；對 AI 教練（Gem）說「開始寫台詞」，用它的提問引導自己想出台詞；在台詞表寫下至少 7 句（開頭、主體、CTA 三個部分，可新增，每句 20 字內，用自己的話）；複製台詞表貼進老師給的文件，並在文件裡自己挑每句 1～2 個可搜尋的關鍵字（AI 不幫忙）；在 Canva 選好影片比例、建立影片專案，專案名稱是「班級座號 影片標題」。這節不交 Canva 連結；字幕、文字特效、找素材在下週。',
+    'summary': '拿回 L07 存的主題並確認；學短影片的三個部分（開頭 Hook、主體、CTA），看冷知識、假資訊、事實釐清三種示範；對 AI 教練（Gem）說「開始寫台詞」，用它的提問引導自己想出台詞；在台詞表寫下至少 7 句（開頭、主體、CTA 三個部分，可新增，每句 20 字內，用自己的話）；複製台詞表貼進老師給的文件，並在文件裡自己挑每句 1～2 個可搜尋的關鍵字（AI 不幫忙）；把影片標題和台詞貼進老師給的文件。這節不做 Canva；建立影片、字幕、文字特效、找素材都在下週。',
     'questions': [
         M.SPEC_SCRIPT,
     ],
@@ -385,11 +379,11 @@ def sub1(pat, repl, s, flags=re.S):
     return new
 
 
-t = sub1(r'<title>.*?</title>', '<title>寫台詞、建立你的影片｜L08 教學活動</title>', t)
+t = sub1(r'<title>.*?</title>', '<title>確認主題、寫台詞｜L08 教學活動</title>', t)
 t = sub1(r'<h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600">.*?</h1>',
-         '<h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600">寫台詞、建立你的影片</h1>', t)
+         '<h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600">確認主題、寫台詞</h1>', t)
 t = sub1(r'<p class="text-sm text-slate-500 mt-2">L06 Docs[^<]*</p>',
-         '<p class="text-sm text-slate-500 mt-2">L08 確認主題・寫台詞・建立 Canva 影片 · 教學活動流程（2 節課）</p>', t)
+         '<p class="text-sm text-slate-500 mt-2">L08 確認主題・寫台詞・整理台詞表 · 教學活動流程（2 節課）</p>', t)
 i = t.index('  </header>\n') + len('  </header>\n')
 j = t.index('  <footer')
 t = t[:i] + strip_emoji(BODY) + '\n' + t[j:]

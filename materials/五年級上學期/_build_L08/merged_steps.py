@@ -183,8 +183,9 @@ STEP_AI = '''
       <ol class="mt-2 space-y-2 text-lg text-slate-700 list-decimal pl-6">
         <li>按下面的「開啟台詞小教練」。</li>
         <li>對它說：<b class="bg-violet-100 border-2 border-violet-300 rounded-lg px-2 py-0.5">開始寫台詞</b></li>
+        <li><b>把你自己找到的資料給它</b>：貼上來源網址，或貼上你整理的重點（3～5 句）。它會先讀一遍，再問你想講什麼。</li>
         <li>照它的問題一題一題回答，自己把答案說成一句短短的台詞。</li>
-        <li>每一句想好了，先記下來，下一步填進「台詞表」。</li>
+        <li>全部寫完，它會給你一張<b>完整的台詞表</b>。下一步照著填進學習單的「台詞表」。</li>
       </ol>
       <div class="flex gap-2 flex-wrap mt-4 items-center">
         <span data-set-show="scriptGemUrl" class="hidden"><a data-set-href="scriptGemUrl" target="_blank" rel="noopener" class="cute inline-block bg-violet-600 hover:bg-violet-700 text-white text-xl font-extrabold rounded-2xl px-6 py-3">開啟台詞小教練 ↗</a></span>
@@ -194,7 +195,7 @@ STEP_AI = '''
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-violet-700 m-0">怎麼和 AI 討論台詞</p>
       <ol class="mt-2 space-y-1 text-lg text-slate-700 list-decimal pl-6">
-        <li>先告訴它你的主題，還有你想對大家說什麼。</li>
+        <li>先告訴它你的主題，貼上你找到的資料（來源網址或重點），再說你想對大家說什麼。</li>
         <li>它問你問題，你<b>一題一題回答</b>。答案是你的想法，不是它的。</li>
         <li>想到一句，貼給它看，問：「這一句有內容嗎？哪裡可以更短？」</li>
         <li>卡住了，可以請它「給我一個句型提示」。不要叫它「幫我寫」。</li>
@@ -334,7 +335,7 @@ STEP_KW = '''
 
 CHOICES = {
     'tconf': {'opts': ['來源網址我點開看過，網頁上真的有寫', '開頭句是一個完整的句子', '核心訊息只有一句話、20 字內', '這個題目 30～45 秒說得完'], 'multi': True, 'block': True},
-    'gem': {'opts': ['我打開台詞小教練，對它說了「開始寫台詞」', '我照它的問題一題一題回答', '每一句台詞，我自己用自己的話說出來'], 'multi': True, 'block': True},
+    'gem': {'opts': ['我打開台詞小教練，對它說了「開始寫台詞」', '我把來源網址或我找到的資料貼給它了', '我照它的問題一題一題回答', '每一句台詞，我自己用自己的話說出來'], 'multi': True, 'block': True},
     'write': {'opts': ['台詞寫了 7 句以上，每句 20 字內', '開頭、主體、行動呼籲（CTA）三個部分都有', '台詞都是我自己用自己的話寫的', '我全部唸過一遍，像在說話'], 'multi': True, 'block': True},
     'doc': {'opts': ['我按了「複製台詞表」', '我打開老師給的台詞表文件，貼上了', '我看過了，每一句台詞都在文件裡'], 'multi': True, 'block': True},
     'kw': {'opts': ['每一句下面都寫了 1～2 個關鍵字', '關鍵字是我自己挑的，看得到畫面', '關鍵字可以拿去搜尋圖片、影片'], 'multi': True, 'block': True},
