@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
 # L08 的「寫台詞」部分（確認主題以後、Canva 以前）。由 build_L08.py 匯入。
 # 老師規則：關鍵字學生自己選，AI 不幫忙；只有寫台詞 AI 可以協助，而且用提問引導；要給台詞撰寫範例。
-# 2026-11-16 晚：文件由老師幫學生開；台詞、關鍵字改回在學習單裡填，填完按「複製台詞表」貼進老師給的文件。
-ROWS = 8
-SEG = {1: ('①', '問題', 'rose'), 2: ('①', '問題', 'rose'), 3: ('②', '解釋', 'sky'), 4: ('②', '解釋', 'sky'),
-       5: ('②', '解釋', 'sky'), 6: ('②', '解釋', 'sky'), 7: ('③', '結論', 'emerald'), 8: ('③', '結論', 'emerald')}
-
-
-def badge(i):
-    n, name, tone = SEG[i]
-    return ('<span class="shrink-0 inline-block bg-%s-100 border-2 border-%s-300 text-%s-800 rounded-full px-2.5 py-0.5 text-sm font-bold">%s%s　第 %d 句</span>'
-            % (tone, tone, tone, n, name, i))
-
+# 2026-11-16 晚：文件由老師幫學生開；台詞改回在學習單裡填，填完按「複製台詞表」貼進老師給的文件。
+# 2026-11-17：第 3 步＝直接對 Gem 說「開始寫台詞」（Gem 老師自己寫好，學習單不再收資料、不再給複製訊息）；
+#             台詞表可用「新增問題／解釋／結論」加句子；關鍵字改到「貼進文件之後」在文件裡寫，學習單不再收關鍵字。
+MAXR = 12                       # 台詞最多幾句（欄位 s1..s12、段落 g1..g12）
+DEFAULT_SEGS = 'qqeeecc'        # 一開始的 7 句：問題 2、解釋 3、結論 2
 
 # 範例：老師的示範影片「打雷時用手機」（事實來自台灣事實查核中心查核報告 #1804）
 # 每列：段、老師找到的資料、AI 教練會問的問題、老師寫的台詞、關鍵字
@@ -81,33 +75,34 @@ STEP_EXAMPLE = '''
 '''.replace('@@EXQ@@', EX_Q_HTML)
 
 STEP_AI = '''
-  <!-- ===== 步驟 3：寫下資料，請 AI 用問題帶你寫台詞 ===== -->
+  <!-- ===== 步驟 3：直接對 Gem 說「開始寫台詞」 ===== -->
   <section class="step hidden" data-step="3">
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-violet-700 m-0">寫下資料，請 AI 用問題帶你寫台詞</h2>
+      <h2 class="cute text-3xl font-extrabold text-violet-700 m-0">請 AI 教練用問題帶你寫台詞</h2>
       <p class="text-slate-600 mt-2 text-lg">AI 教練<b>不會直接寫給你</b>。它會<b>一次問你一個問題</b>，你回答，再自己把答案寫成一句台詞。就像剛剛老師的範例。</p>
     </div>
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <label for="mat3" class="cute text-xl font-extrabold text-violet-700">① 我從來源找到的資料（3～5 句，用自己的話寫）</label>
-      <textarea id="mat3" data-k="mat3" rows="5" class="fld ans mt-2 text-lg"></textarea>
-    </div>
-    <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <p class="cute text-xl font-extrabold text-violet-700 m-0">② 複製這段，貼給 AI 教練</p>
-      <pre id="aiMsg" class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 mt-3 text-base whitespace-pre-wrap"></pre>
-      <div class="flex gap-2 flex-wrap mt-3 items-center">
-        <button type="button" id="copyAI" class="cute bg-violet-600 hover:bg-violet-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">複製</button>
-        <span data-set-show="scriptGemUrl" class="hidden"><a data-set-href="scriptGemUrl" target="_blank" rel="noopener" class="cute inline-block bg-white border-2 border-violet-400 text-violet-800 text-lg font-extrabold rounded-2xl px-5 py-2">開啟台詞小教練 ↗</a></span>
+      <p class="cute text-xl font-extrabold text-violet-700 m-0">怎麼開始</p>
+      <ol class="mt-2 space-y-2 text-lg text-slate-700 list-decimal pl-6">
+        <li>按下面的「開啟台詞小教練」。</li>
+        <li>對它說：<b class="bg-violet-100 border-2 border-violet-300 rounded-lg px-2 py-0.5">開始寫台詞</b></li>
+        <li>照它的問題一題一題回答，自己把答案說成一句短短的台詞。</li>
+        <li>每一句想好了，先記下來，下一步填進「台詞表」。</li>
+      </ol>
+      <div class="flex gap-2 flex-wrap mt-4 items-center">
+        <span data-set-show="scriptGemUrl" class="hidden"><a data-set-href="scriptGemUrl" target="_blank" rel="noopener" class="cute inline-block bg-violet-600 hover:bg-violet-700 text-white text-xl font-extrabold rounded-2xl px-6 py-3">開啟台詞小教練 ↗</a></span>
+        <button type="button" id="copyGo" class="bg-white border-2 border-violet-400 hover:bg-violet-50 text-violet-800 font-bold rounded-2xl px-5 py-2.5">複製「開始寫台詞」</button>
       </div>
     </div>
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-violet-700 m-0">AI 教練會怎麼幫你</p>
       <ul class="mt-2 space-y-1 text-lg text-slate-700 list-disc pl-6">
         <li>先問你要用什麼問題開頭，再一段一段問：資料怎麼說？原因是什麼？所以該怎麼做？</li>
-        <li>你回答後，<b>自己</b>把答案寫成一句 20 字內的台詞。下一步把台詞填進來。</li>
+        <li>你回答後，<b>自己</b>把答案寫成一句 20 字內的台詞。</li>
         <li>太長、太難、不像說話，它會問你「哪個字可以拿掉？」「講給同學聽會怎麼說？」，由你來改。</li>
         <li>你卡住了，它會給你一個句型提示，還是由你寫完。</li>
         <li>資料裡沒有的數字、人名、日期，不要加。它會問你「資料裡有寫嗎？」</li>
-        <li>關鍵字它不幫你選，之後你自己挑。</li>
+        <li>關鍵字它不幫你選，等台詞貼進文件之後，你自己挑。</li>
       </ul>
     </div>
     <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-6 mb-5 text-lg">
@@ -126,23 +121,21 @@ STEP_AI = '''
       </div>
       <p data-set-stat class="text-sm font-bold mt-2 min-h-[20px]"></p>
     </div>
-    @@SAVE@@
+    <div class="bg-white border-4 border-violet-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap"><p class="cute text-xl font-extrabold text-violet-700 m-0">我做到了</p><span class="qtypeSlot" data-qid="gem"></span></div>
+      <div id="gemOpts" class="space-y-2 mt-3"></div>
+    </div>
     <div class="stepnav"></div>
   </section>
-'''.replace('@@SAVE@@', SAVE)
+'''
 
-_ROWS_WRITE = ''.join(
-    '<div class="flex items-start gap-2 flex-wrap">%s<div class="flex-1 min-w-[14rem]">'
-    '<input id="s%d" data-k="s%d" type="text" autocomplete="off" maxlength="40" class="fld ans text-lg">'
-    '<p class="text-sm text-slate-500 mt-0.5"><span data-count="s%d">0</span> / 20 字</p></div></div>'
-    % (badge(i), i, i, i) for i in range(1, ROWS + 1))
-
+# 台詞表：一開始 7 句（問題 2、解釋 3、結論 2），按「新增問題／解釋／結論」可以加句子（最多 12 句）；欄位由 build_L08 的 JS 產生
 STEP_WRITE = '''
   <!-- ===== 步驟 4：寫下我的台詞 ===== -->
   <section class="step hidden" data-step="4">
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-emerald-700 m-0">寫下我的台詞</h2>
-      <p class="text-slate-600 mt-2 text-lg">把你寫好的台詞，一句一句填進來。<b>寫 7～8 句，每句 20 字以內</b>，三段都要有。字數超過會變紅色。</p>
+      <p class="text-slate-600 mt-2 text-lg">把你寫好的台詞，一句一句填進來。<b>至少 7 句，每句 20 字以內</b>，問題、解釋、結論三段都要有。字數超過會變紅色。</p>
     </div>
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-emerald-700 m-0">老師的台詞（7 句，整支影片約 30 秒）</p>
@@ -153,10 +146,15 @@ STEP_WRITE = '''
         </table>
       </div>
     </div>
-    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm space-y-4">
+    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-emerald-700 m-0">我的台詞表</p>
-      @@ROWS@@
-      <p id="scriptCount" class="text-lg font-bold text-slate-700"></p>
+      <div id="scriptRows" class="space-y-4 mt-4"></div>
+      <div class="flex flex-wrap gap-2 mt-5">
+        <button type="button" data-addseg="q" class="cute bg-rose-100 hover:bg-rose-200 border-2 border-rose-300 text-rose-800 text-lg font-extrabold rounded-2xl px-5 py-2">＋ 新增問題</button>
+        <button type="button" data-addseg="e" class="cute bg-sky-100 hover:bg-sky-200 border-2 border-sky-300 text-sky-800 text-lg font-extrabold rounded-2xl px-5 py-2">＋ 新增解釋</button>
+        <button type="button" data-addseg="c" class="cute bg-emerald-100 hover:bg-emerald-200 border-2 border-emerald-300 text-emerald-800 text-lg font-extrabold rounded-2xl px-5 py-2">＋ 新增結論</button>
+      </div>
+      <p id="scriptCount" class="text-lg font-bold text-slate-700 mt-4"></p>
     </div>
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm">
       <div class="flex items-center gap-2 flex-wrap"><p class="cute text-xl font-extrabold text-emerald-700 m-0">我做到了</p><span class="qtypeSlot" data-qid="write"></span></div>
@@ -165,53 +163,14 @@ STEP_WRITE = '''
     @@SAVE@@
     <div class="stepnav"></div>
   </section>
-'''.replace('@@EXL@@', EX_LINES_HTML).replace('@@ROWS@@', _ROWS_WRITE).replace('@@SAVE@@', SAVE)
-
-_ROWS_KW = ''.join(
-    '<div class="flex items-start gap-2 flex-wrap">%s<div class="flex-1 min-w-[14rem]"><p class="text-lg text-slate-800 font-bold" data-echo="s%d"></p>'
-    '<input id="k%d" data-k="k%d" type="text" autocomplete="off" maxlength="40" class="fld ans mt-1 text-lg"></div></div>'
-    % (badge(i), i, i, i) for i in range(1, ROWS + 1))
-
-STEP_KW = '''
-  <!-- ===== 步驟 5：自己挑關鍵字 ===== -->
-  <section class="step hidden" data-step="5">
-    <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">自己挑每一句的關鍵字</h2>
-      <p class="text-slate-600 mt-2 text-lg">關鍵字是<b>搜尋圖片、影片要打的字</b>，等一下要用它找素材。畫面是你想的，所以<b>關鍵字自己挑</b>。每句 1～2 個。</p>
-      <div class="grid md:grid-cols-2 gap-3 mt-4 text-lg">
-        <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><b class="text-emerald-700">好找的</b><br>閃電、慢跑、草原、汽車、科學家</div>
-        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3"><b class="text-rose-700">不好找的</b><br>意見不一樣、真正、關鍵（看不到畫面，換成能看到的東西）</div>
-      </div>
-      <p class="text-lg text-slate-700 mt-3">挑的時候問自己：<b>這一句，我想看到什麼畫面？</b>　搜不到，就換一個詞，或試試英文，例如 jogging、lightning。</p>
-    </div>
-    <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <p class="cute text-xl font-extrabold text-amber-700 m-0">老師的關鍵字</p>
-      <div class="overflow-x-auto mt-3">
-        <table class="w-full text-left text-lg">
-          <thead><tr class="text-slate-500 text-base"><th class="pb-1 pr-2">段</th><th class="pb-1 pr-3">台詞（字幕）</th><th class="pb-1">關鍵字</th></tr></thead>
-          <tbody>@@EXK@@</tbody>
-        </table>
-      </div>
-    </div>
-    <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm space-y-4">
-      <p class="cute text-xl font-extrabold text-amber-700 m-0">我的關鍵字</p>
-      @@ROWS@@
-    </div>
-    <div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <div class="flex items-center gap-2 flex-wrap"><p class="cute text-xl font-extrabold text-amber-700 m-0">我做到了</p><span class="qtypeSlot" data-qid="kw"></span></div>
-      <div id="kwOpts" class="space-y-2 mt-3"></div>
-    </div>
-    @@SAVE@@
-    <div class="stepnav"></div>
-  </section>
-'''.replace('@@EXK@@', EX_KW_HTML).replace('@@ROWS@@', _ROWS_KW).replace('@@SAVE@@', SAVE)
+'''.replace('@@EXL@@', EX_LINES_HTML).replace('@@SAVE@@', SAVE)
 
 STEP_COPY = '''
-  <!-- ===== 步驟 6：複製進老師給的文件 ===== -->
-  <section class="step hidden" data-step="6">
+  <!-- ===== 步驟 5：複製進老師給的文件 ===== -->
+  <section class="step hidden" data-step="5">
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">把台詞表放進文件</h2>
-      <p class="text-slate-600 mt-2 text-lg">你填好的主題、資料、台詞、關鍵字，一次複製，貼進老師幫你開好的文件。</p>
+      <p class="text-slate-600 mt-2 text-lg">你填好的主題和台詞，一次複製，貼進老師幫你開好的文件。每一句下面留了「關鍵字」，<b>下一步在文件裡寫</b>。</p>
     </div>
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-sky-700 m-0">① 複製台詞表</p>
@@ -223,7 +182,7 @@ STEP_COPY = '''
       <ol class="mt-2 space-y-1 text-lg text-slate-700 list-decimal pl-6">
         <li>打開老師給你的「台詞表」文件。</li>
         <li>在文件裡按 Ctrl+V，貼上。</li>
-        <li>往下看一遍，每一句和關鍵字都有貼進去。</li>
+        <li>往下看一遍，每一句台詞都有貼進去。</li>
       </ol>
     </div>
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-5 mb-5 shadow-sm">
@@ -235,18 +194,47 @@ STEP_COPY = '''
   </section>
 '''.replace('@@SAVE@@', SAVE)
 
+STEP_KW = '''
+  <!-- ===== 步驟 6：在文件裡自己挑關鍵字 ===== -->
+  <section class="step hidden" data-step="6">
+    <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">在文件裡，自己挑每一句的關鍵字</h2>
+      <p class="text-slate-600 mt-2 text-lg">台詞已經在文件裡了。回到文件，在每一句下面的「<b>關鍵字：</b>」後面，寫 1～2 個關鍵字。關鍵字是<b>搜尋圖片、影片要打的字</b>，下週找素材要用。畫面是你想的，所以<b>關鍵字自己挑</b>。</p>
+      <div class="grid md:grid-cols-2 gap-3 mt-4 text-lg">
+        <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3"><b class="text-emerald-700">好找的</b><br>閃電、慢跑、草原、汽車、科學家</div>
+        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3"><b class="text-rose-700">不好找的</b><br>意見不一樣、真正、關鍵（看不到畫面，換成能看到的東西）</div>
+      </div>
+      <p class="text-lg text-slate-700 mt-3">挑的時候問自己：<b>這一句，我想看到什麼畫面？</b></p>
+    </div>
+    <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <p class="cute text-xl font-extrabold text-amber-700 m-0">老師的關鍵字</p>
+      <div class="overflow-x-auto mt-3">
+        <table class="w-full text-left text-lg">
+          <thead><tr class="text-slate-500 text-base"><th class="pb-1 pr-2">段</th><th class="pb-1 pr-3">台詞（字幕）</th><th class="pb-1">關鍵字</th></tr></thead>
+          <tbody>@@EXK@@</tbody>
+        </table>
+      </div>
+    </div>
+    <div class="bg-white border-4 border-amber-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap"><p class="cute text-xl font-extrabold text-amber-700 m-0">我做到了</p><span class="qtypeSlot" data-qid="kw"></span></div>
+      <div id="kwOpts" class="space-y-2 mt-3"></div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+'''.replace('@@EXK@@', EX_KW_HTML)
+
 CHOICES = {
     'tconf': {'opts': ['來源網址我點開看過，網頁上真的有寫', '開頭句是一個完整的句子', '核心訊息只有一句話、20 字內', '這個題目 30～45 秒說得完'], 'multi': True, 'block': True},
     'ex': {'opts': ['台詞是「先回答一個問題，再寫成一句話」', '每句 20 字內，像在說話', '寫完要改短、改成自己會說的話'], 'multi': True},
-    'write': {'opts': ['台詞寫了 7 句以上，每句 20 字內', '三段都有：問題、解釋、結論', '台詞都是我自己用自己的話寫的', '我全部唸過一遍，像在說話'], 'multi': True, 'block': True},
-    'kw': {'opts': ['每一句都有 1～2 個關鍵字', '關鍵字是我自己挑的，看得到畫面', '搜不到的關鍵字我會自己換'], 'multi': True, 'block': True},
-    'doc': {'opts': ['我按了「複製台詞表」', '我打開老師給的台詞表文件，貼上了', '我看過了，每一句和關鍵字都在文件裡'], 'multi': True, 'block': True},
+    'gem': {'opts': ['我打開台詞小教練，對它說了「開始寫台詞」', '我照它的問題一題一題回答', '每一句台詞，我自己用自己的話說出來'], 'multi': True, 'block': True},
+    'write': {'opts': ['台詞寫了 7 句以上，每句 20 字內', '問題、解釋、結論三段都有', '台詞都是我自己用自己的話寫的', '我全部唸過一遍，像在說話'], 'multi': True, 'block': True},
+    'doc': {'opts': ['我按了「複製台詞表」', '我打開老師給的台詞表文件，貼上了', '我看過了，每一句台詞都在文件裡'], 'multi': True, 'block': True},
+    'kw': {'opts': ['每一句下面都寫了 1～2 個關鍵字', '關鍵字是我自己挑的，看得到畫面', '關鍵字可以拿去搜尋圖片、影片'], 'multi': True, 'block': True},
 }
-QTYPES = {'tconf': 'experience', 'ex': 'experience', 'write': 'experience', 'kw': 'experience', 'doc': 'experience',
-          'scriptAll': 'open'}
+QTYPES = {'tconf': 'experience', 'ex': 'experience', 'gem': 'experience', 'write': 'experience', 'doc': 'experience',
+          'kw': 'experience', 'scriptAll': 'open'}
 
-SPEC_SCRIPT = {'qid': 'scriptAll', 'prompt': '我的台詞表（每句台詞和它的關鍵字）。', 'mode': 'checklist',
-               'checks': [{'desc': '寫了 7 句以上，順序上有「問題或謠言、解釋、結論」三段', 'pts': 3},
-                          {'desc': '每句大約 20 字內，一句只講一件事，是說話的口氣，不是整段複製來源或課本式的句子', 'pts': 4},
-                          {'desc': '內容跟他的主題與來源有關，沒有加入來源裡沒有的數字、人名或日期', 'pts': 3},
-                          {'desc': '每句都有 1～2 個關鍵字，是搜得到畫面的具體詞，不是「真正」「意見不一樣」這類看不到的詞', 'pts': 5}]}
+SPEC_SCRIPT = {'qid': 'scriptAll', 'prompt': '我的台詞表（每句台詞，依問題、解釋、結論排列）。', 'mode': 'checklist',
+               'checks': [{'desc': '寫了 7 句以上，順序上有「問題或謠言、解釋、結論」三段', 'pts': 4},
+                          {'desc': '每句大約 20 字內，一句只講一件事，是說話的口氣，不是整段複製來源或課本式的句子', 'pts': 5},
+                          {'desc': '內容跟他的主題與來源有關，沒有加入來源裡沒有的數字、人名或日期', 'pts': 4}]}
