@@ -302,7 +302,6 @@ STEP6 = '''
       <div class="text-6xl mb-2 pop">🎉</div>
       <h2 class="cute text-3xl font-extrabold text-indigo-700">恭喜你已經做完今日的作業，可以遊玩！</h2>
       <div class="flex flex-wrap gap-3 justify-center mt-4">
-        <a href="@@PORTAL@@" target="_blank" rel="noopener" class="cute inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-2xl font-extrabold rounded-2xl px-10 py-4">更多遊戲</a>
         <a href="@@PORTAL@@" target="_blank" rel="noopener" class="cute inline-block bg-white border-4 border-indigo-400 hover:bg-indigo-50 text-indigo-700 text-2xl font-extrabold rounded-2xl px-10 py-4">電腦教室遊戲網站</a>
       </div>
     </div>

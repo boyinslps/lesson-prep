@@ -64,6 +64,75 @@
             70% { border-color: #4f46e5; box-shadow: 0 0 0 10px rgba(124, 58, 237, 0); }
             100% { border-color: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
         }
+
+        /* ===== 打字勇者卡片 ===== */
+        .th-card{position:relative;display:block;border-radius:24px;overflow:hidden;color:#fff;text-decoration:none;isolation:isolate;
+            box-shadow:0 14px 40px -12px rgba(76,29,149,.6);transition:transform .3s cubic-bezier(.4,0,.2,1),box-shadow .3s}
+        .th-card:hover{transform:translateY(-6px) scale(1.012);box-shadow:0 24px 54px -12px rgba(124,58,237,.75)}
+        .th-card::before{content:"";position:absolute;inset:-70%;z-index:-3;
+            background:conic-gradient(from 0deg,#f59e0b,#ec4899,#8b5cf6,#22d3ee,#f59e0b);animation:th-spin 7s linear infinite}
+        .th-card::after{content:"";position:absolute;inset:3px;border-radius:21px;z-index:-2;
+            background:radial-gradient(ellipse at 18% 0%,#43308f 0%,#1c1340 52%,#0b0820 100%)}
+        @keyframes th-spin{to{transform:rotate(360deg)}}
+        .th-stars{position:absolute;inset:3px;z-index:-1;overflow:hidden;border-radius:21px;pointer-events:none}
+        .th-stars i{position:absolute;left:0;top:0;width:2px;height:2px;border-radius:50%}
+        .th-s1{box-shadow:463px 286px 0 #fde68a,462px 260px 0 #c4b5fd,194px 94px 0 #c4b5fd,487px 322px 0 #c4b5fd,812px 95px 0 #fff,457px 155px 0 #fff,92px 275px 0 #c4b5fd,649px 21px 0 #c4b5fd,405px 231px 0 #c4b5fd,756px 315px 0 #c4b5fd,161px 319px 0 #fff,851px 270px 0 #fff,60px 18px 0 #fff,900px 123px 0 #c4b5fd,30px 237px 0 #fde68a,451px 302px 0 #fff,531px 119px 0 #c4b5fd,301px 255px 0 #fff,678px 43px 0 #fde68a,670px 142px 0 #fde68a,564px 42px 0 #c4b5fd,260px 161px 0 #fff,525px 147px 0 #fff,71px 288px 0 #fff,410px 55px 0 #fde68a,395px 34px 0 #fff,867px 0px 0 #fff,214px 26px 0 #fde68a,384px 203px 0 #fde68a,74px 289px 0 #c4b5fd,203px 138px 0 #fde68a,89px 159px 0 #fde68a,15px 209px 0 #fff,137px 126px 0 #c4b5fd,103px 5px 0 #fff,476px 249px 0 #fff;animation:th-twinkle 3s ease-in-out infinite}
+        .th-s2{box-shadow:698px 286px 0 #fff,458px 260px 0 #fff,749px 67px 0 #fde68a,659px 196px 0 #fff,404px 215px 0 #fff,0px 138px 0 #c4b5fd,311px 10px 0 #fff,191px 201px 0 #c4b5fd,657px 295px 0 #fff,43px 74px 0 #fff,452px 132px 0 #fff,791px 312px 0 #fde68a,850px 151px 0 #fde68a,75px 38px 0 #fff,213px 298px 0 #c4b5fd,248px 7px 0 #c4b5fd,377px 190px 0 #c4b5fd,464px 65px 0 #c4b5fd,495px 294px 0 #fff,887px 197px 0 #fff,642px 78px 0 #fde68a,233px 312px 0 #fff,742px 97px 0 #fff,757px 322px 0 #c4b5fd,201px 198px 0 #fde68a,618px 40px 0 #fde68a;animation:th-twinkle 4.2s ease-in-out -1.6s infinite}
+        @keyframes th-twinkle{50%{opacity:.25}}
+        .th-in{position:relative;display:grid;grid-template-columns:1.1fr 1fr;gap:8px;align-items:center;padding:34px 34px 30px;min-height:290px}
+        .th-badge{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:800;letter-spacing:.08em;padding:3px 12px;border-radius:99px;
+            background:linear-gradient(90deg,#f43f5e,#f59e0b);box-shadow:0 0 18px rgba(244,63,94,.55)}
+        .th-title{font-size:clamp(2.2rem,6vw,3.4rem);font-weight:900;line-height:1.1;margin:12px 0 8px;letter-spacing:.04em;
+            background:linear-gradient(100deg,#fff 20%,#fde68a 35%,#fff 50%,#a5f3fc 65%,#fff 80%);background-size:250% 100%;
+            -webkit-background-clip:text;background-clip:text;color:transparent;animation:th-shine 4.5s linear infinite;
+            filter:drop-shadow(0 3px 0 rgba(0,0,0,.45))}
+        @keyframes th-shine{to{background-position:-250% 0}}
+        .th-sub{color:#ddd6fe;font-size:1rem;line-height:1.7;max-width:30rem}
+        .th-chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 20px}
+        .th-chips span{font-size:.8rem;font-weight:700;padding:4px 12px;border-radius:99px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2)}
+        .th-go{display:inline-flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;padding:13px 28px;border-radius:16px;color:#1f1300;
+            background:linear-gradient(180deg,#fde68a,#f59e0b);box-shadow:0 5px 0 #b45309,0 0 26px rgba(251,191,36,.6);animation:th-pulse 1.8s ease-in-out infinite;
+            position:relative;overflow:hidden;transition:transform .15s}
+        .th-go::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);
+            transform:skewX(-20deg);animation:th-sweep 2.8s ease-in-out infinite}
+        .th-card:hover .th-go{transform:translateY(2px);box-shadow:0 3px 0 #b45309,0 0 34px rgba(251,191,36,.85)}
+        @keyframes th-pulse{50%{box-shadow:0 5px 0 #b45309,0 0 40px rgba(251,191,36,.9)}}
+        @keyframes th-sweep{0%,55%{left:-60%}100%{left:130%}}
+        .th-stage{position:relative;height:250px}
+        .th-stage img{position:absolute;image-rendering:pixelated;filter:drop-shadow(0 6px 0 rgba(0,0,0,.35)) drop-shadow(0 0 14px rgba(167,139,250,.55));user-select:none}
+        .th-wolf{right:6%;bottom:8%;width:46%;animation:th-bob 2.6s ease-in-out infinite}
+        .th-hero{left:4%;bottom:2%;width:26%;animation:th-bob 2.2s ease-in-out -.8s infinite;transition:transform .25s}
+        .th-card:hover .th-hero{transform:translateX(54%) rotate(6deg) scale(1.08)}
+        .th-ink{right:3%;top:12%;width:27%;animation:th-bob 3.4s ease-in-out -1.2s infinite}
+        .th-frog{left:34%;bottom:0;width:22%;animation:th-hop 2.1s ease-in-out infinite}
+        .th-shroom{left:30%;top:2%;width:18%;animation:th-bob 3s ease-in-out -2s infinite}
+        @keyframes th-bob{50%{transform:translateY(-10px)}}
+        @keyframes th-hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-22px)}}
+        .th-slash{position:absolute;left:30%;top:20%;width:52%;height:6px;border-radius:99px;background:linear-gradient(90deg,transparent,#fff,transparent);
+            transform:rotate(28deg) scaleX(0);opacity:0;box-shadow:0 0 16px #fff,0 0 30px #a78bfa}
+        .th-card:hover .th-slash{animation:th-cut .6s .12s ease-out}
+        @keyframes th-cut{0%{transform:rotate(28deg) scaleX(0);opacity:1}60%{transform:rotate(28deg) scaleX(1);opacity:1}100%{transform:rotate(28deg) scaleX(1.1);opacity:0}}
+        .th-sp{position:absolute;width:6px;height:6px;border-radius:1px;pointer-events:none;animation:th-rise 2.6s ease-out forwards}
+        @keyframes th-rise{0%{opacity:0;transform:translateY(0) rotate(0)}15%{opacity:1}100%{opacity:0;transform:translateY(-190px) rotate(180deg)}}
+        .th-ticker{position:absolute;top:14px;right:16px;z-index:5;max-width:calc(100% - 32px)}
+        .th-pill{display:inline-flex;align-items:center;gap:7px;font-size:.78rem;font-weight:700;padding:5px 13px;border-radius:99px;color:#fff;white-space:nowrap;
+            background:rgba(15,10,40,.72);border:1px solid rgba(196,181,253,.45);box-shadow:0 0 14px rgba(139,92,246,.45);backdrop-filter:blur(4px)}
+        .th-pill .ic{animation:th-ring 2.4s ease-in-out infinite;display:inline-block}
+        .th-dots{display:inline-flex;gap:3px;margin-left:4px}
+        .th-dots i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .3s}
+        .th-dots i.on{background:#fde68a}
+        .th-msg{display:inline-block;animation:th-in .45s ease-out}
+        @keyframes th-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+        @keyframes th-ring{0%,70%,100%{transform:rotate(0)}75%{transform:rotate(14deg)}85%{transform:rotate(-12deg)}95%{transform:rotate(8deg)}}
+        @media (max-width:760px){
+            .th-in{grid-template-columns:1fr;padding:56px 22px 22px}
+            .th-stage{height:200px}
+            .th-pill{font-size:.72rem}
+        }
+        @media (prefers-reduced-motion:reduce){
+            .th-card *,.th-card::before{animation:none!important}
+            .th-card:hover{transform:none}
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -80,6 +149,7 @@
                 </h1>
             </div>
             <div class="hidden md:flex items-center space-x-4 text-sm font-medium">
+                <a href="#game-section" class="hover:text-indigo-200 transition-colors">打字勇者</a>
                 <a href="#edu-section" class="hover:text-indigo-200 transition-colors">教學平台</a>
                 <a href="#practice-section" class="hover:text-indigo-200 transition-colors">練習資源</a>
                 <span class="opacity-50">|</span>
@@ -96,6 +166,66 @@
                 請根據當日進度，先完成老師指定的任務，再點擊下方連結進行自主學習。
             </p>
         </header>
+
+
+        <!-- 打字勇者（遊戲專區）。右上角的小小更新訊息在下方 script 的 TYPEHERO_UPDATES，更新遊戲時請一起更新 -->
+        <section id="game-section" class="mb-10">
+            <div class="section-divider">
+                <h3 class="text-lg font-bold text-indigo-600 flex items-center">
+                    <i class="fas fa-gamepad mr-2"></i> 遊戲專區
+                </h3>
+            </div>
+            <a class="th-card" href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener noreferrer" aria-label="打字勇者：打字就是出招的冒險遊戲">
+                <span class="th-stars" aria-hidden="true"><i class="th-s1"></i><i class="th-s2"></i></span>
+                <div class="th-ticker" aria-live="polite">
+                    <span class="th-pill"><span class="ic">🔔</span><span class="th-msg" id="th-msg"></span><span class="th-dots" id="th-dots"></span></span>
+                </div>
+                <div class="th-in">
+                    <div>
+                        <span class="th-badge">🔥 熱門遊戲</span>
+                        <div class="th-title">打字勇者</div>
+                        <p class="th-sub">打字就是出招！全班一起打怪、升級、變強，還能解鎖更強的武器和天賦。</p>
+                        <div class="th-chips"><span>⚔ 三種武器</span><span>✨ 天賦成長</span><span>🌋 新世界預告</span></div>
+                        <span class="th-go">開始冒險 <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="th-stage" id="th-stage" aria-hidden="true">
+                        <img class="th-ink" src="data:image/png;base64,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" alt="">
+                        <img class="th-shroom" src="data:image/png;base64,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" alt="">
+                        <img class="th-wolf" src="data:image/png;base64,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" alt="">
+                        <img class="th-frog" src="data:image/png;base64,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" alt="">
+                        <img class="th-hero" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGgAAAB4CAYAAAAeyrc6AAAGB0lEQVR4AeydS2hdVRSGV+9AcKBIKCpRVFBEp1qoUNSBE1/4wFEdFVREihQlYOko4ANBQaoWKahkUNqRTopRCGTWYLRGJMWGohgsKQ4kKEUycFBZ0MHvOpez7r77mdy/8NO1s/dea+3/yz0nJzdNB+L8mZ669kqfnO2daZvrj/knr6DsvB3jWo3tvB3rGpSd7zTofMDut2Nne/C0Cyg4IzckdYCAktqZPhkBpfc0acYOIHtNvfDreUEtLp4WlF0f2t3a1NuCOjn/rfTppodmBLVy4hFBhdb31tvz4dk1Rm80tuu9/N58B5C3gfNlHSCgsn4HVyOgYMvKbugAurS5tQt19533Ciq0PXtNtveX0Hx2/dLgsKA+PrkgqA+/f1BQeL/S2PZn83tj9EZj9E5jb7833wHkbeD8KA6kW0NA6bzMkomAstiaLmkwoFtvv0tQ+iyAstf01Pcce/SpG64TlJ3fs3efoPB+pLFdb/vHs2mMZ9fY7k89DgaUugHm63eAgPr9qT5LQNUR9DfgAtKv5VH6tT6qP73I5l+X/ydvfeh8bP4Dh2YF5dXHs2uM3mjs7Q+ddwGFJuT6tA4QUFo/k2cjILC0xTAakD4LoPRZAWUPHXvPsPlCx/hMpLHdj71rjGfT2K7PPY4GlLvBSc9PQI1/BhDQTgOkX+uj9FkApddplHd+e0/yxl4+b/7s8hlB2fXYu8Z4No3x7Brb/anHfAWldjRxPgJKbGjqdASU2tHE+aIB6XUYpddpVOJ+s6fD3jXOXtApEA3IyV9gemeXIKDG+RLQTgdk38Nf++oTQeEzh8al/dCaKK/+mXMXBTXz7meCsuf18sXO8xUU62Dm/QSU2eDY9AQU62Dm/dGA8BlI43ueeEVQc0dnBYX3g1Fi7/xeDm8/9qaxt770fDSg0g1PWj0Capx4NUCN+9JMe9GA7HPBl4s/SZ+eevpZCdH0zTcKavmXaUGF5Bq21vbaDJmrjUQDupqHf2VygIAyGZsqLQGlcjJTnuSAlr47K9tZmXweO21yQGN3wo1DHSCgoba080ECaofF0E6SA3r/8AuSUrs3PpAQxdYe6lLFDwYCqtjphJYmoMbBE9BOA2S/97bx+9cSotXTL0uf9PfnoJ559KCECPdqPDe7R/pke2+NF19BrREx/RCQMaS1IQG1RsT0Ew3ozx9OSZ9WXj0mqPVPNwS1OrMgqLU3fxPUyuvvSYhwr8bXnNoU1M/HLwrq6N4DgjL+VB9GA6p+gh3eAAG1ALinBwLqMaeFqYF9rvHGtZu+8M+WoGr3k7s+X0G5HY7MT0CRBubeTkC5HY7MP7Dfiwod775/v/Qpsr+J385XUOOfAgREQI070Hh7g31HNqRPf8sDgupbO2yu8fPHtFdkLy9xRWwevwgBje9dkZ0EVMTm8Yt0AM2/85ygbGqc09jOc5zWgQ6gtOmZLdYBAop1MPN+AspscGz6DqDHj3whKFsA5zS28xyndaADKG16Zot1YPIAxTpWeD8BFTY8tBwBhTpWeD0BFTY8tBwBhTpWeD0BFTY8tBwBhTpWeD0BFTY8tBwBhTpWeD0BFTY8tNx2ARR6rpHXH1qeE9Qd158T1GvPTwvK/tyg/Vn2kQuPuHDiAY3oU7VlBFTN+tEKE9BoPlVb5QLS93xQXqff7P9XUN762vP471M1vry6Ln265bbHBKW/KxyV+jwuoNQFmS/MAQIK86v4agIqbnlYwcH6iRcFFba9uxr/3waNuyva/oj23Ce832ic+zR8BeV2ODJ/XkCRzXG7CAE1/lkQDQjvXxo3ft7g9vQ+gwpOELkhGlBkfW53HCAgx6Da0wRUm4BTf4DXV431PhIi3YOy9e776KD06eGFYxKil5Y+F1TIXl2L7/0Mi23/tcd8BdUm4NQnIMeg2tMEVJuAU78D6NLm1i68p3ixk1/eeuN4lPC9l2Fx6vz2vN75cs93AOUuyPxhDhBQmF/FVxNQccvDCmYHdP7HZYmRd5yY3LrXy197Pjug2gfc7vUJqHGCBERAjTvQeHt8BRUDNF4hAhrPt2K7CKiY1eMV+g8AAP//Llj9WQAAAAZJREFUAwBypj8rXsPx1wAAAABJRU5ErkJggg==" alt="">
+                        <span class="th-slash"></span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 真假對決：網址由老師在 #admin 填，存在 Firestore quizzes/portal-games（學習單同一套規則：任何人可讀、只有老師可寫）。沒填網址時學生看不到這張卡 -->
+            <div id="tf-card" class="hidden mt-6 rounded-3xl p-6 md:p-7 text-white shadow-xl" style="background:linear-gradient(120deg,#be123c 0%,#7c3aed 100%)">
+                <div class="flex flex-col md:flex-row md:items-center gap-5">
+                    <div class="text-6xl leading-none select-none" aria-hidden="true">⚖️</div>
+                    <div class="flex-1">
+                        <div class="text-2xl md:text-3xl font-black tracking-wide">真假對決</div>
+                        <p class="mt-1 text-white/90 leading-relaxed">網路上的訊息，是真的還是假的？用你學到的查證本領一起來對決，看誰最會分辨真假！</p>
+                    </div>
+                    <a id="tf-go" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-2xl bg-white text-rose-700 font-black text-lg shadow-lg hover:bg-rose-50 transition-colors">
+                        開始對決 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div id="tf-admin" class="hidden mt-5 rounded-2xl bg-black/30 p-4 text-sm">
+                    <p class="font-bold mb-2">老師設定：真假對決的網址（開好伺服器後貼上並儲存，學生馬上看到）</p>
+                    <div id="tf-login" class="flex flex-wrap gap-2 items-center">
+                        <input id="tf-email" type="email" autocomplete="username" class="border-2 border-white/40 rounded-xl px-3 py-2 bg-white text-gray-900 min-w-[14rem]" value="boyin0304@slps.tn.edu.tw">
+                        <input id="tf-pw" type="password" autocomplete="current-password" placeholder="密碼" class="border-2 border-white/40 rounded-xl px-3 py-2 bg-white text-gray-900">
+                        <button id="tf-signin" type="button" class="bg-white text-rose-700 font-bold rounded-xl px-4 py-2">老師登入</button>
+                    </div>
+                    <div id="tf-edit" class="hidden flex flex-wrap gap-2 items-center">
+                        <input id="tf-url" type="url" autocomplete="off" class="flex-1 min-w-[16rem] border-2 border-white/40 rounded-xl px-3 py-2 bg-white text-gray-900">
+                        <button id="tf-save" type="button" class="bg-white text-rose-700 font-bold rounded-xl px-4 py-2">儲存網址</button>
+                    </div>
+                    <p id="tf-stat" class="font-bold mt-2 min-h-[20px]"></p>
+                </div>
+            </div>
+        </section>
 
         <!-- 第一部分：教學平台類 -->
         <section id="edu-section">
@@ -267,6 +397,97 @@
         const now = new Date();
         const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
         document.getElementById('current-date').textContent = now.toLocaleDateString('zh-TW', options);
+
+        // ===== 真假對決：網址存在 Firebase（quizzes/portal-games.truefalseUrl），老師加 #admin 登入後可改 =====
+        (function () {
+            var IS_ADMIN = location.hash === '#admin';
+            var card = document.getElementById('tf-card'), go = document.getElementById('tf-go');
+            var admin = document.getElementById('tf-admin'), stat = document.getElementById('tf-stat');
+            var inp = document.getElementById('tf-url'), box = document.getElementById('tf-edit'), login = document.getElementById('tf-login');
+            var cfg = { apiKey: "AIzaSyAaodBvsP-BSovON14izt22DOXeH40TTGM", authDomain: "pcclass-94300.firebaseapp.com", projectId: "pcclass-94300", appId: "1:1034787516465:web:73c334b2ddad152c472510" };
+            var base = 'https://www.gstatic.com/firebasejs/10.8.0/';
+            var ref = null, auth = null, url = '';
+            function load(src) { return new Promise(function (ok, no) { var s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); }); }
+            function show() {
+                var on = !!url || IS_ADMIN;
+                card.classList.toggle('hidden', !on);
+                if (url) go.setAttribute('href', url); else go.removeAttribute('href');
+                go.classList.toggle('opacity-50', !url);
+                if (document.activeElement !== inp) inp.value = url;
+            }
+            if (IS_ADMIN) admin.classList.remove('hidden');
+            load(base + 'firebase-app-compat.js')
+                .then(function () { return load(base + 'firebase-firestore-compat.js'); })
+                .then(function () { return IS_ADMIN ? load(base + 'firebase-auth-compat.js') : null; })
+                .then(function () {
+                    firebase.initializeApp(cfg);
+                    ref = firebase.firestore().collection('quizzes').doc('portal-games');
+                    ref.onSnapshot(function (d) { url = String((d.data() || {}).truefalseUrl || '').trim(); show(); }, function (e) { console.warn('讀不到真假對決網址', e); });
+                    if (!IS_ADMIN) return;
+                    auth = firebase.auth();
+                    auth.onAuthStateChanged(function (u) {
+                        var ok = !!(u && !u.isAnonymous && u.email);
+                        login.classList.toggle('hidden', ok); box.classList.toggle('hidden', !ok);
+                        if (ok) stat.textContent = '已登入 ' + u.email;
+                    });
+                })
+                .catch(function (e) { console.warn('Firebase 載入失敗', e); });
+            if (!IS_ADMIN) return;
+            document.getElementById('tf-signin').onclick = function () {
+                if (!auth) { stat.textContent = '還在連線，稍後再按一次'; return; }
+                auth.signInWithEmailAndPassword(document.getElementById('tf-email').value.trim(), document.getElementById('tf-pw').value)
+                    .catch(function (e) { stat.textContent = '登入失敗：' + e.message; });
+            };
+            document.getElementById('tf-save').onclick = function () {
+                var v = inp.value.trim();
+                if (v && !/^https?:\/\//i.test(v)) { alert('網址要以 http:// 或 https:// 開頭'); return; }
+                ref.set({ truefalseUrl: v }, { merge: true })
+                    .then(function () { stat.textContent = v ? '已儲存，學生馬上看到' : '已清除，學生看不到這張卡'; })
+                    .catch(function (e) { alert('儲存失敗：' + e.message); });
+            };
+        })();
+
+        // ===== 打字勇者：右上角循環的小小更新訊息 =====
+        // 每次更新「打字勇者」，請順便在這裡加一則新訊息（放最前面），並刪掉太舊的，保持 3～5 則。
+        // 規則：只寫「已經上線、同學現在就玩得到」的功能；每則 20 字以內，用國小同學看得懂的話。
+        // 完整規範見 boyinslps/typehero 的 CLAUDE.md。
+        const TYPEHERO_UPDATES = [
+            { icon: '🎫', text: '打完標點練習，就能進新世界！' },
+            { icon: '🎯', text: '標點練習變短了！看完再練，還要打怪' },
+            { icon: '🏫', text: '新世界有教學大樓了！學會送字元' },
+            { icon: '🎁', text: '新世界可以輸入序號領禮物' },
+            { icon: '🐛', text: '幫忙抓蟲，拿字元和稱號！' }
+        ];
+        (function () {
+            const msg = document.getElementById('th-msg'), dots = document.getElementById('th-dots');
+            if (!msg || !TYPEHERO_UPDATES.length) return;
+            dots.innerHTML = TYPEHERO_UPDATES.map(() => '<i></i>').join('');
+            let i = -1;
+            function show() {
+                i = (i + 1) % TYPEHERO_UPDATES.length;
+                const m = TYPEHERO_UPDATES[i];
+                msg.style.animation = 'none'; void msg.offsetWidth; msg.style.animation = '';
+                msg.textContent = m.icon + ' ' + m.text;
+                [...dots.children].forEach((d, k) => d.classList.toggle('on', k === i));
+            }
+            show();
+            if (TYPEHERO_UPDATES.length > 1) setInterval(show, 3800);
+
+            const stage = document.getElementById('th-stage');
+            if (stage && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const colors = ['#fde68a', '#c4b5fd', '#a5f3fc', '#fbcfe8'];
+                setInterval(() => {
+                    if (document.hidden) return;
+                    const b = document.createElement('b');
+                    b.className = 'th-sp';
+                    b.style.left = (8 + Math.random() * 84) + '%';
+                    b.style.bottom = (4 + Math.random() * 30) + '%';
+                    b.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    stage.appendChild(b);
+                    setTimeout(() => b.remove(), 2700);
+                }, 260);
+            }
+        })();
     </script>
 </body>
 </html>

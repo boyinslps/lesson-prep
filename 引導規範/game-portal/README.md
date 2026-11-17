@@ -28,12 +28,19 @@
 
 ## 新學習單怎麼放
 
-獎勵區的兩顆按鈕照其他學習單複製：
+獎勵區**只放一顆按鈕**（2026-11-17 起，所有學習單一律如此）：
 
 ```html
-<a href="https://boyinslps.github.io/typehero/index.html" target="_blank" rel="noopener" class="…">🎮 打字英雄</a>
-<a href="https://boyinslps.github.io/pcclass/games/" target="_blank" rel="noopener" class="…">🕹️ 更多遊戲</a>
+<a href="https://boyinslps.github.io/pcclass/games/" target="_blank" rel="noopener" class="…">電腦教室遊戲網站</a>
 ```
+
+## 真假對決網址（老師在入口網改）
+
+入口網「遊戲專區」打字勇者下方有「真假對決」卡片。網址存在 Firestore `quizzes/portal-games` 的 `truefalseUrl` 欄位（沿用 `quizzes` 規則：任何人可讀、只有老師可寫）。
+
+- 老師：開 `https://boyinslps.github.io/pcclass/games/#admin` → 用老師帳號登入 → 貼網址 → 儲存。學生那邊即時更新。
+- 沒填網址時，學生看不到這張卡；清空網址就是收起來。
+- 入口網的原始碼以發布庫 `工作台/.pub_repo/games/index.html` 為準（打字勇者那段也是在那邊改的）。
 
 做完跑 `工作台/runtime/python/python.exe 引導規範/game-portal/check.py`，確認沒有錯誤。
 
