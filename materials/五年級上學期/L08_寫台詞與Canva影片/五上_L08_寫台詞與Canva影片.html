@@ -864,7 +864,7 @@ var firebaseConfig = {
 
   // ===== 老師填的文字設定（例如遊戲網址）：存在 quizzes/{ws}，學生那邊即時看到 =====
   // data-set-show：有填才顯示（老師看得到）；data-set-href：<a> 的連結；data-set-input：老師輸入框
-  var SET={};
+  var DEFAULT_SET={scriptGemUrl:'https://gemini.google.com/gem/1hC9bs9aBqIvNCe3GKbjujuU86tN7M21R?usp=sharing'};var OWN={};var SET={scriptGemUrl:DEFAULT_SET.scriptGemUrl};
   function applySettings(){
     document.querySelectorAll('[data-set-show]').forEach(function(e){
       var on=!!String(SET[e.dataset.setShow]||'').trim()||(IS_ADMIN&&!REVIEW_ID);
@@ -1096,7 +1096,7 @@ var firebaseConfig = {
       var d=(doc&&doc.data())||{};
       if(d.qtypeOverrides&&!REVIEW_ID){QTYPE_OVERRIDES=d.qtypeOverrides;renderQtypeSlots();}
       if(REVIEW_ID)return;
-      (C.textSettings||[]).forEach(function(k){SET[k]=String(d[k]||'');});applySettings();
+      (C.textSettings||[]).forEach(function(k){OWN[k]=String(d[k]||'');SET[k]=OWN[k]||DEFAULT_SET[k]||'';});applySettings();
       var next={};(C.reveals||[]).forEach(function(r){next[r]=!!d[r];});
       var undone=Object.keys(next).some(function(k){return REV[k]&&!next[k];});
       if(undone&&!first&&!IS_ADMIN){location.reload();return;}   // 老師按還原：全部收回

@@ -396,6 +396,11 @@ b = t.index('// ===== 作答狀態（localStorage 暫存）')
 b = t.rfind('\n', 0, b) + 1
 t = t[:a] + HOOKS + '\n' + t[b:]
 t = t.replace("已儲存，學生繳交後就會看到按鈕", "已儲存，學生馬上就會看到按鈕")
+# 台詞小教練（找題目＋寫台詞合併版）Gem 的預設網址（老師 2026-11-17 提供，和 L07 同一個 Gem）：老師沒在 #admin 另填時用這個
+GEM_URL = 'https://gemini.google.com/gem/1hC9bs9aBqIvNCe3GKbjujuU86tN7M21R?usp=sharing'
+assert t.count("var SET={};") == 1 and t.count("SET[k]=String(d[k]||'');") == 1
+t = t.replace("var SET={};", "var DEFAULT_SET={scriptGemUrl:'" + GEM_URL + "'};var OWN={};var SET={scriptGemUrl:DEFAULT_SET.scriptGemUrl};")
+t = t.replace("SET[k]=String(d[k]||'');", "OWN[k]=String(d[k]||'');SET[k]=OWN[k]||DEFAULT_SET[k]||'';")
 t = sub1(r'<script type="application/json" id="grading-spec">\n.*?\n</script>',
          '<script type="application/json" id="grading-spec">\n' + json.dumps(SPEC, ensure_ascii=False, indent=2) + '\n</script>', t)
 
