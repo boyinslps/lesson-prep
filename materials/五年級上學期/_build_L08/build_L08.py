@@ -33,6 +33,7 @@ _src = io.open(os.path.join(HERE, 'canva_steps_src.py'), encoding='utf8').read()
 NS = {'__file__': os.path.join(HERE, 'canva_steps_src.py')}
 exec(compile(_src, 'canva_steps_src', 'exec'), NS)
 PORTAL = NS['PORTAL']
+import l07_half as L7                 # L07 的「看示範」「跟 AI 聊天」（L08 也要有）
 NL = chr(10)
 
 
@@ -125,16 +126,16 @@ def renum(s, n):
     return re.sub(r'<section class="step( hidden)?"', '<section class="step' + (' hidden' if n > 1 else '') + '"', s, count=1)
 
 
-ORDER = [STEP_TOPIC, M.STEP_PARTS, M.STEP_DEMO, M.STEP_AI, M.STEP_WRITE, M.STEP_COPY, M.STEP_KW, STEP_SUBMIT]   # C_MAKE（建立影片、專案命名）2026-11-17 移到下週 L09，先不放
+ORDER = [STEP_TOPIC, L7.STEP_VIDEOS, M.STEP_PARTS, M.STEP_DEMO, L7.STEP_TIPS, M.STEP_AI, M.STEP_WRITE, M.STEP_COPY, M.STEP_KW, STEP_SUBMIT]   # C_MAKE（建立影片、專案命名）2026-11-17 移到下週 L09，先不放
 BODY = NL + ''.join(renum(s, i + 1) for i, s in enumerate(ORDER)) + NL
 
 _TEXTS = ['cat', 'hook', 'src', 'core', 'vtitle'] + ['%s%d' % (p, i) for p in 'sg' for i in range(1, M.MAXR + 1)]
 CFG = {
     'ws': 'g5-L08', 'lessonPath': 'g5/L08', 'title': '確認主題、寫台詞', 'stateKey': 'g5L08flow',
-    'steps': ['拿回主題', '影片三部分', '看示範', '問 AI 教練', '寫台詞表', '複製進文件', '挑關鍵字', '檢查繳交'],
-    'reveals': [], 'revealOf': {}, 'autoFb': [], 'textSettings': ['scriptGemUrl'],
-    'qtypes': dict(M.QTYPES, **{'chk': 'experience'}),
-    'choices': dict(M.CHOICES, **{
+    'steps': ['拿回主題', '看影片示範', '影片三部分', '看台詞示範', '跟 AI 聊天', '問 AI 教練', '寫台詞表', '複製進文件', '挑關鍵字', '檢查繳交'],
+    'reveals': [], 'revealOf': {}, 'autoFb': ['tip1', 'tip2'], 'textSettings': ['scriptGemUrl'],
+    'qtypes': dict(M.QTYPES, **{'chk': 'experience', 'demo': 'experience', 'tip1': 'experience', 'tip2': 'experience'}),
+    'choices': dict(M.CHOICES, **L7.CHOICES, **{
         'chk': {'opts': ['台詞表文件裡，影片標題和每一句台詞都貼進去了', '文件裡每一句台詞，下面都寫了關鍵字'], 'multi': True, 'block': True},
     }),
     'texts': _TEXTS,
@@ -191,11 +192,13 @@ HOOKS = r'''
   H.stepDone=function(n){
     var a=function(k){return state[k]!=null&&(Array.isArray(state[k])?state[k].length>0:filled(state[k]));};
     if(n===1)return a('tconf')&&n!==curStep;
-    if(n===4)return a('gem')&&n!==curStep;
-    if(n===5)return nS()>=7&&segsOk()&&filled(state.vtitle)&&a('write')&&n!==curStep;
-    if(n===6)return a('doc')&&n!==curStep;
-    if(n===7)return a('kw')&&n!==curStep;
-    return null;   // 第 2、3 步只閱讀、第 9 步是繳交：看過就算完成
+    if(n===2)return a('demo')&&n!==curStep;
+    if(n===5)return a('tip1')&&a('tip2')&&n!==curStep;
+    if(n===6)return a('gem')&&n!==curStep;
+    if(n===7)return nS()>=7&&segsOk()&&filled(state.vtitle)&&a('write')&&n!==curStep;
+    if(n===8)return a('doc')&&n!==curStep;
+    if(n===9)return a('kw')&&n!==curStep;
+    return null;   // 第 3、4 步只閱讀、第 10 步是繳交：看過就算完成
   };
   H.report=function(){
     var over=slots().filter(function(i){return textOf(i).length>20;}).length;
@@ -205,7 +208,8 @@ HOOKS = r'''
   };
   H.showAnswers=function(){};
   H.clear=function(){
-    ['tconf','gem','write','kw','doc','chk'].forEach(function(k){state[k]=[];});
+    ['tconf','gem','write','kw','doc','chk','demo'].forEach(function(k){state[k]=[];});
+    ['tip1','tip2'].forEach(function(k){state[k]=null;});
     C.texts.forEach(function(k){state[k]='';});
     for(var i=1;i<=MAXR;i++)delete state['o'+i];
     ensureSegs();agg();
@@ -270,7 +274,9 @@ HOOKS = r'''
     fullMsg=false;state['g'+i]='';state['s'+i]='';delete state['o'+i];
     save();buildRows();H.render();
   }
+  H.hasContent=function(){return topicHas()||workHas();};
   H.render=function(){
+    ['tip1','tip2'].forEach(function(q){var e=$(q+'Exp');if(e)e.classList.toggle('hidden',!state[q]);});
     ensureSegs();agg();buildRows();renderDemo();
     var l=$('srcLink'),u=String(state.src||'').trim();
     if(l){if(/^https?:\/\/\S+/.test(u)){l.href=u;l.classList.remove('hidden');}else{l.removeAttribute('href');l.classList.add('hidden');}}
@@ -329,20 +335,6 @@ HOOKS = r'''
     if(!db){say(st,'現在連不上，晚點再試試看。','amber');return;}
     loadTopic(i,st,false);
   };
-  document.querySelectorAll('[data-script-save]').forEach(function(b){b.onclick=function(){
-    var i=idn(),st=b.closest('div.bg-white').querySelector('[data-script-stat]');
-    if(!i){say(st,NEEDID,'rose');return;}
-    if(!workHas()){say(st,'先寫一點再存。','amber');return;}
-    if(!db){say(st,'現在連不上，晚點再試試看。','amber');return;}
-    say(st,'存檔中…','indigo');
-    saveWork(i).then(function(){say(st,'已存起來。下次按「拿回我存的台詞」就有了。','emerald');}).catch(function(e){console.warn('存台詞失敗',e);say(st,'現在存不了，晚點再試試看。','amber');});
-  };});
-  document.querySelectorAll('[data-script-load]').forEach(function(b){b.onclick=function(){
-    var i=idn(),st=b.closest('div.bg-white').querySelector('[data-script-stat]');
-    if(!i){say(st,NEEDID,'rose');return;}
-    if(!db){say(st,'現在連不上，晚點再試試看。','amber');return;}
-    loadWork(i,st,false);
-  };});
   // 身分填好、而且這節的內容還是空的，就自動拿一次（先拿這節存的台詞，沒有再拿 L07 的主題；不會蓋掉學生已經寫的）
   function autoLoad(){var i=getIdentity();if(!identityValid(i)||!db||workHas())return;loadWork(i,$('topicStat'),true);}
   document.addEventListener('change',function(e){if(e.target&&/^id(Grade|Class|Student)$/.test(e.target.id))autoLoad();});
@@ -354,7 +346,7 @@ HOOKS = r'''
 '''.replace('@@MAXR@@', str(M.MAXR)).replace('@@DEFSEG@@', M.DEFAULT_SEGS).replace('@@DEMOS@@', json.dumps(M.DEMOS, ensure_ascii=False))
 
 SPEC = {
-    'summary': '拿回 L07 存的主題並確認；學短影片的三個部分（開頭 Hook、主體、CTA），看冷知識、假資訊、事實釐清三種示範；對 AI 教練（Gem）說「開始寫台詞」，用它的提問引導自己想出台詞；在台詞表寫下至少 7 句（開頭、主體、CTA 三個部分，可新增，每句 20 字內，用自己的話）；複製台詞表貼進老師給的文件，並在文件裡自己挑每句 1～2 個可搜尋的關鍵字（AI 不幫忙）；把影片標題和台詞貼進老師給的文件。這節不做 Canva；建立影片、字幕、文字特效、找素材都在下週。',
+    'summary': '拿回 L07 存的主題並確認；看兩支解說影片；學短影片的三個部分（開頭 Hook、主體、CTA），看冷知識、假資訊、事實釐清三種示範；學 4 個跟 AI 聊天的提醒；對 AI 教練（Gem）說「開始寫台詞」，用它的提問引導自己想出台詞；在台詞表寫下至少 7 句（開頭、主體、CTA 三個部分，可新增，每句 20 字內，用自己的話）；複製台詞表貼進老師給的文件，並在文件裡自己挑每句 1～2 個可搜尋的關鍵字（AI 不幫忙）；把影片標題和台詞貼進老師給的文件。這節不做 Canva；建立影片、字幕、文字特效、找素材都在下週。',
     'questions': [
         M.SPEC_SCRIPT,
     ],
@@ -396,6 +388,7 @@ b = t.index('// ===== 作答狀態（localStorage 暫存）')
 b = t.rfind('\n', 0, b) + 1
 t = t[:a] + HOOKS + '\n' + t[b:]
 t = t.replace("已儲存，學生繳交後就會看到按鈕", "已儲存，學生馬上就會看到按鈕")
+t = M.ckpt.patch_submit(t)   # 繳交區塊換成支援「先繳交（存檔）」的版本
 # 台詞小教練（找題目＋寫台詞合併版）Gem 的預設網址（老師 2026-11-17 提供，和 L07 同一個 Gem）：老師沒在 #admin 另填時用這個
 GEM_URL = 'https://gemini.google.com/gem/1hC9bs9aBqIvNCe3GKbjujuU86tN7M21R?usp=sharing'
 assert t.count("var SET={};") == 1 and t.count("SET[k]=String(d[k]||'');") == 1

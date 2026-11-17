@@ -8,6 +8,8 @@ import io, json, os, re, sys
 sys.stdout.reconfigure(encoding='utf8')
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)                       # materials/五年級上學期
+sys.path.insert(0, os.path.join(ROOT, '_build_shared'))
+import ckpt                                        # 先繳交（存檔）／讀取拿回，L07、L08 共用
 SKEL = os.path.join(ROOT, 'L06_Docs查證文件二', '五上_L06_Docs查證文件二.html')
 OUT = os.path.join(ROOT, 'L07_補排版與找主題', '五上_L07_補排版與找主題.html')
 FMT = io.open(os.path.join(HERE, 'fmt_step.html'), encoding='utf8').read()   # 從 L06 原「格式檢查」步驟搬來
@@ -194,18 +196,10 @@ STEP4 = '''
       <div><div class="flex items-center gap-2 flex-wrap"><label for="core" class="cute text-xl font-extrabold text-emerald-700">③ 我的核心訊息（一句話，20 字內）</label><span class="qtypeSlot" data-qid="core"></span></div>
         <textarea id="core" data-k="core" rows="2" class="fld ans mt-2 text-lg"></textarea></div>
     </div>
-    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <p class="cute text-xl font-extrabold text-emerald-700 m-0">存起來，下次接著用</p>
-      <p class="text-lg text-slate-700 mt-2">先填好最上面的年級、班級、座號。換一台電腦、下一節課，都能拿回來。</p>
-      <div class="flex gap-2 flex-wrap mt-3">
-        <button type="button" id="topicSave" class="cute bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">存起來</button>
-        <button type="button" id="topicLoad" class="bg-white border-2 border-emerald-400 hover:bg-emerald-50 text-emerald-800 font-bold rounded-2xl px-5 py-2">拿回我存的主題</button>
-      </div>
-      <p id="topicStat" class="text-base font-bold mt-3 min-h-[24px]"></p>
-    </div>
+    @@CK@@
     <div class="stepnav"></div>
   </section>
-'''
+'''.replace('@@CK@@', ckpt.CARD)
 
 # 步驟 5：把 L06 原本的「格式檢查」搬過來（標題與說明改成補完文件）
 _s5 = FMT.replace('<!-- ===== 步驟 9：格式檢查 ===== -->', '<!-- ===== 步驟 5：補完查證文件 ===== -->').replace('data-step="9"', 'data-step="5"')
@@ -369,10 +363,10 @@ HOOKS = r'''
   };
   H.changed=function(){H.render();};
 
-  // ===== 我的主題：存到學生暫存區 studentWork（id：g5-L07__年-班-號__topic），下一節讀回來用 =====
+  // ===== 我的主題：每次繳交（含「先繳交（存檔）」）都另存一份到學生暫存區 studentWork（id：g5-L07__年-班-號__topic），L08 第 1 步讀回來用 =====
   function topicDocId(i){return WS+'__'+i.grade+'-'+i.className+'-'+i.studentId+'__topic';}
   function topicHasData(){return !!state.cat||filled(state.hook)||filled(state.src)||filled(state.core);}
-  function topicStat(msg,tone){var e=$('topicStat');if(!e)return;e.className='text-base font-bold mt-3 min-h-[24px] text-'+tone+'-600';e.textContent=msg;}
+  H.hasContent=function(){return topicHasData();};
   function saveTopic(i){
     var d={cat:state.cat||'',hook:String(state.hook||''),src:String(state.src||''),core:String(state.core||'')};
     var txt=('類型：'+d.cat+'\n開頭句：'+d.hook+'\n來源：'+d.src+'\n核心訊息：'+d.core).slice(0,1500);
@@ -381,29 +375,6 @@ HOOKS = r'''
     });
   }
   H.afterSubmit=function(i){if(topicHasData())saveTopic(i).catch(function(e){console.warn('存主題失敗',e);});};
-  $('topicSave').onclick=function(){
-    var i=getIdentity();
-    if(!identityValid(i)){markIdentity(true);topicStat('先到頁面最上面填年級、班級、座號，再按一次。','rose');return;}
-    markIdentity(false);
-    if(!topicHasData()){topicStat('先寫一點再存。','amber');return;}
-    if(!db){topicStat('現在連不上，晚點再試試看。','amber');return;}
-    topicStat('存檔中…','indigo');
-    saveTopic(i).then(function(){topicStat('✓ 已存起來。下次按「拿回我存的主題」就有了。','emerald');})
-      .catch(function(e){console.warn('存主題失敗',e);topicStat('現在存不了，晚點再試試看。','amber');});
-  };
-  $('topicLoad').onclick=function(){
-    var i=getIdentity();
-    if(!identityValid(i)){markIdentity(true);topicStat('先到頁面最上面填年級、班級、座號，再按一次。','rose');return;}
-    markIdentity(false);
-    if(!db){topicStat('現在連不上，晚點再試試看。','amber');return;}
-    authResolved.then(function(){return ensureAuth();}).then(function(){return db.collection('studentWork').doc(topicDocId(i)).get();}).then(function(doc){
-      if(!doc.exists){topicStat('還沒有找到你存過的主題。填好之後按「存起來」，下次就能拿回來。','amber');return;}
-      if(topicHasData()&&!confirm('這會換掉你現在寫的內容，確定要拿回之前存的嗎？'))return;
-      var d=(doc.data()||{}).data||{};
-      state.cat=d.cat||null;state.hook=d.hook||'';state.src=d.src||'';state.core=d.core||'';
-      save();renderAll();topicStat('✓ 已拿回你存的主題。','emerald');
-    }).catch(function(e){console.warn('拿回主題失敗',e);topicStat('現在拿不到，晚點再試試看。','amber');});
-  };
 '''
 
 SPEC = {
@@ -458,6 +429,7 @@ b = t.index('// ===== 作答狀態（localStorage 暫存）')
 b = t.rfind('\n', 0, b) + 1
 t = t[:a] + HOOKS + '\n' + t[b:]
 t = t.replace("已儲存，學生繳交後就會看到按鈕", "已儲存，學生馬上就會看到按鈕")
+t = ckpt.patch_submit(t)   # 繳交區塊換成支援「先繳交（存檔）」的版本
 # 找題目 Gem 的預設網址（老師 2026-11-10 提供）：老師沒在 #admin 另填時用這個
 GEM_URL = 'https://gemini.google.com/gem/1hC9bs9aBqIvNCe3GKbjujuU86tN7M21R?usp=sharing'
 assert t.count("var SET={};") == 1 and t.count("SET[k]=String(d[k]||'');") == 1

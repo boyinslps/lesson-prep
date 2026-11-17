@@ -4,6 +4,10 @@
 # 2026-11-16 晚：文件由老師幫學生開；台詞改回在學習單裡填，填完按「複製台詞表」貼進老師給的文件。
 # 2026-11-17：第 3 步＝直接對 Gem 說「開始寫台詞」（Gem 老師自己寫好，學習單不再收資料、不再給複製訊息）；
 #             台詞表可用「新增問題／解釋／結論」加句子；關鍵字改到「貼進文件之後」在文件裡寫，學習單不再收關鍵字。
+import os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '_build_shared'))
+import ckpt                      # 先繳交（存檔）／讀取拿回：L07、L08 共用
+
 MAXR = 12                       # 台詞最多幾句（欄位 s1..s12、段落 g1..g12）
 DEFAULT_SEGS = 'qqeeeec'        # 一開始的 7 句：開頭 2、主體 4、CTA 1（q／e／c 只是內部代號：q=開頭、e=主體、c=CTA）
 
@@ -51,16 +55,8 @@ EX_KW_HTML = ''.join(
     '<tr class="border-t border-slate-200"><td class="py-1.5 pr-2 font-bold text-%s-700">%s</td><td class="py-1.5 pr-3">%s</td><td class="py-1.5 text-slate-700">%s</td></tr>'
     % (_TONE[g[0]], g, s, k) for g, s, n, k in _FACT)
 
-# 存起來／拿回我的台詞（兩節課、換電腦都能接著寫）
-SAVE = '''<div class="bg-white border-4 border-emerald-200 rounded-3xl p-5 mb-5 shadow-sm">
-      <p class="cute text-lg font-extrabold text-emerald-700 m-0">存起來，下次接著用</p>
-      <p class="text-base text-slate-600 mt-1">先填好最上面的年級、班級、座號。換一台電腦、下一節課，都能拿回來。</p>
-      <div class="flex gap-2 flex-wrap mt-2">
-        <button type="button" data-script-save class="cute bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">存起來</button>
-        <button type="button" data-script-load class="bg-white border-2 border-emerald-400 hover:bg-emerald-50 text-emerald-800 font-bold rounded-2xl px-5 py-2">拿回我存的台詞</button>
-      </div>
-      <p data-script-stat class="text-base font-bold mt-2 min-h-[24px]"></p>
-    </div>'''
+# 先繳交（存檔）／讀取拿回（2026-11-17 老師：需要大量寫入的步驟都要有；繳交在評分平台視同已繳交）
+SAVE = ckpt.CARD
 
 STEP_PARTS = '''
   <!-- ===== 步驟 2：短影片分成三個部分 ===== -->
