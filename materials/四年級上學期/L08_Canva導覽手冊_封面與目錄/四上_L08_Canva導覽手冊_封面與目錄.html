@@ -450,16 +450,16 @@ var firebaseConfig = {
 
   // ===== 介面小測驗（看截圖選功能）=====
   var FQ=[
-    {img:'assets/介面_左邊.png',q:'左邊這一排，是做什麼的？',o:['要加文字、照片、圖形，來這裡','看這份作品有幾頁','把作品分享給老師','改作品的名字'],a:0,why:'左邊工具列：要加東西，來這裡'},
-    {img:'assets/介面_右上.png',q:'右上角有「分享」，它是做什麼的？',o:['把字變大','做好了，從這裡拿連結','多一張新的紙','換顏色'],a:1,why:'分享：做好了，從這裡拿連結'},
-    {img:'assets/介面_下方.png',q:'紙的下面有一個「＋」，按了會怎樣？',o:['刪掉這份作品','把照片放大','多一張新的紙','存到電腦'],a:2,why:'＋：多一張新的紙'},
-    {img:'assets/介面_名字.png',q:'點一下這個名字，可以做什麼？',o:['換下一頁','加照片','拿分享連結','改作品的名字'],a:3,why:'點作品名字，可以改名'}
+    {img:'assets/介面題_左邊.jpg',q:'橘色框起來的左邊這一排，是做什麼的？',o:['要加文字、照片、圖形，來這裡','看這份作品有幾頁','把作品分享給老師','改作品的名字'],a:0,why:'左邊工具列：要加東西，來這裡'},
+    {img:'assets/介面題_右上.jpg',q:'橘色框起來的「分享」，是做什麼的？',o:['把字變大','做好了，從這裡拿連結','多一張新的紙','換顏色'],a:1,why:'分享：做好了，從這裡拿連結'},
+    {img:'assets/介面題_下方.jpg',q:'橘色框起來的「＋」，按了會怎樣？',o:['刪掉這份作品','把照片放大','多一張新的紙','存到電腦'],a:2,why:'＋：多一張新的紙'},
+    {img:'assets/介面題_名字.jpg',q:'點一下橘色框起來的名字，可以做什麼？',o:['換下一頁','加照片','拿分享連結','改作品的名字'],a:3,why:'點作品名字，可以改名'}
   ],fqDone={};
   (function buildFaceQuiz(){
     var host=$('faceQuiz');if(!host)return;
     FQ.forEach(function(q,qi){
       var row=el('div','bg-white border-2 border-amber-200 rounded-2xl p-3');
-      var im=el('img','');im.src=q.img;im.alt='Canva 畫面的一小塊';im.style.cssText='max-width:100%;max-height:150px;border-radius:10px;border:2px solid #e2e8f0;margin-bottom:8px;display:block';
+      var im=el('img','');im.src=q.img;im.alt='Canva 畫面的一小塊';im.style.cssText='max-width:100%;max-height:340px;border-radius:10px;border:2px solid #e2e8f0;margin-bottom:8px;display:block';
       row.appendChild(im);
       row.appendChild(el('p','text-xl font-extrabold mb-2',(qi+1)+'. '+q.q));
       var btns=el('div','flex flex-wrap items-center gap-2');
