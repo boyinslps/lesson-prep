@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# 產生四上 L10「Canva：開 A4 文件、認識介面、手冊結構、做封面與目錄」學習單（6 步）。
+# 產生四上 L08「Canva：開 A4 文件、認識介面、手冊結構、做封面與目錄」學習單（6 步）。
 # 2026-11-17 老師指示：不用老師範本；明天只教「開文件選 A4、介紹 Canva 編輯介面、完整手冊結構」，只做封面與目錄頁。
 # 骨架沿用四上 L07：識別列、進度列、步驟卡、Firebase 繳交、靠椅子關卡。
 # 生成後依序執行（這台電腦用 工作台/runtime/python/python.exe）：
@@ -11,8 +11,8 @@ import io, os, sys
 sys.stdout.reconfigure(encoding='utf8')
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-OUTDIR = os.path.join(ROOT, 'L10_Canva介面與小書結構')
-OUT = os.path.join(OUTDIR, '四上_L10_Canva介面與小書結構.html')
+OUTDIR = os.path.join(ROOT, 'L08_Canva導覽手冊_封面與目錄')
+OUT = os.path.join(OUTDIR, '四上_L08_Canva導覽手冊_封面與目錄.html')
 
 PORTAL = 'https://boyinslps.github.io/pcclass/games/'
 CANVA_HOME = 'https://www.canva.com/'
@@ -24,7 +24,7 @@ HEAD = r'''<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="資訊老師黃博胤">
-<title>台南小導遊養成記｜L10</title>
+<title>台南小導遊養成記｜L08</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
@@ -72,7 +72,7 @@ HEAD = r'''<!DOCTYPE html>
 
   <header class="text-center mb-4">
     <h1 class="cute text-3xl md:text-4xl font-extrabold text-orange-600 leading-tight">台南小導遊養成記</h1>
-    <p class="text-sm text-slate-500">第 10 課：用 Canva 做導覽手冊</p>
+    <p class="text-sm text-slate-500">第 8 課：用 Canva 做導覽手冊</p>
   </header>
 '''
 
@@ -80,13 +80,15 @@ HEAD = r'''<!DOCTYPE html>
 PAGES = [
     ('手冊_p1.jpg', '1', '封面', '書名、景點、照片', 'sky'),
     ('手冊_p2.jpg', '2', '目錄', '章節和頁碼', 'sky'),
-    ('手冊_p3.jpg', '3', '行程規劃', '路線、停留、交通', 'orange'),
-    ('手冊_p4.jpg', '4', '景點頁', '第 1 站', 'orange'),
-    ('手冊_p5.jpg', '5', '景點頁', '第 2 站', 'orange'),
-    ('手冊_p6.jpg', '6', '景點頁', '第 3 站', 'orange'),
-    ('手冊_p7.jpg', '7', '美食小吃', '店家和介紹', 'orange'),
-    ('手冊_p8.jpg', '8', '小提醒', '注意事項', 'orange'),
-    ('手冊_p9.jpg', '9', '封底', '謝謝、署名', 'sky'),
+    ('手冊_p3.jpg', '3', '行程規劃', '時間表、交通', 'orange'),
+    ('手冊_p4.jpg', '4', '路線圖', 'Google 地圖', 'orange'),
+    ('手冊_p5.jpg', '5', '景點頁', '第 1 站', 'orange'),
+    ('手冊_p6.jpg', '6', '景點頁', '第 2 站', 'orange'),
+    ('手冊_p7.jpg', '7', '午餐', '第 3 站', 'orange'),
+    ('手冊_p8.jpg', '8', '景點頁', '第 4 站', 'orange'),
+    ('手冊_p9.jpg', '9', '小吃', '第 5 站', 'orange'),
+    ('手冊_p10.jpg', '10', '小提醒', '注意事項', 'orange'),
+    ('手冊_p11.jpg', '11', '封底', '謝謝、署名', 'sky'),
 ]
 
 
@@ -115,9 +117,9 @@ STEP1 = r'''
     </div>
 
     <div class="bg-sky-50 border-4 border-sky-200 rounded-3xl p-4 mb-4">
-      <p class="cute text-2xl font-extrabold text-sky-700 mb-1">一本完整的手冊，有 9 頁</p>
+      <p class="cute text-2xl font-extrabold text-sky-700 mb-1">一本完整的手冊，有 11 頁</p>
       <p class="text-lg text-slate-500 mb-3">點圖放大。橘色字是會用到「文件裡的資料」的頁。</p>
-      <div class="grid grid-cols-3 sm:grid-cols-5 gap-3">
+      <div class="grid grid-cols-3 sm:grid-cols-6 gap-3">
         __PAGES__
       </div>
     </div>
@@ -125,9 +127,10 @@ STEP1 = r'''
     <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-4 mb-4">
       <p class="cute text-2xl font-extrabold text-amber-700 mb-2">你文件裡的資料，放在哪一頁？</p>
       <ul class="text-xl font-bold space-y-1">
-        <li><b class="text-orange-700">行程規劃</b>：站的順序、交通格子（方式、時間）</li>
-        <li><b class="text-orange-700">景點頁</b>：地址、開放時間、門票、照片，還有景點介紹（歷史、看點、特色）</li>
-        <li><b class="text-orange-700">美食小吃</b>：美食格子（店名、地址、營業時間）</li>
+        <li><b class="text-orange-700">行程規劃</b>：幾點到哪裡的<b>時間表</b>（如 9:00 赤崁樓　10:00 …），交通格子</li>
+        <li><b class="text-orange-700">路線圖</b>：用 Google 地圖把每一站連起來，截圖放進來</li>
+        <li><b class="text-orange-700">景點頁</b>：地址、開放時間、門票、<b>照片（1～4 張）</b>，還有景點介紹（歷史、看點、特色）</li>
+        <li><b class="text-orange-700">美食也是一站</b>：午餐、小吃，寫成「第 3 站　午餐」「第 5 站　小吃」，一樣一站一頁</li>
       </ul>
     </div>
 
@@ -287,18 +290,19 @@ STEP5 = r'''
     <h2 class="cute text-3xl font-extrabold text-emerald-700 mb-3">做目錄（第 2 頁）</h2>
 
     <div class="grid sm:grid-cols-5 gap-4 items-center mb-4">
-      <div class="sm:col-span-2"><img src="assets/手冊_p2.jpg" alt="範例目錄：行程規劃 3、第 1 站 4、第 2 站 5、第 3 站 6、美食小吃 7、旅行小提醒 8" class="shot zoomable" loading="lazy"></div>
+      <div class="sm:col-span-2"><img src="assets/手冊_p2.jpg" alt="範例目錄：靠左、每行前面有圓點，行程規劃 3、路線圖 4、第 1 站 5…旅行小提醒 10" class="shot zoomable" loading="lazy"></div>
       <div class="sm:col-span-3 bg-emerald-50 border-4 border-emerald-200 rounded-3xl p-4">
-        <p class="cute text-2xl font-extrabold text-emerald-700 mb-2">目錄：一行一個章節</p>
-        <ul class="text-2xl font-extrabold space-y-0.5">
+        <p class="cute text-2xl font-extrabold text-emerald-700 mb-2">目錄：靠左，一行一個章節</p>
+        <ul class="text-2xl font-extrabold space-y-0.5 list-disc pl-8">
           <li>行程規劃　<span class="text-emerald-700">3</span></li>
-          <li>第 1 站　景點名　<span class="text-emerald-700">4</span></li>
-          <li>第 2 站　景點名　<span class="text-emerald-700">5</span></li>
-          <li>第 3 站　景點名　<span class="text-emerald-700">6</span></li>
-          <li>美食小吃　<span class="text-emerald-700">7</span></li>
-          <li>旅行小提醒　<span class="text-emerald-700">8</span></li>
+          <li>路線圖　<span class="text-emerald-700">4</span></li>
+          <li>第 1 站　景點名　<span class="text-emerald-700">5</span></li>
+          <li>第 2 站　景點名　<span class="text-emerald-700">6</span></li>
+          <li>第 3 站　午餐　<span class="text-emerald-700">7</span></li>
+          <li>…（你有幾站，就寫幾行）</li>
+          <li>旅行小提醒　<span class="text-emerald-700">最後一頁前</span></li>
         </ul>
-        <p class="text-lg text-slate-500 mt-2">後面的數字是<b>頁碼</b>（對照第 1 步的 9 頁）。</p>
+        <p class="text-lg text-slate-500 mt-2">美食也是一站。後面的數字是<b>頁碼</b>（對照第 1 步的頁）。</p>
       </div>
     </div>
 
@@ -311,17 +315,24 @@ STEP5 = r'''
         <div class="sc-media" data-src="assets/步_canva_新增頁面.mp4" data-poster="assets/步_canva_新增頁面_封面.jpg"></div>
       </div>
       <div class="sc-slide">
-        <p class="sc-t">文字 →「新增少量內文文字」，打 6 行</p>
+        <p class="sc-t">文字 →「新增少量內文文字」，一行一個章節</p>
         <p class="text-lg text-slate-500">一行打完按 <kbd>Enter</kbd> 換行。景點名和頁碼用你自己的。</p>
-        <p class="text-lg text-slate-500 mt-1">你有 4 站？景點頁會變 4 頁，後面的頁碼要往後加 1。</p>
+        <p class="text-lg text-slate-500 mt-1">頁碼怎麼算：封面 1、目錄 2、行程規劃 3、路線圖 4，之後<b>一站一頁</b>往後數。</p>
+      </div>
+      <div class="sc-slide sc-split">
+        <div class="sc-txt">
+          <p class="sc-t">目錄要<b>靠左</b>，前面加<b>圓點</b></p>
+          <p class="text-lg text-slate-500 mt-2">連按兩下 → <kbd>Ctrl</kbd> + <kbd>A</kbd> →「對齊」按到靠左 →「項目符號」。</p>
+        </div>
+        <div class="sc-media" data-src="assets/步_canva_目錄靠左列點.mp4" data-poster="assets/步_canva_目錄靠左列點_封面.jpg"></div>
       </div>
     </div>
 
     <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">這一步檢查</p>
       <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 第 2 頁有「<b>目錄</b>」標題</label>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 每一行都有<b>章節名</b>和<b>頁碼</b></label>
-      <label class="flex items-center gap-3"><input type="checkbox" class="chk w-6 h-6"> 景點名是<b>我的景點</b></label>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 每一行都有<b>章節名</b>和<b>頁碼</b>，景點名是我的</label>
+      <label class="flex items-center gap-3"><input type="checkbox" class="chk w-6 h-6"> 目錄<b>靠左</b>，每行前面有<b>圓點</b></label>
     </div>
     <div class="stepnav"></div>
   </section>
@@ -404,7 +415,7 @@ var firebaseConfig = {
 (function(){
   function $(id){return document.getElementById(id);}
   function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
-  var WS='g4-L10';
+  var WS='g4-L08';
 
   // ===== 識別列 =====
   var ID_KEY='wk_identity';
@@ -468,12 +479,13 @@ var firebaseConfig = {
   // ===== 步驟 1：這些字放哪一頁？（配對，立即回饋；全對才算完成）=====
   var QUIZ=[
     {t:'書名「我的台南一日小旅行」',a:'封面',why:'書名放在封面'},
-    {t:'第 1 站　赤崁樓　4',a:'目錄',why:'章節和頁碼，是目錄'},
-    {t:'公車 17 分、走路 12 分',a:'行程規劃',why:'路線和交通，放行程規劃'},
-    {t:'歷史、看點、特色、地址、門票',a:'景點頁',why:'每一站的介紹和資料，放景點頁'},
+    {t:'第 1 站　赤崁樓　5',a:'目錄',why:'章節和頁碼，是目錄'},
+    {t:'09:00 赤崁樓　10:30 安平古堡',a:'行程規劃',why:'幾點到哪裡，放行程規劃'},
+    {t:'Google 地圖畫的路線截圖',a:'路線圖',why:'地圖路線，放路線圖'},
+    {t:'歷史、看點、特色、地址、照片',a:'景點頁',why:'每一站的介紹和資料，放景點頁'},
     {t:'謝謝你和我一起去玩！',a:'封底',why:'最後一頁是封底'}
   ];
-  var QOPTS=['封面','目錄','行程規劃','景點頁','封底'],quizDone={};
+  var QOPTS=['封面','目錄','行程規劃','路線圖','景點頁','封底'],quizDone={};
   (function buildQuiz(){
     var host=$('quiz');
     QUIZ.forEach(function(q,qi){
@@ -559,15 +571,15 @@ var firebaseConfig = {
     var experienceCompletion=Math.round((1+(openDone?1:0)+(coverDone?1:0)+(tocDone?1:0)+(quizOk?1:0))/5*100);
     var msg='確定要繳交學習單嗎？\nCanva 連結：已貼\n封面檢查：'+(coverDone?'都勾了':'還沒全勾')+'\n目錄檢查：'+(tocDone?'都勾了':'還沒全勾')+'\n各頁用途配對：'+(quizOk?'全對':'還沒全對');
     if(!confirm(msg))return;
-    var payload={worksheetId:WS,worksheetTitle:'台南小導遊養成記：Canva 導覽手冊（開 A4、認識介面、封面與目錄）',lessonPath:'g4/L10',
+    var payload={worksheetId:WS,worksheetTitle:'台南小導遊養成記：Canva 導覽手冊（開 A4、認識介面、封面與目錄）',lessonPath:'g4/L08',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
       qtexts:{
         q1:'學生貼上的 Canva 分享連結（老師開連結看手冊：封面與目錄）。',
         q2:'開 A4 空白文件、改作品名字、認識編輯畫面的自我檢查是否都勾選。',
         q3:'封面自我檢查（書名、三個景點、一張照片）是否都勾選。',
-        q4:'目錄自我檢查（標題、章節與頁碼、景點名）是否都勾選。',
-        q5:'手冊各頁用途配對（封面、目錄、行程規劃、景點頁、封底）是否全對。'
+        q4:'目錄自我檢查（標題、章節與頁碼、景點名、靠左與圓點）是否都勾選。',
+        q5:'手冊各頁用途配對（封面、目錄、行程規劃、路線圖、景點頁、封底）是否全對。'
       },
       bonusQids:[],
       scoreAnswers:{},experienceAnswers:experienceAnswers,openAnswers:{},bonusAnswers:{},
