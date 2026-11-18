@@ -26,7 +26,8 @@
     o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,.88);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out';
     var z = document.createElement('video');
     z.src = v.currentSrc || v.src; z.muted = true; z.loop = true; z.autoplay = true; z.playsInline = true;
-    z.style.cssText = 'max-width:96vw;max-height:94vh;border-radius:12px;background:#000';
+    // 放大要真的大：寬度撐到 92vw（影片原檔常只有 480p，不設寬度會停在原尺寸）
+    z.style.cssText = 'width:92vw;height:auto;max-height:92vh;object-fit:contain;border-radius:12px;background:#000';
     try { z.currentTime = v.currentTime; } catch (e) {}
     function close() { document.removeEventListener('keydown', key); o.remove(); }
     function key(e) { if (e.key === 'Escape') close(); }

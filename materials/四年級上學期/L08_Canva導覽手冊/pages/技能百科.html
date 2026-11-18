@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="資訊老師黃博胤">
+<title>技能百科｜台南小導遊</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFBF3;--card:#ffffff;--ink:#1e293b;--muted:#64748b;--line:#e2e8f0;
+    --brand:#ea580c;--brand-d:#c2410c;--brand-bg:#fff7ed;
+    --start:#0369a1;--start-bg:#e0f2fe;--start-bd:#7dd3fc;
+    --text:#c2410c;--text-bg:#ffedd5;--text-bd:#fdba74;
+    --image:#047857;--image-bg:#d1fae5;--image-bd:#6ee7b7;
+    --page:#6d28d9;--page-bg:#ede9fe;--page-bd:#c4b5fd;
+    --done:#be123c;--done-bg:#ffe4e6;--done-bd:#fda4af;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--ink);font-size:19px;line-height:1.7;margin:0}
+  .cute{font-family:'Baloo 2','Noto Sans TC',cursive}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  .hidden.hidden,.sc-flat .sc-slide.hidden{display:none !important}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  kbd{background:#f1f5f9;border:1px solid #cbd5e1;border-bottom-width:3px;border-radius:6px;padding:0 6px;font-family:inherit;font-weight:700;color:var(--ink)}
+  .shot{border-radius:14px;border:3px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.14);width:100%;display:block;background:#fff}
+  .zoomable{cursor:zoom-in}
+  a{color:inherit}
+
+  /* 頁首導覽列 */
+  .topnav{background:#fff;border-bottom:3px solid #fed7aa}
+  .topnav .wrap{display:flex;align-items:center;gap:18px;min-height:64px}
+  .brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;white-space:nowrap}
+  .brand b{font-family:'Baloo 2','Noto Sans TC',cursive;font-size:1.5rem;font-weight:800;color:var(--brand)}
+  .brand span{font-size:.95rem;font-weight:700;color:var(--muted)}
+  .tabs{display:flex;gap:6px;flex:1}
+  .tabs a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;font-size:1.05rem;color:#475569;padding:8px 18px;border-radius:999px;border:2px solid transparent}
+  .tabs a:hover{background:var(--brand-bg);border-color:#fed7aa}
+  .tabs a.on{background:var(--brand);color:#fff}
+  .btn-canva{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;color:#0f766e;border:2px solid #5eead4;background:#f0fdfa;border-radius:999px;padding:6px 16px;white-space:nowrap}
+  .btn-canva:hover{background:#ccfbf1}
+
+  /* 分類色 */
+  .c-start{--c:var(--start);--cbg:var(--start-bg);--cbd:var(--start-bd)}
+  .c-text{--c:var(--text);--cbg:var(--text-bg);--cbd:var(--text-bd)}
+  .c-image{--c:var(--image);--cbg:var(--image-bg);--cbd:var(--image-bd)}
+  .c-page{--c:var(--page);--cbg:var(--page-bg);--cbd:var(--page-bd)}
+  .c-done{--c:var(--done);--cbg:var(--done-bg);--cbd:var(--done-bd)}
+  .c-all{--c:#334155;--cbg:#f1f5f9;--cbd:#cbd5e1}
+  .chip{display:inline-flex;align-items:center;gap:6px;font:inherit;font-weight:800;font-size:1.1rem;padding:6px 18px;border-radius:999px;border:3px solid var(--cbd);background:#fff;color:var(--c);cursor:pointer}
+  .chip:hover{background:var(--cbg)}
+  .chip.on{background:var(--c);border-color:var(--c);color:#fff}
+  .chip .n{font-size:.85rem;opacity:.8}
+  .dot{display:inline-block;width:12px;height:12px;border-radius:999px;background:var(--c);flex:none}
+  .badge{display:inline-flex;align-items:center;font-weight:800;font-size:.9rem;padding:1px 12px;border-radius:999px;background:var(--cbg);color:var(--c)}
+  .badge-lesson{display:inline-flex;align-items:center;font-weight:800;font-size:.9rem;padding:1px 12px;border-radius:999px;background:#ecfdf5;color:#047857;border:2px solid #a7f3d0}
+  .badge-lesson.soon{background:#f8fafc;color:#64748b;border-color:#e2e8f0}
+
+  /* 搜尋框：前面固定一個「搜尋技能」標籤（不用 placeholder） */
+  .search{display:flex;align-items:stretch;border:4px solid #fdba74;border-radius:22px;background:#fff;overflow:hidden}
+  .search:focus-within{border-color:var(--brand);box-shadow:0 0 0 5px rgba(234,88,12,.15)}
+  .search label{display:flex;align-items:center;gap:10px;padding:0 18px;background:var(--brand-bg);color:var(--brand-d);font-weight:900;font-size:1.3rem;white-space:nowrap;border-right:3px solid #fed7aa;cursor:text}
+  .search label svg{width:28px;height:28px}
+  .search input{flex:1;min-width:0;border:0;font-size:1.5rem;font-weight:700;padding:14px 18px;outline:none;background:#fff;color:var(--ink)}
+
+  /* 結果小卡 */
+  .tile{display:flex;align-items:center;gap:12px;text-decoration:none;background:#fff;border:3px solid var(--cbd);border-left:12px solid var(--c);border-radius:16px;padding:10px 14px;font-weight:800;font-size:1.15rem;color:var(--ink)}
+  .tile:hover{background:var(--cbg)}
+  .tile small{display:block;font-size:.85rem;font-weight:700;color:var(--muted)}
+
+  /* 步驟圖元件（三頁共用）：大圖一次一張＋上一張／下一張＋編號縮圖列＋看動畫 */
+  .ss{background:#fff;border:3px solid var(--line);border-radius:20px;padding:12px}
+  .ss-stage{position:relative;background:#0f172a;border-radius:14px;overflow:hidden;display:flex;justify-content:center}
+  .ss-img{display:block;max-width:100%;max-height:56vh;object-fit:contain;cursor:zoom-in;background:#fff}
+  .ss-hint{position:absolute;right:8px;top:8px;background:rgba(0,0,0,.55);color:#fff;font-size:13px;font-weight:700;border-radius:8px;padding:1px 8px;pointer-events:none}
+  .ss-bar{display:flex;align-items:center;gap:12px;margin-top:10px}
+  .ss-bar button{font:inherit;font-weight:900;font-size:1.2rem;border-radius:16px;padding:8px 20px;cursor:pointer}
+  .ss-prev,.ss-next{border:3px solid #fdba74;background:#fff;color:#c2410c}
+  .ss-next{background:#ea580c;border-color:#ea580c;color:#fff}
+  .ss-bar button:disabled{opacity:.35;cursor:default}
+  .ss-count{font-weight:900;font-size:1.2rem;color:#334155;min-width:7em;text-align:center}
+  .ss-anim{margin-left:auto;border:2px solid #cbd5e1;background:#f8fafc;color:#475569;font-size:1rem !important;padding:6px 14px !important}
+  .ss-thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:4px}
+  .ss-th{position:relative;flex:none;width:96px;border:3px solid #e2e8f0;border-radius:10px;padding:0;background:#fff;cursor:pointer;overflow:hidden}
+  .ss-th img{display:block;width:100%;height:56px;object-fit:cover}
+  .ss-th span{position:absolute;left:4px;top:4px;width:24px;height:24px;border-radius:999px;background:rgba(15,23,42,.75);color:#fff;font-size:.8rem;font-weight:900;display:flex;align-items:center;justify-content:center}
+  .ss-th.on{border-color:#ea580c}
+  .ss-th.on span{background:#ea580c}
+  .ssov{position:fixed;inset:0;z-index:99998;background:rgba(15,23,42,.9);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;cursor:zoom-out}
+  .ssov img,.ssov video{max-width:92vw;max-height:88vh;border-radius:12px;background:#fff}
+  .ssov button{position:absolute;top:50%;transform:translateY(-50%);font:inherit;font-weight:900;font-size:1.4rem;border:0;border-radius:999px;width:64px;height:64px;background:rgba(255,255,255,.9);color:#c2410c;cursor:pointer}
+  .ssov .l{left:14px}.ssov .r{right:14px}
+  .ssov button:disabled{opacity:.3}
+  .ssov .cnt{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:#fff;font-weight:900;font-size:1.2rem;background:rgba(0,0,0,.5);border-radius:999px;padding:2px 16px}
+
+  .sec-title{font-family:'Baloo 2','Noto Sans TC',cursive;font-size:1.9rem;font-weight:800;color:var(--ink);margin:0 0 4px}
+  .sec-sub{color:var(--muted);font-weight:700;margin:0 0 14px}
+  footer.sign{text-align:right;font-size:.8rem;color:#94a3b8;padding:24px 20px 18px}
+</style>
+<style>
+  .wikihead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:center;margin:22px 0 12px}
+  .wikihead h1{font-family:'Baloo 2','Noto Sans TC',cursive;font-size:2.4rem;font-weight:900;color:var(--brand-d);margin:0;white-space:nowrap}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
+  .wiki{display:grid;grid-template-columns:330px minmax(0,1fr);gap:22px;align-items:start}
+  .list{background:#fff;border:3px solid var(--line);border-radius:24px;padding:12px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+  .list h3{display:flex;align-items:center;gap:8px;font-size:1rem;font-weight:900;color:var(--c);margin:10px 8px 6px}
+  .list h3:first-child{margin-top:2px}
+  .item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font:inherit;font-weight:800;font-size:1.12rem;padding:9px 12px;border-radius:14px;border:2px solid transparent;background:none;color:var(--ink);cursor:pointer}
+  .item:hover{background:var(--cbg)}
+  .item.on{background:var(--c);color:#fff}
+  .item.on .dot{background:#fff}
+  .item .soon{margin-left:auto;font-size:.75rem;font-weight:800;color:#94a3b8}
+  .item.on .soon{color:#fff;opacity:.85}
+  .detail{background:#fff;border:4px solid var(--cbd);border-top:14px solid var(--c);border-radius:28px;padding:22px 26px}
+  .detail h2{font-family:'Baloo 2','Noto Sans TC',cursive;font-size:2.3rem;font-weight:900;color:var(--c);margin:0 0 6px;line-height:1.2}
+  .detail .meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .detail .media{margin-bottom:18px}
+  .detail .media .shot{max-height:420px;object-fit:contain;width:100%}
+  .detail .media .sc-media video{max-height:420px}
+  .detail .media .ss-img{max-height:420px}
+  .points{list-style:none;margin:0;padding:0;counter-reset:pt}
+  .points li{counter-increment:pt;display:flex;gap:14px;align-items:flex-start;font-size:1.4rem;font-weight:800;line-height:1.5;margin:0 0 12px}
+  .points li:before{content:counter(pt);flex:none;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px;background:var(--c);color:#fff;font-size:1.2rem;margin-top:2px}
+  .points b{color:var(--c)}
+  .keys{display:flex;align-items:center;justify-content:center;gap:18px;background:var(--cbg);border-radius:20px;padding:40px 10px;font-size:2.4rem;font-weight:900;color:var(--ink)}
+  .keys kbd{font-size:3rem;padding:6px 28px;border-radius:14px;border-bottom-width:7px;background:#fff}
+  .bigsay{background:var(--cbg);border-radius:20px;padding:40px 20px;text-align:center;font-size:2.1rem;font-weight:900;color:var(--c)}
+  .links{display:flex;gap:14px;flex-wrap:wrap;background:var(--cbg);border-radius:20px;padding:28px}
+  .links a{display:inline-flex;align-items:center;min-height:64px;padding:0 26px;border-radius:18px;font-size:1.35rem;font-weight:900;text-decoration:none;color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.18)}
+  .links a.primary{background:var(--brand)}.links a.second{background:#0f766e}
+  .empty{font-size:1.2rem;font-weight:800;color:var(--muted);padding:12px}
+</style>
+</head>
+<body>
+<nav class="topnav" id="top"><div class="wrap"><a class="brand" href="../" data-home><b>台南小導遊</b><span>Canva 導覽手冊</span></a><div class="tabs"><a href="../" data-home>← 單元主頁</a><a href="第1課_開工與封面.html" class="">第 1 課</a><a href="技能百科.html" class="on"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6"/></svg>技能百科</a></div><a class="btn-canva" href="https://www.canva.com/" target="_blank" rel="noopener">開 Canva ↗</a></div></nav>
+
+<main class="wrap">
+  <div class="wikihead"><h1>技能百科</h1><div class="search"><label for="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>搜尋技能</label><input id="q" type="search" autocomplete="off"></div></div>
+  <div class="chips" id="cats" role="tablist"><button type="button" class="chip c-all on" data-cat="all">全部<span class="n">18</span></button><button type="button" class="chip c-start" data-cat="start"><span class="dot"></span>開始<span class="n">7</span></button><button type="button" class="chip c-text" data-cat="text"><span class="dot"></span>文字<span class="n">7</span></button><button type="button" class="chip c-image" data-cat="image"><span class="dot"></span>圖片<span class="n">3</span></button><button type="button" class="chip c-page" data-cat="page"><span class="dot"></span>頁面<span class="n">2</span></button><button type="button" class="chip c-done" data-cat="done"><span class="dot"></span>完成<span class="n">2</span></button></div>
+  <div class="wiki">
+    <aside class="list" id="list" aria-label="技能清單"></aside>
+    <div class="sc sc-flat sc-nonum" data-sc><article class="detail" id="detail" aria-live="polite"></article></div>
+  </div>
+</main>
+<footer class="sign">made by 資訊老師黃博胤</footer>
+
+<script>
+var SKILLS=[{"id": "join", "cat": "start", "cats": ["start"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "加入團隊、開 Canva", "kw": ["加入", "團隊", "邀請", "登入", "帳號", "開 Canva", "第一次"], "media": ["links", [["加入班級 Canva 團隊", "https://www.canva.com/brand/join?token=O5u7l6t8sRfXzjBVumWtQw&brandingVariant=edu&referrer=team-invite", "primary"], ["開 Canva", "https://www.canva.com/", "second"]]], "points": ["第一次：按「<b>加入班級 Canva 團隊</b>」，用學校帳號登入", "之後：按「<b>開 Canva</b>」就好", "登不進去，<b>舉手</b>"], "text": "第一次：按「加入班級 Canva 團隊」，用學校帳號登入 之後：按「開 Canva」就好 登不進去，舉手 "}, {"id": "open-b5", "cat": "start", "cats": ["start"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "開 B5 新文件", "kw": ["B5", "A4", "新文件", "建立", "自訂尺寸", "公釐", "176", "250", "紙", "怎麼開", "開檔"], "media": ["op", "開B5文件"], "points": ["按「<b>建立</b>」→「<b>自訂尺寸</b>」", "單位選「<b>公釐</b>」，寬 <b>176</b>、高 <b>250</b>", "按「<b>建立新設計</b>」"], "video": "步_canva_開B5文件", "ss": [{"src": "步圖/開B5文件_01.jpg", "cap": "左邊按「建立」", "sub": "會跳出「建立設計」視窗", "step": "1"}, {"src": "步圖/開B5文件_02.jpg", "cap": "左邊按「建立」", "sub": "會跳出「建立設計」視窗", "step": "1"}, {"src": "步圖/開B5文件_03.jpg", "cap": "左邊按「自訂尺寸」", "sub": "不要選「文件 (A4，直式)」", "step": "2"}, {"src": "步圖/開B5文件_04.jpg", "cap": "左邊按「自訂尺寸」", "sub": "不要選「文件 (A4，直式)」", "step": "2"}, {"src": "步圖/開B5文件_05.jpg", "cap": "單位選「公釐」，寬打 176，高打 250", "sub": "176 × 250 公釐＝B5 紙的大小", "step": "3"}, {"src": "步圖/開B5文件_06.jpg", "cap": "按「建立新設計」", "sub": "會在新的分頁打開編輯畫面", "step": "4"}, {"src": "步圖/開B5文件_07.jpg", "cap": "按「建立新設計」", "sub": "會在新的分頁打開編輯畫面", "step": "4"}, {"src": "步圖/開B5文件_08.jpg", "cap": "出現一張空白的紙，就開好了", "sub": "上面名字寫「176 公釐 × 250 公釐」就對了", "step": "✓"}], "text": "按「建立」→「自訂尺寸」 單位選「公釐」，寬 176、高 250 按「建立新設計」 左邊按「建立」 會跳出「建立設計」視窗 左邊按「建立」 會跳出「建立設計」視窗 左邊按「自訂尺寸」 不要選「文件 (A4，直式)」 左邊按「自訂尺寸」 不要選「文件 (A4，直式)」 單位選「公釐」，寬打 176，高打 250 176 × 250 公釐＝B5 紙的大小 按「建立新設計」 會在新的分頁打開編輯畫面 按「建立新設計」 會在新的分頁打開編輯畫面 出現一張空白的紙，就開好了 上面名字寫「176 公釐 × 250 公釐」就對了"}, {"id": "rename", "cat": "start", "cats": ["start"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "改作品名字", "kw": ["作品名字", "檔名", "改名", "名字", "貼上", "Ctrl+V"], "media": ["op", "改檔名"], "points": ["點右上角的<b>作品名字</b>", "<kbd>Ctrl</kbd> + <kbd>A</kbd>，再 <kbd>Ctrl</kbd> + <kbd>V</kbd> 貼上（或打字）", "按 <kbd>Enter</kbd>；例：<b>40205 我的台南手冊</b>"], "video": "步_canva_改檔名", "ss": [{"src": "步圖/改檔名_01.jpg", "cap": "點右上角的作品名字", "sub": "框會亮起來。你的紙是白的沒關係", "step": "1"}, {"src": "步圖/改檔名_02.jpg", "cap": "按 Ctrl＋A　全選", "sub": "舊的名字會整個選起來", "step": "2"}, {"src": "步圖/改檔名_03.jpg", "cap": "貼上新的名字", "sub": "貼上學習單上的名字（Ctrl＋V）", "step": "3"}, {"src": "步圖/改檔名_04.jpg", "cap": "貼上新的名字", "sub": "貼上學習單上的名字（Ctrl＋V）", "step": "3"}, {"src": "步圖/改檔名_05.jpg", "cap": "按 Enter　完成", "sub": "名字改好了", "step": "4"}, {"src": "步圖/改檔名_06.jpg", "cap": "按 Enter　完成", "sub": "名字改好了", "step": "4"}], "text": "點右上角的作品名字 Ctrl + A，再 Ctrl + V 貼上（或打字） 按 Enter；例：40205 我的台南手冊 點右上角的作品名字 框會亮起來。你的紙是白的沒關係 按 Ctrl＋A　全選 舊的名字會整個選起來 貼上新的名字 貼上學習單上的名字（Ctrl＋V） 貼上新的名字 貼上學習單上的名字（Ctrl＋V） 按 Enter　完成 名字改好了 按 Enter　完成 名字改好了"}, {"id": "screen", "cat": "start", "cats": ["start"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "認識編輯畫面", "kw": ["畫面", "介面", "工具列", "在哪裡", "找不到", "白紙"], "media": ["img", "介面_標記.jpg"], "points": ["<b>左邊工具列</b>：範本、文字、上傳都在這", "<b>中間白紙</b>：作品放這裡", "<b>下面</b>：小頁面圖換頁，<b>＋</b> 多一頁", "<b>右上</b>：作品名字、分享"], "text": "左邊工具列：範本、文字、上傳都在這 中間白紙：作品放這裡 下面：小頁面圖換頁，＋ 多一頁 右上：作品名字、分享 "}, {"id": "undo", "cat": "start", "cats": ["start"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "弄錯了：復原", "kw": ["復原", "還原", "上一步", "弄錯", "弄亂", "打錯", "刪錯", "救回", "Ctrl+Z", "undo"], "media": ["keys", ["Ctrl", "Z"]], "points": ["按 <kbd>Ctrl</kbd> + <kbd>Z</kbd>，回到上一步", "多按幾次，就多回幾步", "刪錯了也按 <kbd>Ctrl</kbd> + <kbd>Z</kbd>；救不回來再<b>舉手</b>"], "text": "按 Ctrl + Z，回到上一步 多按幾次，就多回幾步 刪錯了也按 Ctrl + Z；救不回來再舉手 "}, {"id": "save", "cat": "start", "cats": ["start", "done"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "要存檔嗎？", "kw": ["存檔", "儲存", "存起來", "不見了", "關掉", "下次"], "media": ["big", "Canva 會自動存，不用按存檔"], "points": ["做的東西 Canva 會<b>自動存</b>", "下次打開 Canva，在首頁點<b>你的作品</b>，就能接著做", "找不到作品，<b>舉手</b>"], "text": "做的東西 Canva 會自動存 下次打開 Canva，在首頁點你的作品，就能接著做 找不到作品，舉手 "}, {"id": "template", "cat": "page", "cats": ["page", "start"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "選範本", "kw": ["範本", "模板", "版型", "套用", "封面", "搜尋範本"], "media": ["op", "選範本"], "points": ["左邊按「<b>範本</b>」，打關鍵字，按 <kbd>Enter</kbd>", "點你喜歡的範本", "左邊出現好幾頁，點<b>最上面那張</b>（封面）", "不要按「<b>套用全部</b>」"], "video": "步_canva_選範本", "ss": [{"src": "步圖/選範本_01.jpg", "cap": "左邊按「範本」", "sub": "旁邊會打開範本清單", "step": "1"}, {"src": "步圖/選範本_02.jpg", "cap": "搜尋框打字，按 Enter", "sub": "找不到？換字再搜：台南、旅行、封面、手冊", "step": "2"}, {"src": "步圖/選範本_03.jpg", "cap": "點你喜歡的範本", "sub": "例：搜「台南 旅行 封面」有中文範本", "step": "3"}, {"src": "步圖/選範本_04.jpg", "cap": "點你喜歡的範本", "sub": "例：搜「台南 旅行 封面」有中文範本", "step": "3"}, {"src": "步圖/選範本_05.jpg", "cap": "左邊出現好幾頁，點最上面那張（封面）", "sub": "不要按「套用全部」！", "step": "4"}, {"src": "步圖/選範本_06.jpg", "cap": "左邊出現好幾頁，點最上面那張（封面）", "sub": "不要按「套用全部」！", "step": "4"}, {"src": "步圖/選範本_07.jpg", "cap": "封面放到紙上了", "sub": "照片之後再換，今天改文字", "step": "✓"}], "text": "左邊按「範本」，打關鍵字，按 Enter 點你喜歡的範本 左邊出現好幾頁，點最上面那張（封面） 不要按「套用全部」 左邊按「範本」 旁邊會打開範本清單 搜尋框打字，按 Enter 找不到？換字再搜：台南、旅行、封面、手冊 點你喜歡的範本 例：搜「台南 旅行 封面」有中文範本 點你喜歡的範本 例：搜「台南 旅行 封面」有中文範本 左邊出現好幾頁，點最上面那張（封面） 不要按「套用全部」！ 左邊出現好幾頁，點最上面那張（封面） 不要按「套用全部」！ 封面放到紙上了 照片之後再換，今天改文字"}, {"id": "edit-text", "cat": "text", "cats": ["text"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "改文字", "kw": ["改字", "打字", "改文字", "連按兩下", "全選", "Ctrl+A", "書名"], "media": ["op", "改封面文字"], "points": ["在字上<b>連按兩下</b>，看到打字的直線", "按 <kbd>Ctrl</kbd> + <kbd>A</kbd> 全選", "直接<b>打新的字</b>"], "video": "步_canva_改封面文字", "ss": [{"src": "步圖/改封面文字_01.jpg", "cap": "連按兩下書名", "sub": "看到打字的直線就對了", "step": "1"}, {"src": "步圖/改封面文字_02.jpg", "cap": "按 Ctrl＋A，打自己的書名", "sub": "其他字也照這樣改", "step": "1"}, {"src": "步圖/改封面文字_03.jpg", "cap": "工具列：字型、大小、顏色", "sub": "按＋／－ 字會變大、變小", "step": "2"}, {"src": "步圖/改封面文字_04.jpg", "cap": "按字型，左邊點一個", "sub": "選後面寫「繁體中文」的字型", "step": "2"}, {"src": "步圖/改封面文字_05.jpg", "cap": "按住框拖過去；白點調大小", "sub": "按住書名的框，拖到想放的地方", "step": "3"}, {"src": "步圖/改封面文字_06.jpg", "cap": "按住框拖過去；白點調大小", "sub": "按住書名的框，拖到想放的地方", "step": "3"}, {"src": "步圖/改封面文字_07.jpg", "cap": "按住框拖過去；白點調大小", "sub": "四個角的白點＝字一起變大小", "step": "3"}, {"src": "步圖/改封面文字_08.jpg", "cap": "按住框拖過去；白點調大小", "sub": "左右中間的白點＝只改寬度", "step": "3"}, {"src": "步圖/改封面文字_09.jpg", "cap": "封面的字改好了", "sub": "書名、副標題都換成你的", "step": "✓"}], "text": "在字上連按兩下，看到打字的直線 按 Ctrl + A 全選 直接打新的字 連按兩下書名 看到打字的直線就對了 按 Ctrl＋A，打自己的書名 其他字也照這樣改 工具列：字型、大小、顏色 按＋／－ 字會變大、變小 按字型，左邊點一個 選後面寫「繁體中文」的字型 按住框拖過去；白點調大小 按住書名的框，拖到想放的地方 按住框拖過去；白點調大小 按住書名的框，拖到想放的地方 按住框拖過去；白點調大小 四個角的白點＝字一起變大小 按住框拖過去；白點調大小 左右中間的白點＝只改寬度 封面的字改好了 書名、副標題都換成你的"}, {"id": "delete", "cat": "text", "cats": ["text", "image"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "刪掉不要的字或圖", "kw": ["刪", "刪掉", "刪除", "不要的", "多的", "清掉", "Delete"], "media": ["keys", ["Delete"]], "points": ["<b>點一下</b>要刪的字或圖（出現框）", "按 <kbd>Delete</kbd>", "刪錯了按 <kbd>Ctrl</kbd> + <kbd>Z</kbd>"], "text": "點一下要刪的字或圖（出現框） 按 Delete 刪錯了按 Ctrl + Z "}, {"id": "font", "cat": "text", "cats": ["text"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "換字型", "kw": ["字型", "字體", "字的樣子", "字樣", "書法", "可愛的字", "繁體中文"], "media": ["img", "封面_文字字型.jpg"], "points": ["點文字，按工具列<b>最左邊的字型名字</b>", "選後面寫「<b>繁體中文</b>」的字型", "點一個就換；一頁字型<b>不超過 2 種</b>"], "text": "點文字，按工具列最左邊的字型名字 選後面寫「繁體中文」的字型 點一個就換；一頁字型不超過 2 種 "}, {"id": "size-color", "cat": "text", "cats": ["text"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "字的大小和顏色", "kw": ["大小", "放大", "變大", "縮小", "變小", "字太小", "字太大", "顏色", "粗體", "工具列"], "media": ["img", "封面_文字工具列.jpg"], "points": ["<b>＋</b> 變大、<b>－</b> 變小，也可以點數字直接打", "按 <b>A</b> 選顏色", "<b>B</b> 是粗體"], "text": "＋ 變大、－ 變小，也可以點數字直接打 按 A 選顏色 B 是粗體 "}, {"id": "move-text", "cat": "text", "cats": ["text"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "移動文字、調文字框", "kw": ["移動", "拖曳", "位置", "文字框", "白點", "換行", "寬度", "對齊線"], "media": ["img", "封面_文字移動.jpg"], "points": ["<b>按住</b>框，拖到新位置", "<b>四個角</b>的白點：字一起變大變小", "<b>左右</b>的白點：只改寬度，字會換行"], "text": "按住框，拖到新位置 四個角的白點：字一起變大變小 左右的白點：只改寬度，字會換行 "}, {"id": "add-text", "cat": "text", "cats": ["text"], "lesson": 2, "tag": "第 2 課會用到", "learned": false, "title": "加新的文字", "kw": ["新增文字", "加字", "標題", "文字方塊", "加文字", "時間表"], "media": ["op", "加文字"], "points": ["左邊按「<b>文字</b>」", "選「<b>新增標題</b>」或「<b>新增少量內文文字</b>」", "直接打字，再拖到想放的地方"], "video": "步_canva_加文字", "ss": [{"src": "步圖/加文字_01.jpg", "cap": "左邊按「文字」，按「新增標題」", "sub": "書名用標題", "step": "1"}, {"src": "步圖/加文字_02.jpg", "cap": "字是藍色的，直接打書名", "sub": "新增的字會自動選好", "step": "2"}, {"src": "步圖/加文字_03.jpg", "cap": "打好了：我的台南一日小旅行", "sub": "按住字，拖到上面", "step": "3"}, {"src": "步圖/加文字_04.jpg", "cap": "再按「新增副標題」，打三個景點", "sub": "用同樣的方法", "step": "4"}], "text": "左邊按「文字」 選「新增標題」或「新增少量內文文字」 直接打字，再拖到想放的地方 左邊按「文字」，按「新增標題」 書名用標題 字是藍色的，直接打書名 新增的字會自動選好 打好了：我的台南一日小旅行 按住字，拖到上面 再按「新增副標題」，打三個景點 用同樣的方法"}, {"id": "upload-photo", "cat": "image", "cats": ["image"], "lesson": 2, "tag": "第 2 課會用到", "learned": false, "title": "上傳照片、放到紙上", "kw": ["上傳", "放照片", "加照片", "插入圖片", "截圖", "拉大", "地圖"], "media": ["op", "加照片"], "points": ["左邊「<b>上傳</b>」→「<b>上傳檔案</b>」", "到「<b>下載</b>」選照片", "點照片放上紙，<b>拉角</b>變大"], "video": "步_canva_加照片", "ss": [{"src": "步圖/加照片_01.jpg", "cap": "左邊按「上傳」，按「上傳檔案」", "sub": "選你從台南旅遊網存的照片", "step": "1"}, {"src": "步圖/加照片_02.jpg", "cap": "上傳好了，點一下這張照片", "sub": "照片會放到頁面上", "step": "2"}, {"src": "步圖/加照片_03.jpg", "cap": "上傳好了，點一下這張照片", "sub": "照片會放到頁面上", "step": "2"}, {"src": "步圖/加照片_04.jpg", "cap": "拉照片的角，讓照片變大", "sub": "拉角不會變形", "step": "3"}, {"src": "步圖/加照片_05.jpg", "cap": "拉照片的角，讓照片變大", "sub": "拉角不會變形", "step": "3"}, {"src": "步圖/加照片_06.jpg", "cap": "按住照片，拖到中間", "sub": "放開就好", "step": "4"}], "text": "左邊「上傳」→「上傳檔案」 到「下載」選照片 點照片放上紙，拉角變大 左邊按「上傳」，按「上傳檔案」 選你從台南旅遊網存的照片 上傳好了，點一下這張照片 照片會放到頁面上 上傳好了，點一下這張照片 照片會放到頁面上 拉照片的角，讓照片變大 拉角不會變形 拉照片的角，讓照片變大 拉角不會變形 按住照片，拖到中間 放開就好"}, {"id": "new-page", "cat": "page", "cats": ["page"], "lesson": 2, "tag": "第 2 課會用到", "learned": false, "title": "新增頁面、換頁", "kw": ["新增頁面", "加一頁", "多一頁", "新的紙", "換頁", "下一頁", "封底"], "media": ["op", "新增頁面"], "points": ["畫面下面按「<b>＋</b>」，多一張紙", "點下面的<b>小頁面圖</b>，換到那一頁"], "video": "步_canva_新增頁面", "ss": [{"src": "步圖/新增頁面_01.jpg", "cap": "畫面下面按「＋」", "sub": "就會多一張空白頁", "step": "1"}, {"src": "步圖/新增頁面_02.jpg", "cap": "畫面下面按「＋」", "sub": "就會多一張空白頁", "step": "1"}, {"src": "步圖/新增頁面_03.jpg", "cap": "文字 →「新增標題」，打「目錄」", "sub": "再按「新增少量內文文字」", "step": "2"}, {"src": "步圖/新增頁面_04.jpg", "cap": "一行一個章節，後面打頁碼", "sub": "按 Enter 換下一行", "step": "3"}], "text": "畫面下面按「＋」，多一張紙 點下面的小頁面圖，換到那一頁 畫面下面按「＋」 就會多一張空白頁 畫面下面按「＋」 就會多一張空白頁 文字 →「新增標題」，打「目錄」 再按「新增少量內文文字」 一行一個章節，後面打頁碼 按 Enter 換下一行"}, {"id": "save-photo", "cat": "image", "cats": ["image"], "lesson": 3, "tag": "第 3 課會用到", "learned": false, "title": "從台南旅遊網存照片", "kw": ["存照片", "下載照片", "另存圖片", "右鍵", "台南旅遊網", "找照片"], "media": ["links", [["開台南旅遊網", "https://www.twtainan.net/", "second"]]], "points": ["到台南旅遊網，找到你的景點", "在照片上按<b>右鍵</b> →「<b>另存圖片</b>」", "存到「<b>下載</b>」資料夾"], "text": "到台南旅遊網，找到你的景點 在照片上按右鍵 →「另存圖片」 存到「下載」資料夾 "}, {"id": "align-list", "cat": "text", "cats": ["text"], "lesson": 5, "tag": "第 5 課會用到", "learned": false, "title": "靠左和圓點（項目符號）", "kw": ["靠左", "對齊", "置中", "圓點", "項目符號", "列點", "清單", "目錄"], "media": ["op", "目錄靠左列點"], "points": ["連按兩下 → <kbd>Ctrl</kbd> + <kbd>A</kbd>", "「<b>對齊</b>」按到靠左", "按「<b>項目符號</b>」，每行前面有圓點"], "video": "步_canva_目錄靠左列點", "ss": [{"src": "步圖/目錄靠左列點_01.jpg", "cap": "連按兩下目錄的字，按 Ctrl＋A", "sub": "整段字都變藍色，才做下一步", "step": "1"}, {"src": "步圖/目錄靠左列點_02.jpg", "cap": "按上面的「對齊」，變成靠左", "sub": "按一次換一種，看到字靠左就停", "step": "2"}, {"src": "步圖/目錄靠左列點_03.jpg", "cap": "按上面的「對齊」，變成靠左", "sub": "按一次換一種，看到字靠左就停", "step": "2"}, {"src": "步圖/目錄靠左列點_04.jpg", "cap": "再按旁邊的「項目符號」", "sub": "每一行前面多一個圓點", "step": "3"}, {"src": "步圖/目錄靠左列點_05.jpg", "cap": "再按旁邊的「項目符號」", "sub": "每一行前面多一個圓點", "step": "3"}], "text": "連按兩下 → Ctrl + A 「對齊」按到靠左 按「項目符號」，每行前面有圓點 連按兩下目錄的字，按 Ctrl＋A 整段字都變藍色，才做下一步 按上面的「對齊」，變成靠左 按一次換一種，看到字靠左就停 按上面的「對齊」，變成靠左 按一次換一種，看到字靠左就停 再按旁邊的「項目符號」 每一行前面多一個圓點 再按旁邊的「項目符號」 每一行前面多一個圓點"}, {"id": "share", "cat": "done", "cats": ["done"], "lesson": 1, "tag": "第 1 課", "learned": true, "title": "分享連結（交作業）", "kw": ["分享", "連結", "網址", "交作業", "繳交", "可供檢視", "權限", "複製連結", "傳給老師", "怎麼交", "貼上"], "media": ["op", "分享連結"], "points": ["<b>分享</b> → 點「只有你可存取」→ 選「<b>任何具有此連結者</b>」", "改成「<b>可供檢視</b>」", "按「<b>複製連結</b>」，回學習單 <kbd>Ctrl</kbd> + <kbd>V</kbd>"], "video": "步_canva_分享連結", "ss": [{"src": "步圖/分享連結_01.jpg", "cap": "右上角按「分享」", "sub": "右邊會出現分享設計", "step": "1"}, {"src": "步圖/分享連結_02.jpg", "cap": "按「存取等級」（誰可以看）", "sub": "現在是「只有你可存取」，老師看不到", "step": "2"}, {"src": "步圖/分享連結_03.jpg", "cap": "選「任何具有此連結者」", "sub": "預設是「可供編輯」，要改掉！", "step": "3"}, {"src": "步圖/分享連結_04.jpg", "cap": "權限改成「可供檢視」", "sub": "只能看，別人不能改你的作品", "step": "4"}, {"src": "步圖/分享連結_05.jpg", "cap": "權限改成「可供檢視」", "sub": "只能看，別人不能改你的作品", "step": "4"}, {"src": "步圖/分享連結_06.jpg", "cap": "按「複製連結」", "sub": "看到「已複製連結到剪貼簿」就好", "step": "5"}, {"src": "步圖/分享連結_07.jpg", "cap": "按「複製連結」", "sub": "看到「已複製連結到剪貼簿」就好", "step": "5"}], "text": "分享 → 點「只有你可存取」→ 選「任何具有此連結者」 改成「可供檢視」 按「複製連結」，回學習單 Ctrl + V 右上角按「分享」 右邊會出現分享設計 按「存取等級」（誰可以看） 現在是「只有你可存取」，老師看不到 選「任何具有此連結者」 預設是「可供編輯」，要改掉！ 權限改成「可供檢視」 只能看，別人不能改你的作品 權限改成「可供檢視」 只能看，別人不能改你的作品 按「複製連結」 看到「已複製連結到剪貼簿」就好 按「複製連結」 看到「已複製連結到剪貼簿」就好"}];
+var CATS=[["start", "開始"], ["text", "文字"], ["image", "圖片"], ["page", "頁面"], ["done", "完成"]];
+var SYN=[["字型", "字體", "字的樣子", "字樣", "字形", "字的形狀", "font"], ["大小", "放大", "變大", "縮小", "變小", "大一點", "小一點", "字大小", "字太小", "字太大"], ["顏色", "換色", "彩色", "色彩"], ["圖片", "照片", "相片", "圖", "上傳", "image", "photo", "截圖"], ["分享", "連結", "網址", "交作業", "繳交", "可供檢視", "權限", "傳給老師", "怎麼交"], ["移動", "拖", "拖曳", "搬", "位置", "換位置"], ["文字框", "框", "白點", "換行", "寬度"], ["復原", "還原", "上一步", "回去", "undo", "ctrl+z", "弄錯", "弄亂", "打錯", "刪錯", "救回"], ["刪", "刪掉", "刪除", "不要的", "多的", "清掉", "delete"], ["存檔", "儲存", "存起來", "不見了", "保存"], ["範本", "模板", "樣板", "版型", "套用"], ["頁面", "新增頁面", "加一頁", "多一頁", "新的紙", "換頁", "下一頁", "封底", "頁"], ["新增文字", "加字", "加文字", "文字方塊", "打新的字"], ["改字", "改文字", "打字", "連按兩下", "全選", "ctrl+a"], ["貼上", "貼", "ctrl+v", "貼連結"], ["名字", "檔名", "作品名字", "改名"], ["團隊", "加入", "邀請", "登入", "帳號"], ["靠左", "對齊", "置中", "圓點", "點點", "小圓點", "項目符號", "列點", "清單"], ["b5", "a4", "紙張", "尺寸", "公釐", "新文件", "開新", "建立", "怎麼開", "開檔"], ["畫面", "介面", "工具列", "在哪", "找不到"]];
+function skNorm(s){return String(s||'').toLowerCase().replace(/\s+/g,'').replace(/＋/g,'+');}
+function skCatName(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return '';}
+function skCatIdx(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return i;return 99;}
+// 一個搜尋詞 → 同義詞（只拿兩個字以上的，避免「圖」「頁」這種單字到處都對到）
+function skSyn(tok){
+  var out=[];
+  SYN.forEach(function(g){
+    var hit=g.some(function(m){m=skNorm(m);return m===tok||(m.length>=2&&tok.indexOf(m)>=0)||(tok.length>=2&&m.indexOf(tok)>=0);});
+    if(hit)g.forEach(function(m){m=skNorm(m);if(m!==tok&&m.length>=2)out.push(m);});
+  });
+  return out;
+}
+// 有搜尋字就在「全部」裡找（cat 只在沒打字時用）；標題完全相同排第一
+function skSearch(q,cat){
+  var whole=skNorm(q),toks=String(q||'').split(/[\s,，、。？?]+/).map(skNorm).filter(Boolean),res=[];
+  if(toks.length)cat='all';
+  SKILLS.forEach(function(s,i){
+    if(cat&&cat!=='all'&&s.cats.indexOf(cat)<0)return;
+    var T=skNorm(s.title),K=skNorm(s.kw.join('|')),P=skNorm(s.text),score=0,ok=true;
+    if(whole&&(T===whole||T.replace(/[？?]/g,'')===whole.replace(/[？?]/g,'')))score+=100;
+    toks.forEach(function(tok){
+      var best=0;
+      if(T.indexOf(tok)>=0)best=6;else if(K.indexOf(tok)>=0)best=5;else if(P.indexOf(tok)>=0)best=2;
+      if(!best)skSyn(tok).forEach(function(t){if(T.indexOf(t)>=0||K.indexOf(t)>=0)best=Math.max(best,3);});
+      if(!best)ok=false;score+=best;
+    });
+    if(ok)res.push({s:s,score:score,i:i});
+  });
+  res.sort(function(a,b){return (b.score-a.score)||(skCatIdx(a.s.cat)-skCatIdx(b.s.cat))||(a.i-b.i);});
+  return res.map(function(r){return r.s;});
+}
+</script>
+
+<script>
+(function(){
+  // 點小圖放大（留在這一頁）
+  var ov=document.createElement('div');ov.className='ssov';ov.style.display='none';
+  var im=document.createElement('img');im.alt='';ov.appendChild(im);document.body.appendChild(ov);
+  function close(){ov.style.display='none';}
+  ov.onclick=close;document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  document.addEventListener('click',function(e){
+    var t=e.target;if(t&&t.classList&&t.classList.contains('zoomable')){im.src=t.getAttribute('src');im.alt=t.alt||'';ov.style.display='flex';}
+  });
+  // 發布後主頁是 ../（index.html）；本機預覽時沒有 index.html，改指成品檔
+  if(!/github\.io$/.test(location.hostname)){
+    [].forEach.call(document.querySelectorAll('a[data-home]'),function(a){a.href='../四上_L08_Canva導覽手冊.html';});
+  }
+})();
+
+// ===== 步驟圖元件 =====
+// 標記：<div class="ss" data-ss data-imgs='[{"src":"..","cap":".."}]' data-video="..mp4">（內部由 StepShow 自己畫）
+window.StepShow=(function(){
+  var last=null,ov=null,ovImg,ovCnt,ovL,ovR,ovSt=null;
+  function vis(el){return el.offsetParent!==null;}
+  function ensureOv(){
+    if(ov)return;
+    ov=document.createElement('div');ov.className='ssov';ov.style.display='none';
+    ovImg=document.createElement('img');ovL=document.createElement('button');ovR=document.createElement('button');ovCnt=document.createElement('div');
+    ovL.className='l';ovL.textContent='←';ovL.type='button';ovL.setAttribute('aria-label','上一張');
+    ovR.className='r';ovR.textContent='→';ovR.type='button';ovR.setAttribute('aria-label','下一張');ovCnt.className='cnt';
+    ov.appendChild(ovImg);ov.appendChild(ovL);ov.appendChild(ovR);ov.appendChild(ovCnt);document.body.appendChild(ov);
+    ov.onclick=function(){closeOv();};
+    ovL.onclick=function(e){e.stopPropagation();if(ovSt)ovSt.go(ovSt.i-1);};
+    ovR.onclick=function(e){e.stopPropagation();if(ovSt)ovSt.go(ovSt.i+1);};
+  }
+  function paintOv(){if(!ovSt)return;var it=ovSt.imgs[ovSt.i];ovImg.src=it.src;ovImg.alt=it.cap||'';ovCnt.textContent='第 '+(ovSt.i+1)+'／'+ovSt.imgs.length+' 張';ovL.disabled=ovSt.i===0;ovR.disabled=ovSt.i===ovSt.imgs.length-1;}
+  function openOv(st){ensureOv();ovSt=st;paintOv();ov.style.display='flex';}
+  function closeOv(){if(ov){ov.style.display='none';}ovSt=null;}
+  function playVideo(src){
+    var o=document.createElement('div');o.className='ssov';
+    var v=document.createElement('video');v.src=src;v.muted=true;v.loop=true;v.autoplay=true;v.playsInline=true;
+    o.appendChild(v);document.body.appendChild(o);
+    function key(e){if(e.key==='Escape')done();}
+    function done(){document.removeEventListener('keydown',key);o.remove();}
+    o.onclick=done;document.addEventListener('keydown',key);
+    var p=v.play();if(p&&p.catch)p.catch(function(){});
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function build(el){
+    if(el.__ss)return;
+    var imgs;try{imgs=JSON.parse(el.getAttribute('data-imgs')||'[]');}catch(e){imgs=[];}
+    if(!imgs.length)return;
+    var h='<div class="ss-stage"><img class="ss-img" alt=""><span class="ss-hint">點一下放大</span></div>'+
+      '<div class="ss-bar"><button type="button" class="ss-prev">← 上一張</button><span class="ss-count"></span>'+
+      '<button type="button" class="ss-next">下一張 →</button>'+
+      (el.dataset.video?'<button type="button" class="ss-anim">看動畫</button>':'')+'</div>';
+    if(imgs.length>1)h+='<div class="ss-thumbs">'+imgs.map(function(it,k){return '<button type="button" class="ss-th" aria-label="第 '+(k+1)+' 張"><img src="'+esc(it.src)+'" alt="" loading="lazy"><span>'+(k+1)+'</span></button>';}).join('')+'</div>';
+    el.innerHTML=h;
+    var st={el:el,imgs:imgs,i:0},img=el.querySelector('.ss-img'),cnt=el.querySelector('.ss-count'),
+        pv=el.querySelector('.ss-prev'),nx=el.querySelector('.ss-next'),ths=[].slice.call(el.querySelectorAll('.ss-th'));
+    st.go=function(i){
+      st.i=Math.max(0,Math.min(imgs.length-1,i));var it=imgs[st.i];
+      img.src=it.src;img.alt=it.cap||'步驟圖';img.title=it.cap||'';
+      cnt.textContent='第 '+(st.i+1)+'／'+imgs.length+' 張';
+      ths.forEach(function(t,k){t.classList.toggle('on',k===st.i);});
+      pv.disabled=st.i===0;nx.disabled=st.i===imgs.length-1;
+      if(ovSt===st)paintOv();
+    };
+    pv.onclick=function(){last=st;st.go(st.i-1);};
+    nx.onclick=function(){last=st;st.go(st.i+1);};
+    ths.forEach(function(t,k){t.onclick=function(){last=st;st.go(k);};});
+    img.onclick=function(){last=st;openOv(st);};
+    var an=el.querySelector('.ss-anim');if(an)an.onclick=function(){playVideo(el.dataset.video);};
+    el.addEventListener('pointerdown',function(){last=st;});
+    el.__ss=st;st.go(0);
+  }
+  function init(root){[].forEach.call((root||document).querySelectorAll('[data-ss]'),build);}
+  function target(){
+    if(last&&vis(last.el))return last;
+    var best=null,bd=1e9,mid=innerHeight/2;
+    [].forEach.call(document.querySelectorAll('[data-ss]'),function(el){
+      if(!el.__ss||!vis(el))return;var r=el.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+      var d=Math.abs((r.top+r.bottom)/2-mid);if(d<bd){bd=d;best=el.__ss;}
+    });
+    return best;
+  }
+  document.addEventListener('keydown',function(e){
+    if(ov&&ov.style.display!=='none'&&ovSt){
+      if(e.key==='Escape')closeOv();
+      else if(e.key==='ArrowLeft'){ovSt.go(ovSt.i-1);e.preventDefault();}
+      else if(e.key==='ArrowRight'){ovSt.go(ovSt.i+1);e.preventDefault();}
+      return;
+    }
+    var t=e.target&&e.target.tagName;if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;
+    if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
+    var st=target();if(!st)return;
+    st.go(st.i+(e.key==='ArrowRight'?1:-1));e.preventDefault();
+  });
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){init();});else init();
+  return {init:init};
+})();
+</script>
+
+<script>
+(function(){
+  var q=document.getElementById('q'),listEl=document.getElementById('list'),det=document.getElementById('detail');
+  var cat='all',sel=null;
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function byId(id){for(var i=0;i<SKILLS.length;i++)if(SKILLS[i].id===id)return SKILLS[i];return null;}
+  function media(s){
+    var m=s.media,k=m[0],v=m[1];
+    if(k==='op'){
+      if(s.ss&&s.ss.length){
+        var data=JSON.stringify(s.ss.map(function(i){return {src:'../assets/'+i.src,cap:i.cap};}));
+        return '<div class="ss" data-ss data-imgs="'+esc(data)+'" data-video="../assets/'+s.video+'.mp4"></div>';
+      }
+      return '<div class="sc-media" data-src="../assets/'+s.video+'.mp4" data-poster="../assets/'+s.video+'_封面.jpg"></div>';
+    }
+    if(k==='img')return '<img class="shot zoomable" src="../assets/'+v+'" alt="'+esc(s.title)+' 的畫面（點一下放大）">';
+    if(k==='keys')return '<div class="keys">'+v.map(function(x){return '<kbd>'+esc(x)+'</kbd>';}).join(' + ')+'</div>';
+    if(k==='big')return '<div class="bigsay">'+esc(v)+'</div>';
+    if(k==='links')return '<div class="links">'+v.map(function(x){return '<a class="'+x[2]+'" href="'+x[1]+'" target="_blank" rel="noopener">'+esc(x[0])+' ↗</a>';}).join('')+'</div>';
+    return '';
+  }
+  function showDetail(s){
+    if(!s){det.className='detail c-all';det.innerHTML='<p class="empty">找不到。換個字試試：字型、照片、分享</p>';return;}
+    det.className='detail c-'+s.cat;
+    det.innerHTML='<h2>'+esc(s.title)+'</h2><div class="meta">'+s.cats.map(function(c){return '<span class="badge c-'+c+'">'+skCatName(c)+'</span>';}).join('')+
+      '<span class="badge-lesson'+(s.learned?'':' soon')+'">'+esc(s.tag)+'</span></div>'+
+      '<div class="media">'+media(s)+'</div><ol class="points">'+s.points.map(function(p){return '<li><span>'+p+'</span></li>';}).join('')+'</ol>';
+    StepShow.init(det);
+  }
+  function render(){
+    var list=skSearch(q.value,cat);
+    if(!list.length){listEl.innerHTML='<p class="empty">找不到</p>';sel=null;det.__cur=null;showDetail(null);return;}
+    if(!sel||list.indexOf(sel)<0)sel=list[0];
+    var h='',last=null,grouped=!q.value.trim();
+    list.forEach(function(s){
+      var gc=(grouped&&cat!=='all')?cat:s.cat;
+      if(grouped&&gc!==last){h+='<h3 class="c-'+gc+'"><span class="dot"></span>'+skCatName(gc)+'</h3>';last=gc;}
+      h+='<button type="button" class="item c-'+s.cat+(s===sel?' on':'')+'" data-id="'+s.id+'"><span class="dot"></span>'+esc(s.title)+
+        (s.learned?'':'<span class="soon">第 '+s.lesson+' 課</span>')+'</button>';
+    });
+    listEl.innerHTML=h;
+    if(!det.__cur||det.__cur!==sel){det.__cur=sel;showDetail(sel);}
+  }
+  function setCat(c){
+    cat=c;[].forEach.call(document.querySelectorAll('#cats .chip'),function(x){var on=x.dataset.cat===c;x.classList.toggle('on',on);x.setAttribute('aria-selected',on?'true':'false');});
+  }
+  listEl.addEventListener('click',function(e){var b=e.target.closest('.item');if(!b)return;sel=byId(b.dataset.id);history.replaceState(null,'','#'+sel.id);render();det.scrollIntoView({behavior:'smooth',block:'start'});});
+  q.addEventListener('input',function(){if(q.value.trim())setCat('all');sel=null;render();});
+  [].forEach.call(document.querySelectorAll('#cats .chip'),function(b){b.onclick=function(){q.value='';setCat(b.dataset.cat);sel=null;render();};});
+  function fromUrl(){
+    var sp=new URLSearchParams(location.search),h=decodeURIComponent(location.hash.replace(/^#/,''));
+    q.value=sp.get('q')||'';
+    var c=sp.get('cat');setCat(c&&skCatName(c)?c:'all');
+    sel=null;
+    if(h&&byId(h)){q.value='';setCat('all');sel=byId(h);}
+    render();
+  }
+  window.addEventListener('hashchange',fromUrl);
+  fromUrl();
+})();
+</script>
+<!--STEPCARDS-START-->
+<style>
+/* 步驟卡（一個畫面一小步）：規格見 引導規範/HTML互動教材設計規範.md §5.12 */
+.sc{background:#fff;border:4px solid #fde68a;border-radius:24px;padding:16px 16px 12px;margin:0 0 16px}
+.sc-slide{display:none}
+.sc-slide.on{display:block}
+.sc-t{font-size:1.45rem;font-weight:800;line-height:1.4;margin:0 0 10px;color:#334155}
+.sc-t b{color:#c2410c}
+.sc-media{position:relative;border-radius:16px;overflow:hidden;background:#0f172a;min-height:160px}
+.sc-media video{display:block;width:100%;max-height:440px;object-fit:contain;cursor:zoom-in;background:#0f172a}
+.sc-media .sc-hint{position:absolute;right:8px;top:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;border-radius:8px;padding:1px 8px;pointer-events:none}
+.sc-media.paused:after{content:'▶';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;line-height:64px;text-align:center;border-radius:999px;background:rgba(0,0,0,.62);color:#fff;font-size:28px;pointer-events:none}
+.sc-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.sc-nav button{font-weight:800;border-radius:16px;padding:8px 16px;border:2px solid #cbd5e1;background:#fff;color:#475569}
+.sc-nav button.sc-next{background:#f59e0b;border-color:#f59e0b;color:#fff}
+.sc-nav button:disabled{opacity:.35;cursor:default}
+.sc-dots{display:flex;gap:6px;align-items:center}
+.sc-dots i{display:block;width:12px;height:12px;border-radius:999px;background:#e2e8f0;cursor:pointer}
+.sc-dots i.on{background:#f59e0b;width:26px}
+.sc-dots i.seen{background:#fcd34d}
+@media(prefers-reduced-motion:reduce){.sc-media video{animation:none}}
+
+/* 平鋪模式（sc-flat）：所有小步驟直接攤開在同一頁，不切換、沒有上下一步；標題前自動編號 */
+.sc-flat{background:transparent;border:0;padding:0;margin:0;counter-reset:scn}
+.sc-flat .sc-slide{display:block;background:#fff;border:4px solid #fde68a;border-radius:24px;padding:16px;margin:0 0 16px;counter-increment:scn}
+.sc-flat .sc-t:before{content:counter(scn);display:inline-flex;align-items:center;justify-content:center;width:1.7em;height:1.7em;margin-right:.5em;border-radius:9999px;background:#f59e0b;color:#fff;font-size:.8em}
+.sc-flat.sc-nonum .sc-t:before{display:none}
+
+/* 左右並列（sc-split，搭配 sc-flat；2026-11-02 四上 L05 首例）：這一小步左邊放說明文字、右邊放動圖，一眼看完；窄螢幕自動疊回上下
+   結構：<div class="sc-slide sc-split"><div class="sc-txt"><p class="sc-t">…</p>其他說明</div><div class="sc-media" …></div></div> */
+.sc-flat .sc-slide.sc-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 22px;align-items:start}
+.sc-split .sc-txt{min-width:0}
+.sc-split .sc-media{align-self:start}
+@media(max-width:760px){.sc-flat .sc-slide.sc-split{grid-template-columns:minmax(0,1fr)}}
+</style>
+<script>
+/* ============================================================
+   stepcards.js — 步驟卡：一個畫面一小步（動圖循環播放、只載入目前那一張）
+   規格：引導規範/HTML互動教材設計規範.md §5.12
+   標記：
+     <div class="sc" data-sc>
+       <div class="sc-slide"><p class="sc-t">這一小步做什麼</p>
+         <div class="sc-media" data-src="assets/步_xxx.mp4" data-poster="assets/步_xxx_封面.jpg"></div>  （可省略：純文字小步）
+         …其他想放的 HTML…
+       </div> …
+     </div>
+   導覽列（上一小步／下一小步／點點）由這支程式自己補；class 加 sc-flat 則全部攤開、沒有導覽列（目前的標準做法）。
+   影片＝靜音、循環、自動播放的短片（等同 GIF，但檔案小十倍）；點一下放大（全螢幕疊層播放，再點一下或按 Esc 關閉），不是暫停（2026-11-18 教師定案）。
+   由 引導規範/stepcards/inject.py 用 STEPCARDS-START/END 兩個 HTML 註解標記包起來，內嵌進學習單。
+   ============================================================ */
+(function () {
+  if (window.__stepCards) return;
+  window.__stepCards = true;
+
+  // 只有「看得到」的那一小步才載入影片（display:none 的不載入）；每半秒檢查一次，換步驟、換分頁都會跟上
+  function visible(m) { return m.offsetParent !== null; }
+  function sweep() { [].forEach.call(document.querySelectorAll('.sc-media'), function (m) { setMedia(m, visible(m)); }); }
+
+  // 點影片＝放大：疊層裡另開一支同來源的影片（靜音、循環），點疊層或按 Esc 關閉
+  function zoomVideo(v) {
+    var o = document.createElement('div');
+    o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,.88);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out';
+    var z = document.createElement('video');
+    z.src = v.currentSrc || v.src; z.muted = true; z.loop = true; z.autoplay = true; z.playsInline = true;
+    // 放大要真的大：寬度撐到 92vw（影片原檔常只有 480p，不設寬度會停在原尺寸）
+    z.style.cssText = 'width:92vw;height:auto;max-height:92vh;object-fit:contain;border-radius:12px;background:#000';
+    try { z.currentTime = v.currentTime; } catch (e) {}
+    function close() { document.removeEventListener('keydown', key); o.remove(); }
+    function key(e) { if (e.key === 'Escape') close(); }
+    o.onclick = close; document.addEventListener('keydown', key);
+    o.appendChild(z); document.body.appendChild(o);
+    var pp = z.play(); if (pp && pp.catch) pp.catch(function () {});
+  }
+
+  function setMedia(m, on) {
+    var v = m.querySelector('video');
+    if (on && !v) {
+      v = document.createElement('video');
+      v.src = m.dataset.src;
+      if (m.dataset.poster) v.poster = m.dataset.poster;
+      v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.setAttribute('playsinline', '');
+      v.addEventListener('click', function () {
+        if (v.paused) { v.play(); m.classList.remove('paused'); }   // 只有瀏覽器擋住自動播放時，第一下才是播放
+        else zoomVideo(v);
+      });
+      m.appendChild(v);
+      var h = document.createElement('span'); h.className = 'sc-hint'; h.textContent = '點一下放大'; m.appendChild(h);
+      var p = v.play(); if (p && p.catch) p.catch(function () { m.classList.add('paused'); });
+    } else if (!on && v) {
+      m.innerHTML = ''; m.classList.remove('paused');
+    }
+  }
+
+  function init(sc) {
+    if (sc.__scReady) return; sc.__scReady = true;
+    if (sc.classList.contains('sc-flat')) return;   // 平鋪：不做導覽列
+    var slides = [].slice.call(sc.querySelectorAll(':scope > .sc-slide')), cur = 0, seen = {};
+    var nav = document.createElement('div'); nav.className = 'sc-nav';
+    nav.innerHTML = '<button type="button" class="sc-prev">← 上一小步</button><div class="sc-dots"></div><button type="button" class="sc-next">下一小步 →</button>';
+    sc.appendChild(nav);
+    var prev = nav.querySelector('.sc-prev'), next = nav.querySelector('.sc-next'), dots = nav.querySelector('.sc-dots');
+    slides.forEach(function (s, i) {
+      var d = document.createElement('i'); d.title = '第 ' + (i + 1) + ' 小步';
+      d.onclick = function () { go(i); }; dots.appendChild(d);
+    });
+    function go(i) {
+      cur = Math.max(0, Math.min(slides.length - 1, i)); seen[cur] = true;
+      slides.forEach(function (s, k) {
+        s.classList.toggle('on', k === cur);
+      });
+      sweep();
+      [].forEach.call(dots.children, function (d, k) { d.className = k === cur ? 'on' : (seen[k] ? 'seen' : ''); });
+      prev.disabled = cur === 0; next.disabled = cur === slides.length - 1;
+      next.style.visibility = slides.length > 1 ? 'visible' : 'hidden'; prev.style.visibility = next.style.visibility;
+      sc.dispatchEvent(new CustomEvent('sc:change', { detail: { index: cur, total: slides.length }, bubbles: true }));
+    }
+    prev.onclick = function () { go(cur - 1); };
+    next.onclick = function () { go(cur + 1); };
+    sc.__scGo = go;
+    go(0);
+  }
+
+  function boot() { [].forEach.call(document.querySelectorAll('[data-sc]'), init); sweep(); }
+  setInterval(sweep, 500);
+  window.StepCards = { init: boot, reset: function (sc) { if (sc && sc.__scGo) sc.__scGo(0); } };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+<!--STEPCARDS-END-->
+</body>
+</html>

@@ -1160,6 +1160,10 @@ def git_publish(group, folder):
     adir = src / "assets"
     if adir.is_dir():
         shutil.copytree(str(adir), str(dest / "assets"))
+    # 單元型網頁：主頁（成品 .html → index.html）＋子頁放 pages/（子頁用 ../assets/ 引用素材）
+    pdir = src / "pages"
+    if pdir.is_dir() and not root_page:
+        shutil.copytree(str(pdir), str(dest / "pages"))
     nothing, err = _commit_push(owner, f"publish {code}/{lcode}")
     if err:
         return err

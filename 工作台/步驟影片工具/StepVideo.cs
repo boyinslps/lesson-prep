@@ -68,6 +68,8 @@ public static class StepVideo
         Directory.CreateDirectory(outDir);
         int frame = 0;
         Bitmap prevLast = null;
+        // bandCut=true：換場只淡入畫面區，字卡區直接換（舊字卡不會和新字卡疊在一起）
+        bool bandCut = spec.ContainsKey("bandCut") && Convert.ToBoolean(spec["bandCut"]);
         foreach (var sc in scenes)
         {
             double dur = G(sc, "dur", 4);
@@ -87,7 +89,8 @@ public static class StepVideo
                     {
                         var cm = new ColorMatrix(); cm.Matrix33 = (float)(1 - t / 0.3);
                         var ia = new ImageAttributes(); ia.SetColorMatrix(cm);
-                        g.DrawImage(prevLast, new Rectangle(0, 0, W, H + BAND), 0, 0, W, H + BAND, GraphicsUnit.Pixel, ia);
+                        int fh = bandCut ? H : H + BAND;
+                        g.DrawImage(prevLast, new Rectangle(0, 0, W, fh), 0, 0, W, fh, GraphicsUnit.Pixel, ia);
                     }
                     bmp.Save(Path.Combine(outDir, string.Format("f{0:D5}.png", frame++)), ImageFormat.Png);
                     if (i == n - 1) { if (prevLast != null) prevLast.Dispose(); prevLast = (Bitmap)bmp.Clone(); }

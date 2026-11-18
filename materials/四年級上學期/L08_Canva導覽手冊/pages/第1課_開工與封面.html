@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="資訊老師黃博胤">
+<title>第 1 課｜台南小導遊</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFBF3;--card:#ffffff;--ink:#1e293b;--muted:#64748b;--line:#e2e8f0;
+    --brand:#ea580c;--brand-d:#c2410c;--brand-bg:#fff7ed;
+    --start:#0369a1;--start-bg:#e0f2fe;--start-bd:#7dd3fc;
+    --text:#c2410c;--text-bg:#ffedd5;--text-bd:#fdba74;
+    --image:#047857;--image-bg:#d1fae5;--image-bd:#6ee7b7;
+    --page:#6d28d9;--page-bg:#ede9fe;--page-bd:#c4b5fd;
+    --done:#be123c;--done-bg:#ffe4e6;--done-bd:#fda4af;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--ink);font-size:19px;line-height:1.7;margin:0}
+  .cute{font-family:'Baloo 2','Noto Sans TC',cursive}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  .hidden.hidden,.sc-flat .sc-slide.hidden{display:none !important}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  kbd{background:#f1f5f9;border:1px solid #cbd5e1;border-bottom-width:3px;border-radius:6px;padding:0 6px;font-family:inherit;font-weight:700;color:var(--ink)}
+  .shot{border-radius:14px;border:3px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.14);width:100%;display:block;background:#fff}
+  .zoomable{cursor:zoom-in}
+  a{color:inherit}
+
+  /* 頁首導覽列 */
+  .topnav{background:#fff;border-bottom:3px solid #fed7aa}
+  .topnav .wrap{display:flex;align-items:center;gap:18px;min-height:64px}
+  .brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;white-space:nowrap}
+  .brand b{font-family:'Baloo 2','Noto Sans TC',cursive;font-size:1.5rem;font-weight:800;color:var(--brand)}
+  .brand span{font-size:.95rem;font-weight:700;color:var(--muted)}
+  .tabs{display:flex;gap:6px;flex:1}
+  .tabs a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;font-size:1.05rem;color:#475569;padding:8px 18px;border-radius:999px;border:2px solid transparent}
+  .tabs a:hover{background:var(--brand-bg);border-color:#fed7aa}
+  .tabs a.on{background:var(--brand);color:#fff}
+  .btn-canva{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;color:#0f766e;border:2px solid #5eead4;background:#f0fdfa;border-radius:999px;padding:6px 16px;white-space:nowrap}
+  .btn-canva:hover{background:#ccfbf1}
+
+  /* 分類色 */
+  .c-start{--c:var(--start);--cbg:var(--start-bg);--cbd:var(--start-bd)}
+  .c-text{--c:var(--text);--cbg:var(--text-bg);--cbd:var(--text-bd)}
+  .c-image{--c:var(--image);--cbg:var(--image-bg);--cbd:var(--image-bd)}
+  .c-page{--c:var(--page);--cbg:var(--page-bg);--cbd:var(--page-bd)}
+  .c-done{--c:var(--done);--cbg:var(--done-bg);--cbd:var(--done-bd)}
+  .c-all{--c:#334155;--cbg:#f1f5f9;--cbd:#cbd5e1}
+  .chip{display:inline-flex;align-items:center;gap:6px;font:inherit;font-weight:800;font-size:1.1rem;padding:6px 18px;border-radius:999px;border:3px solid var(--cbd);background:#fff;color:var(--c);cursor:pointer}
+  .chip:hover{background:var(--cbg)}
+  .chip.on{background:var(--c);border-color:var(--c);color:#fff}
+  .chip .n{font-size:.85rem;opacity:.8}
+  .dot{display:inline-block;width:12px;height:12px;border-radius:999px;background:var(--c);flex:none}
+  .badge{display:inline-flex;align-items:center;font-weight:800;font-size:.9rem;padding:1px 12px;border-radius:999px;background:var(--cbg);color:var(--c)}
+  .badge-lesson{display:inline-flex;align-items:center;font-weight:800;font-size:.9rem;padding:1px 12px;border-radius:999px;background:#ecfdf5;color:#047857;border:2px solid #a7f3d0}
+  .badge-lesson.soon{background:#f8fafc;color:#64748b;border-color:#e2e8f0}
+
+  /* 搜尋框：前面固定一個「搜尋技能」標籤（不用 placeholder） */
+  .search{display:flex;align-items:stretch;border:4px solid #fdba74;border-radius:22px;background:#fff;overflow:hidden}
+  .search:focus-within{border-color:var(--brand);box-shadow:0 0 0 5px rgba(234,88,12,.15)}
+  .search label{display:flex;align-items:center;gap:10px;padding:0 18px;background:var(--brand-bg);color:var(--brand-d);font-weight:900;font-size:1.3rem;white-space:nowrap;border-right:3px solid #fed7aa;cursor:text}
+  .search label svg{width:28px;height:28px}
+  .search input{flex:1;min-width:0;border:0;font-size:1.5rem;font-weight:700;padding:14px 18px;outline:none;background:#fff;color:var(--ink)}
+
+  /* 結果小卡 */
+  .tile{display:flex;align-items:center;gap:12px;text-decoration:none;background:#fff;border:3px solid var(--cbd);border-left:12px solid var(--c);border-radius:16px;padding:10px 14px;font-weight:800;font-size:1.15rem;color:var(--ink)}
+  .tile:hover{background:var(--cbg)}
+  .tile small{display:block;font-size:.85rem;font-weight:700;color:var(--muted)}
+
+  /* 步驟圖元件（三頁共用）：大圖一次一張＋上一張／下一張＋編號縮圖列＋看動畫 */
+  .ss{background:#fff;border:3px solid var(--line);border-radius:20px;padding:12px}
+  .ss-stage{position:relative;background:#0f172a;border-radius:14px;overflow:hidden;display:flex;justify-content:center}
+  .ss-img{display:block;max-width:100%;max-height:56vh;object-fit:contain;cursor:zoom-in;background:#fff}
+  .ss-hint{position:absolute;right:8px;top:8px;background:rgba(0,0,0,.55);color:#fff;font-size:13px;font-weight:700;border-radius:8px;padding:1px 8px;pointer-events:none}
+  .ss-bar{display:flex;align-items:center;gap:12px;margin-top:10px}
+  .ss-bar button{font:inherit;font-weight:900;font-size:1.2rem;border-radius:16px;padding:8px 20px;cursor:pointer}
+  .ss-prev,.ss-next{border:3px solid #fdba74;background:#fff;color:#c2410c}
+  .ss-next{background:#ea580c;border-color:#ea580c;color:#fff}
+  .ss-bar button:disabled{opacity:.35;cursor:default}
+  .ss-count{font-weight:900;font-size:1.2rem;color:#334155;min-width:7em;text-align:center}
+  .ss-anim{margin-left:auto;border:2px solid #cbd5e1;background:#f8fafc;color:#475569;font-size:1rem !important;padding:6px 14px !important}
+  .ss-thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:4px}
+  .ss-th{position:relative;flex:none;width:96px;border:3px solid #e2e8f0;border-radius:10px;padding:0;background:#fff;cursor:pointer;overflow:hidden}
+  .ss-th img{display:block;width:100%;height:56px;object-fit:cover}
+  .ss-th span{position:absolute;left:4px;top:4px;width:24px;height:24px;border-radius:999px;background:rgba(15,23,42,.75);color:#fff;font-size:.8rem;font-weight:900;display:flex;align-items:center;justify-content:center}
+  .ss-th.on{border-color:#ea580c}
+  .ss-th.on span{background:#ea580c}
+  .ssov{position:fixed;inset:0;z-index:99998;background:rgba(15,23,42,.9);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;cursor:zoom-out}
+  .ssov img,.ssov video{max-width:92vw;max-height:88vh;border-radius:12px;background:#fff}
+  .ssov button{position:absolute;top:50%;transform:translateY(-50%);font:inherit;font-weight:900;font-size:1.4rem;border:0;border-radius:999px;width:64px;height:64px;background:rgba(255,255,255,.9);color:#c2410c;cursor:pointer}
+  .ssov .l{left:14px}.ssov .r{right:14px}
+  .ssov button:disabled{opacity:.3}
+  .ssov .cnt{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:#fff;font-weight:900;font-size:1.2rem;background:rgba(0,0,0,.5);border-radius:999px;padding:2px 16px}
+
+  .sec-title{font-family:'Baloo 2','Noto Sans TC',cursive;font-size:1.9rem;font-weight:800;color:var(--ink);margin:0 0 4px}
+  .sec-sub{color:var(--muted);font-weight:700;margin:0 0 14px}
+  footer.sign{text-align:right;font-size:.8rem;color:#94a3b8;padding:24px 20px 18px}
+</style>
+<style>
+  .idbar{background:#fff;border-bottom:2px solid #fed7aa}
+  .idbar .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px;font-size:1rem}
+  .idbar label{display:flex;align-items:center;gap:6px;color:var(--muted);font-weight:700}
+  .idbar .ltitle{margin-left:auto;font-weight:900;color:#c2410c;font-size:1.1rem}
+  .idbar .ltitle small{color:var(--muted);font-weight:800;margin-right:6px}
+  .idnum{width:58px;text-align:center;border:2px solid #e2e8f0;border-radius:10px;padding:3px 6px;font-weight:800;font-size:1.05rem;color:var(--ink);outline:none}
+  .idnum:focus{border-color:#fb923c}
+  .stepbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:2px solid #ffedd5}
+  .stepbar .wrap{padding-top:8px;padding-bottom:8px}
+  .stepdot{width:40px;height:40px;font-size:1.05rem}
+  .stepname{font-size:1.05rem;font-weight:800;margin-top:2px;white-space:nowrap}
+  main.wrap{padding-top:16px}
+  .step{background:#fff;border:4px solid var(--sbd);border-radius:30px;padding:20px 24px;scroll-margin-top:90px}
+  .s-sky{--s:#0369a1;--sbd:#7dd3fc;--sbg:#f0f9ff}
+  .s-violet{--s:#6d28d9;--sbd:#c4b5fd;--sbg:#f5f3ff}
+  .s-teal{--s:#0f766e;--sbd:#5eead4;--sbg:#f0fdfa}
+  .s-orange{--s:#c2410c;--sbd:#fdba74;--sbg:#fff7ed}
+  .s-rose{--s:#be123c;--sbd:#fda4af;--sbg:#fff1f2}
+  .shead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .shead h2{font-family:'Baloo 2','Noto Sans TC',cursive;font-size:2.1rem;font-weight:900;color:var(--s);margin:0;line-height:1.2}
+  .shead h2 .no{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:999px;background:var(--s);color:#fff;font-size:1.5rem;margin-right:12px;vertical-align:middle}
+  .wlink{display:inline-flex;align-items:center;gap:6px;flex:none;text-decoration:none;font-weight:800;font-size:1rem;color:var(--s);border:2px solid var(--sbd);background:var(--sbg);border-radius:999px;padding:5px 14px}
+  .wlink:hover{background:#fff}
+  /* 步驟卡元件的 CSS 由 inject 插在 body 尾端，這裡用 .step 前綴提高權重 */
+  .step .sc-t{font-size:1.5rem}
+  .step .sc-t b{color:var(--s)}
+  .step .sc-flat .sc-slide{border-color:var(--sbd)}
+  .step .sc-flat .sc-t:before{background:var(--s)}
+  .sub{font-size:1.2rem;font-weight:800;color:#334155;margin:6px 0 0}
+  .sub b{color:var(--s)}
+  .tip{display:block;font-size:1.2rem;font-weight:800;color:#334155;background:var(--sbg);border-radius:14px;padding:6px 14px;margin:10px 0 0}
+  .tip b{color:var(--s)}
+  .warn{font-size:1.25rem;font-weight:900;color:#be123c;background:#fff1f2;border:3px solid #fda4af;border-radius:16px;padding:8px 14px;margin:12px 0 0}
+  .checkbox{background:var(--sbg);border:3px solid var(--sbd);border-radius:22px;padding:14px 18px;margin-top:16px}
+  .checkbox .cbt{font-family:'Baloo 2','Noto Sans TC',cursive;font-size:1.4rem;font-weight:900;color:var(--s);margin:0 0 6px}
+  .checkbox label{display:flex;align-items:center;gap:12px;font-size:1.3rem;font-weight:800;margin:6px 0;cursor:pointer}
+  .checkbox input{width:28px;height:28px;accent-color:var(--s);flex:none}
+  .stepnav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;padding-top:14px;border-top:2px solid #f1f5f9}
+  .legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 18px;margin-top:14px}
+  .legend div{display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:800;background:var(--sbg);border-radius:16px;padding:8px 12px}
+  .legend .n{flex:none;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:999px;background:#ea580c;color:#fff;font-weight:900}
+  .legend span.d{color:var(--muted);font-weight:700;font-size:1.05rem}
+  .ptype{border:4px solid #bae6fd;background:#fff;border-radius:18px;padding:4px 16px;font-weight:800;font-size:1.2rem;color:#0369a1}
+  .ptype.on{background:#0ea5e9;border-color:#0ea5e9;color:#fff}
+  .kwchips{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+  .kwchips .lab{font-size:1.2rem;font-weight:900;color:#334155}
+  .kw{font:inherit;font-size:1.3rem;font-weight:900;border:3px solid var(--sbd);background:#fff;color:var(--s);border-radius:999px;padding:2px 18px;cursor:pointer}
+  .kw:hover{background:var(--sbg)}
+  .kw.done{background:var(--s);color:#fff;border-color:var(--s)}
+  .three{list-style:none;margin:0;padding:0}
+  .three li{display:flex;gap:12px;align-items:flex-start;font-size:1.3rem;font-weight:800;line-height:1.45;margin:0 0 10px}
+  .three .n{flex:none;display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:var(--s);color:#fff;font-weight:900;margin-top:1px}
+  .goalcard{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px;align-items:center;background:var(--sbg);border:3px solid var(--sbd);border-radius:22px;padding:14px 16px;margin-bottom:16px}
+  .goalcard .say{font-size:1.3rem;font-weight:800;line-height:1.6}
+  .goalcard b{color:var(--s)}
+  .btn-s{display:inline-flex;align-items:center;gap:8px;margin-top:8px;text-decoration:none;font-size:1.1rem;font-weight:900;color:var(--s);background:#fff;border:3px solid var(--sbd);border-radius:16px;padding:6px 16px}
+  .btn-s:hover{background:var(--sbg)}
+  .bigwiki{display:inline-flex;align-items:center;gap:10px;margin-top:12px;text-decoration:none;font-size:1.2rem;font-weight:900;color:#fff;background:var(--s);border-radius:18px;padding:10px 20px;box-shadow:0 4px 0 rgba(0,0,0,.2)}
+  .projname{font-family:'Baloo 2','Noto Sans TC',cursive;font-size:1.9rem;font-weight:900;color:var(--s);margin:0}
+  .btn-o{font:inherit;font-weight:800;border:2px solid var(--sbd);background:#fff;color:var(--s);border-radius:14px;padding:4px 16px;cursor:pointer}
+  .joinbtns{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+  .joinbtns a{display:inline-flex;align-items:center;min-height:60px;padding:0 24px;border-radius:18px;font-size:1.35rem;font-weight:900;color:#fff;text-decoration:none;box-shadow:0 4px 0 rgba(0,0,0,.18)}
+  .namerow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+</style>
+</head>
+<body>
+<nav class="topnav" id="top"><div class="wrap"><a class="brand" href="../" data-home><b>台南小導遊</b><span>Canva 導覽手冊</span></a><div class="tabs"><a href="../" data-home>← 單元主頁</a><a href="第1課_開工與封面.html" class="on">第 1 課</a><a href="技能百科.html" class=""><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6"/></svg>技能百科</a></div><a class="btn-canva" href="https://www.canva.com/" target="_blank" rel="noopener">開 Canva ↗</a></div></nav>
+
+<div class="idbar"><div class="wrap">
+  <span class="cute" style="font-weight:900;color:#c2410c">我是誰</span>
+  <label>年級<input id="idGrade" class="idnum" inputmode="numeric" maxlength="2"></label>
+  <label>班級<input id="idClass" class="idnum" inputmode="numeric" maxlength="2"></label>
+  <label>座號<input id="idStudent" class="idnum" inputmode="numeric" maxlength="2"></label>
+  <span id="idOk" class="hidden" style="color:#059669;font-weight:800;font-size:.9rem">✓ 已記住</span>
+  <span class="ltitle"><small>第 1 課</small>開工：B5 文件、認識畫面、範本封面</span>
+</div></div>
+<div class="stepbar" id="stepbar"><div class="wrap"><div id="stepper" class="flex items-start"></div></div></div>
+<main class="wrap">
+  <section class="step s-sky" data-step="1">
+    <div class="shead"><h2><span class="no">1</span>開一份 B5 新文件</h2><a class="wlink" href="技能百科.html#open-b5"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6"/></svg>忘記怎麼做？查技能百科</a></div>
+    <div class="sc sc-flat" data-sc><div class="sc-slide"><p class="sc-t">第一次：先<b>加入團隊</b>，再開 Canva</p><div class="joinbtns"><a href="https://www.canva.com/brand/join?token=O5u7l6t8sRfXzjBVumWtQw&brandingVariant=edu&referrer=team-invite" target="_blank" rel="noopener" style="background:#ea580c">加入班級 Canva 團隊 ↗</a><a href="https://www.canva.com/" target="_blank" rel="noopener" style="background:#0f766e">開 Canva ↗</a></div><p class="sub">用學校帳號登入。登不進去，<b>舉手</b>。</p></div><div class="sc-slide"><p class="sc-t">開一張 <b>B5</b> 紙（176 × 250 公釐）</p><div class="ss" data-ss data-imgs='[{&quot;src&quot;: &quot;../assets/步圖/開B5文件_01.jpg&quot;, &quot;cap&quot;: &quot;左邊按「建立」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/開B5文件_02.jpg&quot;, &quot;cap&quot;: &quot;左邊按「建立」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/開B5文件_03.jpg&quot;, &quot;cap&quot;: &quot;左邊按「自訂尺寸」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/開B5文件_04.jpg&quot;, &quot;cap&quot;: &quot;左邊按「自訂尺寸」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/開B5文件_05.jpg&quot;, &quot;cap&quot;: &quot;單位選「公釐」，寬打 176，高打 250&quot;}, {&quot;src&quot;: &quot;../assets/步圖/開B5文件_06.jpg&quot;, &quot;cap&quot;: &quot;按「建立新設計」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/開B5文件_07.jpg&quot;, &quot;cap&quot;: &quot;按「建立新設計」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/開B5文件_08.jpg&quot;, &quot;cap&quot;: &quot;出現一張空白的紙，就開好了&quot;}]' data-video="../assets/步_canva_開B5文件.mp4"></div></div><div class="sc-slide"><p class="sc-t">改<b>作品名字</b></p><div class="namerow"><p class="projname" id="projName">先填上面的年級、班級、座號</p><button type="button" id="projCopy" class="btn-o">複製名字</button></div><div class="ss" data-ss data-imgs='[{&quot;src&quot;: &quot;../assets/步圖/改檔名_01.jpg&quot;, &quot;cap&quot;: &quot;點右上角的作品名字&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改檔名_02.jpg&quot;, &quot;cap&quot;: &quot;按 Ctrl＋A　全選&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改檔名_03.jpg&quot;, &quot;cap&quot;: &quot;貼上新的名字&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改檔名_04.jpg&quot;, &quot;cap&quot;: &quot;貼上新的名字&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改檔名_05.jpg&quot;, &quot;cap&quot;: &quot;按 Enter　完成&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改檔名_06.jpg&quot;, &quot;cap&quot;: &quot;按 Enter　完成&quot;}]' data-video="../assets/步_canva_改檔名.mp4"></div></div></div>
+    <div class="checkbox"><p class="cbt">這一步檢查</p><label><input type="checkbox" class="chk"> <span>開好空白的 <b>B5</b>（176 × 250 公釐）</span></label><label><input type="checkbox" class="chk"> <span><b>作品名字</b>改好了</span></label></div>
+    <div class="stepnav"></div>
+  </section>
+  <section class="step s-violet hidden" data-step="2">
+    <div class="shead"><h2><span class="no">2</span>認識編輯畫面</h2><a class="wlink" href="技能百科.html#screen"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6"/></svg>忘記怎麼做？查技能百科</a></div>
+    <img src="../assets/介面_標記.jpg" alt="Canva 編輯畫面，標上 1～6 號：作品名字、左邊工具列、白色的紙、小頁面圖、＋、分享" class="shot zoomable"><div class="legend"><div><span class="n">1</span><span>作品名字<br><span class="d">點一下可以改</span></span></div><div><span class="n">2</span><span>左邊工具列<br><span class="d">範本、文字、上傳都在這</span></span></div><div><span class="n">3</span><span>白色的紙<br><span class="d">作品放這裡</span></span></div><div><span class="n">4</span><span>小頁面圖<br><span class="d">點一下換頁</span></span></div><div><span class="n">5</span><span>＋<br><span class="d">多一張紙</span></span></div><div><span class="n">6</span><span>分享<br><span class="d">拿連結</span></span></div></div><p class="warn">弄亂了？按 <kbd>Ctrl</kbd> + <kbd>Z</kbd> 復原。</p><div class="checkbox" style="background:#fffbeb;border-color:#fcd34d"><p class="cbt" style="color:#b45309">小測驗：這一區做什麼？</p><div id="faceQuiz" class="space-y-3"></div><p id="faceMsg" class="text-xl font-extrabold mt-3 min-h-[32px]"></p></div><div class="hidden"><input type="checkbox" class="chk" id="faceOk" disabled></div>
+    <div class="checkbox"><p class="cbt">這一步檢查</p><label><input type="checkbox" class="chk"> <span>在自己的畫面找到：<b>作品名字、左邊工具列、＋、分享</b></span></label></div>
+    <div class="stepnav"></div>
+  </section>
+  <section class="step s-teal hidden" data-step="3">
+    <div class="shead"><h2><span class="no">3</span>選一個範本當封面</h2><a class="wlink" href="技能百科.html#template"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6"/></svg>忘記怎麼做？查技能百科</a></div>
+    <div class="sc sc-flat sc-nonum" data-sc><div class="sc-slide"><p class="sc-t">左邊按<b>範本</b>，搜尋，選一個當封面</p><div class="ss" data-ss data-imgs='[{&quot;src&quot;: &quot;../assets/步圖/選範本_01.jpg&quot;, &quot;cap&quot;: &quot;左邊按「範本」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/選範本_02.jpg&quot;, &quot;cap&quot;: &quot;搜尋框打字，按 Enter&quot;}, {&quot;src&quot;: &quot;../assets/步圖/選範本_03.jpg&quot;, &quot;cap&quot;: &quot;點你喜歡的範本&quot;}, {&quot;src&quot;: &quot;../assets/步圖/選範本_04.jpg&quot;, &quot;cap&quot;: &quot;點你喜歡的範本&quot;}, {&quot;src&quot;: &quot;../assets/步圖/選範本_05.jpg&quot;, &quot;cap&quot;: &quot;左邊出現好幾頁，點最上面那張（封面）&quot;}, {&quot;src&quot;: &quot;../assets/步圖/選範本_06.jpg&quot;, &quot;cap&quot;: &quot;左邊出現好幾頁，點最上面那張（封面）&quot;}, {&quot;src&quot;: &quot;../assets/步圖/選範本_07.jpg&quot;, &quot;cap&quot;: &quot;封面放到紙上了&quot;}]' data-video="../assets/步_canva_選範本.mp4"></div><div class="kwchips"><span class="lab">換關鍵字（點一下複製）：</span><button type="button" class="kw">台南</button><button type="button" class="kw">旅行</button><button type="button" class="kw">旅遊</button><button type="button" class="kw">封面</button><button type="button" class="kw">手冊</button><button type="button" class="kw">景點</button></div><p class="tip">不喜歡：<kbd>Ctrl</kbd> + <kbd>Z</kbd>，再選一個。</p></div></div><p class="warn">不要按「套用全部」。</p>
+    <div class="checkbox"><p class="cbt">這一步檢查</p><label><input type="checkbox" class="chk"> <span>第 1 頁用了一個<b>範本</b></span></label><label><input type="checkbox" class="chk"> <span>只有<b>一頁</b>封面（沒有套用全部）</span></label></div>
+    <div class="stepnav"></div>
+  </section>
+  <section class="step s-orange hidden" data-step="4">
+    <div class="shead"><h2><span class="no">4</span>改封面的字</h2><a class="wlink" href="技能百科.html?cat=text"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6"/></svg>技能百科：文字</a></div>
+    <div class="goalcard"><img src="../assets/封面_改哪裡.jpg" alt="範本封面：1 書名改這裡、2 三個景點改這裡、3 用不到的字改掉或刪掉" class="shot zoomable"><div class="say">改成你的：<br><b>1 書名</b>（例：我的台南一日小旅行）<br><b>2 你選的 3 個景點</b>（不用寫美食）<br><a class="btn-s" href="https://boyinslps.github.io/pcclass/g4/L04/" target="_blank" rel="noopener">打開我的景點資料（L04）↗</a><p class="sub" style="color:var(--muted)">範本的照片先留著。</p></div></div><div class="sc sc-flat sc-nonum" data-sc><div class="sc-slide"><p class="sc-t">連按兩下改字，再調樣子和位置</p><div class="ss" data-ss data-imgs='[{&quot;src&quot;: &quot;../assets/步圖/改封面文字_01.jpg&quot;, &quot;cap&quot;: &quot;連按兩下書名&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改封面文字_02.jpg&quot;, &quot;cap&quot;: &quot;按 Ctrl＋A，打自己的書名&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改封面文字_03.jpg&quot;, &quot;cap&quot;: &quot;工具列：字型、大小、顏色&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改封面文字_04.jpg&quot;, &quot;cap&quot;: &quot;按字型，左邊點一個&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改封面文字_05.jpg&quot;, &quot;cap&quot;: &quot;按住框拖過去；白點調大小&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改封面文字_06.jpg&quot;, &quot;cap&quot;: &quot;按住框拖過去；白點調大小&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改封面文字_07.jpg&quot;, &quot;cap&quot;: &quot;按住框拖過去；白點調大小&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改封面文字_08.jpg&quot;, &quot;cap&quot;: &quot;按住框拖過去；白點調大小&quot;}, {&quot;src&quot;: &quot;../assets/步圖/改封面文字_09.jpg&quot;, &quot;cap&quot;: &quot;封面的字改好了&quot;}]' data-video="../assets/步_canva_改封面文字.mp4"></div><p class="tip">字型：選後面寫「<b>繁體中文</b>」的。</p><p class="tip">用不到的字：點一下框 → <kbd>Delete</kbd>。</p><a class="bigwiki" href="技能百科.html?cat=text"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6"/></svg>忘記怎麼做？→ 技能百科：文字</a></div></div>
+    <div class="checkbox"><p class="cbt">這一步檢查</p><label><input type="checkbox" class="chk"> <span><b>書名</b>改成我自己的</span></label><label><input type="checkbox" class="chk"> <span>有我選的 <b>3 個景點</b></span></label><label><input type="checkbox" class="chk"> <span><b>字型、大小、顏色、位置</b>，至少改了一項</span></label></div>
+    <div class="stepnav"></div>
+  </section>
+  <section class="step s-rose hidden" data-step="5">
+    <div class="shead"><h2><span class="no">5</span>分享連結，交作業</h2><a class="wlink" href="技能百科.html#share"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6"/></svg>忘記怎麼做？查技能百科</a></div>
+    <div class="sc sc-flat" data-sc><div class="sc-slide"><p class="sc-t"><b>分享</b>，複製「可供檢視」的連結</p><div class="ss" data-ss data-imgs='[{&quot;src&quot;: &quot;../assets/步圖/分享連結_01.jpg&quot;, &quot;cap&quot;: &quot;右上角按「分享」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/分享連結_02.jpg&quot;, &quot;cap&quot;: &quot;按「存取等級」（誰可以看）&quot;}, {&quot;src&quot;: &quot;../assets/步圖/分享連結_03.jpg&quot;, &quot;cap&quot;: &quot;選「任何具有此連結者」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/分享連結_04.jpg&quot;, &quot;cap&quot;: &quot;權限改成「可供檢視」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/分享連結_05.jpg&quot;, &quot;cap&quot;: &quot;權限改成「可供檢視」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/分享連結_06.jpg&quot;, &quot;cap&quot;: &quot;按「複製連結」&quot;}, {&quot;src&quot;: &quot;../assets/步圖/分享連結_07.jpg&quot;, &quot;cap&quot;: &quot;按「複製連結」&quot;}]' data-video="../assets/步_canva_分享連結.mp4"></div></div><div class="sc-slide"><p class="sc-t">回這裡，<kbd>Ctrl</kbd> + <kbd>V</kbd> <b>貼上</b></p><label class="block text-xl font-extrabold mb-1" for="canvaLink">Canva 連結</label><input id="canvaLink" type="text" autocomplete="off" class="w-full border-4 border-slate-300 rounded-2xl px-4 py-3 text-xl font-bold focus:border-rose-400 outline-none"><p id="linkMsg" class="text-lg font-bold mt-1 min-h-[28px]"></p></div></div>
+    <div class="checkbox"><p class="cbt">交之前檢查</p><label><input type="checkbox" class="chk"> <span>連結<b>貼好</b>了（顯示 ✓）</span></label><label><input type="checkbox" class="chk"> <span>權限是<b>可供檢視</b></span></label><label><input type="checkbox" class="chk"> <span>開<b>新分頁</b>貼上連結，打得開</span></label></div>
+    <div class="checkbox" style="background:#fff7ed;border-color:#fdba74">
+      <p class="sub" style="margin:0 0 6px">還沒做完？先交，之後可以再交一次。</p>
+      <button id="submitBtn" class="w-full bg-orange-600 hover:bg-orange-700 text-white cute text-2xl font-extrabold rounded-2xl py-3">繳交學習單</button>
+      <p id="submitStat" class="text-base font-bold mt-2 min-h-[22px] text-center"></p>
+    </div>
+    <div id="rewardBox" class="hidden text-center bg-gradient-to-b from-amber-100 to-orange-100 border-4 border-amber-300 rounded-3xl p-6 mt-4">
+      <h3 class="cute text-2xl font-extrabold text-orange-700">恭喜你已經做完今日的作業，可以遊玩！</h3>
+      <div class="flex flex-wrap gap-3 justify-center mt-3">
+        <a href="https://boyinslps.github.io/pcclass/games/" target="_blank" rel="noopener"
+           class="cute inline-block bg-orange-600 hover:bg-orange-700 text-white text-lg font-extrabold rounded-2xl px-6 py-2">電腦教室遊戲網站</a>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+</main>
+<footer class="sign">made by 資訊老師黃博胤</footer>
+
+<script>
+(function(){
+  // 點小圖放大（留在這一頁）
+  var ov=document.createElement('div');ov.className='ssov';ov.style.display='none';
+  var im=document.createElement('img');im.alt='';ov.appendChild(im);document.body.appendChild(ov);
+  function close(){ov.style.display='none';}
+  ov.onclick=close;document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  document.addEventListener('click',function(e){
+    var t=e.target;if(t&&t.classList&&t.classList.contains('zoomable')){im.src=t.getAttribute('src');im.alt=t.alt||'';ov.style.display='flex';}
+  });
+  // 發布後主頁是 ../（index.html）；本機預覽時沒有 index.html，改指成品檔
+  if(!/github\.io$/.test(location.hostname)){
+    [].forEach.call(document.querySelectorAll('a[data-home]'),function(a){a.href='../四上_L08_Canva導覽手冊.html';});
+  }
+})();
+
+// ===== 步驟圖元件 =====
+// 標記：<div class="ss" data-ss data-imgs='[{"src":"..","cap":".."}]' data-video="..mp4">（內部由 StepShow 自己畫）
+window.StepShow=(function(){
+  var last=null,ov=null,ovImg,ovCnt,ovL,ovR,ovSt=null;
+  function vis(el){return el.offsetParent!==null;}
+  function ensureOv(){
+    if(ov)return;
+    ov=document.createElement('div');ov.className='ssov';ov.style.display='none';
+    ovImg=document.createElement('img');ovL=document.createElement('button');ovR=document.createElement('button');ovCnt=document.createElement('div');
+    ovL.className='l';ovL.textContent='←';ovL.type='button';ovL.setAttribute('aria-label','上一張');
+    ovR.className='r';ovR.textContent='→';ovR.type='button';ovR.setAttribute('aria-label','下一張');ovCnt.className='cnt';
+    ov.appendChild(ovImg);ov.appendChild(ovL);ov.appendChild(ovR);ov.appendChild(ovCnt);document.body.appendChild(ov);
+    ov.onclick=function(){closeOv();};
+    ovL.onclick=function(e){e.stopPropagation();if(ovSt)ovSt.go(ovSt.i-1);};
+    ovR.onclick=function(e){e.stopPropagation();if(ovSt)ovSt.go(ovSt.i+1);};
+  }
+  function paintOv(){if(!ovSt)return;var it=ovSt.imgs[ovSt.i];ovImg.src=it.src;ovImg.alt=it.cap||'';ovCnt.textContent='第 '+(ovSt.i+1)+'／'+ovSt.imgs.length+' 張';ovL.disabled=ovSt.i===0;ovR.disabled=ovSt.i===ovSt.imgs.length-1;}
+  function openOv(st){ensureOv();ovSt=st;paintOv();ov.style.display='flex';}
+  function closeOv(){if(ov){ov.style.display='none';}ovSt=null;}
+  function playVideo(src){
+    var o=document.createElement('div');o.className='ssov';
+    var v=document.createElement('video');v.src=src;v.muted=true;v.loop=true;v.autoplay=true;v.playsInline=true;
+    o.appendChild(v);document.body.appendChild(o);
+    function key(e){if(e.key==='Escape')done();}
+    function done(){document.removeEventListener('keydown',key);o.remove();}
+    o.onclick=done;document.addEventListener('keydown',key);
+    var p=v.play();if(p&&p.catch)p.catch(function(){});
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function build(el){
+    if(el.__ss)return;
+    var imgs;try{imgs=JSON.parse(el.getAttribute('data-imgs')||'[]');}catch(e){imgs=[];}
+    if(!imgs.length)return;
+    var h='<div class="ss-stage"><img class="ss-img" alt=""><span class="ss-hint">點一下放大</span></div>'+
+      '<div class="ss-bar"><button type="button" class="ss-prev">← 上一張</button><span class="ss-count"></span>'+
+      '<button type="button" class="ss-next">下一張 →</button>'+
+      (el.dataset.video?'<button type="button" class="ss-anim">看動畫</button>':'')+'</div>';
+    if(imgs.length>1)h+='<div class="ss-thumbs">'+imgs.map(function(it,k){return '<button type="button" class="ss-th" aria-label="第 '+(k+1)+' 張"><img src="'+esc(it.src)+'" alt="" loading="lazy"><span>'+(k+1)+'</span></button>';}).join('')+'</div>';
+    el.innerHTML=h;
+    var st={el:el,imgs:imgs,i:0},img=el.querySelector('.ss-img'),cnt=el.querySelector('.ss-count'),
+        pv=el.querySelector('.ss-prev'),nx=el.querySelector('.ss-next'),ths=[].slice.call(el.querySelectorAll('.ss-th'));
+    st.go=function(i){
+      st.i=Math.max(0,Math.min(imgs.length-1,i));var it=imgs[st.i];
+      img.src=it.src;img.alt=it.cap||'步驟圖';img.title=it.cap||'';
+      cnt.textContent='第 '+(st.i+1)+'／'+imgs.length+' 張';
+      ths.forEach(function(t,k){t.classList.toggle('on',k===st.i);});
+      pv.disabled=st.i===0;nx.disabled=st.i===imgs.length-1;
+      if(ovSt===st)paintOv();
+    };
+    pv.onclick=function(){last=st;st.go(st.i-1);};
+    nx.onclick=function(){last=st;st.go(st.i+1);};
+    ths.forEach(function(t,k){t.onclick=function(){last=st;st.go(k);};});
+    img.onclick=function(){last=st;openOv(st);};
+    var an=el.querySelector('.ss-anim');if(an)an.onclick=function(){playVideo(el.dataset.video);};
+    el.addEventListener('pointerdown',function(){last=st;});
+    el.__ss=st;st.go(0);
+  }
+  function init(root){[].forEach.call((root||document).querySelectorAll('[data-ss]'),build);}
+  function target(){
+    if(last&&vis(last.el))return last;
+    var best=null,bd=1e9,mid=innerHeight/2;
+    [].forEach.call(document.querySelectorAll('[data-ss]'),function(el){
+      if(!el.__ss||!vis(el))return;var r=el.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+      var d=Math.abs((r.top+r.bottom)/2-mid);if(d<bd){bd=d;best=el.__ss;}
+    });
+    return best;
+  }
+  document.addEventListener('keydown',function(e){
+    if(ov&&ov.style.display!=='none'&&ovSt){
+      if(e.key==='Escape')closeOv();
+      else if(e.key==='ArrowLeft'){ovSt.go(ovSt.i-1);e.preventDefault();}
+      else if(e.key==='ArrowRight'){ovSt.go(ovSt.i+1);e.preventDefault();}
+      return;
+    }
+    var t=e.target&&e.target.tagName;if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;
+    if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
+    var st=target();if(!st)return;
+    st.go(st.i+(e.key==='ArrowRight'?1:-1));e.preventDefault();
+  });
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){init();});else init();
+  return {init:init};
+})();
+</script>
+
+<script>
+var firebaseConfig = {
+  apiKey:"AIzaSyAaodBvsP-BSovON14izt22DOXeH40TTGM",
+  authDomain:"pcclass-94300.firebaseapp.com",
+  projectId:"pcclass-94300",
+  storageBucket:"pcclass-94300.firebasestorage.app",
+  messagingSenderId:"1034787516465",
+  appId:"1:1034787516465:web:73c334b2ddad152c472510",
+  measurementId:"G-37P75R7TZ7"
+};
+var LESSON={"ws": "g4-L08", "path": "g4/L08", "wstitle": "台南小導遊：Canva 導覽手冊 第 1 課（開 B5、認識畫面、範本封面）", "names": ["開文件", "認識畫面", "選範本", "改封面字", "交作業"], "quiz": [{"img": "../assets/介面題_左邊.jpg", "q": "橘色框起來的左邊這一排，是做什麼的？", "o": ["要加文字、照片、圖形，來這裡", "看這份作品有幾頁", "把作品分享給老師", "改作品的名字"], "a": 0, "why": "左邊工具列：要加東西，來這裡"}, {"img": "../assets/介面題_右上.jpg", "q": "橘色框起來的「分享」，是做什麼的？", "o": ["把字變大", "做好了，從這裡拿連結", "多一張新的紙", "換顏色"], "a": 1, "why": "分享：做好了，從這裡拿連結"}, {"img": "../assets/介面題_下方.jpg", "q": "橘色框起來的「＋」，按了會怎樣？", "o": ["刪掉這份作品", "把照片放大", "多一張新的紙", "存到電腦"], "a": 2, "why": "＋：多一張新的紙"}, {"img": "../assets/介面題_名字.jpg", "q": "點一下橘色框起來的名字，可以做什麼？", "o": ["換下一頁", "加照片", "拿分享連結", "改作品的名字"], "a": 3, "why": "點作品名字，可以改名"}], "qdefs": [{"id": "q1", "kind": "link", "text": "學生貼上的 Canva 分享連結（老師開連結看封面）。"}, {"id": "q2", "steps": [1], "label": "開 B5、改作品名字", "text": "開好空白 B5（176 × 250 公釐）、作品名字改好，兩項都勾選。"}, {"id": "q3", "steps": [2], "label": "認識畫面", "text": "在自己的畫面找到作品名字、左邊工具列、＋、分享（勾選），而且介面小測驗 4 題全對。"}, {"id": "q4", "steps": [3, 4], "label": "封面", "text": "封面用了一個範本、只有一頁封面、書名改成自己的、有自己選的 3 個景點，字型／大小／顏色／位置至少改一項（全部勾選）。"}]};
+
+(function(){
+  function $(id){return document.getElementById(id);}
+  function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+  var WS=LESSON.ws;   // 第 1 課＝g4-L08（改版前已有人繳交，不可改）
+
+  // ===== 識別列 =====
+  var ID_KEY='wk_identity';
+  function digits(s){return String(s||'').replace(/[^0-9]/g,'');}
+  function loadIdentity(){try{return JSON.parse(localStorage.getItem(ID_KEY)||'{}')}catch(e){return {}}}
+  function saveIdentity(o){try{localStorage.setItem(ID_KEY,JSON.stringify(o))}catch(e){}}
+  function getIdentity(){
+    var g=digits($('idGrade').value),c=digits($('idClass').value),s=digits($('idStudent').value);
+    return {grade:g?Number(g):null,className:c?Number(c):null,studentId:s?Number(s):null};
+  }
+  function identityValid(id){return id.grade!=null&&id.className!=null&&id.className>=1&&id.className<=14&&id.studentId!=null;}
+  function pad2(n){return (n<10?'0':'')+n;}
+  // 作品名字：年級 1 位＋班級 2 位＋座號 2 位＋空格＋我的台南手冊（例：40205 我的台南手冊）
+  function projName(){var i=getIdentity();return identityValid(i)?(i.grade+pad2(i.className)+pad2(i.studentId)+' 我的台南手冊'):'';}
+  function showProj(){if(!$('projName'))return;var n=projName();$('projName').textContent=n||'先填上面的年級、班級、座號';}
+  (function initIdentity(){
+    var saved=loadIdentity();
+    if(saved.grade)$('idGrade').value=saved.grade;
+    if(saved.className)$('idClass').value=saved.className;
+    if(saved.studentId)$('idStudent').value=saved.studentId;
+    if(identityValid(saved))$('idOk').classList.remove('hidden');
+    ['idGrade','idClass','idStudent'].forEach(function(id){
+      var e=$(id);
+      e.addEventListener('input',function(){
+        var d=digits(e.value);if(d!==e.value)e.value=d;
+        var idn=getIdentity();
+        if(identityValid(idn)){saveIdentity(idn);$('idOk').classList.remove('hidden');}
+        else $('idOk').classList.add('hidden');
+        showProj();
+      });
+    });
+    showProj();
+  })();
+
+  // ===== Firebase：只用來寫入繳交 =====
+  var db=null,auth=null;
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+  function ensureAuth(){return (auth&&auth.currentUser)?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(c){return c.user});}
+  (function boot(){
+    var base='https://www.gstatic.com/firebasejs/10.8.0/';
+    loadScript(base+'firebase-app-compat.js')
+      .then(function(){return loadScript(base+'firebase-auth-compat.js')})
+      .then(function(){return loadScript(base+'firebase-firestore-compat.js')})
+      .then(function(){firebase.initializeApp(firebaseConfig);db=firebase.firestore();auth=firebase.auth();})
+      .catch(function(e){console.warn('Firebase 啟用失敗，改用單機模式',e);});
+  })();
+
+  function copyText(text,btn,doneText){
+    var old=btn.textContent;
+    function done(){btn.textContent=doneText||'✓ 已複製';btn.classList.add('done');setTimeout(function(){btn.textContent=old;btn.classList.remove('done');},1600);}
+    function fallback(){
+      var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px;top:0';
+      document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');done();}catch(e){btn.textContent='請按 Ctrl+C 複製';}
+      document.body.removeChild(ta);
+    }
+    try{navigator.clipboard.writeText(text).then(done,fallback);}catch(e){fallback();}
+  }
+  if($('projCopy'))$('projCopy').onclick=function(){var n=projName();if(!n){alert('先在最上方填好年級、班級、座號。');window.scrollTo({top:0,behavior:'smooth'});return;}copyText(n,this);};
+  [].forEach.call(document.querySelectorAll('.kw'),function(b){b.onclick=function(){copyText(b.textContent,b,'✓ '+b.textContent);};});
+
+  // ===== 看截圖選功能小測驗 =====
+  var FQ=LESSON.quiz,fqDone={};
+  (function buildFaceQuiz(){
+    var host=$('faceQuiz');if(!host||!FQ.length)return;
+    FQ.forEach(function(q,qi){
+      var row=el('div','bg-white border-2 border-amber-200 rounded-2xl p-3');
+      var im=el('img','zoomable');im.src=q.img;im.alt='Canva 畫面的一小塊';im.style.cssText='max-width:100%;max-height:340px;border-radius:10px;border:2px solid #e2e8f0;margin-bottom:8px;display:block';
+      row.appendChild(im);
+      row.appendChild(el('p','text-xl font-extrabold mb-2',(qi+1)+'. '+q.q));
+      var btns=el('div','flex flex-wrap items-center gap-2');
+      var fb=el('span','text-lg font-extrabold ml-2');
+      q.o.forEach(function(o,oi){
+        var b=el('button','ptype',o);b.type='button';
+        b.onclick=function(){
+          if(oi===q.a){
+            fqDone[qi]=true;fb.className='text-lg font-extrabold ml-2 text-emerald-700';fb.textContent='✓ '+q.why;
+            [].forEach.call(btns.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b);});
+          }else{fb.className='text-lg font-extrabold ml-2 text-amber-700';fb.textContent='再想想';}
+          var ok=Object.keys(fqDone).length===FQ.length;
+          $('faceMsg').textContent=ok?'全對了！每個區都認得了。':'';
+          $('faceMsg').className='text-xl font-extrabold mt-3 min-h-[32px] '+(ok?'text-emerald-700':'');
+          var c=$('faceOk');if(c&&c.checked!==ok){c.checked=ok;}
+          renderStepper();
+        };
+        btns.appendChild(b);
+      });
+      btns.appendChild(fb);row.appendChild(btns);host.appendChild(row);
+    });
+  })();
+
+  // ===== Canva 連結 =====
+  // ok：/design/<id>/<token>/view…（分享連結）或 canva.link/…
+  // edit：/design/<id>/<token>/edit（分享時選了可供編輯）
+  // addr：/design/<id>/edit 或其他沒有 view 的 canva 網址（從網址列複製的）
+  function linkKind(v){
+    v=String(v||'').trim();
+    var m=v.match(/^https:\/\/(?:www\.)?canva\.com\/design\/([A-Za-z0-9_-]{8,})\/([A-Za-z0-9_-]+)\/(view|edit)\b/);
+    if(m&&m[2]!=='edit'&&m[2]!=='view')return m[3]==='view'?'ok':'edit';
+    if(/^https:\/\/canva\.link\/[A-Za-z0-9]+/.test(v))return 'ok';
+    if(/^https?:\/\/([a-z0-9-]+\.)*canva\.com\//i.test(v))return 'addr';
+    return 'bad';
+  }
+  function linkOk(v){return linkKind(v)==='ok';}
+  var LINK_MSG={ok:'✓ 連結對了',edit:'這是「可供編輯」的連結，改成「可供檢視」再複製',
+    addr:'這是網址列的網址。要按右上角「分享」→「複製連結」',bad:'要貼 Canva 的分享連結'};
+  function showLink(){
+    var c=$('canvaLink');if(!c)return;
+    var v=(c.value||'').trim(),m=$('linkMsg'),k=linkKind(v);
+    m.textContent=v?LINK_MSG[k]:'';
+    m.className='text-lg font-bold mt-1 min-h-[28px] '+(!v?'':(k==='ok'?'text-emerald-700':'text-amber-700'));
+    renderStepper();
+  }
+  if($('canvaLink')){$('canvaLink').addEventListener('input',showLink);$('canvaLink').addEventListener('paste',function(){setTimeout(showLink,0);});}
+
+  // ===== 繳交學習單（題目由 LESSON.qdefs 決定；全部 experience 不計分）=====
+  function workDocId(idn){return WS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;}
+  function stepChecksDone(n){
+    var cs=document.querySelectorAll('.step[data-step="'+n+'"] input.chk');
+    if(!cs.length)return false;
+    for(var i=0;i<cs.length;i++)if(!cs[i].checked)return false;
+    return true;
+  }
+  var sb=$('submitBtn');
+  if(sb)sb.onclick=function(){
+    var idn=getIdentity();
+    if(!identityValid(idn)){alert('請先在最上方填好年級、班級、座號（都是數字，班級是 1 到 14）。');window.scrollTo({top:0,behavior:'smooth'});return;}
+    var url=$('canvaLink')?($('canvaLink').value||'').trim():'';
+    var needLink=LESSON.qdefs.some(function(d){return d.kind==='link';});
+    if(needLink&&!linkOk(url)){alert('先把 Canva 的分享連結貼在「Canva 連結」格子裡。');$('canvaLink').focus();return;}
+    if(!db){alert('系統尚未連線，請稍後再試或重新整理頁面。');return;}
+    var answers={},qtypes={},qtexts={},exp={},done=0,lines=[];
+    LESSON.qdefs.forEach(function(d){
+      qtypes[d.id]='experience';qtexts[d.id]=d.text;
+      if(d.kind==='link'){answers[d.id]={url:url};exp[d.id]={given:{url:url},correct:null,isCorrect:true};done++;lines.push('Canva 連結：已貼');}
+      else{var ok=d.steps.every(stepChecksDone);answers[d.id]=ok;exp[d.id]={given:ok,correct:null,isCorrect:ok};if(ok)done++;lines.push(d.label+'：'+(ok?'都完成了':'還沒全完成'));}
+    });
+    var experienceCompletion=Math.round(done/LESSON.qdefs.length*100);
+    if(!confirm('確定要繳交學習單嗎？\n'+lines.join('\n')))return;
+    var payload={worksheetId:WS,worksheetTitle:LESSON.wstitle,lessonPath:LESSON.path,
+      grade:idn.grade,className:idn.className,studentId:idn.studentId,
+      answers:answers,qtypes:qtypes,qtexts:qtexts,bonusQids:[],
+      scoreAnswers:{},experienceAnswers:exp,openAnswers:{},bonusAnswers:{},
+      accuracyRate:null,experienceCompletion:experienceCompletion,
+      status:'submitted',submittedAt:firebase.firestore.FieldValue.serverTimestamp()};
+    var btn=this,stat=$('submitStat');
+    btn.disabled=true;stat.className='text-base font-bold mt-2 min-h-[22px] text-center text-orange-600';stat.textContent='繳交中…';
+    ensureAuth().then(function(){return db.collection('submissions').doc(workDocId(idn)).set(payload,{merge:true});})
+      .then(function(){
+        btn.disabled=false;btn.textContent='重新繳交（覆蓋）';
+        stat.className='text-base font-bold mt-2 min-h-[22px] text-center text-emerald-600';
+        stat.textContent='✓ 已繳交！';submittedOnce=true;renderStepper();
+        var rb=$('rewardBox');rb.classList.remove('hidden');rb.scrollIntoView({behavior:'smooth'});
+      }).catch(function(e){
+        console.warn('繳交失敗',e);btn.disabled=false;
+        stat.className='text-base font-bold mt-2 min-h-[22px] text-center text-amber-600';
+        stat.textContent='繳交失敗，請檢查網路後再按一次；還是不行就告訴老師。';
+      });
+  };
+
+  // ===== 學習路徑 =====
+  var STEP_NAMES=LESSON.names;
+  var stepEls=[].slice.call(document.querySelectorAll('.step'));
+  var curStep=1,visited={1:true},submittedOnce=false;
+  function stepDone(n){
+    if(n===STEP_NAMES.length&&sb)return submittedOnce;
+    var cs=stepEls[n-1].querySelectorAll('input.chk');
+    if(!cs.length)return !!visited[n]&&n!==curStep;
+    for(var i=0;i<cs.length;i++)if(!cs[i].checked)return false;
+    return true;
+  }
+  function renderStepper(){
+    var host=$('stepper');host.innerHTML='';
+    STEP_NAMES.forEach(function(name,idx){
+      var n=idx+1,cur=n===curStep,done=stepDone(n);
+      var cell=el('div','flex flex-col items-center');
+      var b=el('button','stepdot cute rounded-full border-2 font-extrabold flex items-center justify-center transition '+
+        (cur?'bg-orange-500 border-orange-500 text-white':(done?'bg-emerald-500 border-emerald-500 text-white':'bg-white border-slate-300 text-slate-400 hover:border-orange-300')));
+      b.type='button';
+      b.textContent=done&&!cur?'✓':String(n);
+      b.setAttribute('aria-label','第 '+n+' 步：'+name);
+      if(cur)b.setAttribute('aria-current','step');
+      b.onclick=function(){showStep(n);};
+      cell.appendChild(b);
+      cell.appendChild(el('span','stepname '+(cur?'text-orange-600':'text-slate-500'),name));
+      host.appendChild(cell);
+      if(n<STEP_NAMES.length)host.appendChild(el('div','flex-1 h-1 mt-5 mx-1 rounded '+(done&&!cur?'bg-emerald-300':'bg-slate-200')));
+    });
+  }
+  // 換步：捲到該步標題（扣掉固定在上面的進度列）
+  function showStep(n){
+    curStep=n;visited[n]=true;
+    stepEls.forEach(function(s){s.classList.toggle('hidden',Number(s.dataset.step)!==n);});
+    renderStepper();
+    var sec=stepEls[n-1],bar=$('stepbar');
+    var y=sec.getBoundingClientRect().top+window.pageYOffset-(bar?bar.offsetHeight:0)-12;
+    window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+  }
+  stepEls.forEach(function(s){
+    var n=Number(s.dataset.step),nav=s.querySelector('.stepnav');
+    if(n>1){var p=el('button','bg-white border-2 border-slate-300 hover:border-orange-400 text-slate-600 text-lg font-bold rounded-2xl px-5 py-2','← 上一步');p.type='button';p.onclick=function(){showStep(n-1);};nav.appendChild(p);}
+    else nav.appendChild(el('span',''));
+    if(n<STEP_NAMES.length){var x=el('button','cute bg-orange-500 hover:bg-orange-600 text-white text-xl font-extrabold rounded-2xl px-6 py-2','下一步：'+STEP_NAMES[n]+' →');x.type='button';x.onclick=function(){showStep(n+1);};nav.appendChild(x);}
+  });
+  document.addEventListener('change',function(e){if(e.target&&e.target.classList&&e.target.classList.contains('chk'))renderStepper();});
+  renderStepper();
+})();
+</script>
+<!--CHAIR-GATE-START-->
+<script>
+/* ============================================================
+   chair-gate.js — 繳交前「靠椅子」提醒＋等待關卡（學習單通用，無相依、不改學習單原本的繳交程式）
+   規格權威來源：引導規範/學習單資料與提交規範.md §3-e
+
+   原理：在 document 捕獲階段攔截 #submitBtn 的點擊。
+     1. 沒填好身分（localStorage wk_identity）→ 直接放行，讓學習單自己提醒。
+     2. 查 Firestore：chairSettings/main（總開關、等待秒數階梯、下課前免罰分鐘、節次時間）與 chairLog/{年級-班級-座號}。
+     3. 該生有待處理紀錄（pending）且總開關開著 → 蓋一層全螢幕提醒（😠 ＋ 累計次數 ＋ 倒數），倒數完才放行。
+        下課前 graceMin 分鐘內：不用等，但紀錄照樣累計（次數不變）；處理後 pending 清掉。
+     4. 任何一步失敗／逾時 → 放行。這個關卡絕不可以擋住學生交作業。
+   放行＝把 passed 設 true 後再 btn.click() 一次，原本學習單的 onclick 完全不知道被攔過。
+
+   由 引導規範/chair-gate/inject.py 用 CHAIR-GATE-START/END 兩個 HTML 註解標記包起來，內嵌進每份學習單；
+   要改邏輯就改這個檔再重跑 inject.py（idempotent，會整段取代）。
+   ============================================================ */
+(function () {
+  if (window.__chairGate) return;
+  window.__chairGate = true;
+
+  var BTN_ID = 'submitBtn';
+  var TIMEOUT_MS = 4500;            // 查資料超過這麼久就放行
+  var DEFAULT_STEPS = [3, 10, 20, 30, 60];
+  var passed = false, busy = false;
+
+  function digits(v) { return String(v == null ? '' : v).replace(/[^0-9]/g, ''); }
+  function identity() {
+    try {
+      var o = JSON.parse(localStorage.getItem('wk_identity') || '{}');
+      var g = digits(o.grade), c = digits(o.className), s = digits(o.studentId);
+      if (!g || !c || !s) return null;
+      return { grade: Number(g), className: Number(c), studentId: Number(s) };
+    } catch (e) { return null; }
+  }
+
+  function withTimeout(p, ms) {
+    return new Promise(function (resolve, reject) {
+      var t = setTimeout(function () { reject(new Error('timeout')); }, ms);
+      p.then(function (v) { clearTimeout(t); resolve(v); }, function (e) { clearTimeout(t); reject(e); });
+    });
+  }
+
+  // 有登入就沿用；確定沒有任何登入狀態才匿名登入（不能蓋掉老師的 session，見規範 §5-2）
+  function ensureUser(auth) {
+    return new Promise(function (resolve, reject) {
+      var unsub = auth.onAuthStateChanged(function (u) {
+        if (unsub) { unsub(); unsub = null; }
+        if (u) resolve(u);
+        else auth.signInAnonymously().then(function (c) { resolve(c.user); }, reject);
+      });
+    });
+  }
+
+  function steps(cfg) {
+    var a = (cfg && cfg.steps || []).map(Number).filter(function (n) { return n > 0 && isFinite(n); });
+    return a.length ? a : DEFAULT_STEPS;
+  }
+  function waitSeconds(cfg, count) {
+    var a = steps(cfg);
+    return a[Math.min(Math.max(count, 1), a.length) - 1];
+  }
+  // 現在是不是某一節「下課前 graceMin 分鐘」以內
+  function inGrace(cfg) {
+    var g = Number(cfg && cfg.graceMin);
+    if (!isFinite(g) || g < 0) g = 2;      // 沒設才用預設 2 分鐘；老師設 0＝不免罰
+    var now = new Date(), nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    return (cfg && cfg.periods || []).some(function (p) {
+      var m = /^(\d{1,2}):(\d{2})$/.exec(String(p && p.end || ''));
+      if (!m) return false;
+      var endSec = (+m[1]) * 3600 + (+m[2]) * 60, left = endSec - nowSec;
+      return left > 0 && left <= g * 60;
+    });
+  }
+
+  function overlay(count, waitSec, waived) {
+    return new Promise(function (resolve) {
+      var css = document.createElement('style');
+      css.textContent =
+        '#chairGate{position:fixed;inset:0;z-index:2147483000;background:rgba(15,23,42,.72);display:grid;place-items:center;padding:20px;font-family:inherit}' +
+        '#chairGate .cg{background:#fff;border-radius:22px;max-width:420px;width:100%;padding:26px 22px 22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);border:4px solid #f87171}' +
+        '#chairGate .em{font-size:78px;line-height:1;animation:cgShake .5s ease-in-out 2}' +
+        '#chairGate h2{margin:10px 0 6px;font-size:24px;color:#b91c1c;font-weight:900}' +
+        '#chairGate .cnt{display:inline-block;margin:6px 0 10px;padding:4px 14px;border-radius:999px;background:#fee2e2;color:#991b1b;font-weight:800;font-size:16px}' +
+        '#chairGate .msg{font-size:17px;font-weight:700;color:#334155;margin:6px 0 14px;min-height:26px}' +
+        '#chairGate .msg b{font-size:30px;color:#dc2626}' +
+        '#chairGate button{font:inherit;font-weight:800;font-size:17px;width:100%;padding:12px;border:0;border-radius:12px;cursor:pointer}' +
+        '#chairGate .go{background:#dc2626;color:#fff}#chairGate .go:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed}' +
+        '#chairGate .back{margin-top:8px;background:transparent;color:#64748b;font-size:14px;font-weight:600}' +
+        '@keyframes cgShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}';
+      document.head.appendChild(css);
+      var box = document.createElement('div');
+      box.id = 'chairGate';
+      box.innerHTML =
+        '<div class="cg" role="alertdialog" aria-live="polite">' +
+        '<div class="em">😠</div>' +
+        '<h2>上次下課四步驟沒有做確實</h2>' +
+        '<div class="cnt">已累計 ' + count + ' 次紀錄</div>' +
+        '<div class="msg" id="cgMsg"></div>' +
+        '<button class="go" id="cgGo" disabled></button>' +
+        '<button class="back" id="cgBack">先回去檢查，等一下再交</button>' +
+        '</div>';
+      document.body.appendChild(box);
+      var msg = box.querySelector('#cgMsg'), go = box.querySelector('#cgGo');
+      function close(ok) {
+        clearInterval(timer);
+        box.remove(); css.remove();
+        resolve(ok);
+      }
+      var endAt = Date.now() + waitSec * 1000, timer = null;
+      function tick() {
+        var left = Math.ceil((endAt - Date.now()) / 1000);
+        if (left > 0) {
+          msg.innerHTML = '請等待 <b>' + left + '</b> 秒才可以繳交';
+          go.disabled = true; go.textContent = '等待中…';
+        } else {
+          clearInterval(timer);
+          msg.textContent = '時間到了，下次記得做確實喔！';
+          go.disabled = false; go.textContent = '我知道了，繳交';
+        }
+      }
+      if (waived) {
+        msg.textContent = '快下課了，這次不用等待；但這筆紀錄還是會累計。';
+        go.disabled = false; go.textContent = '我知道了，繳交';
+      } else {
+        tick(); timer = setInterval(tick, 250);
+      }
+      go.onclick = function () { if (!go.disabled) close(true); };
+      box.querySelector('#cgBack').onclick = function () { close(false); };
+    });
+  }
+
+  // 回傳 Promise<boolean>：true＝放行繳交
+  function check(idn) {
+    if (!window.firebase || !firebase.apps || !firebase.apps.length) return Promise.resolve(true);
+    var id = idn.grade + '-' + idn.className + '-' + idn.studentId;
+    var db = firebase.firestore();
+    return withTimeout(ensureUser(firebase.auth()).then(function () {
+      return Promise.all([
+        db.collection('chairSettings').doc('main').get(),
+        db.collection('chairLog').doc(id).get()
+      ]);
+    }), TIMEOUT_MS).then(function (r) {
+      var cfg = r[0].exists ? r[0].data() : null, log = r[1].exists ? r[1].data() : null;
+      if (!cfg || !cfg.enabled || !log || !log.pending) return true;
+      var count = Number(log.count) || 1, waived = inGrace(cfg);
+      return overlay(count, waitSeconds(cfg, count), waived).then(function (ok) {
+        if (ok) {   // 處理完（等完或免罰）就把待處理清掉；累計次數不動。失敗不影響繳交。
+          db.collection('chairLog').doc(id)
+            .update({ pending: false, servedAt: firebase.firestore.FieldValue.serverTimestamp() })
+            .catch(function (e) { console.warn('chairGate 更新狀態失敗', e); });
+        }
+        return ok;
+      });
+    }).catch(function (e) {
+      console.warn('chairGate 檢查失敗，直接放行', e);
+      return true;
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest && e.target.closest('#' + BTN_ID);
+    if (!btn || passed) return;
+    var idn = identity();
+    if (!idn) return;                       // 沒填身分：交給學習單自己提醒
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    if (busy) return;
+    busy = true;
+    check(idn).then(function (ok) {
+      busy = false;
+      if (!ok) return;
+      passed = true;
+      try { btn.click(); } finally { passed = false; }
+    });
+  }, true);
+})();
+</script>
+<!--CHAIR-GATE-END-->
+<!--STEPCARDS-START-->
+<style>
+/* 步驟卡（一個畫面一小步）：規格見 引導規範/HTML互動教材設計規範.md §5.12 */
+.sc{background:#fff;border:4px solid #fde68a;border-radius:24px;padding:16px 16px 12px;margin:0 0 16px}
+.sc-slide{display:none}
+.sc-slide.on{display:block}
+.sc-t{font-size:1.45rem;font-weight:800;line-height:1.4;margin:0 0 10px;color:#334155}
+.sc-t b{color:#c2410c}
+.sc-media{position:relative;border-radius:16px;overflow:hidden;background:#0f172a;min-height:160px}
+.sc-media video{display:block;width:100%;max-height:440px;object-fit:contain;cursor:zoom-in;background:#0f172a}
+.sc-media .sc-hint{position:absolute;right:8px;top:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;border-radius:8px;padding:1px 8px;pointer-events:none}
+.sc-media.paused:after{content:'▶';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;line-height:64px;text-align:center;border-radius:999px;background:rgba(0,0,0,.62);color:#fff;font-size:28px;pointer-events:none}
+.sc-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.sc-nav button{font-weight:800;border-radius:16px;padding:8px 16px;border:2px solid #cbd5e1;background:#fff;color:#475569}
+.sc-nav button.sc-next{background:#f59e0b;border-color:#f59e0b;color:#fff}
+.sc-nav button:disabled{opacity:.35;cursor:default}
+.sc-dots{display:flex;gap:6px;align-items:center}
+.sc-dots i{display:block;width:12px;height:12px;border-radius:999px;background:#e2e8f0;cursor:pointer}
+.sc-dots i.on{background:#f59e0b;width:26px}
+.sc-dots i.seen{background:#fcd34d}
+@media(prefers-reduced-motion:reduce){.sc-media video{animation:none}}
+
+/* 平鋪模式（sc-flat）：所有小步驟直接攤開在同一頁，不切換、沒有上下一步；標題前自動編號 */
+.sc-flat{background:transparent;border:0;padding:0;margin:0;counter-reset:scn}
+.sc-flat .sc-slide{display:block;background:#fff;border:4px solid #fde68a;border-radius:24px;padding:16px;margin:0 0 16px;counter-increment:scn}
+.sc-flat .sc-t:before{content:counter(scn);display:inline-flex;align-items:center;justify-content:center;width:1.7em;height:1.7em;margin-right:.5em;border-radius:9999px;background:#f59e0b;color:#fff;font-size:.8em}
+.sc-flat.sc-nonum .sc-t:before{display:none}
+
+/* 左右並列（sc-split，搭配 sc-flat；2026-11-02 四上 L05 首例）：這一小步左邊放說明文字、右邊放動圖，一眼看完；窄螢幕自動疊回上下
+   結構：<div class="sc-slide sc-split"><div class="sc-txt"><p class="sc-t">…</p>其他說明</div><div class="sc-media" …></div></div> */
+.sc-flat .sc-slide.sc-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 22px;align-items:start}
+.sc-split .sc-txt{min-width:0}
+.sc-split .sc-media{align-self:start}
+@media(max-width:760px){.sc-flat .sc-slide.sc-split{grid-template-columns:minmax(0,1fr)}}
+</style>
+<script>
+/* ============================================================
+   stepcards.js — 步驟卡：一個畫面一小步（動圖循環播放、只載入目前那一張）
+   規格：引導規範/HTML互動教材設計規範.md §5.12
+   標記：
+     <div class="sc" data-sc>
+       <div class="sc-slide"><p class="sc-t">這一小步做什麼</p>
+         <div class="sc-media" data-src="assets/步_xxx.mp4" data-poster="assets/步_xxx_封面.jpg"></div>  （可省略：純文字小步）
+         …其他想放的 HTML…
+       </div> …
+     </div>
+   導覽列（上一小步／下一小步／點點）由這支程式自己補；class 加 sc-flat 則全部攤開、沒有導覽列（目前的標準做法）。
+   影片＝靜音、循環、自動播放的短片（等同 GIF，但檔案小十倍）；點一下放大（全螢幕疊層播放，再點一下或按 Esc 關閉），不是暫停（2026-11-18 教師定案）。
+   由 引導規範/stepcards/inject.py 用 STEPCARDS-START/END 兩個 HTML 註解標記包起來，內嵌進學習單。
+   ============================================================ */
+(function () {
+  if (window.__stepCards) return;
+  window.__stepCards = true;
+
+  // 只有「看得到」的那一小步才載入影片（display:none 的不載入）；每半秒檢查一次，換步驟、換分頁都會跟上
+  function visible(m) { return m.offsetParent !== null; }
+  function sweep() { [].forEach.call(document.querySelectorAll('.sc-media'), function (m) { setMedia(m, visible(m)); }); }
+
+  // 點影片＝放大：疊層裡另開一支同來源的影片（靜音、循環），點疊層或按 Esc 關閉
+  function zoomVideo(v) {
+    var o = document.createElement('div');
+    o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,.88);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out';
+    var z = document.createElement('video');
+    z.src = v.currentSrc || v.src; z.muted = true; z.loop = true; z.autoplay = true; z.playsInline = true;
+    // 放大要真的大：寬度撐到 92vw（影片原檔常只有 480p，不設寬度會停在原尺寸）
+    z.style.cssText = 'width:92vw;height:auto;max-height:92vh;object-fit:contain;border-radius:12px;background:#000';
+    try { z.currentTime = v.currentTime; } catch (e) {}
+    function close() { document.removeEventListener('keydown', key); o.remove(); }
+    function key(e) { if (e.key === 'Escape') close(); }
+    o.onclick = close; document.addEventListener('keydown', key);
+    o.appendChild(z); document.body.appendChild(o);
+    var pp = z.play(); if (pp && pp.catch) pp.catch(function () {});
+  }
+
+  function setMedia(m, on) {
+    var v = m.querySelector('video');
+    if (on && !v) {
+      v = document.createElement('video');
+      v.src = m.dataset.src;
+      if (m.dataset.poster) v.poster = m.dataset.poster;
+      v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.setAttribute('playsinline', '');
+      v.addEventListener('click', function () {
+        if (v.paused) { v.play(); m.classList.remove('paused'); }   // 只有瀏覽器擋住自動播放時，第一下才是播放
+        else zoomVideo(v);
+      });
+      m.appendChild(v);
+      var h = document.createElement('span'); h.className = 'sc-hint'; h.textContent = '點一下放大'; m.appendChild(h);
+      var p = v.play(); if (p && p.catch) p.catch(function () { m.classList.add('paused'); });
+    } else if (!on && v) {
+      m.innerHTML = ''; m.classList.remove('paused');
+    }
+  }
+
+  function init(sc) {
+    if (sc.__scReady) return; sc.__scReady = true;
+    if (sc.classList.contains('sc-flat')) return;   // 平鋪：不做導覽列
+    var slides = [].slice.call(sc.querySelectorAll(':scope > .sc-slide')), cur = 0, seen = {};
+    var nav = document.createElement('div'); nav.className = 'sc-nav';
+    nav.innerHTML = '<button type="button" class="sc-prev">← 上一小步</button><div class="sc-dots"></div><button type="button" class="sc-next">下一小步 →</button>';
+    sc.appendChild(nav);
+    var prev = nav.querySelector('.sc-prev'), next = nav.querySelector('.sc-next'), dots = nav.querySelector('.sc-dots');
+    slides.forEach(function (s, i) {
+      var d = document.createElement('i'); d.title = '第 ' + (i + 1) + ' 小步';
+      d.onclick = function () { go(i); }; dots.appendChild(d);
+    });
+    function go(i) {
+      cur = Math.max(0, Math.min(slides.length - 1, i)); seen[cur] = true;
+      slides.forEach(function (s, k) {
+        s.classList.toggle('on', k === cur);
+      });
+      sweep();
+      [].forEach.call(dots.children, function (d, k) { d.className = k === cur ? 'on' : (seen[k] ? 'seen' : ''); });
+      prev.disabled = cur === 0; next.disabled = cur === slides.length - 1;
+      next.style.visibility = slides.length > 1 ? 'visible' : 'hidden'; prev.style.visibility = next.style.visibility;
+      sc.dispatchEvent(new CustomEvent('sc:change', { detail: { index: cur, total: slides.length }, bubbles: true }));
+    }
+    prev.onclick = function () { go(cur - 1); };
+    next.onclick = function () { go(cur + 1); };
+    sc.__scGo = go;
+    go(0);
+  }
+
+  function boot() { [].forEach.call(document.querySelectorAll('[data-sc]'), init); sweep(); }
+  setInterval(sweep, 500);
+  window.StepCards = { init: boot, reset: function (sc) { if (sc && sc.__scGo) sc.__scGo(0); } };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+<!--STEPCARDS-END-->
+</body>
+</html>
