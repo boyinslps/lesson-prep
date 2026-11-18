@@ -163,10 +163,24 @@
   .joinbtns{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
   .joinbtns a{display:inline-flex;align-items:center;min-height:60px;padding:0 24px;border-radius:18px;font-size:1.35rem;font-weight:900;color:#fff;text-decoration:none;box-shadow:0 4px 0 rgba(0,0,0,.18)}
   .namerow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+  .ttwrap{display:flex;gap:18px;align-items:flex-start;margin-bottom:14px}
+  .ttwrap img{width:190px;flex:none}
+  .tt{background:var(--sbg);border:3px solid var(--sbd);border-radius:22px;padding:14px 16px;margin-top:12px}
+  .tthead{font-size:1.25rem;font-weight:900;color:var(--s);margin-bottom:8px}
+  .ttcols,.ttrow{display:grid;grid-template-columns:78px minmax(0,1fr) 120px 120px 80px;gap:8px;align-items:center}
+  .ttcols{font-weight:900;color:var(--muted);font-size:1rem;margin-bottom:2px}
+  .ttrow{margin-bottom:8px}
+  .ttn{color:var(--s);font-size:1.15rem}
+  .ttin,.ttsel{font:inherit;font-weight:800;font-size:1.15rem;border:3px solid var(--sbd);border-radius:12px;padding:4px 10px;background:#fff;color:var(--ink);outline:none;min-width:0}
+  .ttin:focus,.ttsel:focus{border-color:var(--s)}
+  .ttmin{text-align:center}
+  .ttbtns{display:flex;gap:10px;margin:4px 0 12px}
+  .btn-o:disabled{opacity:.35;cursor:default}
+  .ttout{white-space:pre-wrap;background:#fff;border:3px dashed var(--sbd);border-radius:16px;padding:10px 16px;font-size:1.2rem;font-weight:800;line-height:1.65;margin-bottom:6px}
 </style>
 </head>
 <body>
-<nav class="topnav" id="top"><div class="wrap"><a class="brand" href="../" data-home><b>台南小導遊</b><span>Canva 導覽手冊</span></a><div class="tabs"><a href="../" data-home>← 單元主頁</a><a href="第1課_開工與封面.html" class="on">第 1 課</a><a href="技能百科.html" class=""><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6"/></svg>技能百科</a></div><a class="btn-canva" href="https://www.canva.com/" target="_blank" rel="noopener">開 Canva ↗</a></div></nav>
+<nav class="topnav" id="top"><div class="wrap"><a class="brand" href="../" data-home><b>台南小導遊</b><span>Canva 導覽手冊</span></a><div class="tabs"><a href="../" data-home>← 單元主頁</a><a href="第1課_開工與封面.html" class="on">第 1 課</a><a href="第2課_路線圖與行程.html" class="">第 2 課</a><a href="技能百科.html" class=""><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6"/></svg>技能百科</a></div><a class="btn-canva" href="https://www.canva.com/" target="_blank" rel="noopener">開 Canva ↗</a></div></nav>
 
 <div class="idbar"><div class="wrap">
   <span class="cute" style="font-weight:900;color:#c2410c">我是誰</span>
@@ -474,7 +488,10 @@ var LESSON={"ws": "g4-L08", "path": "g4/L08", "wstitle": "台南小導遊：Canv
     LESSON.qdefs.forEach(function(d){
       qtypes[d.id]='experience';qtexts[d.id]=d.text;
       if(d.kind==='link'){answers[d.id]={url:url};exp[d.id]={given:{url:url},correct:null,isCorrect:true};done++;lines.push('Canva 連結：已貼');}
-      else{var ok=d.steps.every(stepChecksDone);answers[d.id]=ok;exp[d.id]={given:ok,correct:null,isCorrect:ok};if(ok)done++;lines.push(d.label+'：'+(ok?'都完成了':'還沒全完成'));}
+      else{var ok=d.steps.every(stepChecksDone);
+        if(d.extraFrom){var xe=document.querySelector(d.extraFrom),xt=xe?(xe.textContent||'').trim():'';answers[d.id]={done:ok,text:xt};exp[d.id]={given:{done:ok,text:xt},correct:null,isCorrect:ok};}
+        else{answers[d.id]=ok;exp[d.id]={given:ok,correct:null,isCorrect:ok};}
+        if(ok)done++;lines.push(d.label+'：'+(ok?'都完成了':'還沒全完成'));}
     });
     var experienceCompletion=Math.round(done/LESSON.qdefs.length*100);
     if(!confirm('確定要繳交學習單嗎？\n'+lines.join('\n')))return;

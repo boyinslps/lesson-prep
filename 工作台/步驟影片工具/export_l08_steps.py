@@ -11,7 +11,11 @@ VIDEOS = [  # 影片名（assets 檔名去掉「步_canva_」）: spec 名
  ("開B5文件", "四上L08_開B5文件"), ("選範本", "四上L08_選範本"), ("改封面文字", "四上L08_改封面文字"),
  ("改檔名", "四上L10_改檔名"), ("加文字", "四上L10_加文字"), ("加照片", "四上L10_加照片"),
  ("新增頁面", "四上L10_新增頁面"), ("目錄靠左列點", "四上L10_目錄靠左列點"), ("分享連結", "四上L10_分享連結"),
+ ("Google地圖路線", "四上L08_Google地圖路線"), ("截圖貼上", "四上L08_截圖貼上"),
 ]
+# 只重做指定的操作（保留其他組的圖與 index.json）：python export_l08_steps.py Google地圖路線 截圖貼上
+import sys
+ONLY = sys.argv[1:]
 FPS = 25
 OVER = ("circles", "boxes", "labels", "keys", "arrows", "typing")
 
@@ -67,9 +71,17 @@ def pick(sc):
     return res
 
 os.makedirs(OUT, exist_ok=True)
-for f in glob.glob(os.path.join(OUT, "*.jpg")): os.remove(f)
-index, report = {}, []
+idx_path = os.path.join(OUT, "index.json")
+if ONLY:
+    index = json.load(open(idx_path, encoding="utf-8"))
+    for n in ONLY:
+        for f in glob.glob(os.path.join(OUT, n + "_*.jpg")): os.remove(f)
+else:
+    for f in glob.glob(os.path.join(OUT, "*.jpg")): os.remove(f)
+    index = {}
+report = []
 for name, sp in VIDEOS:
+    if ONLY and name not in ONLY: continue
     spec = json.load(open(os.path.join(HERE, "specs", sp + ".json"), encoding="utf-8"))
     fdir = os.path.join(HERE, "frames_out_" + sp)
     nfr = len(glob.glob(os.path.join(fdir, "f*.png")))
