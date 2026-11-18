@@ -188,9 +188,9 @@ STEP3 = r'''
   <section class="step hidden bg-white border-4 border-violet-300 rounded-3xl p-5 shadow-sm" data-step="3">
     <h2 class="cute text-3xl font-extrabold text-violet-700 mb-3">認識 Canva 的編輯畫面</h2>
 
-    <div class="grid md:grid-cols-5 gap-5 items-start mb-4">
-      <div class="md:col-span-3 relative">
-        <img src="assets/介面.jpg" alt="Canva 編輯畫面：上面有作品名字和分享，左邊是工具列，中間是白色的紙，下面是小頁面圖和新增頁面" class="shot zoomable">
+    <div class="grid md:grid-cols-2 gap-5 items-start mb-4">
+      <div class="relative">
+        <img src="assets/介面.jpg" alt="Canva 編輯畫面：上面有作品名字和分享，左邊是工具列，中間是白色的紙，下面是小頁面圖和新增頁面" class="shot zoomable" style="max-height:300px;object-fit:contain" title="點一下放大">
         <span class="hs" style="left:69.5%;top:3.6%">1</span>
         <span class="hs" style="left:2.2%;top:40%">2</span>
         <span class="hs" style="left:52%;top:46%">3</span>
@@ -198,7 +198,7 @@ STEP3 = r'''
         <span class="hs" style="left:54.5%;top:89.5%">5</span>
         <span class="hs" style="left:97.2%;top:3.6%">6</span>
       </div>
-      <div class="md:col-span-2 bg-violet-50 border-4 border-violet-200 rounded-3xl p-4">
+      <div class="bg-violet-50 border-4 border-violet-200 rounded-3xl p-4">
         <ol class="text-xl font-bold space-y-2">
           <li><span class="stepno bg-violet">1</span><b>作品名字</b>，點一下可以改</li>
           <li><span class="stepno bg-violet">2</span><b>左邊工具列</b>：文字、上傳、元素…要加東西，來這裡</li>
@@ -214,6 +214,14 @@ STEP3 = r'''
       弄亂了？按 <kbd>Ctrl</kbd> + <kbd>Z</kbd> 復原。不要按 Delete。還是亂，就舉手。
     </div>
 
+    <div class="bg-amber-50 border-4 border-amber-300 rounded-3xl p-4 mb-4">
+      <p class="cute text-2xl font-extrabold text-amber-700 mb-1">小測驗：這一區是做什麼的？</p>
+      <p class="text-lg text-slate-500 mb-3">看圖，選一個答案。選對才會顯示 ✓。</p>
+      <div id="faceQuiz" class="space-y-3"></div>
+      <p id="faceMsg" class="text-xl font-extrabold mt-3 min-h-[32px]"></p>
+    </div>
+    <div class="hidden"><input type="checkbox" class="chk" id="faceOk" disabled></div>
+
     <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 text-xl">
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">這一步檢查</p>
       <label class="flex items-center gap-3"><input type="checkbox" class="chk w-6 h-6"> 我在<b>自己的畫面</b>找到了：文字、上傳、＋、分享</label>
@@ -228,15 +236,14 @@ STEP4 = r'''
     <h2 class="cute text-3xl font-extrabold text-orange-700 mb-3">做封面（第 1 頁）</h2>
 
     <div class="grid sm:grid-cols-5 gap-4 items-center mb-4">
-      <div class="sm:col-span-2"><img src="assets/手冊_p1.jpg" alt="範例封面：書名、三個景點、一張照片" class="shot zoomable" loading="lazy"></div>
+      <div class="sm:col-span-2"><img src="assets/手冊_p1.jpg" alt="範例封面：書名、三個景點（照片之後再放）" class="shot zoomable" loading="lazy"></div>
       <div class="sm:col-span-3 bg-orange-50 border-4 border-orange-200 rounded-3xl p-4">
-        <p class="cute text-2xl font-extrabold text-orange-700 mb-2">封面要有 3 樣東西</p>
+        <p class="cute text-2xl font-extrabold text-orange-700 mb-2">封面今天只做文字（2 樣）</p>
         <ol class="text-2xl font-extrabold space-y-1">
           <li><span class="stepno bg-orange">1</span><b>書名</b>（大字）</li>
           <li><span class="stepno bg-orange">2</span>你的<b>三個景點</b></li>
-          <li><span class="stepno bg-orange">3</span>一張<b>照片</b></li>
-        </ol>
-        <p class="text-lg text-slate-500 mt-2">顏色和版面，之後的課再美化。</p>
+                  </ol>
+        <p class="text-lg text-slate-500 mt-2">範例上的照片，之後的課再放。顏色和版面也之後再美化。</p>
       </div>
     </div>
 
@@ -257,28 +264,12 @@ STEP4 = r'''
         <p class="text-lg text-slate-500">打上你的三個景點，中間用「＋」隔開。</p>
         <p class="text-lg text-slate-500 mt-1">要改字：連按兩下 → <kbd>Ctrl</kbd> + <kbd>A</kbd> → 打字。</p>
       </div>
-      <div class="sc-slide">
-        <p class="sc-t"><b>照片</b>：先到台南旅遊網存一張</p>
-        <ol class="text-xl font-bold space-y-1">
-          <li><span class="stepno bg-orange">1</span><a href="__TWTAINAN__" target="_blank" rel="noopener" class="text-orange-700 underline">台南旅遊網 ↗</a>，找到你的景點</li>
-          <li><span class="stepno bg-orange">2</span>在照片上按<b>右鍵</b> →「<b>另存圖片</b>」</li>
-          <li><span class="stepno bg-orange">3</span>存到「<b>下載</b>」，記住檔名</li>
-        </ol>
-      </div>
-      <div class="sc-slide sc-split">
-        <div class="sc-txt">
-          <p class="sc-t">回 Canva：左邊「<b>上傳</b>」→「上傳檔案」</p>
-          <p class="text-lg text-slate-500 mt-2">選剛存的照片，點一下放到紙上；拉<b>角</b>變大，拖到中間。</p>
-        </div>
-        <div class="sc-media" data-src="assets/步_canva_加照片.mp4" data-poster="assets/步_canva_加照片_封面.jpg"></div>
-      </div>
     </div>
 
     <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">這一步檢查</p>
       <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 有<b>書名</b></label>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 有我的<b>三個景點</b></label>
-      <label class="flex items-center gap-3"><input type="checkbox" class="chk w-6 h-6"> 有<b>一張照片</b>（來自台南旅遊網）</label>
+      <label class="flex items-center gap-3"><input type="checkbox" class="chk w-6 h-6"> 有我的<b>三個景點</b></label>
     </div>
     <div class="stepnav"></div>
   </section>
@@ -512,6 +503,41 @@ var firebaseConfig = {
     });
   })();
 
+  // ===== 介面小測驗（看截圖選功能）=====
+  var FQ=[
+    {img:'assets/介面_左邊.png',q:'左邊這一排，是做什麼的？',o:['要加文字、照片、圖形，來這裡','看這份作品有幾頁','把作品分享給老師','改作品的名字'],a:0,why:'左邊工具列：要加東西，來這裡'},
+    {img:'assets/介面_右上.png',q:'右上角有「分享」，它是做什麼的？',o:['把字變大','做好了，從這裡拿連結','多一張新的紙','換顏色'],a:1,why:'分享：做好了，從這裡拿連結'},
+    {img:'assets/介面_下方.png',q:'紙的下面有一個「＋」，按了會怎樣？',o:['刪掉這份作品','把照片放大','多一張新的紙','存到電腦'],a:2,why:'＋：多一張新的紙'},
+    {img:'assets/介面_名字.png',q:'點一下這個名字，可以做什麼？',o:['換下一頁','加照片','拿分享連結','改作品的名字'],a:3,why:'點作品名字，可以改名'}
+  ],fqDone={};
+  (function buildFaceQuiz(){
+    var host=$('faceQuiz');if(!host)return;
+    FQ.forEach(function(q,qi){
+      var row=el('div','bg-white border-2 border-amber-200 rounded-2xl p-3');
+      var im=el('img','');im.src=q.img;im.alt='Canva 畫面的一小塊';im.style.cssText='max-width:100%;max-height:150px;border-radius:10px;border:2px solid #e2e8f0;margin-bottom:8px;display:block';
+      row.appendChild(im);
+      row.appendChild(el('p','text-xl font-extrabold mb-2',(qi+1)+'. '+q.q));
+      var btns=el('div','flex flex-wrap items-center gap-2');
+      var fb=el('span','text-lg font-extrabold ml-2');
+      q.o.forEach(function(o,oi){
+        var b=el('button','ptype',o);b.type='button';
+        b.onclick=function(){
+          if(oi===q.a){
+            fqDone[qi]=true;fb.className='text-lg font-extrabold ml-2 text-emerald-700';fb.textContent='✓ '+q.why;
+            [].forEach.call(btns.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b);});
+          }else{fb.className='text-lg font-extrabold ml-2 text-amber-700';fb.textContent='再想想';}
+          var ok=Object.keys(fqDone).length===FQ.length;
+          $('faceMsg').textContent=ok?'全對了！每個區都認得了。':'';
+          $('faceMsg').className='text-xl font-extrabold mt-3 min-h-[32px] '+(ok?'text-emerald-700':'');
+          var c=$('faceOk');if(c.checked!==ok){c.checked=ok;}
+          renderStepper();
+        };
+        btns.appendChild(b);
+      });
+      btns.appendChild(fb);row.appendChild(btns);host.appendChild(row);
+    });
+  })();
+
   // ===== 點小圖放大（留在這一頁，不開新分頁）=====
   (function zoom(){
     var ov=el('div','hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4');
@@ -577,7 +603,7 @@ var firebaseConfig = {
       qtexts:{
         q1:'學生貼上的 Canva 分享連結（老師開連結看手冊：封面與目錄）。',
         q2:'開 A4 空白文件、改作品名字、認識編輯畫面的自我檢查是否都勾選。',
-        q3:'封面自我檢查（書名、三個景點、一張照片）是否都勾選。',
+        q3:'封面自我檢查（書名、三個景點；照片之後再放）是否都勾選。',
         q4:'目錄自我檢查（標題、章節與頁碼、景點名、靠左與圓點）是否都勾選。',
         q5:'手冊各頁用途配對（封面、目錄、行程規劃、路線圖、景點頁、封底）是否全對。'
       },
