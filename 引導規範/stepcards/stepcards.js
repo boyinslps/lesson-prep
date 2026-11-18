@@ -9,7 +9,7 @@
        </div> …
      </div>
    導覽列（上一小步／下一小步／點點）由這支程式自己補；class 加 sc-flat 則全部攤開、沒有導覽列（目前的標準做法）。
-   影片＝靜音、循環、自動播放的短片（等同 GIF，但檔案小十倍）；點一下可暫停。
+   影片＝靜音、循環、自動播放的短片（等同 GIF，但檔案小十倍）；點一下放大（全螢幕疊層播放，再點一下或按 Esc 關閉），不是暫停（2026-11-18 教師定案）。
    由 引導規範/stepcards/inject.py 用 STEPCARDS-START/END 兩個 HTML 註解標記包起來，內嵌進學習單。
    ============================================================ */
 (function () {
@@ -20,6 +20,21 @@
   function visible(m) { return m.offsetParent !== null; }
   function sweep() { [].forEach.call(document.querySelectorAll('.sc-media'), function (m) { setMedia(m, visible(m)); }); }
 
+  // 點影片＝放大：疊層裡另開一支同來源的影片（靜音、循環），點疊層或按 Esc 關閉
+  function zoomVideo(v) {
+    var o = document.createElement('div');
+    o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,.88);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out';
+    var z = document.createElement('video');
+    z.src = v.currentSrc || v.src; z.muted = true; z.loop = true; z.autoplay = true; z.playsInline = true;
+    z.style.cssText = 'max-width:96vw;max-height:94vh;border-radius:12px;background:#000';
+    try { z.currentTime = v.currentTime; } catch (e) {}
+    function close() { document.removeEventListener('keydown', key); o.remove(); }
+    function key(e) { if (e.key === 'Escape') close(); }
+    o.onclick = close; document.addEventListener('keydown', key);
+    o.appendChild(z); document.body.appendChild(o);
+    var pp = z.play(); if (pp && pp.catch) pp.catch(function () {});
+  }
+
   function setMedia(m, on) {
     var v = m.querySelector('video');
     if (on && !v) {
@@ -28,10 +43,11 @@
       if (m.dataset.poster) v.poster = m.dataset.poster;
       v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.setAttribute('playsinline', '');
       v.addEventListener('click', function () {
-        if (v.paused) { v.play(); m.classList.remove('paused'); } else { v.pause(); m.classList.add('paused'); }
+        if (v.paused) { v.play(); m.classList.remove('paused'); }   // 只有瀏覽器擋住自動播放時，第一下才是播放
+        else zoomVideo(v);
       });
       m.appendChild(v);
-      var h = document.createElement('span'); h.className = 'sc-hint'; h.textContent = '點一下暫停'; m.appendChild(h);
+      var h = document.createElement('span'); h.className = 'sc-hint'; h.textContent = '點一下放大'; m.appendChild(h);
       var p = v.play(); if (p && p.catch) p.catch(function () { m.classList.add('paused'); });
     } else if (!on && v) {
       m.innerHTML = ''; m.classList.remove('paused');
