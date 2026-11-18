@@ -62,7 +62,7 @@
     <div class="bg-orange-50 border-4 border-orange-300 rounded-3xl p-4 mb-4">
       <p class="cute text-2xl font-extrabold text-orange-700 mb-2">今天的任務</p>
       <ol class="text-2xl font-extrabold space-y-2">
-        <li><span class="stepno bg-orange">1</span>開一份 <span class="text-orange-700">A4</span> 新文件</li>
+        <li><span class="stepno bg-orange">1</span>開一份 <span class="text-orange-700">B5</span> 新文件</li>
         <li><span class="stepno bg-orange">2</span>認識 Canva 的<span class="text-orange-700">編輯畫面</span></li>
         <li><span class="stepno bg-orange">3</span>做<span class="text-orange-700">封面</span>和<span class="text-orange-700">目錄</span></li>
       </ol>
@@ -107,9 +107,9 @@
     <div class="stepnav"></div>
   </section>
 
-  <!-- 步驟 2：開 A4 新文件 -->
+  <!-- 步驟 2：開 B5 新文件 -->
   <section class="step hidden bg-white border-4 border-teal-300 rounded-3xl p-5 shadow-sm" data-step="2">
-    <h2 class="cute text-3xl font-extrabold text-teal-700 mb-3">開一份 A4 新文件</h2>
+    <h2 class="cute text-3xl font-extrabold text-teal-700 mb-3">開一份 B5 新文件</h2>
 
     <div class="sc sc-flat" data-sc>
       <div class="sc-slide">
@@ -119,11 +119,12 @@
       </div>
       <div class="sc-slide sc-split">
         <div class="sc-txt">
-          <p class="sc-t">按「<b>建立</b>」，選「<b>文件 (A4，直式)</b>」</p>
-          <p class="text-xl font-extrabold text-rose-700 mt-2">不要選 Docs，也不要選「文件 (數位)」。</p>
-          <p class="text-lg text-slate-500">A4＝一張 A4 紙的大小。</p>
+          <p class="sc-t">按「<b>建立</b>」→「<b>自訂尺寸</b>」</p>
+          <p class="text-xl font-extrabold mt-2">單位選「<b>公釐</b>」，寬打 <b class="text-orange-700">176</b>，高打 <b class="text-orange-700">250</b>，按「建立新設計」。</p>
+          <p class="text-xl font-extrabold text-rose-700 mt-2">不要選 Docs，也不要選現成的「文件」。</p>
+          <p class="text-lg text-slate-500">B5＝小冊子常用的紙，比 A4 小一點。</p>
         </div>
-        <div class="sc-media" data-src="assets/步_canva_開A4文件.mp4" data-poster="assets/步_canva_開A4文件_封面.jpg"></div>
+        <div class="sc-media" data-src="assets/步_canva_開B5文件.mp4" data-poster="assets/步_canva_開B5文件_封面.jpg"></div>
       </div>
       <div class="sc-slide sc-split">
         <div class="sc-txt">
@@ -137,7 +138,7 @@
 
     <div class="bg-white border-4 border-teal-200 rounded-3xl p-4 mt-4 text-xl">
       <p class="cute text-2xl font-extrabold text-teal-700 mb-2">這一步檢查</p>
-      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 開好一張<b>空白</b>的 A4 紙</label>
+      <label class="flex items-center gap-3 mb-2"><input type="checkbox" class="chk w-6 h-6"> 開好一張<b>空白</b>的 B5 紙（名字上寫 176 公釐 × 250 公釐）</label>
       <label class="flex items-center gap-3"><input type="checkbox" class="chk w-6 h-6"> <b>作品名字</b>改好了</label>
     </div>
     <div class="stepnav"></div>
@@ -517,7 +518,7 @@ var firebaseConfig = {
   $('canvaLink').addEventListener('paste',function(){setTimeout(showLink,0);});
 
   // ===== 繳交學習單 =====
-  // 定位：全部是體驗題（不計分）。老師從 q1 的 Canva 連結開手冊看；q2＝開 A4 與認識介面自查、q3＝封面自查、q4＝目錄自查、q5＝手冊頁配對全對。
+  // 定位：全部是體驗題（不計分）。老師從 q1 的 Canva 連結開手冊看；q2＝開 B5 與認識介面自查、q3＝封面自查、q4＝目錄自查、q5＝手冊頁配對全對。
   function workDocId(idn){return WS+'__'+idn.grade+'-'+idn.className+'-'+idn.studentId;}
   function stepChecksDone(n){
     var cs=document.querySelectorAll('.step[data-step="'+n+'"] input.chk');
@@ -542,12 +543,12 @@ var firebaseConfig = {
     var experienceCompletion=Math.round((1+(openDone?1:0)+(coverDone?1:0)+(tocDone?1:0)+(quizOk?1:0))/5*100);
     var msg='確定要繳交學習單嗎？\nCanva 連結：已貼\n封面檢查：'+(coverDone?'都勾了':'還沒全勾')+'\n目錄檢查：'+(tocDone?'都勾了':'還沒全勾')+'\n各頁用途配對：'+(quizOk?'全對':'還沒全對');
     if(!confirm(msg))return;
-    var payload={worksheetId:WS,worksheetTitle:'台南小導遊養成記：Canva 導覽手冊（開 A4、認識介面、封面與目錄）',lessonPath:'g4/L08',
+    var payload={worksheetId:WS,worksheetTitle:'台南小導遊養成記：Canva 導覽手冊（開 B5、認識介面、封面與目錄）',lessonPath:'g4/L08',
       grade:idn.grade,className:idn.className,studentId:idn.studentId,
       answers:answers,qtypes:qtypes,
       qtexts:{
         q1:'學生貼上的 Canva 分享連結（老師開連結看手冊：封面與目錄）。',
-        q2:'開 A4 空白文件、改作品名字、認識編輯畫面的自我檢查是否都勾選。',
+        q2:'開 B5 空白文件、改作品名字、認識編輯畫面的自我檢查是否都勾選。',
         q3:'封面自我檢查（書名、三個景點；照片之後再放）是否都勾選。',
         q4:'目錄自我檢查（標題、章節與頁碼、景點名、靠左與圓點）是否都勾選。',
         q5:'手冊各頁用途配對（封面、目錄、行程規劃、路線圖、景點頁、封底）是否全對。'
@@ -572,7 +573,7 @@ var firebaseConfig = {
   };
 
   // ===== 學習路徑 =====
-  var STEP_NAMES=['看手冊','開A4','認識介面','封面','目錄','交作業'];
+  var STEP_NAMES=['看手冊','開B5','認識介面','封面','目錄','交作業'];
   var stepEls=[].slice.call(document.querySelectorAll('.step'));
   var curStep=1,visited={1:true},submittedOnce=false;
   function stepDone(n){
