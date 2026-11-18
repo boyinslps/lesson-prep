@@ -1,0 +1,230 @@
+{
+ "w": 1280,
+ "h": 720,
+ "band": 140,
+ "fps": 25,
+ "scenes": [
+  {
+   "dur": 4.0,
+   "img": "shots/doc3_a.png",
+   "step": "1",
+   "caption": "在文件，選起「地址」的字",
+   "sub": "從冒號後面，拖到最後",
+   "boxes": [
+    {
+     "t": 1.5,
+     "dur": 99,
+     "x": 272,
+     "y": 94,
+     "w": 216,
+     "h": 24,
+     "style": "select",
+     "grow": 1.8
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 700,
+     "y": 300
+    },
+    {
+     "t": 1.2,
+     "x": 272,
+     "y": 106,
+     "mode": "ibeam"
+    },
+    {
+     "t": 3.2,
+     "x": 488,
+     "y": 106,
+     "mode": "ibeam"
+    },
+    {
+     "t": 4.0,
+     "x": 488,
+     "y": 106,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 2.8,
+   "img": "shots/doc3_a.png",
+   "step": "2",
+   "caption": "按 Ctrl＋C　複製",
+   "sub": "再回到 Canva 的分頁",
+   "boxes": [
+    {
+     "t": 0,
+     "dur": 99,
+     "x": 272,
+     "y": 94,
+     "w": 216,
+     "h": 24,
+     "style": "select"
+    }
+   ],
+   "keys": [
+    {
+     "t": 0.3,
+     "dur": 1.8,
+     "keys": [
+      "Ctrl",
+      "C"
+     ],
+     "x": 900,
+     "y": 300
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 488,
+     "y": 106,
+     "mode": "ibeam"
+    },
+    {
+     "t": 2.8,
+     "x": 488,
+     "y": 106,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 3.2,
+   "img": "shots/canva/e0.png",
+   "imgs": [
+    {
+     "t": 1.6,
+     "img": "shots/canva/e1a.png"
+    }
+   ],
+   "step": "3",
+   "caption": "連按兩下要換的字",
+   "sub": "字裡面會出現閃閃的線",
+   "circles": [
+    {
+     "t": 0.3,
+     "dur": 1.2,
+     "x": 600,
+     "y": 293,
+     "w": 191,
+     "h": 22,
+     "pad": 6
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 988,
+     "y": 374
+    },
+    {
+     "t": 1.2,
+     "x": 727,
+     "y": 303,
+     "mode": "ibeam"
+    },
+    {
+     "t": 3.2,
+     "x": 727,
+     "y": 303,
+     "mode": "ibeam"
+    }
+   ],
+   "clicks": [
+    {
+     "t": 1.4,
+     "x": 727,
+     "y": 303
+    },
+    {
+     "t": 1.65,
+     "x": 727,
+     "y": 303
+    }
+   ]
+  },
+  {
+   "dur": 3.0,
+   "img": "shots/canva/e1a.png",
+   "imgs": [
+    {
+     "t": 1.4,
+     "img": "shots/canva/e1.png"
+    }
+   ],
+   "step": "4",
+   "caption": "按 Ctrl＋A　全選",
+   "sub": "整行字都變藍色",
+   "keys": [
+    {
+     "t": 0.3,
+     "dur": 1.5,
+     "keys": [
+      "Ctrl",
+      "A"
+     ],
+     "x": 640,
+     "y": 330
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 727,
+     "y": 303,
+     "mode": "ibeam"
+    },
+    {
+     "t": 3.0,
+     "x": 727,
+     "y": 303,
+     "mode": "ibeam"
+    }
+   ]
+  },
+  {
+   "dur": 3.6,
+   "img": "shots/canva/e1.png",
+   "imgs": [
+    {
+     "t": 2.0,
+     "img": "shots/canva/e2.png"
+    }
+   ],
+   "step": "5",
+   "caption": "按 Ctrl＋Shift＋V　貼上",
+   "sub": "按住 Ctrl 和 Shift，再按 V",
+   "keys": [
+    {
+     "t": 0.3,
+     "dur": 1.8,
+     "keys": [
+      "Ctrl",
+      "Shift",
+      "V"
+     ],
+     "x": 640,
+     "y": 330
+    }
+   ],
+   "cursor": [
+    {
+     "t": 0,
+     "x": 727,
+     "y": 303,
+     "mode": "ibeam"
+    },
+    {
+     "t": 3.6,
+     "x": 727,
+     "y": 303,
+     "mode": "ibeam"
+    }
+   ]
+  }
+ ]
+}
