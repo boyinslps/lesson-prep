@@ -1021,87 +1021,6 @@ LESSON1_QDEFS = [
 LESSON_BY_N[1].update(steps=lesson1_steps, quiz=LESSON1_QUIZ, qdefs=LESSON1_QDEFS)
 
 
-TT_HELPER = r'''
-<div class="tt" id="tt">
-  <div class="tthead"><label>出發時間 <select id="ttStart"></select></label></div>
-  <div class="ttcols"><span></span><span>站名</span><span>停留</span><span>到下一站</span><span>分鐘</span></div>
-  <div id="ttRows"></div>
-  <div class="ttbtns"><button type="button" id="ttAdd" class="btn-o">＋ 多一站</button><button type="button" id="ttDel" class="btn-o">－ 少一站</button></div>
-  <div class="ttout" id="ttOut"></div>
-  <button type="button" id="ttCopy" class="bigwiki" style="border:0;font-family:inherit;cursor:pointer">複製時間表</button>
-</div>
-<script>
-(function(){
-  var KEY='g4-L08-2:tt',MODES=['走路','機車','開車','公車','腳踏車'],STAYS=[[30,'30 分'],[60,'1 小時'],[90,'1.5 小時'],[120,'2 小時']];
-  function row(){return {name:'',stay:60,mode:'機車',min:null};}
-  var st={start:540,rows:[row(),row(),row()]};
-  try{
-    var o=JSON.parse(localStorage.getItem(KEY)||'null');
-    if(o&&typeof o.start==='number'&&o.rows&&o.rows.length>=2&&o.rows.length<=6){
-      st.start=o.start;
-      st.rows=o.rows.map(function(r){return {name:String(r.name||'').slice(0,30),stay:Number(r.stay)||60,mode:MODES.indexOf(r.mode)>=0?r.mode:'機車',min:(r.min===null||r.min===''||r.min===undefined)?null:Math.max(0,Math.min(180,Number(r.min)||0))};});
-    }
-  }catch(e){}
-  function save(){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
-  function $(id){return document.getElementById(id);}
-  function p2(n){return (n<10?'0':'')+n;}
-  function hm(t){t=((t%1440)+1440)%1440;return p2(Math.floor(t/60))+':'+p2(t%60);}
-  function stayTxt(m){for(var i=0;i<STAYS.length;i++)if(STAYS[i][0]===m)return STAYS[i][1];return m+' 分';}
-  function mk(tag,cls){var e=document.createElement(tag);if(cls)e.className=cls;return e;}
-  function sel(opts,val,cb){
-    var s=mk('select','ttsel');
-    opts.forEach(function(o){var op=mk('option');op.value=Array.isArray(o)?o[0]:o;op.textContent=Array.isArray(o)?o[1]:o;s.appendChild(op);});
-    s.value=val;s.onchange=function(){cb(s.value);};return s;
-  }
-  function out(){
-    var t=st.start,L=[],n=st.rows.length;   // t=null：前面有分鐘還沒填，後面的時間先不算
-    function T(x){return x===null?'＿＿:＿＿':hm(x);}
-    st.rows.forEach(function(r,i){
-      L.push(T(t)+'　第 '+(i+1)+' 站　'+(r.name.trim()||'＿＿＿'));
-      var end=t===null?null:t+r.stay;
-      if(i<n-1){L.push('停留約 '+stayTxt(r.stay));L.push('▼ '+r.mode+' '+(r.min===null?'＿':r.min)+' 分');t=(end===null||r.min===null)?null:end+r.min;}
-      else L.push('停留約 '+stayTxt(r.stay)+'，'+T(end)+' 回家');
-    });
-    $('ttOut').textContent=L.join('\n');
-  }
-  function draw(){
-    var host=$('ttRows');host.innerHTML='';
-    st.rows.forEach(function(r,i){
-      var d=mk('div','ttrow'),last=i===st.rows.length-1;
-      var lb=mk('b','ttn');lb.textContent='第 '+(i+1)+' 站';d.appendChild(lb);
-      var nm=mk('input','ttin');nm.type='text';nm.value=r.name;nm.maxLength=30;nm.autocomplete='off';
-      nm.oninput=function(){r.name=nm.value;save();out();};d.appendChild(nm);
-      d.appendChild(sel(STAYS,r.stay,function(v){r.stay=Number(v);save();out();}));
-      if(last){d.appendChild(mk('span'));d.appendChild(mk('span'));}
-      else{
-        d.appendChild(sel(MODES,r.mode,function(v){r.mode=v;save();out();}));
-        var mi=mk('input','ttin ttmin');mi.type='text';mi.inputMode='numeric';mi.maxLength=3;mi.value=r.min===null?'':r.min;
-        mi.oninput=function(){var v=mi.value.replace(/[^0-9]/g,'');if(v!==mi.value)mi.value=v;r.min=v===''?null:Math.min(180,Number(v));save();out();};
-        d.appendChild(mi);
-      }
-      host.appendChild(d);
-    });
-    $('ttAdd').disabled=st.rows.length>=6;$('ttDel').disabled=st.rows.length<=2;
-    out();
-  }
-  var ss=$('ttStart');
-  for(var m=480;m<=600;m+=30){var op=mk('option');op.value=m;op.textContent=hm(m);ss.appendChild(op);}
-  if(!ss.querySelector('option[value="'+st.start+'"]'))st.start=540;
-  ss.value=st.start;ss.className='ttsel';ss.onchange=function(){st.start=Number(ss.value);save();out();};
-  $('ttAdd').onclick=function(){if(st.rows.length<6){st.rows.push(row());save();draw();}};
-  $('ttDel').onclick=function(){if(st.rows.length>2){st.rows.pop();save();draw();}};
-  $('ttCopy').onclick=function(){
-    var b=this,txt=$('ttOut').textContent,old=b.textContent;
-    function done(){b.textContent='✓ 已複製，到 Canva 貼上';setTimeout(function(){b.textContent=old;},1800);}
-    function fb(){var ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;left:-9999px;top:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){b.textContent='請選取文字，按 Ctrl+C 複製';}document.body.removeChild(ta);}
-    try{navigator.clipboard.writeText(txt).then(done,fb);}catch(e){fb();}
-  };
-  draw();
-})();
-</script>
-'''
-
-
 
 
 def lesson2_steps():
@@ -1116,12 +1035,14 @@ def lesson2_steps():
                   + '<p class="tip">交通方式選「<b>機車</b>」。搭公車的人也選機車，只是用來畫線。</p>'), nonum=True)
     s3 = acts(act('把地圖<b>截圖</b>，貼到第 4 頁',
                   op_media('截圖貼上') + '<p class="tip">地圖下面打一行「<b>圖片：Google 地圖</b>」。</p>'), nonum=True)
-    s4 = acts(act('用<b>小幫手</b>排時間表，複製到第 3 頁',
-                  '<div class="ttwrap"><img src="../assets/手冊_p3.jpg" alt="行程規劃範例頁" class="shot zoomable">'
-                  '<div><p class="sub">分鐘數從<b>你的 L05 文件</b>抄。</p>'
+    must = [('景點', '每一站的名字'), ('時間', '幾點到、停多久'), ('交通方式', '走路、機車、開車…'), ('看得出順序', '第 1 站、第 2 站…照順序排')]
+    must_html = ''.join('<div><span class="n">%d</span><span>%s<br><span class="d">%s</span></span></div>' % (k + 1, x, y) for k, (x, y) in enumerate(must))
+    s4 = acts(act('第 3 頁做<b>時間表</b>，下面 4 樣一定要有',
+                  '<div class="legend">%s</div>' % must_html
+                  + '<div class="ttwrap" style="margin-top:14px"><img src="../assets/手冊_p3.jpg" alt="行程規劃範例頁：每一站有時間、站名、停留時間，站與站之間寫交通方式和分鐘" class="shot zoomable">'
+                  '<div><p class="sub">照<b>你的 L05 文件</b>做，不用重查。排法可以不一樣，只要 4 樣都有。</p>'
                   '<a class="btn-s" href="%s" target="_blank" rel="noopener">打開 L05 學習單 ↗</a></div></div>' % L05_URL
-                  + TT_HELPER +
-                  '<p class="tip">Canva 第 3 頁：加文字框，<kbd>Ctrl</kbd> + <kbd>V</kbd> 貼上。</p>'), nonum=True)
+                  + op_media('加文字')), nonum=True)
     s5 = acts(act('連結和第 1 課一樣，<b>再貼一次</b>就好',
                   '<details style="margin:6px 0 10px"><summary class="sub" style="cursor:pointer">忘記怎麼分享？看步驟圖</summary>%s</details>' % op_media('分享連結')
                   + '<label class="block text-xl font-extrabold mb-1" for="canvaLink">Canva 連結</label>'
@@ -1135,7 +1056,7 @@ def lesson2_steps():
         dict(name='貼地圖', color='violet', title='截圖貼到路線圖頁', wiki='snip-paste', body=s3,
              checks=['第 4 頁有<b>地圖</b>', '地圖<b>夠大</b>', '有寫<b>圖片來源</b>']),
         dict(name='時間表', color='orange', title='排行程時間表', wiki='add-text', body=s4,
-             checks=['第 3 頁有<b>時間表</b>', '每一站都有<b>時間和站名</b>', '最後有<b>回家時間</b>']),
+             checks=['每一站都有<b>景點</b>和<b>時間</b>', '站與站之間有<b>交通方式</b>', '一看就知道<b>先後順序</b>']),
         dict(name='交作業', color='rose', title='分享連結，交作業', wiki='share', body=s5, submit=True,
              checks=['連結<b>貼好</b>了（顯示 ✓）', '權限是<b>可供檢視</b>', '開<b>新分頁</b>貼上連結，打得開'], checks_title='交之前檢查'),
     ]
@@ -1145,7 +1066,7 @@ LESSON2_QDEFS = [
     dict(id='q1', kind='link', text='學生貼上的 Canva 分享連結（老師開連結看路線圖與時間表）。'),
     dict(id='q2', steps=[1], label='加三頁', text='手冊多了三頁（目錄、行程規劃、路線圖），三頁都有標題（勾選）。'),
     dict(id='q3', steps=[2, 3], label='路線圖', text='Google 地圖上有全部的站、看到整條路線；第 4 頁貼了夠大的地圖並寫了圖片來源（全部勾選）。'),
-    dict(id='q4', steps=[4], label='時間表', text='第 3 頁有時間表、每一站都有時間和站名、最後有回家時間（全部勾選）；答案另附小幫手產生的時間表文字。', extraFrom='#ttOut'),
+    dict(id='q4', steps=[4], label='時間表', text='第 3 頁的時間表有景點、時間、交通方式，而且看得出順序（全部勾選）。'),
 ]
 
 LESSON_BY_N[2].update(steps=lesson2_steps, qdefs=LESSON2_QDEFS)
