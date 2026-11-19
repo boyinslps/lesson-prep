@@ -994,6 +994,11 @@ def lesson1_steps():
             '<label class="block text-xl font-extrabold mb-1" for="canvaLink">Canva 連結</label>'
             '<input id="canvaLink" type="text" autocomplete="off" class="w-full border-4 border-slate-300 rounded-2xl px-4 py-3 text-xl font-bold focus:border-rose-400 outline-none">'
             '<p id="linkMsg" class="text-lg font-bold mt-1 min-h-[28px]"></p>'))
+    s1 += terms(('B5', '一種紙張大小，比 A4 小，適合做小冊子'), ('自訂尺寸', '自己決定紙的寬和高，不用現成的大小'))
+    s2 = s2.replace('<p class="warn">弄亂了', terms(('工具列', '左邊那一排按鈕，要加東西都從這裡開始'), ('復原', '回到上一步，快速鍵是 Ctrl + Z'), ('分享', '做好以後，從這裡拿到作品的連結')) + '<p class="warn">弄亂了', 1)
+    s3 += terms(('範本', '別人做好的版型，改成自己的字就能用'), ('套用全部', '把範本所有頁一次放進你的作品，這次不要按'))
+    s4 += terms(('文字框', '圍住一段字的框，拖框就能移動字'), ('字型', '字的樣子；要選標示「繁體中文」的，中文才會正常顯示'))
+    s5 += terms(('分享連結', '一串網址，老師貼到瀏覽器就能打開你的作品'), ('可供檢視', '拿到連結的人只能看，不能改你的作品'))
     return [
         dict(name='開文件', color='sky', title='開一份 B5 新文件', wiki='open-b5', body=s1,
              checks=['開好空白的 <b>B5</b>（176 × 250 公釐）', '<b>作品名字</b>改好了']),
