@@ -899,7 +899,12 @@ LESSON_CSS = r'''<style>
   .terms .th{display:inline-flex;align-items:center;gap:6px;font-weight:900;font-size:1rem;color:#92400e;background:#fef3c7;border-radius:999px;padding:0 12px;margin-bottom:4px}
   .terms dl{margin:0}.terms dt{display:inline;font-weight:900;font-size:1.2rem;color:#b45309}
   .terms dd{display:inline;margin:0;font-weight:700;font-size:1.15rem;color:#334155}
-  .terms .row{margin:3px 0}
+  .terms .row{margin:6px 0;display:flex;align-items:center;gap:14px}
+  .terms .tx{flex:1;min-width:0}
+  .bicon{flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:64px;height:64px;padding:0 10px;background:#fff;border:3px solid #94a3b8;border-radius:14px;box-shadow:0 3px 0 #cbd5e1;color:#1e293b;font-weight:900;font-size:1.15rem;white-space:nowrap}
+  .bicon svg{width:40px;height:40px}
+  .bicon.share{background:#7c3aed;border-color:#6d28d9;color:#fff;box-shadow:0 3px 0 #5b21b6}
+  .bicon.wide{padding:0 18px}
   .ttwrap{display:flex;gap:18px;align-items:flex-start;margin-bottom:14px}
   .ttwrap img{width:190px;flex:none}
   .tt{background:var(--sbg);border:3px solid var(--sbd);border-radius:22px;padding:14px 16px;margin-top:12px}
@@ -995,7 +1000,7 @@ def lesson1_steps():
             '<input id="canvaLink" type="text" autocomplete="off" class="w-full border-4 border-slate-300 rounded-2xl px-4 py-3 text-xl font-bold focus:border-rose-400 outline-none">'
             '<p id="linkMsg" class="text-lg font-bold mt-1 min-h-[28px]"></p>'))
     s1 += terms(('B5', '一種紙張大小，比 A4 小，適合做小冊子'), ('自訂尺寸', '自己決定紙的寬和高，不用現成的大小'))
-    s2 = s2.replace('<p class="warn">弄亂了', terms(('工具列', '左邊那一排按鈕，要加東西都從這裡開始'), ('復原', '回到上一步，快速鍵是 Ctrl + Z'), ('分享', '做好以後，從這裡拿到作品的連結')) + '<p class="warn">弄亂了', 1)
+    s2 = s2.replace('<p class="warn">弄亂了', terms(('工具列', '左邊那一排按鈕，要加東西都從這裡開始'), ('復原', '回到上一步，快速鍵是 Ctrl + Z', 'undo'), ('分享', '做好以後，按右上角這顆，拿到作品的連結', 'share')) + '<p class="warn">弄亂了', 1)
     s3 += terms(('範本', '別人做好的版型，改成自己的字就能用'), ('套用全部', '把範本所有頁一次放進你的作品，這次不要按'))
     s4 += terms(('文字框', '圍住一段字的框，拖框就能移動字'), ('字型', '字的樣子；要選標示「繁體中文」的，中文才會正常顯示'))
     s5 += terms(('分享連結', '一串網址，老師貼到瀏覽器就能打開你的作品'), ('可供檢視', '拿到連結的人只能看，不能改你的作品'))
@@ -1033,10 +1038,20 @@ LESSON_BY_N[1].update(steps=lesson1_steps, quiz=LESSON1_QUIZ, qdefs=LESSON1_QDEF
 
 
 
+BICONS = {
+    'bullet': '<span class="bicon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><circle cx="7" cy="9" r="2.4" fill="currentColor"/><circle cx="7" cy="20" r="2.4" fill="currentColor"/><circle cx="7" cy="31" r="2.4" fill="currentColor"/><path d="M15 9h20M15 20h20M15 31h20"/></svg></span>',
+    'alignleft': '<span class="bicon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M5 8h30M5 16h19M5 24h30M5 32h19"/></svg></span>',
+    'addpage': '<span class="bicon wide">＋ 新增頁面</span>',
+    'trash': '<span class="bicon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 11h24M16 11V7h8v4M11 11l1.5 22h15L29 11M17 17v11M23 17v11"/></svg></span>',
+    'undo': '<span class="bicon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9L7 16l7 7"/><path d="M7 16h15a9 9 0 0 1 0 18h-8"/></svg></span>',
+    'share': '<span class="bicon share wide">分享</span>',
+}
+
+
 def terms(*pairs):
     """名詞解釋框：每項＝(專有名詞, 一句白話解釋)。學生頁固定用 Canva 的正式名稱，解釋放在這個獨立的框。"""
     return ('<div class="terms"><span class="th">📖 名詞小卡</span><dl>%s</dl></div>'
-            % ''.join('<div class="row"><dt>%s</dt><dd>：%s</dd></div>' % (a, b) for a, b in pairs))
+            % ''.join('<div class="row">%s<div class="tx"><dt>%s</dt><dd>：%s</dd></div></div>' % (BICONS.get(x[2], '') if len(x) > 2 else '', x[0], x[1]) for x in pairs))
 
 
 def lesson2_steps():
@@ -1045,7 +1060,7 @@ def lesson2_steps():
     pmap_html = ''.join('<div><span class="n">%s</span><span>第 %s 頁：%s<br><span class="d">%s</span></span></div>' % (n, n, a, b) for n, a, b in pmap)
     s1 = acts(act('按 <b>＋</b> 多三張紙，每張<b>打上標題</b>',
                   '<div class="legend">%s</div>' % pmap_html + op_media('新增頁面') + op_media('加文字')
-                  + terms(('頁面', 'Canva 裡的一張紙，手冊的一頁就是一個頁面'), ('標題', '一頁最上面最大的字，說明這頁是什麼'))), nonum=True)
+                  + terms(('新增頁面', '頁面下方這顆按鈕，按一下多一張新的頁面', 'addpage'), ('刪除頁面', '多按了？點頁面上方的垃圾桶刪掉', 'trash'), ('頁面', 'Canva 裡的一張紙，手冊的一頁就是一個頁面'), ('標題', '一頁最上面最大的字，說明這頁是什麼'))), nonum=True)
     s2 = acts(act('開 <b>Google 地圖</b>，畫出整條路線',
                   '<div class="joinbtns"><a href="%s" target="_blank" rel="noopener" style="background:#0f766e">開 Google 地圖 ↗</a></div>' % GMAP_DIR
                   + op_media('Google地圖路線')
@@ -1074,7 +1089,7 @@ def lesson2_steps():
                      '<div style="display:flex;gap:10px;align-items:stretch;flex-wrap:wrap">%s</div>' % grp_html
                      + '<div class="legend" style="margin-top:14px">%s</div>' % mu_html
                      + '<p class="tip"><b>頁碼</b>先不用打，之後景點頁做好了再補。</p>'
-                     + terms(('目錄', '列出手冊有哪些章節的一頁，翻開就知道要去哪裡找'), ('項目符號', '每一行最前面的小圓點，用來一行一行列出東西'), ('靠左對齊', '每一行的字都從左邊開始排'))
+                     + terms(('目錄', '列出手冊有哪些章節的一頁，翻開就知道要去哪裡找'), ('項目符號', '每一行最前面的小圓點，用來一行一行列出東西；按工具列上這顆', 'bullet'), ('靠左對齊', '每一行的字都從左邊開始排；按工具列上這顆，按到字靠左就停', 'alignleft'))
                      + op_media('目錄靠左列點')), nonum=True)
     s6 = acts(act('連結和第 1 課一樣，<b>再貼一次</b>就好',
                   '<details style="margin:6px 0 10px"><summary class="sub" style="cursor:pointer">忘記怎麼分享？看步驟圖</summary>%s</details>' % op_media('分享連結')
