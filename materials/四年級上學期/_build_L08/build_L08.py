@@ -105,14 +105,14 @@ LESSONS = [
          status='soon', file='第3課_第1站景點頁.html', ws='g4-L08-3', path='g4/L08'),
     dict(n=4, title='其他景點與美食頁', goal='複製第 1 站的頁來改，美食也算一站',
          status='soon', file='第4課_其他景點與美食.html', ws='g4-L08-4', path='g4/L08'),
-    dict(n=5, title='目錄、小提醒、封底、檢查與分享', goal='最後做目錄（頁碼才固定），整本檢查再分享',
-         status='soon', file='第5課_目錄與完成.html', ws='g4-L08-5', path='g4/L08'),
+    dict(n=5, title='小提醒、封底、檢查與分享', goal='做小提醒和封底，整本檢查再分享',
+         status='soon', file='第5課_小提醒與完成.html', ws='g4-L08-5', path='g4/L08'),
 ]
 LESSON_BY_N = {l['n']: l for l in LESSONS}
 
 # 手冊 11 頁：(檔名, 頁, 頁名, 第幾課做)
 PAGES = [
-    ('手冊_p1.jpg', 1, '封面', 1), ('手冊_p2.jpg', 2, '目錄', 5), ('手冊_p3.jpg', 3, '行程規劃', 2),
+    ('手冊_p1.jpg', 1, '封面', 1), ('手冊_p2.jpg', 2, '目錄', 2), ('手冊_p3.jpg', 3, '行程規劃', 2),
     ('手冊_p4.jpg', 4, '路線圖', 2), ('手冊_p5.jpg', 5, '第1站景點', 3), ('手冊_p6.jpg', 6, '第2站景點', 4),
     ('手冊_p7.jpg', 7, '第3站午餐', 4), ('手冊_p8.jpg', 8, '第4站景點', 4), ('手冊_p9.jpg', 9, '第5站小吃', 4),
     ('手冊_p10.jpg', 10, '小提醒', 5), ('手冊_p11.jpg', 11, '封底', 5),
@@ -195,7 +195,7 @@ SKILLS = [
          kw=['存照片', '下載照片', '另存圖片', '右鍵', '台南旅遊網', '找照片'],
          media=('links', [('開台南旅遊網', TWTAINAN, 'second')]),
          points=['到台南旅遊網，找到你的景點', '在照片上按<b>右鍵</b> →「<b>另存圖片</b>」', '存到「<b>下載</b>」資料夾']),
-    dict(id='align-list', cats=['text'], lesson=5, title='靠左和圓點（項目符號）',
+    dict(id='align-list', cats=['text'], lesson=2, title='靠左和圓點（項目符號）',
          kw=['靠左', '對齊', '置中', '圓點', '項目符號', '列點', '清單', '目錄'],
          media=('op', '目錄靠左列點'),
          points=['連按兩下 → <kbd>Ctrl</kbd> + <kbd>A</kbd>', '「<b>對齊</b>」按到靠左', '按「<b>項目符號</b>」，每行前面有圓點']),
@@ -1025,7 +1025,7 @@ LESSON_BY_N[1].update(steps=lesson1_steps, quiz=LESSON1_QUIZ, qdefs=LESSON1_QDEF
 
 def lesson2_steps():
     """第 2 課：路線圖與行程時間表。每步一句話＋步驟圖＋勾選。"""
-    pmap = [('2', '目錄', '先空著，第 5 課才做'), ('3', '行程規劃', '時間表'), ('4', '路線圖', 'Google 地圖截圖')]
+    pmap = [('2', '目錄', '第 5 步做'), ('3', '行程規劃', '時間表'), ('4', '路線圖', 'Google 地圖截圖')]
     pmap_html = ''.join('<div><span class="n">%s</span><span>第 %s 頁：%s<br><span class="d">%s</span></span></div>' % (n, n, a, b) for n, a, b in pmap)
     s1 = acts(act('按 <b>＋</b> 多三張紙，每張<b>打上標題</b>',
                   '<div class="legend">%s</div>' % pmap_html + op_media('新增頁面') + op_media('加文字')), nonum=True)
@@ -1043,11 +1043,19 @@ def lesson2_steps():
                   '<div><p class="sub">照<b>你的 L05 文件</b>做，不用重查。排法可以不一樣，只要 4 樣都有。</p>'
                   '<a class="btn-s" href="%s" target="_blank" rel="noopener">打開 L05 學習單 ↗</a></div></div>' % L05_URL
                   + op_media('加文字')), nonum=True)
-    s5 = acts(act('連結和第 1 課一樣，<b>再貼一次</b>就好',
+    mu = [('章節名', '行程規劃、路線圖、第 1 站…'), ('頁碼', '每個章節在第幾頁'), ('靠左', '一行一個章節'), ('圓點', '每行前面有小圓點')]
+    mu_html = ''.join('<div><span class="n">%d</span><span>%s<br><span class="d">%s</span></span></div>' % (k + 1, x, y) for k, (x, y) in enumerate(mu))
+    s5 = acts(act('第 2 頁做<b>目錄</b>，下面 4 樣一定要有',
+                  '<div class="legend">%s</div>' % mu_html
+                  + '<div class="ttwrap" style="margin-top:14px"><img src="../assets/手冊_p2.jpg" alt="範例目錄：靠左、每行有圓點，行程規劃 3、路線圖 4、第 1 站 5…" class="shot zoomable">'
+                  '<div><p class="sub">頁碼：封面 1、目錄 2、行程規劃 3、路線圖 4，之後<b>一站一頁</b>往後數。景點名用你自己的。</p></div></div>'
+                  + op_media('目錄靠左列點')), nonum=True)
+    s6 = acts(act('連結和第 1 課一樣，<b>再貼一次</b>就好',
                   '<details style="margin:6px 0 10px"><summary class="sub" style="cursor:pointer">忘記怎麼分享？看步驟圖</summary>%s</details>' % op_media('分享連結')
                   + '<label class="block text-xl font-extrabold mb-1" for="canvaLink">Canva 連結</label>'
                   '<input id="canvaLink" type="text" autocomplete="off" class="w-full border-4 border-slate-300 rounded-2xl px-4 py-3 text-xl font-bold focus:border-rose-400 outline-none">'
                   '<p id="linkMsg" class="text-lg font-bold mt-1 min-h-[28px]"></p>'), nonum=True)
+    s5, s6 = s5, s6
     return [
         dict(name='加三頁', color='sky', title='加三張新的紙', wiki='new-page', body=s1,
              checks=['多了<b>三頁</b>', '三頁都有<b>標題</b>']),
@@ -1057,7 +1065,9 @@ def lesson2_steps():
              checks=['第 4 頁有<b>地圖</b>', '地圖<b>夠大</b>', '有寫<b>圖片來源</b>']),
         dict(name='時間表', color='orange', title='排行程時間表', wiki='add-text', body=s4,
              checks=['每一站都有<b>景點</b>和<b>時間</b>', '站與站之間有<b>交通方式</b>', '一看就知道<b>先後順序</b>']),
-        dict(name='交作業', color='rose', title='分享連結，交作業', wiki='share', body=s5, submit=True,
+        dict(name='目錄', color='teal', title='做目錄', wiki='align-list', body=s5,
+             checks=['有<b>章節名</b>和<b>頁碼</b>，景點名是我的', '目錄<b>靠左</b>，每行前面有<b>圓點</b>']),
+        dict(name='交作業', color='rose', title='分享連結，交作業', wiki='share', body=s6, submit=True,
              checks=['連結<b>貼好</b>了（顯示 ✓）', '權限是<b>可供檢視</b>', '開<b>新分頁</b>貼上連結，打得開'], checks_title='交之前檢查'),
     ]
 
@@ -1069,6 +1079,7 @@ LESSON2_QDEFS = [
     dict(id='q4', steps=[4], label='時間表', text='第 3 頁的時間表有景點、時間、交通方式，而且看得出順序（全部勾選）。'),
 ]
 
+LESSON2_QDEFS.insert(4, dict(id='q5', steps=[5], label='目錄', text='第 2 頁目錄有章節名和頁碼、靠左、每行有圓點（全部勾選）。'))
 LESSON_BY_N[2].update(steps=lesson2_steps, qdefs=LESSON2_QDEFS)
 
 
