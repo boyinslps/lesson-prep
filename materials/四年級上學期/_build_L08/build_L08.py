@@ -195,10 +195,10 @@ SKILLS = [
          kw=['存照片', '下載照片', '另存圖片', '右鍵', '台南旅遊網', '找照片'],
          media=('links', [('開台南旅遊網', TWTAINAN, 'second')]),
          points=['到台南旅遊網，找到你的景點', '在照片上按<b>右鍵</b> →「<b>另存圖片</b>」', '存到「<b>下載</b>」資料夾']),
-    dict(id='align-list', cats=['text'], lesson=2, title='靠左和圓點（項目符號）',
+    dict(id='align-list', cats=['text'], lesson=2, title='靠左和項目符號',
          kw=['靠左', '對齊', '置中', '圓點', '項目符號', '列點', '清單', '目錄'],
          media=('op', '目錄靠左列點'),
-         points=['連按兩下 → <kbd>Ctrl</kbd> + <kbd>A</kbd>', '「<b>對齊</b>」按到靠左', '按「<b>項目符號</b>」，每行前面有圓點']),
+         points=['連按兩下 → <kbd>Ctrl</kbd> + <kbd>A</kbd>', '「<b>對齊</b>」按到靠左', '按「<b>項目符號</b>」，每行前面就有小圓點']),
     dict(id='share', cats=['done'], lesson=1, title='分享連結（交作業）',
          kw=['分享', '連結', '網址', '交作業', '繳交', '可供檢視', '權限', '複製連結', '傳給老師', '怎麼交', '貼上'],
          media=('op', '分享連結'),
@@ -224,7 +224,7 @@ SYN = [
     ['貼上', '貼', 'ctrl+v', '貼連結'],
     ['名字', '檔名', '作品名字', '改名'],
     ['團隊', '加入', '邀請', '登入', '帳號'],
-    ['靠左', '對齊', '置中', '圓點', '點點', '小圓點', '項目符號', '列點', '清單'],
+    ['靠左', '對齊', '置中', '圓點', '點點', '小圓點', '項目符號', '符號', '列點', '清單'],
     ['b5', 'a4', '紙張', '尺寸', '公釐', '新文件', '開新', '建立', '怎麼開', '開檔'],
     ['畫面', '介面', '工具列', '在哪', '找不到'],
     ['地圖', '路線', 'google 地圖', '導航', '路線圖'],
@@ -895,6 +895,11 @@ LESSON_CSS = r'''<style>
   .joinbtns{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
   .joinbtns a{display:inline-flex;align-items:center;min-height:60px;padding:0 24px;border-radius:18px;font-size:1.35rem;font-weight:900;color:#fff;text-decoration:none;box-shadow:0 4px 0 rgba(0,0,0,.18)}
   .namerow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+  .terms{margin-top:14px;background:#fffbeb;border:3px solid #fcd34d;border-radius:18px;padding:10px 16px}
+  .terms .th{display:inline-flex;align-items:center;gap:6px;font-weight:900;font-size:1rem;color:#92400e;background:#fef3c7;border-radius:999px;padding:0 12px;margin-bottom:4px}
+  .terms dl{margin:0}.terms dt{display:inline;font-weight:900;font-size:1.2rem;color:#b45309}
+  .terms dd{display:inline;margin:0;font-weight:700;font-size:1.15rem;color:#334155}
+  .terms .row{margin:3px 0}
   .ttwrap{display:flex;gap:18px;align-items:flex-start;margin-bottom:14px}
   .ttwrap img{width:190px;flex:none}
   .tt{background:var(--sbg);border:3px solid var(--sbd);border-radius:22px;padding:14px 16px;margin-top:12px}
@@ -1023,18 +1028,26 @@ LESSON_BY_N[1].update(steps=lesson1_steps, quiz=LESSON1_QUIZ, qdefs=LESSON1_QDEF
 
 
 
+def terms(*pairs):
+    """名詞解釋框：每項＝(專有名詞, 一句白話解釋)。學生頁固定用 Canva 的正式名稱，解釋放在這個獨立的框。"""
+    return ('<div class="terms"><span class="th">📖 名詞小卡</span><dl>%s</dl></div>'
+            % ''.join('<div class="row"><dt>%s</dt><dd>：%s</dd></div>' % (a, b) for a, b in pairs))
+
+
 def lesson2_steps():
     """第 2 課：路線圖與行程時間表。每步一句話＋步驟圖＋勾選。"""
     pmap = [('2', '目錄', '下一步做'), ('3', '行程規劃', '時間表'), ('4', '路線圖', 'Google 地圖截圖')]
     pmap_html = ''.join('<div><span class="n">%s</span><span>第 %s 頁：%s<br><span class="d">%s</span></span></div>' % (n, n, a, b) for n, a, b in pmap)
     s1 = acts(act('按 <b>＋</b> 多三張紙，每張<b>打上標題</b>',
-                  '<div class="legend">%s</div>' % pmap_html + op_media('新增頁面') + op_media('加文字')), nonum=True)
+                  '<div class="legend">%s</div>' % pmap_html + op_media('新增頁面') + op_media('加文字')
+                  + terms(('頁面', 'Canva 裡的一張紙，手冊的一頁就是一個頁面'), ('標題', '一頁最上面最大的字，說明這頁是什麼'))), nonum=True)
     s2 = acts(act('開 <b>Google 地圖</b>，畫出整條路線',
                   '<div class="joinbtns"><a href="%s" target="_blank" rel="noopener" style="background:#0f766e">開 Google 地圖 ↗</a></div>' % GMAP_DIR
                   + op_media('Google地圖路線')
                   + '<p class="tip">交通方式選「<b>機車</b>」。搭公車的人也選機車，只是用來畫線。</p>'), nonum=True)
     s3 = acts(act('把地圖<b>截圖</b>，貼到第 4 頁',
-                  op_media('截圖貼上') + '<p class="tip">地圖下面打一行「<b>圖片：Google 地圖</b>」。</p>'), nonum=True)
+                  op_media('截圖貼上') + '<p class="tip">地圖下面打一行「<b>圖片：Google 地圖</b>」。</p>'
+                  + terms(('截圖', '把螢幕上看到的畫面拍成一張圖'), ('圖片來源', '這張圖是從哪裡來的，寫出來是尊重原作者'))), nonum=True)
     must = [('景點', '每一站的名字'), ('時間', '幾點到、停多久'), ('交通方式', '走路、機車、開車…'), ('看得出順序', '第 1 站、第 2 站…照順序排')]
     must_html = ''.join('<div><span class="n">%d</span><span>%s<br><span class="d">%s</span></span></div>' % (k + 1, x, y) for k, (x, y) in enumerate(must))
     s4 = acts(act('第 3 頁做<b>時間表</b>，下面 4 樣一定要有',
@@ -1049,24 +1062,26 @@ def lesson2_steps():
     grp_html = ''.join('<div style="flex:%d;background:%s;border:3px solid %s;border-radius:16px;padding:8px 12px"><p style="margin:0 0 4px;font-weight:900;color:%s;font-size:1.15rem">%s</p>%s</div>'
                        % (len(c) + 1, bg, fg, fg, t, ''.join('<span style="display:inline-block;background:#fff;border-radius:10px;padding:0 10px;margin:2px 4px 2px 0;font-weight:800;font-size:1.1rem">%s</span>' % x for x in c))
                        for bg, fg, t, c in grp)
-    mu = [('章節名', '手冊有哪些章節，一行一個'), ('照順序', '從行程規劃寫到旅行小提醒'), ('靠左', '每行都靠左邊'), ('圓點', '每行前面有小圓點')]
+    mu = [('章節名', '手冊有哪些章節，一行一個'), ('照順序', '從行程規劃寫到旅行小提醒'), ('靠左', '每行都靠左邊'), ('項目符號', '每行前面有小圓點')]
     mu_html = ''.join('<div><span class="n">%d</span><span>%s<br><span class="d">%s</span></span></div>' % (k + 1, x, y) for k, (x, y) in enumerate(mu))
     s_toc = acts(act('第 2 頁做<b>目錄</b>：看一眼就知道手冊有什麼',
                      '<p class="sub" style="margin:0 0 8px">手冊分三塊：先看全貌 → 景點介紹 → 最後收尾。目錄列出<b>封面、目錄以外</b>的每個章節。</p>'
                      '<div style="display:flex;gap:10px;align-items:stretch;flex-wrap:wrap">%s</div>' % grp_html
                      + '<div class="legend" style="margin-top:14px">%s</div>' % mu_html
                      + '<p class="tip"><b>頁碼</b>先不用打，之後景點頁做好了再補。</p>'
+                     + terms(('目錄', '列出手冊有哪些章節的一頁，翻開就知道要去哪裡找'), ('項目符號', '每一行最前面的小圓點，用來一行一行列出東西'), ('靠左對齊', '每一行的字都從左邊開始排'))
                      + op_media('目錄靠左列點')), nonum=True)
     s6 = acts(act('連結和第 1 課一樣，<b>再貼一次</b>就好',
                   '<details style="margin:6px 0 10px"><summary class="sub" style="cursor:pointer">忘記怎麼分享？看步驟圖</summary>%s</details>' % op_media('分享連結')
                   + '<label class="block text-xl font-extrabold mb-1" for="canvaLink">Canva 連結</label>'
                   '<input id="canvaLink" type="text" autocomplete="off" class="w-full border-4 border-slate-300 rounded-2xl px-4 py-3 text-xl font-bold focus:border-rose-400 outline-none">'
-                  '<p id="linkMsg" class="text-lg font-bold mt-1 min-h-[28px]"></p>'), nonum=True)
+                  '<p id="linkMsg" class="text-lg font-bold mt-1 min-h-[28px]"></p>'
+                  + terms(('分享連結', '一串網址，老師貼到瀏覽器就能打開你的作品'), ('可供檢視', '拿到連結的人只能看，不能改你的作品'))), nonum=True)
     return [
         dict(name='加三頁', color='sky', title='加三張新的紙', wiki='new-page', body=s1,
              checks=['多了<b>三頁</b>', '三頁都有<b>標題</b>']),
         dict(name='目錄', color='orange', title='做目錄', wiki='align-list', body=s_toc,
-             checks=['有每一個<b>章節名</b>，一行一個', '目錄<b>靠左</b>，每行前面有<b>圓點</b>']),
+             checks=['有每一個<b>章節名</b>，一行一個', '目錄<b>靠左</b>，每行前面有<b>項目符號</b>（小圓點）']),
         dict(name='畫路線', color='teal', title='用 Google 地圖畫路線', wiki='gmap-route', body=s2,
              checks=['地圖上有我<b>全部的站</b>', '看到<b>整條路線</b>']),
         dict(name='貼地圖', color='violet', title='截圖貼到路線圖頁', wiki='snip-paste', body=s3,
@@ -1081,7 +1096,7 @@ def lesson2_steps():
 LESSON2_QDEFS = [
     dict(id='q1', kind='link', text='學生貼上的 Canva 分享連結（老師開連結看目錄、行程規劃與路線圖）。'),
     dict(id='q2', steps=[1], label='加三頁', text='手冊多了三頁（目錄、行程規劃、路線圖），三頁都有標題（勾選）。'),
-    dict(id='q3', steps=[2], label='目錄', text='第 2 頁目錄有每個章節名（一行一個）、靠左、每行有圓點，頁碼先不填（全部勾選）。'),
+    dict(id='q3', steps=[2], label='目錄', text='第 2 頁目錄有每個章節名（一行一個）、靠左、每行有項目符號（小圓點），頁碼先不填（全部勾選）。'),
     dict(id='q4', steps=[3, 4], label='路線圖', text='Google 地圖上有全部的站、看到整條路線；第 4 頁貼了夠大的地圖並寫了圖片來源（全部勾選）。'),
     dict(id='q5', steps=[5], label='時間表', text='第 3 頁的時間表有景點、時間、交通方式，而且看得出順序（全部勾選）。'),
 ]
