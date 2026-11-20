@@ -63,12 +63,8 @@ STEP_TOPIC = '''
   <!-- ===== 步驟 1：拿回主題、確認 ===== -->
   <section class="step" data-step="1">
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-emerald-700 m-0">拿回你的主題，確認一下</h2>
-      <p class="text-slate-600 mt-2 text-lg">上一節你選好了題目。先填好最上面的年級、班級、座號，再按「拿回我的主題」。上一節沒存到的話，直接在下面寫。</p>
-      <div class="flex gap-2 flex-wrap mt-3">
-        <button type="button" id="topicLoad" class="cute bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">拿回我的主題</button>
-      </div>
-      <p id="topicStat" class="text-base font-bold mt-3 min-h-[24px]"></p>
+      <h2 class="cute text-3xl font-extrabold text-emerald-700 m-0">我的主題：拿回來，確認一下</h2>
+      <p class="text-slate-600 mt-2 text-lg">上一節你選好了題目。先填好最上面的年級、班級、座號，再按下面的「讀取拿回」。上一節沒存到的話，直接在下面寫。寫好可以按「先繳交（存檔）」。</p>
     </div>
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm space-y-5">
       <div><label for="cat" class="cute text-xl font-extrabold text-emerald-700">我選的類型</label>
@@ -81,13 +77,14 @@ STEP_TOPIC = '''
       <div><label for="core" class="cute text-xl font-extrabold text-emerald-700">我的核心訊息（一句話，20 字內）</label>
         <textarea id="core" data-k="core" rows="2" class="fld ans mt-2 text-lg"></textarea></div>
     </div>
+    @@CK@@
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm">
       <div class="flex items-center gap-2 flex-wrap"><p class="cute text-xl font-extrabold text-emerald-700 m-0">我確認了</p><span class="qtypeSlot" data-qid="tconf"></span></div>
       <div id="tconfOpts" class="space-y-2 mt-3"></div>
     </div>
     <div class="stepnav"></div>
   </section>
-'''
+'''.replace('@@CK@@', M.ckpt.CARD)
 
 # 步驟 8（檢查、繳交）：不交 Canva 連結；自己檢查台詞和關鍵字、Canva 專案
 STEP_SUBMIT = '''
@@ -126,13 +123,13 @@ def renum(s, n):
     return re.sub(r'<section class="step( hidden)?"', '<section class="step' + (' hidden' if n > 1 else '') + '"', s, count=1)
 
 
-ORDER = [STEP_TOPIC, L7.STEP_VIDEOS, M.STEP_PARTS, M.STEP_DEMO, L7.STEP_TIPS, M.STEP_AI, M.STEP_WRITE, M.STEP_COPY, M.STEP_KW, STEP_SUBMIT]   # C_MAKE（建立影片、專案命名）2026-11-17 移到下週 L09，先不放
+ORDER = [L7.STEP_VIDEOS, M.STEP_PARTS, L7.STEP_KINDS, STEP_TOPIC, M.STEP_DEMO, L7.STEP_TIPS, M.STEP_AI, M.STEP_WRITE, M.STEP_COPY, M.STEP_KW, STEP_SUBMIT]   # C_MAKE（建立影片、專案命名）2026-11-17 移到下週 L09，先不放
 BODY = NL + ''.join(renum(s, i + 1) for i, s in enumerate(ORDER)) + NL
 
 _TEXTS = ['cat', 'hook', 'src', 'core', 'vtitle'] + ['%s%d' % (p, i) for p in 'sg' for i in range(1, M.MAXR + 1)]
 CFG = {
     'ws': 'g5-L08', 'lessonPath': 'g5/L08', 'title': '確認主題、寫台詞', 'stateKey': 'g5L08flow',
-    'steps': ['拿回主題', '看影片示範', '影片三部分', '看台詞示範', '跟 AI 聊天', '問 AI 教練', '寫台詞表', '複製進文件', '挑關鍵字', '檢查繳交'],
+    'steps': ['看影片示範', '影片三部分', '三種類型', '我的主題', '看台詞示範', '跟 AI 聊天', '問 AI 教練', '寫台詞表', '複製進文件', '挑關鍵字', '檢查繳交'],
     'reveals': [], 'revealOf': {}, 'autoFb': ['tip1', 'tip2'], 'textSettings': ['scriptGemUrl'],
     'qtypes': dict(M.QTYPES, **{'chk': 'experience', 'demo': 'experience', 'tip1': 'experience', 'tip2': 'experience'}),
     'choices': dict(M.CHOICES, **L7.CHOICES, **{
@@ -191,14 +188,14 @@ HOOKS = r'''
   }
   H.stepDone=function(n){
     var a=function(k){return state[k]!=null&&(Array.isArray(state[k])?state[k].length>0:filled(state[k]));};
-    if(n===1)return a('tconf')&&n!==curStep;
-    if(n===2)return a('demo')&&n!==curStep;
-    if(n===5)return a('tip1')&&a('tip2')&&n!==curStep;
-    if(n===6)return a('gem')&&n!==curStep;
-    if(n===7)return nS()>=7&&segsOk()&&filled(state.vtitle)&&a('write')&&n!==curStep;
-    if(n===8)return a('doc')&&n!==curStep;
-    if(n===9)return a('kw')&&n!==curStep;
-    return null;   // 第 3、4 步只閱讀、第 10 步是繳交：看過就算完成
+    if(n===1)return a('demo')&&n!==curStep;
+    if(n===4)return a('tconf')&&n!==curStep;
+    if(n===6)return a('tip1')&&a('tip2')&&n!==curStep;
+    if(n===7)return a('gem')&&n!==curStep;
+    if(n===8)return nS()>=7&&segsOk()&&filled(state.vtitle)&&a('write')&&n!==curStep;
+    if(n===9)return a('doc')&&n!==curStep;
+    if(n===10)return a('kw')&&n!==curStep;
+    return null;   // 第 2、3、5 步只閱讀、第 11 步是繳交：看過就算完成
   };
   H.report=function(){
     var over=slots().filter(function(i){return textOf(i).length>20;}).length;
@@ -329,11 +326,15 @@ HOOKS = r'''
     }).catch(function(e){console.warn('拿回台詞失敗',e);if(!silent)say(st,'現在拿不到，晚點再試試看。','amber');});
   }
   H.afterSubmit=function(i){if(workHas())saveWork(i).catch(function(e){console.warn('存台詞失敗',e);});};
-  $('topicLoad').onclick=function(){
-    var i=idn(),st=$('topicStat');
-    if(!i){say(st,NEEDID,'rose');return;}
-    if(!db){say(st,'現在連不上，晚點再試試看。','amber');return;}
-    loadTopic(i,st,false);
+  // 「讀取拿回」找不到這節的進度時，改讀 L07 存的主題
+  H.fallbackLoad=function(i){
+    return db.collection('studentWork').doc(wid(i,'g5-L07','topic')).get().then(function(doc){
+      if(!doc.exists){ckSay('還沒有找到你存過的進度，也沒有找到上一節存的主題。直接在下面寫，寫好按「先繳交（存檔）」。','amber');return;}
+      if(topicHas()&&!confirm('找到了你上一節存的主題。要用它換掉現在寫的主題嗎？'))return;
+      var d=(doc.data()||{}).data||{};
+      state.cat=d.cat||'';state.hook=d.hook||'';state.src=d.src||'';state.core=d.core||'';
+      save();renderAll();ckSay('✓ 已拿回你上一節存的主題。','emerald');
+    });
   };
   // 身分填好、而且這節的內容還是空的，就自動拿一次（先拿這節存的台詞，沒有再拿 L07 的主題；不會蓋掉學生已經寫的）
   function autoLoad(){var i=getIdentity();if(!identityValid(i)||!db||workHas())return;loadWork(i,$('topicStat'),true);}

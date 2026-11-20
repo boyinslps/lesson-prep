@@ -51,6 +51,7 @@ _NEW_SUBMIT = r'''  var submittedOnce=false,pendingCk=null;
     ckSay('找找看…','indigo');
     authResolved.then(function(){return ensureAuth();}).then(function(){return db.collection('studentWork').doc(progDocId(i)).get();}).then(function(doc){
       var dd=doc.exists?((doc.data()||{}).data||{}):{};
+      if(!dd.state&&H.fallbackLoad)return H.fallbackLoad(i);   // 頁面提供的備援（L08：讀 L07 存的主題）
       if(!dd.state){ckSay('還沒有找到你存過的進度。寫到一半先按「先繳交（存檔）」，下次就能拿回來。','amber');return;}
       var at='';try{var d=doc.data().updatedAt.toDate(),p=function(x){return ('0'+x).slice(-2);};at='（'+(d.getMonth()+1)+'/'+d.getDate()+' '+p(d.getHours())+':'+p(d.getMinutes())+'）';}catch(e){}
       if((H.hasContent?H.hasContent():true)&&!confirm('找到了！這是你上次存的進度'+at+'。\n\n要用它換掉現在寫的內容嗎？'))return;

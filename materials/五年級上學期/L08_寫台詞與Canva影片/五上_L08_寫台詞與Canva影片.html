@@ -116,36 +116,8 @@
   </header>
 
 
-  <!-- ===== 步驟 1：拿回主題、確認 ===== -->
-  <section class="step" data-step="1">
-    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
-      <h2 class="cute text-3xl font-extrabold text-emerald-700 m-0">拿回你的主題，確認一下</h2>
-      <p class="text-slate-600 mt-2 text-lg">上一節你選好了題目。先填好最上面的年級、班級、座號，再按「拿回我的主題」。上一節沒存到的話，直接在下面寫。</p>
-      <div class="flex gap-2 flex-wrap mt-3">
-        <button type="button" id="topicLoad" class="cute bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">拿回我的主題</button>
-      </div>
-      <p id="topicStat" class="text-base font-bold mt-3 min-h-[24px]"></p>
-    </div>
-    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm space-y-5">
-      <div><label for="cat" class="cute text-xl font-extrabold text-emerald-700">我選的類型</label>
-        <select id="cat" data-k="cat" class="fld ans mt-2 text-lg"><option value="">選一個</option><option>冷知識</option><option>謠言</option><option>事實澄清</option></select></div>
-      <div><label for="hook" class="cute text-xl font-extrabold text-emerald-700">我的開頭句</label>
-        <textarea id="hook" data-k="hook" rows="2" class="fld ans mt-2 text-lg"></textarea></div>
-      <div><label for="src" class="cute text-xl font-extrabold text-emerald-700">我的來源網址</label>
-        <input id="src" data-k="src" type="url" autocomplete="off" class="fld ans mt-2 text-lg">
-        <a id="srcLink" target="_blank" rel="noopener" class="hidden inline-block mt-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-1.5">點開來源，再看一遍 ↗</a></div>
-      <div><label for="core" class="cute text-xl font-extrabold text-emerald-700">我的核心訊息（一句話，20 字內）</label>
-        <textarea id="core" data-k="core" rows="2" class="fld ans mt-2 text-lg"></textarea></div>
-    </div>
-    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm">
-      <div class="flex items-center gap-2 flex-wrap"><p class="cute text-xl font-extrabold text-emerald-700 m-0">我確認了</p><span class="qtypeSlot" data-qid="tconf"></span></div>
-      <div id="tconfOpts" class="space-y-2 mt-3"></div>
-    </div>
-    <div class="stepnav"></div>
-  </section>
-
   <!-- ===== 步驟 1：看示範 ===== -->
-  <section class="step hidden" data-step="2">
+  <section class="step" data-step="1">
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">先看兩支「解說影片」</h2>
       <p class="text-slate-600 mt-2 text-lg">接下來幾堂課，你要做一支 <b>30～45 秒的解說影片</b>：用圖片、大字和旁白，把<b>一件事</b>說清楚。先看看別人怎麼做。</p>
@@ -163,7 +135,7 @@
   </section>
 
   <!-- ===== 步驟 2：短影片分成三個部分 ===== -->
-  <section class="step hidden" data-step="3">
+  <section class="step hidden" data-step="2">
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">短影片分成三個部分</h2>
       <p class="text-slate-600 mt-2 text-lg">這是做短影片的小技巧：把影片分成<b>三個部分</b>，每個部分只做一件事。你的台詞也照這三個部分來寫。</p>
@@ -234,8 +206,80 @@
     <div class="stepnav"></div>
   </section>
 
-  <!-- ===== 步驟 3：看示範（三種可切換）===== -->
+  <!-- ===== 步驟 3：題目範圍 ===== -->
+  <section class="step hidden" data-step="3">
+    <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">我們做的是「解說影片」</h2>
+      <p class="text-slate-600 mt-2 text-lg">題目不限，只要是你想讓同學知道的事。下面<b>三種</b>都可以，開頭可以用這些句子。</p>
+    </div>
+    <div class="grid lg:grid-cols-3 gap-5 mb-5"><div class="bg-white border-4 border-sky-300 rounded-3xl p-5 shadow-sm"><p class="cute text-2xl font-extrabold text-sky-700 m-0">冷知識</p><p class="text-lg text-slate-600 mt-1">一件讓人「咦？真的嗎」的小知識。</p><p class="text-sm font-bold text-slate-500 mt-3">開頭可以這樣說</p><p class="cute text-xl font-extrabold text-slate-800 mt-1">你知道嗎？……</p><p class="text-sm font-bold text-slate-500 mt-3">例子</p><ul class="space-y-2 mt-1 text-lg text-slate-700"><li class="bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2">你知道嗎？章魚有三顆心臟。</li><li class="bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2">你知道嗎？165 可以幫你查可疑的電話和簡訊。</li></ul></div><div class="bg-white border-4 border-rose-300 rounded-3xl p-5 shadow-sm"><p class="cute text-2xl font-extrabold text-rose-700 m-0">謠言</p><p class="text-lg text-slate-600 mt-1">一個大家都在傳的說法，你來查它是真是假。</p><p class="text-sm font-bold text-slate-500 mt-3">開頭可以這樣說</p><p class="cute text-xl font-extrabold text-slate-800 mt-1">有人說……，是真的嗎？</p><p class="text-sm font-bold text-slate-500 mt-3">例子</p><ul class="space-y-2 mt-1 text-lg text-slate-700"><li class="bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2">有人說：撿到提款機上的鑰匙，會被設局詐騙，是真的嗎？</li><li class="bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2">有人說：別買 10 種超商麵包，是真的嗎？</li></ul></div><div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 shadow-sm"><p class="cute text-2xl font-extrabold text-emerald-700 m-0">事實澄清</p><p class="text-lg text-slate-600 mt-1">大家常搞錯的事，你把正確的說出來。</p><p class="text-sm font-bold text-slate-500 mt-3">開頭可以這樣說</p><p class="cute text-xl font-extrabold text-slate-800 mt-1">很多人以為……，其實……</p><p class="text-sm font-bold text-slate-500 mt-3">例子</p><ul class="space-y-2 mt-1 text-lg text-slate-700"><li class="bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2">很多人以為中獎簡訊點連結就能領獎，其實那是詐騙。</li><li class="bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2">很多人以為有網址的就是真的網站，其實詐騙網站也有網址。</li></ul></div></div>
+    <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-6 mb-5 text-lg text-slate-700">
+      <p class="cute text-xl font-extrabold text-amber-700 m-0">自己喜歡的題目也可以</p>
+      <p class="mt-2">動物、運動、遊戲、食物……都可以，找你真的有興趣的。只有一個條件：<b>要找得到可靠的來源</b>。</p>
+      <p class="mt-2">冷知識也要查證：找到<b>兩個不同的可靠網站</b>，說法一樣，才算數。</p>
+    </div>
+
+    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h3 class="cute text-2xl font-extrabold text-emerald-700 m-0">選主題要填三格，怎麼填？</h3>
+      <div class="grid lg:grid-cols-3 gap-4 mt-4">
+        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4">
+          <p class="cute text-xl font-extrabold text-rose-700 m-0">① 開頭句</p>
+          <p class="text-lg text-slate-700 mt-2"><b>是什麼：</b>影片的第一句話。</p>
+          <p class="text-lg text-slate-700 mt-1"><b>為什麼要有：</b>前 3 秒決定別人要不要看下去。沒有好的開頭，大家就滑走了。</p>
+          <p class="text-lg text-slate-700 mt-1"><b>怎麼吸引人：</b></p>
+          <ul class="list-disc pl-6 text-lg text-slate-700"><li><b>保持神秘</b>：話只說一半，讓人想知道答案。</li><li><b>提供震撼的事實</b>：說一件大家想不到的事。</li></ul>
+        </div>
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4">
+          <p class="cute text-xl font-extrabold text-sky-700 m-0">② 參考資料</p>
+          <p class="text-lg text-slate-700 mt-2"><b>不能拿 AI 的網站當參考資料</b>，因為 AI 也會說錯。</p>
+          <p class="text-lg text-slate-700 mt-1">要自己用<b>關鍵字</b>上網查，找<b>可以信任的網站</b>（查核機構、政府、學校、新聞媒體），把網址貼上來。</p>
+          <p class="text-lg text-slate-700 mt-1">貼之前，點開來看：網頁上真的有寫嗎？</p>
+        </div>
+        <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-4">
+          <p class="cute text-xl font-extrabold text-emerald-700 m-0">③ 核心訊息</p>
+          <p class="text-lg text-slate-700 mt-2"><b>是什麼：</b>影片最想讓大家知道的事，也就是整支影片的結論，還要<b>回應開頭句</b>。</p>
+          <ul class="list-disc pl-6 text-lg text-slate-700 mt-1"><li>開頭句是<b>問句</b>：就要<b>回答</b>它。</li><li>開頭句是<b>事實</b>：要<b>補充說明</b>，再說出結論。</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 1：拿回主題、確認 ===== -->
   <section class="step hidden" data-step="4">
+    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
+      <h2 class="cute text-3xl font-extrabold text-emerald-700 m-0">我的主題：拿回來，確認一下</h2>
+      <p class="text-slate-600 mt-2 text-lg">上一節你選好了題目。先填好最上面的年級、班級、座號，再按下面的「讀取拿回」。上一節沒存到的話，直接在下面寫。寫好可以按「先繳交（存檔）」。</p>
+    </div>
+    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm space-y-5">
+      <div><label for="cat" class="cute text-xl font-extrabold text-emerald-700">我選的類型</label>
+        <select id="cat" data-k="cat" class="fld ans mt-2 text-lg"><option value="">選一個</option><option>冷知識</option><option>謠言</option><option>事實澄清</option></select></div>
+      <div><label for="hook" class="cute text-xl font-extrabold text-emerald-700">我的開頭句</label>
+        <textarea id="hook" data-k="hook" rows="2" class="fld ans mt-2 text-lg"></textarea></div>
+      <div><label for="src" class="cute text-xl font-extrabold text-emerald-700">我的來源網址</label>
+        <input id="src" data-k="src" type="url" autocomplete="off" class="fld ans mt-2 text-lg">
+        <a id="srcLink" target="_blank" rel="noopener" class="hidden inline-block mt-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl px-4 py-1.5">點開來源，再看一遍 ↗</a></div>
+      <div><label for="core" class="cute text-xl font-extrabold text-emerald-700">我的核心訊息（一句話，20 字內）</label>
+        <textarea id="core" data-k="core" rows="2" class="fld ans mt-2 text-lg"></textarea></div>
+    </div>
+    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <p class="cute text-xl font-extrabold text-emerald-700 m-0">寫不完？先繳交（存檔）</p>
+      <p class="text-base text-slate-600 mt-1">先填好最上面的年級、班級、座號。按「先繳交（存檔）」，老師看得到你已經交了，內容也存好了；下一節或換一台電腦，填好同樣的號碼，按「讀取拿回」就能接著寫。</p>
+      <div class="flex gap-2 flex-wrap mt-3">
+        <button type="button" data-ck-save class="cute bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-extrabold rounded-2xl px-5 py-2">先繳交（存檔）</button>
+        <button type="button" data-ck-load class="bg-white border-2 border-emerald-400 hover:bg-emerald-50 text-emerald-800 font-bold rounded-2xl px-5 py-2">讀取拿回</button>
+      </div>
+      <p class="ckStat text-base font-bold mt-3 min-h-[24px]"></p>
+    </div>
+    <div class="bg-white border-4 border-emerald-300 rounded-3xl p-5 mb-5 shadow-sm">
+      <div class="flex items-center gap-2 flex-wrap"><p class="cute text-xl font-extrabold text-emerald-700 m-0">我確認了</p><span class="qtypeSlot" data-qid="tconf"></span></div>
+      <div id="tconfOpts" class="space-y-2 mt-3"></div>
+    </div>
+    <div class="stepnav"></div>
+  </section>
+
+  <!-- ===== 步驟 3：看示範（三種可切換）===== -->
+  <section class="step hidden" data-step="5">
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-violet-700 m-0">看示範：三種影片的台詞</h2>
       <p class="text-slate-600 mt-2 text-lg">老師用<b>自己想的題目</b>，各寫了一支 7 句的台詞。按下面的按鈕，換著看。每一句旁邊，寫了「這一句在做什麼」。你要寫的是<b>你自己的主題</b>，用自己的話寫。</p>
@@ -268,7 +312,7 @@
   </section>
 
   <!-- ===== 步驟 2：跟 AI 怎麼聊 ===== -->
-  <section class="step hidden" data-step="5">
+  <section class="step hidden" data-step="6">
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-violet-700 m-0">跟 AI 聊天，先記住 4 件事</h2>
       <p class="text-slate-600 mt-2 text-lg">等一下寫台詞，可以請 AI 教練幫忙。先看這 4 個提醒，再做兩題。</p>
@@ -289,7 +333,7 @@
   </section>
 
   <!-- ===== 步驟 3：直接對 Gem 說「開始寫台詞」 ===== -->
-  <section class="step hidden" data-step="6">
+  <section class="step hidden" data-step="7">
     <div class="bg-white border-4 border-violet-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-violet-700 m-0">請 AI 教練用問題帶你寫台詞</h2>
       <p class="text-slate-600 mt-2 text-lg">AI 教練<b>不會直接寫給你</b>。它會<b>一次問你一個問題</b>，你回答，再自己把答案寫成一句台詞。就像剛剛老師的範例。</p>
@@ -351,7 +395,7 @@
   </section>
 
   <!-- ===== 步驟 4：寫下我的台詞 ===== -->
-  <section class="step hidden" data-step="7">
+  <section class="step hidden" data-step="8">
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-emerald-700 m-0">寫下我的台詞</h2>
       <p class="text-slate-600 mt-2 text-lg">把你寫好的台詞，一句一句填進來。<b>至少 7 句，每句 20 字以內</b>，開頭、主體、行動呼籲（CTA）三個部分都要有。最上面也寫一個<b>影片標題</b>，等一下會跟著台詞一起複製進文件。字數超過會變紅色。</p>
@@ -396,7 +440,7 @@
   </section>
 
   <!-- ===== 步驟 5：複製進老師給的文件 ===== -->
-  <section class="step hidden" data-step="8">
+  <section class="step hidden" data-step="9">
     <div class="bg-white border-4 border-sky-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-sky-700 m-0">把台詞表放進文件</h2>
       <p class="text-slate-600 mt-2 text-lg">你填好的主題、影片標題和台詞，一次複製，貼進老師幫你開好的文件。每一句下面留了「關鍵字」，<b>下一步在文件裡寫</b>。</p>
@@ -431,7 +475,7 @@
   </section>
 
   <!-- ===== 步驟 6：在文件裡自己挑關鍵字 ===== -->
-  <section class="step hidden" data-step="9">
+  <section class="step hidden" data-step="10">
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-amber-700 m-0">在文件裡，自己挑每一句的關鍵字</h2>
       <p class="text-slate-600 mt-2 text-lg">台詞已經在文件裡了。回到文件，在每一句下面的「<b>關鍵字：</b>」後面，寫 1～2 個關鍵字。關鍵字是<b>搜尋圖片、影片要打的字</b>，下週找素材要用。畫面是你想的，所以<b>關鍵字自己挑</b>。</p>
@@ -458,7 +502,7 @@
   </section>
 
   <!-- ===== 步驟 8：自己檢查，再繳交 ===== -->
-  <section class="step hidden" data-step="10">
+  <section class="step hidden" data-step="11">
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-indigo-700 m-0">自己檢查，再繳交</h2>
       <p class="text-slate-600 mt-2 text-lg">先到你的台詞表文件，自己檢查一遍，再按繳交。下週用 Canva 建立影片。</p>
@@ -517,7 +561,7 @@ var firebaseConfig = {
 
 /* ===== 共用引擎：識別列／Firebase／作答狀態／繳交／教師模式／檢視／步驟分頁（依《學習單資料與提交規範》） ===== */
 (function(){
-  var C={"ws": "g5-L08", "lessonPath": "g5/L08", "title": "確認主題、寫台詞", "stateKey": "g5L08flow", "steps": ["拿回主題", "看影片示範", "影片三部分", "看台詞示範", "跟 AI 聊天", "問 AI 教練", "寫台詞表", "複製進文件", "挑關鍵字", "檢查繳交"], "reveals": [], "revealOf": {}, "autoFb": ["tip1", "tip2"], "textSettings": ["scriptGemUrl"], "qtypes": {"tconf": "experience", "gem": "experience", "write": "experience", "doc": "experience", "kw": "experience", "scriptAll": "open", "chk": "experience", "demo": "experience", "tip1": "experience", "tip2": "experience"}, "choices": {"tconf": {"opts": ["來源網址我點開看過，網頁上真的有寫", "開頭句是一個完整的句子", "核心訊息只有一句話、20 字內", "這個題目 30～45 秒說得完"], "multi": true, "block": true}, "gem": {"opts": ["我打開台詞小教練，對它說了「開始寫台詞」", "我把來源網址或我找到的資料貼給它了", "我照它的問題一題一題回答", "每一句台詞，我自己用自己的話說出來"], "multi": true, "block": true}, "write": {"opts": ["台詞寫了 7 句以上，每句 20 字內", "開頭、主體、行動呼籲（CTA）三個部分都有", "台詞都是我自己用自己的話寫的", "我全部唸過一遍，像在說話"], "multi": true, "block": true}, "doc": {"opts": ["我按了「複製台詞表」", "我打開老師給的台詞表文件，貼上了", "我看過了，每一句台詞都在文件裡"], "multi": true, "block": true}, "kw": {"opts": ["每一句下面都寫了 1～2 個關鍵字", "關鍵字是我自己挑的，看得到畫面", "關鍵字可以拿去搜尋圖片、影片"], "multi": true, "block": true}, "demo": {"opts": ["一開始就問一個問題", "用插畫、照片或影片當畫面", "重點用大字或顏色標出來", "下面有字幕", "有人在旁白說明", "最後有結論或提醒"], "multi": true}, "tip1": {"opts": ["幫我想一個影片題目", "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"], "block": true, "correct": "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"}, "tip2": {"opts": ["我是五年級學生，想找冷知識的題目。", "我叫王小明，讀 5 年 3 班，住在……", "請給我 3 個題目，每個都附上來源網址。"], "block": true, "correct": "我叫王小明，讀 5 年 3 班，住在……"}, "chk": {"opts": ["台詞表文件裡，影片標題和每一句台詞都貼進去了", "文件裡每一句台詞，下面都寫了關鍵字"], "multi": true, "block": true}}, "texts": ["cat", "hook", "src", "core", "vtitle", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "g11", "g12"], "patterns": {}, "openQtexts": {"scriptAll": "我的台詞表（每句台詞，依開頭、主體、CTA 排列）。"}};
+  var C={"ws": "g5-L08", "lessonPath": "g5/L08", "title": "確認主題、寫台詞", "stateKey": "g5L08flow", "steps": ["看影片示範", "影片三部分", "三種類型", "我的主題", "看台詞示範", "跟 AI 聊天", "問 AI 教練", "寫台詞表", "複製進文件", "挑關鍵字", "檢查繳交"], "reveals": [], "revealOf": {}, "autoFb": ["tip1", "tip2"], "textSettings": ["scriptGemUrl"], "qtypes": {"tconf": "experience", "gem": "experience", "write": "experience", "doc": "experience", "kw": "experience", "scriptAll": "open", "chk": "experience", "demo": "experience", "tip1": "experience", "tip2": "experience"}, "choices": {"tconf": {"opts": ["來源網址我點開看過，網頁上真的有寫", "開頭句是一個完整的句子", "核心訊息只有一句話、20 字內", "這個題目 30～45 秒說得完"], "multi": true, "block": true}, "gem": {"opts": ["我打開台詞小教練，對它說了「開始寫台詞」", "我把來源網址或我找到的資料貼給它了", "我照它的問題一題一題回答", "每一句台詞，我自己用自己的話說出來"], "multi": true, "block": true}, "write": {"opts": ["台詞寫了 7 句以上，每句 20 字內", "開頭、主體、行動呼籲（CTA）三個部分都有", "台詞都是我自己用自己的話寫的", "我全部唸過一遍，像在說話"], "multi": true, "block": true}, "doc": {"opts": ["我按了「複製台詞表」", "我打開老師給的台詞表文件，貼上了", "我看過了，每一句台詞都在文件裡"], "multi": true, "block": true}, "kw": {"opts": ["每一句下面都寫了 1～2 個關鍵字", "關鍵字是我自己挑的，看得到畫面", "關鍵字可以拿去搜尋圖片、影片"], "multi": true, "block": true}, "demo": {"opts": ["一開始就問一個問題", "用插畫、照片或影片當畫面", "重點用大字或顏色標出來", "下面有字幕", "有人在旁白說明", "最後有結論或提醒"], "multi": true}, "tip1": {"opts": ["幫我想一個影片題目", "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"], "block": true, "correct": "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"}, "tip2": {"opts": ["我是五年級學生，想找冷知識的題目。", "我叫王小明，讀 5 年 3 班，住在……", "請給我 3 個題目，每個都附上來源網址。"], "block": true, "correct": "我叫王小明，讀 5 年 3 班，住在……"}, "chk": {"opts": ["台詞表文件裡，影片標題和每一句台詞都貼進去了", "文件裡每一句台詞，下面都寫了關鍵字"], "multi": true, "block": true}}, "texts": ["cat", "hook", "src", "core", "vtitle", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "g11", "g12"], "patterns": {}, "openQtexts": {"scriptAll": "我的台詞表（每句台詞，依開頭、主體、CTA 排列）。"}};
   var WS=C.ws,QUIZ_ID=C.ws,LESSON_PATH=C.lessonPath,TITLE=C.title;
   var TEACHER_EMAIL='boyin0304@slps.tn.edu.tw';
   var IS_ADMIN=location.hash==='#admin';
@@ -664,14 +708,14 @@ var firebaseConfig = {
   }
   H.stepDone=function(n){
     var a=function(k){return state[k]!=null&&(Array.isArray(state[k])?state[k].length>0:filled(state[k]));};
-    if(n===1)return a('tconf')&&n!==curStep;
-    if(n===2)return a('demo')&&n!==curStep;
-    if(n===5)return a('tip1')&&a('tip2')&&n!==curStep;
-    if(n===6)return a('gem')&&n!==curStep;
-    if(n===7)return nS()>=7&&segsOk()&&filled(state.vtitle)&&a('write')&&n!==curStep;
-    if(n===8)return a('doc')&&n!==curStep;
-    if(n===9)return a('kw')&&n!==curStep;
-    return null;   // 第 3、4 步只閱讀、第 10 步是繳交：看過就算完成
+    if(n===1)return a('demo')&&n!==curStep;
+    if(n===4)return a('tconf')&&n!==curStep;
+    if(n===6)return a('tip1')&&a('tip2')&&n!==curStep;
+    if(n===7)return a('gem')&&n!==curStep;
+    if(n===8)return nS()>=7&&segsOk()&&filled(state.vtitle)&&a('write')&&n!==curStep;
+    if(n===9)return a('doc')&&n!==curStep;
+    if(n===10)return a('kw')&&n!==curStep;
+    return null;   // 第 2、3、5 步只閱讀、第 11 步是繳交：看過就算完成
   };
   H.report=function(){
     var over=slots().filter(function(i){return textOf(i).length>20;}).length;
@@ -802,11 +846,15 @@ var firebaseConfig = {
     }).catch(function(e){console.warn('拿回台詞失敗',e);if(!silent)say(st,'現在拿不到，晚點再試試看。','amber');});
   }
   H.afterSubmit=function(i){if(workHas())saveWork(i).catch(function(e){console.warn('存台詞失敗',e);});};
-  $('topicLoad').onclick=function(){
-    var i=idn(),st=$('topicStat');
-    if(!i){say(st,NEEDID,'rose');return;}
-    if(!db){say(st,'現在連不上，晚點再試試看。','amber');return;}
-    loadTopic(i,st,false);
+  // 「讀取拿回」找不到這節的進度時，改讀 L07 存的主題
+  H.fallbackLoad=function(i){
+    return db.collection('studentWork').doc(wid(i,'g5-L07','topic')).get().then(function(doc){
+      if(!doc.exists){ckSay('還沒有找到你存過的進度，也沒有找到上一節存的主題。直接在下面寫，寫好按「先繳交（存檔）」。','amber');return;}
+      if(topicHas()&&!confirm('找到了你上一節存的主題。要用它換掉現在寫的主題嗎？'))return;
+      var d=(doc.data()||{}).data||{};
+      state.cat=d.cat||'';state.hook=d.hook||'';state.src=d.src||'';state.core=d.core||'';
+      save();renderAll();ckSay('✓ 已拿回你上一節存的主題。','emerald');
+    });
   };
   // 身分填好、而且這節的內容還是空的，就自動拿一次（先拿這節存的台詞，沒有再拿 L07 的主題；不會蓋掉學生已經寫的）
   function autoLoad(){var i=getIdentity();if(!identityValid(i)||!db||workHas())return;loadWork(i,$('topicStat'),true);}
@@ -976,6 +1024,7 @@ var firebaseConfig = {
     ckSay('找找看…','indigo');
     authResolved.then(function(){return ensureAuth();}).then(function(){return db.collection('studentWork').doc(progDocId(i)).get();}).then(function(doc){
       var dd=doc.exists?((doc.data()||{}).data||{}):{};
+      if(!dd.state&&H.fallbackLoad)return H.fallbackLoad(i);   // 頁面提供的備援（L08：讀 L07 存的主題）
       if(!dd.state){ckSay('還沒有找到你存過的進度。寫到一半先按「先繳交（存檔）」，下次就能拿回來。','amber');return;}
       var at='';try{var d=doc.data().updatedAt.toDate(),p=function(x){return ('0'+x).slice(-2);};at='（'+(d.getMonth()+1)+'/'+d.getDate()+' '+p(d.getHours())+':'+p(d.getMinutes())+'）';}catch(e){}
       if((H.hasContent?H.hasContent():true)&&!confirm('找到了！這是你上次存的進度'+at+'。\n\n要用它換掉現在寫的內容嗎？'))return;
@@ -1412,7 +1461,7 @@ var firebaseConfig = {
 .sc-t{font-size:1.45rem;font-weight:800;line-height:1.4;margin:0 0 10px;color:#334155}
 .sc-t b{color:#c2410c}
 .sc-media{position:relative;border-radius:16px;overflow:hidden;background:#0f172a;min-height:160px}
-.sc-media video{display:block;width:100%;max-height:440px;object-fit:contain;cursor:pointer;background:#0f172a}
+.sc-media video{display:block;width:100%;max-height:440px;object-fit:contain;cursor:zoom-in;background:#0f172a}
 .sc-media .sc-hint{position:absolute;right:8px;top:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;border-radius:8px;padding:1px 8px;pointer-events:none}
 .sc-media.paused:after{content:'▶';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;line-height:64px;text-align:center;border-radius:999px;background:rgba(0,0,0,.62);color:#fff;font-size:28px;pointer-events:none}
 .sc-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
@@ -1450,7 +1499,7 @@ var firebaseConfig = {
        </div> …
      </div>
    導覽列（上一小步／下一小步／點點）由這支程式自己補；class 加 sc-flat 則全部攤開、沒有導覽列（目前的標準做法）。
-   影片＝靜音、循環、自動播放的短片（等同 GIF，但檔案小十倍）；點一下可暫停。
+   影片＝靜音、循環、自動播放的短片（等同 GIF，但檔案小十倍）；點一下放大（全螢幕疊層播放，再點一下或按 Esc 關閉），不是暫停（2026-11-18 教師定案）。
    由 引導規範/stepcards/inject.py 用 STEPCARDS-START/END 兩個 HTML 註解標記包起來，內嵌進學習單。
    ============================================================ */
 (function () {
@@ -1461,6 +1510,22 @@ var firebaseConfig = {
   function visible(m) { return m.offsetParent !== null; }
   function sweep() { [].forEach.call(document.querySelectorAll('.sc-media'), function (m) { setMedia(m, visible(m)); }); }
 
+  // 點影片＝放大：疊層裡另開一支同來源的影片（靜音、循環），點疊層或按 Esc 關閉
+  function zoomVideo(v) {
+    var o = document.createElement('div');
+    o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,.88);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out';
+    var z = document.createElement('video');
+    z.src = v.currentSrc || v.src; z.muted = true; z.loop = true; z.autoplay = true; z.playsInline = true;
+    // 放大要真的大：寬度撐到 92vw（影片原檔常只有 480p，不設寬度會停在原尺寸）
+    z.style.cssText = 'width:92vw;height:auto;max-height:92vh;object-fit:contain;border-radius:12px;background:#000';
+    try { z.currentTime = v.currentTime; } catch (e) {}
+    function close() { document.removeEventListener('keydown', key); o.remove(); }
+    function key(e) { if (e.key === 'Escape') close(); }
+    o.onclick = close; document.addEventListener('keydown', key);
+    o.appendChild(z); document.body.appendChild(o);
+    var pp = z.play(); if (pp && pp.catch) pp.catch(function () {});
+  }
+
   function setMedia(m, on) {
     var v = m.querySelector('video');
     if (on && !v) {
@@ -1469,10 +1534,11 @@ var firebaseConfig = {
       if (m.dataset.poster) v.poster = m.dataset.poster;
       v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.setAttribute('playsinline', '');
       v.addEventListener('click', function () {
-        if (v.paused) { v.play(); m.classList.remove('paused'); } else { v.pause(); m.classList.add('paused'); }
+        if (v.paused) { v.play(); m.classList.remove('paused'); }   // 只有瀏覽器擋住自動播放時，第一下才是播放
+        else zoomVideo(v);
       });
       m.appendChild(v);
-      var h = document.createElement('span'); h.className = 'sc-hint'; h.textContent = '點一下暫停'; m.appendChild(h);
+      var h = document.createElement('span'); h.className = 'sc-hint'; h.textContent = '點一下放大'; m.appendChild(h);
       var p = v.play(); if (p && p.catch) p.catch(function () { m.classList.add('paused'); });
     } else if (!on && v) {
       m.innerHTML = ''; m.classList.remove('paused');
