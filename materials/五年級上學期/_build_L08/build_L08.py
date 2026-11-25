@@ -92,7 +92,7 @@ STEP_SUBMIT = '''
   <section class="step hidden" data-step="8">
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-indigo-700 m-0">自己檢查，再繳交</h2>
-      <p class="text-slate-600 mt-2 text-lg">先到你的台詞表文件，自己檢查一遍，再按繳交。下週用 Canva 建立影片。</p>
+      <p class="text-slate-600 mt-2 text-lg">把主題檢查一遍，再按繳交。下一節開始寫台詞。</p>
     </div>
     <div class="bg-white border-4 border-indigo-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h3 class="cute text-xl font-extrabold text-indigo-700 m-0">繳交前自己檢查</h3>
@@ -123,21 +123,25 @@ def renum(s, n):
     return re.sub(r'<section class="step( hidden)?"', '<section class="step' + (' hidden' if n > 1 else '') + '"', s, count=1)
 
 
-ORDER = [L7.STEP_VIDEOS, M.STEP_PARTS, L7.STEP_KINDS, STEP_TOPIC, M.STEP_DEMO, L7.STEP_TIPS, M.STEP_AI, M.STEP_WRITE, M.STEP_COPY, M.STEP_KW, STEP_SUBMIT]   # C_MAKE（建立影片、專案命名）2026-11-17 移到下週 L09，先不放
+# 2026-11-20 老師：今天只做到主題。下一節把「後面幾步」放回來（順序：影片三部分 → 看台詞示範 → 跟 AI 聊天 → 問 AI 教練 → 寫台詞表 → 複製進文件 → 挑關鍵字），影片三部分要在台詞示範前。
+TODAY_ONLY = True
+NEXT_STEPS = [M.STEP_PARTS, M.STEP_DEMO, L7.STEP_TIPS, M.STEP_AI, M.STEP_WRITE, M.STEP_COPY, M.STEP_KW]
+NEXT_NAMES = ['影片三部分', '看台詞示範', '跟 AI 聊天', '問 AI 教練', '寫台詞表', '複製進文件', '挑關鍵字']
+ORDER = [L7.STEP_VIDEOS, L7.STEP_KINDS, STEP_TOPIC] + ([] if TODAY_ONLY else NEXT_STEPS) + [STEP_SUBMIT]   # C_MAKE（建立影片、專案命名）2026-11-17 移到下週 L09，先不放
 BODY = NL + ''.join(renum(s, i + 1) for i, s in enumerate(ORDER)) + NL
 
 _TEXTS = ['cat', 'hook', 'src', 'core', 'vtitle'] + ['%s%d' % (p, i) for p in 'sg' for i in range(1, M.MAXR + 1)]
 CFG = {
-    'ws': 'g5-L08', 'lessonPath': 'g5/L08', 'title': '確認主題、寫台詞', 'stateKey': 'g5L08flow',
-    'steps': ['看影片示範', '影片三部分', '三種類型', '我的主題', '看台詞示範', '跟 AI 聊天', '問 AI 教練', '寫台詞表', '複製進文件', '挑關鍵字', '檢查繳交'],
+    'ws': 'g5-L08', 'lessonPath': 'g5/L08', 'title': '確認主題', 'stateKey': 'g5L08flow',
+    'steps': ['看影片示範', '三種類型', '我的主題'] + ([] if TODAY_ONLY else NEXT_NAMES) + ['檢查繳交'],
     'reveals': [], 'revealOf': {}, 'autoFb': ['tip1', 'tip2'], 'textSettings': ['scriptGemUrl'],
-    'qtypes': dict(M.QTYPES, **{'chk': 'experience', 'demo': 'experience', 'tip1': 'experience', 'tip2': 'experience'}),
+    'qtypes': (lambda q: {k: v for k, v in q.items() if not TODAY_ONLY or k in ('demo', 'tconf', 'hook', 'src', 'core', 'chk')})(dict(M.QTYPES, **{'chk': 'experience', 'demo': 'experience', 'tip1': 'experience', 'tip2': 'experience'}, **({'hook': 'open', 'src': 'open', 'core': 'open'} if TODAY_ONLY else {}))),
     'choices': dict(M.CHOICES, **L7.CHOICES, **{
-        'chk': {'opts': ['台詞表文件裡，影片標題和每一句台詞都貼進去了', '文件裡每一句台詞，下面都寫了關鍵字'], 'multi': True, 'block': True},
+        'chk': {'opts': ['我選好類型，也寫了開頭句', '我貼了來源網址，而且點開看過，也不是 AI 的網站', '我寫了一句核心訊息，有回應開頭句'] if TODAY_ONLY else ['台詞表文件裡，影片標題和每一句台詞都貼進去了', '文件裡每一句台詞，下面都寫了關鍵字'], 'multi': True, 'block': True},
     }),
     'texts': _TEXTS,
     'patterns': {},
-    'openQtexts': {'scriptAll': '我的台詞表（每句台詞，依開頭、主體、CTA 排列）。'},
+    'openQtexts': ({'hook': '我的解說影片開頭句。', 'src': '我找到的來源網址。', 'core': '我的核心訊息：一句話，20 字內。'} if TODAY_ONLY else {'scriptAll': '我的台詞表（每句台詞，依開頭、主體、CTA 排列）。'}),
 }
 
 HOOKS = r'''
@@ -188,16 +192,18 @@ HOOKS = r'''
   }
   H.stepDone=function(n){
     var a=function(k){return state[k]!=null&&(Array.isArray(state[k])?state[k].length>0:filled(state[k]));};
-    if(n===1)return a('demo')&&n!==curStep;
-    if(n===4)return a('tconf')&&n!==curStep;
-    if(n===6)return a('tip1')&&a('tip2')&&n!==curStep;
-    if(n===7)return a('gem')&&n!==curStep;
-    if(n===8)return nS()>=7&&segsOk()&&filled(state.vtitle)&&a('write')&&n!==curStep;
-    if(n===9)return a('doc')&&n!==curStep;
-    if(n===10)return a('kw')&&n!==curStep;
-    return null;   // 第 2、3、5 步只閱讀、第 11 步是繳交：看過就算完成
+    var nm=STEP_NAMES[n-1];
+    if(nm==='看影片示範')return a('demo')&&n!==curStep;
+    if(nm==='我的主題')return a('tconf')&&n!==curStep;
+    if(nm==='跟 AI 聊天')return a('tip1')&&a('tip2')&&n!==curStep;
+    if(nm==='問 AI 教練')return a('gem')&&n!==curStep;
+    if(nm==='寫台詞表')return nS()>=7&&segsOk()&&filled(state.vtitle)&&a('write')&&n!==curStep;
+    if(nm==='複製進文件')return a('doc')&&n!==curStep;
+    if(nm==='挑關鍵字')return a('kw')&&n!==curStep;
+    return null;   // 只閱讀的步驟、最後的繳交：看過就算完成
   };
   H.report=function(){
+    if(STEP_NAMES.indexOf('寫台詞表')<0)return ['類型：'+(state.cat||'還沒選'),'開頭句：'+(filled(state.hook)?'已寫':'還沒寫'),'來源網址：'+(filled(state.src)?'已貼':'還沒貼'),'核心訊息：'+(filled(state.core)?'已寫':'還沒寫'),'自查表：已勾 '+((state.chk||[]).length)+' 項（共 3 項）'];
     var over=slots().filter(function(i){return textOf(i).length>20;}).length;
     return ['台詞：寫了 '+nS()+' 句（開頭 '+segCount('q')+'、主體 '+segCount('e')+'、CTA '+segCount('c')+'）'+(over?'，有 '+over+' 句超過 20 字':''),
       '影片標題：'+(String(state.vtitle||'').trim()||'還沒寫'),
@@ -341,15 +347,23 @@ HOOKS = r'''
   document.addEventListener('change',function(e){if(e.target&&/^id(Grade|Class|Student)$/.test(e.target.id))autoLoad();});
   fbReady.then(function(){return authResolved;}).then(autoLoad).catch(function(){});
 
-  $('tplCopy').onclick=function(){copyText(tplText(),this);};
-  $('copyGo').onclick=function(){copyText('開始寫台詞',this);};
+  if($('tplCopy'))$('tplCopy').onclick=function(){copyText(tplText(),this);};
+  if($('copyGo'))$('copyGo').onclick=function(){copyText('開始寫台詞',this);};
   H.render();
 '''.replace('@@MAXR@@', str(M.MAXR)).replace('@@DEFSEG@@', M.DEFAULT_SEGS).replace('@@DEMOS@@', json.dumps(M.DEMOS, ensure_ascii=False))
 
 SPEC = {
-    'summary': '拿回 L07 存的主題並確認；看兩支解說影片；學短影片的三個部分（開頭 Hook、主體、CTA），看冷知識、假資訊、事實釐清三種示範；學 4 個跟 AI 聊天的提醒；對 AI 教練（Gem）說「開始寫台詞」，用它的提問引導自己想出台詞；在台詞表寫下至少 7 句（開頭、主體、CTA 三個部分，可新增，每句 20 字內，用自己的話）；複製台詞表貼進老師給的文件，並在文件裡自己挑每句 1～2 個可搜尋的關鍵字（AI 不幫忙）；把影片標題和台詞貼進老師給的文件。這節不做 Canva；建立影片、字幕、文字特效、找素材都在下週。',
+    'summary': '看兩支解說影片；認識冷知識、謠言、事實澄清三種類型，以及選主題三個欄位（開頭句、參考資料、核心訊息）怎麼填；拿回 L07 的主題並確認，必要時修改；繳交前自己檢查。這節只做到主題，寫台詞在下一節。',
     'questions': [
-        M.SPEC_SCRIPT,
+        {'qid': 'hook', 'prompt': '我的解說影片開頭句。', 'mode': 'checklist',
+         'checks': [{'desc': '是一個完整的開頭句，能引起好奇（保持神秘或提供震撼的事實）', 'pts': 2},
+                    {'desc': '題目具體，看得出要講哪一件事', 'pts': 2}]},
+        {'qid': 'src', 'prompt': '我找到的來源網址。', 'mode': 'checklist',
+         'checks': [{'desc': '貼的是 http(s):// 開頭的整條網址', 'pts': 2},
+                    {'desc': '網址看得出是可信任的來源（查核機構、政府、學校、新聞媒體），不是 AI 網站或匿名貼文', 'pts': 2}]},
+        {'qid': 'core', 'prompt': '我的核心訊息：一句話，20 字內。', 'mode': 'checklist',
+         'checks': [{'desc': '只有一句話，大約 20 字內', 'pts': 3},
+                    {'desc': '是結論或最想讓觀眾知道的事，並回應開頭句（問句要回答、事實要補充再結論）', 'pts': 3}]},
     ],
     'scoring': {'base': 100, 'floor': 80, 'deduction': 1, 'itemPoints': {}},
 }
@@ -372,11 +386,11 @@ def sub1(pat, repl, s, flags=re.S):
     return new
 
 
-t = sub1(r'<title>.*?</title>', '<title>確認主題、寫台詞｜L08 教學活動</title>', t)
+t = sub1(r'<title>.*?</title>', '<title>確認主題｜L08 教學活動</title>', t)
 t = sub1(r'<h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600">.*?</h1>',
-         '<h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600">確認主題、寫台詞</h1>', t)
+         '<h1 class="cute text-3xl md:text-5xl font-extrabold text-indigo-600">確認主題</h1>', t)
 t = sub1(r'<p class="text-sm text-slate-500 mt-2">L06 Docs[^<]*</p>',
-         '<p class="text-sm text-slate-500 mt-2">L08 確認主題・寫台詞・整理台詞表 · 教學活動流程（2 節課）</p>', t)
+         '<p class="text-sm text-slate-500 mt-2">L08 確認主題 · 教學活動流程</p>', t)
 i = t.index('  </header>\n') + len('  </header>\n')
 j = t.index('  <footer')
 t = t[:i] + strip_emoji(BODY) + '\n' + t[j:]
