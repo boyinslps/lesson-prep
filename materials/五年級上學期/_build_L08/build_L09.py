@@ -204,8 +204,8 @@ HOOKS = r'''
   };
   H.report=function(){
     if(STEP_NAMES.indexOf('寫台詞表')<0)return ['類型：'+(state.cat||'還沒選'),'開頭句：'+(filled(state.hook)?'已寫':'還沒寫'),'來源網址：'+(filled(state.src)?'已貼':'還沒貼'),'核心訊息：'+(filled(state.core)?'已寫':'還沒寫'),'自查表：已勾 '+((state.chk||[]).length)+' 項（共 3 項）'];
-    var over=slots().filter(function(i){return textOf(i).length>20;}).length;
-    return ['台詞：寫了 '+nS()+' 句（開頭 '+segCount('q')+'、主體 '+segCount('e')+'、CTA '+segCount('c')+'）'+(over?'，有 '+over+' 句超過 20 字':''),
+    var over=slots().filter(function(i){return textOf(i).length>30;}).length;
+    return ['台詞：寫了 '+nS()+' 句（開頭 '+segCount('q')+'、主體 '+segCount('e')+'、CTA '+segCount('c')+'）'+(over?'，有 '+over+' 句超過 30 字':''),
       '影片標題：'+(String(state.vtitle||'').trim()||'還沒寫'),
       '自查表：已勾 '+((state.chk||[]).length)+' 項（共 2 項）'];
   };
@@ -257,7 +257,7 @@ HOOKS = r'''
       var g=SEGI[state['g'+i]],row=document.createElement('div');
       row.className='flex items-start gap-2 flex-wrap';
       row.innerHTML='<span class="shrink-0 inline-block bg-'+g[2]+'-100 border-2 border-'+g[2]+'-300 text-'+g[2]+'-800 rounded-full px-2.5 py-0.5 text-sm font-bold">'+g[0]+g[1]+'　第 '+(n+1)+' 句</span>'
-        +'<div class="flex-1 min-w-[14rem]"><input id="s'+i+'" data-k="s'+i+'" type="text" autocomplete="off" maxlength="40" class="fld ans text-lg"><p class="text-sm text-slate-500 mt-0.5"><span data-count="s'+i+'">0</span> / 20 字</p></div>'
+        +'<div class="flex-1 min-w-[14rem]"><input id="s'+i+'" data-k="s'+i+'" type="text" autocomplete="off" maxlength="40" class="fld ans text-lg"><p class="text-sm text-slate-500 mt-0.5"><span data-count="s'+i+'">0</span> / 30 字</p></div>'
         +'<button type="button" data-delrow="'+i+'" class="ans shrink-0 text-slate-500 hover:text-rose-600 font-bold px-2 py-1" title="刪掉這一句">刪除</button>';
       var inp=row.querySelector('input');inp.value=state['s'+i]||'';
       inp.addEventListener('input',function(){state['s'+i]=inp.value;save();renderFeedback();if(H.changed)H.changed('s'+i);});
@@ -284,7 +284,7 @@ HOOKS = r'''
     var l=$('srcLink'),u=String(state.src||'').trim();
     if(l){if(/^https?:\/\/\S+/.test(u)){l.href=u;l.classList.remove('hidden');}else{l.removeAttribute('href');l.classList.add('hidden');}}
     var t=$('tplText');if(t)t.textContent=tplText();
-    document.querySelectorAll('[data-count]').forEach(function(e){var n=String(state[e.dataset.count]||'').length;e.textContent=n;e.parentNode.className='text-sm mt-0.5 '+(n>20?'text-rose-600 font-bold':'text-slate-500');});
+    document.querySelectorAll('[data-count]').forEach(function(e){var n=String(state[e.dataset.count]||'').length;e.textContent=n;e.parentNode.className='text-sm mt-0.5 '+(n>30?'text-rose-600 font-bold':'text-slate-500');});
     var sc=$('scriptCount');
     if(sc){var n=nS();sc.textContent='目前寫了 '+n+' 句（開頭 '+segCount('q')+'、主體 '+segCount('e')+'、行動呼籲 '+segCount('c')+'）'+(n>=7?'，夠了。':'，至少要 7 句。')+(filled(state.vtitle)?'':'　影片標題還沒寫。')+(fullMsg?'　最多 '+MAXR+' 句，不能再新增了。':'');}
   };
@@ -363,7 +363,7 @@ HOOKS = r'''
 '''.replace('@@MAXR@@', str(M.MAXR)).replace('@@DEFSEG@@', M.DEFAULT_SEGS).replace('@@DEMOS@@', json.dumps(M.DEMOS, ensure_ascii=False))
 
 SPEC = {
-    'summary': '拿回上一節的主題並確認；學短影片的三個部分（開頭 Hook、主體、CTA），看冷知識、假資訊、事實釐清三種台詞示範；學 4 個跟 AI 聊天的提醒；對 AI 教練（Gem）說「開始寫台詞」，用它的提問引導自己想出台詞；在台詞表寫下至少 7 句（開頭、主體、CTA 三個部分，可新增，每句 20 字內，用自己的話）；複製台詞表貼進老師給的文件，並在文件裡自己挑每句 1～2 個可搜尋的關鍵字（AI 不幫忙）。這節不做 Canva；建立影片、字幕、文字特效、找素材都在下週。',
+    'summary': '拿回上一節的主題並確認；學短影片的三個部分（開頭 Hook、主體、CTA），看冷知識、假資訊、事實釐清三種台詞示範；學 4 個跟 AI 聊天的提醒；對 AI 教練（Gem）說「開始寫台詞」，用它的提問引導自己想出台詞；在台詞表寫下至少 7 句（開頭、主體、CTA 三個部分，可新增，每句 30 字內、唸到要換氣就換到下一句，用自己的話）；複製台詞表貼進老師給的文件，並在文件裡自己挑每句 1～2 個可搜尋的關鍵字（AI 不幫忙）。這節不做 Canva；建立影片、字幕、文字特效、找素材都在下週。',
     'questions': [
         M.SPEC_SCRIPT,
     ],

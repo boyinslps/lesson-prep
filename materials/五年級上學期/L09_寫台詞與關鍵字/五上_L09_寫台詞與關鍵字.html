@@ -240,7 +240,7 @@
           <tbody id="demoRows"></tbody>
         </table>
       </div>
-      <p class="text-lg text-slate-700 mt-4">每句 20 字以內，7 句，唸起來約 30 秒。</p>
+      <p class="text-lg text-slate-700 mt-4">每句不超過 30 字，7 句，唸起來約 30 秒。</p>
     </div>
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-amber-700 m-0">寫完檢查：有內容，不囉嗦</p>
@@ -341,7 +341,7 @@
   <section class="step hidden" data-step="6">
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-emerald-700 m-0">寫下我的台詞</h2>
-      <p class="text-slate-600 mt-2 text-lg">把你寫好的台詞，一句一句填進來。<b>至少 7 句，每句 20 字以內</b>，開頭、主體、行動呼籲（CTA）三個部分都要有。最上面也寫一個<b>影片標題</b>，等一下會跟著台詞一起複製進文件。字數超過會變紅色。</p>
+      <p class="text-slate-600 mt-2 text-lg">把你寫好的台詞，一句一句填進來。<b>至少 7 句，每句 30 字以內</b>，開頭、主體、行動呼籲（CTA）三個部分都要有。最上面也寫一個<b>影片標題</b>，等一下會跟著台詞一起複製進文件。字數超過會變紅色。</p>
     </div>
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-emerald-700 m-0">老師的台詞（示範：冷知識，7 句，約 30 秒）</p>
@@ -354,7 +354,16 @@
     </div>
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-emerald-700 m-0">我的台詞表</p>
-      <div class="mt-3">
+      <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 mt-3">
+        <p class="cute text-xl font-extrabold text-amber-800 m-0">斷句小提示：寫好一句，自己小聲唸唸看</p>
+        <ul class="mt-2 space-y-1 text-lg text-slate-800 list-disc pl-6">
+          <li>唸到<b>中間要換氣</b>，就在那裡斷開，後面的字換到<b>下一句</b>。</li>
+          <li>一句<b>太長、唸得很喘</b>，也換到下一句。</li>
+          <li>一句最多 30 字，而且只講一件事。</li>
+        </ul>
+        <p class="text-lg text-slate-700 mt-2 mb-0">例：「企鵝為了保暖，會擠成一團，還會輪流站到外面來。」唸到一半要換氣 → 拆成兩句：「企鵝為了保暖，會擠成一團。」「牠們還會輪流站到外面來。」</p>
+      </div>
+      <div class="mt-4">
         <label for="vtitle" class="cute text-lg font-extrabold text-emerald-700 block">我的影片標題</label>
         <input id="vtitle" data-k="vtitle" type="text" autocomplete="off" maxlength="30" class="fld ans mt-1 text-lg">
       </div>
@@ -504,7 +513,7 @@ var firebaseConfig = {
 
 /* ===== 共用引擎：識別列／Firebase／作答狀態／繳交／教師模式／檢視／步驟分頁（依《學習單資料與提交規範》） ===== */
 (function(){
-  var C={"ws": "g5-L09", "lessonPath": "g5/L09", "title": "寫台詞、挑關鍵字", "stateKey": "g5L09flow", "steps": ["拿回主題", "影片三部分", "看台詞示範", "跟 AI 聊天", "問 AI 教練", "寫台詞表", "複製進文件", "挑關鍵字", "檢查繳交"], "reveals": [], "revealOf": {}, "autoFb": ["tip1", "tip2"], "textSettings": ["scriptGemUrl"], "qtypes": {"tconf": "experience", "gem": "experience", "write": "experience", "doc": "experience", "kw": "experience", "scriptAll": "open", "chk": "experience", "tip1": "experience", "tip2": "experience"}, "choices": {"tconf": {"opts": ["來源網址我點開看過，網頁上真的有寫", "開頭句是一個完整的句子", "核心訊息只有一句話、20 字內", "這個題目 30～45 秒說得完"], "multi": true, "block": true}, "gem": {"opts": ["我打開台詞小教練，對它說了「開始寫台詞」", "我把來源網址或我找到的資料貼給它了", "我照它的問題一題一題回答", "每一句台詞，我自己用自己的話說出來"], "multi": true, "block": true}, "write": {"opts": ["台詞寫了 7 句以上，每句 20 字內", "開頭、主體、行動呼籲（CTA）三個部分都有", "台詞都是我自己用自己的話寫的", "我全部唸過一遍，像在說話"], "multi": true, "block": true}, "doc": {"opts": ["我按了「複製台詞表」", "我打開老師給的台詞表文件，貼上了", "我看過了，每一句台詞都在文件裡"], "multi": true, "block": true}, "kw": {"opts": ["每一句下面都寫了 1～2 個關鍵字", "關鍵字是我自己挑的，看得到畫面", "關鍵字可以拿去搜尋圖片、影片"], "multi": true, "block": true}, "demo": {"opts": ["一開始就問一個問題", "用插畫、照片或影片當畫面", "重點用大字或顏色標出來", "下面有字幕", "有人在旁白說明", "最後有結論或提醒"], "multi": true}, "tip1": {"opts": ["幫我想一個影片題目", "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"], "block": true, "correct": "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"}, "tip2": {"opts": ["我是五年級學生，想找冷知識的題目。", "我叫王小明，讀 5 年 3 班，住在……", "請給我 3 個題目，每個都附上來源網址。"], "block": true, "correct": "我叫王小明，讀 5 年 3 班，住在……"}, "chk": {"opts": ["台詞表文件裡，影片標題和每一句台詞都貼進去了", "文件裡每一句台詞，下面都寫了關鍵字"], "multi": true, "block": true}}, "texts": ["cat", "hook", "src", "core", "vtitle", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "g11", "g12"], "patterns": {}, "openQtexts": {"scriptAll": "我的台詞表（每句台詞，依開頭、主體、CTA 排列）。"}};
+  var C={"ws": "g5-L09", "lessonPath": "g5/L09", "title": "寫台詞、挑關鍵字", "stateKey": "g5L09flow", "steps": ["拿回主題", "影片三部分", "看台詞示範", "跟 AI 聊天", "問 AI 教練", "寫台詞表", "複製進文件", "挑關鍵字", "檢查繳交"], "reveals": [], "revealOf": {}, "autoFb": ["tip1", "tip2"], "textSettings": ["scriptGemUrl"], "qtypes": {"tconf": "experience", "gem": "experience", "write": "experience", "doc": "experience", "kw": "experience", "scriptAll": "open", "chk": "experience", "tip1": "experience", "tip2": "experience"}, "choices": {"tconf": {"opts": ["來源網址我點開看過，網頁上真的有寫", "開頭句是一個完整的句子", "核心訊息只有一句話、20 字內", "這個題目 30～45 秒說得完"], "multi": true, "block": true}, "gem": {"opts": ["我打開台詞小教練，對它說了「開始寫台詞」", "我把來源網址或我找到的資料貼給它了", "我照它的問題一題一題回答", "每一句台詞，我自己用自己的話說出來"], "multi": true, "block": true}, "write": {"opts": ["台詞寫了 7 句以上，每句 30 字內", "開頭、主體、行動呼籲（CTA）三個部分都有", "台詞都是我自己用自己的話寫的", "我全部唸過一遍，要換氣的地方都換到下一句了"], "multi": true, "block": true}, "doc": {"opts": ["我按了「複製台詞表」", "我打開老師給的台詞表文件，貼上了", "我看過了，每一句台詞都在文件裡"], "multi": true, "block": true}, "kw": {"opts": ["每一句下面都寫了 1～2 個關鍵字", "關鍵字是我自己挑的，看得到畫面", "關鍵字可以拿去搜尋圖片、影片"], "multi": true, "block": true}, "demo": {"opts": ["一開始就問一個問題", "用插畫、照片或影片當畫面", "重點用大字或顏色標出來", "下面有字幕", "有人在旁白說明", "最後有結論或提醒"], "multi": true}, "tip1": {"opts": ["幫我想一個影片題目", "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"], "block": true, "correct": "我是五年級學生，想做 30 秒的解說影片。請給我 3 個「有人說……，是真的嗎？」的題目，每個都附上查核網站的網址。"}, "tip2": {"opts": ["我是五年級學生，想找冷知識的題目。", "我叫王小明，讀 5 年 3 班，住在……", "請給我 3 個題目，每個都附上來源網址。"], "block": true, "correct": "我叫王小明，讀 5 年 3 班，住在……"}, "chk": {"opts": ["台詞表文件裡，影片標題和每一句台詞都貼進去了", "文件裡每一句台詞，下面都寫了關鍵字"], "multi": true, "block": true}}, "texts": ["cat", "hook", "src", "core", "vtitle", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "g11", "g12"], "patterns": {}, "openQtexts": {"scriptAll": "我的台詞表（每句台詞，依開頭、主體、CTA 排列）。"}};
   var WS=C.ws,QUIZ_ID=C.ws,LESSON_PATH=C.lessonPath,TITLE=C.title;
   var TEACHER_EMAIL='boyin0304@slps.tn.edu.tw';
   var IS_ADMIN=location.hash==='#admin';
@@ -663,8 +672,8 @@ var firebaseConfig = {
   };
   H.report=function(){
     if(STEP_NAMES.indexOf('寫台詞表')<0)return ['類型：'+(state.cat||'還沒選'),'開頭句：'+(filled(state.hook)?'已寫':'還沒寫'),'來源網址：'+(filled(state.src)?'已貼':'還沒貼'),'核心訊息：'+(filled(state.core)?'已寫':'還沒寫'),'自查表：已勾 '+((state.chk||[]).length)+' 項（共 3 項）'];
-    var over=slots().filter(function(i){return textOf(i).length>20;}).length;
-    return ['台詞：寫了 '+nS()+' 句（開頭 '+segCount('q')+'、主體 '+segCount('e')+'、CTA '+segCount('c')+'）'+(over?'，有 '+over+' 句超過 20 字':''),
+    var over=slots().filter(function(i){return textOf(i).length>30;}).length;
+    return ['台詞：寫了 '+nS()+' 句（開頭 '+segCount('q')+'、主體 '+segCount('e')+'、CTA '+segCount('c')+'）'+(over?'，有 '+over+' 句超過 30 字':''),
       '影片標題：'+(String(state.vtitle||'').trim()||'還沒寫'),
       '自查表：已勾 '+((state.chk||[]).length)+' 項（共 2 項）'];
   };
@@ -716,7 +725,7 @@ var firebaseConfig = {
       var g=SEGI[state['g'+i]],row=document.createElement('div');
       row.className='flex items-start gap-2 flex-wrap';
       row.innerHTML='<span class="shrink-0 inline-block bg-'+g[2]+'-100 border-2 border-'+g[2]+'-300 text-'+g[2]+'-800 rounded-full px-2.5 py-0.5 text-sm font-bold">'+g[0]+g[1]+'　第 '+(n+1)+' 句</span>'
-        +'<div class="flex-1 min-w-[14rem]"><input id="s'+i+'" data-k="s'+i+'" type="text" autocomplete="off" maxlength="40" class="fld ans text-lg"><p class="text-sm text-slate-500 mt-0.5"><span data-count="s'+i+'">0</span> / 20 字</p></div>'
+        +'<div class="flex-1 min-w-[14rem]"><input id="s'+i+'" data-k="s'+i+'" type="text" autocomplete="off" maxlength="40" class="fld ans text-lg"><p class="text-sm text-slate-500 mt-0.5"><span data-count="s'+i+'">0</span> / 30 字</p></div>'
         +'<button type="button" data-delrow="'+i+'" class="ans shrink-0 text-slate-500 hover:text-rose-600 font-bold px-2 py-1" title="刪掉這一句">刪除</button>';
       var inp=row.querySelector('input');inp.value=state['s'+i]||'';
       inp.addEventListener('input',function(){state['s'+i]=inp.value;save();renderFeedback();if(H.changed)H.changed('s'+i);});
@@ -743,7 +752,7 @@ var firebaseConfig = {
     var l=$('srcLink'),u=String(state.src||'').trim();
     if(l){if(/^https?:\/\/\S+/.test(u)){l.href=u;l.classList.remove('hidden');}else{l.removeAttribute('href');l.classList.add('hidden');}}
     var t=$('tplText');if(t)t.textContent=tplText();
-    document.querySelectorAll('[data-count]').forEach(function(e){var n=String(state[e.dataset.count]||'').length;e.textContent=n;e.parentNode.className='text-sm mt-0.5 '+(n>20?'text-rose-600 font-bold':'text-slate-500');});
+    document.querySelectorAll('[data-count]').forEach(function(e){var n=String(state[e.dataset.count]||'').length;e.textContent=n;e.parentNode.className='text-sm mt-0.5 '+(n>30?'text-rose-600 font-bold':'text-slate-500');});
     var sc=$('scriptCount');
     if(sc){var n=nS();sc.textContent='目前寫了 '+n+' 句（開頭 '+segCount('q')+'、主體 '+segCount('e')+'、行動呼籲 '+segCount('c')+'）'+(n>=7?'，夠了。':'，至少要 7 句。')+(filled(state.vtitle)?'':'　影片標題還沒寫。')+(fullMsg?'　最多 '+MAXR+' 句，不能再新增了。':'');}
   };
@@ -1198,7 +1207,7 @@ var firebaseConfig = {
 
 <script type="application/json" id="grading-spec">
 {
-  "summary": "拿回上一節的主題並確認；學短影片的三個部分（開頭 Hook、主體、CTA），看冷知識、假資訊、事實釐清三種台詞示範；學 4 個跟 AI 聊天的提醒；對 AI 教練（Gem）說「開始寫台詞」，用它的提問引導自己想出台詞；在台詞表寫下至少 7 句（開頭、主體、CTA 三個部分，可新增，每句 20 字內，用自己的話）；複製台詞表貼進老師給的文件，並在文件裡自己挑每句 1～2 個可搜尋的關鍵字（AI 不幫忙）。這節不做 Canva；建立影片、字幕、文字特效、找素材都在下週。",
+  "summary": "拿回上一節的主題並確認；學短影片的三個部分（開頭 Hook、主體、CTA），看冷知識、假資訊、事實釐清三種台詞示範；學 4 個跟 AI 聊天的提醒；對 AI 教練（Gem）說「開始寫台詞」，用它的提問引導自己想出台詞；在台詞表寫下至少 7 句（開頭、主體、CTA 三個部分，可新增，每句 30 字內、唸到要換氣就換到下一句，用自己的話）；複製台詞表貼進老師給的文件，並在文件裡自己挑每句 1～2 個可搜尋的關鍵字（AI 不幫忙）。這節不做 Canva；建立影片、字幕、文字特效、找素材都在下週。",
   "questions": [
     {
       "qid": "scriptAll",
@@ -1210,7 +1219,7 @@ var firebaseConfig = {
           "pts": 4
         },
         {
-          "desc": "每句大約 20 字內，一句只講一件事，是說話的口氣，不是整段複製來源或課本式的句子",
+          "desc": "每句大約 30 字內（唸到要換氣或太長的地方有換到下一句），一句只講一件事，是說話的口氣，不是整段複製來源或課本式的句子",
           "pts": 5
         },
         {

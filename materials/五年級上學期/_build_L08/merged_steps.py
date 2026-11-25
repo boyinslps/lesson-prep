@@ -152,7 +152,7 @@ STEP_DEMO = '''
           <tbody id="demoRows"></tbody>
         </table>
       </div>
-      <p class="text-lg text-slate-700 mt-4">每句 20 字以內，7 句，唸起來約 30 秒。</p>
+      <p class="text-lg text-slate-700 mt-4">每句不超過 30 字，7 句，唸起來約 30 秒。</p>
     </div>
     <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-amber-700 m-0">寫完檢查：有內容，不囉嗦</p>
@@ -237,7 +237,7 @@ STEP_WRITE = '''
   <section class="step hidden" data-step="4">
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <h2 class="cute text-3xl font-extrabold text-emerald-700 m-0">寫下我的台詞</h2>
-      <p class="text-slate-600 mt-2 text-lg">把你寫好的台詞，一句一句填進來。<b>至少 7 句，每句 20 字以內</b>，開頭、主體、行動呼籲（CTA）三個部分都要有。最上面也寫一個<b>影片標題</b>，等一下會跟著台詞一起複製進文件。字數超過會變紅色。</p>
+      <p class="text-slate-600 mt-2 text-lg">把你寫好的台詞，一句一句填進來。<b>至少 7 句，每句 30 字以內</b>，開頭、主體、行動呼籲（CTA）三個部分都要有。最上面也寫一個<b>影片標題</b>，等一下會跟著台詞一起複製進文件。字數超過會變紅色。</p>
     </div>
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-emerald-700 m-0">老師的台詞（示範：冷知識，7 句，約 30 秒）</p>
@@ -250,7 +250,16 @@ STEP_WRITE = '''
     </div>
     <div class="bg-white border-4 border-emerald-300 rounded-3xl p-6 mb-5 shadow-sm">
       <p class="cute text-xl font-extrabold text-emerald-700 m-0">我的台詞表</p>
-      <div class="mt-3">
+      <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 mt-3">
+        <p class="cute text-xl font-extrabold text-amber-800 m-0">斷句小提示：寫好一句，自己小聲唸唸看</p>
+        <ul class="mt-2 space-y-1 text-lg text-slate-800 list-disc pl-6">
+          <li>唸到<b>中間要換氣</b>，就在那裡斷開，後面的字換到<b>下一句</b>。</li>
+          <li>一句<b>太長、唸得很喘</b>，也換到下一句。</li>
+          <li>一句最多 30 字，而且只講一件事。</li>
+        </ul>
+        <p class="text-lg text-slate-700 mt-2 mb-0">例：「企鵝為了保暖，會擠成一團，還會輪流站到外面來。」唸到一半要換氣 → 拆成兩句：「企鵝為了保暖，會擠成一團。」「牠們還會輪流站到外面來。」</p>
+      </div>
+      <div class="mt-4">
         <label for="vtitle" class="cute text-lg font-extrabold text-emerald-700 block">我的影片標題</label>
         <input id="vtitle" data-k="vtitle" type="text" autocomplete="off" maxlength="30" class="fld ans mt-1 text-lg">
       </div>
@@ -332,7 +341,7 @@ STEP_KW = '''
 CHOICES = {
     'tconf': {'opts': ['來源網址我點開看過，網頁上真的有寫', '開頭句是一個完整的句子', '核心訊息只有一句話、20 字內', '這個題目 30～45 秒說得完'], 'multi': True, 'block': True},
     'gem': {'opts': ['我打開台詞小教練，對它說了「開始寫台詞」', '我把來源網址或我找到的資料貼給它了', '我照它的問題一題一題回答', '每一句台詞，我自己用自己的話說出來'], 'multi': True, 'block': True},
-    'write': {'opts': ['台詞寫了 7 句以上，每句 20 字內', '開頭、主體、行動呼籲（CTA）三個部分都有', '台詞都是我自己用自己的話寫的', '我全部唸過一遍，像在說話'], 'multi': True, 'block': True},
+    'write': {'opts': ['台詞寫了 7 句以上，每句 30 字內', '開頭、主體、行動呼籲（CTA）三個部分都有', '台詞都是我自己用自己的話寫的', '我全部唸過一遍，要換氣的地方都換到下一句了'], 'multi': True, 'block': True},
     'doc': {'opts': ['我按了「複製台詞表」', '我打開老師給的台詞表文件，貼上了', '我看過了，每一句台詞都在文件裡'], 'multi': True, 'block': True},
     'kw': {'opts': ['每一句下面都寫了 1～2 個關鍵字', '關鍵字是我自己挑的，看得到畫面', '關鍵字可以拿去搜尋圖片、影片'], 'multi': True, 'block': True},
 }
@@ -341,5 +350,5 @@ QTYPES = {'tconf': 'experience', 'gem': 'experience', 'write': 'experience', 'do
 
 SPEC_SCRIPT = {'qid': 'scriptAll', 'prompt': '我的台詞表（每句台詞，依開頭、主體、CTA 排列）。', 'mode': 'checklist',
                'checks': [{'desc': '寫了 7 句以上，順序上有「開頭、主體、CTA」三個部分', 'pts': 4},
-                          {'desc': '每句大約 20 字內，一句只講一件事，是說話的口氣，不是整段複製來源或課本式的句子', 'pts': 5},
+                          {'desc': '每句大約 30 字內（唸到要換氣或太長的地方有換到下一句），一句只講一件事，是說話的口氣，不是整段複製來源或課本式的句子', 'pts': 5},
                           {'desc': '內容跟他的主題與來源有關，沒有加入來源裡沒有的數字、人名或日期', 'pts': 4}]}
