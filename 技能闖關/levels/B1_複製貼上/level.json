@@ -32,10 +32,10 @@
   "challenge": {
     "checker": "copyPaste",
     "params": {
-      "passage": "臺南市東區勝利國小位在勝利路 119 號。學校的英文名字是 Tainan Municipal Sheng-Li Elementary School。",
+      "passage": "臺南市東區○○國小位在○○路 119 號。學校的英文名字是 Tainan Municipal Sheng-Li Elementary School。",
       "tasks": [
         {"target": "Tainan Municipal Sheng-Li Elementary School", "label": "學校英文名字"},
-        {"target": "勝利路 119 號", "label": "學校地址（只要路名和號碼）"}
+        {"target": "○○路 119 號", "label": "學校地址（只要路名和號碼）"}
       ]
     }
   },

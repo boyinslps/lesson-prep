@@ -42,7 +42,7 @@
       ],
       "tasks": [
         {"say": "打出學校 Email：<b>student01@slps.tn.edu.tw</b>", "cond": {"contains": "student01@slps.tn.edu.tw"}},
-        {"say": "換一行，打出「<b>我是勝利國小的學生</b>」", "cond": {"contains": "我是勝利國小的學生"}}
+        {"say": "換一行，打出「<b>我是○○國小的學生</b>」", "cond": {"contains": "我是○○國小的學生"}}
       ]
     }
   },

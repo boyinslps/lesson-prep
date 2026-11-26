@@ -3,7 +3,7 @@
  "generatedAt": "2026-11-04T16:00:00+08:00",
  "term": {"name": "115 學年度第 1 學期", "start": "2026-08-31", "end": "2027-01-15", "weeks": 20},
  "courses": [
-  {"id": "g4", "gradeLabel": "四年級", "title": "勝利小創客：台南小導遊",
+  {"id": "g4", "gradeLabel": "四年級", "title": "○○小創客：台南小導遊",
    "lessons": [
     {"code": "L01", "name": "旅行經驗與主題發想", "plannedWeek": 1, "periods": 1},
     {"code": "L02", "name": "景點選定與資料蒐集", "plannedWeek": 2, "periods": 1},
@@ -26,7 +26,7 @@
     {"code": "L19", "name": "上台發表與作品展示", "plannedWeek": 19, "periods": 1},
     {"code": "L20", "name": "觀摩互評與自我修正", "plannedWeek": 20, "periods": 1}
    ]},
-  {"id": "g5", "gradeLabel": "五、六年級", "title": "勝利小創客：數位時代的校園安全",
+  {"id": "g5", "gradeLabel": "五、六年級", "title": "○○小創客：數位時代的校園安全",
    "lessons": [
     {"code": "L01", "name": "假消息與目的辨識", "plannedWeek": 1, "periods": 1},
     {"code": "L02", "name": "事實與意見區分", "plannedWeek": 2, "periods": 1},
